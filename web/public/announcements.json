@@ -1,0 +1,36 @@
+{
+  "version": "1.1.0",
+  "publishedAt": "2026-09-17",
+  "channels": [
+    "stable"
+  ],
+  "notes": [
+    "搜索可用性：修复 PD 静帧库（多字段 + 10 部影片中文别名 + 分词匹配）、智能搜图（Pexels 主源 / TMDB / Openverse 实验性，18/页分页 + 每源状态耗时 + 单源重试 + 历史收藏）与 TMDB 弹窗（统一通道 + 内置 Key + 不可用时一键降级本地 PD 静帧库）",
+    "网络通道：DoH 本地隧道（doh.pub 优先，仅被污染域名走隧道，端到端 TLS 盲转发）+ 代理感知 + 直连三态，localhost 单端口、设置页可切换与测速；无代理直连 Pexels、隧道直连 TMDB 实测可用",
+    "检索词翻译：场景词表扩至 200+，未命中走已配置 AI 翻译（5s 超时、LRU 200 缓存），未配置 AI 时拼音/英文兜底，禁止未翻译中文直发英文源",
+    "环境光开关：布光页「画质」区新增（默认开），关闭 = 半球光 + 环境贴图贡献（含金属反射）全部关闭，仅留摄影灯具；持久化并随布光场景保存",
+    "手部动作：布光页新增面板，左右手独立，12 个单手指令（放松/张开/握拳/半握/点赞/比耶/OK/指向/比心/捏合/挥手/托腮）+ 3 个双手组合（抱拳/拱手/合十，含手臂叠加），支持每指弯曲与张开度微调；两套骨骼（MakeHuman/Quaternius）自动标定；随场景与自定义姿势保存恢复",
+    "写实材质：修复写实人物分类（皮肤/头发/眼睛/金属各自归位）并保护模型原生贴图不丢；皮肤预积分 BRDF LUT + wrap 次表面近似、布料噪波法线 + 绒感高光、金属反射增强",
+    "环境反射与细节：内置 1K CC0 影棚 HDRI（Poly Haven）供写实预设使用（加载失败回退内置环境），新增接触阴影开关（仅写实预设，可关以保帧率）",
+    "合规与包体：新增素材均已登记 attribution；APK 105.7MB，维持 ≤150MB 预算"
+  ],
+  "downloads": {
+    "windows": {
+      "mirror": "https://mirror.example.com/shootstudio/v1.1.0/shoot-studio-v1.1.0-windows.zip",
+      "github": "https://github.com/shoot-studio/shoot-studio/releases",
+      "sha256": "发布时由 CI 写入"
+    },
+    "android": {
+      "mirror": "https://mirror.example.com/shootstudio/v1.1.0/shoot-studio-v1.1.0-android.apk",
+      "github": "https://github.com/shoot-studio/shoot-studio/releases",
+      "sha256": "发布时由 CI 写入"
+    }
+  },
+  "contentPacks": [],
+  "ops": [
+    {
+      "title": "v1.1.0 搜索可用性 + 布光真实性 + 手部动作",
+      "date": "2026-09-17"
+    }
+  ]
+}

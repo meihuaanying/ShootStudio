@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="模板库 · 正片工坊 ShootStudio">
+  <section class="mx-auto max-w-6xl px-6 pb-6 pt-16">
+    <h1 class="text-3xl font-extrabold md:text-4xl" data-reveal>模板库</h1>
+    <p class="mt-4 max-w-2xl text-[14px] leading-7 text-ss-muted dark:text-ss-muted-dark" data-reveal>
+      与应用内云端模板同源数据（templates.json）：发版后新增模板会出现在这里，
+      应用启动时自动增量拉取，无需升级应用。
+    </p>
+    <div id="tpl-filter" class="mt-8 flex flex-wrap gap-2"></div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 pb-20">
+    <div id="tpl-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+    <p id="tpl-empty" class="hidden text-[13px] text-ss-muted dark:text-ss-muted-dark">正在加载模板数据…</p>
+  </section>
+
+  <script>
+    const CATS = ['全部', 'Cos 正片', '汉服', 'JK', '婚纱', '写真', '商拍', 'Lo裙', '双人'];
+    let current = '全部';
+    let all = [];
+
+    function card(t) {
+      const div = document.createElement('article');
+      div.className = 'card p-5';
+      const mods = (t.modules || []).map((m) => m.title || m.type).slice(0, 6);
+      div.innerHTML = `
+        <span class="mono inline-block rounded-full border border-ss-accent/40 px-2.5 py-0.5 text-[10.5px] text-ss-accent">${t.category}</span>
+        <h3 class="mt-2 text-[15px] font-bold">${t.name}</h3>
+        <p class="mt-1.5 text-[12.5px] leading-6 text-ss-muted dark:text-ss-muted-dark">${t.description || ''}</p>
+        <p class="mono mt-3 text-[11px] text-ss-accent2">${(t.modules || []).length} 个模块：${mods.join(' · ')}…</p>`;
+      return div;
+    }
+
+    function render() {
+      const grid = document.getElementById('tpl-grid');
+      grid.innerHTML = '';
+      const list = all.filter((t) => current === '全部' || t.category === current);
+      list.forEach((t) => grid.appendChild(card(t)));
+      document.getElementById('tpl-empty').classList.toggle('hidden', list.length > 0);
+    }
+
+    const filter = document.getElementById('tpl-filter');
+    CATS.forEach((cat) => {
+      const button = document.createElement('button');
+      button.textContent = cat;
+      button.className =
+        'rounded-full border border-ss-rule dark:border-ss-rule-dark px-3.5 py-1.5 text-[12.5px] transition ' +
+        (cat === '全部' ? 'bg-gradient-to-br from-ss-accent to-ss-accent2 text-white border-transparent' : 'text-ss-muted hover:border-ss-accent hover:text-ss-accent');
+      button.onclick = () => {
+        current = cat;
+        [...filter.children].forEach((node) => {
+          node.className =
+            'rounded-full border border-ss-rule dark:border-ss-rule-dark px-3.5 py-1.5 text-[12.5px] transition text-ss-muted hover:border-ss-accent hover:text-ss-accent';
+        });
+        button.className =
+          'rounded-full border border-transparent px-3.5 py-1.5 text-[12.5px] bg-gradient-to-br from-ss-accent to-ss-accent2 text-white';
+        render();
+      };
+      filter.appendChild(button);
+    });
+
+    fetch('/templates.json')
+      .then((r) => r.json())
+      .then((data) => {
+        all = data.templates || [];
+        render();
+        document.getElementById('tpl-empty').textContent = '暂无模板数据';
+      })
+      .catch(() => {
+        document.getElementById('tpl-empty').textContent = '模板数据加载失败，请稍后重试';
+      });
+  </script>
+</Layout>

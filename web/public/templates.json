@@ -1,0 +1,784 @@
+{
+  "version": 1,
+  "templates": [
+    {
+      "id": "tpl-cos",
+      "name": "Cosplay 正片模板",
+      "category": "Cos 正片",
+      "description": "角色还原 · 场景与配色对齐 · 9 模块起手",
+      "modules": [
+        {
+          "type": "theme",
+          "title": "拍摄主题",
+          "preset": {
+            "text": "角色还原，注意神态、服化道与配色一致性"
+          }
+        },
+        {
+          "type": "model",
+          "title": "模特绑定",
+          "preset": {}
+        },
+        {
+          "type": "location",
+          "title": "场地绑定",
+          "preset": {}
+        },
+        {
+          "type": "sun",
+          "title": "日照时间",
+          "preset": {
+            "place": "上海",
+            "lat": 31.23,
+            "lon": 121.47
+          }
+        },
+        {
+          "type": "refs",
+          "title": "参考样片",
+          "preset": {}
+        },
+        {
+          "type": "palette",
+          "title": "色调色卡",
+          "preset": {}
+        },
+        {
+          "type": "lighting",
+          "title": "布光图",
+          "preset": {}
+        },
+        {
+          "type": "poses",
+          "title": "姿势清单",
+          "preset": {}
+        },
+        {
+          "type": "clothing",
+          "title": "服装清单",
+          "preset": {
+            "note": "正片服装 + 备用件 + 安全裤"
+          }
+        },
+        {
+          "type": "makeup",
+          "title": "妆面造型",
+          "preset": {
+            "note": "假睫毛/美瞳/发网按角色准备"
+          }
+        },
+        {
+          "type": "crew",
+          "title": "人员分工",
+          "preset": {
+            "rows": [
+              {
+                "role": "摄影师",
+                "who": "",
+                "time": "10:00"
+              },
+              {
+                "role": "妆造",
+                "who": "",
+                "time": "08:30"
+              },
+              {
+                "role": "后勤",
+                "who": "",
+                "time": "10:00"
+              }
+            ]
+          }
+        },
+        {
+          "type": "budget",
+          "title": "预算表",
+          "preset": {
+            "rows": [
+              {
+                "item": "场地",
+                "price": 300,
+                "note": ""
+              },
+              {
+                "item": "妆造",
+                "price": 400,
+                "note": ""
+              },
+              {
+                "item": "交通餐饮",
+                "price": 150,
+                "note": ""
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tpl-hanfu",
+      "name": "汉服外景模板",
+      "category": "汉服",
+      "description": "国风意境 · 晨昏光线窗口 · 衣料质感",
+      "modules": [
+        {
+          "type": "theme",
+          "title": "拍摄主题",
+          "preset": {
+            "text": "国风意境，轻叙事，突出衣料垂坠与配色"
+          }
+        },
+        {
+          "type": "model",
+          "title": "模特绑定",
+          "preset": {}
+        },
+        {
+          "type": "location",
+          "title": "场地绑定",
+          "preset": {}
+        },
+        {
+          "type": "sun",
+          "title": "日照时间",
+          "preset": {
+            "place": "杭州",
+            "lat": 30.27,
+            "lon": 120.16
+          }
+        },
+        {
+          "type": "refs",
+          "title": "参考样片",
+          "preset": {}
+        },
+        {
+          "type": "palette",
+          "title": "色调色卡",
+          "preset": {}
+        },
+        {
+          "type": "poses",
+          "title": "姿势清单",
+          "preset": {}
+        },
+        {
+          "type": "clothing",
+          "title": "服装清单",
+          "preset": {
+            "note": "襦裙 + 大袖衫，注意风况与裙摆"
+          }
+        },
+        {
+          "type": "makeup",
+          "title": "妆面造型",
+          "preset": {
+            "note": "古风妆 + 发髻假发包"
+          }
+        },
+        {
+          "type": "crew",
+          "title": "人员分工",
+          "preset": {
+            "rows": [
+              {
+                "role": "摄影师",
+                "who": "",
+                "time": "10:00"
+              },
+              {
+                "role": "妆造",
+                "who": "",
+                "time": "08:30"
+              },
+              {
+                "role": "后勤",
+                "who": "",
+                "time": "10:00"
+              }
+            ]
+          }
+        },
+        {
+          "type": "budget",
+          "title": "预算表",
+          "preset": {
+            "rows": [
+              {
+                "item": "场地",
+                "price": 300,
+                "note": ""
+              },
+              {
+                "item": "妆造",
+                "price": 400,
+                "note": ""
+              },
+              {
+                "item": "交通餐饮",
+                "price": 150,
+                "note": ""
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tpl-jk",
+      "name": "JK 校园写真模板",
+      "category": "JK",
+      "description": "青春校园感 · 生活化抓拍",
+      "modules": [
+        {
+          "type": "theme",
+          "title": "拍摄主题",
+          "preset": {
+            "text": "青春校园感，生活化抓拍，自然光优先"
+          }
+        },
+        {
+          "type": "model",
+          "title": "模特绑定",
+          "preset": {}
+        },
+        {
+          "type": "location",
+          "title": "场地绑定",
+          "preset": {}
+        },
+        {
+          "type": "sun",
+          "title": "日照时间",
+          "preset": {
+            "place": "成都",
+            "lat": 30.57,
+            "lon": 104.07
+          }
+        },
+        {
+          "type": "refs",
+          "title": "参考样片",
+          "preset": {}
+        },
+        {
+          "type": "poses",
+          "title": "姿势清单",
+          "preset": {}
+        },
+        {
+          "type": "clothing",
+          "title": "服装清单",
+          "preset": {
+            "note": "格裙/水手服两套 + 领结"
+          }
+        },
+        {
+          "type": "makeup",
+          "title": "妆面造型",
+          "preset": {
+            "note": "伪素颜清透妆"
+          }
+        },
+        {
+          "type": "crew",
+          "title": "人员分工",
+          "preset": {
+            "rows": [
+              {
+                "role": "摄影师",
+                "who": "",
+                "time": "10:00"
+              },
+              {
+                "role": "妆造",
+                "who": "",
+                "time": "08:30"
+              },
+              {
+                "role": "后勤",
+                "who": "",
+                "time": "10:00"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tpl-wedding",
+      "name": "婚纱旅拍模板",
+      "category": "婚纱",
+      "description": "仪式感叙事 · 黄金时刻窗口 · 双人姿势",
+      "modules": [
+        {
+          "type": "theme",
+          "title": "拍摄主题",
+          "preset": {
+            "text": "仪式感叙事，纪实与摆拍结合，抓真实情绪"
+          }
+        },
+        {
+          "type": "model",
+          "title": "新人绑定",
+          "preset": {
+            "note": "提前试妆，确认时间线"
+          }
+        },
+        {
+          "type": "location",
+          "title": "场地绑定",
+          "preset": {}
+        },
+        {
+          "type": "sun",
+          "title": "日照时间",
+          "preset": {
+            "place": "大理",
+            "lat": 25.61,
+            "lon": 100.27
+          }
+        },
+        {
+          "type": "refs",
+          "title": "参考样片",
+          "preset": {}
+        },
+        {
+          "type": "palette",
+          "title": "色调色卡",
+          "preset": {}
+        },
+        {
+          "type": "poses",
+          "title": "姿势清单",
+          "preset": {}
+        },
+        {
+          "type": "clothing",
+          "title": "服装清单",
+          "preset": {
+            "note": "主纱 + 敬酒服 + 外景轻纱"
+          }
+        },
+        {
+          "type": "crew",
+          "title": "人员分工",
+          "preset": {
+            "rows": [
+              {
+                "role": "摄影师",
+                "who": "",
+                "time": "10:00"
+              },
+              {
+                "role": "妆造",
+                "who": "",
+                "time": "08:30"
+              },
+              {
+                "role": "后勤",
+                "who": "",
+                "time": "10:00"
+              }
+            ]
+          }
+        },
+        {
+          "type": "budget",
+          "title": "预算表",
+          "preset": {
+            "rows": [
+              {
+                "item": "场地",
+                "price": 300,
+                "note": ""
+              },
+              {
+                "item": "妆造",
+                "price": 400,
+                "note": ""
+              },
+              {
+                "item": "交通餐饮",
+                "price": 150,
+                "note": ""
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tpl-studio",
+      "name": "棚拍写真模板",
+      "category": "写真",
+      "description": "情绪人像 · 光比控制 · 布光图先行",
+      "modules": [
+        {
+          "type": "theme",
+          "title": "拍摄主题",
+          "preset": {
+            "text": "情绪人像，棚拍光比控制，突出面部结构"
+          }
+        },
+        {
+          "type": "model",
+          "title": "模特绑定",
+          "preset": {}
+        },
+        {
+          "type": "refs",
+          "title": "参考样片",
+          "preset": {}
+        },
+        {
+          "type": "palette",
+          "title": "色调色卡",
+          "preset": {}
+        },
+        {
+          "type": "lighting",
+          "title": "布光图",
+          "preset": {}
+        },
+        {
+          "type": "poses",
+          "title": "姿势清单",
+          "preset": {}
+        },
+        {
+          "type": "clothing",
+          "title": "服装清单",
+          "preset": {
+            "note": "纯色系 3 套"
+          }
+        },
+        {
+          "type": "makeup",
+          "title": "妆面造型",
+          "preset": {
+            "note": "轻氧妆"
+          }
+        },
+        {
+          "type": "crew",
+          "title": "人员分工",
+          "preset": {
+            "rows": [
+              {
+                "role": "摄影师",
+                "who": "",
+                "time": "10:00"
+              },
+              {
+                "role": "妆造",
+                "who": "",
+                "time": "08:30"
+              },
+              {
+                "role": "后勤",
+                "who": "",
+                "time": "10:00"
+              }
+            ]
+          }
+        },
+        {
+          "type": "budget",
+          "title": "预算表",
+          "preset": {
+            "rows": [
+              {
+                "item": "场地",
+                "price": 300,
+                "note": ""
+              },
+              {
+                "item": "妆造",
+                "price": 400,
+                "note": ""
+              },
+              {
+                "item": "交通餐饮",
+                "price": 150,
+                "note": ""
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tpl-commerce",
+      "name": "商拍人像模板",
+      "category": "商拍",
+      "description": "品牌调性 · 统一构图与留白",
+      "modules": [
+        {
+          "type": "theme",
+          "title": "拍摄主题",
+          "preset": {
+            "text": "品牌调性统一，构图留白，注意产品露出"
+          }
+        },
+        {
+          "type": "model",
+          "title": "模特绑定",
+          "preset": {
+            "note": "按品牌风格筛选"
+          }
+        },
+        {
+          "type": "refs",
+          "title": "参考样片",
+          "preset": {}
+        },
+        {
+          "type": "palette",
+          "title": "色调色卡",
+          "preset": {}
+        },
+        {
+          "type": "lighting",
+          "title": "布光图",
+          "preset": {}
+        },
+        {
+          "type": "clothing",
+          "title": "服装清单",
+          "preset": {
+            "note": "品牌样衣 5 套"
+          }
+        },
+        {
+          "type": "props",
+          "title": "道具清单",
+          "preset": {
+            "note": "产品陈列道具"
+          }
+        },
+        {
+          "type": "crew",
+          "title": "人员分工",
+          "preset": {
+            "rows": [
+              {
+                "role": "摄影师",
+                "who": "",
+                "time": "10:00"
+              },
+              {
+                "role": "妆造",
+                "who": "",
+                "time": "08:30"
+              },
+              {
+                "role": "后勤",
+                "who": "",
+                "time": "10:00"
+              }
+            ]
+          }
+        },
+        {
+          "type": "budget",
+          "title": "预算表",
+          "preset": {
+            "rows": [
+              {
+                "item": "场地",
+                "price": 300,
+                "note": ""
+              },
+              {
+                "item": "妆造",
+                "price": 400,
+                "note": ""
+              },
+              {
+                "item": "交通餐饮",
+                "price": 150,
+                "note": ""
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tpl-lolita",
+      "name": "Lolita 棚拍模板",
+      "category": "Lo裙",
+      "description": "甜美梦幻 · 低角度裙型展示",
+      "modules": [
+        {
+          "type": "theme",
+          "title": "拍摄主题",
+          "preset": {
+            "text": "甜美梦幻，裙型展示优先，柔光低反差"
+          }
+        },
+        {
+          "type": "model",
+          "title": "模特绑定",
+          "preset": {}
+        },
+        {
+          "type": "refs",
+          "title": "参考样片",
+          "preset": {}
+        },
+        {
+          "type": "palette",
+          "title": "色调色卡",
+          "preset": {}
+        },
+        {
+          "type": "lighting",
+          "title": "布光图",
+          "preset": {}
+        },
+        {
+          "type": "poses",
+          "title": "姿势清单",
+          "preset": {}
+        },
+        {
+          "type": "clothing",
+          "title": "服装清单",
+          "preset": {
+            "note": "主裙 + 头饰 + 手袖"
+          }
+        },
+        {
+          "type": "makeup",
+          "title": "妆面造型",
+          "preset": {
+            "note": "甜美妆，注意与裙色协调"
+          }
+        },
+        {
+          "type": "crew",
+          "title": "人员分工",
+          "preset": {
+            "rows": [
+              {
+                "role": "摄影师",
+                "who": "",
+                "time": "10:00"
+              },
+              {
+                "role": "妆造",
+                "who": "",
+                "time": "08:30"
+              },
+              {
+                "role": "后勤",
+                "who": "",
+                "time": "10:00"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tpl-couple",
+      "name": "双人互动模板",
+      "category": "双人",
+      "description": "关系叙事 · 双人姿势与站位",
+      "modules": [
+        {
+          "type": "theme",
+          "title": "拍摄主题",
+          "preset": {
+            "text": "关系叙事，互动自然，避免摆拍感"
+          }
+        },
+        {
+          "type": "model",
+          "title": "双人绑定",
+          "preset": {}
+        },
+        {
+          "type": "location",
+          "title": "场地绑定",
+          "preset": {}
+        },
+        {
+          "type": "sun",
+          "title": "日照时间",
+          "preset": {
+            "place": "北京",
+            "lat": 39.9,
+            "lon": 116.4
+          }
+        },
+        {
+          "type": "refs",
+          "title": "参考样片",
+          "preset": {}
+        },
+        {
+          "type": "lighting",
+          "title": "布光图",
+          "preset": {}
+        },
+        {
+          "type": "poses",
+          "title": "姿势清单",
+          "preset": {
+            "note": "优先双人分类姿势"
+          }
+        },
+        {
+          "type": "crew",
+          "title": "人员分工",
+          "preset": {
+            "rows": [
+              {
+                "role": "摄影师",
+                "who": "",
+                "time": "10:00"
+              },
+              {
+                "role": "妆造",
+                "who": "",
+                "time": "08:30"
+              },
+              {
+                "role": "后勤",
+                "who": "",
+                "time": "10:00"
+              }
+            ]
+          }
+        },
+        {
+          "type": "budget",
+          "title": "预算表",
+          "preset": {
+            "rows": [
+              {
+                "item": "场地",
+                "price": 300,
+                "note": ""
+              },
+              {
+                "item": "妆造",
+                "price": 400,
+                "note": ""
+              },
+              {
+                "item": "交通餐饮",
+                "price": 150,
+                "note": ""
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

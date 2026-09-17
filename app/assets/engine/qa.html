@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShootStudio Pose QA</title>
+<style>
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #eef1f5; }
+  #stage { width: 100%; height: 100%; display: block; }
+  #boot { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #8a919e; font: 13px/1.6 ui-monospace, Consolas, monospace; pointer-events: none; }
+  #boot.error { color: #d54941; }
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<div id="boot">QA 渲染中…</div>
+<script src="./js/engine.bundle.js"></script>
+<script>
+(function () {
+  const q = new URLSearchParams(location.search);
+  const charId = q.get('char') || 'm-casual';
+  const jointsRaw = q.get('joints');
+  const view = Number(q.get('view') || 0);
+  const duration = Number(q.get('duration') || 0);
+  const skeleton = q.get('skeleton') === '1';
+  const hairId = q.get('hair');
+  const wantLights = q.get('lights') !== '0';
+  const clean = q.get('clean') === '1';
+  const handL = q.get('handL');
+  const handR = q.get('handR');
+  const ambient = q.get('ambient');
+  const preset = q.get('preset');
+  const contact = q.get('contact');
+  const focus = q.get('focus');
+  const probe = q.get('probe') === '1';
+
+  window.__qaReady = false;
+  window.__qaError = null;
+  window.addEventListener('error', (e) => { window.__qaError = String(e.message || e); });
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  async function waitFor(fn, timeoutMs, label) {
+    const t0 = Date.now();
+    while (Date.now() - t0 < timeoutMs) {
+      try { if (fn()) return true; } catch (_) {}
+      await sleep(120);
+    }
+    throw new Error('等待超时：' + label);
+  }
+
+  const qaLights = [
+    { id: 'qa-key', type: 'soft', fixture: 'strobe-400', modifier: 'softbox-large', x: -1.7, y: 1.9, height: 2.15, intensity: 68, kelvin: 5600 },
+    { id: 'qa-fill', type: 'panel', fixture: 'panel-120', modifier: 'diffusion-cloth', x: 1.9, y: 1.5, height: 1.95, intensity: 45, kelvin: 5200 },
+    { id: 'qa-rim', type: 'spot', fixture: 'fresnel', modifier: 'honeycomb-grid', x: 1.1, y: -2.3, height: 2.4, intensity: 55, kelvin: 6000, color: '#dfe8ff' },
+  ];
+
+  (async () => {
+    await waitFor(() => window.ss && typeof window.ss.getSubjectStatus === 'function', 20000, 'engine ready');
+    window.ss.applyScene({ lights: wantLights ? qaLights : [], props: [], subject: {} });
+    if (charId === 'legacy') {
+      window.ss.setCharacter('legacy');
+      await sleep(150);
+    } else {
+      window.ss.setCharacter(charId);
+      await waitFor(() => {
+        const s = window.ss.getSubjectStatus();
+        return s.mode === 'character' && s.ready === true && s.loading !== true && s.characterId === charId;
+      }, 30000, 'character ' + charId);
+    }
+    if (jointsRaw) {
+      const joints = JSON.parse(decodeURIComponent(jointsRaw));
+      window.ss.setPose(joints, duration);
+    }
+    // V5：环境光开关 / 手部预设（QA 门禁用）。
+    if (ambient === '0' && window.ss.setAmbientEnabled) window.ss.setAmbientEnabled(false);
+    if (ambient === '1' && window.ss.setAmbientEnabled) window.ss.setAmbientEnabled(true);
+    if (handL && window.ss.setHandPose) window.ss.setHandPose('l', handL);
+    if (handR && window.ss.setHandPose) window.ss.setHandPose('r', handR);
+    // V5/D89/D91：材质预设与接触阴影（材质对比截图）。
+    if (preset && window.ss.setMaterialPreset) {
+      window.ss.setMaterialPreset(preset);
+      await waitFor(() => {
+        const s = window.ss.getSubjectStatus();
+        return String(s.materialPreset || '') === preset;
+      }, 30000, 'material ' + preset);
+    }
+    if (contact !== null && window.ss.setContactShadow) {
+      window.ss.setContactShadow(contact !== '0');
+    }
+    // V5/D90：等待 HDRI 环境反射就绪（失败回退 RoomEnvironment，也继续截图）。
+    try {
+      await waitFor(() => window.ss.getEnvironmentSource && window.ss.getEnvironmentSource() === 'hdr', 12000, 'HDRI');
+    } catch (_) { /* 回退 room 不阻塞 QA */ }
+    if (hairId) {
+      window.ss.setHair(hairId);
+      await waitFor(() => {
+        const s = window.ss.getSubjectStatus();
+        return String(s.hairId || '') === hairId;
+      }, 15000, 'hair ' + hairId);
+    }
+    window.ss.setSkeletonMode(!!skeleton);
+    window.ss.setJointMode(false);
+    window.ss.setQaView(view * 90);
+    // V5：手部特写镜头需在 setQaView 之后（否则被覆盖）。
+    const handCam = q.get('handcam');
+    if (handCam && window.ss.qaFocusHand) {
+      await sleep(120);
+      window.ss.qaFocusHand(handCam === 'r' ? 'r' : 'l', Number(q.get('handdist') || 0.5));
+    }
+    // V5/D89：材质特写镜头（focus=neck|spine|wrist_l…）。
+    if (focus && window.ss.qaFocusJoint) {
+      await sleep(120);
+      window.ss.qaFocusJoint(focus, Number(q.get('focusdist') || 0.8), Number(q.get('focusdy') || 0));
+    }
+    if (clean) window.ss.setGrid(false);
+    await sleep(250);
+    // V5/R34：数值探针（关环境光 + 关灯 → 被摄体应为纯黑，仅背景可见）。
+    if (probe) {
+      try {
+        const source = document.getElementById('stage');
+        const w = 160;
+        const h = 160;
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const ctx = c.getContext('2d');
+        const sx = Math.floor(source.width * 0.35);
+        const sy = Math.floor(source.height * 0.2);
+        const sw = Math.max(1, Math.floor(source.width * 0.3));
+        const sh = Math.max(1, Math.floor(source.height * 0.5));
+        ctx.drawImage(source, sx, sy, sw, sh, 0, 0, w, h);
+        const data = ctx.getImageData(0, 0, w, h).data;
+        let sum = 0;
+        let max = 0;
+        let min = 255;
+        for (let i = 0; i < data.length; i += 4) {
+          const lum = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+          sum += lum;
+          max = Math.max(max, lum);
+          min = Math.min(min, lum);
+        }
+        const samples = data.length / 4;
+        window.__qaProbe = {
+          avg: Number((sum / samples).toFixed(1)),
+          min: Number(min.toFixed(1)),
+          max: Number(max.toFixed(1)),
+          samples,
+          env: window.ss.getEnvironmentSource ? window.ss.getEnvironmentSource() : null,
+          materialPreset: window.ss.getMaterialPreset ? window.ss.getMaterialPreset() : null,
+        };
+      } catch (probeErr) {
+        window.__qaProbe = {
+          error: String((probeErr && probeErr.message) || probeErr),
+          env: window.ss.getEnvironmentSource ? window.ss.getEnvironmentSource() : null,
+        };
+      }
+    }
+    try {
+      window.__qaBounds = window.ss.getSubjectBounds ? window.ss.getSubjectBounds() : null;
+    } catch (boundsErr) {
+      window.__qaBounds = null;
+    }
+    if (q.get('handdebug') === '1') {
+      window.__qaError = 'HANDDEBUG ' + JSON.stringify({
+        support: window.ss.getHandSupport ? window.ss.getHandSupport() : null,
+        state: window.ss.getHandState ? window.ss.getHandState() : null,
+      });
+      return;
+    }
+    window.__qaReady = true;
+    const boot = document.getElementById('boot');
+    if (boot) boot.style.display = 'none';
+  })().catch((err) => {
+    window.__qaError = String((err && err.message) || err);
+    const boot = document.getElementById('boot');
+    if (boot) { boot.textContent = window.__qaError; boot.className = 'error'; }
+  });
+})();
+</script>
+</body>
+</html>

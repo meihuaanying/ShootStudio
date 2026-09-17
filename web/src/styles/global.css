@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  @apply bg-ss-bg dark:bg-ss-bg-dark text-ss-ink dark:text-ss-ink-dark font-sans antialiased;
+}
+
+/* 细网格纹理背景（harness 式克制的科技感）。 */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(77, 107, 254, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 107, 254, 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* 渐变文字。 */
+.grad-text {
+  background: linear-gradient(120deg, #4D6BFE, #7B5CFF 60%, #2BA471);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.card {
+  @apply rounded-sslg border border-ss-rule dark:border-ss-rule-dark bg-ss-card dark:bg-ss-card-dark shadow-ss;
+}
+
+.mono {
+  @apply font-mono text-[0.82em] tracking-wide;
+}
+
+/* ---------- 滚动叙事 reveal（F7/W4） ----------
+   仅在 js-ready 时初始隐藏；无 JS / 脚本失败时内容默认可见。 */
+html.js-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+html.no-motion [data-reveal],
+html:not(.js-ready) [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- 首屏英雄区（W2）：左文案 · 右视觉，CTA 首屏可见 ---------- */
+.hero-shell {
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-visual {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin-inline: auto;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+}
+
+.hero-visual svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* 光圈叶片开合（GSAP 做入场，CSS 做常驻呼吸）。 */
+@keyframes aperture-breathe {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(9deg) scale(0.94); }
+}
+
+.aperture-blades {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: aperture-breathe 9s ease-in-out infinite;
+}
+
+/* 胶片流线：齿孔带向下流动。 */
+@keyframes film-roll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-96px); }
+}
+
+.film-strip-roll {
+  animation: film-roll 7s linear infinite;
+  /* E2：滚动加速。--film-rate 由 JS 写入 hero 容器（1 = 基准速度），无 JS 时回落 7s。 */
+  animation-duration: calc(7s / var(--film-rate, 1));
+}
+
+/* E1 鼠标视差外层：由 JS 写 transform，与内层呼吸/流动动画分层，互不覆盖。 */
+.aperture-parallax,
+.film-parallax {
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* 光斑呼吸。 */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.85; }
+}
+
+.hero-glow {
+  animation: glow-pulse 6.5s ease-in-out infinite;
+}
+
+/* 移动端：装饰视觉下移裁剪，避免胶片/光圈溢出压住文案与按钮 */
+@media (max-width: 767px) {
+  .hero-visual {
+    max-width: 320px;
+    margin-top: 4px;
+  }
+  .hero-visual svg {
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aperture-blades,
+  .film-strip-roll,
+  .hero-glow {
+    animation: none;
+  }
+}
+
+.hero-mask {
+  mask-image: radial-gradient(ellipse 76% 64% at 62% 42%, #000 55%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 76% 64% at 62% 42%, #000 55%, transparent 100%);
+}

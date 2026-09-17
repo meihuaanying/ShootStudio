@@ -1,0 +1,84 @@
+name: shoot_studio
+description: 正片工坊 —— 摄影正片策划工作台（画面参考 / 布光预演 / 动作摆姿 / 一键成案）
+publish_to: "none"
+version: 1.1.0+6
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.5.1
+  drift: ^2.20.0
+  drift_flutter: ^0.2.4
+  sqlite3_flutter_libs: ^0.5.24
+  path_provider: ^2.1.4
+  path: ^1.9.0
+  flutter_secure_storage: ^9.2.2
+  flutter_inappwebview: ^6.1.5
+  dio: ^5.7.0
+  crypto: ^3.0.5
+  cryptography: ^2.7.0
+  archive: ^3.6.1
+  image: ^4.2.0
+  pdf: ^3.11.1
+  printing: ^5.13.4
+  file_picker: ^8.1.2
+  pasteboard: ^0.3.0
+  desktop_drop: ^0.5.0
+  url_launcher: ^6.3.0
+  window_manager: ^0.5.2
+  share_plus: ^10.0.2
+  package_info_plus: ^8.0.2
+  intl: ^0.19.0
+  collection: ^1.18.0
+  uuid: ^4.5.0
+  json_annotation: ^4.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  drift_dev: ^2.20.0
+  build_runner: ^2.4.12
+  json_serializable: ^6.8.0
+
+# VS2026 构建工具不含 ATL：本地加固的 flutter_secure_storage_windows（仅移除未使用的 atlstr.h 引用）
+dependency_overrides:
+  flutter_secure_storage_windows:
+    path: third_party/flutter_secure_storage_windows
+  # AGP 9 不再支持 proguard-android.txt：本地加固版改用 proguard-android-optimize.txt
+  flutter_inappwebview_android:
+    path: third_party/flutter_inappwebview_android
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/config/
+    - assets/engine/
+    - assets/models/
+    - assets/models/characters/realistic/
+    - assets/content/gear/photo2/
+    - assets/models/characters/
+    - assets/models/characters/hair/
+    - assets/engine/js/
+    - assets/engine/env/
+    - assets/content/
+    - assets/content/templates/
+    - assets/content/poses/
+    - assets/content/poses3/
+    - assets/content/poses3/photos/
+    - assets/content/light_presets/
+    - assets/content/films/
+    - assets/content/props/
+    - assets/content/cities/
+    - assets/content/budget/
+    - assets/content/gear/
+    - assets/content/gear/img/
+    - assets/content/attribution.json
+    - assets/content/clothing/
+    - assets/content/clothing/photo/
+    - assets/content/stills/
+    - assets/content/stills/pd/
+    - assets/content/gear/photo/

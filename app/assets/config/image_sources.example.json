@@ -1,0 +1,14 @@
+{
+  "pexels": {
+    "apiKey": "<你的 Pexels API Key>"
+  },
+  "tmdb": {
+    "apiKey": "<你的 TMDB v3 API Key>",
+    "readToken": "<你的 TMDB v4 API Read Access Token>"
+  },
+  "proxy": {
+    "http": "<可选，如 http://127.0.0.1:7890>",
+    "https": ""
+  },
+  "note": "复制本文件为 image_sources.json 并填入凭据；该文件已被 .gitignore 排除，请勿提交公开仓库。"
+}

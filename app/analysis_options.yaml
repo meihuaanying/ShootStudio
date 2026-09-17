@@ -1,0 +1,20 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    invalid_annotation_target: ignore
+  exclude:
+    - "**/*.g.dart"
+    - "build/**"
+    - android/**
+    - windows/**
+    - tool/**
+    - third_party/**
+
+linter:
+  rules:
+    prefer_single_quotes: true
+    # 关闭：与 Dart 3.13 tall-style formatter 冲突（formatter 负责逗号布局），
+    # 格式门禁改由 `dart format` 承担（见构建契约变更日志）。
+    require_trailing_commas: false
+    unawaited_futures: true

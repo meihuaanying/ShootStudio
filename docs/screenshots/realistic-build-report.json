@@ -1,0 +1,504 @@
+{
+  "args": {
+    "out": "assets/models/characters/realistic/mh-men-01.glb",
+    "report": "D:/trae/6aa175d7786dd07d04fe3d2e/ShootStudio/docs/screenshots/realistic-build-report.json",
+    "gender": "male",
+    "outfit": "male_casualsuit02",
+    "outfit2": "",
+    "hair": "short01",
+    "skin": "young_caucasian_male",
+    "age": 0.45,
+    "muscle": 0.55,
+    "weight": 0.5,
+    "height": 0.55,
+    "subdiv": 0,
+    "subdiv_body": 1,
+    "eyes": "high-poly",
+    "image_quality": 72,
+    "tex_max": 1024,
+    "tex_png": false,
+    "image_format": "JPEG",
+    "min_tris": 0,
+    "no_rig": false
+  },
+  "skin": "young_caucasian_male.mhmat",
+  "rig": {
+    "name": "Human.rig",
+    "bones": [
+      "Root",
+      "pelvis",
+      "spine_01",
+      "spine_02",
+      "spine_03",
+      "clavicle_l",
+      "upperarm_l",
+      "lowerarm_l",
+      "hand_l",
+      "index_01_l",
+      "index_02_l",
+      "index_03_l",
+      "middle_01_l",
+      "middle_02_l",
+      "middle_03_l",
+      "pinky_01_l",
+      "pinky_02_l",
+      "pinky_03_l",
+      "ring_01_l",
+      "ring_02_l",
+      "ring_03_l",
+      "thumb_01_l",
+      "thumb_02_l",
+      "thumb_03_l",
+      "clavicle_r",
+      "upperarm_r",
+      "lowerarm_r",
+      "hand_r",
+      "index_01_r",
+      "index_02_r",
+      "index_03_r",
+      "middle_01_r",
+      "middle_02_r",
+      "middle_03_r",
+      "pinky_01_r",
+      "pinky_02_r",
+      "pinky_03_r",
+      "ring_01_r",
+      "ring_02_r",
+      "ring_03_r",
+      "thumb_01_r",
+      "thumb_02_r",
+      "thumb_03_r",
+      "neck_01",
+      "head",
+      "thigh_l",
+      "calf_l",
+      "foot_l",
+      "ball_l",
+      "thigh_r",
+      "calf_r",
+      "foot_r",
+      "ball_r"
+    ]
+  },
+  "system_assets": [
+    {
+      "asset": "eyes/high-poly.mhclo",
+      "type": "Eyes",
+      "object": "Human.high-poly"
+    },
+    {
+      "asset": "eyebrows/eyebrow001.mhclo",
+      "type": "Eyebrows",
+      "object": "Human.eyebrow001"
+    },
+    {
+      "asset": "eyelashes/eyelashes01.mhclo",
+      "type": "Eyelashes",
+      "object": "Human.eyelashes01"
+    },
+    {
+      "asset": "tongue/tongue01.mhclo",
+      "type": "Tongue",
+      "object": "Human.tongue01"
+    },
+    {
+      "asset": "teeth/teeth_base.mhclo",
+      "type": "Teeth",
+      "object": "Human.teeth_base"
+    }
+  ],
+  "attachments": [
+    {
+      "asset": "clothes/male_casualsuit02",
+      "type": "Clothes",
+      "object": "Human.male_casualsuit02"
+    },
+    {
+      "asset": "hair/short01",
+      "type": "Hair",
+      "object": "Human.short01"
+    },
+    {
+      "asset": "clothes/shoes04",
+      "type": "Shoes",
+      "object": "Human.shoes04"
+    }
+  ],
+  "subdivBody": {
+    "object": "Human",
+    "levels": 1
+  },
+  "textures": [
+    {
+      "name": "brown_eye.png",
+      "from": [
+        1024,
+        1024
+      ],
+      "to": [
+        1024,
+        1024
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "eyebrow001.png",
+      "from": [
+        512,
+        512
+      ],
+      "to": [
+        512,
+        512
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "eyelashes01.png",
+      "from": [
+        512,
+        512
+      ],
+      "to": [
+        512,
+        512
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "male_casualsuit02_ao.png",
+      "from": [
+        2048,
+        2048
+      ],
+      "to": [
+        1024,
+        1024
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "male_casualsuit02_diffuse.png",
+      "from": [
+        2048,
+        2048
+      ],
+      "to": [
+        1024,
+        1024
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "male_casualsuit02_normal.png",
+      "from": [
+        4096,
+        4096
+      ],
+      "to": [
+        1024,
+        1024
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "shoes04_diffuse.png",
+      "from": [
+        1024,
+        1024
+      ],
+      "to": [
+        1024,
+        1024
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "shoes04_normal.png",
+      "from": [
+        1024,
+        1024
+      ],
+      "to": [
+        1024,
+        1024
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "short01_diffuse.png",
+      "from": [
+        2048,
+        2048
+      ],
+      "to": [
+        1024,
+        1024
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "teeth.png",
+      "from": [
+        2048,
+        2048
+      ],
+      "to": [
+        1024,
+        1024
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "tongue01_diffuse.png",
+      "from": [
+        1024,
+        1024
+      ],
+      "to": [
+        1024,
+        1024
+      ],
+      "jpeg": true
+    },
+    {
+      "name": "young_lightskinned_male_diffuse.png",
+      "from": [
+        2048,
+        2048
+      ],
+      "to": [
+        1024,
+        1024
+      ],
+      "jpeg": true
+    }
+  ],
+  "blendNormalized": [
+    {
+      "material": "Human.nipple",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.toenails",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.body",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.high-poly",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.eyebrow001",
+      "changes": [
+        "blend_method"
+      ]
+    },
+    {
+      "material": "Human.male_casualsuit02",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.tongue01",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.short01",
+      "changes": [
+        "blend_method"
+      ]
+    },
+    {
+      "material": "Human.lips",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.ears",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.genitals",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.eyelashes01",
+      "changes": [
+        "blend_method"
+      ]
+    },
+    {
+      "material": "Human.shoes04",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.teeth_base",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    },
+    {
+      "material": "Human.fingernails",
+      "changes": [
+        "blend_method",
+        "alpha_unlink"
+      ]
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Human",
+      "verts": 19158,
+      "tris": 63264,
+      "materials": [
+        "Human.body",
+        "Human.nipple",
+        "Human.lips",
+        "Human.fingernails",
+        "Human.toenails",
+        "Human.ears",
+        "Human.genitals"
+      ],
+      "modifiers": [
+        "ARMATURE",
+        "MASK",
+        "MASK",
+        "MASK",
+        "SUBSURF"
+      ]
+    },
+    {
+      "name": "Human.teeth_base",
+      "verts": 3868,
+      "tris": 7120,
+      "materials": [
+        "Human.teeth_base"
+      ],
+      "modifiers": [
+        "ARMATURE",
+        "SUBSURF"
+      ]
+    },
+    {
+      "name": "Human.male_casualsuit02",
+      "verts": 2136,
+      "tris": 4120,
+      "materials": [
+        "Human.male_casualsuit02"
+      ],
+      "modifiers": [
+        "ARMATURE",
+        "SUBSURF"
+      ]
+    },
+    {
+      "name": "Human.short01",
+      "verts": 2984,
+      "tris": 3678,
+      "materials": [
+        "Human.short01"
+      ],
+      "modifiers": [
+        "ARMATURE",
+        "SUBSURF"
+      ]
+    },
+    {
+      "name": "Human.shoes04",
+      "verts": 1722,
+      "tris": 3320,
+      "materials": [
+        "Human.shoes04"
+      ],
+      "modifiers": [
+        "ARMATURE",
+        "SUBSURF"
+      ]
+    },
+    {
+      "name": "Human.high-poly",
+      "verts": 1064,
+      "tris": 2040,
+      "materials": [
+        "Human.high-poly"
+      ],
+      "modifiers": [
+        "ARMATURE",
+        "SUBSURF"
+      ]
+    },
+    {
+      "name": "Human.tongue01",
+      "verts": 226,
+      "tris": 448,
+      "materials": [
+        "Human.tongue01"
+      ],
+      "modifiers": [
+        "ARMATURE",
+        "SUBSURF"
+      ]
+    },
+    {
+      "name": "Human.eyelashes01",
+      "verts": 250,
+      "tris": 368,
+      "materials": [
+        "Human.eyelashes01"
+      ],
+      "modifiers": [
+        "ARMATURE",
+        "SUBSURF"
+      ]
+    },
+    {
+      "name": "Human.eyebrow001",
+      "verts": 124,
+      "tris": 192,
+      "materials": [
+        "Human.eyebrow001"
+      ],
+      "modifiers": [
+        "ARMATURE",
+        "SUBSURF"
+      ]
+    }
+  ],
+  "totalTris": 84550,
+  "file": "D:\\trae\\6aa175d7786dd07d04fe3d2e\\ShootStudio\\app\\assets\\models\\characters\\realistic\\mh-men-01.glb",
+  "bytes": 5280492,
+  "ok": true
+}

@@ -1,0 +1,205 @@
+---
+import Layout from '../layouts/Layout.astro';
+const version = import.meta.env.PUBLIC_APP_VERSION?.replace(/^v/, '') || '1.1.0';
+const steps = [
+  { no: 'STEP 1', title: '画面参考', tool: 'FILMGRAB + 智能搜图', desc: '影片静帧索引 + Openverse/Pexels/TMDB 聚合搜图；中文画面描述一键找参考，点静帧提取五色色卡收入画板。' },
+  { no: 'STEP 2', title: '布光预演', tool: 'Set.a.light 转化', desc: '俯视灯位图拖拽摆放 + 写实 3D 人体实时预览；灯头朝向、虚拟测光表、效果预览与布光单导出。' },
+  { no: 'STEP 3', title: '动作摆姿', tool: 'posemaniacs 转化', desc: 'CC0 骨骼人体 360° 查看，200+ 动捕姿势库，关节级微调；姿势一键注入布光场景看打光效果。' },
+  { no: 'STEP 4', title: '一键成案', tool: 'AI 策划助手', desc: '一句话生成全案：分镜 / 灯位 / 姿势 / 预算自动成稿，全案阅读确认后导出长图 / PDF / .sspak。' },
+];
+const features = [
+  { title: '画面参考库', desc: '影片索引 + 聚合搜图（Openverse/Pexels/TMDB）+ 本地导入与截取，五色色卡随帧保存。' },
+  { title: '布光预演室', desc: '23 套经典光位预设、真实灯具语义、写实 3D 人体、虚拟测光表，位置清单实时读数。' },
+  { title: '动作摆姿库', desc: '200+ 动捕姿势、CC0 骨骼模型自由旋转、骨骼叠加、今日姿势与收藏清单。' },
+  { title: '积木式策划编辑器', desc: '分镜在内 15+ 种模块自由拼装，卡片可展开全文，编辑停顿 3 秒自动快照。' },
+  { title: 'AI 策划助手', desc: 'OpenCode Go / DeepSeek / 智谱 / Kimi / 通义预置，自动拉模型、失败自动换商；生成后直接进入全案阅读。' },
+  { title: '设备数据库', desc: '400+ 机身 / 镜头 / 灯具真实参数与图片，规格词搜索、自定义添加，灯具一键放入 3D 场景。' },
+  { title: '导出与分享', desc: '1080px 长图（含分镜表）、打印版 PDF（矢量灯位图）、整案交接 .sspak 数据包。' },
+  { title: '本地优先', desc: 'SQLite + 工作区目录，数据不出本机、随目录迁移；无网也能走完全流程。' },
+];
+---
+<Layout title="正片工坊 ShootStudio · 两分钟灵感，三十分钟成案">
+  <section data-hero-zone class="relative overflow-hidden border-b border-ss-rule dark:border-ss-rule-dark">
+    <div class="grid-bg absolute inset-0 hero-mask"></div>
+    <div class="hero-shell relative mx-auto max-w-6xl px-6">
+      <div class="grid w-full min-w-0 grid-cols-1 items-center gap-10 py-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:py-16">
+        <div data-hero>
+          <p class="mono text-[12px] tracking-[0.22em] text-ss-accent" data-hero-item>SHOOTSTUDIO · V{version} · MIT 开源</p>
+          <h1 class="mt-4 max-w-2xl text-4xl font-extrabold leading-tight tracking-tight md:text-5xl xl:text-6xl" data-hero-item>
+            两分钟灵感，<br /><span class="grad-text">三十分钟成案</span>
+          </h1>
+          <p class="mt-5 max-w-xl text-[15px] leading-7 text-ss-muted dark:text-ss-muted-dark" data-hero-item>
+            把「找画面参考 → 布光预演 → 动作摆姿 → AI 一键成案」完整收进一个本地优先的工作台。
+            Windows + Android 双端，免费开源。
+          </p>
+          <div class="mt-8 flex flex-wrap items-center gap-3" data-hero-item>
+            <a href="/downloads" class="rounded-ss bg-gradient-to-br from-ss-accent to-ss-accent2 px-6 py-3 text-[14px] font-semibold text-white shadow-ss transition hover:brightness-110">
+              Windows 下载 <span class="mono opacity-80">v{version}</span>
+            </a>
+            <a href="/downloads" class="rounded-ss border border-ss-accent2 px-6 py-3 text-[14px] font-semibold text-ss-accent2 transition hover:bg-ss-accent2/5">
+              安卓 APK 下载 <span class="mono opacity-70">v{version}</span>
+            </a>
+          </div>
+          <p class="mono mt-4 text-[11.5px] text-ss-muted dark:text-ss-muted-dark" data-hero-item>
+            国内 CDN 镜像优先 · GitHub Release 回退 · SHA-256 校验
+          </p>
+        </div>
+
+        <!-- W2：光圈开合 + 胶片流线（纯 SVG，无 WebGL） -->
+        <div class="hero-visual" aria-hidden="true" data-hero-visual>
+          <svg viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="ss-aperture" x1="80" y1="60" x2="440" y2="460" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#4D6BFE" />
+                <stop offset="0.6" stop-color="#7B5CFF" />
+                <stop offset="1" stop-color="#2BA471" />
+              </linearGradient>
+              <radialGradient id="ss-core" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="#4D6BFE" stop-opacity="0.55" />
+                <stop offset="0.65" stop-color="#7B5CFF" stop-opacity="0.18" />
+                <stop offset="1" stop-color="#7B5CFF" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="ss-streak" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#4D6BFE" stop-opacity="0" />
+                <stop offset="0.5" stop-color="#7B5CFF" stop-opacity="0.8" />
+                <stop offset="1" stop-color="#4D6BFE" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+
+            <!-- 光斑底色 -->
+            <circle class="hero-glow" cx="262" cy="258" r="238" fill="url(#ss-core)" />
+
+            <!-- 胶片流线：左右两条齿孔带（E1 视差外层：JS 只动 .film-parallax，不覆盖 .film-strip-roll 的流动动画） -->
+            <g opacity="0.92">
+              <g class="film-parallax" data-film-parallax>
+                <g class="film-strip-roll">
+                  <rect x="18" y="-120" width="46" height="760" rx="9" fill="#141821" />
+                  <g fill="#F7F8FA">
+                    <rect x="24" y="-96" width="18" height="22" rx="3" />
+                    <rect x="24" y="-48" width="18" height="22" rx="3" />
+                    <rect x="24" y="0" width="18" height="22" rx="3" />
+                    <rect x="24" y="48" width="18" height="22" rx="3" />
+                    <rect x="24" y="96" width="18" height="22" rx="3" />
+                    <rect x="24" y="144" width="18" height="22" rx="3" />
+                    <rect x="24" y="192" width="18" height="22" rx="3" />
+                    <rect x="24" y="240" width="18" height="22" rx="3" />
+                    <rect x="24" y="288" width="18" height="22" rx="3" />
+                    <rect x="24" y="336" width="18" height="22" rx="3" />
+                    <rect x="24" y="384" width="18" height="22" rx="3" />
+                    <rect x="24" y="432" width="18" height="22" rx="3" />
+                    <rect x="24" y="480" width="18" height="22" rx="3" />
+                    <rect x="24" y="528" width="18" height="22" rx="3" />
+                    <rect x="24" y="576" width="18" height="22" rx="3" />
+                    <rect x="24" y="624" width="18" height="22" rx="3" />
+                  </g>
+                </g>
+              </g>
+              <g class="film-parallax" data-film-parallax>
+                <g class="film-strip-roll">
+                  <rect x="468" y="-120" width="46" height="760" rx="9" fill="#141821" />
+                  <g fill="#F7F8FA">
+                    <rect x="490" y="-96" width="18" height="22" rx="3" />
+                    <rect x="490" y="-48" width="18" height="22" rx="3" />
+                    <rect x="490" y="0" width="18" height="22" rx="3" />
+                    <rect x="490" y="48" width="18" height="22" rx="3" />
+                    <rect x="490" y="96" width="18" height="22" rx="3" />
+                    <rect x="490" y="144" width="18" height="22" rx="3" />
+                    <rect x="490" y="192" width="18" height="22" rx="3" />
+                    <rect x="490" y="240" width="18" height="22" rx="3" />
+                    <rect x="490" y="288" width="18" height="22" rx="3" />
+                    <rect x="490" y="336" width="18" height="22" rx="3" />
+                    <rect x="490" y="384" width="18" height="22" rx="3" />
+                    <rect x="490" y="432" width="18" height="22" rx="3" />
+                    <rect x="490" y="480" width="18" height="22" rx="3" />
+                    <rect x="490" y="528" width="18" height="22" rx="3" />
+                    <rect x="490" y="576" width="18" height="22" rx="3" />
+                    <rect x="490" y="624" width="18" height="22" rx="3" />
+                  </g>
+                </g>
+              </g>
+            </g>
+
+            <!-- 光圈环 -->
+            <circle cx="262" cy="258" r="176" stroke="url(#ss-aperture)" stroke-width="3" opacity="0.9" />
+            <circle cx="262" cy="258" r="152" stroke="url(#ss-aperture)" stroke-width="1.4" stroke-dasharray="4 10" opacity="0.65" />
+
+            <!-- 六片光圈叶片：开合呼吸（translate 与 CSS 动画分层，避免 transform 覆盖） -->
+            <g transform="translate(262 258)">
+              <!-- E1 视差外层：JS 只动这一层，不触碰 .aperture-blades 的呼吸 transform -->
+              <g class="aperture-parallax" data-aperture-parallax>
+                <g class="aperture-blades">
+                  <path d="M 0 -150 Q 84 -146 132 -60 L 84 -26 Q 54 -92 0 -100 Z" fill="url(#ss-aperture)" stroke="#0B0E14" stroke-opacity="0.22" stroke-width="2" opacity="1" />
+                  <path d="M 0 -150 Q 84 -146 132 -60 L 84 -26 Q 54 -92 0 -100 Z" fill="url(#ss-aperture)" stroke="#0B0E14" stroke-opacity="0.22" stroke-width="2" opacity="0.92" transform="rotate(60)" />
+                  <path d="M 0 -150 Q 84 -146 132 -60 L 84 -26 Q 54 -92 0 -100 Z" fill="url(#ss-aperture)" stroke="#0B0E14" stroke-opacity="0.22" stroke-width="2" opacity="0.86" transform="rotate(120)" />
+                  <path d="M 0 -150 Q 84 -146 132 -60 L 84 -26 Q 54 -92 0 -100 Z" fill="url(#ss-aperture)" stroke="#0B0E14" stroke-opacity="0.22" stroke-width="2" opacity="0.8" transform="rotate(180)" />
+                  <path d="M 0 -150 Q 84 -146 132 -60 L 84 -26 Q 54 -92 0 -100 Z" fill="url(#ss-aperture)" stroke="#0B0E14" stroke-opacity="0.22" stroke-width="2" opacity="0.86" transform="rotate(240)" />
+                  <path d="M 0 -150 Q 84 -146 132 -60 L 84 -26 Q 54 -92 0 -100 Z" fill="url(#ss-aperture)" stroke="#0B0E14" stroke-opacity="0.22" stroke-width="2" opacity="0.92" transform="rotate(300)" />
+                </g>
+              </g>
+            </g>
+
+            <!-- 中心通光孔 + 高光点 -->
+            <circle cx="262" cy="258" r="34" fill="#0B0E14" opacity="0.9" />
+            <circle cx="262" cy="258" r="34" stroke="url(#ss-aperture)" stroke-width="2" opacity="0.8" />
+            <circle cx="404" cy="122" r="7" fill="#E37318" />
+            <circle cx="118" cy="392" r="5" fill="#2BA471" opacity="0.9" />
+
+            <!-- 光线条 -->
+            <path d="M 60 420 L 210 400" stroke="url(#ss-streak)" stroke-width="2" stroke-linecap="round" />
+            <path d="M 330 84 L 470 66" stroke="url(#ss-streak)" stroke-width="2" stroke-linecap="round" />
+            <path d="M 88 148 L 168 118" stroke="url(#ss-streak)" stroke-width="1.4" stroke-linecap="round" opacity="0.7" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-20">
+    <h2 class="text-2xl font-extrabold md:text-3xl" data-reveal>视频里的四步工作流，这里一步不缺</h2>
+    <div class="mt-10 grid gap-4 md:grid-cols-4">
+      {steps.map((step) => (
+        <div class="card p-5" data-reveal>
+          <p class="mono text-[11px] tracking-[0.18em] text-ss-accent">{step.no}</p>
+          <h3 class="mt-2 text-[17px] font-bold">{step.title}</h3>
+          <p class="mono mt-0.5 text-[11px] text-ss-muted dark:text-ss-muted-dark">{step.tool}</p>
+          <p class="mt-3 text-[13px] leading-6 text-ss-muted dark:text-ss-muted-dark">{step.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="border-y border-ss-rule bg-ss-surface dark:border-ss-rule-dark dark:bg-ss-surface-dark">
+    <div class="mx-auto max-w-6xl px-6 py-20">
+      <h2 class="text-2xl font-extrabold md:text-3xl" data-reveal>九大能力，围绕成案闭环</h2>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {features.map((feature) => (
+          <div class="card p-5" data-reveal>
+            <h3 class="text-[15px] font-bold">{feature.title}</h3>
+            <p class="mt-2 text-[12.5px] leading-6 text-ss-muted dark:text-ss-muted-dark">{feature.desc}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-8" data-reveal>
+        <a href="/features" class="text-[13.5px] font-semibold text-ss-accent hover:underline">查看完整功能说明 →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-20">
+    <div class="card flex flex-col items-start gap-6 p-8 md:flex-row md:items-center" data-reveal>
+      <div class="flex-1">
+        <h2 class="text-xl font-extrabold">本地优先，数据不出本机</h2>
+        <p class="mt-2 text-[13.5px] leading-6 text-ss-muted dark:text-ss-muted-dark">
+          工作区就是一个普通目录：SQLite 数据库 + 分类图片文件夹，复制到移动硬盘即可迁移。
+          断网时除 AI 云端生成与搜图外全部功能可用；不配置 API Key 也能用本地引擎产出完整基础策划案。
+        </p>
+      </div>
+      <div class="mono rounded-ss border border-ss-rule bg-ss-surface p-4 text-[11.5px] leading-6 text-ss-muted dark:border-ss-rule-dark dark:bg-ss-surface-dark dark:text-ss-muted-dark">
+        工作区/<br />
+        ├── database.sqlite<br />
+        ├── images/（五库 + 参考 + 素材）<br />
+        └── exports/（长图 / PDF / .sspak）
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: app
+
+jobs:
+  analyze-test:
+    name: Analyze & Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Configure pub mirror (China)
+        if: runner.os == 'Linux'
+        run: |
+          echo "PUB_HOSTED_URL=https://pub.flutter-io.cn" >> "$GITHUB_ENV"
+          echo "FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn" >> "$GITHUB_ENV"
+
+      - name: Ensure sqlite native lib (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev
+
+      - name: Ensure sqlite native lib (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $url = "https://www.sqlite.org/2026/sqlite-dll-win-x64-3530400.zip"
+          Invoke-WebRequest -Uri $url -OutFile sqlite-dll.zip
+          Expand-Archive sqlite-dll.zip -DestinationPath sqlite-dll -Force
+          Copy-Item "sqlite-dll\sqlite3.dll" "C:\Windows\System32\sqlite3.dll"
+
+      - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed lib test
+      - run: flutter analyze --fatal-infos
+      - run: flutter test
+
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+    needs: analyze-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build windows --release
+      - name: Verify output
+        shell: pwsh
+        run: |
+          if (!(Test-Path "build/windows/x64/runner/Release/shoot_studio.exe")) {
+            throw "Windows 构建产物缺失"
+          }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: app/build/windows/x64/runner/Release/
+          retention-days: 7
+
+  build-apk:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    needs: analyze-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: app/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 7

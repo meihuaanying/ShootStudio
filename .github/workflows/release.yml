@@ -1,0 +1,179 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+
+defaults:
+  run:
+    working-directory: app
+
+jobs:
+  build:
+    name: Build & Collect (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: windows
+            os: windows-latest
+          - target: android
+            os: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        if: matrix.target == 'android'
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Ensure sqlite native lib (Linux)
+        if: matrix.target == 'android'
+        run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev
+
+      - name: Ensure sqlite native lib (Windows)
+        if: matrix.target == 'windows'
+        shell: pwsh
+        run: |
+          $url = "https://www.sqlite.org/2026/sqlite-dll-win-x64-3530400.zip"
+          Invoke-WebRequest -Uri $url -OutFile sqlite-dll.zip
+          Expand-Archive sqlite-dll.zip -DestinationPath sqlite-dll -Force
+          Copy-Item "sqlite-dll\sqlite3.dll" "C:\Windows\System32\sqlite3.dll"
+
+      - run: flutter pub get
+      - run: flutter analyze --fatal-infos
+      - run: flutter test
+
+      - name: Build Windows
+        if: matrix.target == 'windows'
+        run: flutter build windows --release
+
+      - name: Build APK
+        if: matrix.target == 'android'
+        run: flutter build apk --release
+
+      - name: Package & hash (Windows)
+        if: matrix.target == 'windows'
+        shell: pwsh
+        run: |
+          $stage = "dist/shoot-studio-${{ github.ref_name }}-windows"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          Copy-Item "build/windows/x64/runner/Release/*" $stage -Recurse
+          Compress-Archive -Path $stage -DestinationPath "dist/shoot-studio-${{ github.ref_name }}-windows.zip"
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          $h = (Get-FileHash "dist/shoot-studio-${{ github.ref_name }}-windows.zip" -Algorithm SHA256).Hash.ToLower()
+          "$h" | Out-File -Encoding ascii "dist/windows.sha256"
+
+      - name: Package & hash (Android)
+        if: matrix.target == 'android'
+        run: |
+          mkdir -p dist
+          cp build/app/outputs/flutter-apk/app-release.apk "dist/shoot-studio-${{ github.ref_name }}-android.apk"
+          sha256sum "dist/shoot-studio-${{ github.ref_name }}-android.apk" | awk '{print $1}' > dist/android.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.target }}
+          path: app/dist/
+          if-no-files-found: error
+
+  release:
+    name: GitHub Release
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-windows
+          path: rel/windows
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-android
+          path: rel/android
+
+      - name: Collect files
+        run: |
+          mkdir -p rel/final
+          find rel -type f \( -name "*.zip" -o -name "*.apk" -o -name "*.sha256" \) -exec cp {} rel/final/ \;
+          ls -la rel/final
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            rel/final/*.zip
+            rel/final/*.apk
+            rel/final/*.sha256
+
+  website:
+    name: Deploy website (GitHub Pages)
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmmirror.com
+
+      - name: Build web (Astro)
+        working-directory: web
+        run: |
+          npm install
+          npm run build
+        env:
+          PUBLIC_APP_VERSION: ${{ github.ref_name }}
+
+      # 发版时把版本号 / 下载直链 / SHA-256 写入公告 JSON。
+      - name: Patch announcements.json
+        run: |
+          set -e
+          VER="${{ github.ref_name }}"
+          VER="${VER#v}"
+          python3 - <<'PY'
+          import json, os
+          ver = os.environ['VER_TAG']
+          owner = os.environ['OWNER']
+          repo = os.environ['REPO']
+          base = f"https://github.com/{owner}/{repo}/releases/download/v{ver}"
+          with open('web/public/announcements.json', 'r+', encoding='utf-8') as f:
+              ann = json.load(f)
+              ann['version'] = ver
+              ann['downloads']['windows']['github'] = f"{base}/shoot-studio-v{ver}-windows.zip"
+              ann['downloads']['android']['github'] = f"{base}/shoot-studio-v{ver}-android.apk"
+              f.seek(0); f.truncate()
+              json.dump(ann, f, ensure_ascii=False, indent=2)
+          PY
+        env:
+          VER_TAG: ${{ github.ref_name }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

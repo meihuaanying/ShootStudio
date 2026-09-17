@@ -1,0 +1,1745 @@
+{
+  "note": "写实模式资产署名（D61）：最高标准路线已走通（MakeHuman 官方 base mesh + makehuman_system_assets CC0，经 MPFB2 无头导出 mh-men-01.glb）；cesiumman.glb 作为 CC-BY 4.0 等价兜底保留。items 保留全局既有条目并按 file 去重。",
+  "items": [
+    {
+      "file": "assets/content/stills/pd/nosferatu-1922-f9522774.jpg",
+      "name": "Nosferatu (1922) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Nosferatu_title.jpg",
+      "license": "Public domain",
+      "author": "Jofa-Atelier Berlin-Johannisthal, Prana-Film GmbH"
+    },
+    {
+      "file": "assets/content/stills/pd/nosferatu-1922-d2bd4895.jpg",
+      "name": "Nosferatu (1922) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Nosferatu_Doorway_Frame.webp",
+      "license": "Public domain",
+      "author": "Prana Film"
+    },
+    {
+      "file": "assets/content/stills/pd/nosferatu-1922-f0086a9f.jpg",
+      "name": "Nosferatu (1922) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Max_Schreck_as_Count_Orlok_in_Nosferatu_%E2%80%93_Eine_Symphonie_des_Grauens_(1922).jpg",
+      "license": "Public domain",
+      "author": "F. W. Murnau"
+    },
+    {
+      "file": "assets/content/stills/pd/nosferatu-1922-58c90bbe.jpg",
+      "name": "Nosferatu (1922) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Nosferatu.jpg",
+      "license": "Public domain",
+      "author": "Wikimedia contributor"
+    },
+    {
+      "file": "assets/content/stills/pd/the-kid-1921-d0eb4a76.jpg",
+      "name": "The Kid (1921) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Still_from_Charles_Chaplin_-_The_Kid_-_1921_-_Charles_Chaplin_Productions_-_EYE_FOT2413.JPG",
+      "license": "Public domain",
+      "author": "Charles Chaplin, The Kid, 1921, Charles Chaplin Productions (US)"
+    },
+    {
+      "file": "assets/content/stills/pd/the-kid-1921-80917576.jpg",
+      "name": "The Kid (1921) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Still_from_Charles_Chaplin_-_The_Kid_-_1921_-_Charles_Chaplin_Productions_-_EYE_FOT2414.JPG",
+      "license": "Public domain",
+      "author": "Charles Chaplin, The Kid, 1921, Charles Chaplin Productions (US)"
+    },
+    {
+      "file": "assets/content/stills/pd/the-kid-1921-12487bf3.jpg",
+      "name": "The Kid (1921) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Still_from_Charles_Chaplin_-_The_Kid_-_1921_-_Charles_Chaplin_Productions_-_EYE_FOT2415.JPG",
+      "license": "Public domain",
+      "author": "Charles Chaplin, The Kid , 1921, Charles Chaplin Productions (US)"
+    },
+    {
+      "file": "assets/content/stills/pd/the-kid-1921-10bcc368.jpg",
+      "name": "The Kid (1921) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Still_from_Charles_Chaplin_-_The_Kid_-_1921_-_Charles_Chaplin_Productions_-_EYE_FOT2417.JPG",
+      "license": "Public domain",
+      "author": "Charles Chaplin, The Kid, 1921, Charles Chaplin Productions (US)"
+    },
+    {
+      "file": "assets/content/stills/pd/the-kid-1921-defbb00a.jpg",
+      "name": "The Kid (1921) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Still_from_Charles_Chaplin_-_The_Kid_-_1921_-_Charles_Chaplin_Productions_-_EYE_FOT2418.JPG",
+      "license": "Public domain",
+      "author": "Charles Chaplin, The Kid, 1921, Charles Chaplin Productions (US)"
+    },
+    {
+      "file": "assets/content/stills/pd/the-kid-1921-265b75d0.jpg",
+      "name": "The Kid (1921) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Still_from_Charles_Chaplin_-_The_Kid_-_1921_-_Charles_Chaplin_Productions_-_EYE_FOT2420.JPG",
+      "license": "Public domain",
+      "author": "Charles Chaplin, The Kid, 1921, Charles Chaplin Productions (US)"
+    },
+    {
+      "file": "assets/content/stills/pd/sherlock-jr-1924-90003ff9.jpg",
+      "name": "Sherlock Jr. (1924) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Silent_film_theater_in_Sherlock_Jr.,_1924.png",
+      "license": "Public domain",
+      "author": "Unknown photographer Unknown photographer"
+    },
+    {
+      "file": "assets/content/stills/pd/sherlock-jr-1924-17232486.jpg",
+      "name": "Sherlock Jr. (1924) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Silent_film_theater_in_Sherlock_Jr.,_1924,_with_Buster_Keaton.png",
+      "license": "Public domain",
+      "author": "Unknown photographer Unknown photographer"
+    },
+    {
+      "file": "assets/content/stills/pd/sherlock-jr-1924-7900a7df.jpg",
+      "name": "Sherlock Jr. (1924) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Silent_film_theater_in_Sherlock_Jr.,_1924_(cropped).jpg",
+      "license": "Public domain",
+      "author": "Unknown photographer Unknown photographer"
+    },
+    {
+      "file": "assets/content/stills/pd/sherlock-jr-1924-c5c21d72.jpg",
+      "name": "Sherlock Jr. (1924) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Sherlock_jr_poster.jpg",
+      "license": "Public domain",
+      "author": "Unknown author Unknown author"
+    },
+    {
+      "file": "assets/content/stills/pd/sherlock-jr-1924-f22d680e.jpg",
+      "name": "Sherlock Jr. (1924) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Sherlock_Jr_(1924)_-_1.jpg",
+      "license": "Public domain",
+      "author": "Buster Keaton Productions / Metro Pictures Corporation"
+    },
+    {
+      "file": "assets/content/stills/pd/sherlock-jr-1924-9edb4e83.jpg",
+      "name": "Sherlock Jr. (1924) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Sherlock_Jr_(1924)_-_2.jpg",
+      "license": "Public domain",
+      "author": "Buster Keaton Productions / Metro Pictures Corporation"
+    },
+    {
+      "file": "assets/content/stills/pd/battleship-potemkin-1925-ee568adc.jpg",
+      "name": "Battleship Potemkin (1925) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Potemkinstairs.jpg",
+      "license": "Public domain",
+      "author": "В стиле Пётр Петрович Павлов"
+    },
+    {
+      "file": "assets/content/stills/pd/battleship-potemkin-1925-bb3027c2.jpg",
+      "name": "Battleship Potemkin (1925) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Potemkin-still1.jpg",
+      "license": "Public domain",
+      "author": "Sergei Eisenstein"
+    },
+    {
+      "file": "assets/content/stills/pd/battleship-potemkin-1925-1c5dc21a.jpg",
+      "name": "Battleship Potemkin (1925) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Eisenstein_Potemkin_2.jpg",
+      "license": "Public domain",
+      "author": "Sergei Eisenstein"
+    },
+    {
+      "file": "assets/content/stills/pd/battleship-potemkin-1925-e606394a.jpg",
+      "name": "Battleship Potemkin (1925) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Potemkin-still2.jpg",
+      "license": "Public domain",
+      "author": "SM Eisenstein"
+    },
+    {
+      "file": "assets/content/stills/pd/battleship-potemkin-1925-55b928ad.jpg",
+      "name": "Battleship Potemkin (1925) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Potemkin-still3.jpg",
+      "license": "Public domain",
+      "author": "SM Eisenstein"
+    },
+    {
+      "file": "assets/content/stills/pd/battleship-potemkin-1925-c058cd85.jpg",
+      "name": "Battleship Potemkin (1925) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Potemkin-still4.jpg",
+      "license": "Public domain",
+      "author": "SM Eisenstein"
+    },
+    {
+      "file": "assets/content/stills/pd/the-general-1926-233b472a.jpg",
+      "name": "The General (1926) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:The_General_18.jpg",
+      "license": "Public domain",
+      "author": "film screenshot (United Artists)"
+    },
+    {
+      "file": "assets/content/stills/pd/the-general-1926-a65fea5c.jpg",
+      "name": "The General (1926) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Felix_Szcz%C4%99sny_(1888-1926)_murder_in_the_Jersey_Journal_on_October_28,_1926.png",
+      "license": "Public domain",
+      "author": "Anonymous Unknown author"
+    },
+    {
+      "file": "assets/content/stills/pd/the-general-1926-e1fc50ad.jpg",
+      "name": "The General (1926) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Aux_Invalides,_le_g%C3%A9n%C3%A9ral_Charpy_d%C3%A9core_le_sous-lieutenant_Ch%C3%A9rif,_22-4-1926_(1).jpg",
+      "license": "Public domain",
+      "author": "Agence Rol"
+    },
+    {
+      "file": "assets/content/stills/pd/the-general-1926-eee1c7c8.jpg",
+      "name": "The General (1926) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Aux_Invalides,_le_g%C3%A9n%C3%A9ral_Charpy_d%C3%A9core_le_sous-lieutenant_Ch%C3%A9rif,_22-4-1926.jpg",
+      "license": "Public domain",
+      "author": "Agence Rol"
+    },
+    {
+      "file": "assets/content/stills/pd/the-general-1926-19296e50.jpg",
+      "name": "The General (1926) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Pontiac_six_laudausedan_ad_1926.jpg",
+      "license": "Public domain",
+      "author": "Unknown author Unknown author"
+    },
+    {
+      "file": "assets/content/stills/pd/the-general-1926-7fd8801f.jpg",
+      "name": "The General (1926) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:The_General_03.jpg",
+      "license": "Public domain",
+      "author": "Buster Keaton"
+    },
+    {
+      "file": "assets/content/stills/pd/metropolis-1927-19e6eff1.jpg",
+      "name": "Metropolis (1927) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Metropolis_(1927)_-_US_Lobby_Card.jpg",
+      "license": "Public domain",
+      "author": "Parufamet ( Paramount - UFA - Metro ) Distribution Company"
+    },
+    {
+      "file": "assets/content/stills/pd/metropolis-1927-467f46e8.jpg",
+      "name": "Metropolis (1927) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Metropolis_(1927)_-_Hel.jpg",
+      "license": "Public domain",
+      "author": "Horst von Harbou"
+    },
+    {
+      "file": "assets/content/stills/pd/metropolis-1927-e3aa606f.jpg",
+      "name": "Metropolis (1927) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Metropolis_(1927)_-_Death.jpg",
+      "license": "Public domain",
+      "author": "Karl Freund, Günther Rittau, Walter Ruttmann (cinematographers)"
+    },
+    {
+      "file": "assets/content/stills/pd/metropolis-1927-795ae9d8.jpg",
+      "name": "Metropolis (1927) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Metropolis_(1927)_-_Brigitte_Helm_and_the_Seven_Headed_Beast.jpg",
+      "license": "Public domain",
+      "author": "Karl Freund, Günther Rittau, Walter Ruttmann (cinematographers)"
+    },
+    {
+      "file": "assets/content/stills/pd/the-cabinet-of-dr-caligari-1920-22862fb7.jpg",
+      "name": "The Cabinet of Dr. Caligari (1920) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:CABINET_DES_DR_CALIGARI_01.jpg",
+      "license": "Public domain",
+      "author": "Willy Hameister"
+    },
+    {
+      "file": "assets/content/stills/pd/the-cabinet-of-dr-caligari-1920-a851be90.jpg",
+      "name": "The Cabinet of Dr. Caligari (1920) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Caligari_1920_still_01.jpg",
+      "license": "Public domain",
+      "author": "Willy Hameister. Original uploader was БережнойСергей at ru.wikipedia"
+    },
+    {
+      "file": "assets/content/stills/pd/the-cabinet-of-dr-caligari-1920-34380d2a.jpg",
+      "name": "The Cabinet of Dr. Caligari (1920) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Caligari_1920_still_02.jpg",
+      "license": "Public domain",
+      "author": "Willy Hameister. Original uploader was БережнойСергей at ru.wikipedia"
+    },
+    {
+      "file": "assets/content/stills/pd/the-cabinet-of-dr-caligari-1920-b762f74d.jpg",
+      "name": "The Cabinet of Dr. Caligari (1920) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:The_Cabinet_of_Dr_Caligari.jpg",
+      "license": "Public domain",
+      "author": "Robert Wiene"
+    },
+    {
+      "file": "assets/content/stills/pd/the-cabinet-of-dr-caligari-1920-53a95f8b.jpg",
+      "name": "The Cabinet of Dr. Caligari (1920) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:The_Cabinet_of_Doctor_Caligari_Lobby_card_2.jpg",
+      "license": "Public domain",
+      "author": "Goldwyn"
+    },
+    {
+      "file": "assets/content/stills/pd/the-cabinet-of-dr-caligari-1920-0721e2b9.jpg",
+      "name": "The Cabinet of Dr. Caligari (1920) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Das_Cabinet_des_Dr._Caligari_-_Conrad_Veidt_-_photo_Franz_Xaver_Setzer.jpg",
+      "license": "Public domain",
+      "author": "Franz Xaver Setzer"
+    },
+    {
+      "file": "assets/content/stills/pd/a-trip-to-the-moon-1902-840bfc27.jpg",
+      "name": "A Trip to the Moon (1902) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_lune.jpg",
+      "license": "Public domain",
+      "author": "Georges Méliès"
+    },
+    {
+      "file": "assets/content/stills/pd/a-trip-to-the-moon-1902-d3773a83.jpg",
+      "name": "A Trip to the Moon (1902) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Melies_color_Voyage_dans_la_lune.jpg",
+      "license": "Public domain",
+      "author": "Georges Méliès"
+    },
+    {
+      "file": "assets/content/stills/pd/a-trip-to-the-moon-1902-75b438e1.jpg",
+      "name": "A Trip to the Moon (1902) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Voyage_dans_la_Lune_cliff_still.jpg",
+      "license": "Public domain",
+      "author": "Georges Méliès"
+    },
+    {
+      "file": "assets/content/stills/pd/a-trip-to-the-moon-1902-176ed0ca.jpg",
+      "name": "A Trip to the Moon (1902) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Iter_lunare-_or,_a_voyage_to_the_moon_Fleuron_T117401-2.png",
+      "license": "Public domain",
+      "author": "Russen, David"
+    },
+    {
+      "file": "assets/content/stills/pd/a-trip-to-the-moon-1902-37212567.jpg",
+      "name": "A Trip to the Moon (1902) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:M%C3%A9li%C3%A8s_Trip_to_the_Moon_cannon_still.jpg",
+      "license": "Public domain",
+      "author": "Georges Méliès"
+    },
+    {
+      "file": "assets/content/stills/pd/a-trip-to-the-moon-1902-3cfc9e29.jpg",
+      "name": "A Trip to the Moon (1902) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:M%C3%A9li%C3%A8s_Trip_to_the_Moon_stars_still.jpg",
+      "license": "Public domain",
+      "author": "Georges Méliès"
+    },
+    {
+      "file": "assets/content/stills/pd/his-girl-friday-1940-8d22d94a.jpg",
+      "name": "His Girl Friday (1940) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:His_Girl_Friday_still_2.jpg",
+      "license": "Public domain",
+      "author": "Columbia Pictures"
+    },
+    {
+      "file": "assets/content/stills/pd/his-girl-friday-1940-01902834.jpg",
+      "name": "His Girl Friday (1940) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:His_Girl_Friday_3.jpg",
+      "license": "Public domain",
+      "author": "film screenshot"
+    },
+    {
+      "file": "assets/content/stills/pd/his-girl-friday-1940-d75a59ba.jpg",
+      "name": "His Girl Friday (1940) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:His_Girl_Friday_4.jpg",
+      "license": "Public domain",
+      "author": "unknown (film screenshot)"
+    },
+    {
+      "file": "assets/content/stills/pd/his-girl-friday-1940-e976d0c2.jpg",
+      "name": "His Girl Friday (1940) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:His_Girl_Friday_5.jpg",
+      "license": "Public domain",
+      "author": "unknown (film screenshot)"
+    },
+    {
+      "file": "assets/content/stills/pd/his-girl-friday-1940-b70aee54.jpg",
+      "name": "His Girl Friday (1940) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:His_Girl_Friday_6.jpg",
+      "license": "Public domain",
+      "author": "unknown (film screenshot)"
+    },
+    {
+      "file": "assets/content/stills/pd/his-girl-friday-1940-4d9259e8.jpg",
+      "name": "His Girl Friday (1940) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Ernest_Truex_in_His_Girl_Friday.jpg",
+      "license": "Public domain",
+      "author": "film screenshot"
+    },
+    {
+      "file": "assets/content/stills/pd/night-of-the-living-dead-1968-64a964ef.jpg",
+      "name": "Night of the Living Dead (1968) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Night_Of_The_Living_Dead_trailer_screenshot.jpg",
+      "license": "Public domain",
+      "author": "Walter Reade Organization, Inc."
+    },
+    {
+      "file": "assets/content/stills/pd/night-of-the-living-dead-1968-08d524ab.jpg",
+      "name": "Night of the Living Dead (1968) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Nightofthelivingdead_screenshot.jpg",
+      "license": "Public domain",
+      "author": "Direction and cinematography both by George A. Romero"
+    },
+    {
+      "file": "assets/content/stills/pd/night-of-the-living-dead-1968-116efb72.jpg",
+      "name": "Night of the Living Dead (1968) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Judith_O%27Dea_clutching_grave_in_Night_of_the_Living_Dead_bw.jpg",
+      "license": "Public domain",
+      "author": "Direction and cinematography both by George A. Romero"
+    },
+    {
+      "file": "assets/content/stills/pd/night-of-the-living-dead-1968-81dd82ef.jpg",
+      "name": "Night of the Living Dead (1968) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Zombies_NightoftheLivingDead.jpg",
+      "license": "Public domain",
+      "author": "Direction and cinematography both by George A. Romero"
+    },
+    {
+      "file": "assets/content/stills/pd/night-of-the-living-dead-1968-4b2eab00.jpg",
+      "name": "Night of the Living Dead (1968) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Duane_Jones_as_Ben_in_Night_of_the_Living_Dead_bw.jpg",
+      "license": "Public domain",
+      "author": "Direction and cinematography both by George A. Romero"
+    },
+    {
+      "file": "assets/content/stills/pd/night-of-the-living-dead-1968-4a38ccf4.jpg",
+      "name": "Night of the Living Dead (1968) 静帧",
+      "source": "https://commons.wikimedia.org/wiki/File:Duane_Jones_as_Ben_in_Night_of_the_Living_Dead_shadowed_bw.jpg",
+      "license": "Public domain",
+      "author": "Direction and cinematography both by George A. Romero"
+    },
+    {
+      "file": "assets/content/gear/photo/camera-34808844.jpg",
+      "name": "器材实拍（camera）",
+      "source": "https://www.pexels.com/photo/professional-cameras-on-wooden-table-34808844/",
+      "license": "Pexels License",
+      "author": "🇻🇳🇻🇳Nguyễn Tiến Thịnh 🇻🇳🇻🇳"
+    },
+    {
+      "file": "assets/content/gear/photo/camera-7789223.jpg",
+      "name": "器材实拍（camera）",
+      "source": "https://www.pexels.com/photo/canon-eos-rp-7789223/",
+      "license": "Pexels License",
+      "author": "Ivan Babydov"
+    },
+    {
+      "file": "assets/content/gear/photo/camera-34808845.jpg",
+      "name": "器材实拍（camera）",
+      "source": "https://www.pexels.com/photo/close-up-of-three-professional-cameras-on-wooden-table-34808845/",
+      "license": "Pexels License",
+      "author": "🇻🇳🇻🇳Nguyễn Tiến Thịnh 🇻🇳🇻🇳"
+    },
+    {
+      "file": "assets/content/gear/photo/camera-8539296.jpg",
+      "name": "器材实拍（camera）",
+      "source": "https://www.pexels.com/photo/black-sony-dslr-camera-8539296/",
+      "license": "Pexels License",
+      "author": "Gift Habeshaw 🇪🇹"
+    },
+    {
+      "file": "assets/content/gear/photo/camera-36574299.jpg",
+      "name": "器材实拍（camera）",
+      "source": "https://www.pexels.com/photo/collection-of-vintage-and-modern-cameras-displayed-36574299/",
+      "license": "Pexels License",
+      "author": "Sóc Năng Động"
+    },
+    {
+      "file": "assets/content/gear/photo/camera-39442514.jpg",
+      "name": "器材实拍（camera）",
+      "source": "https://www.pexels.com/photo/close-up-of-two-professional-cameras-on-display-39442514/",
+      "license": "Pexels License",
+      "author": "Sinan KRIYA"
+    },
+    {
+      "file": "assets/content/gear/photo/lens-12058988.jpg",
+      "name": "器材实拍（lens）",
+      "source": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/",
+      "license": "Pexels License",
+      "author": "dlxmedia.hu"
+    },
+    {
+      "file": "assets/content/gear/photo/lens-7789081.jpg",
+      "name": "器材实拍（lens）",
+      "source": "https://www.pexels.com/photo/camera-lens-on-yellow-background-7789081/",
+      "license": "Pexels License",
+      "author": "Ivan Babydov"
+    },
+    {
+      "file": "assets/content/gear/photo/lens-32651080.jpg",
+      "name": "器材实拍（lens）",
+      "source": "https://www.pexels.com/photo/close-up-of-canon-dslr-camera-lens-on-table-32651080/",
+      "license": "Pexels License",
+      "author": "indra projects"
+    },
+    {
+      "file": "assets/content/gear/photo/lens-29835958.jpg",
+      "name": "器材实拍（lens）",
+      "source": "https://www.pexels.com/photo/close-up-of-digital-camera-lens-on-black-background-29835958/",
+      "license": "Pexels License",
+      "author": "- landsmann -"
+    },
+    {
+      "file": "assets/content/gear/photo/lens-9660969.jpg",
+      "name": "器材实拍（lens）",
+      "source": "https://www.pexels.com/photo/close-up-shot-of-black-camera-lens-9660969/",
+      "license": "Pexels License",
+      "author": "Nguyen Huy"
+    },
+    {
+      "file": "assets/content/gear/photo/lens-33961220.jpg",
+      "name": "器材实拍（lens）",
+      "source": "https://www.pexels.com/photo/close-up-of-camera-lens-held-in-hand-33961220/",
+      "license": "Pexels License",
+      "author": "木 灬"
+    },
+    {
+      "file": "assets/content/gear/photo/light-12616007.jpg",
+      "name": "器材实拍（light）",
+      "source": "https://www.pexels.com/photo/studio-lights-in-the-room-12616007/",
+      "license": "Pexels License",
+      "author": "Antonio Friedemann"
+    },
+    {
+      "file": "assets/content/gear/photo/light-7383646.jpg",
+      "name": "器材实拍（light）",
+      "source": "https://www.pexels.com/photo/black-and-white-photo-of-softboxes-7383646/",
+      "license": "Pexels License",
+      "author": "Hc Digital"
+    },
+    {
+      "file": "assets/content/gear/photo/light-7383644.jpg",
+      "name": "器材实拍（light）",
+      "source": "https://www.pexels.com/photo/black-and-white-photo-of-a-studio-7383644/",
+      "license": "Pexels License",
+      "author": "Hc Digital"
+    },
+    {
+      "file": "assets/content/gear/photo/light-39232446.jpg",
+      "name": "器材实拍（light）",
+      "source": "https://www.pexels.com/photo/photography-studio-setup-with-lighting-equipment-39232446/",
+      "license": "Pexels License",
+      "author": "Marcos Aurélio"
+    },
+    {
+      "file": "assets/content/gear/photo/light-2146712.jpg",
+      "name": "器材实拍（light）",
+      "source": "https://www.pexels.com/photo/grayscale-photography-of-standing-man-in-studio-2146712/",
+      "license": "Pexels License",
+      "author": "Luis Quintero"
+    },
+    {
+      "file": "assets/content/gear/photo/light-1932666.jpg",
+      "name": "器材实拍（light）",
+      "source": "https://www.pexels.com/photo/modeling-room-1932666/",
+      "license": "Pexels License",
+      "author": "Rene Terp"
+    },
+    {
+      "file": "assets/content/gear/photo/accessory-13699196.jpg",
+      "name": "器材实拍（accessory）",
+      "source": "https://www.pexels.com/photo/photographs-on-wooden-wall-13699196/",
+      "license": "Pexels License",
+      "author": "Amar  Preciado"
+    },
+    {
+      "file": "assets/content/gear/photo/accessory-20419524.jpg",
+      "name": "器材实拍（accessory）",
+      "source": "https://www.pexels.com/photo/photographer-with-equipment-in-studio-20419524/",
+      "license": "Pexels License",
+      "author": "Lisett Kruusimäe"
+    },
+    {
+      "file": "assets/content/gear/photo/accessory-2388569.jpg",
+      "name": "器材实拍（accessory）",
+      "source": "https://www.pexels.com/photo/studio-setting-2388569/",
+      "license": "Pexels License",
+      "author": "Brett Sayles"
+    },
+    {
+      "file": "assets/content/gear/photo/accessory-20382217.jpg",
+      "name": "器材实拍（accessory）",
+      "source": "https://www.pexels.com/photo/tripods-on-floor-in-room-20382217/",
+      "license": "Pexels License",
+      "author": "Trần Chính"
+    },
+    {
+      "file": "assets/content/gear/photo/accessory-30910180.jpg",
+      "name": "器材实拍（accessory）",
+      "source": "https://www.pexels.com/photo/professional-food-photography-studio-setup-30910180/",
+      "license": "Pexels License",
+      "author": "Frank Schrader"
+    },
+    {
+      "file": "assets/content/gear/photo/accessory-7383647.jpg",
+      "name": "器材实拍（accessory）",
+      "source": "https://www.pexels.com/photo/black-and-white-of-a-studio-7383647/",
+      "license": "Pexels License",
+      "author": "Hc Digital"
+    },
+    {
+      "file": "assets/content/gear/photo/flash-12666300.jpg",
+      "name": "器材实拍（flash）",
+      "source": "https://www.pexels.com/photo/display-of-flash-lamp-on-yellow-background-12666300/",
+      "license": "Pexels License",
+      "author": "Fortal Fototeca"
+    },
+    {
+      "file": "assets/content/gear/photo/flash-8365609.jpg",
+      "name": "器材实拍（flash）",
+      "source": "https://www.pexels.com/photo/woman-with-camera-8365609/",
+      "license": "Pexels License",
+      "author": "Chanwit Wanset"
+    },
+    {
+      "file": "assets/content/gear/photo/flash-19175191.jpg",
+      "name": "器材实拍（flash）",
+      "source": "https://www.pexels.com/photo/canon-camera-on-ground-19175191/",
+      "license": "Pexels License",
+      "author": "Mallem Amir"
+    },
+    {
+      "file": "assets/content/gear/photo/flash-12764942.jpg",
+      "name": "器材实拍（flash）",
+      "source": "https://www.pexels.com/photo/black-camera-in-close-up-shot-12764942/",
+      "license": "Pexels License",
+      "author": "Fortal Fototeca"
+    },
+    {
+      "file": "assets/content/gear/photo/flash-106011.jpg",
+      "name": "器材实拍（flash）",
+      "source": "https://www.pexels.com/photo/black-and-white-polaroid-camera-106011/",
+      "license": "Pexels License",
+      "author": "AS Photography"
+    },
+    {
+      "file": "assets/content/gear/photo/flash-5577960.jpg",
+      "name": "器材实拍（flash）",
+      "source": "https://www.pexels.com/photo/black-and-white-nikon-dslr-camera-5577960/",
+      "license": "Pexels License",
+      "author": "Neron Photos"
+    },
+    {
+      "file": "assets/content/gear/photo/model-1-29382680.jpg",
+      "name": "器材实拍（佳能 EOS R5）",
+      "source": "https://www.pexels.com/photo/photographer-at-racing-event-in-action-29382680/",
+      "license": "Pexels License",
+      "author": "Jonathan Borba"
+    },
+    {
+      "file": "assets/content/gear/photo/model-2-14830216.jpg",
+      "name": "器材实拍（索尼 A7 IV）",
+      "source": "https://www.pexels.com/photo/display-of-cameras-14830216/",
+      "license": "Pexels License",
+      "author": "Berat BAKI"
+    },
+    {
+      "file": "assets/content/gear/photo/model-3-33223227.jpg",
+      "name": "器材实拍（尼康 Z9）",
+      "source": "https://www.pexels.com/photo/photographer-capturing-nature-with-professional-camera-33223227/",
+      "license": "Pexels License",
+      "author": "Sóc Năng Động"
+    },
+    {
+      "file": "assets/content/gear/photo/model-4-32708363.jpg",
+      "name": "器材实拍（富士 X-T5）",
+      "source": "https://www.pexels.com/photo/elegant-black-and-white-fujifilm-camera-close-up-32708363/",
+      "license": "Pexels License",
+      "author": "Haberdoedas Photography"
+    },
+    {
+      "file": "assets/content/gear/photo/model-5-12629754.jpg",
+      "name": "器材实拍（佳能 RF 24-70mm F2.8L）",
+      "source": "https://www.pexels.com/photo/a-black-normal-lens-on-wooden-table-12629754/",
+      "license": "Pexels License",
+      "author": "Stuart Reece"
+    },
+    {
+      "file": "assets/content/gear/photo/model-6-30758145.jpg",
+      "name": "器材实拍（索尼 FE 24-70mm F2.8 GM）",
+      "source": "https://www.pexels.com/photo/professional-camera-and-lens-on-vibrant-orange-background-30758145/",
+      "license": "Pexels License",
+      "author": "Cemrecan Yurtman"
+    },
+    {
+      "file": "assets/content/gear/photo/model-7-35712017.jpg",
+      "name": "器材实拍（神牛 AD200Pro）",
+      "source": "https://www.pexels.com/photo/close-up-of-godox-ad300pro-studio-light-equipment-35712017/",
+      "license": "Pexels License",
+      "author": "Hồng Quang Official"
+    },
+    {
+      "file": "assets/content/gear/photo/model-8-5939706.jpg",
+      "name": "器材实拍（神牛 SL60W）",
+      "source": "https://www.pexels.com/photo/led-lamp-with-a-digital-display-5939706/",
+      "license": "Pexels License",
+      "author": "Icnatius Hautias"
+    },
+    {
+      "file": "assets/content/gear/photo/model-9-38250297.jpg",
+      "name": "器材实拍（爱图仕 120D II）",
+      "source": "https://www.pexels.com/photo/historic-entrance-of-auschwitz-ii-birkenau-38250297/",
+      "license": "Pexels License",
+      "author": "Travel Photographer"
+    },
+    {
+      "file": "assets/content/gear/photo/model-10-6648497.jpg",
+      "name": "器材实拍（爱图仕 300X）",
+      "source": "https://www.pexels.com/photo/people-in-the-studio-6648497/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/gear/photo/model-11-35292789.jpg",
+      "name": "器材实拍（南冠 Forza 60B）",
+      "source": "https://www.pexels.com/photo/man-with-bicycle-on-urban-street-crosswalk-35292789/",
+      "license": "Pexels License",
+      "author": "Alexander Tisko"
+    },
+    {
+      "file": "assets/content/gear/photo/model-12-15062358.jpg",
+      "name": "器材实拍（曼富图 MT055）",
+      "source": "https://www.pexels.com/photo/cameras-set-on-tripods-on-a-seashore-15062358/",
+      "license": "Pexels License",
+      "author": "정규송 Nui MALAMA"
+    },
+    {
+      "file": "assets/content/gear/photo/model-13-20419525.jpg",
+      "name": "器材实拍（神牛 S2 圆形柔光箱）",
+      "source": "https://www.pexels.com/photo/woman-in-pink-shirt-with-camera-in-hands-standing-in-studio-20419525/",
+      "license": "Pexels License",
+      "author": "Lisett Kruusimäe"
+    },
+    {
+      "file": "assets/content/gear/photo/model-14-8544693.jpg",
+      "name": "器材实拍（索尼 A7S III）",
+      "source": "https://www.pexels.com/photo/close-up-photo-of-a-sony-7-iii-with-lens-8544693/",
+      "license": "Pexels License",
+      "author": "Rodrigo Santos"
+    },
+    {
+      "file": "assets/content/gear/photo/model-15-7789218.jpg",
+      "name": "器材实拍（佳能 EOS R6 Mark II）",
+      "source": "https://www.pexels.com/photo/canon-eos-rp-7789218/",
+      "license": "Pexels License",
+      "author": "Ivan Babydov"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-32819856.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/black-and-white-portrait-of-a-business-suit-32819856/",
+      "license": "Pexels License",
+      "author": "Marcelo Renda"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-6065984.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/mannequins-wearing-suits-6065984/",
+      "license": "Pexels License",
+      "author": "Luis Becerra  Fotógrafo"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-4965011.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/close-up-shot-of-a-person-wearing-black-suit-4965011/",
+      "license": "Pexels License",
+      "author": "Ketut Subiyanto"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-6918507.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/men-in-black-and-blue-suit-jacket-doing-handshake-6918507/",
+      "license": "Pexels License",
+      "author": "George Morina"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-8937617.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/person-in-blue-corporate-attire-standing-and-using-a-laptop-8937617/",
+      "license": "Pexels License",
+      "author": "Mikhail Nilov"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-35881990.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/elegant-man-in-suit-in-outdoor-garden-setting-35881990/",
+      "license": "Pexels License",
+      "author": "xomidov  Photo"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-325876.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/close-up-of-row-325876/",
+      "license": "Pexels License",
+      "author": "Pixabay"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-36292200.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/young-professional-in-business-suit-outdoors-36292200/",
+      "license": "Pexels License",
+      "author": "Mufid Hanif"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-5916467.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/men-in-suits-5916467/",
+      "license": "Pexels License",
+      "author": "Keith Abonyo"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-374618.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/man-wearing-blue-formal-suit-374618/",
+      "license": "Pexels License",
+      "author": "Burst"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-4963383.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/a-man-in-black-suit-jacket-standing-on-the-road-4963383/",
+      "license": "Pexels License",
+      "author": "Ketut Subiyanto"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-1/cloth-1-4963385.jpg",
+      "name": "服装参考（正装）",
+      "source": "https://www.pexels.com/photo/a-man-in-black-suit-jacket-standing-on-the-street-4963385/",
+      "license": "Pexels License",
+      "author": "Ketut Subiyanto"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-36976906.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/chic-urban-fashion-portrait-in-autumn-setting-36976906/",
+      "license": "Pexels License",
+      "author": "Josue Velasquez"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-7324664.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/woman-in-a-white-shirt-standing-near-a-glass-door-7324664/",
+      "license": "Pexels License",
+      "author": "Huy Hoàng Tran"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-31255891.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/fashionable-women-posing-on-outdoor-staircase-31255891/",
+      "license": "Pexels License",
+      "author": "Steven Knigth07"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-35114780.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/two-women-in-stylish-winter-fashion-outdoors-35114780/",
+      "license": "Pexels License",
+      "author": "Thang Nguyen"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-3062589.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/photo-of-man-and-woman-walking-on-sidewalk-3062589/",
+      "license": "Pexels License",
+      "author": "Lê Minh"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-3598015.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/woman-in-blue-and-red-jacket-sitting-on-gray-concrete-stairs-3598015/",
+      "license": "Pexels License",
+      "author": "Miftah Rafli Hidayat"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-9476352.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/friends-walking-on-the-street-9476352/",
+      "license": "Pexels License",
+      "author": "Mikhail Nilov"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-25565937.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/beautiful-woman-sitting-on-curb-25565937/",
+      "license": "Pexels License",
+      "author": "Malcoln Oliveira"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-9476323.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/two-women-wearing-sunglasses-while-walking-9476323/",
+      "license": "Pexels License",
+      "author": "Mikhail Nilov"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-1161745.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/woman-wearing-black-red-and-green-tracksuit-1161745/",
+      "license": "Pexels License",
+      "author": "Godisable Jacob"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-9476324.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/women-walking-on-the-street-9476324/",
+      "license": "Pexels License",
+      "author": "Mikhail Nilov"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-2/cloth-2-4872117.jpg",
+      "name": "服装参考（休闲）",
+      "source": "https://www.pexels.com/photo/woman-standing-on-stairs-in-city-4872117/",
+      "license": "Pexels License",
+      "author": "Gustavo Fring"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-30364262.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/women-in-traditional-hanfu-walking-outdoors-30364262/",
+      "license": "Pexels License",
+      "author": "Jeffry Surianto"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-34456287.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/traditional-asian-attire-portrait-in-serene-setting-34456287/",
+      "license": "Pexels License",
+      "author": "Maylight st"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-35347718.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/elegant-woman-in-traditional-hanfu-attire-35347718/",
+      "license": "Pexels License",
+      "author": "Sandi Yudha"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-34812308.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/elegant-woman-with-parasol-by-a-tranquil-pond-34812308/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-8100120.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/woman-wearing-traditional-clothes-sitting-on-grass-8100120/",
+      "license": "Pexels License",
+      "author": "Thắng Văn"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-34655740.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/young-woman-in-hanfu-with-falling-snow-34655740/",
+      "license": "Pexels License",
+      "author": "Felix Young"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-35171759.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/traditional-hanfu-costume-in-nanjing-china-35171759/",
+      "license": "Pexels License",
+      "author": "Abderrahmane Habibi"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-17576154.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/young-woman-in-a-traditional-chinese-hanfu-posing-outside-17576154/",
+      "license": "Pexels License",
+      "author": "Nguyễn Thanh"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-34757910.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/traditional-hanfu-attire-on-stone-steps-34757910/",
+      "license": "Pexels License",
+      "author": "Frank Lv"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-8369849.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/woman-holding-a-fan-8369849/",
+      "license": "Pexels License",
+      "author": "Nguyễn Thanh Tùng"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-11168187.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/a-woman-wearing-red-dress-11168187/",
+      "license": "Pexels License",
+      "author": "Klub Boks"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-3/cloth-3-8152156.jpg",
+      "name": "服装参考（汉服）",
+      "source": "https://www.pexels.com/photo/a-woman-using-hand-fan-8152156/",
+      "license": "Pexels License",
+      "author": "RDNE Stock project"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-37567369.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/two-cosplayers-in-school-uniforms-outdoors-37567369/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-37579794.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/group-of-cosplayers-posing-outdoors-in-costumes-37579794/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-37567372.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/playful-cosplay-photo-with-two-women-in-costume-37567372/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-38777571.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/teen-in-school-uniform-by-soccer-field-during-day-38777571/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-36211047.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/two-young-women-in-japanese-garden-setting-36211047/",
+      "license": "Pexels License",
+      "author": "Rizky Sabriansyah"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-37544632.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/cosplayer-in-garden-setting-vi-t-nam-37544632/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-27251721.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/a-woman-in-a-sailor-outfit-is-posing-for-a-photo-27251721/",
+      "license": "Pexels License",
+      "author": "50k. jpe"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-32175665.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/portrait-of-woman-in-sailor-outfit-with-red-background-32175665/",
+      "license": "Pexels License",
+      "author": "Kenneth Surillo"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-1464173.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/selective-focus-photography-of-woman-holding-smartphone-1464173/",
+      "license": "Pexels License",
+      "author": "meijii"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-37320583.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/cosplayer-in-pink-school-uniform-in-vietnamese-garden-37320583/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-37532417.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/vibrant-cosplay-group-in-outdoor-setting-37532417/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-4/cloth-4-16025019.jpg",
+      "name": "服装参考（JK）",
+      "source": "https://www.pexels.com/photo/girl-standing-in-a-park-16025019/",
+      "license": "Pexels License",
+      "author": "竟傲 汤"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-38805364.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/elegant-lolita-fashion-in-a-vibrant-field-38805364/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-34615667.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/cosplayer-in-gothic-lolita-fashion-at-mall-34615667/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-33938994.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/elegant-cosplay-in-a-lush-flower-garden-33938994/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-30041159.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/young-woman-in-lolita-dress-in-orchard-setting-30041159/",
+      "license": "Pexels License",
+      "author": "ΘSWΛLD"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-38803107.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/cosplay-character-in-gothic-lolita-attire-outdoors-38803107/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-33938999.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/cosplay-in-enchanted-garden-with-umbrella-33938999/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-32576139.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/portrait-of-cosplayer-in-elegant-gothic-lolita-dress-32576139/",
+      "license": "Pexels License",
+      "author": "HAMZA YILDIZ"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-34615679.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/gothic-lolita-fashion-with-blue-veil-34615679/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-33938991.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/cosplay-in-floral-garden-with-parasol-33938991/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-31799159.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/elegant-woman-in-vintage-white-dress-on-ornate-sofa-31799159/",
+      "license": "Pexels License",
+      "author": "Israyosoy S."
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-31799158.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/vintage-style-portrait-with-parasol-on-ornate-sofa-31799158/",
+      "license": "Pexels License",
+      "author": "Israyosoy S."
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-5/cloth-5-38803110.jpg",
+      "name": "服装参考（Lolita）",
+      "source": "https://www.pexels.com/photo/enchanting-lolita-fashion-with-lace-fan-outdoors-38803110/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-34578415.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/cosplay-duo-in-police-costumes-on-city-street-34578415/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-31334967.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/vibrant-cosplay-by-a-scenic-lakeside-31334967/",
+      "license": "Pexels License",
+      "author": "Hoàng Tiến Anh"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-38814467.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/vibrant-anime-cosplay-with-dramatic-poses-38814467/",
+      "license": "Pexels License",
+      "author": "Quyet Nguyen"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-13417813.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/women-posing-at-the-camera-13417813/",
+      "license": "Pexels License",
+      "author": "Quyn Phạm"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-38363046.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/cosplay-enthusiast-in-blue-dress-on-beach-38363046/",
+      "license": "Pexels License",
+      "author": "Kerim Isazade"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-38621719.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/colorful-cosplay-at-anime-convention-38621719/",
+      "license": "Pexels License",
+      "author": "Quyet Nguyen"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-32199916.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/enthusiastic-cosplayer-in-demon-themed-costume-32199916/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-34479608.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/elegant-cosplay-of-fantasy-elf-character-indoors-34479608/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-38691374.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/cosplayer-posing-with-katana-at-anime-convention-38691374/",
+      "license": "Pexels License",
+      "author": "Quyet Nguyen"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-33875273.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/cosplay-character-in-park-with-sword-33875273/",
+      "license": "Pexels License",
+      "author": "Đan Thy Nguyễn Mai"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-38621723.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/colorful-anime-cosplay-at-outdoor-event-38621723/",
+      "license": "Pexels License",
+      "author": "Quyet Nguyen"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-6/cloth-6-34269842.jpg",
+      "name": "服装参考（Cos）",
+      "source": "https://www.pexels.com/photo/enchanting-outdoor-cosplay-with-magical-props-34269842/",
+      "license": "Pexels License",
+      "author": "TBD Tuyên"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-9899424.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/a-woman-wearing-white-wedding-dress-9899424/",
+      "license": "Pexels License",
+      "author": "Jose Ricardo Barraza Morachis"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-9388518.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/woman-fitting-her-lace-dress-9388518/",
+      "license": "Pexels License",
+      "author": "Stephen Andrews"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-14297213.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/woman-looking-at-a-wedding-dress-14297213/",
+      "license": "Pexels License",
+      "author": "Mizrael Noel Galagar Deguito"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-8328301.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/grayscale-photo-of-woman-in-wedding-dress-sitting-in-a-car-8328301/",
+      "license": "Pexels License",
+      "author": "Bryce Carithers"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-18195782.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/bride-and-groom-posing-and-smiling-18195782/",
+      "license": "Pexels License",
+      "author": "Alican Helik"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-19220072.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/groom-helping-bride-with-makeup-19220072/",
+      "license": "Pexels License",
+      "author": "serkan atay"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-13036830.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/a-woman-looking-a-white-dress-13036830/",
+      "license": "Pexels License",
+      "author": "Rene Terp"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-33661438.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/bride-preparing-for-wedding-day-in-hotel-room-33661438/",
+      "license": "Pexels License",
+      "author": "The Visionary Vows"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-5860429.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/white-long-sleeve-lace-and-embroidered-wedding-gown-on-bed-5860429/",
+      "license": "Pexels License",
+      "author": "Gustavo Santana"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-37972930.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/elegant-outdoor-wedding-portrait-of-a-couple-37972930/",
+      "license": "Pexels License",
+      "author": "jose jimenez"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-5791584.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/a-person-in-white-lace-dress-wearing-silver-ring-5791584/",
+      "license": "Pexels License",
+      "author": "Luis Becerra  Fotógrafo"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-7/cloth-7-30295996.jpg",
+      "name": "服装参考（婚纱）",
+      "source": "https://www.pexels.com/photo/elegant-bridal-portrait-in-black-and-white-30295996/",
+      "license": "Pexels License",
+      "author": "Chidi Young"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-14036023.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/a-couple-in-traditional-clothing-14036023/",
+      "license": "Pexels License",
+      "author": "Quang Nguyen Vinh"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-9466912.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/a-mother-and-daughter-drinking-tea-together-9466912/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-21728340.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/group-of-people-wearing-traditional-costumes-21728340/",
+      "license": "Pexels License",
+      "author": "Phạm Quang Linh"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-9466560.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/mother-and-daughter-sitting-on-the-floor-9466560/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-34439495.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/zhuang-minority-women-in-traditional-costume-34439495/",
+      "license": "Pexels License",
+      "author": "Jaqor Q.I."
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-14036057.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/man-and-woman-in-traditional-clothes-14036057/",
+      "license": "Pexels License",
+      "author": "Quang Nguyen Vinh"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-9466557.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/people-wearing-traditional-clothes-9466557/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-12368070.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/women-wearing-traditional-clothes-12368070/",
+      "license": "Pexels License",
+      "author": "jacquemay dominique"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-9476853.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/kids-in-their-traditional-dress-standing-near-white-curtain-9476853/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-38774838.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/traditional-mongolian-attire-and-horses-in-pasture-38774838/",
+      "license": "Pexels License",
+      "author": "女子 正真"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-11040079.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/young-aboriginal-women-in-traditional-clothing-11040079/",
+      "license": "Pexels License",
+      "author": "Nokuthokoza  Dlamini"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-8/cloth-8-13667310.jpg",
+      "name": "服装参考（民族）",
+      "source": "https://www.pexels.com/photo/young-woman-posing-in-traditional-mexican-clothes-sitting-on-a-white-sand-13667310/",
+      "license": "Pexels License",
+      "author": "Quý Nguyễn"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-5961847.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/men-running-on-track-field-5961847/",
+      "license": "Pexels License",
+      "author": "RUN 4 FFWPU"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-12698214.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/athlete-in-uniform-running-on-stadium-12698214/",
+      "license": "Pexels License",
+      "author": "RUN 4 FFWPU"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-33637333.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/dynamic-pole-vault-athlete-mid-air-leap-33637333/",
+      "license": "Pexels License",
+      "author": "Oliver Wagenblatt"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-31480229.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/athletes-stretching-on-track-in-myanmar-31480229/",
+      "license": "Pexels License",
+      "author": "Nay Nyo"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-16268169.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/legs-of-person-sitting-on-athletics-track-16268169/",
+      "license": "Pexels License",
+      "author": "Matic Zupan"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-32131449.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/athlete-resting-on-track-in-pink-leggings-32131449/",
+      "license": "Pexels License",
+      "author": "LekePOV"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-3796804.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/photo-of-man-and-woman-running-3796804/",
+      "license": "Pexels License",
+      "author": "Andrea Piacquadio"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-1446561.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/woman-wearing-black-crop-top-jumping-beside-the-building-1446561/",
+      "license": "Pexels License",
+      "author": "The Lazy Artist Gallery"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-38041886.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/two-female-volleyball-players-resting-in-front-of-net-38041886/",
+      "license": "Pexels License",
+      "author": "Fer Strange"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-32005994.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/athletic-woman-relaxing-on-running-track-32005994/",
+      "license": "Pexels License",
+      "author": "LekePOV"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-4853112.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/a-couple-jogging-together-4853112/",
+      "license": "Pexels License",
+      "author": "Ketut Subiyanto"
+    },
+    {
+      "file": "assets/content/clothing/photo/cloth-9/cloth-9-3763877.jpg",
+      "name": "服装参考（运动）",
+      "source": "https://www.pexels.com/photo/athlete-man-in-red-tank-top-sitting-on-floor-3763877/",
+      "license": "Pexels License",
+      "author": "Andrea Piacquadio"
+    },
+    {
+      "name": "Quaternius · 男·休闲",
+      "file": "assets/models/characters/qs_men_Casual.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Casual.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 男·冒险家",
+      "file": "assets/models/characters/qs_men_Adventurer.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Adventurer.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 男·西装",
+      "file": "assets/models/characters/qs_men_Suit.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Suit.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 女·休闲",
+      "file": "assets/models/characters/qs_women_Casual.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Casual.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularwomen.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 女·正装",
+      "file": "assets/models/characters/qs_women_Formal.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Formal.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularwomen.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 女·士兵",
+      "file": "assets/models/characters/qs_women_Soldier.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Soldier.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularwomen.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 男·海滩",
+      "file": "assets/models/characters/qs_men_Beach.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Beach.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 男·连帽休闲",
+      "file": "assets/models/characters/qs_men_Casual2.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Casual2.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 男·农夫",
+      "file": "assets/models/characters/qs_men_Farmer.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Farmer.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 男·国王",
+      "file": "assets/models/characters/qs_men_King.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/King.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 男·朋克",
+      "file": "assets/models/characters/qs_men_Punk.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Punk.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 男·宇航服",
+      "file": "assets/models/characters/qs_men_Spacesuit.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Spacesuit.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 男·工装",
+      "file": "assets/models/characters/qs_men_Worker.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Worker.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 女·冒险家",
+      "file": "assets/models/characters/qs_women_Adventurer.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Adventurer.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularwomen.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 女·中世纪",
+      "file": "assets/models/characters/qs_women_Medieval.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Medieval.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularwomen.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 女·朋克",
+      "file": "assets/models/characters/qs_women_Punk.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Punk.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularwomen.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 女·科幻",
+      "file": "assets/models/characters/qs_women_SciFi.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/SciFi.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularwomen.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 女·西装",
+      "file": "assets/models/characters/qs_women_Suit.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Suit.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularwomen.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 女·女巫",
+      "file": "assets/models/characters/qs_women_Witch.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Witch.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularwomen.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "Quaternius · 女·工装",
+      "file": "assets/models/characters/qs_women_Worker.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Worker.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularwomen.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "name": "程序化发型 · 短发",
+      "file": "assets/models/characters/hair/hair-short.glb",
+      "license": "Generated (CC0-equivalent, ShootStudio)",
+      "author": "ShootStudio",
+      "source": "app/tool/engine_build/gen_hair_glb.mjs",
+      "note": "程序生成，无第三方版权"
+    },
+    {
+      "name": "程序化发型 · 寸头",
+      "file": "assets/models/characters/hair/hair-buzz.glb",
+      "license": "Generated (CC0-equivalent, ShootStudio)",
+      "author": "ShootStudio",
+      "source": "app/tool/engine_build/gen_hair_glb.mjs",
+      "note": "程序生成，无第三方版权"
+    },
+    {
+      "name": "程序化发型 · 波波头",
+      "file": "assets/models/characters/hair/hair-bob.glb",
+      "license": "Generated (CC0-equivalent, ShootStudio)",
+      "author": "ShootStudio",
+      "source": "app/tool/engine_build/gen_hair_glb.mjs",
+      "note": "程序生成，无第三方版权"
+    },
+    {
+      "name": "程序化发型 · 长发",
+      "file": "assets/models/characters/hair/hair-long.glb",
+      "license": "Generated (CC0-equivalent, ShootStudio)",
+      "author": "ShootStudio",
+      "source": "app/tool/engine_build/gen_hair_glb.mjs",
+      "note": "程序生成，无第三方版权"
+    },
+    {
+      "name": "程序化发型 · 马尾",
+      "file": "assets/models/characters/hair/hair-pony.glb",
+      "license": "Generated (CC0-equivalent, ShootStudio)",
+      "author": "ShootStudio",
+      "source": "app/tool/engine_build/gen_hair_glb.mjs",
+      "note": "程序生成，无第三方版权"
+    },
+    {
+      "name": "程序化发型 · 刺猬头",
+      "file": "assets/models/characters/hair/hair-spiky.glb",
+      "license": "Generated (CC0-equivalent, ShootStudio)",
+      "author": "ShootStudio",
+      "source": "app/tool/engine_build/gen_hair_glb.mjs",
+      "note": "程序生成，无第三方版权"
+    },
+    {
+      "name": "程序化发型 · 丸子头",
+      "file": "assets/models/characters/hair/hair-bun.glb",
+      "license": "Generated (CC0-equivalent, ShootStudio)",
+      "author": "ShootStudio",
+      "source": "app/tool/engine_build/gen_hair_glb.mjs",
+      "note": "程序生成，无第三方版权"
+    },
+    {
+      "name": "程序化发型 · 侧分",
+      "file": "assets/models/characters/hair/hair-side.glb",
+      "license": "Generated (CC0-equivalent, ShootStudio)",
+      "author": "ShootStudio",
+      "source": "app/tool/engine_build/gen_hair_glb.mjs",
+      "note": "程序生成，无第三方版权"
+    },
+    {
+      "name": "Quaternius · 男·特警",
+      "file": "assets/models/characters/qs_men_Swat.glb",
+      "license": "CC0-1.0",
+      "author": "Quaternius",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Swat.glb",
+      "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
+    },
+    {
+      "file": "assets/content/poses3/photos/p001.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/elegant-woman-in-blue-dress-posing-in-studio-31046827/",
+      "license": "Pexels License",
+      "author": "Andrea Musto"
+    },
+    {
+      "file": "assets/content/poses3/photos/p002.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/stylish-black-and-white-fashion-portrait-30416679/",
+      "license": "Pexels License",
+      "author": "Jimmy Elizarraras"
+    },
+    {
+      "file": "assets/content/poses3/photos/p003.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/stylish-woman-posing-in-floral-dress-studio-portrait-32325987/",
+      "license": "Pexels License",
+      "author": "Andrea Musto"
+    },
+    {
+      "file": "assets/models/characters/realistic/cesiumman.glb",
+      "name": "Cesium Man（写实模式等价替代，D61）",
+      "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CesiumMan",
+      "license": "CC BY 4.0",
+      "author": "Cesium"
+    },
+    {
+      "file": "assets/models/characters/realistic/mh-men-01.glb",
+      "name": "写实男性 01（MakeHuman 官方 base mesh + system assets，D61 最高标准路线）",
+      "source": "https://static.makehumancommunity.org/ + https://files2.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip",
+      "license": "CC0-1.0",
+      "author": "MakeHuman Community (base mesh / targets / rig) + makehuman_system_assets 资产包作者合集，经 MPFB2 (Blender 4.5) 无头导出",
+      "pipeline": {
+        "generator": "app/tool/gen_realistic_character.py",
+        "blender": "Blender 4.5.12 LTS portable (download.blender.org/release/Blender4.5/blender-4.5.13-windows-x64.zip)",
+        "addon": "MPFB2 bl_ext.user_default.mpfb",
+        "skin": "young_caucasian_male.mhmat",
+        "outfit": "male_casualsuit02 + shoes04",
+        "hair": "short01",
+        "rig": "game_engine (53 joints)",
+        "triangles": 84550
+      }
+    }
+  ]
+}

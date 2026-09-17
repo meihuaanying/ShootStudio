@@ -1,0 +1,11 @@
+Running build hooks...Running build hooks...[router] mode=DoH 隧道（127.0.0.1:13658） tunnel=true port=13658
+[doh] api.themoviedb.org → [13.224.245.44, 13.224.245.92, 13.224.245.47, 13.224.245.63]
+[pexels] ok=true 681ms HTTP 200
+[tmdb-api] ok=true 3503ms HTTP 200
+[tmdb-cdn] ok=true 1247ms HTTP 404
+[openverse] ok=false 10019ms 连接超时（服务不可达或被阻断）（实验性，允许失败）
+[log]
+  14:32:58 DoH 隧道已启动 127.0.0.1:13658
+  14:32:58 HttpOverrides 已安装（代理/隧道全局生效）
+  14:32:59 隧道转发 api.themoviedb.org:443 → 13.224.245.44
+  14:33:03 隧道转发 image.tmdb.org:443 → 143.244.50.210

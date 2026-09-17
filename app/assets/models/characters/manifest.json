@@ -1,0 +1,935 @@
+{
+  "version": 2,
+  "note": "Quaternius（CC0）整人预设：每个人物自带服装；发型为程序生成件，可挂载到头部骨骼。",
+  "characters": [
+    {
+      "id": "qs-men-adventurer",
+      "name": "男 · 冒险者",
+      "gender": "male",
+      "tag": "风格",
+      "file": "qs_men_Adventurer.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Adventurer.glb",
+      "sizeKb": 1242,
+      "triCount": 40792,
+      "baseTriCount": 10198,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Adventurer.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-men-beach",
+      "name": "男 · 沙滩",
+      "gender": "male",
+      "tag": "休闲",
+      "file": "qs_men_Beach.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Beach.glb",
+      "sizeKb": 814,
+      "triCount": 45880,
+      "baseTriCount": 6574,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Beach.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-men-casual",
+      "name": "男 · 休闲",
+      "gender": "male",
+      "tag": "休闲",
+      "file": "qs_men_Casual.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Casual.glb",
+      "sizeKb": 766,
+      "default": true,
+      "triCount": 40208,
+      "baseTriCount": 6206,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": true
+    },
+    {
+      "id": "qs-men-casual2",
+      "name": "男 · 休闲 B",
+      "gender": "male",
+      "tag": "休闲",
+      "file": "qs_men_Casual2.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Casual2.glb",
+      "sizeKb": 741,
+      "triCount": 40144,
+      "baseTriCount": 5776,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          2,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Casual2.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-men-farmer",
+      "name": "男 · 农夫",
+      "gender": "male",
+      "tag": "风格",
+      "file": "qs_men_Farmer.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Farmer.glb",
+      "sizeKb": 682,
+      "triCount": 40024,
+      "baseTriCount": 5476,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          2,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Farmer.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-men-king",
+      "name": "男 · 国王",
+      "gender": "male",
+      "tag": "风格",
+      "file": "qs_men_King.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/King.glb",
+      "sizeKb": 1303,
+      "triCount": 44400,
+      "baseTriCount": 11100,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/King.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-men-punk",
+      "name": "男 · 朋克",
+      "gender": "male",
+      "tag": "风格",
+      "file": "qs_men_Punk.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Punk.glb",
+      "sizeKb": 686,
+      "triCount": 48784,
+      "baseTriCount": 5500,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Punk.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-men-spacesuit",
+      "name": "男 · 太空服",
+      "gender": "male",
+      "tag": "风格",
+      "file": "qs_men_Spacesuit.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Spacesuit.glb",
+      "sizeKb": 1244,
+      "triCount": 42232,
+      "baseTriCount": 10558,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Spacesuit.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-men-suit",
+      "name": "男 · 西装",
+      "gender": "male",
+      "tag": "职业",
+      "file": "qs_men_Suit.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Suit.glb",
+      "sizeKb": 837,
+      "triCount": 40000,
+      "baseTriCount": 6634,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1,
+          2,
+          2,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": true
+    },
+    {
+      "id": "qs-men-swat",
+      "name": "男 · 特警",
+      "gender": "male",
+      "tag": "风格",
+      "file": "qs_men_Swat.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Swat.glb",
+      "sizeKb": 868,
+      "triCount": 41284,
+      "baseTriCount": 7753,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          2,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Swat.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-men-worker",
+      "name": "男 · 工装",
+      "gender": "male",
+      "tag": "职业",
+      "file": "qs_men_Worker.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Worker.glb",
+      "sizeKb": 657,
+      "triCount": 45728,
+      "baseTriCount": 5240,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_men/Worker.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-women-adventurer",
+      "name": "女 · 冒险者",
+      "gender": "female",
+      "tag": "风格",
+      "file": "qs_women_Adventurer.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Adventurer.glb",
+      "sizeKb": 873,
+      "triCount": 40240,
+      "baseTriCount": 6796,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Adventurer.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-women-casual",
+      "name": "女 · 休闲",
+      "gender": "female",
+      "tag": "休闲",
+      "file": "qs_women_Casual.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Casual.glb",
+      "sizeKb": 786,
+      "triCount": 40056,
+      "baseTriCount": 6396,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          2
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": true
+    },
+    {
+      "id": "qs-women-formal",
+      "name": "女 · 礼服",
+      "gender": "female",
+      "tag": "职业",
+      "file": "qs_women_Formal.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Formal.glb",
+      "sizeKb": 753,
+      "triCount": 49576,
+      "baseTriCount": 6130,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Formal.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-women-medieval",
+      "name": "女 · 中世纪",
+      "gender": "female",
+      "tag": "风格",
+      "file": "qs_women_Medieval.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Medieval.glb",
+      "sizeKb": 792,
+      "triCount": 40640,
+      "baseTriCount": 6404,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Medieval.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-women-punk",
+      "name": "女 · 朋克",
+      "gender": "female",
+      "tag": "风格",
+      "file": "qs_women_Punk.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Punk.glb",
+      "sizeKb": 735,
+      "triCount": 41032,
+      "baseTriCount": 5956,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Punk.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-women-scifi",
+      "name": "女 · 科幻",
+      "gender": "female",
+      "tag": "风格",
+      "file": "qs_women_SciFi.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/SciFi.glb",
+      "sizeKb": 863,
+      "triCount": 41428,
+      "baseTriCount": 6997,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/SciFi.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-women-soldier",
+      "name": "女 · 军装",
+      "gender": "female",
+      "tag": "风格",
+      "file": "qs_women_Soldier.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Soldier.glb",
+      "sizeKb": 957,
+      "triCount": 41632,
+      "baseTriCount": 7900,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Soldier.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-women-suit",
+      "name": "女 · 西装",
+      "gender": "female",
+      "tag": "职业",
+      "file": "qs_women_Suit.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Suit.glb",
+      "sizeKb": 796,
+      "triCount": 40112,
+      "baseTriCount": 6494,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Suit.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-women-witch",
+      "name": "女 · 女巫",
+      "gender": "female",
+      "tag": "风格",
+      "file": "qs_women_Witch.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Witch.glb",
+      "sizeKb": 850,
+      "triCount": 40224,
+      "baseTriCount": 6900,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          2,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Witch.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "qs-women-worker",
+      "name": "女 · 工装",
+      "gender": "female",
+      "tag": "职业",
+      "file": "qs_women_Worker.glb",
+      "license": "CC0-1.0",
+      "source": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Worker.glb",
+      "sizeKb": 754,
+      "triCount": 42456,
+      "baseTriCount": 6084,
+      "subdivision": {
+        "mode": "runtime-loop",
+        "level": 1,
+        "meshIterations": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1
+        ],
+        "target": [
+          40000,
+          60000
+        ]
+      },
+      "bundled": false,
+      "downloadUrl": "https://raw.githubusercontent.com/trebeljahr/quaternius-showcase/main/public/glb/modular_women/Worker.glb",
+      "needsDownload": false
+    },
+    {
+      "id": "realistic-man-01",
+      "name": "写实男性 01（MakeHuman/MPFB2）",
+      "gender": "male",
+      "tag": "写实",
+      "file": "realistic/mh-men-01.glb",
+      "realistic": true,
+      "license": "CC0-1.0",
+      "source": "MakeHuman Community base mesh + makehuman_system_assets (CC0) via MPFB2 headless in Blender 4.5",
+      "sizeKb": 5280,
+      "triCount": 84550,
+      "baseTriCount": 37102,
+      "subdivision": {
+        "mode": "authored",
+        "level": 0,
+        "note": "写实模式：基础网格即 ≥60k 面（构建期身体 1 级细分），运行时不叠加 Loop 细分",
+        "target": [
+          60000,
+          120000
+        ]
+      },
+      "bundled": true,
+      "downloadUrl": null,
+      "needsDownload": false
+    }
+  ],
+  "outfits": [],
+  "hair": [
+    {
+      "id": "hair-short",
+      "name": "短发",
+      "file": "hair/hair-short.glb",
+      "color": "#1f1a16",
+      "generated": true,
+      "parts": 3
+    },
+    {
+      "id": "hair-buzz",
+      "name": "寸头",
+      "file": "hair/hair-buzz.glb",
+      "color": "#2c211a",
+      "generated": true,
+      "parts": 1
+    },
+    {
+      "id": "hair-bob",
+      "name": "波波头",
+      "file": "hair/hair-bob.glb",
+      "color": "#33241a",
+      "generated": true,
+      "parts": 4
+    },
+    {
+      "id": "hair-long",
+      "name": "长发",
+      "file": "hair/hair-long.glb",
+      "color": "#201713",
+      "generated": true,
+      "parts": 4
+    },
+    {
+      "id": "hair-pony",
+      "name": "马尾",
+      "file": "hair/hair-pony.glb",
+      "color": "#3d2a1b",
+      "generated": true,
+      "parts": 3
+    },
+    {
+      "id": "hair-spiky",
+      "name": "刺猬头",
+      "file": "hair/hair-spiky.glb",
+      "color": "#171412",
+      "generated": true,
+      "parts": 5
+    },
+    {
+      "id": "hair-bun",
+      "name": "丸子头",
+      "file": "hair/hair-bun.glb",
+      "color": "#241a14",
+      "generated": true,
+      "parts": 2
+    },
+    {
+      "id": "hair-side",
+      "name": "侧分",
+      "file": "hair/hair-side.glb",
+      "color": "#4a3524",
+      "generated": true,
+      "parts": 3
+    }
+  ],
+  "missing": [],
+  "realisticAvailable": true,
+  "realistic": {
+    "note": "D61 写实模式：最高标准路线已走通——MakeHuman Community 官方 base mesh + makehuman_system_assets（CC0）经 MPFB2 无头导出 mh-men-01.glb（84,550 三角面，53 骨 game_engine 骨架）；cesiumman.glb 保留为等价兜底资产。",
+    "pipeline": {
+      "generator": "tool/gen_realistic_character.py",
+      "blender": "Blender 4.5.12 LTS (download.blender.org/release/Blender4.5/blender-4.5.13-windows-x64.zip, HTTP 200)",
+      "addon": "MPFB2 bl_ext.user_default.mpfb",
+      "assets": "makehuman_system_assets_cc0.zip (files2.makehumancommunity.org, HTTP 200, CC0)",
+      "skin": "young_caucasian_male.mhmat",
+      "outfit": "male_casualsuit02 + shoes04",
+      "hair": "short01",
+      "eyes": "high-poly.mhclo",
+      "rig": "game_engine (53 joints)",
+      "report": "docs/screenshots/realistic-build-report.json"
+    },
+    "items": [
+      {
+        "id": "realistic-man-01",
+        "name": "写实男性 01（MakeHuman/MPFB2）",
+        "file": "realistic/mh-men-01.glb",
+        "realistic": true,
+        "gender": "male",
+        "license": "CC0-1.0",
+        "source": "MakeHuman Community base mesh + makehuman_system_assets (CC0) via MPFB2 headless",
+        "baseTriCount": 37102,
+        "triCount": 84550,
+        "subdivision": {
+          "mode": "authored",
+          "level": 0
+        }
+      },
+      {
+        "id": "realistic-man-cesium",
+        "name": "写实男性（CC-BY 4.0 等价兜底）",
+        "file": "realistic/cesiumman.glb",
+        "realistic": true,
+        "gender": "male",
+        "license": "CC-BY-4.0",
+        "source": "https://github.com/KhronosGroup/glTF-Sample-Models (Cesium Man)",
+        "baseTriCount": 4672,
+        "triCount": 74752,
+        "subdivision": {
+          "mode": "runtime-loop",
+          "level": 1
+        }
+      }
+    ]
+  },
+  "subdivision": {
+    "mode": "runtime-loop",
+    "defaultLevel": 1,
+    "levels": [
+      0,
+      1,
+      2
+    ],
+    "implementation": "skin-preserving-loop (three-subdivide vendored, MIT)",
+    "targetTriangles": {
+      "min": 40000,
+      "max": 60000
+    },
+    "hardMaxTriangles": 120000
+  }
+}

@@ -1,0 +1,949 @@
+{
+  "version": 1,
+  "presets": [
+    {
+      "id": "three-point",
+      "name": "三点布光 45°",
+      "category": "经典",
+      "devices": [
+        {
+          "name": "主光 Key",
+          "x": 1.556,
+          "y": -1.556,
+          "height": 2.0,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "softbox-medium",
+          "intensity": 75,
+          "kelvin": 5500,
+          "beamAngle": 55.0,
+          "softness": 0.4,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "辅光 Fill",
+          "x": -1.838,
+          "y": -1.838,
+          "height": 1.7,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "softbox-large",
+          "intensity": 35,
+          "kelvin": 5500,
+          "beamAngle": 70.0,
+          "softness": 0.55,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "轮廓光 Rim",
+          "x": 0.0,
+          "y": 2.8,
+          "height": 2.5,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "honeycomb-grid",
+          "intensity": 80,
+          "kelvin": 5500,
+          "beamAngle": 30.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "Key 侧前 45°、Fill 对侧、Rim 侧后高位；正片最通用的结构。"
+    },
+    {
+      "id": "butterfly",
+      "name": "蝶形光",
+      "category": "经典",
+      "devices": [
+        {
+          "name": "主光 Key",
+          "x": 0.0,
+          "y": -2.0,
+          "height": 2.45,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "softbox-medium",
+          "intensity": 85,
+          "kelvin": 5500,
+          "beamAngle": 50.0,
+          "softness": 0.42,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "下反光板",
+          "x": 0.0,
+          "y": -1.1,
+          "height": 0.55,
+          "type": "soft",
+          "fixture": "panel-120",
+          "modifier": "bare",
+          "intensity": 25,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "主光正前高位，鼻下形成蝶形阴影；非常适合面部骨相与妆造展示。"
+    },
+    {
+      "id": "rembrandt",
+      "name": "伦勃朗光",
+      "category": "经典",
+      "devices": [
+        {
+          "name": "主光 Key",
+          "x": 1.905,
+          "y": -1.1,
+          "height": 2.2,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "standard-reflector",
+          "intensity": 75,
+          "kelvin": 5500,
+          "beamAngle": 40.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "辅光 Fill",
+          "x": -2.598,
+          "y": -1.5,
+          "height": 1.5,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "softbox-large",
+          "intensity": 22,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.5,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "主光 45–60° 侧上，脸颊三角光斑；低调情绪人像常用。"
+    },
+    {
+      "id": "split",
+      "name": "分割光",
+      "category": "经典",
+      "devices": [
+        {
+          "name": "主光 Key",
+          "x": 2.2,
+          "y": -0.0,
+          "height": 2.0,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "standard-reflector",
+          "intensity": 85,
+          "kelvin": 5500,
+          "beamAngle": 35.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "主光 90° 正侧，半脸受光半脸阴影，戏剧性强。"
+    },
+    {
+      "id": "loop",
+      "name": "环形光",
+      "category": "经典",
+      "devices": [
+        {
+          "name": "主光 Key",
+          "x": 1.543,
+          "y": -1.839,
+          "height": 2.1,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "beauty-dish",
+          "intensity": 78,
+          "kelvin": 5500,
+          "beamAngle": 48.0,
+          "softness": 0.3,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "反光板",
+          "x": -1.028,
+          "y": -1.226,
+          "height": 0.8,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "bare",
+          "intensity": 18,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "主光 30–45° 略高于眼位，鼻侧环形阴影，通用好看。"
+    },
+    {
+      "id": "rim-double",
+      "name": "双逆光轮廓",
+      "category": "轮廓",
+      "devices": [
+        {
+          "name": "左轮廓",
+          "x": -0.889,
+          "y": 2.443,
+          "height": 2.4,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "snoot",
+          "intensity": 80,
+          "kelvin": 5600,
+          "beamAngle": 25.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "右轮廓",
+          "x": 0.889,
+          "y": 2.443,
+          "height": 2.4,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "snoot",
+          "intensity": 80,
+          "kelvin": 5600,
+          "beamAngle": 25.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "正面柔补",
+          "x": 0.0,
+          "y": -3.0,
+          "height": 1.8,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "softbox-large",
+          "intensity": 25,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.6,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "双灯勾边 + 轻补面，发光感与分离度极佳（夜景/Cos 常用）。"
+    },
+    {
+      "id": "dual-soft",
+      "name": "双灯柔光",
+      "category": "柔光",
+      "devices": [
+        {
+          "name": "主柔光",
+          "x": -1.4,
+          "y": -2.425,
+          "height": 2.0,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "softbox-large",
+          "intensity": 70,
+          "kelvin": 5500,
+          "beamAngle": 75.0,
+          "softness": 0.6,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "副柔光",
+          "x": 1.6,
+          "y": -2.771,
+          "height": 2.0,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "softbox-large",
+          "intensity": 55,
+          "kelvin": 5500,
+          "beamAngle": 75.0,
+          "softness": 0.6,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "左右双柔光箱夹光，过渡细腻，适合美妆/妆造。"
+    },
+    {
+      "id": "hard-contrast",
+      "name": "硬光高反差",
+      "category": "硬光",
+      "devices": [
+        {
+          "name": "硬主光",
+          "x": 1.414,
+          "y": -1.414,
+          "height": 2.6,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "honeycomb-grid",
+          "intensity": 90,
+          "kelvin": 5500,
+          "beamAngle": 28.0,
+          "softness": 0.06,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "轮廓",
+          "x": -0.958,
+          "y": 2.631,
+          "height": 2.5,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "snoot",
+          "intensity": 70,
+          "kelvin": 5500,
+          "beamAngle": 24.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "窄束硬光 + 侧后轮廓，边缘锐利、结构感强。"
+    },
+    {
+      "id": "window-light",
+      "name": "窗光模拟",
+      "category": "自然",
+      "devices": [
+        {
+          "name": "窗光",
+          "x": -2.5,
+          "y": 0.0,
+          "height": 1.7,
+          "type": "soft",
+          "fixture": "panel-120",
+          "modifier": "diffusion-cloth",
+          "intensity": 65,
+          "kelvin": 5200,
+          "beamAngle": 110.0,
+          "softness": 0.65,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "反光板",
+          "x": 1.5,
+          "y": -0.0,
+          "height": 0.9,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "bare",
+          "intensity": 15,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "大面积柔和侧光 + 对侧反光板，室内自然光氛围。"
+    },
+    {
+      "id": "overcast",
+      "name": "阴天平光",
+      "category": "自然",
+      "devices": [
+        {
+          "name": "大面积柔光",
+          "x": 0.0,
+          "y": -2.6,
+          "height": 2.2,
+          "type": "soft",
+          "fixture": "panel-120",
+          "modifier": "diffusion-cloth",
+          "intensity": 80,
+          "kelvin": 5500,
+          "beamAngle": 130.0,
+          "softness": 0.7,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "天顶补光",
+          "x": 0.0,
+          "y": -0.4,
+          "height": 3.0,
+          "type": "soft",
+          "fixture": "panel-120",
+          "modifier": "bare",
+          "intensity": 40,
+          "kelvin": 5500,
+          "beamAngle": 130.0,
+          "softness": 0.7,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "无方向性大平光，阴天质感，肤色干净。"
+    },
+    {
+      "id": "top-drama",
+      "name": "顶光戏剧",
+      "category": "戏剧",
+      "devices": [
+        {
+          "name": "顶光",
+          "x": 0.0,
+          "y": -0.35,
+          "height": 3.0,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "honeycomb-grid",
+          "intensity": 88,
+          "kelvin": 5500,
+          "beamAngle": 36.0,
+          "softness": 0.18,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "近顶光位，眼窝阴影重，攻击性/神秘感强。"
+    },
+    {
+      "id": "side-rim",
+      "name": "侧逆光",
+      "category": "轮廓",
+      "devices": [
+        {
+          "name": "侧逆主光",
+          "x": 1.697,
+          "y": 1.697,
+          "height": 2.3,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "standard-reflector",
+          "intensity": 82,
+          "kelvin": 5500,
+          "beamAngle": 30.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "正面补光",
+          "x": -1.98,
+          "y": -1.98,
+          "height": 1.8,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "softbox-large",
+          "intensity": 30,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.5,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "侧后方来光勾出面部轮廓，适合侧脸线条。"
+    },
+    {
+      "id": "dual-color",
+      "name": "双色对撞",
+      "category": "氛围",
+      "devices": [
+        {
+          "name": "暖主光",
+          "x": 1.556,
+          "y": -1.556,
+          "height": 2.2,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "standard-reflector",
+          "intensity": 72,
+          "kelvin": 3200,
+          "beamAngle": 45.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "冷轮廓",
+          "x": -1.838,
+          "y": 1.838,
+          "height": 2.4,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "snoot",
+          "intensity": 75,
+          "kelvin": 7200,
+          "beamAngle": 28.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "暖冷对撞（3200K vs 7200K），赛博/夜景氛围。"
+    },
+    {
+      "id": "beauty-top",
+      "name": "环形顶光",
+      "category": "美妆",
+      "devices": [
+        {
+          "name": "环形光",
+          "x": 0.0,
+          "y": -1.2,
+          "height": 2.75,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "beauty-dish",
+          "intensity": 80,
+          "kelvin": 5500,
+          "beamAngle": 95.0,
+          "softness": 0.35,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "近距高角度环形光，面部饱满，适合妆面展示。"
+    },
+    {
+      "id": "high-key",
+      "name": "高调白",
+      "category": "高调",
+      "devices": [
+        {
+          "name": "左柔光",
+          "x": -0.776,
+          "y": -2.898,
+          "height": 2.1,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "softbox-large",
+          "intensity": 75,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.6,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "右柔光",
+          "x": 0.776,
+          "y": -2.898,
+          "height": 2.1,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "softbox-large",
+          "intensity": 75,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.6,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "背景光",
+          "x": 0.0,
+          "y": 2.0,
+          "height": 1.8,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "bare",
+          "intensity": 60,
+          "kelvin": 5500,
+          "beamAngle": 90.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "白底高调：双前柔 + 背景提亮，整体通透。"
+    },
+    {
+      "id": "low-key",
+      "name": "低调黑",
+      "category": "低调",
+      "devices": [
+        {
+          "name": "主光",
+          "x": 1.0,
+          "y": -1.732,
+          "height": 2.3,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "snoot",
+          "intensity": 85,
+          "kelvin": 5500,
+          "beamAngle": 26.0,
+          "softness": 0.08,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "轮廓",
+          "x": -1.25,
+          "y": 2.165,
+          "height": 2.5,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "snoot",
+          "intensity": 55,
+          "kelvin": 5500,
+          "beamAngle": 20.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "窄束低位主光 + 轻微轮廓，黑背景压暗，高级感。"
+    },
+    {
+      "id": "stage-spot",
+      "name": "舞台聚光",
+      "category": "戏剧",
+      "devices": [
+        {
+          "name": "聚光灯",
+          "x": 3.0,
+          "y": -0.0,
+          "height": 2.6,
+          "type": "hard",
+          "fixture": "fresnel",
+          "modifier": "snoot",
+          "intensity": 90,
+          "kelvin": 5500,
+          "beamAngle": 22.0,
+          "softness": 0.1,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "轻雾补光",
+          "x": -2.771,
+          "y": -1.6,
+          "height": 1.8,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "bare",
+          "intensity": 20,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.6,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "菲涅尔窄束聚光，舞台追光质感。"
+    },
+    {
+      "id": "couple",
+      "name": "双人站位光",
+      "category": "双人",
+      "devices": [
+        {
+          "name": "人物柔光",
+          "x": 0.0,
+          "y": -3.0,
+          "height": 2.2,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "softbox-large",
+          "intensity": 68,
+          "kelvin": 5500,
+          "beamAngle": 90.0,
+          "softness": 0.62,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "侧轮廓",
+          "x": 0.0,
+          "y": 2.8,
+          "height": 2.4,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "bare",
+          "intensity": 60,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "宽束前柔 + 后方轮廓，两人同框均受光。"
+    },
+    {
+      "id": "hanfu-window",
+      "name": "汉服窗侧光",
+      "category": "古风",
+      "devices": [
+        {
+          "name": "窗侧主光",
+          "x": -2.443,
+          "y": 0.889,
+          "height": 2.0,
+          "type": "soft",
+          "fixture": "panel-120",
+          "modifier": "diffusion-cloth",
+          "intensity": 70,
+          "kelvin": 5000,
+          "beamAngle": 115.0,
+          "softness": 0.68,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "暖轮廓",
+          "x": 2.631,
+          "y": 0.958,
+          "height": 2.3,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "honeycomb-grid",
+          "intensity": 55,
+          "kelvin": 3600,
+          "beamAngle": 32.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "大窗柔光 + 暖色轮廓，衣料纹理与褶皱清晰。"
+    },
+    {
+      "id": "neon-night",
+      "name": "夜景霓虹",
+      "category": "氛围",
+      "devices": [
+        {
+          "name": "冷主光",
+          "x": -1.732,
+          "y": -1.0,
+          "height": 2.2,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "softbox-medium",
+          "intensity": 68,
+          "kelvin": 6800,
+          "beamAngle": 45.0,
+          "softness": 0.45,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "霓虹点缀",
+          "x": 2.2,
+          "y": -0.0,
+          "height": 1.9,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "standard-reflector",
+          "intensity": 62,
+          "kelvin": 5500,
+          "beamAngle": 40.0,
+          "softness": 0.15,
+          "color": "#ff4fa3",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "青边光",
+          "x": -0.417,
+          "y": 2.364,
+          "height": 2.3,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "snoot",
+          "intensity": 58,
+          "kelvin": 5500,
+          "beamAngle": 30.0,
+          "softness": 0.15,
+          "color": "#37e6d4",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "冷主光 + 品红/青色点缀，赛博夜景。"
+    },
+    {
+      "id": "cos-rim",
+      "name": "Cos 逆光轮廓",
+      "category": "Cos",
+      "devices": [
+        {
+          "name": "双色主光",
+          "x": -1.543,
+          "y": -1.839,
+          "height": 2.1,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "softbox-medium",
+          "intensity": 70,
+          "kelvin": 4300,
+          "beamAngle": 45.0,
+          "softness": 0.45,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "强轮廓",
+          "x": 0.451,
+          "y": 2.561,
+          "height": 2.5,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "snoot",
+          "intensity": 85,
+          "kelvin": 6500,
+          "beamAngle": 26.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "反光板",
+          "x": 1.028,
+          "y": -1.226,
+          "height": 0.9,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "bare",
+          "intensity": 16,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "角色正片常见：主光偏暖 + 冷轮廓，服装层次与发丝分离。"
+    },
+    {
+      "id": "documentary",
+      "name": "纪实跟拍光",
+      "category": "纪实",
+      "devices": [
+        {
+          "name": "机顶光",
+          "x": -1.094,
+          "y": -3.007,
+          "height": 2.4,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "diffusion-cloth",
+          "intensity": 55,
+          "kelvin": 5500,
+          "beamAngle": 120.0,
+          "softness": 0.6,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "环境补光",
+          "x": -1.163,
+          "y": 3.195,
+          "height": 2.0,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "bare",
+          "intensity": 22,
+          "kelvin": 5500,
+          "beamAngle": 120.0,
+          "softness": 0.65,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        }
+      ],
+      "note": "接近纪实跟拍的均匀环境光，适合通勤/JK 外拍补光。"
+    },
+    {
+      "id": "prop-reflector",
+      "name": "主光加反光板",
+      "category": "基础",
+      "devices": [
+        {
+          "name": "主光",
+          "x": 1.556,
+          "y": -1.556,
+          "height": 2.1,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "standard-reflector",
+          "intensity": 78,
+          "kelvin": 5500,
+          "beamAngle": 45.0,
+          "softness": 0.15,
+          "color": "#ffffff",
+          "rotationY": 0.0,
+          "note": ""
+        },
+        {
+          "name": "反光板",
+          "type": "reflector",
+          "x": -1.2,
+          "y": 0.9,
+          "rotation": 18.0,
+          "scale": 1.0
+        }
+      ],
+      "note": "最简布光：单灯 + 反光板补阴影。"
+    }
+  ]
+}

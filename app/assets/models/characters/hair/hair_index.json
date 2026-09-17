@@ -1,0 +1,68 @@
+{
+  "hair": [
+    {
+      "id": "hair-short",
+      "name": "短发",
+      "file": "hair/hair-short.glb",
+      "color": "#1f1a16",
+      "generated": true,
+      "parts": 3
+    },
+    {
+      "id": "hair-buzz",
+      "name": "寸头",
+      "file": "hair/hair-buzz.glb",
+      "color": "#2c211a",
+      "generated": true,
+      "parts": 1
+    },
+    {
+      "id": "hair-bob",
+      "name": "波波头",
+      "file": "hair/hair-bob.glb",
+      "color": "#33241a",
+      "generated": true,
+      "parts": 4
+    },
+    {
+      "id": "hair-long",
+      "name": "长发",
+      "file": "hair/hair-long.glb",
+      "color": "#201713",
+      "generated": true,
+      "parts": 4
+    },
+    {
+      "id": "hair-pony",
+      "name": "马尾",
+      "file": "hair/hair-pony.glb",
+      "color": "#3d2a1b",
+      "generated": true,
+      "parts": 3
+    },
+    {
+      "id": "hair-spiky",
+      "name": "刺猬头",
+      "file": "hair/hair-spiky.glb",
+      "color": "#171412",
+      "generated": true,
+      "parts": 5
+    },
+    {
+      "id": "hair-bun",
+      "name": "丸子头",
+      "file": "hair/hair-bun.glb",
+      "color": "#241a14",
+      "generated": true,
+      "parts": 2
+    },
+    {
+      "id": "hair-side",
+      "name": "侧分",
+      "file": "hair/hair-side.glb",
+      "color": "#4a3524",
+      "generated": true,
+      "parts": 3
+    }
+  ]
+}

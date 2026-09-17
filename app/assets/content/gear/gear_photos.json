@@ -1,0 +1,273 @@
+{
+  "version": 1,
+  "byKind": {
+    "camera": [
+      {
+        "file": "camera-34808844.jpg",
+        "photographer": "🇻🇳🇻🇳Nguyễn Tiến Thịnh 🇻🇳🇻🇳",
+        "photoUrl": "https://www.pexels.com/photo/professional-cameras-on-wooden-table-34808844/"
+      },
+      {
+        "file": "camera-7789223.jpg",
+        "photographer": "Ivan Babydov",
+        "photoUrl": "https://www.pexels.com/photo/canon-eos-rp-7789223/"
+      },
+      {
+        "file": "camera-34808845.jpg",
+        "photographer": "🇻🇳🇻🇳Nguyễn Tiến Thịnh 🇻🇳🇻🇳",
+        "photoUrl": "https://www.pexels.com/photo/close-up-of-three-professional-cameras-on-wooden-table-34808845/"
+      },
+      {
+        "file": "camera-8539296.jpg",
+        "photographer": "Gift Habeshaw 🇪🇹",
+        "photoUrl": "https://www.pexels.com/photo/black-sony-dslr-camera-8539296/"
+      },
+      {
+        "file": "camera-36574299.jpg",
+        "photographer": "Sóc Năng Động",
+        "photoUrl": "https://www.pexels.com/photo/collection-of-vintage-and-modern-cameras-displayed-36574299/"
+      },
+      {
+        "file": "camera-39442514.jpg",
+        "photographer": "Sinan KRIYA",
+        "photoUrl": "https://www.pexels.com/photo/close-up-of-two-professional-cameras-on-display-39442514/"
+      }
+    ],
+    "lens": [
+      {
+        "file": "lens-12058988.jpg",
+        "photographer": "dlxmedia.hu",
+        "photoUrl": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/"
+      },
+      {
+        "file": "lens-7789081.jpg",
+        "photographer": "Ivan Babydov",
+        "photoUrl": "https://www.pexels.com/photo/camera-lens-on-yellow-background-7789081/"
+      },
+      {
+        "file": "lens-32651080.jpg",
+        "photographer": "indra projects",
+        "photoUrl": "https://www.pexels.com/photo/close-up-of-canon-dslr-camera-lens-on-table-32651080/"
+      },
+      {
+        "file": "lens-29835958.jpg",
+        "photographer": "- landsmann -",
+        "photoUrl": "https://www.pexels.com/photo/close-up-of-digital-camera-lens-on-black-background-29835958/"
+      },
+      {
+        "file": "lens-9660969.jpg",
+        "photographer": "Nguyen Huy",
+        "photoUrl": "https://www.pexels.com/photo/close-up-shot-of-black-camera-lens-9660969/"
+      },
+      {
+        "file": "lens-33961220.jpg",
+        "photographer": "木 灬",
+        "photoUrl": "https://www.pexels.com/photo/close-up-of-camera-lens-held-in-hand-33961220/"
+      }
+    ],
+    "light": [
+      {
+        "file": "light-12616007.jpg",
+        "photographer": "Antonio Friedemann",
+        "photoUrl": "https://www.pexels.com/photo/studio-lights-in-the-room-12616007/"
+      },
+      {
+        "file": "light-7383646.jpg",
+        "photographer": "Hc Digital",
+        "photoUrl": "https://www.pexels.com/photo/black-and-white-photo-of-softboxes-7383646/"
+      },
+      {
+        "file": "light-7383644.jpg",
+        "photographer": "Hc Digital",
+        "photoUrl": "https://www.pexels.com/photo/black-and-white-photo-of-a-studio-7383644/"
+      },
+      {
+        "file": "light-39232446.jpg",
+        "photographer": "Marcos Aurélio",
+        "photoUrl": "https://www.pexels.com/photo/photography-studio-setup-with-lighting-equipment-39232446/"
+      },
+      {
+        "file": "light-2146712.jpg",
+        "photographer": "Luis Quintero",
+        "photoUrl": "https://www.pexels.com/photo/grayscale-photography-of-standing-man-in-studio-2146712/"
+      },
+      {
+        "file": "light-1932666.jpg",
+        "photographer": "Rene Terp",
+        "photoUrl": "https://www.pexels.com/photo/modeling-room-1932666/"
+      }
+    ],
+    "accessory": [
+      {
+        "file": "accessory-13699196.jpg",
+        "photographer": "Amar  Preciado",
+        "photoUrl": "https://www.pexels.com/photo/photographs-on-wooden-wall-13699196/"
+      },
+      {
+        "file": "accessory-20419524.jpg",
+        "photographer": "Lisett Kruusimäe",
+        "photoUrl": "https://www.pexels.com/photo/photographer-with-equipment-in-studio-20419524/"
+      },
+      {
+        "file": "accessory-2388569.jpg",
+        "photographer": "Brett Sayles",
+        "photoUrl": "https://www.pexels.com/photo/studio-setting-2388569/"
+      },
+      {
+        "file": "accessory-20382217.jpg",
+        "photographer": "Trần Chính",
+        "photoUrl": "https://www.pexels.com/photo/tripods-on-floor-in-room-20382217/"
+      },
+      {
+        "file": "accessory-30910180.jpg",
+        "photographer": "Frank Schrader",
+        "photoUrl": "https://www.pexels.com/photo/professional-food-photography-studio-setup-30910180/"
+      },
+      {
+        "file": "accessory-7383647.jpg",
+        "photographer": "Hc Digital",
+        "photoUrl": "https://www.pexels.com/photo/black-and-white-of-a-studio-7383647/"
+      }
+    ],
+    "flash": [
+      {
+        "file": "flash-12666300.jpg",
+        "photographer": "Fortal Fototeca",
+        "photoUrl": "https://www.pexels.com/photo/display-of-flash-lamp-on-yellow-background-12666300/"
+      },
+      {
+        "file": "flash-8365609.jpg",
+        "photographer": "Chanwit Wanset",
+        "photoUrl": "https://www.pexels.com/photo/woman-with-camera-8365609/"
+      },
+      {
+        "file": "flash-19175191.jpg",
+        "photographer": "Mallem Amir",
+        "photoUrl": "https://www.pexels.com/photo/canon-camera-on-ground-19175191/"
+      },
+      {
+        "file": "flash-12764942.jpg",
+        "photographer": "Fortal Fototeca",
+        "photoUrl": "https://www.pexels.com/photo/black-camera-in-close-up-shot-12764942/"
+      },
+      {
+        "file": "flash-106011.jpg",
+        "photographer": "AS Photography",
+        "photoUrl": "https://www.pexels.com/photo/black-and-white-polaroid-camera-106011/"
+      },
+      {
+        "file": "flash-5577960.jpg",
+        "photographer": "Neron Photos",
+        "photoUrl": "https://www.pexels.com/photo/black-and-white-nikon-dslr-camera-5577960/"
+      }
+    ]
+  },
+  "byModel": {
+    "佳能 EOS R5": [
+      {
+        "file": "model-1-29382680.jpg",
+        "photographer": "Jonathan Borba",
+        "photoUrl": "https://www.pexels.com/photo/photographer-at-racing-event-in-action-29382680/"
+      }
+    ],
+    "索尼 A7 IV": [
+      {
+        "file": "model-2-14830216.jpg",
+        "photographer": "Berat BAKI",
+        "photoUrl": "https://www.pexels.com/photo/display-of-cameras-14830216/"
+      }
+    ],
+    "尼康 Z9": [
+      {
+        "file": "model-3-33223227.jpg",
+        "photographer": "Sóc Năng Động",
+        "photoUrl": "https://www.pexels.com/photo/photographer-capturing-nature-with-professional-camera-33223227/"
+      }
+    ],
+    "富士 X-T5": [
+      {
+        "file": "model-4-32708363.jpg",
+        "photographer": "Haberdoedas Photography",
+        "photoUrl": "https://www.pexels.com/photo/elegant-black-and-white-fujifilm-camera-close-up-32708363/"
+      }
+    ],
+    "佳能 RF 24-70mm F2.8L": [
+      {
+        "file": "model-5-12629754.jpg",
+        "photographer": "Stuart Reece",
+        "photoUrl": "https://www.pexels.com/photo/a-black-normal-lens-on-wooden-table-12629754/"
+      }
+    ],
+    "索尼 FE 24-70mm F2.8 GM": [
+      {
+        "file": "model-6-30758145.jpg",
+        "photographer": "Cemrecan Yurtman",
+        "photoUrl": "https://www.pexels.com/photo/professional-camera-and-lens-on-vibrant-orange-background-30758145/"
+      }
+    ],
+    "神牛 AD200Pro": [
+      {
+        "file": "model-7-35712017.jpg",
+        "photographer": "Hồng Quang Official",
+        "photoUrl": "https://www.pexels.com/photo/close-up-of-godox-ad300pro-studio-light-equipment-35712017/"
+      }
+    ],
+    "神牛 SL60W": [
+      {
+        "file": "model-8-5939706.jpg",
+        "photographer": "Icnatius Hautias",
+        "photoUrl": "https://www.pexels.com/photo/led-lamp-with-a-digital-display-5939706/"
+      }
+    ],
+    "爱图仕 120D II": [
+      {
+        "file": "model-9-38250297.jpg",
+        "photographer": "Travel Photographer",
+        "photoUrl": "https://www.pexels.com/photo/historic-entrance-of-auschwitz-ii-birkenau-38250297/"
+      }
+    ],
+    "爱图仕 300X": [
+      {
+        "file": "model-10-6648497.jpg",
+        "photographer": "cottonbro studio",
+        "photoUrl": "https://www.pexels.com/photo/people-in-the-studio-6648497/"
+      }
+    ],
+    "南冠 Forza 60B": [
+      {
+        "file": "model-11-35292789.jpg",
+        "photographer": "Alexander Tisko",
+        "photoUrl": "https://www.pexels.com/photo/man-with-bicycle-on-urban-street-crosswalk-35292789/"
+      }
+    ],
+    "曼富图 MT055": [
+      {
+        "file": "model-12-15062358.jpg",
+        "photographer": "정규송 Nui MALAMA",
+        "photoUrl": "https://www.pexels.com/photo/cameras-set-on-tripods-on-a-seashore-15062358/"
+      }
+    ],
+    "神牛 S2 圆形柔光箱": [
+      {
+        "file": "model-13-20419525.jpg",
+        "photographer": "Lisett Kruusimäe",
+        "photoUrl": "https://www.pexels.com/photo/woman-in-pink-shirt-with-camera-in-hands-standing-in-studio-20419525/"
+      }
+    ],
+    "索尼 A7S III": [
+      {
+        "file": "model-14-8544693.jpg",
+        "photographer": "Rodrigo Santos",
+        "photoUrl": "https://www.pexels.com/photo/close-up-photo-of-a-sony-7-iii-with-lens-8544693/"
+      }
+    ],
+    "佳能 EOS R6 Mark II": [
+      {
+        "file": "model-15-7789218.jpg",
+        "photographer": "Ivan Babydov",
+        "photoUrl": "https://www.pexels.com/photo/canon-eos-rp-7789218/"
+      }
+    ]
+  },
+  "note": "Pexels 氛围实拍，非官方产品图"
+}

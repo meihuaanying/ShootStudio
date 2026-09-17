@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+const version = import.meta.env.PUBLIC_APP_VERSION?.replace(/^v/, '') || '1.1.0';
+---
+<Layout title="下载 · 正片工坊 ShootStudio">
+  <section class="mx-auto max-w-5xl px-6 pb-6 pt-16">
+    <h1 class="text-3xl font-extrabold md:text-4xl" data-reveal>下载中心</h1>
+    <p class="mt-4 max-w-2xl text-[14px] leading-7 text-ss-muted dark:text-ss-muted-dark" data-reveal>
+      默认提供国内 CDN 镜像源，不可用时自动回退 GitHub Release 直链；两个源均提供 SHA-256 校验值。
+    </p>
+  </section>
+
+  <section class="mx-auto grid max-w-5xl gap-4 px-6 md:grid-cols-2" data-reveal>
+    <div class="card flex flex-col gap-3 p-6">
+      <h2 class="text-[18px] font-bold">Windows 安装包</h2>
+      <p class="mono text-[12px] text-ss-accent2">v<span id="win-ver">{version}</span></p>
+      <a id="win-mirror" href="/downloads" class="rounded-ss bg-gradient-to-br from-ss-accent to-ss-accent2 px-5 py-3 text-center text-[13.5px] font-semibold text-white transition hover:brightness-110">镜像下载（推荐）</a>
+      <a id="win-github" href="https://github.com/shoot-studio/shoot-studio/releases" class="rounded-ss border border-ss-rule px-5 py-3 text-center text-[13.5px] font-semibold text-ss-ink transition hover:border-ss-accent dark:border-ss-rule-dark dark:text-ss-ink-dark">GitHub Release</a>
+      <p class="mono break-all text-[11px] text-ss-muted dark:text-ss-muted-dark">SHA-256：<span id="win-sha">发布时由 CI 写入</span></p>
+    </div>
+    <div class="card flex flex-col gap-3 p-6">
+      <h2 class="text-[18px] font-bold">安卓 APK</h2>
+      <p class="mono text-[12px] text-ss-accent2">v<span id="and-ver">{version}</span></p>
+      <a id="and-mirror" href="/downloads" class="rounded-ss bg-gradient-to-br from-ss-accent to-ss-accent2 px-5 py-3 text-center text-[13.5px] font-semibold text-white transition hover:brightness-110">镜像下载（推荐）</a>
+      <a id="and-github" href="https://github.com/shoot-studio/shoot-studio/releases" class="rounded-ss border border-ss-rule px-5 py-3 text-center text-[13.5px] font-semibold text-ss-ink transition hover:border-ss-accent dark:border-ss-rule-dark dark:text-ss-ink-dark">GitHub Release</a>
+      <p class="mono break-all text-[11px] text-ss-muted dark:text-ss-muted-dark">SHA-256：<span id="and-sha">发布时由 CI 写入</span></p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-6 py-14" data-reveal>
+    <h2 class="text-xl font-extrabold">系统要求与安装</h2>
+    <ul class="mt-4 space-y-2 text-[13px] leading-6 text-ss-muted dark:text-ss-muted-dark">
+      <li>· Windows：Windows 10 22H2 / 11 及以上（x64）。首次运行选择本地目录作为工作区。</li>
+      <li>· Android：Android 8.0（API 26）及以上；3D 预览依赖系统 WebView 组件。</li>
+      <li>· 校验：下载后执行 <code class="mono">certutil -hashfile 文件名 SHA256</code> 并与此页校验值比对。</li>
+      <li>· Windows 3D 预览需要 WebView2 Runtime（Win11 与新版 Win10 已内置）；缺失时其余功能不受影响。</li>
+    </ul>
+  </section>
+
+  <script>
+    fetch('/announcements.json')
+      .then((r) => r.json())
+      .then((ann) => {
+        const win = ann.downloads?.windows;
+        const android = ann.downloads?.android;
+        if (ann.version) {
+          document.getElementById('win-ver').textContent = ann.version;
+          document.getElementById('and-ver').textContent = ann.version;
+        }
+        if (win) {
+          document.getElementById('win-mirror').href = win.mirror || win.github;
+          document.getElementById('win-github').href = win.github;
+          document.getElementById('win-sha').textContent = win.sha256 || '发布时由 CI 写入';
+        }
+        if (android) {
+          document.getElementById('and-mirror').href = android.mirror || android.github;
+          document.getElementById('and-github').href = android.github;
+          document.getElementById('and-sha').textContent = android.sha256 || '发布时由 CI 写入';
+        }
+      })
+      .catch(() => {});
+  </script>
+</Layout>

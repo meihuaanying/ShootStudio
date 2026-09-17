@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ShootStudio Engine</title>
+<style>
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #11151d; }
+  #stage { width: 100%; height: 100%; display: block; touch-action: none; }
+  #hint { position: absolute; left: 10px; bottom: 8px; color: rgba(255,255,255,.4); font: 11px/1.5 ui-monospace, Consolas, monospace; pointer-events: none; }
+  #boot { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #8a919e; font: 13px/1.6 ui-monospace, Consolas, monospace; }
+  #boot.error { color: #d54941; }
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<div id="boot">正在加载 3D 引擎…</div>
+<div id="hint">拖动轨道旋转 · 滚轮缩放 · 点击灯/道具选中 · 拖动灯改位置 · 点击假人关节可微调</div>
+<!-- 单文件打包（esbuild，含 vendored three.js r169 MIT），file:// 下可直接加载 -->
+<script src="./js/engine.bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "note": "预算参考区间（人民币，按城市档位乘系数）",
+  "items": [
+    {
+      "key": "studio",
+      "label": "棚时（小时）",
+      "min": 150,
+      "max": 600,
+      "note": "含基础灯位与背景纸"
+    },
+    {
+      "key": "outdoor",
+      "label": "外景场地（小时）",
+      "min": 100,
+      "max": 400,
+      "note": "含景区门票/备案费用"
+    },
+    {
+      "key": "makeup",
+      "label": "妆造（次）",
+      "min": 200,
+      "max": 800,
+      "note": "角色妆/古风妆按复杂度浮动"
+    },
+    {
+      "key": "makeup_day",
+      "label": "跟妆（天）",
+      "min": 400,
+      "max": 1500,
+      "note": "含全程补妆"
+    },
+    {
+      "key": "model",
+      "label": "模特（天）",
+      "min": 300,
+      "max": 2000,
+      "note": "互勉为 0"
+    },
+    {
+      "key": "costume",
+      "label": "服装租赁（套）",
+      "min": 100,
+      "max": 500,
+      "note": "定制成本另计"
+    },
+    {
+      "key": "props",
+      "label": "道具采购（项）",
+      "min": 20,
+      "max": 300,
+      "note": "烟饼/花束/灯笼等"
+    },
+    {
+      "key": "transport",
+      "label": "交通（天）",
+      "min": 50,
+      "max": 300,
+      "note": "市区打车/油费"
+    },
+    {
+      "key": "meal",
+      "label": "餐饮（人/天）",
+      "min": 30,
+      "max": 120,
+      "note": "含模特与团队"
+    },
+    {
+      "key": "assistant",
+      "label": "摄影助理（天）",
+      "min": 200,
+      "max": 600,
+      "note": "灯光/场务"
+    },
+    {
+      "key": "retouch",
+      "label": "后期精修（张）",
+      "min": 20,
+      "max": 100,
+      "note": "按精修难度"
+    },
+    {
+      "key": "print",
+      "label": "打印物料（项）",
+      "min": 50,
+      "max": 300,
+      "note": "展架/相册/证书"
+    }
+  ]
+}

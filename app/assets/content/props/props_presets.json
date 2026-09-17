@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "props": [
+    {
+      "id": "prop-1",
+      "name": "反光板",
+      "price": 80,
+      "note": "银色/金色双面",
+      "owner": "摄影师带",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-2",
+      "name": "透明伞",
+      "price": 35,
+      "note": "长柄透明伞，夜景反光",
+      "owner": "道具组买",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-3",
+      "name": "花束",
+      "price": 120,
+      "note": "仿真花束优先",
+      "owner": "妆造带",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-4",
+      "name": "烟饼",
+      "price": 30,
+      "note": "注意场地明火规定",
+      "owner": "摄影助理买",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-5",
+      "name": "复古箱体",
+      "price": 150,
+      "note": "皮箱/木箱",
+      "owner": "模特自带",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-6",
+      "name": "背景布",
+      "price": 200,
+      "note": "绒布 3×6m",
+      "owner": "工作室提供",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-7",
+      "name": "折椅",
+      "price": 90,
+      "note": "便携马扎",
+      "owner": "后勤带",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-8",
+      "name": "扇子",
+      "price": 45,
+      "note": "团扇/折扇",
+      "owner": "妆造带",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-9",
+      "name": "灯笼",
+      "price": 60,
+      "note": "暖光灯笼配 LED",
+      "owner": "道具组买",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-10",
+      "name": "气球",
+      "price": 25,
+      "note": "氦气球与配重",
+      "owner": "后勤买",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-11",
+      "name": "书本",
+      "price": 40,
+      "note": "旧书做旧质感",
+      "owner": "模特自带",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-12",
+      "name": "风车",
+      "price": 20,
+      "note": "迎风拍摄用",
+      "owner": "后勤买",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-13",
+      "name": "蜡烛",
+      "price": 35,
+      "note": "LED 电子蜡烛更安全",
+      "owner": "摄影助理买",
+      "category": "常用道具"
+    },
+    {
+      "id": "prop-14",
+      "name": "纱幔",
+      "price": 70,
+      "note": "轻薄纱帘透光",
+      "owner": "工作室提供",
+      "category": "常用道具"
+    }
+  ]
+}

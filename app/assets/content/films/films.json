@@ -1,0 +1,3222 @@
+{
+  "version": 1,
+  "films": [
+    {
+      "id": "film-001",
+      "title": "花样年华",
+      "director": "王家卫",
+      "year": 2000,
+      "tags": [
+        "暖褐",
+        "霓虹",
+        "走廊"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E",
+      "frames": [
+        {
+          "name": "花样年华 · 第 1 帧（暖褐）",
+          "palette": [
+            "#64462d",
+            "#64462d",
+            "#3c2a1f",
+            "#825432",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#64462d",
+            "#64462d"
+          ],
+          "description": "暖褐氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E",
+          "tags": [
+            "暖褐",
+            "电影"
+          ]
+        },
+        {
+          "name": "花样年华 · 第 2 帧（霓虹）",
+          "palette": [
+            "#64462d",
+            "#6f4e30",
+            "#3c2a1f",
+            "#825432",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#64462d",
+            "#6f4e30"
+          ],
+          "description": "霓虹氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E",
+          "tags": [
+            "霓虹",
+            "电影"
+          ]
+        },
+        {
+          "name": "花样年华 · 第 3 帧（走廊）",
+          "palette": [
+            "#64462d",
+            "#7a5633",
+            "#3c2a1f",
+            "#825432",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#64462d",
+            "#7a5633"
+          ],
+          "description": "走廊氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E",
+          "tags": [
+            "走廊",
+            "电影"
+          ]
+        },
+        {
+          "name": "花样年华 · 第 4 帧（暖褐）",
+          "palette": [
+            "#64462d",
+            "#855e36",
+            "#3c2a1f",
+            "#825432",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#64462d",
+            "#855e36"
+          ],
+          "description": "暖褐氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E",
+          "tags": [
+            "暖褐",
+            "电影"
+          ]
+        },
+        {
+          "name": "花样年华 · 第 5 帧（霓虹）",
+          "palette": [
+            "#64462d",
+            "#8f6639",
+            "#3c2a1f",
+            "#825432",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#64462d",
+            "#8f6639"
+          ],
+          "description": "霓虹氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E",
+          "tags": [
+            "霓虹",
+            "电影"
+          ]
+        },
+        {
+          "name": "花样年华 · 第 6 帧（走廊）",
+          "palette": [
+            "#64462d",
+            "#9a6e3c",
+            "#3c2a1f",
+            "#825432",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#64462d",
+            "#9a6e3c"
+          ],
+          "description": "走廊氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E",
+          "tags": [
+            "走廊",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-002",
+      "title": "重庆森林",
+      "director": "王家卫",
+      "year": 1994,
+      "tags": [
+        "霓虹",
+        "暗调",
+        "手持"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97",
+      "frames": [
+        {
+          "name": "重庆森林 · 第 1 帧（霓虹）",
+          "palette": [
+            "#5a3c78",
+            "#5a3c78",
+            "#362454",
+            "#754884",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#5a3c78",
+            "#5a3c78"
+          ],
+          "description": "霓虹氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97",
+          "tags": [
+            "霓虹",
+            "电影"
+          ]
+        },
+        {
+          "name": "重庆森林 · 第 2 帧（暗调）",
+          "palette": [
+            "#5a3c78",
+            "#66446c",
+            "#362454",
+            "#754884",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#5a3c78",
+            "#66446c"
+          ],
+          "description": "暗调氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97",
+          "tags": [
+            "暗调",
+            "电影"
+          ]
+        },
+        {
+          "name": "重庆森林 · 第 3 帧（手持）",
+          "palette": [
+            "#5a3c78",
+            "#714c60",
+            "#362454",
+            "#754884",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#5a3c78",
+            "#714c60"
+          ],
+          "description": "手持氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97",
+          "tags": [
+            "手持",
+            "电影"
+          ]
+        },
+        {
+          "name": "重庆森林 · 第 4 帧（霓虹）",
+          "palette": [
+            "#5a3c78",
+            "#7d5454",
+            "#362454",
+            "#754884",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#5a3c78",
+            "#7d5454"
+          ],
+          "description": "霓虹氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97",
+          "tags": [
+            "霓虹",
+            "电影"
+          ]
+        },
+        {
+          "name": "重庆森林 · 第 5 帧（暗调）",
+          "palette": [
+            "#5a3c78",
+            "#885c48",
+            "#362454",
+            "#754884",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#5a3c78",
+            "#885c48"
+          ],
+          "description": "暗调氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97",
+          "tags": [
+            "暗调",
+            "电影"
+          ]
+        },
+        {
+          "name": "重庆森林 · 第 6 帧（手持）",
+          "palette": [
+            "#5a3c78",
+            "#94643c",
+            "#362454",
+            "#754884",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#5a3c78",
+            "#94643c"
+          ],
+          "description": "手持氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%87%8D%E5%BA%86%E6%A3%AE%E6%9E%97",
+          "tags": [
+            "手持",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-003",
+      "title": "布达佩斯大饭店",
+      "director": "韦斯·安德森",
+      "year": 2014,
+      "tags": [
+        "粉色",
+        "对称",
+        "构图"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E5%B8%83%E8%BE%BE%E4%BD%A9%E6%96%AF%E5%A4%A7%E9%A5%AD%E5%BA%97",
+      "frames": [
+        {
+          "name": "布达佩斯大饭店 · 第 1 帧（粉色）",
+          "palette": [
+            "#f08c96",
+            "#f08c96",
+            "#905469",
+            "#ffa8a5",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#f08c96",
+            "#f08c96"
+          ],
+          "description": "粉色氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B8%83%E8%BE%BE%E4%BD%A9%E6%96%AF%E5%A4%A7%E9%A5%AD%E5%BA%97",
+          "tags": [
+            "粉色",
+            "电影"
+          ]
+        },
+        {
+          "name": "布达佩斯大饭店 · 第 2 帧（对称）",
+          "palette": [
+            "#f08c96",
+            "#f19484",
+            "#905469",
+            "#ffa8a5",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#f08c96",
+            "#f19484"
+          ],
+          "description": "对称氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B8%83%E8%BE%BE%E4%BD%A9%E6%96%AF%E5%A4%A7%E9%A5%AD%E5%BA%97",
+          "tags": [
+            "对称",
+            "电影"
+          ]
+        },
+        {
+          "name": "布达佩斯大饭店 · 第 3 帧（构图）",
+          "palette": [
+            "#f08c96",
+            "#f29c72",
+            "#905469",
+            "#ffa8a5",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#f08c96",
+            "#f29c72"
+          ],
+          "description": "构图氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B8%83%E8%BE%BE%E4%BD%A9%E6%96%AF%E5%A4%A7%E9%A5%AD%E5%BA%97",
+          "tags": [
+            "构图",
+            "电影"
+          ]
+        },
+        {
+          "name": "布达佩斯大饭店 · 第 4 帧（粉色）",
+          "palette": [
+            "#f08c96",
+            "#f3a460",
+            "#905469",
+            "#ffa8a5",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#f08c96",
+            "#f3a460"
+          ],
+          "description": "粉色氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B8%83%E8%BE%BE%E4%BD%A9%E6%96%AF%E5%A4%A7%E9%A5%AD%E5%BA%97",
+          "tags": [
+            "粉色",
+            "电影"
+          ]
+        },
+        {
+          "name": "布达佩斯大饭店 · 第 5 帧（对称）",
+          "palette": [
+            "#f08c96",
+            "#f4ac4e",
+            "#905469",
+            "#ffa8a5",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#f08c96",
+            "#f4ac4e"
+          ],
+          "description": "对称氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B8%83%E8%BE%BE%E4%BD%A9%E6%96%AF%E5%A4%A7%E9%A5%AD%E5%BA%97",
+          "tags": [
+            "对称",
+            "电影"
+          ]
+        },
+        {
+          "name": "布达佩斯大饭店 · 第 6 帧（构图）",
+          "palette": [
+            "#f08c96",
+            "#f5b43c",
+            "#905469",
+            "#ffa8a5",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#f08c96",
+            "#f5b43c"
+          ],
+          "description": "构图氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B8%83%E8%BE%BE%E4%BD%A9%E6%96%AF%E5%A4%A7%E9%A5%AD%E5%BA%97",
+          "tags": [
+            "构图",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-004",
+      "title": "银翼杀手2049",
+      "director": "丹尼斯·维伦纽瓦",
+      "year": 2017,
+      "tags": [
+        "橙青",
+        "雾气",
+        "巨型"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E7%BF%BC%E6%9D%80%E6%89%8B2049",
+      "frames": [
+        {
+          "name": "银翼杀手2049 · 第 1 帧（橙青）",
+          "palette": [
+            "#e66e3c",
+            "#e66e3c",
+            "#8a422a",
+            "#ff8442",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#e66e3c",
+            "#e66e3c"
+          ],
+          "description": "橙青氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E7%BF%BC%E6%9D%80%E6%89%8B2049",
+          "tags": [
+            "橙青",
+            "电影"
+          ]
+        },
+        {
+          "name": "银翼杀手2049 · 第 2 帧（雾气）",
+          "palette": [
+            "#e66e3c",
+            "#e8763c",
+            "#8a422a",
+            "#ff8442",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#e66e3c",
+            "#e8763c"
+          ],
+          "description": "雾气氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E7%BF%BC%E6%9D%80%E6%89%8B2049",
+          "tags": [
+            "雾气",
+            "电影"
+          ]
+        },
+        {
+          "name": "银翼杀手2049 · 第 3 帧（巨型）",
+          "palette": [
+            "#e66e3c",
+            "#ea7e3c",
+            "#8a422a",
+            "#ff8442",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#e66e3c",
+            "#ea7e3c"
+          ],
+          "description": "巨型氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E7%BF%BC%E6%9D%80%E6%89%8B2049",
+          "tags": [
+            "巨型",
+            "电影"
+          ]
+        },
+        {
+          "name": "银翼杀手2049 · 第 4 帧（橙青）",
+          "palette": [
+            "#e66e3c",
+            "#eb863c",
+            "#8a422a",
+            "#ff8442",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#e66e3c",
+            "#eb863c"
+          ],
+          "description": "橙青氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E7%BF%BC%E6%9D%80%E6%89%8B2049",
+          "tags": [
+            "橙青",
+            "电影"
+          ]
+        },
+        {
+          "name": "银翼杀手2049 · 第 5 帧（雾气）",
+          "palette": [
+            "#e66e3c",
+            "#ed8e3c",
+            "#8a422a",
+            "#ff8442",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#e66e3c",
+            "#ed8e3c"
+          ],
+          "description": "雾气氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E7%BF%BC%E6%9D%80%E6%89%8B2049",
+          "tags": [
+            "雾气",
+            "电影"
+          ]
+        },
+        {
+          "name": "银翼杀手2049 · 第 6 帧（巨型）",
+          "palette": [
+            "#e66e3c",
+            "#ef963c",
+            "#8a422a",
+            "#ff8442",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#e66e3c",
+            "#ef963c"
+          ],
+          "description": "巨型氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E7%BF%BC%E6%9D%80%E6%89%8B2049",
+          "tags": [
+            "巨型",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-005",
+      "title": "爱乐之城",
+      "director": "达米恩·查泽雷",
+      "year": 2016,
+      "tags": [
+        "蓝紫",
+        "夜景",
+        "歌舞"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E7%88%B1%E4%B9%90%E4%B9%8B%E5%9F%8E",
+      "frames": [
+        {
+          "name": "爱乐之城 · 第 1 帧（蓝紫）",
+          "palette": [
+            "#465ac8",
+            "#465ac8",
+            "#2a368c",
+            "#5b6cdc",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#465ac8",
+            "#465ac8"
+          ],
+          "description": "蓝紫氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%88%B1%E4%B9%90%E4%B9%8B%E5%9F%8E",
+          "tags": [
+            "蓝紫",
+            "电影"
+          ]
+        },
+        {
+          "name": "爱乐之城 · 第 2 帧（夜景）",
+          "palette": [
+            "#465ac8",
+            "#5362ac",
+            "#2a368c",
+            "#5b6cdc",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#465ac8",
+            "#5362ac"
+          ],
+          "description": "夜景氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%88%B1%E4%B9%90%E4%B9%8B%E5%9F%8E",
+          "tags": [
+            "夜景",
+            "电影"
+          ]
+        },
+        {
+          "name": "爱乐之城 · 第 3 帧（歌舞）",
+          "palette": [
+            "#465ac8",
+            "#606a90",
+            "#2a368c",
+            "#5b6cdc",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#465ac8",
+            "#606a90"
+          ],
+          "description": "歌舞氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%88%B1%E4%B9%90%E4%B9%8B%E5%9F%8E",
+          "tags": [
+            "歌舞",
+            "电影"
+          ]
+        },
+        {
+          "name": "爱乐之城 · 第 4 帧（蓝紫）",
+          "palette": [
+            "#465ac8",
+            "#6d7274",
+            "#2a368c",
+            "#5b6cdc",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#465ac8",
+            "#6d7274"
+          ],
+          "description": "蓝紫氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%88%B1%E4%B9%90%E4%B9%8B%E5%9F%8E",
+          "tags": [
+            "蓝紫",
+            "电影"
+          ]
+        },
+        {
+          "name": "爱乐之城 · 第 5 帧（夜景）",
+          "palette": [
+            "#465ac8",
+            "#7a7a58",
+            "#2a368c",
+            "#5b6cdc",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#465ac8",
+            "#7a7a58"
+          ],
+          "description": "夜景氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%88%B1%E4%B9%90%E4%B9%8B%E5%9F%8E",
+          "tags": [
+            "夜景",
+            "电影"
+          ]
+        },
+        {
+          "name": "爱乐之城 · 第 6 帧（歌舞）",
+          "palette": [
+            "#465ac8",
+            "#87823c",
+            "#2a368c",
+            "#5b6cdc",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#465ac8",
+            "#87823c"
+          ],
+          "description": "歌舞氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%88%B1%E4%B9%90%E4%B9%8B%E5%9F%8E",
+          "tags": [
+            "歌舞",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-006",
+      "title": "海上钢琴师",
+      "director": "朱塞佩·托纳多雷",
+      "year": 1998,
+      "tags": [
+        "暖黄",
+        "怀旧",
+        "海"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E4%B8%8A%E9%92%A2%E7%90%B4%E5%B8%88",
+      "frames": [
+        {
+          "name": "海上钢琴师 · 第 1 帧（暖黄）",
+          "palette": [
+            "#c8a064",
+            "#c8a064",
+            "#786046",
+            "#ffc06e",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#c8a064",
+            "#c8a064"
+          ],
+          "description": "暖黄氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E4%B8%8A%E9%92%A2%E7%90%B4%E5%B8%88",
+          "tags": [
+            "暖黄",
+            "电影"
+          ]
+        },
+        {
+          "name": "海上钢琴师 · 第 2 帧（怀旧）",
+          "palette": [
+            "#c8a064",
+            "#cca85c",
+            "#786046",
+            "#ffc06e",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#c8a064",
+            "#cca85c"
+          ],
+          "description": "怀旧氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E4%B8%8A%E9%92%A2%E7%90%B4%E5%B8%88",
+          "tags": [
+            "怀旧",
+            "电影"
+          ]
+        },
+        {
+          "name": "海上钢琴师 · 第 3 帧（海）",
+          "palette": [
+            "#c8a064",
+            "#d0b054",
+            "#786046",
+            "#ffc06e",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#c8a064",
+            "#d0b054"
+          ],
+          "description": "海氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E4%B8%8A%E9%92%A2%E7%90%B4%E5%B8%88",
+          "tags": [
+            "海",
+            "电影"
+          ]
+        },
+        {
+          "name": "海上钢琴师 · 第 4 帧（暖黄）",
+          "palette": [
+            "#c8a064",
+            "#d4b84c",
+            "#786046",
+            "#ffc06e",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#c8a064",
+            "#d4b84c"
+          ],
+          "description": "暖黄氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E4%B8%8A%E9%92%A2%E7%90%B4%E5%B8%88",
+          "tags": [
+            "暖黄",
+            "电影"
+          ]
+        },
+        {
+          "name": "海上钢琴师 · 第 5 帧（怀旧）",
+          "palette": [
+            "#c8a064",
+            "#d7c044",
+            "#786046",
+            "#ffc06e",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#c8a064",
+            "#d7c044"
+          ],
+          "description": "怀旧氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E4%B8%8A%E9%92%A2%E7%90%B4%E5%B8%88",
+          "tags": [
+            "怀旧",
+            "电影"
+          ]
+        },
+        {
+          "name": "海上钢琴师 · 第 6 帧（海）",
+          "palette": [
+            "#c8a064",
+            "#dbc83c",
+            "#786046",
+            "#ffc06e",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#c8a064",
+            "#dbc83c"
+          ],
+          "description": "海氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E4%B8%8A%E9%92%A2%E7%90%B4%E5%B8%88",
+          "tags": [
+            "海",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-007",
+      "title": "情书",
+      "director": "岩井俊二",
+      "year": 1995,
+      "tags": [
+        "雪白",
+        "清冷",
+        "逆光"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E6%83%85%E4%B9%A6",
+      "frames": [
+        {
+          "name": "情书 · 第 1 帧（雪白）",
+          "palette": [
+            "#dce6f0",
+            "#dce6f0",
+            "#848aa8",
+            "#ffffff",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#dce6f0",
+            "#dce6f0"
+          ],
+          "description": "雪白氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%83%85%E4%B9%A6",
+          "tags": [
+            "雪白",
+            "电影"
+          ]
+        },
+        {
+          "name": "情书 · 第 2 帧（清冷）",
+          "palette": [
+            "#dce6f0",
+            "#deeecc",
+            "#848aa8",
+            "#ffffff",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#dce6f0",
+            "#deeecc"
+          ],
+          "description": "清冷氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%83%85%E4%B9%A6",
+          "tags": [
+            "清冷",
+            "电影"
+          ]
+        },
+        {
+          "name": "情书 · 第 3 帧（逆光）",
+          "palette": [
+            "#dce6f0",
+            "#e1f6a8",
+            "#848aa8",
+            "#ffffff",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#dce6f0",
+            "#e1f6a8"
+          ],
+          "description": "逆光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%83%85%E4%B9%A6",
+          "tags": [
+            "逆光",
+            "电影"
+          ]
+        },
+        {
+          "name": "情书 · 第 4 帧（雪白）",
+          "palette": [
+            "#dce6f0",
+            "#e3fe84",
+            "#848aa8",
+            "#ffffff",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#dce6f0",
+            "#e3fe84"
+          ],
+          "description": "雪白氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%83%85%E4%B9%A6",
+          "tags": [
+            "雪白",
+            "电影"
+          ]
+        },
+        {
+          "name": "情书 · 第 5 帧（清冷）",
+          "palette": [
+            "#dce6f0",
+            "#e6ff60",
+            "#848aa8",
+            "#ffffff",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#dce6f0",
+            "#e6ff60"
+          ],
+          "description": "清冷氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%83%85%E4%B9%A6",
+          "tags": [
+            "清冷",
+            "电影"
+          ]
+        },
+        {
+          "name": "情书 · 第 6 帧（逆光）",
+          "palette": [
+            "#dce6f0",
+            "#e8ff3c",
+            "#848aa8",
+            "#ffffff",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#dce6f0",
+            "#e8ff3c"
+          ],
+          "description": "逆光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%83%85%E4%B9%A6",
+          "tags": [
+            "逆光",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-008",
+      "title": "银娇",
+      "director": "郑址宇",
+      "year": 2012,
+      "tags": [
+        "柔和",
+        "自然光",
+        "青春"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E5%A8%87",
+      "frames": [
+        {
+          "name": "银娇 · 第 1 帧（柔和）",
+          "palette": [
+            "#c8beaa",
+            "#c8beaa",
+            "#787277",
+            "#ffe4bb",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#c8beaa",
+            "#c8beaa"
+          ],
+          "description": "柔和氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E5%A8%87",
+          "tags": [
+            "柔和",
+            "电影"
+          ]
+        },
+        {
+          "name": "银娇 · 第 2 帧（自然光）",
+          "palette": [
+            "#c8beaa",
+            "#ccc694",
+            "#787277",
+            "#ffe4bb",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#c8beaa",
+            "#ccc694"
+          ],
+          "description": "自然光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E5%A8%87",
+          "tags": [
+            "自然光",
+            "电影"
+          ]
+        },
+        {
+          "name": "银娇 · 第 3 帧（青春）",
+          "palette": [
+            "#c8beaa",
+            "#d0ce7e",
+            "#787277",
+            "#ffe4bb",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#c8beaa",
+            "#d0ce7e"
+          ],
+          "description": "青春氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E5%A8%87",
+          "tags": [
+            "青春",
+            "电影"
+          ]
+        },
+        {
+          "name": "银娇 · 第 4 帧（柔和）",
+          "palette": [
+            "#c8beaa",
+            "#d4d668",
+            "#787277",
+            "#ffe4bb",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#c8beaa",
+            "#d4d668"
+          ],
+          "description": "柔和氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E5%A8%87",
+          "tags": [
+            "柔和",
+            "电影"
+          ]
+        },
+        {
+          "name": "银娇 · 第 5 帧（自然光）",
+          "palette": [
+            "#c8beaa",
+            "#d7de52",
+            "#787277",
+            "#ffe4bb",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#c8beaa",
+            "#d7de52"
+          ],
+          "description": "自然光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E5%A8%87",
+          "tags": [
+            "自然光",
+            "电影"
+          ]
+        },
+        {
+          "name": "银娇 · 第 6 帧（青春）",
+          "palette": [
+            "#c8beaa",
+            "#dbe63c",
+            "#787277",
+            "#ffe4bb",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#c8beaa",
+            "#dbe63c"
+          ],
+          "description": "青春氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E9%93%B6%E5%A8%87",
+          "tags": [
+            "青春",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-009",
+      "title": "卧虎藏龙",
+      "director": "李安",
+      "year": 2000,
+      "tags": [
+        "墨绿",
+        "竹林",
+        "留白"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E5%8D%A7%E8%99%8E%E8%97%8F%E9%BE%99",
+      "frames": [
+        {
+          "name": "卧虎藏龙 · 第 1 帧（墨绿）",
+          "palette": [
+            "#3c5a46",
+            "#3c5a46",
+            "#243631",
+            "#4e6c4d",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#3c5a46",
+            "#3c5a46"
+          ],
+          "description": "墨绿氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%A7%E8%99%8E%E8%97%8F%E9%BE%99",
+          "tags": [
+            "墨绿",
+            "电影"
+          ]
+        },
+        {
+          "name": "卧虎藏龙 · 第 2 帧（竹林）",
+          "palette": [
+            "#3c5a46",
+            "#4a6244",
+            "#243631",
+            "#4e6c4d",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#3c5a46",
+            "#4a6244"
+          ],
+          "description": "竹林氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%A7%E8%99%8E%E8%97%8F%E9%BE%99",
+          "tags": [
+            "竹林",
+            "电影"
+          ]
+        },
+        {
+          "name": "卧虎藏龙 · 第 3 帧（留白）",
+          "palette": [
+            "#3c5a46",
+            "#576a42",
+            "#243631",
+            "#4e6c4d",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#3c5a46",
+            "#576a42"
+          ],
+          "description": "留白氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%A7%E8%99%8E%E8%97%8F%E9%BE%99",
+          "tags": [
+            "留白",
+            "电影"
+          ]
+        },
+        {
+          "name": "卧虎藏龙 · 第 4 帧（墨绿）",
+          "palette": [
+            "#3c5a46",
+            "#657240",
+            "#243631",
+            "#4e6c4d",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#3c5a46",
+            "#657240"
+          ],
+          "description": "墨绿氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%A7%E8%99%8E%E8%97%8F%E9%BE%99",
+          "tags": [
+            "墨绿",
+            "电影"
+          ]
+        },
+        {
+          "name": "卧虎藏龙 · 第 5 帧（竹林）",
+          "palette": [
+            "#3c5a46",
+            "#737a3e",
+            "#243631",
+            "#4e6c4d",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#3c5a46",
+            "#737a3e"
+          ],
+          "description": "竹林氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%A7%E8%99%8E%E8%97%8F%E9%BE%99",
+          "tags": [
+            "竹林",
+            "电影"
+          ]
+        },
+        {
+          "name": "卧虎藏龙 · 第 6 帧（留白）",
+          "palette": [
+            "#3c5a46",
+            "#80823c",
+            "#243631",
+            "#4e6c4d",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#3c5a46",
+            "#80823c"
+          ],
+          "description": "留白氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%A7%E8%99%8E%E8%97%8F%E9%BE%99",
+          "tags": [
+            "留白",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-010",
+      "title": "一代宗师",
+      "director": "王家卫",
+      "year": 2013,
+      "tags": [
+        "金棕",
+        "雨夜",
+        "特写"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E4%B8%80%E4%BB%A3%E5%AE%97%E5%B8%88",
+      "frames": [
+        {
+          "name": "一代宗师 · 第 1 帧（金棕）",
+          "palette": [
+            "#966e3c",
+            "#966e3c",
+            "#5a422a",
+            "#c38442",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#966e3c",
+            "#966e3c"
+          ],
+          "description": "金棕氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%B8%80%E4%BB%A3%E5%AE%97%E5%B8%88",
+          "tags": [
+            "金棕",
+            "电影"
+          ]
+        },
+        {
+          "name": "一代宗师 · 第 2 帧（雨夜）",
+          "palette": [
+            "#966e3c",
+            "#9d763c",
+            "#5a422a",
+            "#c38442",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#966e3c",
+            "#9d763c"
+          ],
+          "description": "雨夜氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%B8%80%E4%BB%A3%E5%AE%97%E5%B8%88",
+          "tags": [
+            "雨夜",
+            "电影"
+          ]
+        },
+        {
+          "name": "一代宗师 · 第 3 帧（特写）",
+          "palette": [
+            "#966e3c",
+            "#a57e3c",
+            "#5a422a",
+            "#c38442",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#966e3c",
+            "#a57e3c"
+          ],
+          "description": "特写氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%B8%80%E4%BB%A3%E5%AE%97%E5%B8%88",
+          "tags": [
+            "特写",
+            "电影"
+          ]
+        },
+        {
+          "name": "一代宗师 · 第 4 帧（金棕）",
+          "palette": [
+            "#966e3c",
+            "#ac863c",
+            "#5a422a",
+            "#c38442",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#966e3c",
+            "#ac863c"
+          ],
+          "description": "金棕氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%B8%80%E4%BB%A3%E5%AE%97%E5%B8%88",
+          "tags": [
+            "金棕",
+            "电影"
+          ]
+        },
+        {
+          "name": "一代宗师 · 第 5 帧（雨夜）",
+          "palette": [
+            "#966e3c",
+            "#b38e3c",
+            "#5a422a",
+            "#c38442",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#966e3c",
+            "#b38e3c"
+          ],
+          "description": "雨夜氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%B8%80%E4%BB%A3%E5%AE%97%E5%B8%88",
+          "tags": [
+            "雨夜",
+            "电影"
+          ]
+        },
+        {
+          "name": "一代宗师 · 第 6 帧（特写）",
+          "palette": [
+            "#966e3c",
+            "#bb963c",
+            "#5a422a",
+            "#c38442",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#966e3c",
+            "#bb963c"
+          ],
+          "description": "特写氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%B8%80%E4%BB%A3%E5%AE%97%E5%B8%88",
+          "tags": [
+            "特写",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-011",
+      "title": "你的名字",
+      "director": "新海诚",
+      "year": 2016,
+      "tags": [
+        "暮色",
+        "橙蓝",
+        "天空"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97",
+      "frames": [
+        {
+          "name": "你的名字 · 第 1 帧（暮色）",
+          "palette": [
+            "#fa825a",
+            "#fa825a",
+            "#964e3f",
+            "#ff9c63",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#fa825a",
+            "#fa825a"
+          ],
+          "description": "暮色氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97",
+          "tags": [
+            "暮色",
+            "电影"
+          ]
+        },
+        {
+          "name": "你的名字 · 第 2 帧（橙蓝）",
+          "palette": [
+            "#fa825a",
+            "#fa8a54",
+            "#964e3f",
+            "#ff9c63",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#fa825a",
+            "#fa8a54"
+          ],
+          "description": "橙蓝氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97",
+          "tags": [
+            "橙蓝",
+            "电影"
+          ]
+        },
+        {
+          "name": "你的名字 · 第 3 帧（天空）",
+          "palette": [
+            "#fa825a",
+            "#fb924e",
+            "#964e3f",
+            "#ff9c63",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#fa825a",
+            "#fb924e"
+          ],
+          "description": "天空氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97",
+          "tags": [
+            "天空",
+            "电影"
+          ]
+        },
+        {
+          "name": "你的名字 · 第 4 帧（暮色）",
+          "palette": [
+            "#fa825a",
+            "#fb9a48",
+            "#964e3f",
+            "#ff9c63",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#fa825a",
+            "#fb9a48"
+          ],
+          "description": "暮色氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97",
+          "tags": [
+            "暮色",
+            "电影"
+          ]
+        },
+        {
+          "name": "你的名字 · 第 5 帧（橙蓝）",
+          "palette": [
+            "#fa825a",
+            "#fba242",
+            "#964e3f",
+            "#ff9c63",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#fa825a",
+            "#fba242"
+          ],
+          "description": "橙蓝氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97",
+          "tags": [
+            "橙蓝",
+            "电影"
+          ]
+        },
+        {
+          "name": "你的名字 · 第 6 帧（天空）",
+          "palette": [
+            "#fa825a",
+            "#fcaa3c",
+            "#964e3f",
+            "#ff9c63",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#fa825a",
+            "#fcaa3c"
+          ],
+          "description": "天空氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97",
+          "tags": [
+            "天空",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-012",
+      "title": "天气之子",
+      "director": "新海诚",
+      "year": 2019,
+      "tags": [
+        "蓝雨",
+        "光斑",
+        "都市"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E5%A4%A9%E6%B0%94%E4%B9%8B%E5%AD%90",
+      "frames": [
+        {
+          "name": "天气之子 · 第 1 帧（蓝雨）",
+          "palette": [
+            "#5aa0e6",
+            "#5aa0e6",
+            "#3660a1",
+            "#75c0fd",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#5aa0e6",
+            "#5aa0e6"
+          ],
+          "description": "蓝雨氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A4%A9%E6%B0%94%E4%B9%8B%E5%AD%90",
+          "tags": [
+            "蓝雨",
+            "电影"
+          ]
+        },
+        {
+          "name": "天气之子 · 第 2 帧（光斑）",
+          "palette": [
+            "#5aa0e6",
+            "#66a8c4",
+            "#3660a1",
+            "#75c0fd",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#5aa0e6",
+            "#66a8c4"
+          ],
+          "description": "光斑氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A4%A9%E6%B0%94%E4%B9%8B%E5%AD%90",
+          "tags": [
+            "光斑",
+            "电影"
+          ]
+        },
+        {
+          "name": "天气之子 · 第 3 帧（都市）",
+          "palette": [
+            "#5aa0e6",
+            "#71b0a2",
+            "#3660a1",
+            "#75c0fd",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#5aa0e6",
+            "#71b0a2"
+          ],
+          "description": "都市氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A4%A9%E6%B0%94%E4%B9%8B%E5%AD%90",
+          "tags": [
+            "都市",
+            "电影"
+          ]
+        },
+        {
+          "name": "天气之子 · 第 4 帧（蓝雨）",
+          "palette": [
+            "#5aa0e6",
+            "#7db880",
+            "#3660a1",
+            "#75c0fd",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#5aa0e6",
+            "#7db880"
+          ],
+          "description": "蓝雨氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A4%A9%E6%B0%94%E4%B9%8B%E5%AD%90",
+          "tags": [
+            "蓝雨",
+            "电影"
+          ]
+        },
+        {
+          "name": "天气之子 · 第 5 帧（光斑）",
+          "palette": [
+            "#5aa0e6",
+            "#88c05e",
+            "#3660a1",
+            "#75c0fd",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#5aa0e6",
+            "#88c05e"
+          ],
+          "description": "光斑氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A4%A9%E6%B0%94%E4%B9%8B%E5%AD%90",
+          "tags": [
+            "光斑",
+            "电影"
+          ]
+        },
+        {
+          "name": "天气之子 · 第 6 帧（都市）",
+          "palette": [
+            "#5aa0e6",
+            "#94c83c",
+            "#3660a1",
+            "#75c0fd",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#5aa0e6",
+            "#94c83c"
+          ],
+          "description": "都市氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A4%A9%E6%B0%94%E4%B9%8B%E5%AD%90",
+          "tags": [
+            "都市",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-013",
+      "title": "千与千寻",
+      "director": "宫崎骏",
+      "year": 2001,
+      "tags": [
+        "红灯笼",
+        "暖光",
+        "幻想"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E5%8D%83%E4%B8%8E%E5%8D%83%E5%AF%BB",
+      "frames": [
+        {
+          "name": "千与千寻 · 第 1 帧（红灯笼）",
+          "palette": [
+            "#d25a46",
+            "#d25a46",
+            "#7e3631",
+            "#ff6c4d",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#d25a46",
+            "#d25a46"
+          ],
+          "description": "红灯笼氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%83%E4%B8%8E%E5%8D%83%E5%AF%BB",
+          "tags": [
+            "红灯笼",
+            "电影"
+          ]
+        },
+        {
+          "name": "千与千寻 · 第 2 帧（暖光）",
+          "palette": [
+            "#d25a46",
+            "#d56244",
+            "#7e3631",
+            "#ff6c4d",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#d25a46",
+            "#d56244"
+          ],
+          "description": "暖光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%83%E4%B8%8E%E5%8D%83%E5%AF%BB",
+          "tags": [
+            "暖光",
+            "电影"
+          ]
+        },
+        {
+          "name": "千与千寻 · 第 3 帧（幻想）",
+          "palette": [
+            "#d25a46",
+            "#d86a42",
+            "#7e3631",
+            "#ff6c4d",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#d25a46",
+            "#d86a42"
+          ],
+          "description": "幻想氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%83%E4%B8%8E%E5%8D%83%E5%AF%BB",
+          "tags": [
+            "幻想",
+            "电影"
+          ]
+        },
+        {
+          "name": "千与千寻 · 第 4 帧（红灯笼）",
+          "palette": [
+            "#d25a46",
+            "#db7240",
+            "#7e3631",
+            "#ff6c4d",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#d25a46",
+            "#db7240"
+          ],
+          "description": "红灯笼氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%83%E4%B8%8E%E5%8D%83%E5%AF%BB",
+          "tags": [
+            "红灯笼",
+            "电影"
+          ]
+        },
+        {
+          "name": "千与千寻 · 第 5 帧（暖光）",
+          "palette": [
+            "#d25a46",
+            "#df7a3e",
+            "#7e3631",
+            "#ff6c4d",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#d25a46",
+            "#df7a3e"
+          ],
+          "description": "暖光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%83%E4%B8%8E%E5%8D%83%E5%AF%BB",
+          "tags": [
+            "暖光",
+            "电影"
+          ]
+        },
+        {
+          "name": "千与千寻 · 第 6 帧（幻想）",
+          "palette": [
+            "#d25a46",
+            "#e2823c",
+            "#7e3631",
+            "#ff6c4d",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#d25a46",
+            "#e2823c"
+          ],
+          "description": "幻想氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%83%E4%B8%8E%E5%8D%83%E5%AF%BB",
+          "tags": [
+            "幻想",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-014",
+      "title": "路边野餐",
+      "director": "毕赣",
+      "year": 2015,
+      "tags": [
+        "潮湿",
+        "绿调",
+        "长镜"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E8%B7%AF%E8%BE%B9%E9%87%8E%E9%A4%90",
+      "frames": [
+        {
+          "name": "路边野餐 · 第 1 帧（潮湿）",
+          "palette": [
+            "#5a6e5a",
+            "#5a6e5a",
+            "#36423f",
+            "#758463",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#5a6e5a",
+            "#5a6e5a"
+          ],
+          "description": "潮湿氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%B7%AF%E8%BE%B9%E9%87%8E%E9%A4%90",
+          "tags": [
+            "潮湿",
+            "电影"
+          ]
+        },
+        {
+          "name": "路边野餐 · 第 2 帧（绿调）",
+          "palette": [
+            "#5a6e5a",
+            "#667654",
+            "#36423f",
+            "#758463",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#5a6e5a",
+            "#667654"
+          ],
+          "description": "绿调氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%B7%AF%E8%BE%B9%E9%87%8E%E9%A4%90",
+          "tags": [
+            "绿调",
+            "电影"
+          ]
+        },
+        {
+          "name": "路边野餐 · 第 3 帧（长镜）",
+          "palette": [
+            "#5a6e5a",
+            "#717e4e",
+            "#36423f",
+            "#758463",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#5a6e5a",
+            "#717e4e"
+          ],
+          "description": "长镜氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%B7%AF%E8%BE%B9%E9%87%8E%E9%A4%90",
+          "tags": [
+            "长镜",
+            "电影"
+          ]
+        },
+        {
+          "name": "路边野餐 · 第 4 帧（潮湿）",
+          "palette": [
+            "#5a6e5a",
+            "#7d8648",
+            "#36423f",
+            "#758463",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#5a6e5a",
+            "#7d8648"
+          ],
+          "description": "潮湿氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%B7%AF%E8%BE%B9%E9%87%8E%E9%A4%90",
+          "tags": [
+            "潮湿",
+            "电影"
+          ]
+        },
+        {
+          "name": "路边野餐 · 第 5 帧（绿调）",
+          "palette": [
+            "#5a6e5a",
+            "#888e42",
+            "#36423f",
+            "#758463",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#5a6e5a",
+            "#888e42"
+          ],
+          "description": "绿调氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%B7%AF%E8%BE%B9%E9%87%8E%E9%A4%90",
+          "tags": [
+            "绿调",
+            "电影"
+          ]
+        },
+        {
+          "name": "路边野餐 · 第 6 帧（长镜）",
+          "palette": [
+            "#5a6e5a",
+            "#94963c",
+            "#36423f",
+            "#758463",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#5a6e5a",
+            "#94963c"
+          ],
+          "description": "长镜氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%B7%AF%E8%BE%B9%E9%87%8E%E9%A4%90",
+          "tags": [
+            "长镜",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-015",
+      "title": "白日焰火",
+      "director": "刁亦男",
+      "year": 2014,
+      "tags": [
+        "冷蓝",
+        "雪夜",
+        "黑色"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E7%99%BD%E6%97%A5%E7%84%B0%E7%81%AB",
+      "frames": [
+        {
+          "name": "白日焰火 · 第 1 帧（冷蓝）",
+          "palette": [
+            "#3c5078",
+            "#3c5078",
+            "#243054",
+            "#4e6084",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#3c5078",
+            "#3c5078"
+          ],
+          "description": "冷蓝氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%99%BD%E6%97%A5%E7%84%B0%E7%81%AB",
+          "tags": [
+            "冷蓝",
+            "电影"
+          ]
+        },
+        {
+          "name": "白日焰火 · 第 2 帧（雪夜）",
+          "palette": [
+            "#3c5078",
+            "#4a586c",
+            "#243054",
+            "#4e6084",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#3c5078",
+            "#4a586c"
+          ],
+          "description": "雪夜氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%99%BD%E6%97%A5%E7%84%B0%E7%81%AB",
+          "tags": [
+            "雪夜",
+            "电影"
+          ]
+        },
+        {
+          "name": "白日焰火 · 第 3 帧（黑色）",
+          "palette": [
+            "#3c5078",
+            "#576060",
+            "#243054",
+            "#4e6084",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#3c5078",
+            "#576060"
+          ],
+          "description": "黑色氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%99%BD%E6%97%A5%E7%84%B0%E7%81%AB",
+          "tags": [
+            "黑色",
+            "电影"
+          ]
+        },
+        {
+          "name": "白日焰火 · 第 4 帧（冷蓝）",
+          "palette": [
+            "#3c5078",
+            "#656854",
+            "#243054",
+            "#4e6084",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#3c5078",
+            "#656854"
+          ],
+          "description": "冷蓝氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%99%BD%E6%97%A5%E7%84%B0%E7%81%AB",
+          "tags": [
+            "冷蓝",
+            "电影"
+          ]
+        },
+        {
+          "name": "白日焰火 · 第 5 帧（雪夜）",
+          "palette": [
+            "#3c5078",
+            "#737048",
+            "#243054",
+            "#4e6084",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#3c5078",
+            "#737048"
+          ],
+          "description": "雪夜氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%99%BD%E6%97%A5%E7%84%B0%E7%81%AB",
+          "tags": [
+            "雪夜",
+            "电影"
+          ]
+        },
+        {
+          "name": "白日焰火 · 第 6 帧（黑色）",
+          "palette": [
+            "#3c5078",
+            "#80783c",
+            "#243054",
+            "#4e6084",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#3c5078",
+            "#80783c"
+          ],
+          "description": "黑色氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%99%BD%E6%97%A5%E7%84%B0%E7%81%AB",
+          "tags": [
+            "黑色",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-016",
+      "title": "燃烧女子的肖像",
+      "director": "瑟琳·席安玛",
+      "year": 2019,
+      "tags": [
+        "烛光",
+        "古典",
+        "蓝绿"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E7%87%83%E7%83%A7%E5%A5%B3%E5%AD%90%E7%9A%84%E8%82%96%E5%83%8F",
+      "frames": [
+        {
+          "name": "燃烧女子的肖像 · 第 1 帧（烛光）",
+          "palette": [
+            "#3c6e82",
+            "#3c6e82",
+            "#24425b",
+            "#4e848f",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#3c6e82",
+            "#3c6e82"
+          ],
+          "description": "烛光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%87%83%E7%83%A7%E5%A5%B3%E5%AD%90%E7%9A%84%E8%82%96%E5%83%8F",
+          "tags": [
+            "烛光",
+            "电影"
+          ]
+        },
+        {
+          "name": "燃烧女子的肖像 · 第 2 帧（古典）",
+          "palette": [
+            "#3c6e82",
+            "#4a7674",
+            "#24425b",
+            "#4e848f",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#3c6e82",
+            "#4a7674"
+          ],
+          "description": "古典氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%87%83%E7%83%A7%E5%A5%B3%E5%AD%90%E7%9A%84%E8%82%96%E5%83%8F",
+          "tags": [
+            "古典",
+            "电影"
+          ]
+        },
+        {
+          "name": "燃烧女子的肖像 · 第 3 帧（蓝绿）",
+          "palette": [
+            "#3c6e82",
+            "#577e66",
+            "#24425b",
+            "#4e848f",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#3c6e82",
+            "#577e66"
+          ],
+          "description": "蓝绿氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%87%83%E7%83%A7%E5%A5%B3%E5%AD%90%E7%9A%84%E8%82%96%E5%83%8F",
+          "tags": [
+            "蓝绿",
+            "电影"
+          ]
+        },
+        {
+          "name": "燃烧女子的肖像 · 第 4 帧（烛光）",
+          "palette": [
+            "#3c6e82",
+            "#658658",
+            "#24425b",
+            "#4e848f",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#3c6e82",
+            "#658658"
+          ],
+          "description": "烛光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%87%83%E7%83%A7%E5%A5%B3%E5%AD%90%E7%9A%84%E8%82%96%E5%83%8F",
+          "tags": [
+            "烛光",
+            "电影"
+          ]
+        },
+        {
+          "name": "燃烧女子的肖像 · 第 5 帧（古典）",
+          "palette": [
+            "#3c6e82",
+            "#738e4a",
+            "#24425b",
+            "#4e848f",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#3c6e82",
+            "#738e4a"
+          ],
+          "description": "古典氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%87%83%E7%83%A7%E5%A5%B3%E5%AD%90%E7%9A%84%E8%82%96%E5%83%8F",
+          "tags": [
+            "古典",
+            "电影"
+          ]
+        },
+        {
+          "name": "燃烧女子的肖像 · 第 6 帧（蓝绿）",
+          "palette": [
+            "#3c6e82",
+            "#80963c",
+            "#24425b",
+            "#4e848f",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#3c6e82",
+            "#80963c"
+          ],
+          "description": "蓝绿氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E7%87%83%E7%83%A7%E5%A5%B3%E5%AD%90%E7%9A%84%E8%82%96%E5%83%8F",
+          "tags": [
+            "蓝绿",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-017",
+      "title": "小妇人",
+      "director": "格蕾塔·葛韦格",
+      "year": 2019,
+      "tags": [
+        "暖阳",
+        "复古",
+        "群像"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E5%B0%8F%E5%A6%87%E4%BA%BA",
+      "frames": [
+        {
+          "name": "小妇人 · 第 1 帧（暖阳）",
+          "palette": [
+            "#e6b478",
+            "#e6b478",
+            "#8a6c54",
+            "#ffd884",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#e6b478",
+            "#e6b478"
+          ],
+          "description": "暖阳氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B0%8F%E5%A6%87%E4%BA%BA",
+          "tags": [
+            "暖阳",
+            "电影"
+          ]
+        },
+        {
+          "name": "小妇人 · 第 2 帧（复古）",
+          "palette": [
+            "#e6b478",
+            "#e8bc6c",
+            "#8a6c54",
+            "#ffd884",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#e6b478",
+            "#e8bc6c"
+          ],
+          "description": "复古氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B0%8F%E5%A6%87%E4%BA%BA",
+          "tags": [
+            "复古",
+            "电影"
+          ]
+        },
+        {
+          "name": "小妇人 · 第 3 帧（群像）",
+          "palette": [
+            "#e6b478",
+            "#eac460",
+            "#8a6c54",
+            "#ffd884",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#e6b478",
+            "#eac460"
+          ],
+          "description": "群像氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B0%8F%E5%A6%87%E4%BA%BA",
+          "tags": [
+            "群像",
+            "电影"
+          ]
+        },
+        {
+          "name": "小妇人 · 第 4 帧（暖阳）",
+          "palette": [
+            "#e6b478",
+            "#ebcc54",
+            "#8a6c54",
+            "#ffd884",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#e6b478",
+            "#ebcc54"
+          ],
+          "description": "暖阳氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B0%8F%E5%A6%87%E4%BA%BA",
+          "tags": [
+            "暖阳",
+            "电影"
+          ]
+        },
+        {
+          "name": "小妇人 · 第 5 帧（复古）",
+          "palette": [
+            "#e6b478",
+            "#edd448",
+            "#8a6c54",
+            "#ffd884",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#e6b478",
+            "#edd448"
+          ],
+          "description": "复古氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B0%8F%E5%A6%87%E4%BA%BA",
+          "tags": [
+            "复古",
+            "电影"
+          ]
+        },
+        {
+          "name": "小妇人 · 第 6 帧（群像）",
+          "palette": [
+            "#e6b478",
+            "#efdc3c",
+            "#8a6c54",
+            "#ffd884",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#e6b478",
+            "#efdc3c"
+          ],
+          "description": "群像氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%B0%8F%E5%A6%87%E4%BA%BA",
+          "tags": [
+            "群像",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-018",
+      "title": "请以你的名字呼唤我",
+      "director": "卢卡·瓜达尼诺",
+      "year": 2017,
+      "tags": [
+        "夏日",
+        "绿荫",
+        "阳光"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E8%AF%B7%E4%BB%A5%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97%E5%91%BC%E5%94%A4%E6%88%91",
+      "frames": [
+        {
+          "name": "请以你的名字呼唤我 · 第 1 帧（夏日）",
+          "palette": [
+            "#a0c878",
+            "#a0c878",
+            "#607854",
+            "#d0f084",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#a0c878",
+            "#a0c878"
+          ],
+          "description": "夏日氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%AF%B7%E4%BB%A5%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97%E5%91%BC%E5%94%A4%E6%88%91",
+          "tags": [
+            "夏日",
+            "电影"
+          ]
+        },
+        {
+          "name": "请以你的名字呼唤我 · 第 2 帧（绿荫）",
+          "palette": [
+            "#a0c878",
+            "#a7d06c",
+            "#607854",
+            "#d0f084",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#a0c878",
+            "#a7d06c"
+          ],
+          "description": "绿荫氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%AF%B7%E4%BB%A5%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97%E5%91%BC%E5%94%A4%E6%88%91",
+          "tags": [
+            "绿荫",
+            "电影"
+          ]
+        },
+        {
+          "name": "请以你的名字呼唤我 · 第 3 帧（阳光）",
+          "palette": [
+            "#a0c878",
+            "#add860",
+            "#607854",
+            "#d0f084",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#a0c878",
+            "#add860"
+          ],
+          "description": "阳光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%AF%B7%E4%BB%A5%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97%E5%91%BC%E5%94%A4%E6%88%91",
+          "tags": [
+            "阳光",
+            "电影"
+          ]
+        },
+        {
+          "name": "请以你的名字呼唤我 · 第 4 帧（夏日）",
+          "palette": [
+            "#a0c878",
+            "#b4e054",
+            "#607854",
+            "#d0f084",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#a0c878",
+            "#b4e054"
+          ],
+          "description": "夏日氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%AF%B7%E4%BB%A5%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97%E5%91%BC%E5%94%A4%E6%88%91",
+          "tags": [
+            "夏日",
+            "电影"
+          ]
+        },
+        {
+          "name": "请以你的名字呼唤我 · 第 5 帧（绿荫）",
+          "palette": [
+            "#a0c878",
+            "#bbe848",
+            "#607854",
+            "#d0f084",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#a0c878",
+            "#bbe848"
+          ],
+          "description": "绿荫氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%AF%B7%E4%BB%A5%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97%E5%91%BC%E5%94%A4%E6%88%91",
+          "tags": [
+            "绿荫",
+            "电影"
+          ]
+        },
+        {
+          "name": "请以你的名字呼唤我 · 第 6 帧（阳光）",
+          "palette": [
+            "#a0c878",
+            "#c1f03c",
+            "#607854",
+            "#d0f084",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#a0c878",
+            "#c1f03c"
+          ],
+          "description": "阳光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%AF%B7%E4%BB%A5%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97%E5%91%BC%E5%94%A4%E6%88%91",
+          "tags": [
+            "阳光",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-019",
+      "title": "午夜巴黎",
+      "director": "伍迪·艾伦",
+      "year": 2011,
+      "tags": [
+        "金黄",
+        "雨夜",
+        "复古"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E5%8D%88%E5%A4%9C%E5%B7%B4%E9%BB%8E",
+      "frames": [
+        {
+          "name": "午夜巴黎 · 第 1 帧（金黄）",
+          "palette": [
+            "#dcb450",
+            "#dcb450",
+            "#846c38",
+            "#ffd858",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#dcb450",
+            "#dcb450"
+          ],
+          "description": "金黄氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%88%E5%A4%9C%E5%B7%B4%E9%BB%8E",
+          "tags": [
+            "金黄",
+            "电影"
+          ]
+        },
+        {
+          "name": "午夜巴黎 · 第 2 帧（雨夜）",
+          "palette": [
+            "#dcb450",
+            "#debc4c",
+            "#846c38",
+            "#ffd858",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#dcb450",
+            "#debc4c"
+          ],
+          "description": "雨夜氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%88%E5%A4%9C%E5%B7%B4%E9%BB%8E",
+          "tags": [
+            "雨夜",
+            "电影"
+          ]
+        },
+        {
+          "name": "午夜巴黎 · 第 3 帧（复古）",
+          "palette": [
+            "#dcb450",
+            "#e1c448",
+            "#846c38",
+            "#ffd858",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#dcb450",
+            "#e1c448"
+          ],
+          "description": "复古氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%88%E5%A4%9C%E5%B7%B4%E9%BB%8E",
+          "tags": [
+            "复古",
+            "电影"
+          ]
+        },
+        {
+          "name": "午夜巴黎 · 第 4 帧（金黄）",
+          "palette": [
+            "#dcb450",
+            "#e3cc44",
+            "#846c38",
+            "#ffd858",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#dcb450",
+            "#e3cc44"
+          ],
+          "description": "金黄氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%88%E5%A4%9C%E5%B7%B4%E9%BB%8E",
+          "tags": [
+            "金黄",
+            "电影"
+          ]
+        },
+        {
+          "name": "午夜巴黎 · 第 5 帧（雨夜）",
+          "palette": [
+            "#dcb450",
+            "#e6d440",
+            "#846c38",
+            "#ffd858",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#dcb450",
+            "#e6d440"
+          ],
+          "description": "雨夜氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%88%E5%A4%9C%E5%B7%B4%E9%BB%8E",
+          "tags": [
+            "雨夜",
+            "电影"
+          ]
+        },
+        {
+          "name": "午夜巴黎 · 第 6 帧（复古）",
+          "palette": [
+            "#dcb450",
+            "#e8dc3c",
+            "#846c38",
+            "#ffd858",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#dcb450",
+            "#e8dc3c"
+          ],
+          "description": "复古氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%8D%88%E5%A4%9C%E5%B7%B4%E9%BB%8E",
+          "tags": [
+            "复古",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-020",
+      "title": "她",
+      "director": "斯派克·琼斯",
+      "year": 2013,
+      "tags": [
+        "暖橙",
+        "都市",
+        "柔和"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E5%A5%B9",
+      "frames": [
+        {
+          "name": "她 · 第 1 帧（暖橙）",
+          "palette": [
+            "#e68c64",
+            "#e68c64",
+            "#8a5446",
+            "#ffa86e",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#e68c64",
+            "#e68c64"
+          ],
+          "description": "暖橙氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A5%B9",
+          "tags": [
+            "暖橙",
+            "电影"
+          ]
+        },
+        {
+          "name": "她 · 第 2 帧（都市）",
+          "palette": [
+            "#e68c64",
+            "#e8945c",
+            "#8a5446",
+            "#ffa86e",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#e68c64",
+            "#e8945c"
+          ],
+          "description": "都市氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A5%B9",
+          "tags": [
+            "都市",
+            "电影"
+          ]
+        },
+        {
+          "name": "她 · 第 3 帧（柔和）",
+          "palette": [
+            "#e68c64",
+            "#ea9c54",
+            "#8a5446",
+            "#ffa86e",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#e68c64",
+            "#ea9c54"
+          ],
+          "description": "柔和氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A5%B9",
+          "tags": [
+            "柔和",
+            "电影"
+          ]
+        },
+        {
+          "name": "她 · 第 4 帧（暖橙）",
+          "palette": [
+            "#e68c64",
+            "#eba44c",
+            "#8a5446",
+            "#ffa86e",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#e68c64",
+            "#eba44c"
+          ],
+          "description": "暖橙氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A5%B9",
+          "tags": [
+            "暖橙",
+            "电影"
+          ]
+        },
+        {
+          "name": "她 · 第 5 帧（都市）",
+          "palette": [
+            "#e68c64",
+            "#edac44",
+            "#8a5446",
+            "#ffa86e",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#e68c64",
+            "#edac44"
+          ],
+          "description": "都市氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A5%B9",
+          "tags": [
+            "都市",
+            "电影"
+          ]
+        },
+        {
+          "name": "她 · 第 6 帧（柔和）",
+          "palette": [
+            "#e68c64",
+            "#efb43c",
+            "#8a5446",
+            "#ffa86e",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#e68c64",
+            "#efb43c"
+          ],
+          "description": "柔和氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E5%A5%B9",
+          "tags": [
+            "柔和",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-021",
+      "title": "沙丘",
+      "director": "丹尼斯·维伦纽瓦",
+      "year": 2021,
+      "tags": [
+        "沙金",
+        "巨型",
+        "迷雾"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E6%B2%99%E4%B8%98",
+      "frames": [
+        {
+          "name": "沙丘 · 第 1 帧（沙金）",
+          "palette": [
+            "#dcb482",
+            "#dcb482",
+            "#846c5b",
+            "#ffd88f",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#dcb482",
+            "#dcb482"
+          ],
+          "description": "沙金氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B2%99%E4%B8%98",
+          "tags": [
+            "沙金",
+            "电影"
+          ]
+        },
+        {
+          "name": "沙丘 · 第 2 帧（巨型）",
+          "palette": [
+            "#dcb482",
+            "#debc74",
+            "#846c5b",
+            "#ffd88f",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#dcb482",
+            "#debc74"
+          ],
+          "description": "巨型氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B2%99%E4%B8%98",
+          "tags": [
+            "巨型",
+            "电影"
+          ]
+        },
+        {
+          "name": "沙丘 · 第 3 帧（迷雾）",
+          "palette": [
+            "#dcb482",
+            "#e1c466",
+            "#846c5b",
+            "#ffd88f",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#dcb482",
+            "#e1c466"
+          ],
+          "description": "迷雾氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B2%99%E4%B8%98",
+          "tags": [
+            "迷雾",
+            "电影"
+          ]
+        },
+        {
+          "name": "沙丘 · 第 4 帧（沙金）",
+          "palette": [
+            "#dcb482",
+            "#e3cc58",
+            "#846c5b",
+            "#ffd88f",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#dcb482",
+            "#e3cc58"
+          ],
+          "description": "沙金氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B2%99%E4%B8%98",
+          "tags": [
+            "沙金",
+            "电影"
+          ]
+        },
+        {
+          "name": "沙丘 · 第 5 帧（巨型）",
+          "palette": [
+            "#dcb482",
+            "#e6d44a",
+            "#846c5b",
+            "#ffd88f",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#dcb482",
+            "#e6d44a"
+          ],
+          "description": "巨型氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B2%99%E4%B8%98",
+          "tags": [
+            "巨型",
+            "电影"
+          ]
+        },
+        {
+          "name": "沙丘 · 第 6 帧（迷雾）",
+          "palette": [
+            "#dcb482",
+            "#e8dc3c",
+            "#846c5b",
+            "#ffd88f",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#dcb482",
+            "#e8dc3c"
+          ],
+          "description": "迷雾氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B2%99%E4%B8%98",
+          "tags": [
+            "迷雾",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-022",
+      "title": "蝙蝠侠",
+      "director": "马特·里夫斯",
+      "year": 2022,
+      "tags": [
+        "暗橙",
+        "雨夜",
+        "霓虹"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E8%9D%99%E8%9D%A0%E4%BE%A0",
+      "frames": [
+        {
+          "name": "蝙蝠侠 · 第 1 帧（暗橙）",
+          "palette": [
+            "#c85a3c",
+            "#c85a3c",
+            "#78362a",
+            "#ff6c42",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#c85a3c",
+            "#c85a3c"
+          ],
+          "description": "暗橙氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%9D%99%E8%9D%A0%E4%BE%A0",
+          "tags": [
+            "暗橙",
+            "电影"
+          ]
+        },
+        {
+          "name": "蝙蝠侠 · 第 2 帧（雨夜）",
+          "palette": [
+            "#c85a3c",
+            "#cc623c",
+            "#78362a",
+            "#ff6c42",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#c85a3c",
+            "#cc623c"
+          ],
+          "description": "雨夜氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%9D%99%E8%9D%A0%E4%BE%A0",
+          "tags": [
+            "雨夜",
+            "电影"
+          ]
+        },
+        {
+          "name": "蝙蝠侠 · 第 3 帧（霓虹）",
+          "palette": [
+            "#c85a3c",
+            "#d06a3c",
+            "#78362a",
+            "#ff6c42",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#c85a3c",
+            "#d06a3c"
+          ],
+          "description": "霓虹氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%9D%99%E8%9D%A0%E4%BE%A0",
+          "tags": [
+            "霓虹",
+            "电影"
+          ]
+        },
+        {
+          "name": "蝙蝠侠 · 第 4 帧（暗橙）",
+          "palette": [
+            "#c85a3c",
+            "#d4723c",
+            "#78362a",
+            "#ff6c42",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#c85a3c",
+            "#d4723c"
+          ],
+          "description": "暗橙氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%9D%99%E8%9D%A0%E4%BE%A0",
+          "tags": [
+            "暗橙",
+            "电影"
+          ]
+        },
+        {
+          "name": "蝙蝠侠 · 第 5 帧（雨夜）",
+          "palette": [
+            "#c85a3c",
+            "#d77a3c",
+            "#78362a",
+            "#ff6c42",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#c85a3c",
+            "#d77a3c"
+          ],
+          "description": "雨夜氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%9D%99%E8%9D%A0%E4%BE%A0",
+          "tags": [
+            "雨夜",
+            "电影"
+          ]
+        },
+        {
+          "name": "蝙蝠侠 · 第 6 帧（霓虹）",
+          "palette": [
+            "#c85a3c",
+            "#db823c",
+            "#78362a",
+            "#ff6c42",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#c85a3c",
+            "#db823c"
+          ],
+          "description": "霓虹氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%9D%99%E8%9D%A0%E4%BE%A0",
+          "tags": [
+            "霓虹",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-023",
+      "title": "花样年华 2001",
+      "director": "王家卫",
+      "year": 2001,
+      "tags": [
+        "蓝绿",
+        "旗袍",
+        "走廊"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E%202001",
+      "frames": [
+        {
+          "name": "花样年华 2001 · 第 1 帧（蓝绿）",
+          "palette": [
+            "#3c786e",
+            "#3c786e",
+            "#24484d",
+            "#4e9079",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#3c786e",
+            "#3c786e"
+          ],
+          "description": "蓝绿氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E%202001",
+          "tags": [
+            "蓝绿",
+            "电影"
+          ]
+        },
+        {
+          "name": "花样年华 2001 · 第 2 帧（旗袍）",
+          "palette": [
+            "#3c786e",
+            "#4a8064",
+            "#24484d",
+            "#4e9079",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#3c786e",
+            "#4a8064"
+          ],
+          "description": "旗袍氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E%202001",
+          "tags": [
+            "旗袍",
+            "电影"
+          ]
+        },
+        {
+          "name": "花样年华 2001 · 第 3 帧（走廊）",
+          "palette": [
+            "#3c786e",
+            "#57885a",
+            "#24484d",
+            "#4e9079",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#3c786e",
+            "#57885a"
+          ],
+          "description": "走廊氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E%202001",
+          "tags": [
+            "走廊",
+            "电影"
+          ]
+        },
+        {
+          "name": "花样年华 2001 · 第 4 帧（蓝绿）",
+          "palette": [
+            "#3c786e",
+            "#659050",
+            "#24484d",
+            "#4e9079",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#3c786e",
+            "#659050"
+          ],
+          "description": "蓝绿氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E%202001",
+          "tags": [
+            "蓝绿",
+            "电影"
+          ]
+        },
+        {
+          "name": "花样年华 2001 · 第 5 帧（旗袍）",
+          "palette": [
+            "#3c786e",
+            "#739846",
+            "#24484d",
+            "#4e9079",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#3c786e",
+            "#739846"
+          ],
+          "description": "旗袍氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E%202001",
+          "tags": [
+            "旗袍",
+            "电影"
+          ]
+        },
+        {
+          "name": "花样年华 2001 · 第 6 帧（走廊）",
+          "palette": [
+            "#3c786e",
+            "#80a03c",
+            "#24484d",
+            "#4e9079",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#3c786e",
+            "#80a03c"
+          ],
+          "description": "走廊氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E8%8A%B1%E6%A0%B7%E5%B9%B4%E5%8D%8E%202001",
+          "tags": [
+            "走廊",
+            "电影"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "film-024",
+      "title": "海街日记",
+      "director": "是枝裕和",
+      "year": 2015,
+      "tags": [
+        "清新",
+        "自然光",
+        "日常",
+        "日系"
+      ],
+      "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E8%A1%97%E6%97%A5%E8%AE%B0",
+      "frames": [
+        {
+          "name": "海街日记 · 第 1 帧（清新）",
+          "palette": [
+            "#c8d2be",
+            "#c8d2be",
+            "#787e85",
+            "#fffcd1",
+            "#f0ece4"
+          ],
+          "gradient": [
+            "#c8d2be",
+            "#c8d2be"
+          ],
+          "description": "清新氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E8%A1%97%E6%97%A5%E8%AE%B0",
+          "tags": [
+            "清新",
+            "电影"
+          ]
+        },
+        {
+          "name": "海街日记 · 第 2 帧（自然光）",
+          "palette": [
+            "#c8d2be",
+            "#ccdaa4",
+            "#787e85",
+            "#fffcd1",
+            "#e8e6df"
+          ],
+          "gradient": [
+            "#c8d2be",
+            "#ccdaa4"
+          ],
+          "description": "自然光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E8%A1%97%E6%97%A5%E8%AE%B0",
+          "tags": [
+            "自然光",
+            "电影"
+          ]
+        },
+        {
+          "name": "海街日记 · 第 3 帧（日常）",
+          "palette": [
+            "#c8d2be",
+            "#d0e28a",
+            "#787e85",
+            "#fffcd1",
+            "#e0e0da"
+          ],
+          "gradient": [
+            "#c8d2be",
+            "#d0e28a"
+          ],
+          "description": "日常氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E8%A1%97%E6%97%A5%E8%AE%B0",
+          "tags": [
+            "日常",
+            "电影"
+          ]
+        },
+        {
+          "name": "海街日记 · 第 4 帧（日系）",
+          "palette": [
+            "#c8d2be",
+            "#d4ea70",
+            "#787e85",
+            "#fffcd1",
+            "#d8dad5"
+          ],
+          "gradient": [
+            "#c8d2be",
+            "#d4ea70"
+          ],
+          "description": "日系氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E8%A1%97%E6%97%A5%E8%AE%B0",
+          "tags": [
+            "日系",
+            "电影"
+          ]
+        },
+        {
+          "name": "海街日记 · 第 5 帧（清新）",
+          "palette": [
+            "#c8d2be",
+            "#d7f256",
+            "#787e85",
+            "#fffcd1",
+            "#d0d4d0"
+          ],
+          "gradient": [
+            "#c8d2be",
+            "#d7f256"
+          ],
+          "description": "清新氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E8%A1%97%E6%97%A5%E8%AE%B0",
+          "tags": [
+            "清新",
+            "电影"
+          ]
+        },
+        {
+          "name": "海街日记 · 第 6 帧（自然光）",
+          "palette": [
+            "#c8d2be",
+            "#dbfa3c",
+            "#787e85",
+            "#fffcd1",
+            "#c8cecb"
+          ],
+          "gradient": [
+            "#c8d2be",
+            "#dbfa3c"
+          ],
+          "description": "自然光氛围参考帧，适合提取色调与构图语言",
+          "sourceUrl": "https://film-grab.com/?s=%E6%B5%B7%E8%A1%97%E6%97%A5%E8%AE%B0",
+          "tags": [
+            "自然光",
+            "电影"
+          ]
+        }
+      ]
+    }
+  ]
+}

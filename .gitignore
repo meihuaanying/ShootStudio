@@ -1,0 +1,32 @@
+# 凭据与本地数据（禁止提交）
+app/assets/config/image_sources.json
+
+# 构建产物
+app/build/
+web/dist/
+web/.astro/
+**/node_modules/
+app/.dart_tool/
+app/tool/engine_build/node_modules/
+
+# 运行期数据（如误落在仓库内）
+**/logs/
+**/exports/
+**/*.sqlite
+**/*.sqlite-journal
+
+# 平台工程生成物
+app/windows/flutter/ephemeral/
+app/android/.gradle/
+app/android/.kotlin/
+app/android/local.properties
+app/android/key.properties
+app/*.keystore
+app/*.jks
+
+# 编辑器与系统
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+const modules = [
+  {
+    no: '6.1',
+    title: '画面参考库（FILMGRAB 转化）',
+    points: [
+      '影片 → 静帧两层档案结构，片名 / 导演 / 年份混合检索',
+      '静帧详情：五色色卡、出处标注、一键收入参考画板、插入策划案样片',
+      '本地导入（压缩 ≤300KB + 自动色卡）、剪贴板截图、内置浏览面板访问 film-grab.com 一键截取',
+      '按「色调 / 构图 / 光影 / 神态 / 场景」标签筛选，筛选条件可保存',
+    ],
+  },
+  {
+    no: '6.2',
+    title: '布光预演室（Set.a.light 转化）',
+    points: [
+      '俯视灯位画布：拖动灯光/道具，实时显示坐标、方位角、距离、亮度、色温',
+      '实时 3D 预览：three.js 白棚 + 双色环绕灯 + 自研关节假人，俯视 ↔ 3D 双向联动（可解耦）',
+      '23 套经典光位预设（三点/蝶形/伦勃朗/分割/环形/夜景霓虹…），设备与道具位置清单实时汇总',
+      '效果预览（明暗分区示意）、布光单导出；灯具可从设备库一键放入并带真实光型参数',
+    ],
+  },
+  {
+    no: '6.3',
+    title: '动作摆姿库（posemaniacs 转化）',
+    points: [
+      '人体 3D 模型（硬约束：非简笔画），12 关节角度驱动，360° 拖动查看',
+      '120+ 姿势预设：站/坐/跪/蹲/双人/动态/情绪/手部 八大分类 × 三档难度',
+      '关节级微调（rx/ry/rz 滑杆）后另存为自定义姿势',
+      '动作要领（重心/手部/常见错误）+ 镜头焦段建议；今日姿势；一键注入布光场景看打光',
+    ],
+  },
+  {
+    no: '6.4',
+    title: '工作区与五大资源库',
+    points: [
+      '模特 / 场地 / 服装 / 道具 / 妆面五库同构；条目被策划案引用时删除弹出引用清单',
+      '设备数据库：81 款机身 / 123 支镜头 / 25 款灯具（卡口 / 画幅 / 像素 / 功率 / 色温 / 显色指数 / 参考价）',
+      '服装目录 9 大类（正装/休闲/汉服/JK/Lolita/Cos/婚纱/民族/运动）',
+      '道具预设 14 种（反光板/透明伞/花束/烟饼…）含采购与分工字段；自定义上传图作为封面/贴图/导出素材',
+    ],
+  },
+  {
+    no: '6.5',
+    title: '积木式策划编辑器与模板库',
+    points: [
+      '14 种模块（拍摄主题/模特/场地/日照/样片/色卡/布光图/姿势/服装/道具/妆造/分工/预算/富文本）',
+      '日照模块自动计算黄金时刻 / 蓝调时刻 / 日出日落（简化 NOAA 算法）',
+      '编辑停顿 3 秒自动快照；无限版本历史 + 手动里程碑命名 + 模块级 diff 对比 + 一键回滚',
+      '全状态可编辑（定稿只是标签）；内置 8 套模板，云端模板增量下发',
+    ],
+  },
+  {
+    no: '6.6',
+    title: 'AI 策划助手',
+    points: [
+      '13 家提供方预设（DeepSeek/OpenAI/阿里百炼/智谱/Kimi/火山方舟/Claude/Gemini/商汤/OpenCode Zen/Command Code/基元律动/自定义）',
+      '预设向导 + AES-256-GCM 加密存 Key（主密钥入系统钥匙串） + 模型发现 + 连通性测试（延迟与回显）',
+      '智能路由：失败自动切换；观测台记录提供方/模型/延迟/token/成败',
+      '输出经模块 Schema 校验，校验失败自动重试一次；无 Key / 断网 → 本地规则引擎 100% 兜底',
+    ],
+  },
+  {
+    no: '6.7',
+    title: '导出与分享',
+    points: [
+      '1080px 高清长图（模块顺序一致，姿势九宫格，出处标注保留）',
+      '打印版 PDF（A4 排版，草稿态自动水印标注）',
+      '.sspak 数据包：策划案 + 关联资源 + 布光方案 + 收藏姿势整体交接，导入自动重映射引用',
+      '导出前完整性检查；导出后显示 SHA-256 与落盘路径',
+    ],
+  },
+  {
+    no: '6.8',
+    title: '官网与下载中心',
+    points: [
+      '静态站（Astro + Tailwind + GSAP + Three.js），明暗主题跟随系统',
+      '下载页：国内 CDN 镜像优先、GitHub Release 回退，双源 SHA-256 校验',
+      '模板库展示与应用内云端模板同源数据（templates.json）',
+      '公告 JSON 由 CI 发版时自动更新，与应用内更新检查同源一致',
+    ],
+  },
+  {
+    no: '6.9',
+    title: '应用内更新与推送',
+    points: [
+      '启动静默检查（仅横幅提示不打断）+ 手动检查三态（有新版本 / 已最新 / 网络异常）',
+      '版本更新走 Release；模板/姿势/布光预设等内容包走增量 JSON 通道，免升级获取',
+      '公告 JSON 拉取失败静默降级，不影响任何本地功能',
+      '版本号语义化，仓库 / Release / 官网 / 应用内四处一致',
+    ],
+  },
+];
+---
+<Layout title="功能介绍 · 正片工坊 ShootStudio">
+  <section class="mx-auto max-w-4xl px-6 pb-6 pt-16">
+    <h1 class="text-3xl font-extrabold md:text-4xl" data-reveal>九个功能模块，一条闭环</h1>
+    <p class="mt-4 max-w-2xl text-[14px] leading-7 text-ss-muted dark:text-ss-muted-dark" data-reveal>
+      素材层喂给成案层，成案层流向分发层 —— 不离开工作台即可完成全部策划流程。
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 pb-20">
+    <div class="flex flex-col gap-5">
+      {modules.map((module) => (
+        <article class="card p-6" data-reveal>
+          <p class="mono text-[11px] tracking-[0.18em] text-ss-accent">{module.no}</p>
+          <h2 class="mt-1 text-[19px] font-bold">{module.title}</h2>
+          <ul class="mt-3 space-y-2">
+            {module.points.map((point) => (
+              <li class="flex gap-2 text-[13px] leading-6 text-ss-muted dark:text-ss-muted-dark">
+                <span class="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-ss-accent"></span>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

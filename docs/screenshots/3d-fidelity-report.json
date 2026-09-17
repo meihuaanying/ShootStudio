@@ -1,0 +1,198 @@
+{
+  "generatedAt": "2026-09-15T02:52:54.802Z",
+  "mode": "file",
+  "chars": [
+    "realistic-man-01"
+  ],
+  "views": [
+    0,
+    1
+  ],
+  "width": 640,
+  "height": 900,
+  "results": [
+    {
+      "char": "realistic-man-01",
+      "view": 0,
+      "file": "docs/screenshots/realistic-view0.png",
+      "bytes": 128262,
+      "triangles": 84550,
+      "subdivision": 1,
+      "materialPreset": "realistic",
+      "missingJoints": [],
+      "skinProbe": {
+        "meshes": 12,
+        "sampled": 2171,
+        "maxDeform": 0.23272,
+        "maxDeformNorm": 1.571
+      },
+      "meshInfo": [
+        {
+          "name": "Mesh",
+          "base": 54688,
+          "iterations": 0,
+          "applied": 54688
+        },
+        {
+          "name": "Mesh_1",
+          "base": 3040,
+          "iterations": 0,
+          "applied": 3040
+        },
+        {
+          "name": "Mesh_2",
+          "base": 736,
+          "iterations": 0,
+          "applied": 736
+        },
+        {
+          "name": "Mesh_3",
+          "base": 4800,
+          "iterations": 0,
+          "applied": 4800
+        },
+        {
+          "name": "Humaneyebrow001",
+          "base": 192,
+          "iterations": 0,
+          "applied": 192
+        },
+        {
+          "name": "Humaneyelashes01",
+          "base": 368,
+          "iterations": 0,
+          "applied": 368
+        },
+        {
+          "name": "Humanhigh-poly",
+          "base": 2040,
+          "iterations": 0,
+          "applied": 2040
+        },
+        {
+          "name": "Humanmale_casualsuit02",
+          "base": 4120,
+          "iterations": 0,
+          "applied": 4120
+        },
+        {
+          "name": "Humanshoes04",
+          "base": 3320,
+          "iterations": 0,
+          "applied": 3320
+        },
+        {
+          "name": "Humanshort01",
+          "base": 3678,
+          "iterations": 0,
+          "applied": 3678
+        },
+        {
+          "name": "Humanteeth_base",
+          "base": 7120,
+          "iterations": 0,
+          "applied": 7120
+        },
+        {
+          "name": "Humantongue01",
+          "base": 448,
+          "iterations": 0,
+          "applied": 448
+        }
+      ],
+      "meshTriangles": 84550
+    },
+    {
+      "char": "realistic-man-01",
+      "view": 1,
+      "file": "docs/screenshots/realistic-view1.png",
+      "bytes": 71204,
+      "triangles": 84550,
+      "subdivision": 1,
+      "materialPreset": "realistic",
+      "missingJoints": [],
+      "skinProbe": {
+        "meshes": 12,
+        "sampled": 2171,
+        "maxDeform": 0.23272,
+        "maxDeformNorm": 1.571
+      },
+      "meshInfo": [
+        {
+          "name": "Mesh",
+          "base": 54688,
+          "iterations": 0,
+          "applied": 54688
+        },
+        {
+          "name": "Mesh_1",
+          "base": 3040,
+          "iterations": 0,
+          "applied": 3040
+        },
+        {
+          "name": "Mesh_2",
+          "base": 736,
+          "iterations": 0,
+          "applied": 736
+        },
+        {
+          "name": "Mesh_3",
+          "base": 4800,
+          "iterations": 0,
+          "applied": 4800
+        },
+        {
+          "name": "Humaneyebrow001",
+          "base": 192,
+          "iterations": 0,
+          "applied": 192
+        },
+        {
+          "name": "Humaneyelashes01",
+          "base": 368,
+          "iterations": 0,
+          "applied": 368
+        },
+        {
+          "name": "Humanhigh-poly",
+          "base": 2040,
+          "iterations": 0,
+          "applied": 2040
+        },
+        {
+          "name": "Humanmale_casualsuit02",
+          "base": 4120,
+          "iterations": 0,
+          "applied": 4120
+        },
+        {
+          "name": "Humanshoes04",
+          "base": 3320,
+          "iterations": 0,
+          "applied": 3320
+        },
+        {
+          "name": "Humanshort01",
+          "base": 3678,
+          "iterations": 0,
+          "applied": 3678
+        },
+        {
+          "name": "Humanteeth_base",
+          "base": 7120,
+          "iterations": 0,
+          "applied": 7120
+        },
+        {
+          "name": "Humantongue01",
+          "base": 448,
+          "iterations": 0,
+          "applied": 448
+        }
+      ],
+      "meshTriangles": 84550
+    }
+  ],
+  "failures": []
+}
