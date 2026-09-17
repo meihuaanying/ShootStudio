@@ -1209,12 +1209,21 @@ class ExportService {
     ];
     for (final String path in candidates) {
       final file = File(path);
-      if (file.existsSync()) {
-        try {
-          return ByteData.sublistView(file.readAsBytesSync());
-        } catch (_) {
+      if (!file.existsSync()) continue;
+      try {
+        final Uint8List bytes = file.readAsBytesSync();
+        // pdf 包仅支持单字体（TTF/OTF）；TTC 字体集合会因缺 head 表解析崩溃 → 跳过。
+        // （Windows 的 simsun.ttc / Android 的 NotoSansCJK-Regular.ttc 均属此类。）
+        if (bytes.length < 12 ||
+            (bytes[0] == 0x74 &&
+                bytes[1] == 0x74 &&
+                bytes[2] == 0x63 &&
+                bytes[3] == 0x66)) {
           continue;
         }
+        return ByteData.sublistView(bytes);
+      } catch (_) {
+        continue;
       }
     }
     return null;

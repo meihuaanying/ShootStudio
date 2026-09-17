@@ -57,5 +57,5 @@ void main() {
 
   test('默认工作区路径可解析（Windows 文档目录）', () async {
     expect(Platform.isWindows, isTrue);
-  });
+  }, skip: !Platform.isWindows ? '仅 Windows 平台适用（CI Linux 跳过）' : null);
 }

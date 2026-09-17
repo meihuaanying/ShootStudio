@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,8 +44,11 @@ Future<void> settleUntilGone(
 }
 
 /// F6 黄金三屏：引导页 / 开案页 / 空策划案。
+/// 基线为 Windows 渲染（字体/抗锯齿跨平台不同），非 Windows 平台跳过（CI Linux）。
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  final bool goldenSkip = !Platform.isWindows;
 
   setUp(() async {
     EditableText.debugDeterministicCursor = true;
@@ -70,7 +75,7 @@ void main() {
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/onboarding.png'),
     );
-  });
+  }, skip: goldenSkip);
 
   testWidgets('golden · 开案页（极简首屏）', (WidgetTester tester) async {
     useGoldenView(tester);
@@ -86,7 +91,7 @@ void main() {
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/home_empty.png'),
     );
-  });
+  }, skip: goldenSkip);
 
   testWidgets('golden · 空策划案', (WidgetTester tester) async {
     useGoldenView(tester);
@@ -104,5 +109,5 @@ void main() {
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/planner_empty.png'),
     );
-  });
+  }, skip: goldenSkip);
 }
