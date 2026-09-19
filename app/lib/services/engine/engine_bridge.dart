@@ -229,6 +229,18 @@ class EngineBridge {
   Future<void> setPerformanceProfile(String profile) => _js(
       'window.ss && window.ss.setPerformanceProfile && window.ss.setPerformanceProfile("$profile");');
 
+  /// V6/D111：光锥可视化开关。
+  Future<void> setLightCones(bool on) => _js(
+      'window.ss && window.ss.setLightCones && window.ss.setLightCones(${on ? 'true' : 'false'});');
+
+  /// V6/D105：相机 POV 预览开关。
+  Future<void> setCameraView(bool on) => _js(
+      'window.ss && window.ss.setCameraView && window.ss.setCameraView(${on ? 'true' : 'false'});');
+
+  /// V6/D105：机位参数（位置/高度/俯仰/偏航/焦段）。
+  Future<void> setCameraRig(Map<String, Object?> rig) => _js(
+      'window.ss && window.ss.setCameraRig && window.ss.setCameraRig(${jsonEncode(rig)});');
+
   /// V5/D86：手部预设（side: l|r；双手组合预设会同时写入左右手）。
   Future<void> setHandPose(String side, String presetId) => _js(
       'window.ss && window.ss.setHandPose && window.ss.setHandPose("$side", "$presetId");');

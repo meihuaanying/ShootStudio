@@ -47,6 +47,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
   String _lastPreset = '';
   double _lastEnv = -1;
   String _lastPerformance = '';
+  int _lastCameraSeq = 0;
 
   @override
   void initState() {
@@ -116,6 +117,19 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       if (next.performanceProfile != _lastPerformance) {
         _lastPerformance = next.performanceProfile;
         _bridge?.setPerformanceProfile(next.performanceProfile);
+      }
+      // V6/D111 光锥。
+      if (prev?.lightCones != next.lightCones) {
+        _bridge?.setLightCones(next.lightCones);
+      }
+      // V6/D105 相机 POV。
+      if (prev?.cameraView != next.cameraView) {
+        _bridge?.setCameraView(next.cameraView);
+      }
+      // V6/D105 机位变更（拖动/滑杆）→ 引擎即时同步。
+      if (next.cameraSeq != _lastCameraSeq) {
+        _lastCameraSeq = next.cameraSeq;
+        _bridge?.setCameraRig(next.scene.camera.toJson());
       }
     });
 
@@ -318,6 +332,21 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             },
           ),
         ),
+        // V6/D105：一键切相机视角看构图。
+        Padding(
+          padding: const EdgeInsets.only(right: 6),
+          child: SsChip(
+            label: state.cameraView ? '相机视角中' : '相机视角',
+            selected: state.cameraView,
+            onTap: () {
+              final bool next = !state.cameraView;
+              controller.setCameraView(next);
+              if (next && state.viewMode == 'top') {
+                controller.setView('scene3d');
+              }
+            },
+          ),
+        ),
         const Spacer(),
         if (state.status.isNotEmpty)
           Text(
@@ -344,6 +373,8 @@ class _LightingPageState extends ConsumerState<LightingPage> {
           onSelect: controller.select,
           onMove: controller.moveDevice,
           onMoveEnd: _queueApplyScene,
+          onCameraMove: controller.moveCamera,
+          onCameraMoveEnd: _queueApplyScene,
         ),
       ),
     );
@@ -374,6 +405,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               _bridge?.setContactShadow(fresh.contactShadow);
               _lastPerformance = fresh.performanceProfile;
               _bridge?.setPerformanceProfile(fresh.performanceProfile);
+              _bridge?.setCameraView(fresh.cameraView);
+              _bridge?.setLightCones(fresh.lightCones);
+              _lastCameraSeq = fresh.cameraSeq;
               if (_character.characterId.isNotEmpty) {
                 applyCharacterSelection(_bridge, _character);
               }
@@ -648,6 +682,10 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               title: '未选中对象',
               hint: '在画布或 3D 视图中点选灯光 / 道具',
             ),
+            const SizedBox(height: AppTokens.s12),
+            _CameraRigPanel(
+                state: state,
+                controller: ref.read(lightingControllerProvider.notifier)),
             const SizedBox(height: AppTokens.s12),
             _LightMeterCard(scene: state.scene),
             const SizedBox(height: AppTokens.s12),
@@ -1675,6 +1713,144 @@ class _HandPosePanelState extends State<_HandPosePanel> {
   }
 }
 
+/// V6/D105：机位面板（俯视图拖动 + 高度/俯仰/偏航/焦段 + POV 预览）。
+class _CameraRigPanel extends StatelessWidget {
+  const _CameraRigPanel({required this.state, required this.controller});
+
+  final LightingState state;
+  final LightingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final CameraRigData cam = state.scene.camera;
+    return _CollapsibleCard(
+      title: '机位',
+      subtitle: '摄影师机位 · 自动瞄准 · 俯视图拖动',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              const Text('相机模型',
+                  style:
+                      TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+              const Spacer(),
+              SsChip(
+                label: cam.enabled ? '显示' : '隐藏',
+                selected: cam.enabled,
+                onTap: () => controller
+                    .updateCamera((CameraRigData c) => c.enabled = !c.enabled),
+              ),
+              const SizedBox(width: 6),
+              SsChip(
+                label: state.cameraView ? '视角中' : '看构图',
+                selected: state.cameraView,
+                onTap: () {
+                  final bool next = !state.cameraView;
+                  controller.setCameraView(next);
+                  if (next && state.viewMode == 'top') {
+                    controller.setView('scene3d');
+                  }
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          _slider(
+              context,
+              '焦段',
+              cam.focal.toDouble(),
+              14,
+              200,
+              1,
+              (double v) => controller
+                  .updateCamera((CameraRigData c) => c.focal = v.round()),
+              suffix: 'mm'),
+          _slider(
+              context,
+              '高度',
+              cam.height,
+              0.6,
+              2.2,
+              0.01,
+              (double v) =>
+                  controller.updateCamera((CameraRigData c) => c.height = v),
+              suffix: 'm'),
+          _slider(
+              context,
+              '俯仰',
+              cam.pitch,
+              -30,
+              30,
+              1,
+              (double v) =>
+                  controller.updateCamera((CameraRigData c) => c.pitch = v),
+              suffix: '°'),
+          _slider(
+              context,
+              '偏航',
+              cam.yaw,
+              -60,
+              60,
+              1,
+              (double v) =>
+                  controller.updateCamera((CameraRigData c) => c.yaw = v),
+              suffix: '°'),
+          Text(
+            '机位可在俯视图上拖动；焦段决定视野扇形与 POV 构图。',
+            style: TextStyle(
+                fontSize: 10.5, color: theme.colorScheme.onSurfaceVariant),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _slider(
+    BuildContext context,
+    String label,
+    double value,
+    double min,
+    double max,
+    double step,
+    ValueChanged<double> onChanged, {
+    String suffix = '',
+  }) {
+    final bool isInt = suffix == 'mm';
+    return Row(
+      children: <Widget>[
+        SizedBox(
+            width: 34,
+            child: Text(label, style: const TextStyle(fontSize: 11.5))),
+        Expanded(
+          child: SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              trackHeight: 3,
+              overlayShape: SliderComponentShape.noOverlay,
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+            ),
+            child: Slider(
+              value: value.clamp(min, max),
+              min: min,
+              max: max,
+              onChanged: onChanged,
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 46,
+          child: Text(
+            '${isInt ? value.round() : value.toStringAsFixed(1)}$suffix',
+            style: AppTokens.mono(context, size: 10.5),
+            textAlign: TextAlign.right,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 /// B2：画质设置（细分 / 材质预设 / 环境反射；持久化到工作区设置）。
 class _QualityPanel extends StatelessWidget {
   const _QualityPanel({required this.state, required this.controller});
@@ -1760,6 +1936,21 @@ class _QualityPanel extends StatelessWidget {
               style: TextStyle(
                   fontSize: 10.5, color: theme.colorScheme.onSurfaceVariant),
             ),
+          ),
+          const SizedBox(height: 10),
+          // V6/D111：光锥可视化。
+          Row(
+            children: <Widget>[
+              const Text('光锥可视化',
+                  style:
+                      TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+              const Spacer(),
+              SsChip(
+                label: state.lightCones ? '开' : '关',
+                selected: state.lightCones,
+                onTap: () => controller.setLightCones(!state.lightCones),
+              ),
+            ],
           ),
           const SizedBox(height: 10),
           const Text('细分等级',

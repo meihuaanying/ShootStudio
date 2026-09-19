@@ -51,6 +51,8 @@ jobs:
       - run: flutter pub get
       - run: dart format --output=none --set-exit-if-changed lib test
       - run: flutter analyze --fatal-infos
+      - name: Engine aim math test (Node)
+        run: node tool/test_aim.mjs
       - run: flutter test
 
   build-windows:

@@ -9,7 +9,15 @@ import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { buildStudio } from './studio.js';
 import { buildPerson, JOINT_NAMES } from './person.js';
 import { createCharacterManager } from './character.js';
-import { createLight, updateLight, setLightSelected, setShadowMapSize } from './lights.js';
+import {
+  createLight,
+  updateLight,
+  setLightSelected,
+  setShadowMapSize,
+  setLightCones,
+  getLightCones,
+} from './lights.js';
+import { buildCameraRig, applyAim, focalToFov } from './rig.js';
 import { buildProp, placeProp, applyPropTexture } from './props.js';
 import { nowMs } from './util.js';
 
@@ -107,6 +115,60 @@ controls.maxPolarAngle = Math.PI * 0.495;
 
 RectAreaLightUniformsLib.init(); // G4：面板灯 LTC 初始化（此前面光不可用）
 const studio = buildStudio(scene, renderer, { width: 6, depth: 8, height: 3.2 });
+
+// V6/D105：摄影师机位（三脚架 + 相机），可一键切 POV。
+const cameraRig = buildCameraRig();
+scene.add(cameraRig);
+const cameraRigState = {
+  x: 0, y: 3.2, height: 1.35, yaw: 0, pitch: 0, focal: 50, enabled: true,
+};
+let cameraPov = false;
+function applyCameraRig() {
+  cameraRig.visible = cameraRigState.enabled !== false;
+  const px = Number(cameraRigState.x) || 0;
+  const py = Number(cameraRigState.y) || 0;
+  const height = Math.max(0.4, Number(cameraRigState.height) || 1.35);
+  cameraRig.position.set(px, 0, -py);
+  const head = cameraRig.userData.head;
+  if (head) {
+    head.position.y = height;
+    applyAim(head, { x: px, y: height, z: -py }, new THREE.Vector3(0, 1.2, 0), {
+      offsetYaw: Number(cameraRigState.yaw) || 0,
+      offsetPitch: Number(cameraRigState.pitch) || 0,
+    });
+    if (cameraPov) applyCameraPov();
+  }
+}
+function applyCameraPov() {
+  const head = cameraRig.userData.head;
+  if (!head) return;
+  head.updateWorldMatrix(true, false);
+  const pos = new THREE.Vector3();
+  head.getWorldPosition(pos);
+  const quat = new THREE.Quaternion();
+  head.getWorldQuaternion(quat);
+  // 相机沿 -Z 观察；灯位模型沿 +Z，补 180°。
+  quat.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI));
+  camera.position.copy(pos);
+  camera.quaternion.copy(quat);
+  camera.fov = focalToFov(cameraRigState.focal);
+  camera.updateProjectionMatrix();
+}
+function setCameraPov(on) {
+  cameraPov = !!on;
+  if (cameraPov) {
+    applyCameraRig();
+    applyCameraPov();
+    controls.enabled = false;
+  } else {
+    controls.enabled = true;
+    camera.fov = 42;
+    camera.updateProjectionMatrix();
+    setView('default');
+  }
+  return cameraPov;
+}
+applyCameraRig();
 
 // V5/D85：环境光开关（半球光 + 环境贴图贡献，含金属反射）。
 function applyAmbient() {
@@ -328,6 +390,12 @@ async function useCharacter(id) {
 function applyScene(json) {
   const data = typeof json === 'string' ? JSON.parse(json) : json;
   sceneState = { ...sceneState, ...data };
+
+  // V6/D105：机位随场景同步。
+  if (data.camera) {
+    Object.assign(cameraRigState, data.camera);
+    applyCameraRig();
+  }
 
   // 被摄体：GLB 角色优先；未知字段忽略（保持向后兼容）。
   const subject = data.subject || {};
@@ -678,7 +746,31 @@ window.ss = {
     person.setMarkerMode(jointMode);
     character.setJointMode(jointMode);
   },
-  setView,
+  setView: (mode) => {
+    cameraPov = false; // 手动切视角时退出机位 POV
+    camera.fov = 42;
+    camera.updateProjectionMatrix();
+    setView(mode);
+  },
+  // V6/D105：机位控制与 POV。
+  setCameraRig: (cfg) => {
+    if (cfg && typeof cfg === 'object') Object.assign(cameraRigState, cfg);
+    applyCameraRig();
+    return { ...cameraRigState };
+  },
+  getCameraRig: () => ({ ...cameraRigState }),
+  setCameraView: (on) => setCameraPov(on),
+  getCameraView: () => cameraPov,
+  // V6/D111：光锥可视化开关。
+  setLightCones: (on) => {
+    setLightCones(on);
+    for (const [id, obj] of lightObjs) {
+      const cfg = (sceneState.lights || []).find((l) => l.id === id);
+      if (cfg) updateLight(obj, cfg);
+    }
+    return getLightCones();
+  },
+  getLightCones: () => getLightCones(),
   setQaView: (deg) => {
     const rad = (Number(deg) || 0) * Math.PI / 180;
     camera.position.set(Math.sin(rad) * 3.5, 1.18, Math.cos(rad) * 3.5);

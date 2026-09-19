@@ -40,6 +40,9 @@ class DeviceSpec {
     this.rotation = 0,
     this.scale = 1,
     this.texture = '',
+    this.stand = 'normal',
+    this.offsetYaw = 0,
+    this.offsetPitch = 0,
   });
 
   final String id;
@@ -66,6 +69,13 @@ class DeviceSpec {
   /// 道具/灯光的自定义贴图（dataURL，D23：上传图作为贴图占位出现在 3D 场景）。
   String texture;
 
+  /// V6/D105：灯架形式 normal | c | boom。
+  String stand;
+
+  /// V6/D109：自动瞄准之上的手动偏移（度）。
+  double offsetYaw;
+  double offsetPitch;
+
   bool get isLight => kind == 'light';
 
   DeviceSpec copy() => DeviceSpec.fromJson(deepCopy(toJson()), id: id);
@@ -91,6 +101,9 @@ class DeviceSpec {
         if (isLight) 'rotationY': rotation,
         'scale': scale,
         if (texture.isNotEmpty) 'texture': texture,
+        if (isLight) 'stand': stand,
+        if (isLight) 'offsetYaw': offsetYaw,
+        if (isLight) 'offsetPitch': offsetPitch,
       };
 
   static DeviceSpec fromJson(Map<String, Object?> json, {String? id}) =>
@@ -114,7 +127,56 @@ class DeviceSpec {
         rotation: asDouble(json['rotation']),
         scale: asDouble(json['scale'], 1),
         texture: json['texture'] as String? ?? '',
+        stand: json['stand'] as String? ?? 'normal',
+        offsetYaw: asDouble(json['offsetYaw']),
+        offsetPitch: asDouble(json['offsetPitch']),
       );
+}
+
+/// V6/D105：摄影师机位（三脚架 + 相机），可一键切 POV 看构图。
+class CameraRigData {
+  CameraRigData({
+    this.x = 0,
+    this.y = 3.2,
+    this.height = 1.35,
+    this.yaw = 0,
+    this.pitch = 0,
+    this.focal = 50,
+    this.enabled = true,
+  });
+
+  double x;
+  double y;
+  double height;
+  double yaw;
+  double pitch;
+  int focal;
+  bool enabled;
+
+  Map<String, Object?> toJson() => <String, Object?>{
+        'x': x,
+        'y': y,
+        'height': height,
+        'yaw': yaw,
+        'pitch': pitch,
+        'focal': focal,
+        'enabled': enabled,
+      };
+
+  static CameraRigData fromJson(Map<String, Object?>? json) {
+    final Map<String, Object?> j = json ?? <String, Object?>{};
+    return CameraRigData(
+      x: asDouble(j['x']),
+      y: asDouble(j['y'], 3.2),
+      height: asDouble(j['height'], 1.35),
+      yaw: asDouble(j['yaw']),
+      pitch: asDouble(j['pitch']),
+      focal: asInt(j['focal'], 50).clamp(14, 200),
+      enabled: j['enabled'] as bool? ?? true,
+    );
+  }
+
+  CameraRigData copy() => CameraRigData.fromJson(deepCopy(toJson()));
 }
 
 /// 几何量：方位角（0°=被摄体正面=画布上方，顺时针）与距离（米）。
@@ -144,7 +206,8 @@ class LightingSceneData {
     this.height = 3.2,
     this.hands,
     this.ambientEnabled = true,
-  });
+    CameraRigData? camera,
+  }) : camera = camera ?? CameraRigData();
 
   final String id;
   String name;
@@ -159,6 +222,9 @@ class LightingSceneData {
   /// V5/D85：环境光开关（随场景保存/恢复）。
   bool ambientEnabled;
 
+  /// V6/D105：摄影师机位（随场景保存/恢复）。
+  CameraRigData camera;
+
   static const int maxDevices = 40;
 
   Map<String, Object?> toJson() => <String, Object?>{
@@ -170,6 +236,7 @@ class LightingSceneData {
         'devices': devices.map((DeviceSpec d) => d.toJson()).toList(),
         if (hands != null && hands!.isNotEmpty) 'hands': hands,
         'ambientEnabled': ambientEnabled,
+        'camera': camera.toJson(),
       };
 
   static LightingSceneData fromJson(Map<String, Object?> json) =>
@@ -182,6 +249,8 @@ class LightingSceneData {
         devices: asMapList(json['devices']).map(DeviceSpec.fromJson).toList(),
         hands: json['hands'] == null ? null : asMap(json['hands']),
         ambientEnabled: json['ambientEnabled'] as bool? ?? true,
+        camera: CameraRigData.fromJson(
+            json['camera'] == null ? null : asMap(json['camera'])),
       );
 
   List<DeviceSpec> get lights =>
@@ -212,6 +281,8 @@ class LightingSceneData {
         },
         'lights': lights.map((DeviceSpec d) => d.toJson()).toList(),
         'props': props.map((DeviceSpec d) => d.toJson()).toList(),
+        // V6/D105：机位随场景同步（引擎侧 setCameraRig 消费）。
+        'camera': camera.toJson(),
       };
 
   LightingSceneData copy() => LightingSceneData.fromJson(
@@ -262,6 +333,9 @@ List<DeviceSpec> instantiatePresetDevices(
       color: raw['color'] as String? ?? '#ffffff',
       rotation: asDouble(raw['rotationY']),
       note: raw['note'] as String? ?? '',
+      stand: raw['stand'] as String? ?? 'normal',
+      offsetYaw: asDouble(raw['offsetYaw']),
+      offsetPitch: asDouble(raw['offsetPitch']),
     );
   }).toList();
 }

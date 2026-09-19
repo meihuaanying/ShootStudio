@@ -65,6 +65,26 @@ class LightMeter {
     '1/4',
   ];
 
+  /// V6/D112：控光件衰减表（与引擎 `LIGHT_MODIFIERS.intensity` 对齐，保证测光与 3D 一致）。
+  static const Map<String, double> _modifierAttenuation = <String, double>{
+    'bare': 1.0,
+    'standard-reflector': 1.12,
+    'softbox-medium': 0.76,
+    'softbox-large': 0.68,
+    'octa-softbox': 0.72,
+    'strip-softbox': 0.74,
+    'umbrella-silver': 0.9,
+    'umbrella-translucent': 0.7,
+    'honeycomb-grid': 0.82,
+    'diffusion-cloth': 0.72,
+    'beauty-dish': 1.05,
+    'snoot': 0.9,
+    'softbox-grid': 0.7,
+    'flag': 0.85,
+    'gel-cto': 0.86,
+    'gel-ctb': 0.86,
+  };
+
   /// 单灯在被摄体处的相对照度（lux 量级，物理化便于图例）。
   static double _luxOf(DeviceSpec light, double ambient) {
     if (!light.isLight || !light.on) return 0;
@@ -73,7 +93,8 @@ class LightMeter {
         : light.type == 'soft'
             ? 3800
             : 4600;
-    final double base = (light.intensity / 100) * power;
+    final double modifier = _modifierAttenuation[light.modifier] ?? 1.0;
+    final double base = (light.intensity / 100) * power * modifier;
     final double distance =
         math.max(0.6, math.sqrt(light.x * light.x + light.y * light.y));
     // 柔光衰减较慢（大面积光源），硬光按平方反比。

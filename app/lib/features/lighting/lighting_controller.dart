@@ -31,6 +31,9 @@ class LightingState {
     this.ambientEnabled = true,
     this.contactShadow = true,
     this.performanceProfile = 'auto',
+    this.cameraView = false,
+    this.lightCones = false,
+    this.cameraSeq = 0,
     this.handL = const HandPoseState(),
     this.handR = const HandPoseState(),
   });
@@ -76,6 +79,15 @@ class LightingState {
   /// V6/D104 性能档：auto（自动探测）| high | low。
   final String performanceProfile;
 
+  /// V6/D105：相机 POV 预览开关（瞬态，不持久化）。
+  final bool cameraView;
+
+  /// V6/D111：光锥可视化开关（持久化）。
+  final bool lightCones;
+
+  /// V6/D105：机位变更序号（触发引擎即时同步）。
+  final int cameraSeq;
+
   /// V5/D86 手部姿态（左右独立）。
   final HandPoseState handL;
   final HandPoseState handR;
@@ -107,6 +119,9 @@ class LightingState {
     bool? ambientEnabled,
     bool? contactShadow,
     String? performanceProfile,
+    bool? cameraView,
+    bool? lightCones,
+    int? cameraSeq,
     HandPoseState? handL,
     HandPoseState? handR,
   }) {
@@ -133,6 +148,9 @@ class LightingState {
       ambientEnabled: ambientEnabled ?? this.ambientEnabled,
       contactShadow: contactShadow ?? this.contactShadow,
       performanceProfile: performanceProfile ?? this.performanceProfile,
+      cameraView: cameraView ?? this.cameraView,
+      lightCones: lightCones ?? this.lightCones,
+      cameraSeq: cameraSeq ?? this.cameraSeq,
       handL: handL ?? this.handL,
       handR: handR ?? this.handR,
     );
@@ -481,6 +499,8 @@ class LightingController extends Notifier<LightingState> {
         (await _db.getSetting('quality_contact_shadow') ?? '1') != '0';
     final String performance =
         await _db.getSetting('quality_performance_profile') ?? 'auto';
+    final bool cones =
+        (await _db.getSetting('quality_light_cones') ?? '0') == '1';
     state = state.copyWith(
       subdivisionLevel: subdivision.clamp(0, 2),
       materialPreset: preset,
@@ -491,6 +511,7 @@ class LightingController extends Notifier<LightingState> {
           const <String>['auto', 'high', 'low'].contains(performance)
               ? performance
               : 'auto',
+      lightCones: cones,
     );
   }
 
@@ -532,6 +553,37 @@ class LightingController extends Notifier<LightingState> {
       status: on ? '环境光已开启' : '环境光已关闭（仅摄影灯具照明）',
     );
     await _db.setSetting('quality_ambient_enabled', on ? '1' : '0');
+  }
+
+  // ---------------- V6/D111 光锥可视化 ----------------
+
+  /// 光锥可视化开关（展示每盏灯的照射范围；性能可退回，R52）。
+  Future<void> setLightCones(bool on) async {
+    state =
+        state.copyWith(lightCones: on, status: on ? '光锥可视化已开启' : '光锥可视化已关闭');
+    await _db.setSetting('quality_light_cones', on ? '1' : '0');
+  }
+
+  // ---------------- V6/D105 相机机位 ----------------
+
+  /// 相机 POV 预览开关（引擎侧 setCameraView）。
+  void setCameraView(bool on) => state = state.copyWith(
+        cameraView: on,
+        status: on ? '已切到相机视角（看构图）' : '已返回自由视角',
+      );
+
+  /// 俯视图拖动相机机位。
+  void moveCamera(double x, double y) {
+    state.scene.camera
+      ..x = x
+      ..y = y;
+    state = state.copyWith(dirty: true, cameraSeq: state.cameraSeq + 1);
+  }
+
+  /// 修改机位参数（高度/俯仰/偏航/焦段/启用）。
+  void updateCamera(void Function(CameraRigData c) mutate) {
+    mutate(state.scene.camera);
+    state = state.copyWith(dirty: true, cameraSeq: state.cameraSeq + 1);
   }
 
   // ---------------- V6/D104 性能档 ----------------
