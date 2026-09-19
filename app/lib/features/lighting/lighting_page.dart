@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ import 'package:path/path.dart' as p;
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
 import '../../core/theme/tokens.dart';
+import '../../core/workspace/workspace.dart';
+import '../../services/app_logger.dart';
 import '../../services/content_packs.dart';
 import '../../services/image_store.dart';
 import '../../services/engine/engine_bridge.dart';
@@ -43,6 +46,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
   int _lastSubdivision = -1;
   String _lastPreset = '';
   double _lastEnv = -1;
+  String _lastPerformance = '';
 
   @override
   void initState() {
@@ -107,6 +111,11 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       // V5/D91 接触阴影开关。
       if (prev?.contactShadow != next.contactShadow) {
         _bridge?.setContactShadow(next.contactShadow);
+      }
+      // V6/D104 性能档。
+      if (next.performanceProfile != _lastPerformance) {
+        _lastPerformance = next.performanceProfile;
+        _bridge?.setPerformanceProfile(next.performanceProfile);
       }
     });
 
@@ -342,6 +351,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       borderRadius: BorderRadius.circular(AppTokens.rMd),
       child: EngineView(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+        onExportDiagnostics: _exportDiagnostics,
         onBridgeReady: (EngineBridge bridge) {
           _bridge = bridge;
           _queueApplyScene();
@@ -362,6 +372,8 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               _bridge?.setEnvIntensity(fresh.envIntensity);
               _bridge?.setAmbientEnabled(fresh.ambientEnabled);
               _bridge?.setContactShadow(fresh.contactShadow);
+              _lastPerformance = fresh.performanceProfile;
+              _bridge?.setPerformanceProfile(fresh.performanceProfile);
               if (_character.characterId.isNotEmpty) {
                 applyCharacterSelection(_bridge, _character);
               }
@@ -390,8 +402,20 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               _saveCapture(dataUrl);
             case EngineJointClicked():
               break;
-            case EngineErrorEvent():
-              controller.setStatus('3D 引擎异常，已降级到俯视图');
+            case EngineHeartbeat():
+            case EngineConsole():
+              break;
+            case EngineErrorEvent(
+                message: final String message,
+                fatal: final bool fatal,
+                source: final String source
+              ):
+              // V6/R41：致命错误才降级提示；角色局部失败给可读状态，JS 噪声只落盘。
+              if (fatal) {
+                controller.setStatus('3D 引擎异常，已降级到俯视图');
+              } else if (source == 'character') {
+                controller.setStatus(message);
+              }
           }
         },
       ),
@@ -428,6 +452,82 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       if (mounted) ssToast(context, '贴图已应用到选中对象（同步至 3D 场景）');
     } catch (e) {
       if (mounted) ssToast(context, '贴图处理失败：$e');
+    }
+  }
+
+  /// V6/D103：导出诊断包（应用日志 + 引擎统计 + 场景 JSON + 环境信息 → zip）。
+  Future<void> _exportDiagnostics() async {
+    final LightingController controller =
+        ref.read(lightingControllerProvider.notifier);
+    try {
+      final LightingState state = ref.read(lightingControllerProvider);
+      final Workspace workspace = ref.read(workspaceProvider);
+      final DateTime now = DateTime.now();
+      final String stamp = '${now.year}'
+          '${now.month.toString().padLeft(2, '0')}'
+          '${now.day.toString().padLeft(2, '0')}-'
+          '${now.hour.toString().padLeft(2, '0')}'
+          '${now.minute.toString().padLeft(2, '0')}'
+          '${now.second.toString().padLeft(2, '0')}';
+      final Directory dir =
+          Directory(p.join(workspace.root.path, 'diagnostics', 'diag-$stamp'));
+      await dir.create(recursive: true);
+
+      // 1) 应用日志（引擎控制台 / JS 错误均已写入）。
+      final File log = File(p.join(AppLogger.I.logDir, 'app.log'));
+      if (await log.exists()) {
+        await log.copy(p.join(dir.path, 'app.log'));
+      }
+
+      // 2) 引擎统计（缓存/内存/FPS）。
+      final Object? engineStats = await _bridge?.evaluate(
+        'JSON.stringify(window.ss && window.ss.getEngineStats ? window.ss.getEngineStats() : null)',
+      );
+      await File(p.join(dir.path, 'engine-stats.json'))
+          .writeAsString('${engineStats ?? 'null'}');
+
+      // 3) 当前布光场景。
+      await File(p.join(dir.path, 'scene.json')).writeAsString(
+        const JsonEncoder.withIndent('  ').convert(
+          state.scene.toEngineJson(
+            poseJoints: state.pendingPose,
+            hands: state.scene.hands,
+          ),
+        ),
+      );
+
+      // 4) 环境信息。
+      await File(p.join(dir.path, 'env.json')).writeAsString(
+        const JsonEncoder.withIndent('  ').convert(<String, Object?>{
+          'os': Platform.operatingSystem,
+          'osVersion': Platform.operatingSystemVersion,
+          'processors': Platform.numberOfProcessors,
+          'dartVersion': Platform.version,
+          'viewMode': state.viewMode,
+          'materialPreset': state.materialPreset,
+          'subdivision': state.subdivisionLevel,
+          'ambientEnabled': state.ambientEnabled,
+          'contactShadow': state.contactShadow,
+          'exportedAt': now.toIso8601String(),
+        }),
+      );
+
+      // 5) 打包 zip。
+      final Archive archive = Archive();
+      for (final FileSystemEntity entity in dir.listSync()) {
+        if (entity is File) {
+          archive.addFile(ArchiveFile(p.basename(entity.path),
+              entity.lengthSync(), entity.readAsBytesSync()));
+        }
+      }
+      final File zip =
+          File(p.join(workspace.root.path, 'diagnostics', 'diag-$stamp.zip'));
+      await zip.writeAsBytes(ZipEncoder().encode(archive)!, flush: true);
+      controller.setStatus('诊断包已导出：${zip.path}');
+      if (mounted) ssToast(context, '诊断包已导出到工作区 diagnostics/');
+    } catch (e) {
+      controller.setStatus('诊断包导出失败：$e');
+      if (mounted) ssToast(context, '诊断包导出失败：$e');
     }
   }
 
@@ -1630,6 +1730,37 @@ class _QualityPanel extends StatelessWidget {
                     fontSize: 10.5, color: theme.colorScheme.onSurfaceVariant),
               ),
             ),
+          const SizedBox(height: 10),
+          // V6/D104：性能档（自动探测 / 画质优先 / 性能优先）。
+          const Text('性能档',
+              style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 4),
+          Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            children: <Widget>[
+              for (final (String id, String label) in <(String, String)>[
+                ('auto', '自动'),
+                ('high', '画质优先'),
+                ('low', '性能优先'),
+              ])
+                SsChip(
+                  label: label,
+                  selected: state.performanceProfile == id,
+                  onTap: () => controller.setPerformanceProfile(id),
+                ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Text(
+              state.performanceProfile == 'low'
+                  ? '性能优先：关闭接触阴影、降低阴影与渲染分辨率、细分上限 1 级。'
+                  : '自动会根据 GPU/内存自动选择；手动可随时切换。',
+              style: TextStyle(
+                  fontSize: 10.5, color: theme.colorScheme.onSurfaceVariant),
+            ),
+          ),
           const SizedBox(height: 10),
           const Text('细分等级',
               style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),

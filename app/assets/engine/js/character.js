@@ -295,13 +295,173 @@ export function createCharacterManager({ send = () => {}, baseUrl = null } = {})
   inner.name = 'ssCharacterInner';
   root.add(inner);
 
+  // V6/R42：缓存必须有上限与释放路径（此前 instanceCache/preparedInstances 只增不减 → 切角色数次后 OOM）。
+  const MAX_INSTANCES = 2; // 当前 + 上一份（LRU）
+  const MAX_GLBS = 3; // 被实例引用的 GLB 不淘汰
   const glbCache = new Map();
+  const glbOrder = []; // LRU：最新在尾部
+  const glbResolved = new Set(); // 仅已解析成功的 URL 可被淘汰（避免加载中途释放）
   const instanceCache = new Map();
+  const instanceOrder = []; // LRU：最新在尾部
+  const instanceEntries = new Map(); // id -> { file（含在途，防误淘汰 GLB） }
+  const liveInstances = new Map(); // id -> inst（仅已就绪实例）
   const preparedInstances = new Set();
   let manifest = null;
   let manifestPromise = null;
   let instance = null;
   let queue = Promise.resolve();
+
+  function touch(order, id) {
+    const i = order.indexOf(id);
+    if (i >= 0) order.splice(i, 1);
+    order.push(id);
+  }
+
+  // 空闲时释放（避免在切角色同帧做重释放造成卡顿）。
+  function runWhenIdle(task) {
+    if (typeof requestIdleCallback === 'function') requestIdleCallback(task, { timeout: 400 });
+    else setTimeout(task, 16);
+  }
+
+  function disposeMaterial(material) {
+    if (!material) return;
+    const list = Array.isArray(material) ? material : [material];
+    for (const m of list) {
+      // 贴图与源 gltf 共享（material.clone() 不复制 texture），由 GLB 缓存统一释放。
+      try { m?.dispose?.(); } catch (_) { /* ignore */ }
+    }
+  }
+
+  // 释放实例独占的 GPU 资源（细分几何由本实例新建；基础几何/贴图归 GLB 缓存所有）。
+  function disposeInstanceResources(inst) {
+    if (!inst) return;
+    try {
+      inst.mixer?.stopAllAction?.();
+      for (const mesh of inst.hairMeshes || []) {
+        if (mesh.geometry && mesh.geometry !== mesh.userData?.ssBaseGeometry) {
+          mesh.geometry.dispose();
+        }
+        disposeMaterial(mesh.material);
+      }
+      for (const mesh of inst.meshes || []) {
+        const base = inst.baseGeometries?.get(mesh);
+        if (mesh.geometry && mesh.geometry !== base) mesh.geometry.dispose();
+        disposeMaterial(mesh.material);
+      }
+      for (const marker of Object.values(inst.markers || {})) {
+        marker.geometry?.dispose?.();
+        marker.material?.dispose?.();
+      }
+      inst.skeletonHelper?.geometry?.dispose?.();
+    } catch (_) { /* 释放失败不阻塞切换 */ }
+  }
+
+  function disposeGLTF(gltf) {
+    if (!gltf || !gltf.scene) return;
+    const geometries = new Set();
+    const textures = new Set();
+    gltf.scene.traverse((node) => {
+      if (!node.isMesh) return;
+      if (node.geometry) geometries.add(node.geometry);
+      const list = Array.isArray(node.material) ? node.material : [node.material];
+      for (const m of list) {
+        if (!m) continue;
+        for (const key of Object.keys(m)) {
+          const value = m[key];
+          if (value && value.isTexture) textures.add(value);
+        }
+      }
+    });
+    for (const g of geometries) { try { g.dispose(); } catch (_) {} }
+    for (const t of textures) { try { t.dispose(); } catch (_) {} }
+  }
+
+  function evictInstance(id) {
+    if (!id) return;
+    if (instance && instance.entry && instance.entry.id === id) return;
+    const promise = instanceCache.get(id);
+    if (!promise) return;
+    instanceCache.delete(id);
+    instanceEntries.delete(id);
+    const i = instanceOrder.indexOf(id);
+    if (i >= 0) instanceOrder.splice(i, 1);
+    promise.then((inst) => {
+      liveInstances.delete(id);
+      preparedInstances.delete(inst);
+      disposeInstanceResources(inst);
+      clearInstance(inst);
+    }).catch(() => { /* 加载失败已被 getInstance 处理 */ });
+  }
+
+  function trimInstanceCache(keepId = '') {
+    const keep = new Set();
+    if (instance && instance.entry) keep.add(instance.entry.id);
+    if (keepId) keep.add(keepId);
+    for (const id of instanceOrder.slice()) {
+      if (instanceCache.size <= MAX_INSTANCES) break;
+      if (keep.has(id)) continue;
+      evictInstance(id);
+    }
+  }
+
+  function referencedGlbUrls() {
+    const refs = new Set();
+    for (const info of instanceEntries.values()) {
+      if (info && info.file) refs.add(entryUrl(info.file));
+    }
+    for (const inst of liveInstances.values()) {
+      if (inst && inst.entry && inst.entry.file) refs.add(entryUrl(inst.entry.file));
+    }
+    return refs;
+  }
+
+  function trimGlbCache() {
+    const refs = referencedGlbUrls();
+    for (const url of glbOrder.slice()) {
+      if (glbCache.size <= MAX_GLBS) break;
+      if (refs.has(url)) continue;
+      if (!glbResolved.has(url)) continue; // 在途不淘汰
+      const promise = glbCache.get(url);
+      glbCache.delete(url);
+      glbResolved.delete(url);
+      const i = glbOrder.indexOf(url);
+      if (i >= 0) glbOrder.splice(i, 1);
+      promise?.then((gltf) => disposeGLTF(gltf)).catch(() => {});
+    }
+  }
+
+  function evictAll() {
+    for (const id of instanceOrder.slice()) evictInstance(id);
+    instanceCache.clear();
+    instanceOrder.length = 0;
+    instanceEntries.clear();
+    if (instance) {
+      const current = instance;
+      instance = null;
+      preparedInstances.delete(current);
+      disposeInstanceResources(current);
+      clearInstance(current);
+      liveInstances.clear();
+    }
+    for (const url of glbOrder.slice()) {
+      const promise = glbCache.get(url);
+      glbCache.delete(url);
+      glbResolved.delete(url);
+      promise?.then((gltf) => disposeGLTF(gltf)).catch(() => {});
+    }
+    glbOrder.length = 0;
+  }
+
+  function cacheStats() {
+    return {
+      instances: instanceCache.size,
+      glbs: glbCache.size,
+      glbsResolved: glbResolved.size,
+      prepared: preparedInstances.size,
+      maxInstances: MAX_INSTANCES,
+      maxGlbs: MAX_GLBS,
+    };
+  }
   let subdivisionLevel = 1; // 0=轻量（原模型）|1=默认|2=可选高密度
   let materialPreset = DEFAULT_MATERIAL_PRESET;
 
@@ -371,9 +531,15 @@ export function createCharacterManager({ send = () => {}, baseUrl = null } = {})
         });
       })().catch((err) => {
         glbCache.delete(url);
+        glbResolved.delete(url);
         throw err;
+      }).then((gltf) => {
+        glbResolved.add(url);
+        runWhenIdle(() => trimGlbCache());
+        return gltf;
       }));
     }
+    touch(glbOrder, url);
     return glbCache.get(url);
   }
 
@@ -712,11 +878,19 @@ export function createCharacterManager({ send = () => {}, baseUrl = null } = {})
 
   function getInstance(entry) {
     if (!instanceCache.has(entry.id)) {
-      instanceCache.set(entry.id, getGLB(entry.file).then((gltf) => prepareInstance(gltf, entry)).catch((err) => {
+      instanceEntries.set(entry.id, { file: entry.file });
+      const promise = getGLB(entry.file).then((gltf) => prepareInstance(gltf, entry)).catch((err) => {
         instanceCache.delete(entry.id);
+        instanceEntries.delete(entry.id);
         throw err;
-      }));
+      });
+      instanceCache.set(entry.id, promise);
+      promise.then((inst) => {
+        liveInstances.set(entry.id, inst);
+        runWhenIdle(() => { trimInstanceCache(); trimGlbCache(); });
+      }).catch(() => {});
     }
+    touch(instanceOrder, entry.id);
     return instanceCache.get(entry.id);
   }
 
@@ -732,6 +906,8 @@ export function createCharacterManager({ send = () => {}, baseUrl = null } = {})
     const previous = instance;
     instance = next;
     if (previous) clearInstance(previous);
+    trimInstanceCache(entry.id); // V6/R42：只保留当前+上一份，其余释放
+    trimGlbCache();
     instance.group.visible = true;
     state.ready = true;
     state.loading = false;
@@ -1015,7 +1191,17 @@ export function createCharacterManager({ send = () => {}, baseUrl = null } = {})
       v.setFromMatrixPosition(bone.matrixWorld);
       return { x: v.x, y: v.y, z: v.z };
     },
-    setCharacter: (id) => enqueue(() => setCharacterInternal(id)),
+    // V6/D101：角色加载失败（多为内存压力）自动清缓存重试一次。
+    setCharacter: (id) => enqueue(async () => {
+      try {
+        return await setCharacterInternal(id);
+      } catch (_) {
+        evictAll();
+        return setCharacterInternal(id);
+      }
+    }),
+    getCacheStats: () => cacheStats(),
+    evictAll: () => { evictAll(); },
     setOutfit: (id) => enqueue(() => setOutfitInternal(id)),
     setHair: (id) => enqueue(() => setHairInternal(id)),
     setSkinTone: (hex) => enqueue(async () => {
@@ -1217,10 +1403,12 @@ export function createCharacterManager({ send = () => {}, baseUrl = null } = {})
     },
     dispose: () => {
       anim = null;
-      instance = null;
+      evictAll();
       glbCache.clear();
       instanceCache.clear();
       preparedInstances.clear();
+      manifest = null;
+      manifestPromise = null;
     },
   };
 

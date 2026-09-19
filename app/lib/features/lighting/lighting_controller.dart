@@ -30,6 +30,7 @@ class LightingState {
     this.envIntensity = 1.0,
     this.ambientEnabled = true,
     this.contactShadow = true,
+    this.performanceProfile = 'auto',
     this.handL = const HandPoseState(),
     this.handR = const HandPoseState(),
   });
@@ -72,6 +73,9 @@ class LightingState {
   /// V5/D91 接触阴影开关（仅 realistic 预设生效；默认开）。
   final bool contactShadow;
 
+  /// V6/D104 性能档：auto（自动探测）| high | low。
+  final String performanceProfile;
+
   /// V5/D86 手部姿态（左右独立）。
   final HandPoseState handL;
   final HandPoseState handR;
@@ -102,6 +106,7 @@ class LightingState {
     double? envIntensity,
     bool? ambientEnabled,
     bool? contactShadow,
+    String? performanceProfile,
     HandPoseState? handL,
     HandPoseState? handR,
   }) {
@@ -127,6 +132,7 @@ class LightingState {
       envIntensity: envIntensity ?? this.envIntensity,
       ambientEnabled: ambientEnabled ?? this.ambientEnabled,
       contactShadow: contactShadow ?? this.contactShadow,
+      performanceProfile: performanceProfile ?? this.performanceProfile,
       handL: handL ?? this.handL,
       handR: handR ?? this.handR,
     );
@@ -473,12 +479,18 @@ class LightingController extends Notifier<LightingState> {
         (await _db.getSetting('quality_ambient_enabled') ?? '1') != '0';
     final bool contact =
         (await _db.getSetting('quality_contact_shadow') ?? '1') != '0';
+    final String performance =
+        await _db.getSetting('quality_performance_profile') ?? 'auto';
     state = state.copyWith(
       subdivisionLevel: subdivision.clamp(0, 2),
       materialPreset: preset,
       envIntensity: env.clamp(0.0, 2.0),
       ambientEnabled: ambient,
       contactShadow: contact,
+      performanceProfile:
+          const <String>['auto', 'high', 'low'].contains(performance)
+              ? performance
+              : 'auto',
     );
   }
 
@@ -520,6 +532,24 @@ class LightingController extends Notifier<LightingState> {
       status: on ? '环境光已开启' : '环境光已关闭（仅摄影灯具照明）',
     );
     await _db.setSetting('quality_ambient_enabled', on ? '1' : '0');
+  }
+
+  // ---------------- V6/D104 性能档 ----------------
+
+  /// 性能档：auto（自动探测）| high | low（关接触阴影/降阴影分辨率/限制细分/降渲染分辨率）。
+  Future<void> setPerformanceProfile(String profile) async {
+    final String value = const <String>['auto', 'high', 'low'].contains(profile)
+        ? profile
+        : 'auto';
+    state = state.copyWith(
+      performanceProfile: value,
+      status: switch (value) {
+        'low' => '性能优先：已降低渲染质量',
+        'high' => '画质优先：已开启完整效果',
+        _ => '性能档：自动',
+      },
+    );
+    await _db.setSetting('quality_performance_profile', value);
   }
 
   // ---------------- V5/D91 接触阴影 ----------------

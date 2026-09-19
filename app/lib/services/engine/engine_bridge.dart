@@ -51,7 +51,31 @@ class EngineCaptured extends EngineEvent {
 }
 
 class EngineErrorEvent extends EngineEvent {
-  const EngineErrorEvent(this.message);
+  const EngineErrorEvent(this.message, {this.fatal = false, this.source = ''});
+  final String message;
+
+  /// V6/R41：仅致命错误（引擎引导失败/渲染上下文丢失）才允许降级整体面板；
+  /// 角色/资源等局部错误 fatal=false，只提示并可重试。
+  final bool fatal;
+  final String source;
+}
+
+/// V6/R43：渲染心跳（每秒一次），Flutter 侧据此判断引擎存活并触发自动重载。
+class EngineHeartbeat extends EngineEvent {
+  const EngineHeartbeat({
+    required this.frames,
+    required this.fps,
+    this.usedHeapMB,
+  });
+  final int frames;
+  final int fps;
+  final double? usedHeapMB;
+}
+
+/// V6/R43：WebView 控制台日志（转发到 AppLogger，便于诊断包）。
+class EngineConsole extends EngineEvent {
+  const EngineConsole({required this.level, required this.message});
+  final String level;
   final String message;
 }
 
@@ -103,8 +127,25 @@ class EngineBridge {
         case 'captured':
           final dataUrl = data['dataUrl'] as String? ?? '';
           if (dataUrl.isNotEmpty) _events.add(EngineCaptured(dataUrl));
+        case 'engineHeartbeat':
+          _events.add(EngineHeartbeat(
+            frames: asInt(data['frames']),
+            fps: asInt(data['fps']),
+            usedHeapMB: (data['memory'] as Map?)?['usedMB'] is num
+                ? ((data['memory'] as Map)['usedMB'] as num).toDouble()
+                : null,
+          ));
+        case 'engineConsole':
+          _events.add(EngineConsole(
+            level: data['level'] as String? ?? 'log',
+            message: data['message'] as String? ?? '',
+          ));
         case 'error':
-          _events.add(EngineErrorEvent(data['message'] as String? ?? '未知错误'));
+          _events.add(EngineErrorEvent(
+            data['message'] as String? ?? '未知错误',
+            fatal: data['fatal'] == true,
+            source: data['source'] as String? ?? '',
+          ));
       }
     } catch (_) {
       // 忽略无法解析的消息。
@@ -116,6 +157,15 @@ class EngineBridge {
       await _controller?.evaluateJavascript(source: source);
     } catch (_) {
       // WebView 未就绪时忽略。
+    }
+  }
+
+  /// V6/D103：求值并取回结果（诊断包读取引擎统计用）。
+  Future<Object?> evaluate(String source) async {
+    try {
+      return await _controller?.evaluateJavascript(source: source);
+    } catch (_) {
+      return null;
     }
   }
 
@@ -174,6 +224,10 @@ class EngineBridge {
   /// V5/D91：接触阴影开关（仅 realistic 预设生效）。
   Future<void> setContactShadow(bool on) => _js(
       'window.ss && window.ss.setContactShadow && window.ss.setContactShadow(${on ? 'true' : 'false'});');
+
+  /// V6/D104：性能档（auto | high | low）。
+  Future<void> setPerformanceProfile(String profile) => _js(
+      'window.ss && window.ss.setPerformanceProfile && window.ss.setPerformanceProfile("$profile");');
 
   /// V5/D86：手部预设（side: l|r；双手组合预设会同时写入左右手）。
   Future<void> setHandPose(String side, String presetId) => _js(

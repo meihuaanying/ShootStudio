@@ -1,0 +1,235 @@
+{
+  "at": "2026-09-19T08:29:56.902Z",
+  "loops": 1,
+  "characters": 23,
+  "samples": [
+    {
+      "loop": 0,
+      "id": "qs-men-adventurer",
+      "ms": 1672,
+      "heapMB": 44.4,
+      "instances": 2,
+      "glbs": 2,
+      "fps": 5
+    },
+    {
+      "loop": 0,
+      "id": "qs-men-beach",
+      "ms": 1487,
+      "heapMB": 45.1,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 4
+    },
+    {
+      "loop": 0,
+      "id": "qs-men-casual",
+      "ms": 1039,
+      "heapMB": 47,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-men-casual2",
+      "ms": 1880,
+      "heapMB": 62.5,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 4
+    },
+    {
+      "loop": 0,
+      "id": "qs-men-farmer",
+      "ms": 1429,
+      "heapMB": 50,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-men-king",
+      "ms": 1481,
+      "heapMB": 52,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-men-punk",
+      "ms": 1416,
+      "heapMB": 63.1,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-men-spacesuit",
+      "ms": 1434,
+      "heapMB": 74.2,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-men-suit",
+      "ms": 2036,
+      "heapMB": 98,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 4
+    },
+    {
+      "loop": 0,
+      "id": "qs-men-swat",
+      "ms": 1451,
+      "heapMB": 108,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-men-worker",
+      "ms": 1404,
+      "heapMB": 52.4,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-women-adventurer",
+      "ms": 1284,
+      "heapMB": 67.8,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 7
+    },
+    {
+      "loop": 0,
+      "id": "qs-women-casual",
+      "ms": 1438,
+      "heapMB": 54.3,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-women-formal",
+      "ms": 1126,
+      "heapMB": 84.3,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-women-medieval",
+      "ms": 1408,
+      "heapMB": 64.2,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-women-punk",
+      "ms": 1321,
+      "heapMB": 45.1,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-women-scifi",
+      "ms": 1472,
+      "heapMB": 56,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-women-soldier",
+      "ms": 1365,
+      "heapMB": 40.1,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-women-suit",
+      "ms": 1481,
+      "heapMB": 54.8,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-women-witch",
+      "ms": 1356,
+      "heapMB": 69.5,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "qs-women-worker",
+      "ms": 1465,
+      "heapMB": 86.5,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 6
+    },
+    {
+      "loop": 0,
+      "id": "realistic-man-01",
+      "ms": 6626,
+      "heapMB": 52.6,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 1
+    },
+    {
+      "loop": 0,
+      "id": "realistic:cesiumman",
+      "ms": 3406,
+      "heapMB": 59.9,
+      "instances": 2,
+      "glbs": 3,
+      "fps": 4
+    }
+  ],
+  "failures": [],
+  "finalCache": {
+    "instances": 2,
+    "glbs": 3,
+    "glbsResolved": 3,
+    "prepared": 2,
+    "maxInstances": 2,
+    "maxGlbs": 3
+  },
+  "finalMemory": {
+    "usedMB": 59.9,
+    "totalMB": 116.2,
+    "limitMB": 4192
+  },
+  "assertions": {
+    "lruOk": true,
+    "growthOk": true,
+    "peakHeapMB": 108,
+    "firstHeapMB": 44.4,
+    "lastHeapMB": 59.9
+  }
+}

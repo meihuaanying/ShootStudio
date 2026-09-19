@@ -9,7 +9,7 @@ import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { buildStudio } from './studio.js';
 import { buildPerson, JOINT_NAMES } from './person.js';
 import { createCharacterManager } from './character.js';
-import { createLight, updateLight, setLightSelected } from './lights.js';
+import { createLight, updateLight, setLightSelected, setShadowMapSize } from './lights.js';
 import { buildProp, placeProp, applyPropTexture } from './props.js';
 import { nowMs } from './util.js';
 
@@ -32,6 +32,46 @@ function send(type, payload = {}) {
     }
   } catch (e) { /* 桥不可用时静默，改用 outbox（浏览器调试） */ }
   (window.__ssOutbox = window.__ssOutbox || []).push(msg);
+}
+
+// V6/R43：JS 未捕获错误 / 未处理 Promise 全量上报（非致命，Flutter 侧仅提示不降级）。
+window.addEventListener('error', (e) => {
+  try {
+    send('error', {
+      message: `JS 错误：${e.message || e.error || 'unknown'} @ ${e.filename || ''}:${e.lineno || 0}`,
+      fatal: false,
+      source: 'js',
+    });
+  } catch (_) { /* 上报失败静默 */ }
+});
+window.addEventListener('unhandledrejection', (e) => {
+  try {
+    const reason = e.reason && (e.reason.message || e.reason);
+    send('error', { message: `未处理的 Promise 拒绝：${reason}`, fatal: false, source: 'promise' });
+  } catch (_) { /* 上报失败静默 */ }
+});
+
+// 心跳与内存采样：Flutter 侧以此判定渲染是否存活并触发自动重载（D102）。
+let frameCount = 0;
+let lastFps = 0;
+let framesSinceHeartbeat = 0;
+let lastHeartbeatAt = 0;
+function perfMemory() {
+  const m = performance && performance.memory;
+  if (!m) return null;
+  return {
+    usedMB: Number((m.usedJSHeapSize / 1048576).toFixed(1)),
+    totalMB: Number((m.totalJSHeapSize / 1048576).toFixed(1)),
+    limitMB: Number((m.jsHeapSizeLimit / 1048576).toFixed(1)),
+  };
+}
+function heartbeatPayload() {
+  return {
+    frames: frameCount,
+    fps: lastFps,
+    paused,
+    memory: perfMemory(),
+  };
 }
 
 // ---------------- 基础场景 ----------------
@@ -159,7 +199,8 @@ let contactShadowSupported = false; // 仅 realistic 预设显示（standard/lig
 let contactShadowClock = 1;
 
 function applyContactShadow() {
-  const visible = contactShadowEnabled && contactShadowSupported;
+  // V6/D104：性能优先档关闭接触阴影（R52 可退回）。
+  const visible = contactShadowEnabled && contactShadowSupported && effectiveProfile() !== 'low';
   contactShadow.visible = visible;
   if (visible) contactShadowClock = 1;
 }
@@ -182,6 +223,54 @@ function syncContactShadowPreset() {
   applyContactShadow();
 }
 
+// V6/D104：性能档（auto | high | low）——低配自动/手动降档，可随时切回。
+let performanceProfile = 'auto';
+let shadowMapSize = 2048;
+let maxPixelRatio = 2;
+let desiredSubdivision = 1;
+
+function detectPerformanceProfile() {
+  try {
+    const gl = renderer.getContext();
+    const info = gl.getExtension('WEBGL_debug_renderer_info');
+    const name = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL) || '') : '';
+    if (/swiftshader|software|basic render/i.test(name)) return 'low';
+    const mem = Number(navigator.deviceMemory || 0);
+    if (mem > 0 && mem <= 4) return 'low';
+  } catch (_) { /* 探测失败按 high */ }
+  return 'high';
+}
+
+function effectiveProfile() {
+  return performanceProfile === 'auto' ? detectPerformanceProfile() : performanceProfile;
+}
+
+function applyPerformanceProfile() {
+  const profile = effectiveProfile();
+  const low = profile === 'low';
+  shadowMapSize = low ? 1024 : 2048;
+  maxPixelRatio = low ? 1 : 2;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxPixelRatio));
+  setShadowMapSize(shadowMapSize);
+  applyContactShadow();
+  const subdivision = low ? Math.min(desiredSubdivision, 1) : desiredSubdivision;
+  Promise.resolve(character.setSubdivision(subdivision)).catch(() => {});
+  for (const obj of lightObjs.values()) {
+    const spot = obj.getObjectByName?.('spot');
+    if (spot && spot.shadow) {
+      spot.shadow.mapSize.set(shadowMapSize, shadowMapSize);
+      if (spot.shadow.map) {
+        spot.shadow.map.dispose();
+        spot.shadow.map = null;
+      }
+    }
+  }
+  for (const cfg of sceneState.lights || []) {
+    const obj = lightObjs.get(cfg.id);
+    if (obj) updateLight(obj, cfg);
+  }
+}
+
 const person = buildPerson({ height: 1.7 });
 scene.add(person.root);
 person.root.visible = false; // 轻量假人仅在显式 legacy 模式显示（R15）
@@ -195,6 +284,7 @@ let linkage = true;
 let subjectMode = 'character'; // 'character'（GLB 骨骼）| 'legacy'（显式轻量假人）
 const lightObjs = new Map();
 const propObjs = new Map();
+applyPerformanceProfile(); // 初始化性能档（自动探测或默认 high）
 let selected = null; // { kind:'light'|'prop'|'joint', id }
 let jointMode = false;
 
@@ -226,7 +316,9 @@ async function useCharacter(id) {
     return true;
   } catch (err) {
     const message = String(err?.message || err);
-    if (character.getStatus().error !== message) send('error', { message });
+    if (character.getStatus().error !== message) {
+      send('error', { message, fatal: false, source: 'character' });
+    }
     // 保留 3D 场景可用（灯位/道具照常渲染）；错误由 UI 以提示呈现，不遮挡舞台。
     boot(null);
     return false;
@@ -571,7 +663,7 @@ function qaAllowDistance(distance) {
 // ---------------- 对外 API（Flutter / 调试） ----------------
 let paused = false;
 window.ss = {
-  features: 'GLTFLoader GLTF gltf-parser SkeletonUtils retarget AnimationMixer BufferGeometryUtils LoopSubdivision skin-preserving-loop setSubdivision setMaterialPreset PMREM RoomEnvironment setAmbientEnabled setHandPose setHandCurls getHandState listHandPresets hand-bones RGBELoader HDRI setContactShadow getContactShadow contact-shadow getEnvironmentSource',
+  features: 'GLTFLoader GLTF gltf-parser SkeletonUtils retarget AnimationMixer BufferGeometryUtils LoopSubdivision skin-preserving-loop setSubdivision setMaterialPreset PMREM RoomEnvironment setAmbientEnabled setHandPose setHandCurls getHandState listHandPresets hand-bones RGBELoader HDRI setContactShadow getContactShadow contact-shadow getEnvironmentSource engineHeartbeat getEngineStats evictCharacterCache cache-lru setPerformanceProfile performance-profile',
   ping: () => send('ready', { version: 1 }),
   setPaused: (p) => {
     paused = !!p;
@@ -605,7 +697,20 @@ window.ss = {
   setHair: (id) => character.setHair(id == null ? null : String(id)).catch(() => false),
   setSkinTone: (hex) => character.setSkinTone(hex == null ? null : String(hex)).catch(() => false),
   // D62/D63 桥接 API（Flutter 侧按需接入）。
-  setSubdivision: (level) => character.setSubdivision(level),
+  setSubdivision: (level) => {
+    desiredSubdivision = Number(level) || 0;
+    const applied = effectiveProfile() === 'low'
+      ? Math.min(desiredSubdivision, 1)
+      : desiredSubdivision;
+    return character.setSubdivision(applied);
+  },
+  // V6/D104：性能档（auto | high | low）。
+  setPerformanceProfile: (profile) => {
+    performanceProfile = profile === 'low' || profile === 'high' ? profile : 'auto';
+    applyPerformanceProfile();
+    return { requested: performanceProfile, effective: effectiveProfile() };
+  },
+  getPerformanceProfile: () => ({ requested: performanceProfile, effective: effectiveProfile() }),
   setMaterialPreset: (name) => {
     const promise = character.setMaterialPreset(name == null ? null : String(name));
     Promise.resolve(promise).then(() => syncContactShadowPreset()).catch(() => {});
@@ -680,6 +785,23 @@ window.ss = {
     return true;
   },
   getOutbox: () => window.__ssOutbox || [],
+  // V6/R43：心跳/内存/缓存统计（QA 与诊断包用）。
+  heartbeat: () => ({ frames: frameCount, fps: lastFps, at: Math.round(performance.now()) }),
+  getEngineStats: () => ({
+    frames: frameCount,
+    fps: lastFps,
+    paused,
+    memory: perfMemory(),
+    cache: typeof character.getCacheStats === 'function' ? character.getCacheStats() : null,
+    environmentSource,
+    ambientEnabled,
+    contactShadow: contactShadowEnabled && contactShadowSupported,
+    performance: { requested: performanceProfile, effective: effectiveProfile() },
+  }),
+  evictCharacterCache: () => {
+    if (typeof character.evictAll === 'function') character.evictAll();
+    return true;
+  },
 };
 
 // ---------------- 主循环 ----------------
@@ -687,6 +809,14 @@ let last = performance.now();
 function frame(t) {
   const dt = (t - last) / 1000;
   last = t;
+  frameCount++;
+  framesSinceHeartbeat++;
+  if (!lastHeartbeatAt) lastHeartbeatAt = t;
+  if (t - lastHeartbeatAt >= 1000) {
+    lastFps = Math.round((framesSinceHeartbeat * 1000) / Math.max(1, t - lastHeartbeatAt));
+    framesSinceHeartbeat = 0;
+    lastHeartbeatAt = t;
+  }
   if (!paused) {
     if (subjectMode === 'legacy') person.tick(t);
     else character.tick();
@@ -713,6 +843,13 @@ function resize() {
 window.addEventListener('resize', resize);
 resize();
 
+// 心跳用 setInterval（rAF 在隐藏页/后台会被节流，setInterval 相对稳定）。
+setInterval(() => {
+  try {
+    send('engineHeartbeat', heartbeatPayload());
+  } catch (_) { /* 静默 */ }
+}, 1500);
+
 try {
   boot('正在加载角色模型…');
   applyScene({ version: 1, lights: [], props: [], subject: { height: 1.7, pose: { joints: {} } } });
@@ -736,5 +873,5 @@ try {
   });
 } catch (err) {
   boot(`3D 引擎加载失败：${err?.message || err}`, true);
-  send('error', { message: String(err?.message || err) });
+  send('error', { message: String(err?.message || err), fatal: true, source: 'boot' });
 }

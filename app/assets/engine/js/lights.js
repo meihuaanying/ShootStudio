@@ -29,6 +29,13 @@ export const LIGHT_MODIFIERS = [
 export function fixtureById(id) { return LIGHT_FIXTURES.find((f) => f.id === id) || LIGHT_FIXTURES[0]; }
 export function modifierById(id) { return LIGHT_MODIFIERS.find((m) => m.id === id) || LIGHT_MODIFIERS[0]; }
 
+// V6/D104：阴影贴图尺寸随性能档联动（默认 2048，低配 1024）。
+let shadowMapSize = 2048;
+export function setShadowMapSize(size) {
+  const value = Number(size);
+  if (Number.isFinite(value) && value > 0) shadowMapSize = Math.round(value);
+}
+
 // 计算控光件叠加后的有效参数。
 export function effectiveParams(cfg) {
   const mod = modifierById(cfg.modifier);
@@ -205,8 +212,8 @@ export function updateLight(group, cfg) {
   spot.penumbra = clamp(softness * (cfg.type === 'soft' ? 0.95 : 0.6), 0.05, 1);
   spot.color = c;
   spot.castShadow = group.userData.castShadow === true && on && !isPanel;
-  // V5/D91：阴影质量调优（更高分辨率 + 适配细分网格的 normalBias）。
-  spot.shadow.mapSize.set(2048, 2048);
+  // V5/D91 阴影质量调优（V6/D104：分辨率随性能档联动）。
+  spot.shadow.mapSize.set(shadowMapSize, shadowMapSize);
   spot.shadow.bias = -0.0005;
   spot.shadow.normalBias = 0.025;
   spot.shadow.radius = 3;
