@@ -79,7 +79,8 @@ void main() {
         expect(js.contains(token), isTrue, reason: '引擎缺少 $token');
       }
       // 控制台落盘在 Dart 侧（WebView onConsoleMessage）。
-      final String view = File('lib/services/engine/engine_view.dart').readAsStringSync();
+      final String view =
+          File('lib/services/engine/engine_view.dart').readAsStringSync();
       expect(view.contains('onConsoleMessage'), isTrue,
           reason: 'engine_view 缺少控制台转发');
       expect(view.contains('_heartbeatTimeout'), isTrue,
