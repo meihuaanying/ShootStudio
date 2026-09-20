@@ -12,18 +12,22 @@ class _Adapter implements HttpClientAdapter {
   _Adapter(this.handler);
   final Future<ResponseBody> Function(RequestOptions options) handler;
   @override
-  Future<ResponseBody> fetch(RequestOptions options,
-          Stream<Uint8List>? requestStream, Future<void>? cancelFuture) =>
-      handler(options);
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) => handler(options);
   @override
   void close({bool force = false}) {}
 }
 
-ResponseBody _json(Object data) =>
-    ResponseBody.fromString(jsonEncode(data), 200,
-        headers: <String, List<String>>{
-          Headers.contentTypeHeader: <String>[Headers.jsonContentType]
-        });
+ResponseBody _json(Object data) => ResponseBody.fromString(
+  jsonEncode(data),
+  200,
+  headers: <String, List<String>>{
+    Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+  },
+);
 
 /// V3 硬门禁：真实素材可溯源、3D 人物契约、QA 产物、TMDB 双鉴权。
 void main() {
@@ -236,7 +240,7 @@ void main() {
               <String, Object?>{
                 'file_path': '/b1.jpg',
                 'width': 1920,
-                'height': 1080
+                'height': 1080,
               },
             ],
           });
@@ -253,7 +257,9 @@ void main() {
     );
     expect(images.any((TmdbImage i) => i.filePath == '/b1.jpg'), isTrue);
     expect(images.any((TmdbImage i) => i.isStill), isTrue);
-    expect(images.first.url('w780'),
-        startsWith('https://image.tmdb.org/t/p/w780/'));
+    expect(
+      images.first.url('w780'),
+      startsWith('https://image.tmdb.org/t/p/w780/'),
+    );
   });
 }

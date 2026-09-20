@@ -9,7 +9,7 @@ import 'source_utils.dart';
 /// 解析器 fixture 化（R48），失败只影响本源。
 class WikiArtSource implements SearchSource {
   WikiArtSource({Dio? dio})
-      : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
 
   final Dio _dio;
 
@@ -19,13 +19,13 @@ class WikiArtSource implements SearchSource {
   String get label => 'WikiArt';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: true,
-        byKeyword: true,
-        hasLicenseFilter: false,
-        domains: <ImageDomain>{ImageDomain.art},
-        requiresKey: false,
-      );
+    byTitle: true,
+    byPerson: true,
+    byKeyword: true,
+    hasLicenseFilter: false,
+    domains: <ImageDomain>{ImageDomain.art},
+    requiresKey: false,
+  );
 
   @override
   bool get enabled => true;
@@ -41,8 +41,8 @@ class WikiArtSource implements SearchSource {
   }) async {
     final String text =
         query.intent == SearchIntent.person && query.person.isNotEmpty
-            ? query.person
-            : query.forSource(id);
+        ? query.person
+        : query.forSource(id);
     if (text.trim().isEmpty) {
       return const SourceSearchPage(hits: <SearchHit>[], hasMore: false);
     }
@@ -52,7 +52,7 @@ class WikiArtSource implements SearchSource {
       options: Options(
         responseType: ResponseType.plain,
         headers: <String, Object?>{
-          'Accept': 'application/json, text/plain, */*'
+          'Accept': 'application/json, text/plain, */*',
         },
       ),
     );
@@ -93,23 +93,25 @@ class WikiArtSource implements SearchSource {
       final String full = image
           .replaceAll(RegExp(r'!(?:Large|PinterestSmall|Small)\.\w+$'), '')
           .replaceAll(RegExp(r'!.*\.jpg$'), '.jpg');
-      out.add(SearchHit(
-        id: hitId('wikiart', pageUrl.isEmpty ? image : pageUrl),
-        title: title,
-        thumbUrl: image,
-        fullUrl: full,
-        sourceId: 'wikiart',
-        sourceLabel: 'WikiArt',
-        license: 'WikiArt（许可以作品页为准）',
-        commercialOk: false,
-        attribution: artist.isEmpty ? 'WikiArt' : '$artist · WikiArt',
-        sourcePageUrl: pageUrl,
-        width: intSafe(m['width']),
-        height: intSafe(m['height']),
-        domain: ImageDomain.art,
-        imageType: 'artwork',
-        extra: <String, Object?>{'year': strSafe(m['year'])},
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('wikiart', pageUrl.isEmpty ? image : pageUrl),
+          title: title,
+          thumbUrl: image,
+          fullUrl: full,
+          sourceId: 'wikiart',
+          sourceLabel: 'WikiArt',
+          license: 'WikiArt（许可以作品页为准）',
+          commercialOk: false,
+          attribution: artist.isEmpty ? 'WikiArt' : '$artist · WikiArt',
+          sourcePageUrl: pageUrl,
+          width: intSafe(m['width']),
+          height: intSafe(m['height']),
+          domain: ImageDomain.art,
+          imageType: 'artwork',
+          extra: <String, Object?>{'year': strSafe(m['year'])},
+        ),
+      );
     }
     return out;
   }

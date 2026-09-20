@@ -37,8 +37,10 @@ class LightingPage extends ConsumerStatefulWidget {
 class _LightingPageState extends ConsumerState<LightingPage> {
   EngineBridge? _bridge;
   bool _skeleton = false;
-  CharacterSelection _character =
-      const CharacterSelection(characterId: '', characterName: '默认人物');
+  CharacterSelection _character = const CharacterSelection(
+    characterId: '',
+    characterName: '默认人物',
+  );
   List<LightPresetEntry> _presets = <LightPresetEntry>[];
   bool _applyQueued = false;
   int _lastPoseSeq = 0;
@@ -66,10 +68,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       _applyQueued = false;
       final state = ref.read(lightingControllerProvider);
       final joints = state.pendingPose;
-      _bridge?.applyScene(state.scene.toEngineJson(
-        poseJoints: joints,
-        hands: state.scene.hands,
-      ));
+      _bridge?.applyScene(
+        state.scene.toEngineJson(poseJoints: joints, hands: state.scene.hands),
+      );
     });
   }
 
@@ -78,8 +79,10 @@ class _LightingPageState extends ConsumerState<LightingPage> {
     final state = ref.watch(lightingControllerProvider);
 
     // 场景变化 → 引擎同步（联动/解耦由引擎侧 linkage 控制拖动回传）。
-    ref.listen(lightingControllerProvider,
-        (LightingState? prev, LightingState next) {
+    ref.listen(lightingControllerProvider, (
+      LightingState? prev,
+      LightingState next,
+    ) {
       if (!next.initialized) return;
       if (prev?.scene != next.scene || prev?.dirty != next.dirty) {
         _queueApplyScene();
@@ -218,15 +221,19 @@ class _LightingPageState extends ConsumerState<LightingPage> {
                         padding: const EdgeInsets.only(bottom: 4),
                         child: SsCard(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 8),
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
                           onTap: () {
                             ref
                                 .read(lightingControllerProvider.notifier)
                                 .applyPreset(preset);
                             if (context.mounted) ssToast(context, preset.note);
                           },
-                          child: Text(preset.name,
-                              style: const TextStyle(fontSize: 12.5)),
+                          child: Text(
+                            preset.name,
+                            style: const TextStyle(fontSize: 12.5),
+                          ),
                         ),
                       ),
                   ],
@@ -324,8 +331,10 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             label: '人物 · ${_character.characterName}',
             selected: _character.characterId.isNotEmpty,
             onTap: () async {
-              final CharacterSelection? next =
-                  await showCharacterPicker(context, current: _character);
+              final CharacterSelection? next = await showCharacterPicker(
+                context,
+                current: _character,
+              );
               if (next == null) return;
               setState(() => _character = next);
               await applyCharacterSelection(_bridge, next);
@@ -391,8 +400,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
           switch (event) {
             case EngineReady():
               _bridge?.setLinkage(state.linkage);
-              _bridge
-                  ?.setTheme(Theme.of(context).brightness == Brightness.dark);
+              _bridge?.setTheme(
+                Theme.of(context).brightness == Brightness.dark,
+              );
               _bridge?.setSkeletonMode(_skeleton);
               final LightingState fresh = ref.read(lightingControllerProvider);
               _lastSubdivision = fresh.subdivisionLevel;
@@ -413,24 +423,28 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               }
               _queueApplyScene();
             case EngineCharacterChanged(
-                character: final String id,
-                name: final String name
-              ):
+              character: final String id,
+              name: final String name,
+            ):
               if (id != 'legacy') {
-                setState(() => _character =
-                    _character.copyWith(characterId: id, characterName: name));
+                setState(
+                  () => _character = _character.copyWith(
+                    characterId: id,
+                    characterName: name,
+                  ),
+                );
               }
             case EngineSelection(
-                kind: final String? kind,
-                id: final String? id
-              ):
+              kind: final String? kind,
+              id: final String? id,
+            ):
               if (kind == 'light' || kind == 'prop') {
                 controller.select(id);
               }
             case EngineSceneChanged(
-                lights: final List<Map<String, Object?>>? lights,
-                props: final List<Map<String, Object?>>? props
-              ):
+              lights: final List<Map<String, Object?>>? lights,
+              props: final List<Map<String, Object?>>? props,
+            ):
               controller.applyEngineMove(lights: lights, props: props);
             case EngineCaptured(dataUrl: final String dataUrl):
               _saveCapture(dataUrl);
@@ -440,10 +454,10 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             case EngineConsole():
               break;
             case EngineErrorEvent(
-                message: final String message,
-                fatal: final bool fatal,
-                source: final String source
-              ):
+              message: final String message,
+              fatal: final bool fatal,
+              source: final String source,
+            ):
               // V6/R41：致命错误才降级提示；角色局部失败给可读状态，JS 噪声只落盘。
               if (fatal) {
                 controller.setStatus('3D 引擎异常，已降级到俯视图');
@@ -491,20 +505,23 @@ class _LightingPageState extends ConsumerState<LightingPage> {
 
   /// V6/D103：导出诊断包（应用日志 + 引擎统计 + 场景 JSON + 环境信息 → zip）。
   Future<void> _exportDiagnostics() async {
-    final LightingController controller =
-        ref.read(lightingControllerProvider.notifier);
+    final LightingController controller = ref.read(
+      lightingControllerProvider.notifier,
+    );
     try {
       final LightingState state = ref.read(lightingControllerProvider);
       final Workspace workspace = ref.read(workspaceProvider);
       final DateTime now = DateTime.now();
-      final String stamp = '${now.year}'
+      final String stamp =
+          '${now.year}'
           '${now.month.toString().padLeft(2, '0')}'
           '${now.day.toString().padLeft(2, '0')}-'
           '${now.hour.toString().padLeft(2, '0')}'
           '${now.minute.toString().padLeft(2, '0')}'
           '${now.second.toString().padLeft(2, '0')}';
-      final Directory dir =
-          Directory(p.join(workspace.root.path, 'diagnostics', 'diag-$stamp'));
+      final Directory dir = Directory(
+        p.join(workspace.root.path, 'diagnostics', 'diag-$stamp'),
+      );
       await dir.create(recursive: true);
 
       // 1) 应用日志（引擎控制台 / JS 错误均已写入）。
@@ -517,8 +534,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       final Object? engineStats = await _bridge?.evaluate(
         'JSON.stringify(window.ss && window.ss.getEngineStats ? window.ss.getEngineStats() : null)',
       );
-      await File(p.join(dir.path, 'engine-stats.json'))
-          .writeAsString('${engineStats ?? 'null'}');
+      await File(
+        p.join(dir.path, 'engine-stats.json'),
+      ).writeAsString('${engineStats ?? 'null'}');
 
       // 3) 当前布光场景。
       await File(p.join(dir.path, 'scene.json')).writeAsString(
@@ -550,12 +568,18 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       final Archive archive = Archive();
       for (final FileSystemEntity entity in dir.listSync()) {
         if (entity is File) {
-          archive.addFile(ArchiveFile(p.basename(entity.path),
-              entity.lengthSync(), entity.readAsBytesSync()));
+          archive.addFile(
+            ArchiveFile(
+              p.basename(entity.path),
+              entity.lengthSync(),
+              entity.readAsBytesSync(),
+            ),
+          );
         }
       }
-      final File zip =
-          File(p.join(workspace.root.path, 'diagnostics', 'diag-$stamp.zip'));
+      final File zip = File(
+        p.join(workspace.root.path, 'diagnostics', 'diag-$stamp.zip'),
+      );
       await zip.writeAsBytes(ZipEncoder().encode(archive)!, flush: true);
       controller.setStatus('诊断包已导出：${zip.path}');
       if (mounted) ssToast(context, '诊断包已导出到工作区 diagnostics/');
@@ -567,8 +591,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
 
   Future<void> _saveCapture(String dataUrl) async {
     try {
-      final base64Part =
-          dataUrl.contains(',') ? dataUrl.split(',').last : dataUrl;
+      final base64Part = dataUrl.contains(',')
+          ? dataUrl.split(',').last
+          : dataUrl;
       final bytes = base64Decode(base64Part);
       final workspace = ref.read(workspaceProvider);
       final dir = Directory(p.join(workspace.root.path, 'images', 'plans'));
@@ -577,8 +602,11 @@ class _LightingPageState extends ConsumerState<LightingPage> {
         p.join(dir.path, '布光预览_${DateTime.now().millisecondsSinceEpoch}.png'),
       );
       await file.writeAsBytes(bytes);
-      ref.read(lightingControllerProvider.notifier).setStatus(
-          '已保存效果预览图：${file.path.split(Platform.pathSeparator).last}');
+      ref
+          .read(lightingControllerProvider.notifier)
+          .setStatus(
+            '已保存效果预览图：${file.path.split(Platform.pathSeparator).last}',
+          );
       if (mounted) ssToast(context, '效果预览图已保存到工作区 images/plans/');
     } catch (e) {
       ref.read(lightingControllerProvider.notifier).setStatus('预览图保存失败：$e');
@@ -611,7 +639,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               child: Text(
                 d.isLight
                     ? '${_typeLabel(d.type)} · 方位 ${g.azimuthLabel} · 距离 ${g.distanceLabel} · '
-                        '${d.intensity}% · ${d.kelvin}K · ${d.height.toStringAsFixed(1)}m'
+                          '${d.intensity}% · ${d.kelvin}K · ${d.height.toStringAsFixed(1)}m'
                     : '道具 · 坐标 (${d.x.toStringAsFixed(1)}, ${d.y.toStringAsFixed(1)})',
                 style: AppTokens.mono(context, size: 10.5),
                 overflow: TextOverflow.ellipsis,
@@ -646,8 +674,10 @@ class _LightingPageState extends ConsumerState<LightingPage> {
           Expanded(
             child: rows.isEmpty
                 ? const Center(
-                    child:
-                        Text('空影棚 · 未布置任何灯光', style: TextStyle(fontSize: 12)),
+                    child: Text(
+                      '空影棚 · 未布置任何灯光',
+                      style: TextStyle(fontSize: 12),
+                    ),
                   )
                 : ListView(
                     children: <Widget>[
@@ -684,8 +714,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             ),
             const SizedBox(height: AppTokens.s12),
             _CameraRigPanel(
-                state: state,
-                controller: ref.read(lightingControllerProvider.notifier)),
+              state: state,
+              controller: ref.read(lightingControllerProvider.notifier),
+            ),
             const SizedBox(height: AppTokens.s12),
             _LightMeterCard(scene: state.scene),
             const SizedBox(height: AppTokens.s12),
@@ -696,11 +727,13 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               handR: state.handR,
               bridge: _bridge,
               onSave: (String name, HandPoseState l, HandPoseState r) async {
-                await ref.read(posesControllerProvider.notifier).saveCustomPose(
+                await ref
+                    .read(posesControllerProvider.notifier)
+                    .saveCustomPose(
                       name: name,
                       joints:
                           ref.read(lightingControllerProvider).pendingPose ??
-                              <String, Object?>{},
+                          <String, Object?>{},
                       handsL: l,
                       handsR: r,
                     );
@@ -710,8 +743,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
                 ref
                     .read(lightingControllerProvider.notifier)
                     .resetPendingJoints();
-                final Map<String, Object?>? restored =
-                    ref.read(lightingControllerProvider).pendingPose;
+                final Map<String, Object?>? restored = ref
+                    .read(lightingControllerProvider)
+                    .pendingPose;
                 if (restored != null) {
                   _bridge?.setPose(restored, durationMs: 150);
                 }
@@ -795,8 +829,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               min: 1,
               max: 100,
               display: '${selected.intensity}%',
-              onChanged: (double v) => controller
-                  .updateSelected((DeviceSpec d) => d.intensity = v.round()),
+              onChanged: (double v) => controller.updateSelected(
+                (DeviceSpec d) => d.intensity = v.round(),
+              ),
             ),
             _slider(
               label: '色温',
@@ -804,8 +839,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               min: 2700,
               max: 7500,
               display: '${selected.kelvin}K',
-              onChanged: (double v) => controller
-                  .updateSelected((DeviceSpec d) => d.kelvin = v.round()),
+              onChanged: (double v) => controller.updateSelected(
+                (DeviceSpec d) => d.kelvin = v.round(),
+              ),
             ),
             _slider(
               label: '光束角',
@@ -926,9 +962,12 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             handR: state.handR,
             bridge: _bridge,
             onSave: (String name, HandPoseState l, HandPoseState r) async {
-              await ref.read(posesControllerProvider.notifier).saveCustomPose(
+              await ref
+                  .read(posesControllerProvider.notifier)
+                  .saveCustomPose(
                     name: name,
-                    joints: ref.read(lightingControllerProvider).pendingPose ??
+                    joints:
+                        ref.read(lightingControllerProvider).pendingPose ??
                         <String, Object?>{},
                     handsL: l,
                     handsR: r,
@@ -939,8 +978,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               ref
                   .read(lightingControllerProvider.notifier)
                   .resetPendingJoints();
-              final Map<String, Object?>? restored =
-                  ref.read(lightingControllerProvider).pendingPose;
+              final Map<String, Object?>? restored = ref
+                  .read(lightingControllerProvider)
+                  .pendingPose;
               if (restored != null) {
                 _bridge?.setPose(restored, durationMs: 150);
               }
@@ -990,9 +1030,12 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               items: <DropdownMenuItem<T>>[
                 for (final MapEntry<T, String> e in options.entries)
                   DropdownMenuItem<T>(
-                      value: e.key,
-                      child: Text(e.value,
-                          style: const TextStyle(fontSize: 12.5))),
+                    value: e.key,
+                    child: Text(
+                      e.value,
+                      style: const TextStyle(fontSize: 12.5),
+                    ),
+                  ),
               ],
               onChanged: (T? v) {
                 if (v != null) onChanged(v);
@@ -1035,10 +1078,11 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
           ),
           child: Slider(
-              value: value.clamp(min, max),
-              min: min,
-              max: max,
-              onChanged: onChanged),
+            value: value.clamp(min, max),
+            min: min,
+            max: max,
+            onChanged: onChanged,
+          ),
         ),
       ],
     );
@@ -1089,7 +1133,9 @@ class _FaceLightPainter extends CustomPainter {
 
     // 暗背景。
     canvas.drawRect(
-        Offset.zero & size, Paint()..color = const Color(0xFF17130F));
+      Offset.zero & size,
+      Paint()..color = const Color(0xFF17130F),
+    );
 
     // 脸。
     canvas.drawCircle(center, radius, Paint()..color = const Color(0xFF3A342E));
@@ -1101,7 +1147,8 @@ class _FaceLightPainter extends CustomPainter {
 
     // 取最亮灯为主光。
     devices.sort(
-        (DeviceSpec a, DeviceSpec b) => b.intensity.compareTo(a.intensity));
+      (DeviceSpec a, DeviceSpec b) => b.intensity.compareTo(a.intensity),
+    );
     final key = devices.first;
     final g = geometryOf(key.x, key.y);
     final int kelvin = key.kelvin;
@@ -1110,16 +1157,18 @@ class _FaceLightPainter extends CustomPainter {
     // 受光半侧。
     final rad = (g.azimuth - 90) * math.pi / 180;
     final litPath = Path()
-      ..addArc(Rect.fromCircle(center: center, radius: radius),
-          rad - math.pi / 2, math.pi)
+      ..addArc(
+        Rect.fromCircle(center: center, radius: radius),
+        rad - math.pi / 2,
+        math.pi,
+      )
       ..close();
     final warm = kelvin < 4200;
     final Color lightColor = Color.lerp(
       const Color(0xFFFFE8C8),
       const Color(0xFFEAF2FF),
       warm ? 0.15 : 0.85,
-    )!
-        .withValues(alpha: 0.25 + 0.55 * brightness);
+    )!.withValues(alpha: 0.25 + 0.55 * brightness);
     canvas.drawPath(litPath, Paint()..color = lightColor);
 
     // 面部轮廓。
@@ -1167,12 +1216,15 @@ class _FaceLightPainter extends CustomPainter {
   void _hint(Canvas canvas, Size size, String text) {
     final tp = TextPainter(
       text: TextSpan(
-          text: text,
-          style: const TextStyle(fontSize: 12, color: Color(0xFF8A919E))),
+        text: text,
+        style: const TextStyle(fontSize: 12, color: Color(0xFF8A919E)),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
-    tp.paint(canvas,
-        Offset((size.width - tp.width) / 2, (size.height - tp.height) / 2));
+    tp.paint(
+      canvas,
+      Offset((size.width - tp.width) / 2, (size.height - tp.height) / 2),
+    );
   }
 
   @override
@@ -1200,23 +1252,34 @@ class _LightMeterCard extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              const Icon(Icons.exposure_rounded,
-                  size: 16, color: AppTokens.accent),
+              const Icon(
+                Icons.exposure_rounded,
+                size: 16,
+                color: AppTokens.accent,
+              ),
               const SizedBox(width: 6),
-              const Text('虚拟测光表',
-                  style:
-                      TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700)),
+              const Text(
+                '虚拟测光表',
+                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700),
+              ),
               const Spacer(),
-              Text('EV100 ${r.ev100.toStringAsFixed(1)}',
-                  style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w600)),
+              Text(
+                'EV100 ${r.ev100.toStringAsFixed(1)}',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 6),
           Row(
             children: <Widget>[
-              _cell(context, '建议曝光',
-                  'ISO ${r.iso} · ${r.shutter} · ${r.aperture}'),
+              _cell(
+                context,
+                '建议曝光',
+                'ISO ${r.iso} · ${r.shutter} · ${r.aperture}',
+              ),
               const SizedBox(width: 10),
               _cell(context, '光比', r.ratioLabel),
             ],
@@ -1230,29 +1293,35 @@ class _LightMeterCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 6),
-          Text(r.advice,
-              style: TextStyle(
-                  fontSize: 11, color: theme.colorScheme.onSurfaceVariant)),
+          Text(
+            r.advice,
+            style: TextStyle(
+              fontSize: 11,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget _cell(BuildContext context, String label, String value) => Expanded(
-        child: RichText(
-          text: TextSpan(
-            style: DefaultTextStyle.of(context).style.copyWith(fontSize: 11.5),
-            children: <TextSpan>[
-              TextSpan(
-                  text: '$label ',
-                  style: const TextStyle(color: AppTokens.lightMuted)),
-              TextSpan(
-                  text: value,
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
-            ],
+    child: RichText(
+      text: TextSpan(
+        style: DefaultTextStyle.of(context).style.copyWith(fontSize: 11.5),
+        children: <TextSpan>[
+          TextSpan(
+            text: '$label ',
+            style: const TextStyle(color: AppTokens.lightMuted),
           ),
-        ),
-      );
+          TextSpan(
+            text: value,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 /// 可折叠小节（A3/B2：关节微调与画质）。
@@ -1279,8 +1348,9 @@ class _CollapsibleCardState extends State<_CollapsibleCard> {
     final ThemeData theme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-        color:
-            theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.45),
+        color: theme.colorScheme.surfaceContainerHighest.withValues(
+          alpha: 0.45,
+        ),
         borderRadius: BorderRadius.circular(AppTokens.rSm),
         border: Border.all(color: theme.colorScheme.outline),
       ),
@@ -1298,24 +1368,30 @@ class _CollapsibleCardState extends State<_CollapsibleCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(widget.title,
-                            style: const TextStyle(
-                                fontSize: 12.5, fontWeight: FontWeight.w700)),
+                        Text(
+                          widget.title,
+                          style: const TextStyle(
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         if (widget.subtitle != null)
                           Text(
                             widget.subtitle!,
                             style: TextStyle(
-                                fontSize: 10.5,
-                                color: theme.colorScheme.onSurfaceVariant),
+                              fontSize: 10.5,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
                       ],
                     ),
                   ),
                   Icon(
-                      _open
-                          ? Icons.expand_less_rounded
-                          : Icons.expand_more_rounded,
-                      size: 18),
+                    _open
+                        ? Icons.expand_less_rounded
+                        : Icons.expand_more_rounded,
+                    size: 18,
+                  ),
                 ],
               ),
             ),
@@ -1422,8 +1498,10 @@ class _JointTunePanelState extends State<_JointTunePanel> {
       title: '关节微调',
       subtitle: pose == null ? '请先导入照片姿势' : '12 关节 · 实时同步 3D',
       child: pose == null
-          ? const Text('从「动作摆姿库」导入照片姿势后，可在此微调 12 个关节角度。',
-              style: TextStyle(fontSize: 11.5))
+          ? const Text(
+              '从「动作摆姿库」导入照片姿势后，可在此微调 12 个关节角度。',
+              style: TextStyle(fontSize: 11.5),
+            )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -1461,7 +1539,9 @@ class _JointTunePanelState extends State<_JointTunePanel> {
                       child: TextField(
                         controller: _saveCtl,
                         decoration: const InputDecoration(
-                            hintText: '另存为姿势名称', isDense: true),
+                          hintText: '另存为姿势名称',
+                          isDense: true,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -1484,7 +1564,11 @@ class _JointTunePanelState extends State<_JointTunePanel> {
   }
 
   Widget _axisSlider(
-      Map<String, Object?> pose, String label, String axis, int index) {
+    Map<String, Object?> pose,
+    String label,
+    String axis,
+    int index,
+  ) {
     final List<double> triple = _triple(pose[_joint]);
     final (double, double) range = _range(_joint, index);
     final double value = triple[index].clamp(range.$1, range.$2);
@@ -1495,8 +1579,10 @@ class _JointTunePanelState extends State<_JointTunePanel> {
           children: <Widget>[
             Text(label, style: const TextStyle(fontSize: 11.5)),
             const Spacer(),
-            Text(value.toStringAsFixed(0),
-                style: AppTokens.mono(context, size: 11)),
+            Text(
+              value.toStringAsFixed(0),
+              style: AppTokens.mono(context, size: 11),
+            ),
           ],
         ),
         SliderTheme(
@@ -1583,7 +1669,7 @@ class _HandPosePanelState extends State<_HandPosePanel> {
                   children: <Widget>[
                     for (final (String s, String label) in <(String, String)>[
                       ('l', '左手'),
-                      ('r', '右手')
+                      ('r', '右手'),
                     ])
                       SsChip(
                         label: label,
@@ -1607,8 +1693,9 @@ class _HandPosePanelState extends State<_HandPosePanel> {
                   spacing: 4,
                   runSpacing: 4,
                   children: <Widget>[
-                    for (final HandPresetInfo p
-                        in kHandPresetList.where((HandPresetInfo p) => !p.dual))
+                    for (final HandPresetInfo p in kHandPresetList.where(
+                      (HandPresetInfo p) => !p.dual,
+                    ))
                       SsChip(
                         label: '${p.emoji} ${p.label}',
                         selected: _current.preset == p.id,
@@ -1619,19 +1706,24 @@ class _HandPosePanelState extends State<_HandPosePanel> {
                 const SizedBox(height: 6),
                 Row(
                   children: <Widget>[
-                    Text('双手组合',
-                        style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: theme.colorScheme.onSurfaceVariant)),
+                    Text(
+                      '双手组合',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                     const SizedBox(width: 6),
-                    for (final HandPresetInfo p
-                        in kHandPresetList.where((HandPresetInfo p) => p.dual))
+                    for (final HandPresetInfo p in kHandPresetList.where(
+                      (HandPresetInfo p) => p.dual,
+                    ))
                       Padding(
                         padding: const EdgeInsets.only(right: 4),
                         child: SsChip(
                           label: '${p.emoji} ${p.label}',
-                          selected: widget.state.handL.preset == p.id &&
+                          selected:
+                              widget.state.handL.preset == p.id &&
                               widget.state.handR.preset == p.id,
                           onTap: () {
                             widget.controller.setHandPreset('both', p.id);
@@ -1645,7 +1737,9 @@ class _HandPosePanelState extends State<_HandPosePanel> {
                 Text(
                   '每指微调（${_side == 'r' ? '右手' : '左手'}）',
                   style: TextStyle(
-                      fontSize: 11, color: theme.colorScheme.onSurfaceVariant),
+                    fontSize: 11,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 for (final (String finger, String label) in _fingers)
@@ -1732,15 +1826,17 @@ class _CameraRigPanel extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              const Text('相机模型',
-                  style:
-                      TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+              const Text(
+                '相机模型',
+                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+              ),
               const Spacer(),
               SsChip(
                 label: cam.enabled ? '显示' : '隐藏',
                 selected: cam.enabled,
-                onTap: () => controller
-                    .updateCamera((CameraRigData c) => c.enabled = !c.enabled),
+                onTap: () => controller.updateCamera(
+                  (CameraRigData c) => c.enabled = !c.enabled,
+                ),
               ),
               const SizedBox(width: 6),
               SsChip(
@@ -1758,49 +1854,56 @@ class _CameraRigPanel extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           _slider(
-              context,
-              '焦段',
-              cam.focal.toDouble(),
-              14,
-              200,
-              1,
-              (double v) => controller
-                  .updateCamera((CameraRigData c) => c.focal = v.round()),
-              suffix: 'mm'),
+            context,
+            '焦段',
+            cam.focal.toDouble(),
+            14,
+            200,
+            1,
+            (double v) => controller.updateCamera(
+              (CameraRigData c) => c.focal = v.round(),
+            ),
+            suffix: 'mm',
+          ),
           _slider(
-              context,
-              '高度',
-              cam.height,
-              0.6,
-              2.2,
-              0.01,
-              (double v) =>
-                  controller.updateCamera((CameraRigData c) => c.height = v),
-              suffix: 'm'),
+            context,
+            '高度',
+            cam.height,
+            0.6,
+            2.2,
+            0.01,
+            (double v) =>
+                controller.updateCamera((CameraRigData c) => c.height = v),
+            suffix: 'm',
+          ),
           _slider(
-              context,
-              '俯仰',
-              cam.pitch,
-              -30,
-              30,
-              1,
-              (double v) =>
-                  controller.updateCamera((CameraRigData c) => c.pitch = v),
-              suffix: '°'),
+            context,
+            '俯仰',
+            cam.pitch,
+            -30,
+            30,
+            1,
+            (double v) =>
+                controller.updateCamera((CameraRigData c) => c.pitch = v),
+            suffix: '°',
+          ),
           _slider(
-              context,
-              '偏航',
-              cam.yaw,
-              -60,
-              60,
-              1,
-              (double v) =>
-                  controller.updateCamera((CameraRigData c) => c.yaw = v),
-              suffix: '°'),
+            context,
+            '偏航',
+            cam.yaw,
+            -60,
+            60,
+            1,
+            (double v) =>
+                controller.updateCamera((CameraRigData c) => c.yaw = v),
+            suffix: '°',
+          ),
           Text(
             '机位可在俯视图上拖动；焦段决定视野扇形与 POV 构图。',
             style: TextStyle(
-                fontSize: 10.5, color: theme.colorScheme.onSurfaceVariant),
+              fontSize: 10.5,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),
@@ -1821,8 +1924,9 @@ class _CameraRigPanel extends StatelessWidget {
     return Row(
       children: <Widget>[
         SizedBox(
-            width: 34,
-            child: Text(label, style: const TextStyle(fontSize: 11.5))),
+          width: 34,
+          child: Text(label, style: const TextStyle(fontSize: 11.5)),
+        ),
         Expanded(
           child: SliderTheme(
             data: SliderTheme.of(context).copyWith(
@@ -1870,9 +1974,10 @@ class _QualityPanel extends StatelessWidget {
           // V5/D85：环境光开关（关 = 半球光 + 环境贴图贡献全部关闭）。
           Row(
             children: <Widget>[
-              const Text('环境光',
-                  style:
-                      TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+              const Text(
+                '环境光',
+                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+              ),
               const Spacer(),
               SsChip(
                 label: state.ambientEnabled ? '开' : '关（仅摄影灯）',
@@ -1886,9 +1991,10 @@ class _QualityPanel extends StatelessWidget {
           // V5/D91：接触阴影开关（仅 realistic 预设生效，R38）。
           Row(
             children: <Widget>[
-              const Text('接触阴影',
-                  style:
-                      TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+              const Text(
+                '接触阴影',
+                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+              ),
               const Spacer(),
               SsChip(
                 label: state.contactShadow ? '开' : '关',
@@ -1903,13 +2009,17 @@ class _QualityPanel extends StatelessWidget {
               child: Text(
                 !state.contactShadow ? '接触阴影已关闭。' : '接触阴影仅写实材质预设生效。',
                 style: TextStyle(
-                    fontSize: 10.5, color: theme.colorScheme.onSurfaceVariant),
+                  fontSize: 10.5,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
           const SizedBox(height: 10),
           // V6/D104：性能档（自动探测 / 画质优先 / 性能优先）。
-          const Text('性能档',
-              style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+          const Text(
+            '性能档',
+            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: 4),
           Wrap(
             spacing: 4,
@@ -1934,16 +2044,19 @@ class _QualityPanel extends StatelessWidget {
                   ? '性能优先：关闭接触阴影、降低阴影与渲染分辨率、细分上限 1 级。'
                   : '自动会根据 GPU/内存自动选择；手动可随时切换。',
               style: TextStyle(
-                  fontSize: 10.5, color: theme.colorScheme.onSurfaceVariant),
+                fontSize: 10.5,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
           const SizedBox(height: 10),
           // V6/D111：光锥可视化。
           Row(
             children: <Widget>[
-              const Text('光锥可视化',
-                  style:
-                      TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+              const Text(
+                '光锥可视化',
+                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+              ),
               const Spacer(),
               SsChip(
                 label: state.lightCones ? '开' : '关',
@@ -1953,8 +2066,10 @@ class _QualityPanel extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          const Text('细分等级',
-              style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+          const Text(
+            '细分等级',
+            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: 4),
           Wrap(
             spacing: 4,
@@ -1973,8 +2088,10 @@ class _QualityPanel extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          const Text('材质预设',
-              style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+          const Text(
+            '材质预设',
+            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: 4),
           Wrap(
             spacing: 4,
@@ -1995,12 +2112,15 @@ class _QualityPanel extends StatelessWidget {
           const SizedBox(height: 10),
           Row(
             children: <Widget>[
-              const Text('环境反射',
-                  style:
-                      TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600)),
+              const Text(
+                '环境反射',
+                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+              ),
               const Spacer(),
-              Text('${state.envIntensity.toStringAsFixed(1)}×',
-                  style: AppTokens.mono(context, size: 11)),
+              Text(
+                '${state.envIntensity.toStringAsFixed(1)}×',
+                style: AppTokens.mono(context, size: 11),
+              ),
             ],
           ),
           SliderTheme(
@@ -2024,7 +2144,9 @@ class _QualityPanel extends StatelessWidget {
                 ? '标准/高为运行时 Loop 细分（R18：40k–60k 面）；轻量为原模型（R26）。'
                 : '环境光已关闭：环境反射滑杆暂不生效（强度已记忆）。',
             style: TextStyle(
-                fontSize: 10.5, color: theme.colorScheme.onSurfaceVariant),
+              fontSize: 10.5,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),

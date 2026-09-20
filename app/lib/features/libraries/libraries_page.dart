@@ -18,12 +18,12 @@ import 'gear_browser.dart';
 /// 五大资源库定义（D2/PRD 6.4）。
 const List<({String type, String label})> libraryKinds =
     <({String type, String label})>[
-  (type: 'models', label: '模特库'),
-  (type: 'locations', label: '场地库'),
-  (type: 'clothing', label: '服装库'),
-  (type: 'props', label: '道具库'),
-  (type: 'makeup', label: '妆面库'),
-];
+      (type: 'models', label: '模特库'),
+      (type: 'locations', label: '场地库'),
+      (type: 'clothing', label: '服装库'),
+      (type: 'props', label: '道具库'),
+      (type: 'makeup', label: '妆面库'),
+    ];
 
 /// 资源库条目视图模型。
 class LibraryItem {
@@ -110,13 +110,16 @@ class LibraryController extends Notifier<LibraryState> {
 
   Future<void> load({String? type}) async {
     final currentType = type ?? state.type;
-    final resourceRows = await (_db.select(_db.resources)
-          ..where((t) => t.type.equals(currentType))
-          ..orderBy(<OrderClauseGenerator<$ResourcesTable>>[
-            (t) =>
-                OrderingTerm(expression: t.updatedAt, mode: OrderingMode.desc),
-          ]))
-        .get();
+    final resourceRows =
+        await (_db.select(_db.resources)
+              ..where((t) => t.type.equals(currentType))
+              ..orderBy(<OrderClauseGenerator<$ResourcesTable>>[
+                (t) => OrderingTerm(
+                  expression: t.updatedAt,
+                  mode: OrderingMode.desc,
+                ),
+              ]))
+            .get();
     final imageRows = await _db.select(_db.resourceImages).get();
     final imagesByResource = <String, List<String>>{};
     for (final ResourceImage img in imageRows) {
@@ -149,8 +152,11 @@ class LibraryController extends Notifier<LibraryState> {
   void setKeyword(String keyword) => state = state.copyWith(keyword: keyword);
 
   Future<void> setType(String type) async {
-    state =
-        state.copyWith(type: type, items: const <LibraryItem>[], loaded: false);
+    state = state.copyWith(
+      type: type,
+      items: const <LibraryItem>[],
+      loaded: false,
+    );
     await load(type: type);
   }
 
@@ -163,7 +169,9 @@ class LibraryController extends Notifier<LibraryState> {
   }) async {
     final resourceId = id ?? _uuid.v4();
     final now = DateTime.now().millisecondsSinceEpoch;
-    await _db.into(_db.resources).insertOnConflictUpdate(
+    await _db
+        .into(_db.resources)
+        .insertOnConflictUpdate(
           ResourcesCompanion.insert(
             id: resourceId,
             type: state.type,
@@ -175,12 +183,14 @@ class LibraryController extends Notifier<LibraryState> {
           ),
         );
     if (id != null) {
-      await (_db.delete(_db.resourceImages)
-            ..where((t) => t.resourceId.equals(resourceId)))
-          .go();
+      await (_db.delete(
+        _db.resourceImages,
+      )..where((t) => t.resourceId.equals(resourceId))).go();
     }
     for (var i = 0; i < images.length; i++) {
-      await _db.into(_db.resourceImages).insert(
+      await _db
+          .into(_db.resourceImages)
+          .insert(
             ResourceImagesCompanion.insert(
               id: _uuid.v4(),
               resourceId: resourceId,
@@ -255,8 +265,10 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
         SizedBox(
           width: 220,
           child: TextField(
-            decoration:
-                const InputDecoration(hintText: '搜索名称 / 地区…', isDense: true),
+            decoration: const InputDecoration(
+              hintText: '搜索名称 / 地区…',
+              isDense: true,
+            ),
             onChanged: controller.setKeyword,
           ),
         ),
@@ -271,7 +283,8 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
       body: _view != 0
           ? switch (_view) {
               1 => const GearBrowser(),
-              2 => ClothingCatalog(onFilterLibrary: (String keyword) {
+              2 => ClothingCatalog(
+                onFilterLibrary: (String keyword) {
                   ref
                       .read(libraryControllerProvider.notifier)
                       .setType('clothing');
@@ -279,7 +292,8 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                       .read(libraryControllerProvider.notifier)
                       .setKeyword(keyword);
                   setState(() => _view = 0);
-                }),
+                },
+              ),
               _ => const PropsPresetBrowser(),
             }
           : Row(
@@ -299,7 +313,9 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                             child: SsCard(
                               selected: state.type == kind.type,
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 9),
+                                horizontal: 10,
+                                vertical: 9,
+                              ),
                               onTap: () => controller.setType(kind.type),
                               child: Text(
                                 kind.label,
@@ -320,8 +336,9 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                           state.status,
                           style: TextStyle(
                             fontSize: 10.5,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ],
@@ -332,69 +349,70 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                 Expanded(
                   child: !state.loaded
                       ? const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2.4))
+                          child: CircularProgressIndicator(strokeWidth: 2.4),
+                        )
                       : state.filtered.isEmpty
-                          ? SsEmpty(
-                              icon: Icons.grid_view_outlined,
-                              title: '还没有条目',
-                              hint: '点击「新建条目」添加名称、字段与封面图',
-                              action: SsButton(
-                                  label: '新建条目',
-                                  onPressed: () => _openEditor()),
-                            )
-                          : GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                      ? SsEmpty(
+                          icon: Icons.grid_view_outlined,
+                          title: '还没有条目',
+                          hint: '点击「新建条目」添加名称、字段与封面图',
+                          action: SsButton(
+                            label: '新建条目',
+                            onPressed: () => _openEditor(),
+                          ),
+                        )
+                      : GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithMaxCrossAxisExtent(
                                 maxCrossAxisExtent: 220,
                                 mainAxisSpacing: 10,
                                 crossAxisSpacing: 10,
                                 childAspectRatio: 0.95,
                               ),
-                              itemCount: state.filtered.length,
-                              itemBuilder: (BuildContext context, int i) {
-                                final LibraryItem item = state.filtered[i];
-                                return SsCard(
-                                  padding: EdgeInsets.zero,
-                                  onTap: () => _openEditor(existing: item),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: <Widget>[
-                                      Expanded(child: _cover(item)),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              item.name,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                            Text(
-                                              item.summary,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onSurfaceVariant,
-                                              ),
-                                            ),
-                                          ],
+                          itemCount: state.filtered.length,
+                          itemBuilder: (BuildContext context, int i) {
+                            final LibraryItem item = state.filtered[i];
+                            return SsCard(
+                              padding: EdgeInsets.zero,
+                              onTap: () => _openEditor(existing: item),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Expanded(child: _cover(item)),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          item.name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                        Text(
+                                          item.summary,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.onSurfaceVariant,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                );
-                              },
-                            ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                 ),
               ],
             ),
@@ -413,11 +431,13 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
       );
     }
     final workspace = ref.read(workspaceProvider);
-    final file =
-        File('${workspace.root.path}/images/${item.type}/${item.cover}');
+    final file = File(
+      '${workspace.root.path}/images/${item.type}/${item.cover}',
+    );
     if (!file.existsSync()) {
       return Container(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest);
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      );
     }
     return Image.file(file, fit: BoxFit.cover);
   }
@@ -425,10 +445,8 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
   Future<void> _openEditor({LibraryItem? existing}) async {
     await showDialog<void>(
       context: context,
-      builder: (BuildContext ctx) => _ResourceEditorDialog(
-        type: state.type,
-        existing: existing,
-      ),
+      builder: (BuildContext ctx) =>
+          _ResourceEditorDialog(type: state.type, existing: existing),
     );
   }
 
@@ -534,43 +552,52 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
               Row(
                 children: <Widget>[
                   Expanded(
-                      child: TextField(
-                          controller: _contact,
-                          decoration:
-                              const InputDecoration(labelText: '联系方式'))),
+                    child: TextField(
+                      controller: _contact,
+                      decoration: const InputDecoration(labelText: '联系方式'),
+                    ),
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
-                      child: TextField(
-                          controller: _region,
-                          decoration: const InputDecoration(labelText: '地区'))),
+                    child: TextField(
+                      controller: _region,
+                      decoration: const InputDecoration(labelText: '地区'),
+                    ),
+                  ),
                 ],
               ),
               Row(
                 children: <Widget>[
                   Expanded(
-                      child: TextField(
-                          controller: _price,
-                          decoration:
-                              const InputDecoration(labelText: '合作报价 / 参考价'))),
+                    child: TextField(
+                      controller: _price,
+                      decoration: const InputDecoration(
+                        labelText: '合作报价 / 参考价',
+                      ),
+                    ),
+                  ),
                   const SizedBox(width: 8),
                   if (isModel)
                     Expanded(
-                        child: TextField(
-                            controller: _height,
-                            decoration:
-                                const InputDecoration(labelText: '身高三维'))),
+                      child: TextField(
+                        controller: _height,
+                        decoration: const InputDecoration(labelText: '身高三维'),
+                      ),
+                    ),
                 ],
               ),
               TextField(
-                  controller: _style,
-                  decoration: const InputDecoration(labelText: '风格 / 标签描述')),
+                controller: _style,
+                decoration: const InputDecoration(labelText: '风格 / 标签描述'),
+              ),
               Row(
                 children: <Widget>[
                   Expanded(
                     child: TextField(
                       controller: _tagCtl,
-                      decoration:
-                          const InputDecoration(labelText: '标签（回车添加，≤10 个）'),
+                      decoration: const InputDecoration(
+                        labelText: '标签（回车添加，≤10 个）',
+                      ),
                       onSubmitted: (String v) {
                         if (v.trim().isNotEmpty && _tags.length < 10) {
                           setState(() => _tags.add(v.trim()));
@@ -601,8 +628,10 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
                     children: <Widget>[
                       for (final String tag in _tags)
                         Chip(
-                          label:
-                              Text(tag, style: const TextStyle(fontSize: 11)),
+                          label: Text(
+                            tag,
+                            style: const TextStyle(fontSize: 11),
+                          ),
                           onDeleted: () => setState(() => _tags.remove(tag)),
                           visualDensity: VisualDensity.compact,
                         ),
@@ -680,8 +709,9 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
                         ),
                         actions: <Widget>[
                           TextButton(
-                              onPressed: () => Navigator.pop(ctx, false),
-                              child: const Text('取消')),
+                            onPressed: () => Navigator.pop(ctx, false),
+                            child: const Text('取消'),
+                          ),
                           FilledButton(
                             onPressed: () => Navigator.pop(ctx, true),
                             child: const Text('仍要删除'),
@@ -699,13 +729,17 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
             child: const Text('删除', style: TextStyle(color: AppTokens.danger)),
           ),
         TextButton(
-            onPressed: () => Navigator.pop(context), child: const Text('取消')),
+          onPressed: () => Navigator.pop(context),
+          child: const Text('取消'),
+        ),
         FilledButton(
           onPressed: !_valid || _busy
               ? null
               : () async {
                   setState(() => _busy = true);
-                  await ref.read(libraryControllerProvider.notifier).save(
+                  await ref
+                      .read(libraryControllerProvider.notifier)
+                      .save(
                         id: widget.existing?.id,
                         name: _name.text.trim(),
                         fields: <String, Object?>{

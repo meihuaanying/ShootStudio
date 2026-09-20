@@ -28,20 +28,29 @@ void main() {
         name: '测试',
         devices: <DeviceSpec>[
           DeviceSpec(
-              id: 'l1',
-              kind: 'light',
-              name: '主光',
-              type: 'hard',
-              x: 1,
-              y: -2,
-              height: 2.1),
+            id: 'l1',
+            kind: 'light',
+            name: '主光',
+            type: 'hard',
+            x: 1,
+            y: -2,
+            height: 2.1,
+          ),
           DeviceSpec(
-              id: 'p1', kind: 'prop', name: '箱体', type: 'crate', x: -1, y: 1),
+            id: 'p1',
+            kind: 'prop',
+            name: '箱体',
+            type: 'crate',
+            x: -1,
+            y: 1,
+          ),
         ],
       );
-      final json = scene.toEngineJson(poseJoints: <String, Object?>{
-        'spine': <double>[1, 2, 3],
-      });
+      final json = scene.toEngineJson(
+        poseJoints: <String, Object?>{
+          'spine': <double>[1, 2, 3],
+        },
+      );
       expect(json['lights'], hasLength(1));
       expect(json['props'], hasLength(1));
       final subject = json['subject']! as Map<String, Object?>;
@@ -56,7 +65,7 @@ void main() {
           'name': '反光板',
           'x': -1,
           'y': 0.8,
-          'type': 'reflector'
+          'type': 'reflector',
         },
       ]);
       expect(devices, hasLength(2));

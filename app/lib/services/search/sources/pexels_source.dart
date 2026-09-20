@@ -6,11 +6,8 @@ import 'source_utils.dart';
 /// V6 Pexels 源（D113 免 Key 之外的摄影主源；Key 内置可覆盖）。
 /// 许可：Pexels License（可商用、无需署名，仍标注作者）。
 class PexelsImageSource implements SearchSource {
-  PexelsImageSource(
-    this.apiKey, {
-    Dio? dio,
-    this.locale = 'zh-CN',
-  }) : _dio = dio ?? searchDio();
+  PexelsImageSource(this.apiKey, {Dio? dio, this.locale = 'zh-CN'})
+    : _dio = dio ?? searchDio();
 
   final String apiKey;
   final String locale;
@@ -22,14 +19,14 @@ class PexelsImageSource implements SearchSource {
   String get label => 'Pexels';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: false,
-        byKeyword: true,
-        hasLicenseFilter: true,
-        domains: <ImageDomain>{ImageDomain.photo},
-        requiresKey: true,
-        keySettingId: 'image_pexels_key',
-      );
+    byTitle: true,
+    byPerson: false,
+    byKeyword: true,
+    hasLicenseFilter: true,
+    domains: <ImageDomain>{ImageDomain.photo},
+    requiresKey: true,
+    keySettingId: 'image_pexels_key',
+  );
 
   @override
   bool get enabled => apiKey.trim().isNotEmpty;
@@ -77,27 +74,33 @@ class PexelsImageSource implements SearchSource {
       final Map<String, Object?> src = asMapSafe(m['src']);
       final String thumb = strSafe(src['medium'], strSafe(src['small']));
       final String full = strSafe(
-          src['large2x'], strSafe(src['original'], strSafe(src['large'])));
+        src['large2x'],
+        strSafe(src['original'], strSafe(src['large'])),
+      );
       if (full.isEmpty) continue;
       final String photographer = strSafe(m['photographer']);
-      out.add(SearchHit(
-        id: hitId('pexels', full),
-        title: strSafe(m['alt'], 'Pexels 参考图'),
-        thumbUrl: thumb.isEmpty ? full : thumb,
-        fullUrl: full,
-        sourceId: 'pexels',
-        sourceLabel: 'Pexels',
-        license: 'Pexels License',
-        licenseUrl: 'https://www.pexels.com/license/',
-        commercialOk: true,
-        attribution: photographer.isEmpty ? 'Pexels' : '$photographer · Pexels',
-        sourcePageUrl: strSafe(m['url']),
-        width: intSafe(m['width']),
-        height: intSafe(m['height']),
-        domain: ImageDomain.photo,
-        imageType: 'photo',
-        extra: <String, Object?>{'avgColor': strSafe(m['avg_color'])},
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('pexels', full),
+          title: strSafe(m['alt'], 'Pexels 参考图'),
+          thumbUrl: thumb.isEmpty ? full : thumb,
+          fullUrl: full,
+          sourceId: 'pexels',
+          sourceLabel: 'Pexels',
+          license: 'Pexels License',
+          licenseUrl: 'https://www.pexels.com/license/',
+          commercialOk: true,
+          attribution: photographer.isEmpty
+              ? 'Pexels'
+              : '$photographer · Pexels',
+          sourcePageUrl: strSafe(m['url']),
+          width: intSafe(m['width']),
+          height: intSafe(m['height']),
+          domain: ImageDomain.photo,
+          imageType: 'photo',
+          extra: <String, Object?>{'avgColor': strSafe(m['avg_color'])},
+        ),
+      );
     }
     return out;
   }

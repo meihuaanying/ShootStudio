@@ -31,7 +31,8 @@ class QueryTranslator {
       final AiCallResult result = await AiClient()
           .chat(
             provider: provider,
-            systemPrompt: '你是摄影图片检索助手。把用户的中文画面描述翻译成 3-8 个'
+            systemPrompt:
+                '你是摄影图片检索助手。把用户的中文画面描述翻译成 3-8 个'
                 '英文检索关键词（空格分隔，不要标点、不要解释、不要引号）。',
             userPrompt: input,
             maxTokens: 60,
@@ -70,10 +71,12 @@ class QueryTranslator {
 
   /// 默认 AI 提供方（按 priority；未配置/无 Key 返回 null）。
   Future<RuntimeProvider?> defaultProvider() async {
-    final List<ProviderConfig> rows =
-        await _db.select(_db.providerConfigs).get();
-    rows.sort((ProviderConfig a, ProviderConfig b) =>
-        a.priority.compareTo(b.priority));
+    final List<ProviderConfig> rows = await _db
+        .select(_db.providerConfigs)
+        .get();
+    rows.sort(
+      (ProviderConfig a, ProviderConfig b) => a.priority.compareTo(b.priority),
+    );
     final KeyVault vault = KeyVault();
     for (final ProviderConfig row in rows) {
       if (!row.enabled || row.encryptedKey.isEmpty) continue;

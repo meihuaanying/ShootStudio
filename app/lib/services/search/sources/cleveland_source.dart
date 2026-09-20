@@ -6,7 +6,7 @@ import 'source_utils.dart';
 /// V6 克利夫兰艺术博物馆源（D115 免 Key）：Open Access API + CC0 标记。
 class ClevelandSource implements SearchSource {
   ClevelandSource({Dio? dio})
-      : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
 
   final Dio _dio;
 
@@ -19,13 +19,13 @@ class ClevelandSource implements SearchSource {
   String get label => '克利夫兰艺术博物馆';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: true,
-        byKeyword: true,
-        hasLicenseFilter: true,
-        domains: <ImageDomain>{ImageDomain.art},
-        requiresKey: false,
-      );
+    byTitle: true,
+    byPerson: true,
+    byKeyword: true,
+    hasLicenseFilter: true,
+    domains: <ImageDomain>{ImageDomain.art},
+    requiresKey: false,
+  );
 
   @override
   bool get enabled => true;
@@ -41,8 +41,8 @@ class ClevelandSource implements SearchSource {
   }) async {
     final String text =
         query.intent == SearchIntent.person && query.person.isNotEmpty
-            ? query.person
-            : query.forSource(id);
+        ? query.person
+        : query.forSource(id);
     if (text.trim().isEmpty) {
       return const SourceSearchPage(hits: <SearchHit>[], hasMore: false);
     }
@@ -79,25 +79,28 @@ class ClevelandSource implements SearchSource {
           strSafe(m['share_license_status']).toUpperCase() == 'CC0';
       final String creator = _firstCreator(m['creators']);
       final String pageUrl = strSafe(m['url']);
-      out.add(SearchHit(
-        id: hitId('cleveland', strSafe(m['id'], pageUrl)),
-        title: title,
-        thumbUrl: thumb.isEmpty ? big : thumb,
-        fullUrl: big,
-        sourceId: 'cleveland',
-        sourceLabel: '克利夫兰艺术博物馆',
-        license: cc0 ? 'CC0 / Public Domain' : '© 克利夫兰艺术博物馆（非商用参考）',
-        licenseUrl:
-            cc0 ? 'https://creativecommons.org/publicdomain/zero/1.0/' : '',
-        commercialOk: cc0,
-        attribution:
-            'Cleveland Museum of Art${creator.isEmpty ? '' : ' · $creator'}',
-        sourcePageUrl: pageUrl,
-        domain: ImageDomain.art,
-        imageType: 'artwork',
-        description: strSafe(m['technique']),
-        extra: <String, Object?>{'date': strSafe(m['creation_date'])},
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('cleveland', strSafe(m['id'], pageUrl)),
+          title: title,
+          thumbUrl: thumb.isEmpty ? big : thumb,
+          fullUrl: big,
+          sourceId: 'cleveland',
+          sourceLabel: '克利夫兰艺术博物馆',
+          license: cc0 ? 'CC0 / Public Domain' : '© 克利夫兰艺术博物馆（非商用参考）',
+          licenseUrl: cc0
+              ? 'https://creativecommons.org/publicdomain/zero/1.0/'
+              : '',
+          commercialOk: cc0,
+          attribution:
+              'Cleveland Museum of Art${creator.isEmpty ? '' : ' · $creator'}',
+          sourcePageUrl: pageUrl,
+          domain: ImageDomain.art,
+          imageType: 'artwork',
+          description: strSafe(m['technique']),
+          extra: <String, Object?>{'date': strSafe(m['creation_date'])},
+        ),
+      );
     }
     return out;
   }

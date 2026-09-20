@@ -16,76 +16,79 @@ import '../../services/gear_photo_sync.dart';
 import '../lighting/lighting_controller.dart';
 
 /// 设备数据库浏览（D19/D20）：相机 / 镜头 / 灯具；灯具可一键放入布光场景。
-final gearListProvider = FutureProvider.autoDispose<List<GearEntry>>(
-  (ref) async {
-    final List<GearEntry> builtin = await ContentPacks.gear();
-    final AppDatabase db = ref.watch(databaseProvider);
-    final List<GearItem> rows = await db.select(db.gearItems).get();
-    final List<GearEntry> custom = rows
-        .where((GearItem r) => !r.builtin)
-        .map((GearItem r) => GearEntry(
-              id: r.id,
-              kind: r.kind,
-              brand: r.brand,
-              model: r.model,
-              mount: r.mount,
-              specs: asMap(jsonDecode(r.specsJson)),
-              priceRef: r.priceRef ?? 0,
-              imageSource: 'custom',
-            ))
-        .toList();
-    return <GearEntry>[...builtin, ...custom];
-  },
-);
+final gearListProvider = FutureProvider.autoDispose<List<GearEntry>>((
+  ref,
+) async {
+  final List<GearEntry> builtin = await ContentPacks.gear();
+  final AppDatabase db = ref.watch(databaseProvider);
+  final List<GearItem> rows = await db.select(db.gearItems).get();
+  final List<GearEntry> custom = rows
+      .where((GearItem r) => !r.builtin)
+      .map(
+        (GearItem r) => GearEntry(
+          id: r.id,
+          kind: r.kind,
+          brand: r.brand,
+          model: r.model,
+          mount: r.mount,
+          specs: asMap(jsonDecode(r.specsJson)),
+          priceRef: r.priceRef ?? 0,
+          imageSource: 'custom',
+        ),
+      )
+      .toList();
+  return <GearEntry>[...builtin, ...custom];
+});
 
 final clothingCatalogProvider =
     FutureProvider.autoDispose<List<ClothingCategoryEntry>>(
-  (ref) => ContentPacks.clothingCategories(),
-);
+      (ref) => ContentPacks.clothingCategories(),
+    );
 
 final propPresetsProvider = FutureProvider.autoDispose<List<PropPresetEntry>>(
   (ref) => ContentPacks.propPresets(),
 );
 
 /// V3：器材实拍（Pexels 缓存 + 用户按型号导入目录）。
-final gearPhotosProvider = FutureProvider.autoDispose<Map<String, Object?>>(
-  (ref) async {
-    final Map<String, Object?> bundled = await ContentPacks.gearPhotos();
-    final Map<String, Object?> out = <String, Object?>{
-      'byKind': bundled['byKind'] ?? <String, Object?>{},
-      'byModel': <String, Object?>{
-        ...(bundled['byModel'] as Map? ?? <String, Object?>{})
-      },
-    };
-    try {
-      final AppDatabase db = ref.watch(databaseProvider);
-      final String dir = await db.getSetting('gear_image_dir') ?? '';
-      if (dir.isNotEmpty) {
-        final Directory directory = Directory(dir);
-        if (await directory.exists()) {
-          final Map<String, Object?> byModel =
-              (out['byModel'] as Map).cast<String, Object?>();
-          await for (final FileSystemEntity entity
-              in directory.list(recursive: true)) {
-            if (entity is! File) continue;
-            final String name = p.basenameWithoutExtension(entity.path);
-            byModel[name] = <Object?>[
-              <String, Object?>{
-                'file': entity.path,
-                'absolute': true,
-                'photographer': '用户导入',
-                'photoUrl': '',
-              },
-            ];
-          }
+final gearPhotosProvider = FutureProvider.autoDispose<Map<String, Object?>>((
+  ref,
+) async {
+  final Map<String, Object?> bundled = await ContentPacks.gearPhotos();
+  final Map<String, Object?> out = <String, Object?>{
+    'byKind': bundled['byKind'] ?? <String, Object?>{},
+    'byModel': <String, Object?>{
+      ...(bundled['byModel'] as Map? ?? <String, Object?>{}),
+    },
+  };
+  try {
+    final AppDatabase db = ref.watch(databaseProvider);
+    final String dir = await db.getSetting('gear_image_dir') ?? '';
+    if (dir.isNotEmpty) {
+      final Directory directory = Directory(dir);
+      if (await directory.exists()) {
+        final Map<String, Object?> byModel = (out['byModel'] as Map)
+            .cast<String, Object?>();
+        await for (final FileSystemEntity entity in directory.list(
+          recursive: true,
+        )) {
+          if (entity is! File) continue;
+          final String name = p.basenameWithoutExtension(entity.path);
+          byModel[name] = <Object?>[
+            <String, Object?>{
+              'file': entity.path,
+              'absolute': true,
+              'photographer': '用户导入',
+              'photoUrl': '',
+            },
+          ];
         }
       }
-    } catch (_) {
-      // 用户目录不可读时忽略。
     }
-    return out;
-  },
-);
+  } catch (_) {
+    // 用户目录不可读时忽略。
+  }
+  return out;
+});
 
 /// V4：规范化产品图目录（assets/content/gear/gear_photos2.json，D71–D73）。
 final gearPhotos2Provider = FutureProvider.autoDispose<Map<String, Object?>>(
@@ -94,7 +97,9 @@ final gearPhotos2Provider = FutureProvider.autoDispose<Map<String, Object?>>(
 
 /// 从 gear_photos2.json 目录中取该设备的产品图条目（byId 优先，byModel 兜底）。
 Map<String, Object?>? gearPhotoEntryOf(
-    Map<String, Object?>? catalog, GearEntry entry) {
+  Map<String, Object?>? catalog,
+  GearEntry entry,
+) {
   if (catalog == null) return null;
   final Object? byIdRaw = catalog['byId'];
   if (byIdRaw is Map) {
@@ -111,7 +116,9 @@ Map<String, Object?>? gearPhotoEntryOf(
 
 /// 用户目录导入的实拍图（绝对路径优先，来自旧 provider 的合并结果）。
 Map<String, Object?>? gearUserPhotoOf(
-    Map<String, Object?>? photos, GearEntry entry) {
+  Map<String, Object?>? photos,
+  GearEntry entry,
+) {
   final Object? raw = (photos?['byModel'] as Map?)?[entry.displayName];
   if (raw is! List) return null;
   for (final Object? item in raw) {
@@ -178,20 +185,26 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
             .toList();
         final List<GearEntry> filtered = items
             .where((GearEntry g) => g.kind == _kind)
-            .where((GearEntry g) =>
-                tokens.isEmpty ||
-                tokens.every((String t) => g.searchText.contains(t)))
+            .where(
+              (GearEntry g) =>
+                  tokens.isEmpty ||
+                  tokens.every((String t) => g.searchText.contains(t)),
+            )
             .toList();
         switch (_sort) {
           case '价格↑':
             filtered.sort(
-                (GearEntry a, GearEntry b) => a.priceRef.compareTo(b.priceRef));
+              (GearEntry a, GearEntry b) => a.priceRef.compareTo(b.priceRef),
+            );
           case '价格↓':
             filtered.sort(
-                (GearEntry a, GearEntry b) => b.priceRef.compareTo(a.priceRef));
+              (GearEntry a, GearEntry b) => b.priceRef.compareTo(a.priceRef),
+            );
           case '名称':
-            filtered.sort((GearEntry a, GearEntry b) =>
-                a.displayName.compareTo(b.displayName));
+            filtered.sort(
+              (GearEntry a, GearEntry b) =>
+                  a.displayName.compareTo(b.displayName),
+            );
           default:
             break;
         }
@@ -235,7 +248,9 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
                   width: 200,
                   child: TextField(
                     decoration: const InputDecoration(
-                        hintText: '品牌/型号/焦段/F2.8/CRI', isDense: true),
+                      hintText: '品牌/型号/焦段/F2.8/CRI',
+                      isDense: true,
+                    ),
                     onChanged: (String v) => setState(() => _keyword = v),
                   ),
                 ),
@@ -247,8 +262,9 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
                   items: <DropdownMenuItem<String>>[
                     for (final String v in <String>['默认', '价格↑', '价格↓', '名称'])
                       DropdownMenuItem<String>(
-                          value: v,
-                          child: Text(v, style: const TextStyle(fontSize: 12))),
+                        value: v,
+                        child: Text(v, style: const TextStyle(fontSize: 12)),
+                      ),
                   ],
                   onChanged: (String? v) => setState(() => _sort = v ?? '默认'),
                 ),
@@ -258,15 +274,17 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
             Expanded(
               child: filtered.isEmpty
                   ? const SsEmpty(
-                      icon: Icons.camera_alt_outlined, title: '没有匹配的设备')
+                      icon: Icons.camera_alt_outlined,
+                      title: '没有匹配的设备',
+                    )
                   : GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 240,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        childAspectRatio: 1.7,
-                      ),
+                            maxCrossAxisExtent: 240,
+                            mainAxisSpacing: 8,
+                            crossAxisSpacing: 8,
+                            childAspectRatio: 1.7,
+                          ),
                       itemCount: filtered.length,
                       itemBuilder: (BuildContext context, int i) =>
                           _GearCard(entry: filtered[i]),
@@ -293,8 +311,10 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
   Future<void> _syncPhotos(BuildContext context, WidgetRef ref) async {
     setState(() => _syncing = true);
     final AppDatabase db = ref.read(databaseProvider);
-    final ValueNotifier<(int, int)> progress =
-        ValueNotifier<(int, int)>((0, 0));
+    final ValueNotifier<(int, int)> progress = ValueNotifier<(int, int)>((
+      0,
+      0,
+    ));
     final Future<void> dialog = showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -302,18 +322,20 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
         title: const Text('同步器材图', style: TextStyle(fontSize: 15)),
         content: ValueListenableBuilder<(int, int)>(
           valueListenable: progress,
-          builder: (BuildContext c, (int, int) v, Widget? _) =>
-              Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-            LinearProgressIndicator(
-              value: v.$2 == 0 ? null : v.$1 / v.$2,
-              minHeight: 6,
-            ),
-            const SizedBox(height: 10),
-            Text(
-              '正在下载 ${v.$1}/${v.$2} · 已内置条目自动跳过',
-              style: const TextStyle(fontSize: 12),
-            ),
-          ]),
+          builder: (BuildContext c, (int, int) v, Widget? _) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              LinearProgressIndicator(
+                value: v.$2 == 0 ? null : v.$1 / v.$2,
+                minHeight: 6,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                '正在下载 ${v.$1}/${v.$2} · 已内置条目自动跳过',
+                style: const TextStyle(fontSize: 12),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -360,8 +382,10 @@ Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
             children: <Widget>[
               DropdownButtonFormField<String>(
                 initialValue: kind,
-                decoration:
-                    const InputDecoration(labelText: '类型', isDense: true),
+                decoration: const InputDecoration(
+                  labelText: '类型',
+                  isDense: true,
+                ),
                 items: <DropdownMenuItem<String>>[
                   for (final (String k, String label) in <(String, String)>[
                     ('camera', '相机机身'),
@@ -370,31 +394,39 @@ Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
                     ('accessory', '附件'),
                   ])
                     DropdownMenuItem<String>(
-                        value: k,
-                        child:
-                            Text(label, style: const TextStyle(fontSize: 13))),
+                      value: k,
+                      child: Text(label, style: const TextStyle(fontSize: 13)),
+                    ),
                 ],
                 onChanged: (String? v) => setLocal(() => kind = v ?? kind),
               ),
               TextField(
                 controller: brand,
-                decoration:
-                    const InputDecoration(labelText: '品牌', isDense: true),
+                decoration: const InputDecoration(
+                  labelText: '品牌',
+                  isDense: true,
+                ),
               ),
               TextField(
                 controller: model,
-                decoration:
-                    const InputDecoration(labelText: '型号', isDense: true),
+                decoration: const InputDecoration(
+                  labelText: '型号',
+                  isDense: true,
+                ),
               ),
               TextField(
                 controller: mount,
-                decoration:
-                    const InputDecoration(labelText: '卡口（可空）', isDense: true),
+                decoration: const InputDecoration(
+                  labelText: '卡口（可空）',
+                  isDense: true,
+                ),
               ),
               TextField(
                 controller: price,
-                decoration:
-                    const InputDecoration(labelText: '参考价（可空）', isDense: true),
+                decoration: const InputDecoration(
+                  labelText: '参考价（可空）',
+                  isDense: true,
+                ),
                 keyboardType: TextInputType.number,
               ),
             ],
@@ -402,8 +434,9 @@ Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
         ),
         actions: <Widget>[
           TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('取消')),
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('取消'),
+          ),
           SsButton(
             label: '保存',
             onPressed: () async {
@@ -413,7 +446,9 @@ Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
               }
               final AppDatabase db = ref.read(databaseProvider);
               final int now = DateTime.now().millisecondsSinceEpoch;
-              await db.into(db.gearItems).insertOnConflictUpdate(
+              await db
+                  .into(db.gearItems)
+                  .insertOnConflictUpdate(
                     GearItemsCompanion.insert(
                       id: 'custom-$now',
                       kind: kind,
@@ -445,10 +480,12 @@ class _GearCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Map<String, Object?>? photos =
-        ref.watch(gearPhotosProvider).valueOrNull;
-    final Map<String, Object?>? catalog =
-        ref.watch(gearPhotos2Provider).valueOrNull;
+    final Map<String, Object?>? photos = ref
+        .watch(gearPhotosProvider)
+        .valueOrNull;
+    final Map<String, Object?>? catalog = ref
+        .watch(gearPhotos2Provider)
+        .valueOrNull;
     final Map<String, Object?>? photo2 = gearPhotoEntryOf(catalog, entry);
     final Map<String, Object?>? userPhoto = gearUserPhotoOf(photos, entry);
     return TweenAnimationBuilder<double>(
@@ -456,9 +493,12 @@ class _GearCard extends ConsumerWidget {
       duration: const Duration(milliseconds: 260),
       curve: Curves.easeOutCubic,
       builder: (BuildContext context, double t, Widget? child) => Opacity(
-          opacity: t,
-          child: Transform.translate(
-              offset: Offset(0, 10 * (1 - t)), child: child)),
+        opacity: t,
+        child: Transform.translate(
+          offset: Offset(0, 10 * (1 - t)),
+          child: child,
+        ),
+      ),
       child: SsCard(
         padding: const EdgeInsets.all(10),
         onTap: () => _showDetail(context, ref),
@@ -485,7 +525,9 @@ class _GearCard extends ConsumerWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            fontSize: 12.5, fontWeight: FontWeight.w700),
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ],
                   ),
@@ -511,17 +553,25 @@ class _GearCard extends ConsumerWidget {
   }
 
   /// 显示优先级（V4）：内置 photo2 → 用户目录 → 运行时缓存 → 插画。
-  Widget _thumb(GearEntry entry, Map<String, Object?>? photo2,
-      Map<String, Object?>? user) {
-    final List<Widget Function(Widget Function())> chain =
-        _photoChain(entry, photo2, user, fit: BoxFit.cover, width: 54);
+  Widget _thumb(
+    GearEntry entry,
+    Map<String, Object?>? photo2,
+    Map<String, Object?>? user,
+  ) {
+    final List<Widget Function(Widget Function())> chain = _photoChain(
+      entry,
+      photo2,
+      user,
+      fit: BoxFit.cover,
+      width: 54,
+    );
     final String label = photo2 != null
         ? gearPhotoLabel(photo2)
         : (user != null
-            ? '用户导入'
-            : (GearPhotoSync.localPathFor(entry.id) != null
-                ? '已同步'
-                : (chain.isEmpty ? '缺图·插画' : '已同步')));
+              ? '用户导入'
+              : (GearPhotoSync.localPathFor(entry.id) != null
+                    ? '已同步'
+                    : (chain.isEmpty ? '缺图·插画' : '已同步')));
     if (chain.isEmpty) {
       return Column(
         children: <Widget>[
@@ -566,35 +616,50 @@ class _GearCard extends ConsumerWidget {
     if (photo2 != null && photo2['bundled'] != false) {
       final String? asset = GearPhotoSync.assetPath(photo2);
       if (asset != null) {
-        chain.add((Widget Function() onError) => Image.asset(asset,
+        chain.add(
+          (Widget Function() onError) => Image.asset(
+            asset,
             fit: fit,
             width: width,
             height: height,
-            errorBuilder: (_, __, ___) => onError()));
+            errorBuilder: (_, __, ___) => onError(),
+          ),
+        );
       }
     }
-    final String userFile =
-        user?['absolute'] == true ? '${user?['file'] ?? ''}' : '';
+    final String userFile = user?['absolute'] == true
+        ? '${user?['file'] ?? ''}'
+        : '';
     if (userFile.isNotEmpty) {
-      chain.add((Widget Function() onError) => Image.file(File(userFile),
+      chain.add(
+        (Widget Function() onError) => Image.file(
+          File(userFile),
           fit: fit,
           width: width,
           height: height,
-          errorBuilder: (_, __, ___) => onError()));
+          errorBuilder: (_, __, ___) => onError(),
+        ),
+      );
     }
     final String? local = GearPhotoSync.localPathFor(entry.id);
     if (local != null) {
-      chain.add((Widget Function() onError) => Image.file(File(local),
+      chain.add(
+        (Widget Function() onError) => Image.file(
+          File(local),
           fit: fit,
           width: width,
           height: height,
-          errorBuilder: (_, __, ___) => onError()));
+          errorBuilder: (_, __, ___) => onError(),
+        ),
+      );
     }
     return chain;
   }
 
-  Widget _firstAvailable(List<Widget Function(Widget Function())> chain,
-      {Widget? fallback}) {
+  Widget _firstAvailable(
+    List<Widget Function(Widget Function())> chain, {
+    Widget? fallback,
+  }) {
     Widget build(int i) {
       if (i >= chain.length) return fallback ?? _fallbackBox();
       return chain[i](() => build(i + 1));
@@ -612,8 +677,11 @@ class _GearCard extends ConsumerWidget {
           color: AppTokens.accentSoft,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: const Icon(Icons.camera_alt_outlined,
-            size: 20, color: AppTokens.accent),
+        child: const Icon(
+          Icons.camera_alt_outlined,
+          size: 20,
+          color: AppTokens.accent,
+        ),
       );
     }
     return ClipRRect(
@@ -630,10 +698,12 @@ class _GearCard extends ConsumerWidget {
   }
 
   void _showDetail(BuildContext context, WidgetRef ref) {
-    final Map<String, Object?>? photos =
-        ref.read(gearPhotosProvider).valueOrNull;
-    final Map<String, Object?>? catalog =
-        ref.read(gearPhotos2Provider).valueOrNull;
+    final Map<String, Object?>? photos = ref
+        .read(gearPhotosProvider)
+        .valueOrNull;
+    final Map<String, Object?>? catalog = ref
+        .read(gearPhotos2Provider)
+        .valueOrNull;
     final Map<String, Object?>? photo2 = gearPhotoEntryOf(catalog, entry);
     final Map<String, Object?>? userPhoto = gearUserPhotoOf(photos, entry);
     showDialog<void>(
@@ -646,9 +716,13 @@ class _GearCard extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              if (_photoChain(entry, photo2, userPhoto,
-                      fit: BoxFit.contain, height: 150)
-                  .isNotEmpty)
+              if (_photoChain(
+                entry,
+                photo2,
+                userPhoto,
+                fit: BoxFit.contain,
+                height: 150,
+              ).isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Column(
@@ -659,9 +733,15 @@ class _GearCard extends ConsumerWidget {
                         height: 150,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: _firstAvailable(_photoChain(
-                              entry, photo2, userPhoto,
-                              fit: BoxFit.contain, height: 150)),
+                          child: _firstAvailable(
+                            _photoChain(
+                              entry,
+                              photo2,
+                              userPhoto,
+                              fit: BoxFit.contain,
+                              height: 150,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -669,8 +749,8 @@ class _GearCard extends ConsumerWidget {
                         photo2 != null
                             ? gearPhotoLabel(photo2)
                             : (userPhoto != null
-                                ? '用户导入（设置页「器材图目录」）'
-                                : '运行时同步缓存（工作区 images/gear）'),
+                                  ? '用户导入（设置页「器材图目录」）'
+                                  : '运行时同步缓存（工作区 images/gear）'),
                         style: const TextStyle(fontSize: 10.5),
                       ),
                       if (photo2 != null && gearPhotoCredit(photo2).isNotEmpty)
@@ -678,8 +758,9 @@ class _GearCard extends ConsumerWidget {
                           gearPhotoCredit(photo2),
                           style: TextStyle(
                             fontSize: 10,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                       if (photo2 != null &&
@@ -717,14 +798,20 @@ class _GearCard extends ConsumerWidget {
                     for (final String tag in entry.tags)
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 2),
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: AppTokens.accentSoft,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Text(tag,
-                            style: const TextStyle(
-                                fontSize: 11, color: AppTokens.accent)),
+                        child: Text(
+                          tag,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: AppTokens.accent,
+                          ),
+                        ),
                       ),
                   ],
                 ),
@@ -741,13 +828,16 @@ class _GearCard extends ConsumerWidget {
                           _specLabel(spec.key),
                           style: TextStyle(
                             fontSize: 12,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ),
-                      Text('${spec.value}',
-                          style: const TextStyle(fontSize: 12.5)),
+                      Text(
+                        '${spec.value}',
+                        style: const TextStyle(fontSize: 12.5),
+                      ),
                     ],
                   ),
                 ),
@@ -765,7 +855,9 @@ class _GearCard extends ConsumerWidget {
               label: '放入布光场景',
               icon: Icons.wb_incandescent_outlined,
               onPressed: () {
-                ref.read(lightingControllerProvider.notifier).addLightFromGear(
+                ref
+                    .read(lightingControllerProvider.notifier)
+                    .addLightFromGear(
                       name: entry.displayName,
                       powerW:
                           (entry.specs['power_w'] as num?)?.toDouble() ?? 100,
@@ -781,9 +873,9 @@ class _GearCard extends ConsumerWidget {
             TextButton(
               onPressed: () async {
                 final AppDatabase db = ref.read(databaseProvider);
-                await (db.delete(db.gearItems)
-                      ..where((t) => t.id.equals(entry.id)))
-                    .go();
+                await (db.delete(
+                  db.gearItems,
+                )..where((t) => t.id.equals(entry.id))).go();
                 ref.invalidate(gearListProvider);
                 if (ctx.mounted) Navigator.pop(ctx);
                 if (context.mounted) ssToast(context, '已删除自定义设备');
@@ -791,31 +883,33 @@ class _GearCard extends ConsumerWidget {
               child: const Text('删除'),
             ),
           TextButton(
-              onPressed: () => Navigator.pop(ctx), child: const Text('关闭')),
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('关闭'),
+          ),
         ],
       ),
     );
   }
 
   Widget _fallbackBox() => Container(
-        width: 54,
-        color: AppTokens.accentSoft,
-        child: const Icon(Icons.camera_alt_outlined, size: 20),
-      );
+    width: 54,
+    color: AppTokens.accentSoft,
+    child: const Icon(Icons.camera_alt_outlined, size: 20),
+  );
 
   String _specLabel(String key) => switch (key) {
-        'sensor' => '画幅',
-        'megapixel' => '像素',
-        'weight_g' => '重量',
-        'series' => '系列',
-        'focal' => '焦段',
-        'aperture' => '光圈',
-        'type' => '类型',
-        'power_w' => '功率',
-        'cct' => '色温',
-        'cri' => '显色指数',
-        _ => key,
-      };
+    'sensor' => '画幅',
+    'megapixel' => '像素',
+    'weight_g' => '重量',
+    'series' => '系列',
+    'focal' => '焦段',
+    'aperture' => '光圈',
+    'type' => '类型',
+    'power_w' => '功率',
+    'cct' => '色温',
+    'cri' => '显色指数',
+    _ => key,
+  };
 }
 
 /// 服装目录（D21）：分类卡片 + 本地程序化示意图。
@@ -827,8 +921,9 @@ class ClothingCatalog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final catalog = ref.watch(clothingCatalogProvider);
-    final Map<String, Object?>? clothingPhotos =
-        ref.watch(clothingPhotosProvider).valueOrNull;
+    final Map<String, Object?>? clothingPhotos = ref
+        .watch(clothingPhotosProvider)
+        .valueOrNull;
     final Map<String, Object?> byCategory =
         ((clothingPhotos?['byCategory'] as Map?) ?? <String, Object?>{})
             .cast<String, Object?>();
@@ -863,20 +958,27 @@ class ClothingCatalog extends ConsumerWidget {
                               Image.asset(
                                 'assets/content/clothing/photo/${c.id}/${((byCategory[c.id] as List)[0] as Map)['file']}',
                                 fit: BoxFit.cover,
-                                errorBuilder: (BuildContext ctx, Object e,
-                                        StackTrace? st) =>
-                                    const SizedBox.shrink(),
+                                errorBuilder:
+                                    (
+                                      BuildContext ctx,
+                                      Object e,
+                                      StackTrace? st,
+                                    ) => const SizedBox.shrink(),
                               ),
                             Container(
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: <Color>[
-                                    _color(c.gradient.isNotEmpty
-                                        ? c.gradient[0]
-                                        : '#888888'),
-                                    _color(c.gradient.length > 1
-                                        ? c.gradient[1]
-                                        : '#444444'),
+                                    _color(
+                                      c.gradient.isNotEmpty
+                                          ? c.gradient[0]
+                                          : '#888888',
+                                    ),
+                                    _color(
+                                      c.gradient.length > 1
+                                          ? c.gradient[1]
+                                          : '#444444',
+                                    ),
                                   ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
@@ -890,7 +992,10 @@ class ClothingCatalog extends ConsumerWidget {
                                   fontWeight: FontWeight.w800,
                                   color: Colors.white,
                                   shadows: <Shadow>[
-                                    Shadow(blurRadius: 8, color: Colors.black45)
+                                    Shadow(
+                                      blurRadius: 8,
+                                      color: Colors.black45,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -913,9 +1018,9 @@ class ClothingCatalog extends ConsumerWidget {
                               '点击在服装库中筛选',
                               style: TextStyle(
                                 fontSize: 10.5,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ],
@@ -943,8 +1048,10 @@ class ClothingCatalog extends ConsumerWidget {
     );
   }
 
-  Color _color(String hex) => Color(0xFF000000 |
-      (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888));
+  Color _color(String hex) => Color(
+    0xFF000000 |
+        (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888),
+  );
 }
 
 /// 道具预设（D22）：含采购与分工字段，一键加入道具库。
@@ -974,9 +1081,13 @@ class PropsPresetBrowser extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(p.name,
-                          style: const TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w700)),
+                      Text(
+                        p.name,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                       const SizedBox(height: 2),
                       Text(
                         p.note,
@@ -991,7 +1102,9 @@ class PropsPresetBrowser extends ConsumerWidget {
                       Text(
                         '¥${p.price} · ${p.owner}',
                         style: const TextStyle(
-                            fontSize: 11, color: AppTokens.accent),
+                          fontSize: 11,
+                          color: AppTokens.accent,
+                        ),
                       ),
                     ],
                   ),

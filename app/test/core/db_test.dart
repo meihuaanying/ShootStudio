@@ -16,7 +16,9 @@ void main() {
 
   test('资源库 CRUD（五大库同构表，D2）', () async {
     final now = DateTime.now().millisecondsSinceEpoch;
-    await db.into(db.resources).insert(
+    await db
+        .into(db.resources)
+        .insert(
           ResourcesCompanion.insert(
             id: 'm1',
             type: 'models',
@@ -26,7 +28,9 @@ void main() {
             updatedAt: now,
           ),
         );
-    await db.into(db.resources).insert(
+    await db
+        .into(db.resources)
+        .insert(
           ResourcesCompanion.insert(
             id: 'l1',
             type: 'locations',
@@ -36,9 +40,9 @@ void main() {
           ),
         );
 
-    final models = await (db.select(db.resources)
-          ..where((t) => t.type.equals('models')))
-        .get();
+    final models = await (db.select(
+      db.resources,
+    )..where((t) => t.type.equals('models'))).get();
     expect(models, hasLength(1));
     expect(models.first.name, '潇潇');
     expect(models.first.fieldsJson, contains('杭州'));
@@ -50,9 +54,9 @@ void main() {
         updatedAt: Value(now + 1),
       ),
     );
-    final updated = await (db.select(db.resources)
-          ..where((t) => t.id.equals('m1')))
-        .getSingle();
+    final updated = await (db.select(
+      db.resources,
+    )..where((t) => t.id.equals('m1'))).getSingle();
     expect(updated.name, '潇潇（更新）');
 
     // 删除
@@ -62,7 +66,9 @@ void main() {
 
   test('资源图片级联删除（D23）', () async {
     final now = DateTime.now().millisecondsSinceEpoch;
-    await db.into(db.resources).insert(
+    await db
+        .into(db.resources)
+        .insert(
           ResourcesCompanion.insert(
             id: 'p1',
             type: 'props',
@@ -71,7 +77,9 @@ void main() {
             updatedAt: now,
           ),
         );
-    await db.into(db.resourceImages).insert(
+    await db
+        .into(db.resourceImages)
+        .insert(
           ResourceImagesCompanion.insert(
             id: 'img1',
             resourceId: 'p1',
@@ -85,7 +93,9 @@ void main() {
 
   test('策划案与快照（D15–D17）', () async {
     final now = DateTime.now().millisecondsSinceEpoch;
-    await db.into(db.plans).insert(
+    await db
+        .into(db.plans)
+        .insert(
           PlansCompanion.insert(
             id: 'plan1',
             title: '夏夜霓虹',
@@ -94,7 +104,9 @@ void main() {
           ),
         );
     for (var i = 0; i < 3; i++) {
-      await db.into(db.planSnapshots).insert(
+      await db
+          .into(db.planSnapshots)
+          .insert(
             PlanSnapshotsCompanion.insert(
               id: 'snap$i',
               planId: 'plan1',
@@ -104,13 +116,16 @@ void main() {
             ),
           );
     }
-    final snaps = await (db.select(db.planSnapshots)
-          ..where((t) => t.planId.equals('plan1'))
-          ..orderBy(<OrderClauseGenerator<$PlanSnapshotsTable>>[
-            (t) =>
-                OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc),
-          ]))
-        .get();
+    final snaps =
+        await (db.select(db.planSnapshots)
+              ..where((t) => t.planId.equals('plan1'))
+              ..orderBy(<OrderClauseGenerator<$PlanSnapshotsTable>>[
+                (t) => OrderingTerm(
+                  expression: t.createdAt,
+                  mode: OrderingMode.desc,
+                ),
+              ]))
+            .get();
     expect(snaps, hasLength(3));
     expect(snaps.first.label, '客户确认版');
   });
@@ -124,7 +139,9 @@ void main() {
   });
 
   test('AI 提供方配置与调用日志（D8–D10）', () async {
-    await db.into(db.providerConfigs).insert(
+    await db
+        .into(db.providerConfigs)
+        .insert(
           ProviderConfigsCompanion.insert(
             id: 'deepseek',
             name: 'DeepSeek',
@@ -136,7 +153,9 @@ void main() {
     final providers = await db.select(db.providerConfigs).get();
     expect(providers.single.name, 'DeepSeek');
 
-    await db.into(db.callLogs).insert(
+    await db
+        .into(db.callLogs)
+        .insert(
           CallLogsCompanion.insert(
             providerId: 'deepseek',
             model: 'deepseek-chat',

@@ -69,8 +69,12 @@ void main() {
     await tester.ensureVisible(find.text('载入示例内容'));
     await tester.tap(find.text('载入示例内容'));
     await tester.pump();
-    await settleUntil(tester, find.textContaining('说说你想拍什么'),
-        tries: 150, required: true);
+    await settleUntil(
+      tester,
+      find.textContaining('说说你想拍什么'),
+      tries: 150,
+      required: true,
+    );
 
     // 示例策划案出现在最近列表。
     await settleUntil(tester, find.textContaining('示例 · 雨夜霓虹'));

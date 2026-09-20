@@ -25,21 +25,21 @@ class PendingPose {
   final String source;
 
   Map<String, Object?> toModuleEntry() => <String, Object?>{
-        'name': name,
-        'joints': joints,
-        'lens': lens,
-        'cameraPosition': cameraPosition,
-        'photo': photo,
-        'author': author,
-        'license': license,
-        'source': source,
-      };
+    'name': name,
+    'joints': joints,
+    'lens': lens,
+    'cameraPosition': cameraPosition,
+    'photo': photo,
+    'author': author,
+    'license': license,
+    'source': source,
+  };
 }
 
 final pendingPosesProvider =
     StateNotifierProvider<PendingPosesNotifier, List<PendingPose>>(
-  (ref) => PendingPosesNotifier(),
-);
+      (ref) => PendingPosesNotifier(),
+    );
 
 class PendingPosesNotifier extends StateNotifier<List<PendingPose>> {
   PendingPosesNotifier() : super(const <PendingPose>[]);

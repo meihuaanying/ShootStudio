@@ -75,8 +75,10 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       final AppDatabase db = ref.read(databaseProvider);
       final List<String> history = await SearchPrefsView.history(db);
       final List<String> favorites = await SearchPrefsView.favorites(db);
-      final SearchCache cache =
-          await SearchCache.from(db, ref.read(workspaceProvider).root.path);
+      final SearchCache cache = await SearchCache.from(
+        db,
+        ref.read(workspaceProvider).root.path,
+      );
       final int bytes = await cache.totalBytes();
       if (!mounted) return;
       setState(() {
@@ -242,8 +244,11 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     setState(() => _status = '重试 ${status.label}…');
     final Stopwatch sw = Stopwatch()..start();
     try {
-      final SourceSearchPage page =
-          await source.search(query, page: 1, perPage: 24);
+      final SourceSearchPage page = await source.search(
+        query,
+        page: 1,
+        perPage: 24,
+      );
       sw.stop();
       if (!mounted) return;
       setState(() {
@@ -266,7 +271,8 @@ class _SearchPageState extends ConsumerState<SearchPage> {
             else
               s,
         ];
-        _status = '${status.label} 重试成功：${page.hits.length} 条 · '
+        _status =
+            '${status.label} 重试成功：${page.hits.length} 条 · '
             '${sw.elapsedMilliseconds}ms';
       });
     } catch (e) {
@@ -315,9 +321,12 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       final SearchCache? cache = _cache;
       final Uint8List bytes = cache != null
           ? await cache.getOrFetch(hit.fullUrl, original: true)
-          : await SearchCache(ref.read(workspaceProvider).root.path)
-              .getOrFetch(hit.fullUrl, original: true);
-      await ref.read(refsControllerProvider.notifier).addFetched(
+          : await SearchCache(
+              ref.read(workspaceProvider).root.path,
+            ).getOrFetch(hit.fullUrl, original: true);
+      await ref
+          .read(refsControllerProvider.notifier)
+          .addFetched(
             bytes: bytes,
             title: hit.title,
             sourceUrl: hit.fullUrl,
@@ -357,8 +366,8 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       _vision = null;
     });
     final ImageToSearch service = ImageToSearch(ref.read(databaseProvider));
-    final ({VisionResult vision, SearchQuery? query}) planned =
-        await service.planFromImage(bytes, domain: _domain);
+    final ({VisionResult vision, SearchQuery? query}) planned = await service
+        .planFromImage(bytes, domain: _domain);
     if (!mounted) return;
     if (planned.query == null) {
       setState(() {
@@ -441,8 +450,9 @@ class _SearchPageState extends ConsumerState<SearchPage> {
         actions: <Widget>[
           IconButton(
             tooltip: _isFav ? '取消收藏检索词' : '收藏检索词',
-            icon:
-                Icon(_isFav ? Icons.star_rounded : Icons.star_outline_rounded),
+            icon: Icon(
+              _isFav ? Icons.star_rounded : Icons.star_outline_rounded,
+            ),
             onPressed: _toggleFavorite,
           ),
           const SizedBox(width: 4),
@@ -464,7 +474,11 @@ class _SearchPageState extends ConsumerState<SearchPage> {
   Widget _buildSearchBar(ThemeData theme) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
-          AppTokens.s16, AppTokens.s12, AppTokens.s16, AppTokens.s8),
+        AppTokens.s16,
+        AppTokens.s12,
+        AppTokens.s16,
+        AppTokens.s8,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -588,8 +602,9 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                     kind: SsButtonKind.ghost,
                     dense: true,
                     onPressed: () async {
-                      for (final SourceStatus s
-                          in List<SourceStatus>.of(_statuses)) {
+                      for (final SourceStatus s in List<SourceStatus>.of(
+                        _statuses,
+                      )) {
                         if (!s.ok && s.enabled) await _retrySource(s);
                       }
                     },
@@ -603,34 +618,48 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               spacing: 8,
               runSpacing: 4,
               children: <Widget>[
-                Text('历史',
-                    style: TextStyle(
-                        fontSize: 11,
-                        color: theme.colorScheme.onSurfaceVariant)),
+                Text(
+                  '历史',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
                 for (final String h in _history.take(6))
                   InkWell(
                     onTap: () {
                       _input.text = h;
                       _run();
                     },
-                    child: Text(h,
-                        style: const TextStyle(
-                            fontSize: 11.5, color: AppTokens.accent)),
+                    child: Text(
+                      h,
+                      style: const TextStyle(
+                        fontSize: 11.5,
+                        color: AppTokens.accent,
+                      ),
+                    ),
                   ),
                 if (_favorites.isNotEmpty)
-                  Text('收藏',
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: theme.colorScheme.onSurfaceVariant)),
+                  Text(
+                    '收藏',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
                 for (final String f in _favorites.take(6))
                   InkWell(
                     onTap: () {
                       _input.text = f;
                       _run();
                     },
-                    child: Text('★ $f',
-                        style: const TextStyle(
-                            fontSize: 11.5, color: AppTokens.warning)),
+                    child: Text(
+                      '★ $f',
+                      style: const TextStyle(
+                        fontSize: 11.5,
+                        color: AppTokens.warning,
+                      ),
+                    ),
                   ),
               ],
             ),
@@ -648,7 +677,8 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       return const SsEmpty(
         icon: Icons.travel_explore_rounded,
         title: '还没有结果',
-        hint: '支持中文画面词（词表/AI 翻译）、片名、人名（按作品分组）与主题包；'
+        hint:
+            '支持中文画面词（词表/AI 翻译）、片名、人名（按作品分组）与主题包；'
             '以图搜图需配置支持图片输入的 AI 提供方',
       );
     }
@@ -679,8 +709,8 @@ class _SearchPageState extends ConsumerState<SearchPage> {
       final String key = hit.group.isEmpty ? '未分组' : hit.group;
       groups.putIfAbsent(key, () => <SearchHit>[]).add(hit);
     }
-    final List<MapEntry<String, List<SearchHit>>> entries =
-        groups.entries.toList();
+    final List<MapEntry<String, List<SearchHit>>> entries = groups.entries
+        .toList();
     return ListView.builder(
       padding: const EdgeInsets.all(AppTokens.s16),
       itemCount: entries.length,
@@ -691,7 +721,8 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           children: <Widget>[
             SsSectionTitle(
               entry.key,
-              subtitle: '${entry.value.length} 张 · '
+              subtitle:
+                  '${entry.value.length} 张 · '
                   '${entry.value.map((SearchHit h) => h.sourceLabel).toSet().join('/')}',
             ),
             SizedBox(
@@ -766,11 +797,7 @@ abstract final class SearchPrefsView {
 }
 
 class _HitCard extends StatelessWidget {
-  const _HitCard({
-    required this.hit,
-    required this.onTap,
-    required this.onAdd,
-  });
+  const _HitCard({required this.hit, required this.onTap, required this.onAdd});
 
   final SearchHit hit;
   final VoidCallback onTap;
@@ -793,10 +820,10 @@ class _HitCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   errorBuilder: (BuildContext c, Object e, StackTrace? st) =>
                       Container(
-                    color: AppTokens.accentSoft,
-                    alignment: Alignment.center,
-                    child: const Icon(Icons.broken_image_outlined),
-                  ),
+                        color: AppTokens.accentSoft,
+                        alignment: Alignment.center,
+                        child: const Icon(Icons.broken_image_outlined),
+                      ),
                 ),
                 Positioned(
                   right: 4,
@@ -809,18 +836,17 @@ class _HitCard extends StatelessWidget {
                       onTap: onAdd,
                       child: const Padding(
                         padding: EdgeInsets.all(5),
-                        child: Icon(Icons.add_rounded,
-                            size: 16, color: Colors.white),
+                        child: Icon(
+                          Icons.add_rounded,
+                          size: 16,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 if (hit.commercialOk)
-                  const Positioned(
-                    left: 4,
-                    top: 4,
-                    child: SsMonoBadge('可商用'),
-                  ),
+                  const Positioned(left: 4, top: 4, child: SsMonoBadge('可商用')),
               ],
             ),
           ),
@@ -834,7 +860,9 @@ class _HitCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w700),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
@@ -879,16 +907,18 @@ class _HitDetailDialog extends StatelessWidget {
                   fit: BoxFit.contain,
                   errorBuilder: (BuildContext c, Object e, StackTrace? st) =>
                       Container(
-                    color: AppTokens.accentSoft,
-                    alignment: Alignment.center,
-                    child: const Icon(Icons.broken_image_outlined),
-                  ),
+                        color: AppTokens.accentSoft,
+                        alignment: Alignment.center,
+                        child: const Icon(Icons.broken_image_outlined),
+                      ),
                 ),
               ),
             ),
             const SizedBox(height: 8),
-            Text('来源：${hit.sourceLabel} · 许可：${hit.license}'
-                '${hit.commercialOk ? ' · 可商用' : ''}'),
+            Text(
+              '来源：${hit.sourceLabel} · 许可：${hit.license}'
+              '${hit.commercialOk ? ' · 可商用' : ''}',
+            ),
             if (hit.attribution.isNotEmpty) Text('署名：${hit.attribution}'),
             if (hit.width > 0 && hit.height > 0)
               Text('尺寸：${hit.width} × ${hit.height}'),
@@ -898,8 +928,10 @@ class _HitDetailDialog extends StatelessWidget {
       actions: <Widget>[
         if (hit.sourcePageUrl.isNotEmpty)
           TextButton(
-            onPressed: () => launchUrl(Uri.parse(hit.sourcePageUrl),
-                mode: LaunchMode.externalApplication),
+            onPressed: () => launchUrl(
+              Uri.parse(hit.sourcePageUrl),
+              mode: LaunchMode.externalApplication,
+            ),
             child: const Text('打开来源页'),
           ),
         TextButton(
@@ -924,8 +956,9 @@ class _ThemePackSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<ThemePack> packs =
-        kThemePacks.where((ThemePack p) => p.domains.contains(domain)).toList();
+    final List<ThemePack> packs = kThemePacks
+        .where((ThemePack p) => p.domains.contains(domain))
+        .toList();
     final List<ThemePack> others = kThemePacks
         .where((ThemePack p) => !p.domains.contains(domain))
         .toList();
@@ -936,7 +969,10 @@ class _ThemePackSheet extends StatelessWidget {
         child: Column(
           children: <Widget>[
             const TabBar(
-              tabs: <Widget>[Tab(text: '当前分类'), Tab(text: '全部主题包')],
+              tabs: <Widget>[
+                Tab(text: '当前分类'),
+                Tab(text: '全部主题包'),
+              ],
             ),
             Expanded(
               child: TabBarView(
@@ -971,9 +1007,13 @@ class _ThemePackSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(pack.name,
-                  style: const TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w700)),
+              Text(
+                pack.name,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               const SizedBox(height: 2),
               Text(
                 '${pack.description} · ${pack.enQuery}',

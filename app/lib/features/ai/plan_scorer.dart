@@ -51,8 +51,9 @@ class PlanScorer {
     }
 
     for (final PlanModuleData module in modules) {
-      final String title =
-          module.title.isEmpty ? module.type.label : module.title;
+      final String title = module.title.isEmpty
+          ? module.type.label
+          : module.title;
       switch (module.type) {
         case PlanModuleType.theme:
           final String text = module.data['text'] as String? ?? '';
@@ -65,8 +66,8 @@ class PlanScorer {
         case PlanModuleType.clothing:
         case PlanModuleType.props:
         case PlanModuleType.makeup:
-          final List<String> ids =
-              (module.data['ids'] as List? ?? <Object?>[]).cast<String>();
+          final List<String> ids = (module.data['ids'] as List? ?? <Object?>[])
+              .cast<String>();
           final String note = module.data['note'] as String? ?? '';
           detail(ids.isNotEmpty || note.length >= 8, title, '未绑定资源且缺少建议说明');
         case PlanModuleType.sun:
@@ -82,10 +83,12 @@ class PlanScorer {
           final List<Object?> shots =
               module.data['shots'] as List? ?? <Object?>[];
           detail(shots.length >= 8, title, '分镜不足 8 个镜头（需 8–12 镜）');
-          final bool fieldsOk = shots.whereType<Map>().every((Map m) =>
-              '${m['shotSize'] ?? ''}'.isNotEmpty &&
-              '${m['lens'] ?? ''}'.isNotEmpty &&
-              '${m['pose'] ?? ''}'.isNotEmpty);
+          final bool fieldsOk = shots.whereType<Map>().every(
+            (Map m) =>
+                '${m['shotSize'] ?? ''}'.isNotEmpty &&
+                '${m['lens'] ?? ''}'.isNotEmpty &&
+                '${m['pose'] ?? ''}'.isNotEmpty,
+          );
           detail(fieldsOk && shots.isNotEmpty, title, '存在缺少景别/焦段/姿势的分镜');
         case PlanModuleType.palette:
           final int count =
@@ -94,15 +97,19 @@ class PlanScorer {
         case PlanModuleType.lighting:
           final String sceneId = module.data['sceneId'] as String? ?? '';
           final String note = module.data['note'] as String? ?? '';
-          detail(sceneId.isNotEmpty || note.length >= 10, title,
-              '未绑定布光方案且缺少参数化建议');
+          detail(
+            sceneId.isNotEmpty || note.length >= 10,
+            title,
+            '未绑定布光方案且缺少参数化建议',
+          );
         case PlanModuleType.poses:
           final List<Object?> poses =
               module.data['poses'] as List? ?? <Object?>[];
-          final bool detailed = poses.length >= 3 &&
-              poses
-                  .whereType<Map>()
-                  .every((Map m) => (m['lens'] as String? ?? '').isNotEmpty);
+          final bool detailed =
+              poses.length >= 3 &&
+              poses.whereType<Map>().every(
+                (Map m) => (m['lens'] as String? ?? '').isNotEmpty,
+              );
           detail(detailed, title, '姿势不足 3 个或缺少镜头建议');
         case PlanModuleType.crew:
           final List<Map<String, Object?>> rows =
@@ -110,10 +117,13 @@ class PlanScorer {
                   .whereType<Map>()
                   .map((Map m) => m.cast<String, Object?>())
                   .toList();
-          final bool ok = rows.length >= 2 &&
-              rows.every((Map<String, Object?> r) =>
-                  (r['role'] as String? ?? '').isNotEmpty &&
-                  (r['time'] as String? ?? '').isNotEmpty);
+          final bool ok =
+              rows.length >= 2 &&
+              rows.every(
+                (Map<String, Object?> r) =>
+                    (r['role'] as String? ?? '').isNotEmpty &&
+                    (r['time'] as String? ?? '').isNotEmpty,
+              );
           detail(ok, title, '分工不足 2 条或缺少成员时间');
         case PlanModuleType.budget:
           final List<Map<String, Object?>> rows =
@@ -122,12 +132,16 @@ class PlanScorer {
                   .map((Map m) => m.cast<String, Object?>())
                   .toList();
           final double sum = rows.fold(
-              0,
-              (double a, Map<String, Object?> r) =>
-                  a + ((r['price'] as num?)?.toDouble() ?? 0));
-          final bool ok = rows.length >= 2 &&
-              rows.every((Map<String, Object?> r) =>
-                  (r['item'] as String? ?? '').isNotEmpty) &&
+            0,
+            (double a, Map<String, Object?> r) =>
+                a + ((r['price'] as num?)?.toDouble() ?? 0),
+          );
+          final bool ok =
+              rows.length >= 2 &&
+              rows.every(
+                (Map<String, Object?> r) =>
+                    (r['item'] as String? ?? '').isNotEmpty,
+              ) &&
               sum > 0;
           detail(ok, title, '预算不足 2 条或金额为 0');
       }
@@ -138,8 +152,9 @@ class PlanScorer {
     var refTotal = 0;
     var refPass = 0;
     for (final PlanModuleData module in modules) {
-      final String title =
-          module.title.isEmpty ? module.type.label : module.title;
+      final String title = module.title.isEmpty
+          ? module.type.label
+          : module.title;
       switch (module.type) {
         case PlanModuleType.model:
         case PlanModuleType.location:
@@ -169,8 +184,9 @@ class PlanScorer {
           break;
       }
     }
-    final double consistencyScore =
-        refTotal == 0 ? 100 : refPass / refTotal * 100;
+    final double consistencyScore = refTotal == 0
+        ? 100
+        : refPass / refTotal * 100;
 
     // 结构合法性：复用模块 Schema 校验（模块 JSON 往返）。
     final List<String> structureErrors = ModuleSchemaValidator.validate(

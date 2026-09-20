@@ -99,9 +99,7 @@ void main() {
 
   group('网络错误可读性（R31）', () {
     test('超时/连接错误带域名与建议', () {
-      final String message = describeNetworkError(
-        Exception('raw'),
-      );
+      final String message = describeNetworkError(Exception('raw'));
       expect(message, isNotEmpty);
     });
   });

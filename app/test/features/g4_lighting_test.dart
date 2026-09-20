@@ -4,11 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shoot_studio/features/lighting/light_meter.dart';
 import 'package:shoot_studio/features/lighting/lighting_models.dart';
 
-LightingSceneData _scene(List<DeviceSpec> lights) => LightingSceneData(
-      id: 's',
-      name: '测试场景',
-      devices: lights,
-    );
+LightingSceneData _scene(List<DeviceSpec> lights) =>
+    LightingSceneData(id: 's', name: '测试场景', devices: lights);
 
 DeviceSpec _light({
   required String id,
@@ -18,18 +15,17 @@ DeviceSpec _light({
   int intensity = 70,
   double softness = 0.2,
   bool on = true,
-}) =>
-    DeviceSpec(
-      id: id,
-      kind: 'light',
-      name: id,
-      type: type,
-      x: x,
-      y: y,
-      intensity: intensity,
-      softness: softness,
-      on: on,
-    );
+}) => DeviceSpec(
+  id: id,
+  kind: 'light',
+  name: id,
+  type: type,
+  x: x,
+  y: y,
+  intensity: intensity,
+  softness: softness,
+  on: on,
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -43,53 +39,58 @@ void main() {
     });
 
     test('单灯：EV 与标准档位光圈，比例与影调可读', () {
-      final LightMeterReading r =
-          LightMeter.compute(_scene(<DeviceSpec>[_light(id: 'key')]));
+      final LightMeterReading r = LightMeter.compute(
+        _scene(<DeviceSpec>[_light(id: 'key')]),
+      );
       expect(r.ev100, greaterThan(4));
       expect(r.aperture, startsWith('f/'));
-      expect(
-        <String>[
-          'f/1.4',
-          'f/2.0',
-          'f/2.8',
-          'f/4.0',
-          'f/5.6',
-          'f/8',
-          'f/11',
-          'f/16',
-          'f/22'
-        ],
-        contains(r.aperture),
-      );
+      expect(<String>[
+        'f/1.4',
+        'f/2.0',
+        'f/2.8',
+        'f/4.0',
+        'f/5.6',
+        'f/8',
+        'f/11',
+        'f/16',
+        'f/22',
+      ], contains(r.aperture));
       expect(r.shutter, isNot('—'));
       expect(r.moodLabel, isNotEmpty);
     });
 
     test('主辅灯光比：4:1 时提示补光注意', () {
-      final LightMeterReading r = LightMeter.compute(_scene(<DeviceSpec>[
-        _light(id: 'key', intensity: 90, x: -1.2, y: -1.6),
-        _light(id: 'fill', intensity: 15, x: 1.8, y: -1.0, type: 'soft'),
-      ]));
+      final LightMeterReading r = LightMeter.compute(
+        _scene(<DeviceSpec>[
+          _light(id: 'key', intensity: 90, x: -1.2, y: -1.6),
+          _light(id: 'fill', intensity: 15, x: 1.8, y: -1.0, type: 'soft'),
+        ]),
+      );
       final double ratio = r.keyLux / r.fillLux;
       expect(ratio, greaterThan(3));
       expect(r.ratioLabel, isNotEmpty);
     });
 
     test('关灯不计入照度', () {
-      final LightMeterReading a = LightMeter.compute(_scene(<DeviceSpec>[
-        _light(id: 'key', intensity: 70),
-        _light(id: 'off', intensity: 100, on: false),
-      ]));
+      final LightMeterReading a = LightMeter.compute(
+        _scene(<DeviceSpec>[
+          _light(id: 'key', intensity: 70),
+          _light(id: 'off', intensity: 100, on: false),
+        ]),
+      );
       final LightMeterReading b = LightMeter.compute(
-          _scene(<DeviceSpec>[_light(id: 'key', intensity: 70)]));
+        _scene(<DeviceSpec>[_light(id: 'key', intensity: 70)]),
+      );
       expect(a.keyLux, closeTo(b.keyLux, 0.001));
     });
 
     test('光比接近 1 时提示画面偏平', () {
-      final LightMeterReading r = LightMeter.compute(_scene(<DeviceSpec>[
-        _light(id: 'a', intensity: 60, x: -1.2, y: -1.6),
-        _light(id: 'b', intensity: 58, x: 1.2, y: -1.6),
-      ]));
+      final LightMeterReading r = LightMeter.compute(
+        _scene(<DeviceSpec>[
+          _light(id: 'a', intensity: 60, x: -1.2, y: -1.6),
+          _light(id: 'b', intensity: 58, x: 1.2, y: -1.6),
+        ]),
+      );
       expect(r.advice, contains('偏平'));
     });
   });

@@ -89,7 +89,8 @@ class ExportService {
   }
 
   Future<List<IntegrityIssue>> checkIntegrity(
-      List<PlanModuleData> modules) async {
+    List<PlanModuleData> modules,
+  ) async {
     final issues = <IntegrityIssue>[];
     final resources = await db.select(db.resources).get();
     final resourceIds = resources.map((Resource r) => r.id).toSet();
@@ -129,8 +130,10 @@ class ExportService {
     required bool Function() isCancelled,
   }) async {
     final safeTitle = planTitle.replaceAll(RegExp(r'[\\/:*?"<>|\s]'), '_');
-    final date =
-        DateTime.now().toIso8601String().substring(0, 10).replaceAll('-', '');
+    final date = DateTime.now()
+        .toIso8601String()
+        .substring(0, 10)
+        .replaceAll('-', '');
     final base = '$safeTitle-$date';
     final files = <String>[];
     final hashes = <String, String>{};
@@ -154,8 +157,12 @@ class ExportService {
           await file.writeAsBytes(png);
           files.add(file.path);
           hashes[file.path] = sha256.convert(png).toString();
-          onProgress(ExportProgress('已导出 $index/${images.length}',
-              0.1 + 0.85 * index / images.length));
+          onProgress(
+            ExportProgress(
+              '已导出 $index/${images.length}',
+              0.1 + 0.85 * index / images.length,
+            ),
+          );
         }
       case ExportFormat.pdf:
         onProgress(const ExportProgress('正在生成 PDF…', 0.2));
@@ -167,7 +174,13 @@ class ExportService {
         onProgress(const ExportProgress('正在打包 .sspak…', 0.1));
         final file = File(p.join(workspace.exportsPath, '$base.sspak'));
         await _exportSspak(
-            file, planTitle, status, modules, onProgress, isCancelled);
+          file,
+          planTitle,
+          status,
+          modules,
+          onProgress,
+          isCancelled,
+        );
         files.add(file.path);
         hashes[file.path] = sha256.convert(await file.readAsBytes()).toString();
     }
@@ -204,7 +217,12 @@ class ExportService {
     final images = <Uint8List>[];
     for (var partIndex = 0; partIndex < parts.length; partIndex++) {
       final image = await _renderPart(
-          parts[partIndex], title, status, partIndex + 1, parts.length);
+        parts[partIndex],
+        title,
+        status,
+        partIndex + 1,
+        parts.length,
+      );
       images.add(image);
     }
     return images;
@@ -233,8 +251,10 @@ class ExportService {
         return 170;
       case PlanModuleType.theme:
       case PlanModuleType.richText:
-        final int lines =
-            math.min(14, math.max(1, (module.summary.length / 26).ceil()));
+        final int lines = math.min(
+          14,
+          math.max(1, (module.summary.length / 26).ceil()),
+        );
         return 100 + lines * 30;
       default:
         return 140 + module.summary.length * 0.5;
@@ -261,8 +281,10 @@ class ExportService {
     final totalHeight = y + 320;
 
     final recorder = ui.PictureRecorder();
-    final canvas =
-        ui.Canvas(recorder, ui.Rect.fromLTWH(0, 0, _width, totalHeight));
+    final canvas = ui.Canvas(
+      recorder,
+      ui.Rect.fromLTWH(0, 0, _width, totalHeight),
+    );
     canvas.drawRect(
       ui.Rect.fromLTWH(0, 0, _width, totalHeight),
       ui.Paint()..color = const ui.Color(0xFFF7F8FA),
@@ -311,8 +333,16 @@ class ExportService {
 
     // 头部。
     var cursor = 72.0;
-    _text(canvas, title, margin, cursor, 40,
-        bold: true, color: const ui.Color(0xFF1F2329), maxWidth: contentWidth);
+    _text(
+      canvas,
+      title,
+      margin,
+      cursor,
+      40,
+      bold: true,
+      color: const ui.Color(0xFF1F2329),
+      maxWidth: contentWidth,
+    );
     cursor += 56;
     _text(
       canvas,
@@ -329,8 +359,17 @@ class ExportService {
     for (var i = 0; i < modules.length; i++) {
       final module = modules[i];
       final h = heights[i];
-      _drawModuleCard(canvas, module, i + 1, margin, cursor, contentWidth, h,
-          refImages, poseImages);
+      _drawModuleCard(
+        canvas,
+        module,
+        i + 1,
+        margin,
+        cursor,
+        contentWidth,
+        h,
+        refImages,
+        poseImages,
+      );
       cursor += h;
     }
 
@@ -399,8 +438,8 @@ class ExportService {
           maxWidth: width - 48,
         );
       case PlanModuleType.palette:
-        final colors =
-            (module.data['colors'] as List? ?? <Object?>[]).cast<String>();
+        final colors = (module.data['colors'] as List? ?? <Object?>[])
+            .cast<String>();
         var chipX = x + 24;
         for (final String hex in colors.take(5)) {
           canvas.drawRRect(
@@ -410,8 +449,15 @@ class ExportService {
             ),
             ui.Paint()..color = _color(hex),
           );
-          _text(canvas, hex, chipX, cursor + 78, 13,
-              color: const ui.Color(0xFF646A73), maxWidth: 160);
+          _text(
+            canvas,
+            hex,
+            chipX,
+            cursor + 78,
+            13,
+            color: const ui.Color(0xFF646A73),
+            maxWidth: 160,
+          );
           chipX += 172;
         }
       case PlanModuleType.refs:
@@ -420,34 +466,39 @@ class ExportService {
         var tileX = x + 24;
         var tileY = cursor;
         for (var i = 0; i < refs.length && i < 6; i++) {
-          final palette =
-              (refs[i]['palette'] as List? ?? <Object?>[]).cast<String>();
+          final palette = (refs[i]['palette'] as List? ?? <Object?>[])
+              .cast<String>();
           final tile = ui.Rect.fromLTWH(tileX, tileY, 300, 220);
           final ui.Image? real =
               refImages[refs[i]['imageRef'] as String? ?? ''];
           if (real != null) {
             canvas.save();
             canvas.clipRRect(
-                ui.RRect.fromRectAndRadius(tile, const ui.Radius.circular(12)));
+              ui.RRect.fromRectAndRadius(tile, const ui.Radius.circular(12)),
+            );
             _drawImageCover(canvas, real, tile);
             canvas.restore();
           } else {
             final paint = ui.Paint()
-              ..shader = ui.Gradient.linear(
-                tile.topLeft,
-                tile.bottomRight,
-                <ui.Color>[
-                  _color(palette.isNotEmpty ? palette[0] : '#888888'),
-                  _color(palette.length > 1 ? palette[1] : '#333333'),
-                ],
-              );
+              ..shader =
+                  ui.Gradient.linear(tile.topLeft, tile.bottomRight, <ui.Color>[
+                    _color(palette.isNotEmpty ? palette[0] : '#888888'),
+                    _color(palette.length > 1 ? palette[1] : '#333333'),
+                  ]);
             canvas.drawRRect(
-                ui.RRect.fromRectAndRadius(tile, const ui.Radius.circular(12)),
-                paint);
+              ui.RRect.fromRectAndRadius(tile, const ui.Radius.circular(12)),
+              paint,
+            );
           }
-          _text(canvas, refs[i]['name'] as String? ?? '', tileX + 10,
-              tileY + 226, 13,
-              color: const ui.Color(0xFF646A73), maxWidth: 300);
+          _text(
+            canvas,
+            refs[i]['name'] as String? ?? '',
+            tileX + 10,
+            tileY + 226,
+            13,
+            color: const ui.Color(0xFF646A73),
+            maxWidth: 300,
+          );
           tileX += 320;
           if (tileX + 300 > x + width) {
             tileX = x + 24;
@@ -492,18 +543,30 @@ class ExportService {
           if (renderMode != 'skeleton' && photo != null) {
             canvas.save();
             canvas.clipRRect(
-                ui.RRect.fromRectAndRadius(cell, const ui.Radius.circular(12)));
-            _drawImageContain(canvas, photo,
-                ui.Rect.fromLTWH(poseX + 6, poseY + 8, 288, 240));
+              ui.RRect.fromRectAndRadius(cell, const ui.Radius.circular(12)),
+            );
+            _drawImageContain(
+              canvas,
+              photo,
+              ui.Rect.fromLTWH(poseX + 6, poseY + 8, 288, 240),
+            );
             canvas.restore();
           } else {
             final joints = asMap(poses[i]['joints']);
-            _drawPoseFigure(canvas,
-                ui.Rect.fromLTWH(poseX + 40, poseY + 16, 220, 240), joints);
+            _drawPoseFigure(
+              canvas,
+              ui.Rect.fromLTWH(poseX + 40, poseY + 16, 220, 240),
+              joints,
+            );
           }
-          _text(canvas, poses[i]['name'] as String? ?? '', poseX + 12,
-              poseY + 264, 14,
-              maxWidth: 280);
+          _text(
+            canvas,
+            poses[i]['name'] as String? ?? '',
+            poseX + 12,
+            poseY + 264,
+            14,
+            maxWidth: 280,
+          );
           final String attribution = <String>[
             if ((poses[i]['author'] as String? ?? '').isNotEmpty)
               poses[i]['author'] as String,
@@ -513,8 +576,15 @@ class ExportService {
           if (photo != null &&
               renderMode != 'skeleton' &&
               attribution.isNotEmpty) {
-            _text(canvas, '照片：$attribution', poseX + 12, poseY + 280, 10.5,
-                color: const ui.Color(0xFF8A919E), maxWidth: 280);
+            _text(
+              canvas,
+              '照片：$attribution',
+              poseX + 12,
+              poseY + 280,
+              10.5,
+              color: const ui.Color(0xFF8A919E),
+              maxWidth: 280,
+            );
           }
           poseX += 320;
           if (poseX + 300 > x + width) {
@@ -543,8 +613,15 @@ class ExportService {
           shotY += 24;
           final String note = shot['note'] as String? ?? '';
           if (note.isNotEmpty) {
-            _text(canvas, note, x + 40, shotY, 12.5,
-                color: const ui.Color(0xFF646A73), maxWidth: width - 64);
+            _text(
+              canvas,
+              note,
+              x + 40,
+              shotY,
+              12.5,
+              color: const ui.Color(0xFF646A73),
+              maxWidth: width - 64,
+            );
             shotY += 22;
           }
           shotY += 12;
@@ -586,8 +663,10 @@ class ExportService {
     }
   }
 
-  ui.Color _color(String hex) => ui.Color(0xFF000000 |
-      (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888));
+  ui.Color _color(String hex) => ui.Color(
+    0xFF000000 |
+        (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888),
+  );
 
   void _text(
     ui.Canvas canvas,
@@ -600,19 +679,18 @@ class ExportService {
     required double maxWidth,
   }) {
     if (text.isEmpty) return;
-    final builder = ui.ParagraphBuilder(
-      ui.ParagraphStyle(
-        fontSize: size,
-        maxLines: 6,
-        ellipsis: '…',
-      ),
-    )
-      ..pushStyle(ui.TextStyle(
-        color: color,
-        fontSize: size,
-        fontWeight: bold ? ui.FontWeight.w700 : ui.FontWeight.w400,
-      ))
-      ..addText(text);
+    final builder =
+        ui.ParagraphBuilder(
+            ui.ParagraphStyle(fontSize: size, maxLines: 6, ellipsis: '…'),
+          )
+          ..pushStyle(
+            ui.TextStyle(
+              color: color,
+              fontSize: size,
+              fontWeight: bold ? ui.FontWeight.w700 : ui.FontWeight.w400,
+            ),
+          )
+          ..addText(text);
     final paragraph = builder.build()
       ..layout(ui.ParagraphConstraints(width: maxWidth));
     canvas.drawParagraph(paragraph, ui.Offset(x, y));
@@ -625,22 +703,16 @@ class ExportService {
     final double scale = math.max(dst.width / iw, dst.height / ih);
     final double sw = dst.width / scale;
     final double sh = dst.height / scale;
-    final ui.Rect src = ui.Rect.fromLTWH(
-      (iw - sw) / 2,
-      (ih - sh) / 2,
-      sw,
-      sh,
-    );
+    final ui.Rect src = ui.Rect.fromLTWH((iw - sw) / 2, (ih - sh) / 2, sw, sh);
     canvas.drawImageRect(image, src, dst, ui.Paint());
   }
 
   /// V4/R25：姿势照片署名（作者 · 许可）。
   static String _poseAttribution(Map<String, Object?> pose) => <String>[
-        if ((pose['author'] as String? ?? '').isNotEmpty)
-          pose['author'] as String,
-        if ((pose['license'] as String? ?? '').isNotEmpty)
-          pose['license'] as String,
-      ].join(' · ');
+    if ((pose['author'] as String? ?? '').isNotEmpty) pose['author'] as String,
+    if ((pose['license'] as String? ?? '').isNotEmpty)
+      pose['license'] as String,
+  ].join(' · ');
 
   /// V4/R25：完整显示（不裁切）姿势照片。
   void _drawImageContain(ui.Canvas canvas, ui.Image image, ui.Rect dst) {
@@ -678,41 +750,46 @@ class ExportService {
     final double indent = size * 1.2;
     for (final RichLine line in lines) {
       final builder = ui.ParagraphBuilder(
-        ui.ParagraphStyle(
-          fontSize: size,
-          maxLines: 6,
-          ellipsis: '…',
-        ),
+        ui.ParagraphStyle(fontSize: size, maxLines: 6, ellipsis: '…'),
       );
       if (line.bullet) {
         builder
-          ..pushStyle(ui.TextStyle(
-            color: const ui.Color(0xFF1F2329),
-            fontSize: size,
-          ))
+          ..pushStyle(
+            ui.TextStyle(color: const ui.Color(0xFF1F2329), fontSize: size),
+          )
           ..addText('• ');
       }
       for (final RichSpan span in line.spans) {
         builder
-          ..pushStyle(ui.TextStyle(
-            color: const ui.Color(0xFF1F2329),
-            fontSize: size,
-            fontWeight: span.bold ? ui.FontWeight.w700 : ui.FontWeight.w400,
-          ))
+          ..pushStyle(
+            ui.TextStyle(
+              color: const ui.Color(0xFF1F2329),
+              fontSize: size,
+              fontWeight: span.bold ? ui.FontWeight.w700 : ui.FontWeight.w400,
+            ),
+          )
           ..addText(span.text);
       }
       final paragraph = builder.build()
-        ..layout(ui.ParagraphConstraints(
-            width: line.bullet ? maxWidth - indent : maxWidth));
+        ..layout(
+          ui.ParagraphConstraints(
+            width: line.bullet ? maxWidth - indent : maxWidth,
+          ),
+        );
       canvas.drawParagraph(
-          paragraph, ui.Offset(line.bullet ? x + indent : x, cy));
+        paragraph,
+        ui.Offset(line.bullet ? x + indent : x, cy),
+      );
       cy += paragraph.height + (line.spans.isEmpty ? 0 : 4);
     }
   }
 
   /// 姿势九宫格简化投影（R25：无照片/选择「骨架示意」时的静态投影表示）。
   void _drawPoseFigure(
-      ui.Canvas canvas, ui.Rect area, Map<String, Object?> joints) {
+    ui.Canvas canvas,
+    ui.Rect area,
+    Map<String, Object?> joints,
+  ) {
     List<double> axis(String joint) => tripleOf(joints[joint]);
 
     final center = area.center;
@@ -730,16 +807,26 @@ class ExportService {
       hip.dx + math.sin(lean) * h * 0.26,
       hip.dy - h * 0.26,
     );
-    final head =
-        ui.Offset(neck.dx + math.sin(lean) * h * 0.05, neck.dy - h * 0.09);
+    final head = ui.Offset(
+      neck.dx + math.sin(lean) * h * 0.05,
+      neck.dy - h * 0.09,
+    );
 
     // 躯干。
     canvas.drawLine(hip, neck, stroke);
     canvas.drawCircle(
-        head, h * 0.07, ui.Paint()..color = const ui.Color(0xFF343A46));
+      head,
+      h * 0.07,
+      ui.Paint()..color = const ui.Color(0xFF343A46),
+    );
 
-    void limb(ui.Offset from, double upperDeg, double lowerDeg, double length,
-        {bool mirror = false}) {
+    void limb(
+      ui.Offset from,
+      double upperDeg,
+      double lowerDeg,
+      double length, {
+      bool mirror = false,
+    }) {
       final sign = mirror ? -1.0 : 1.0;
       final upperRad = upperDeg * math.pi / 180;
       final knee = ui.Offset(
@@ -762,18 +849,31 @@ class ExportService {
 
     // 手臂（用 shoulder rz 近似张开角）。
     final armLength = h * 0.34;
-    limb(neck + ui.Offset(0, h * 0.02), axis('shoulder_l')[2],
-        axis('elbow_l')[0] * 0.4, armLength);
-    limb(neck + ui.Offset(0, h * 0.02), axis('shoulder_r')[2],
-        axis('elbow_r')[0] * 0.4, armLength,
-        mirror: true);
+    limb(
+      neck + ui.Offset(0, h * 0.02),
+      axis('shoulder_l')[2],
+      axis('elbow_l')[0] * 0.4,
+      armLength,
+    );
+    limb(
+      neck + ui.Offset(0, h * 0.02),
+      axis('shoulder_r')[2],
+      axis('elbow_r')[0] * 0.4,
+      armLength,
+      mirror: true,
+    );
     // 腿。
     final legLength = h * 0.42;
     final hipLeft = hip + ui.Offset(-h * 0.06, 0);
     final hipRight = hip + ui.Offset(h * 0.06, 0);
     limb(hipLeft, axis('hip_l')[0] * -0.6, axis('knee_l')[0] * 0.5, legLength);
-    limb(hipRight, axis('hip_r')[0] * -0.6, axis('knee_r')[0] * 0.5, legLength,
-        mirror: false);
+    limb(
+      hipRight,
+      axis('hip_r')[0] * -0.6,
+      axis('knee_r')[0] * 0.5,
+      legLength,
+      mirror: false,
+    );
   }
 
   // ---------------- PDF ----------------
@@ -835,13 +935,14 @@ class ExportService {
     final Map<String, LightingSceneData> scenes = <String, LightingSceneData>{};
     if (sceneIds.isNotEmpty) {
       onProgress(const ExportProgress('正在读取布光方案…', 0.35));
-      final rows = await (db.select(db.lightingScenes)
-            ..where((t) => t.id.isIn(sceneIds)))
-          .get();
+      final rows = await (db.select(
+        db.lightingScenes,
+      )..where((t) => t.id.isIn(sceneIds))).get();
       for (final LightingScene scene in rows) {
         try {
-          scenes[scene.id] =
-              LightingSceneData.fromJson(asMap(jsonDecode(scene.sceneJson)));
+          scenes[scene.id] = LightingSceneData.fromJson(
+            asMap(jsonDecode(scene.sceneJson)),
+          );
         } catch (_) {}
       }
     }
@@ -850,9 +951,13 @@ class ExportService {
       pw.MultiPage(
         pageFormat: pdfx.PdfPageFormat.a4,
         build: (pw.Context context) => <pw.Widget>[
-          pw.Text(title,
-              style: baseStyle.copyWith(
-                  fontSize: 20, fontWeight: pw.FontWeight.bold)),
+          pw.Text(
+            title,
+            style: baseStyle.copyWith(
+              fontSize: 20,
+              fontWeight: pw.FontWeight.bold,
+            ),
+          ),
           pw.SizedBox(height: 4),
           pw.Text(
             '状态：${status.label}${status == PlanDocStatus.draft ? '（草稿·未定稿）' : ''} · 正片工坊 ShootStudio',
@@ -860,11 +965,15 @@ class ExportService {
           ),
           pw.SizedBox(height: 12),
           for (var i = 0; i < modules.length; i++)
-            _pdfModule(baseStyle, modules[i], i + 1,
-                pdfFont: pdfFont,
-                docContext: context,
-                refBytes: refBytes,
-                scenes: scenes),
+            _pdfModule(
+              baseStyle,
+              modules[i],
+              i + 1,
+              pdfFont: pdfFont,
+              docContext: context,
+              refBytes: refBytes,
+              scenes: scenes,
+            ),
         ],
       ),
     );
@@ -887,8 +996,8 @@ class ExportService {
     pw.Widget body;
     switch (module.type) {
       case PlanModuleType.palette:
-        final colors =
-            (module.data['colors'] as List? ?? <Object?>[]).cast<String>();
+        final colors = (module.data['colors'] as List? ?? <Object?>[])
+            .cast<String>();
         body = pw.Wrap(
           spacing: 6,
           children: <pw.Widget>[
@@ -938,7 +1047,8 @@ class ExportService {
                         verticalRadius: 4,
                         child: pw.Image(
                           pw.MemoryImage(
-                              refBytes[frame['imageRef'] as String? ?? '']!),
+                            refBytes[frame['imageRef'] as String? ?? '']!,
+                          ),
                           width: 130,
                           height: 86,
                           fit: pw.BoxFit.cover,
@@ -962,15 +1072,17 @@ class ExportService {
         final List<Map<String, Object?>> withPhoto = renderMode == 'skeleton'
             ? <Map<String, Object?>>[]
             : poses
-                .where((Map<String, Object?> p) =>
-                    refBytes[p['photo'] as String? ?? ''] != null)
-                .toList();
+                  .where(
+                    (Map<String, Object?> p) =>
+                        refBytes[p['photo'] as String? ?? ''] != null,
+                  )
+                  .toList();
         // 无照片（或选择骨架示意）的条目仍以文字登记，避免导出丢项。
         final List<Map<String, Object?>> textPoses = withPhoto.isEmpty
             ? poses
             : poses
-                .where((Map<String, Object?> p) => !withPhoto.contains(p))
-                .toList();
+                  .where((Map<String, Object?> p) => !withPhoto.contains(p))
+                  .toList();
         body = pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: <pw.Widget>[
@@ -990,19 +1102,25 @@ class ExportService {
                             verticalRadius: 4,
                             child: pw.Image(
                               pw.MemoryImage(
-                                  refBytes[pose['photo'] as String? ?? '']!),
+                                refBytes[pose['photo'] as String? ?? '']!,
+                              ),
                               width: 132,
                               height: 168,
                               fit: pw.BoxFit.contain,
                             ),
                           ),
-                          pw.Text('${pose['name'] ?? ''}',
-                              style: base.copyWith(fontSize: 9.5)),
+                          pw.Text(
+                            '${pose['name'] ?? ''}',
+                            style: base.copyWith(fontSize: 9.5),
+                          ),
                           if (_poseAttribution(pose).isNotEmpty)
-                            pw.Text('照片：${_poseAttribution(pose)}',
-                                style: base.copyWith(
-                                    fontSize: 8,
-                                    color: pdfx.PdfColor.fromInt(0xFF8A919E))),
+                            pw.Text(
+                              '照片：${_poseAttribution(pose)}',
+                              style: base.copyWith(
+                                fontSize: 8,
+                                color: pdfx.PdfColor.fromInt(0xFF8A919E),
+                              ),
+                            ),
                         ],
                       ),
                     ),
@@ -1011,8 +1129,9 @@ class ExportService {
             if (textPoses.isNotEmpty)
               for (final Map<String, Object?> pose in textPoses)
                 pw.Text(
-                    '· ${pose['name'] ?? ''}${(pose['lens'] as String? ?? '').isEmpty ? '' : '（${pose['lens']}）'}',
-                    style: base.copyWith(fontSize: 10)),
+                  '· ${pose['name'] ?? ''}${(pose['lens'] as String? ?? '').isEmpty ? '' : '（${pose['lens']}）'}',
+                  style: base.copyWith(fontSize: 10),
+                ),
           ],
         );
       case PlanModuleType.lighting:
@@ -1033,7 +1152,9 @@ class ExportService {
               pw.Container(
                 decoration: pw.BoxDecoration(
                   border: pw.Border.all(
-                      color: pdfx.PdfColor.fromInt(0xFFD0D5DD), width: 0.6),
+                    color: pdfx.PdfColor.fromInt(0xFFD0D5DD),
+                    width: 0.6,
+                  ),
                 ),
                 child: pw.CustomPaint(
                   size: const pdfx.PdfPoint(430, 260),
@@ -1042,17 +1163,21 @@ class ExportService {
                 ),
               ),
               pw.SizedBox(height: 4),
-              for (final DeviceSpec device
-                  in scene.devices.where((DeviceSpec d) => d.isLight && d.on))
-                pw.Text(_pdfDeviceLine(device),
-                    style: base.copyWith(fontSize: 9.5)),
+              for (final DeviceSpec device in scene.devices.where(
+                (DeviceSpec d) => d.isLight && d.on,
+              ))
+                pw.Text(
+                  _pdfDeviceLine(device),
+                  style: base.copyWith(fontSize: 9.5),
+                ),
             ],
           ],
         );
       case PlanModuleType.theme:
       case PlanModuleType.richText:
-        final List<RichLine> lines =
-            RichTextLite.parse(module.data['text'] as String? ?? '');
+        final List<RichLine> lines = RichTextLite.parse(
+          module.data['text'] as String? ?? '',
+        );
         body = pw.RichText(
           textAlign: pw.TextAlign.left,
           text: pw.TextSpan(
@@ -1096,8 +1221,9 @@ class ExportService {
         );
       case PlanModuleType.sun:
         body = pw.Text(
-            '${module.data['place'] ?? ''} · ${module.data['date'] ?? ''}',
-            style: base);
+          '${module.data['place'] ?? ''} · ${module.data['date'] ?? ''}',
+          style: base,
+        );
       default:
         body = pw.Text(
           (module.data['note'] as String? ?? '').trim().isEmpty
@@ -1110,17 +1236,19 @@ class ExportService {
       margin: const pw.EdgeInsets.only(bottom: 10),
       padding: const pw.EdgeInsets.all(8),
       decoration: pw.BoxDecoration(
-        border:
-            pw.Border.all(color: pdfx.PdfColor.fromInt(0xFFE5E7EB), width: 0.6),
+        border: pw.Border.all(
+          color: pdfx.PdfColor.fromInt(0xFFE5E7EB),
+          width: 0.6,
+        ),
         borderRadius: pw.BorderRadius.all(pw.Radius.circular(6)),
       ),
       child: pw.Column(
         crossAxisAlignment: pw.CrossAxisAlignment.start,
         children: <pw.Widget>[
           pw.Text(
-              '$index. ${module.title.isEmpty ? module.type.label : module.title}',
-              style:
-                  base.copyWith(fontSize: 13, fontWeight: pw.FontWeight.bold)),
+            '$index. ${module.title.isEmpty ? module.type.label : module.title}',
+            style: base.copyWith(fontSize: 13, fontWeight: pw.FontWeight.bold),
+          ),
           pw.SizedBox(height: 4),
           body,
         ],
@@ -1141,8 +1269,9 @@ class ExportService {
     canvas.drawRect(0, 0, w, h);
     canvas.fillPath();
 
-    final List<DeviceSpec> lights =
-        scene.devices.where((DeviceSpec d) => d.isLight && d.on).toList();
+    final List<DeviceSpec> lights = scene.devices
+        .where((DeviceSpec d) => d.isLight && d.on)
+        .toList();
     var maxR = 1.6;
     for (final DeviceSpec d in lights) {
       final double r = math.sqrt(d.x * d.x + d.y * d.y) + 0.6;
@@ -1247,46 +1376,56 @@ class ExportService {
 
     addBytes(
       'manifest.json',
-      utf8.encode(const JsonEncoder.withIndent('  ').convert(<String, Object?>{
-        'format': 'sspak',
-        'version': 1,
-        'app': 'ShootStudio',
-        'appVersion': '1.0.0',
-        'title': title,
-        'exportedAt': DateTime.now().toIso8601String(),
-      })),
+      utf8.encode(
+        const JsonEncoder.withIndent('  ').convert(<String, Object?>{
+          'format': 'sspak',
+          'version': 1,
+          'app': 'ShootStudio',
+          'appVersion': '1.0.0',
+          'title': title,
+          'exportedAt': DateTime.now().toIso8601String(),
+        }),
+      ),
     );
     addBytes(
       'plan.json',
-      utf8.encode(jsonEncode(<String, Object?>{
-        'title': title,
-        'status': status.storageName,
-        'modules': modules.map((PlanModuleData m) => m.toJson()).toList(),
-      })),
+      utf8.encode(
+        jsonEncode(<String, Object?>{
+          'title': title,
+          'status': status.storageName,
+          'modules': modules.map((PlanModuleData m) => m.toJson()).toList(),
+        }),
+      ),
     );
 
     // 关联资源与图片。
     final resources = await db.select(db.resources).get();
     final relatedIds = <String>{};
     for (final PlanModuleData module in modules) {
-      relatedIds
-          .addAll((module.data['ids'] as List? ?? <Object?>[]).cast<String>());
+      relatedIds.addAll(
+        (module.data['ids'] as List? ?? <Object?>[]).cast<String>(),
+      );
     }
-    final related =
-        resources.where((Resource r) => relatedIds.contains(r.id)).toList();
+    final related = resources
+        .where((Resource r) => relatedIds.contains(r.id))
+        .toList();
     addBytes(
       'resources.json',
-      utf8.encode(jsonEncode(<String, Object?>{
-        'resources': related
-            .map((Resource r) => <String, Object?>{
+      utf8.encode(
+        jsonEncode(<String, Object?>{
+          'resources': related
+              .map(
+                (Resource r) => <String, Object?>{
                   'id': r.id,
                   'type': r.type,
                   'name': r.name,
                   'fields': asMap(jsonDecode(r.fieldsJson)),
                   'cover': r.coverImage,
-                })
-            .toList(),
-      })),
+                },
+              )
+              .toList(),
+        }),
+      ),
     );
 
     // 布光方案。
@@ -1298,26 +1437,32 @@ class ExportService {
     final scenes = await db.select(db.lightingScenes).get();
     addBytes(
       'lighting.json',
-      utf8.encode(jsonEncode(<String, Object?>{
-        'scenes': scenes
-            .where((LightingScene s) => sceneIds.contains(s.id))
-            .map((LightingScene s) => <String, Object?>{
+      utf8.encode(
+        jsonEncode(<String, Object?>{
+          'scenes': scenes
+              .where((LightingScene s) => sceneIds.contains(s.id))
+              .map(
+                (LightingScene s) => <String, Object?>{
                   'id': s.id,
                   'name': s.name,
                   'scene': asMap(jsonDecode(s.sceneJson)),
-                })
-            .toList(),
-      })),
+                },
+              )
+              .toList(),
+        }),
+      ),
     );
 
     // 收藏姿势。
     final poses = await db.select(db.poses).get();
     addBytes(
       'poses.json',
-      utf8.encode(jsonEncode(<String, Object?>{
-        'poses': poses
-            .where((Pose pose) => pose.favorite)
-            .map((Pose pose) => <String, Object?>{
+      utf8.encode(
+        jsonEncode(<String, Object?>{
+          'poses': poses
+              .where((Pose pose) => pose.favorite)
+              .map(
+                (Pose pose) => <String, Object?>{
                   'id': pose.id,
                   'name': pose.name,
                   'category': pose.category,
@@ -1325,28 +1470,34 @@ class ExportService {
                   'joints': asMap(jsonDecode(pose.jointsJson)),
                   'tip': pose.tip,
                   'lens': pose.lensAdvice,
-                })
-            .toList(),
-      })),
+                },
+              )
+              .toList(),
+        }),
+      ),
     );
 
     // 参考帧（画板）。
-    final frames = await (db.select(db.filmFrames)
-          ..where((t) => t.inBoard.equals(true)))
-        .get();
+    final frames = await (db.select(
+      db.filmFrames,
+    )..where((t) => t.inBoard.equals(true))).get();
     addBytes(
       'refs.json',
-      utf8.encode(jsonEncode(<String, Object?>{
-        'refs': frames
-            .map((FilmFrame frame) => <String, Object?>{
+      utf8.encode(
+        jsonEncode(<String, Object?>{
+          'refs': frames
+              .map(
+                (FilmFrame frame) => <String, Object?>{
                   'id': frame.id,
                   'name': frame.name,
                   'imageRef': frame.imageRef,
                   'palette': frame.paletteJson,
                   'sourceUrl': frame.sourceUrl,
-                })
-            .toList(),
-      })),
+                },
+              )
+              .toList(),
+        }),
+      ),
     );
 
     // 图片文件：资源封面与参考图。
@@ -1354,8 +1505,9 @@ class ExportService {
     for (final Resource resource in related) {
       final cover = resource.coverImage;
       if (cover == null || cover.isEmpty) continue;
-      final file =
-          File(p.join(workspace.root.path, 'images', resource.type, cover));
+      final file = File(
+        p.join(workspace.root.path, 'images', resource.type, cover),
+      );
       if (await file.exists()) {
         addBytes('images/${resource.type}/$cover', await file.readAsBytes());
         count++;
@@ -1363,8 +1515,9 @@ class ExportService {
     }
     for (final FilmFrame frame in frames) {
       if (frame.imageRef.isEmpty) continue;
-      final file =
-          File(p.join(workspace.root.path, 'images', 'refs', frame.imageRef));
+      final file = File(
+        p.join(workspace.root.path, 'images', 'refs', frame.imageRef),
+      );
       if (await file.exists()) {
         addBytes('images/refs/${frame.imageRef}', await file.readAsBytes());
         count++;
@@ -1385,7 +1538,8 @@ class SspakImporter {
   final AppDatabase db;
 
   Future<({String planId, String title, int moduleCount})> import(
-      String sspakPath) async {
+    String sspakPath,
+  ) async {
     final bytes = await File(sspakPath).readAsBytes();
     final archive = ZipDecoder().decodeBytes(bytes);
 
@@ -1423,13 +1577,16 @@ class SspakImporter {
       final map = raw.cast<String, Object?>();
       final newId = 'imported-${map['id']}';
       resourceIdMap[map['id'] as String? ?? ''] = newId;
-      await db.into(db.resources).insertOnConflictUpdate(
+      await db
+          .into(db.resources)
+          .insertOnConflictUpdate(
             ResourcesCompanion.insert(
               id: newId,
               type: map['type'] as String? ?? 'props',
               name: map['name'] as String? ?? '导入资源',
-              fieldsJson:
-                  Value(jsonEncode(map['fields'] ?? <String, Object?>{})),
+              fieldsJson: Value(
+                jsonEncode(map['fields'] ?? <String, Object?>{}),
+              ),
               coverImage: Value(map['cover'] as String?),
               createdAt: now,
               updatedAt: now,
@@ -1445,7 +1602,9 @@ class SspakImporter {
       final map = raw.cast<String, Object?>();
       final newId = 'imported-${map['id']}';
       sceneIdMap[map['id'] as String? ?? ''] = newId;
-      await db.into(db.lightingScenes).insertOnConflictUpdate(
+      await db
+          .into(db.lightingScenes)
+          .insertOnConflictUpdate(
             LightingScenesCompanion.insert(
               id: newId,
               name: map['name'] as String? ?? '导入布光方案',
@@ -1461,7 +1620,9 @@ class SspakImporter {
     for (final Object? raw in posesJson['poses'] as List? ?? <Object?>[]) {
       if (raw is! Map) continue;
       final map = raw.cast<String, Object?>();
-      await db.into(db.poses).insertOnConflictUpdate(
+      await db
+          .into(db.poses)
+          .insertOnConflictUpdate(
             PosesCompanion.insert(
               id: 'imported-${map['id']}',
               name: map['name'] as String? ?? '导入姿势',
@@ -1485,8 +1646,9 @@ class SspakImporter {
     for (final PlanModuleData module in modules) {
       final ids = (module.data['ids'] as List? ?? <Object?>[]).cast<String>();
       if (ids.isNotEmpty) {
-        module.data['ids'] =
-            ids.map((String id) => resourceIdMap[id] ?? id).toList();
+        module.data['ids'] = ids
+            .map((String id) => resourceIdMap[id] ?? id)
+            .toList();
       }
       if (module.type == PlanModuleType.lighting) {
         final sceneId = module.data['sceneId'] as String? ?? '';
@@ -1495,13 +1657,18 @@ class SspakImporter {
     }
     final nextId = DateTime.now().microsecondsSinceEpoch;
     final planId = 'imported-$nextId';
-    await db.into(db.plans).insertOnConflictUpdate(
+    await db
+        .into(db.plans)
+        .insertOnConflictUpdate(
           PlansCompanion.insert(
             id: planId,
             title: '${planJson['title'] ?? '导入策划案'}（导入）',
             status: Value(planJson['status'] as String? ?? 'draft'),
-            modulesJson: Value(jsonEncode(
-                modules.map((PlanModuleData m) => m.toJson()).toList())),
+            modulesJson: Value(
+              jsonEncode(
+                modules.map((PlanModuleData m) => m.toJson()).toList(),
+              ),
+            ),
             createdAt: now,
             updatedAt: now,
           ),
@@ -1509,7 +1676,7 @@ class SspakImporter {
     return (
       planId: planId,
       title: planJson['title'] as String? ?? '导入策划案',
-      moduleCount: modules.length
+      moduleCount: modules.length,
     );
   }
 }

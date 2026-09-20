@@ -51,24 +51,25 @@ class ContentPacks {
   /// 归档：旧程序化姿势库（V4 起不再进入应用，仅保留数据与兼容加载能力）。
   static Future<List<PoseEntry>> posesLegacy() async {
     _cachePosesLegacy ??= await _load('assets/content/poses/poses.json');
-    return asMapList(_cachePosesLegacy!['poses'])
-        .map(PoseEntry.fromJson)
-        .toList();
+    return asMapList(
+      _cachePosesLegacy!['poses'],
+    ).map(PoseEntry.fromJson).toList();
   }
 
   static Future<List<LightPresetEntry>> lightPresets() async {
-    _cachePresets ??=
-        await _load('assets/content/light_presets/light_presets.json');
-    return asMapList(_cachePresets!['presets'])
-        .map(LightPresetEntry.fromJson)
-        .toList();
+    _cachePresets ??= await _load(
+      'assets/content/light_presets/light_presets.json',
+    );
+    return asMapList(
+      _cachePresets!['presets'],
+    ).map(LightPresetEntry.fromJson).toList();
   }
 
   static Future<List<TemplateEntry>> templates() async {
     _cacheTemplates ??= await _load('assets/content/templates/templates.json');
-    return asMapList(_cacheTemplates!['templates'])
-        .map(TemplateEntry.fromJson)
-        .toList();
+    return asMapList(
+      _cacheTemplates!['templates'],
+    ).map(TemplateEntry.fromJson).toList();
   }
 
   static Future<List<GearEntry>> gear() async {
@@ -78,28 +79,29 @@ class ContentPacks {
 
   static Future<List<ClothingCategoryEntry>> clothingCategories() async {
     _cacheClothing ??= await _load('assets/content/clothing/clothing.json');
-    return asMapList(_cacheClothing!['categories'])
-        .map(ClothingCategoryEntry.fromJson)
-        .toList();
+    return asMapList(
+      _cacheClothing!['categories'],
+    ).map(ClothingCategoryEntry.fromJson).toList();
   }
 
   static Future<List<PropPresetEntry>> propPresets() async {
     _cacheProps ??= await _load('assets/content/props/props_presets.json');
-    return asMapList(_cacheProps!['props'])
-        .map(PropPresetEntry.fromJson)
-        .toList();
+    return asMapList(
+      _cacheProps!['props'],
+    ).map(PropPresetEntry.fromJson).toList();
   }
 
   /// 云端模板包合并（S5 更新通道）。
   static void mergeCloudTemplates(Map<String, Object?> json) {
-    final cloud =
-        asMapList(json['templates']).map(TemplateEntry.fromJson).toList();
+    final cloud = asMapList(
+      json['templates'],
+    ).map(TemplateEntry.fromJson).toList();
     if (cloud.isEmpty) return;
     final current = _cacheTemplates == null
         ? <TemplateEntry>[]
-        : asMapList(_cacheTemplates!['templates'])
-            .map(TemplateEntry.fromJson)
-            .toList();
+        : asMapList(
+            _cacheTemplates!['templates'],
+          ).map(TemplateEntry.fromJson).toList();
     final ids = current.map((TemplateEntry t) => t.id).toSet();
     final merged = <TemplateEntry>[
       ...current,
@@ -136,22 +138,24 @@ class ContentPacks {
 
   static Future<List<BudgetItemEntry>> budgetRefs() async {
     _cacheBudget ??= await _load('assets/content/budget/budget_refs.json');
-    return asMapList(_cacheBudget!['items'])
-        .map(BudgetItemEntry.fromJson)
-        .toList();
+    return asMapList(
+      _cacheBudget!['items'],
+    ).map(BudgetItemEntry.fromJson).toList();
   }
 
   /// 城市档位系数（一线/新一线/二线/三线）。
   static Future<Map<String, double>> cityMultipliers() async {
     _cacheCities ??= await _load('assets/content/cities/cities.json');
-    return asMap(_cacheCities!['multipliers']).map(
-      (String key, Object? value) => MapEntry(key, asDouble(value, 1)),
-    );
+    return asMap(
+      _cacheCities!['multipliers'],
+    ).map((String key, Object? value) => MapEntry(key, asDouble(value, 1)));
   }
 
   /// 云端内容包注入/合并（S5 更新通道调用；按 id 去重，云端优先）。
-  static void mergeCloud(
-      {Map<String, Object?>? films, Map<String, Object?>? poses}) {
+  static void mergeCloud({
+    Map<String, Object?>? films,
+    Map<String, Object?>? poses,
+  }) {
     if (films != null) _cacheFilms = films;
     if (poses != null) _cachePoses = poses;
   }
@@ -163,7 +167,9 @@ class ContentPacks {
 
     final filmList = await films();
     for (final film in filmList) {
-      await db.into(db.films).insertOnConflictUpdate(
+      await db
+          .into(db.films)
+          .insertOnConflictUpdate(
             FilmsCompanion.insert(
               id: film.id,
               title: film.title,
@@ -174,7 +180,9 @@ class ContentPacks {
             ),
           );
       for (final frame in film.frames) {
-        await db.into(db.filmFrames).insertOnConflictUpdate(
+        await db
+            .into(db.filmFrames)
+            .insertOnConflictUpdate(
               FilmFramesCompanion.insert(
                 id: '${film.id}:${frame.name}',
                 filmId: film.id,
@@ -189,10 +197,12 @@ class ContentPacks {
 
     final poseList = await poses();
     for (final pose in poseList) {
-      final existing = await (db.select(db.poses)
-            ..where((t) => t.id.equals(pose.id)))
-          .getSingleOrNull();
-      await db.into(db.poses).insertOnConflictUpdate(
+      final existing = await (db.select(
+        db.poses,
+      )..where((t) => t.id.equals(pose.id))).getSingleOrNull();
+      await db
+          .into(db.poses)
+          .insertOnConflictUpdate(
             PosesCompanion.insert(
               id: pose.id,
               name: pose.name,
@@ -215,7 +225,9 @@ class ContentPacks {
     final gearItems = await gear();
     await (db.delete(db.gearItems)..where((t) => t.builtin.equals(true))).go();
     for (final GearEntry item in gearItems) {
-      await db.into(db.gearItems).insertOnConflictUpdate(
+      await db
+          .into(db.gearItems)
+          .insertOnConflictUpdate(
             GearItemsCompanion.insert(
               id: item.id,
               kind: item.kind,
@@ -232,23 +244,28 @@ class ContentPacks {
     // 道具预设（D22）：仅在库中尚无预设条目时播种（幂等，不覆盖用户编辑）。
     final presetCount = await db
         .customSelect(
-            "SELECT COUNT(*) c FROM resources WHERE id LIKE 'preset-%'")
+          "SELECT COUNT(*) c FROM resources WHERE id LIKE 'preset-%'",
+        )
         .getSingle();
     if (((presetCount.data['c'] as num?)?.toInt() ?? 0) == 0) {
       final presets = await propPresets();
       final now = DateTime.now().millisecondsSinceEpoch;
       for (final PropPresetEntry prop in presets) {
-        await db.into(db.resources).insertOnConflictUpdate(
+        await db
+            .into(db.resources)
+            .insertOnConflictUpdate(
               ResourcesCompanion.insert(
                 id: 'preset-${prop.id}',
                 type: 'props',
                 name: prop.name,
-                fieldsJson: Value(jsonEncode(<String, Object?>{
-                  'price': '¥${prop.price}',
-                  'note': prop.note,
-                  'owner': prop.owner,
-                  'tags': <String>[prop.category],
-                })),
+                fieldsJson: Value(
+                  jsonEncode(<String, Object?>{
+                    'price': '¥${prop.price}',
+                    'note': prop.note,
+                    'owner': prop.owner,
+                    'tags': <String>[prop.category],
+                  }),
+                ),
                 createdAt: now,
                 updatedAt: now,
               ),
@@ -287,8 +304,9 @@ class ContentPacks {
 
   /// 服装参考实拍（clothing/clothing_photos.json）。
   static Future<Map<String, Object?>> clothingPhotos() async {
-    _cacheClothingPhotos ??=
-        await _load('assets/content/clothing/clothing_photos.json');
+    _cacheClothingPhotos ??= await _load(
+      'assets/content/clothing/clothing_photos.json',
+    );
     return _cacheClothingPhotos!;
   }
 
@@ -334,38 +352,38 @@ class GearEntry {
 
   /// 规格搜索文本（规格词/别名/标签/卡口全部参与关键词匹配）。
   String get searchText => <String>[
-        displayName,
-        model,
-        brand,
-        mount,
-        imageSource,
-        ...tags,
-        ...aliases,
-        ...specs.values.map((Object? v) => '$v'),
-      ].join(' ').toLowerCase();
+    displayName,
+    model,
+    brand,
+    mount,
+    imageSource,
+    ...tags,
+    ...aliases,
+    ...specs.values.map((Object? v) => '$v'),
+  ].join(' ').toLowerCase();
 
   String get specSummary => switch (kind) {
-        'camera' =>
-          '${specs['sensor'] ?? ''} · ${specs['megapixel'] ?? ''}MP · ${specs['weight_g'] ?? ''}g',
-        'lens' =>
-          '${specs['focal'] ?? ''} ${specs['aperture'] ?? ''} · ${specs['mount'] ?? mount}',
-        _ =>
-          '${specs['power_w'] ?? ''}W · ${specs['cct'] ?? ''} · CRI ${specs['cri'] ?? ''}',
-      };
+    'camera' =>
+      '${specs['sensor'] ?? ''} · ${specs['megapixel'] ?? ''}MP · ${specs['weight_g'] ?? ''}g',
+    'lens' =>
+      '${specs['focal'] ?? ''} ${specs['aperture'] ?? ''} · ${specs['mount'] ?? mount}',
+    _ =>
+      '${specs['power_w'] ?? ''}W · ${specs['cct'] ?? ''} · CRI ${specs['cri'] ?? ''}',
+  };
 
   static GearEntry fromJson(Map<String, Object?> json) => GearEntry(
-        id: json['id'] as String? ?? '',
-        kind: json['kind'] as String? ?? 'camera',
-        brand: json['brand'] as String? ?? '',
-        model: json['model'] as String? ?? '',
-        mount: json['mount'] as String? ?? '',
-        specs: asMap(json['specs']),
-        priceRef: asDouble(json['priceRef']),
-        tags: asStringList(json['tags']),
-        aliases: asStringList(json['aliases']),
-        image: json['image'] as String? ?? '',
-        imageSource: json['imageSource'] as String? ?? '',
-      );
+    id: json['id'] as String? ?? '',
+    kind: json['kind'] as String? ?? 'camera',
+    brand: json['brand'] as String? ?? '',
+    model: json['model'] as String? ?? '',
+    mount: json['mount'] as String? ?? '',
+    specs: asMap(json['specs']),
+    priceRef: asDouble(json['priceRef']),
+    tags: asStringList(json['tags']),
+    aliases: asStringList(json['aliases']),
+    image: json['image'] as String? ?? '',
+    imageSource: json['imageSource'] as String? ?? '',
+  );
 }
 
 /// 服装目录分类（D21）。
@@ -413,13 +431,13 @@ class PropPresetEntry {
   final String category;
 
   static PropPresetEntry fromJson(Map<String, Object?> json) => PropPresetEntry(
-        id: json['id'] as String? ?? '',
-        name: json['name'] as String? ?? '',
-        price: (json['price'] as num?) ?? 0,
-        note: json['note'] as String? ?? '',
-        owner: json['owner'] as String? ?? '',
-        category: json['category'] as String? ?? '常用道具',
-      );
+    id: json['id'] as String? ?? '',
+    name: json['name'] as String? ?? '',
+    price: (json['price'] as num?) ?? 0,
+    note: json['note'] as String? ?? '',
+    owner: json['owner'] as String? ?? '',
+    category: json['category'] as String? ?? '常用道具',
+  );
 }
 
 /// 影片条目。
@@ -443,14 +461,14 @@ class FilmEntry {
   final List<FrameEntry> frames;
 
   static FilmEntry fromJson(Map<String, Object?> json) => FilmEntry(
-        id: json['id'] as String? ?? '',
-        title: json['title'] as String? ?? '',
-        director: json['director'] as String? ?? '',
-        year: (json['year'] as num?)?.toInt(),
-        tags: asStringList(json['tags']),
-        sourceUrl: json['sourceUrl'] as String? ?? '',
-        frames: asMapList(json['frames']).map(FrameEntry.fromJson).toList(),
-      );
+    id: json['id'] as String? ?? '',
+    title: json['title'] as String? ?? '',
+    director: json['director'] as String? ?? '',
+    year: (json['year'] as num?)?.toInt(),
+    tags: asStringList(json['tags']),
+    sourceUrl: json['sourceUrl'] as String? ?? '',
+    frames: asMapList(json['frames']).map(FrameEntry.fromJson).toList(),
+  );
 }
 
 class FrameEntry {
@@ -471,13 +489,13 @@ class FrameEntry {
   final List<String> tags;
 
   static FrameEntry fromJson(Map<String, Object?> json) => FrameEntry(
-        name: json['name'] as String? ?? '',
-        palette: asStringList(json['palette']),
-        gradient: asStringList(json['gradient']),
-        description: json['description'] as String? ?? '',
-        sourceUrl: json['sourceUrl'] as String? ?? '',
-        tags: asStringList(json['tags']),
-      );
+    name: json['name'] as String? ?? '',
+    palette: asStringList(json['palette']),
+    gradient: asStringList(json['gradient']),
+    description: json['description'] as String? ?? '',
+    sourceUrl: json['sourceUrl'] as String? ?? '',
+    tags: asStringList(json['tags']),
+  );
 }
 
 /// V5/D86：单手姿态（预设 id 或自定义每指弯曲；spread 张开；wrist 腕部附加旋转）。
@@ -503,20 +521,19 @@ class HandPoseState {
     Map<String, double>? curls,
     double? spread,
     Object? wrist = _sentinel,
-  }) =>
-      HandPoseState(
-        preset: preset ?? this.preset,
-        curls: curls ?? this.curls,
-        spread: spread ?? this.spread,
-        wrist: wrist == _sentinel ? this.wrist : wrist as List<double>?,
-      );
+  }) => HandPoseState(
+    preset: preset ?? this.preset,
+    curls: curls ?? this.curls,
+    spread: spread ?? this.spread,
+    wrist: wrist == _sentinel ? this.wrist : wrist as List<double>?,
+  );
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'preset': preset,
-        if (curls.isNotEmpty) 'curls': curls,
-        'spread': spread,
-        if (wrist != null) 'wrist': wrist,
-      };
+    'preset': preset,
+    if (curls.isNotEmpty) 'curls': curls,
+    'spread': spread,
+    if (wrist != null) 'wrist': wrist,
+  };
 
   static HandPoseState fromJson(Map<String, Object?> json) {
     final Map<String, Object?> rawCurls = asMap(json['curls']);
@@ -524,7 +541,8 @@ class HandPoseState {
     return HandPoseState(
       preset: json['preset'] as String? ?? 'relax',
       curls: rawCurls.map(
-          (String k, Object? v) => MapEntry<String, double>(k, asDouble(v))),
+        (String k, Object? v) => MapEntry<String, double>(k, asDouble(v)),
+      ),
       spread: asDouble(json['spread']),
       wrist: rawWrist.isEmpty
           ? null
@@ -628,32 +646,31 @@ class PoseEntry {
   final HandPoseState? handsR;
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'id': id,
-        'name': name,
-        'category': category,
-        'difficulty': difficulty,
-        'joints': joints,
-        'rootY': rootY,
-        'rootPitch': rootPitch,
-        'weight': weight,
-        'hands': hands,
-        'commonMistake': mistake,
-        'lens': lens,
-        'cameraPosition': cameraPosition,
-        'photo': photo,
-        'overlay': overlay,
-        'skeleton': skeleton,
-        'confidence': confidence,
-        'referenceOnly': referenceOnly,
-        'partialBody': partialBody,
-        'partialReason': partialReason,
-        'source': source,
-        'license': license,
-        'author': author,
-        'origin': origin,
-        if (handsL != null || handsR != null)
-          'hands': handsToJson(handsL, handsR),
-      };
+    'id': id,
+    'name': name,
+    'category': category,
+    'difficulty': difficulty,
+    'joints': joints,
+    'rootY': rootY,
+    'rootPitch': rootPitch,
+    'weight': weight,
+    'hands': hands,
+    'commonMistake': mistake,
+    'lens': lens,
+    'cameraPosition': cameraPosition,
+    'photo': photo,
+    'overlay': overlay,
+    'skeleton': skeleton,
+    'confidence': confidence,
+    'referenceOnly': referenceOnly,
+    'partialBody': partialBody,
+    'partialReason': partialReason,
+    'source': source,
+    'license': license,
+    'author': author,
+    'origin': origin,
+    if (handsL != null || handsR != null) 'hands': handsToJson(handsL, handsR),
+  };
 
   static PoseEntry fromJson(Map<String, Object?> json) {
     final joints = asMap(json['joints']);
@@ -729,11 +746,11 @@ class CityEntry {
   final String tier;
 
   static CityEntry fromJson(Map<String, Object?> json) => CityEntry(
-        name: json['name'] as String? ?? '',
-        lat: asDouble(json['lat']),
-        lon: asDouble(json['lon']),
-        tier: json['tier'] as String? ?? '二线',
-      );
+    name: json['name'] as String? ?? '',
+    lat: asDouble(json['lat']),
+    lon: asDouble(json['lon']),
+    tier: json['tier'] as String? ?? '二线',
+  );
 }
 
 /// 预算参考条目（F9）。
@@ -753,12 +770,12 @@ class BudgetItemEntry {
   final String note;
 
   static BudgetItemEntry fromJson(Map<String, Object?> json) => BudgetItemEntry(
-        key: json['key'] as String? ?? '',
-        label: json['label'] as String? ?? '',
-        min: asDouble(json['min']),
-        max: asDouble(json['max']),
-        note: json['note'] as String? ?? '',
-      );
+    key: json['key'] as String? ?? '',
+    label: json['label'] as String? ?? '',
+    min: asDouble(json['min']),
+    max: asDouble(json['max']),
+    note: json['note'] as String? ?? '',
+  );
 }
 
 /// 策划模板条目。
@@ -778,18 +795,18 @@ class TemplateEntry {
   final List<Map<String, Object?>> modules;
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'id': id,
-        'name': name,
-        'category': category,
-        'description': description,
-        'modules': modules,
-      };
+    'id': id,
+    'name': name,
+    'category': category,
+    'description': description,
+    'modules': modules,
+  };
 
   static TemplateEntry fromJson(Map<String, Object?> json) => TemplateEntry(
-        id: json['id'] as String? ?? '',
-        name: json['name'] as String? ?? '',
-        category: json['category'] as String? ?? '',
-        description: json['description'] as String? ?? '',
-        modules: asMapList(json['modules']),
-      );
+    id: json['id'] as String? ?? '',
+    name: json['name'] as String? ?? '',
+    category: json['category'] as String? ?? '',
+    description: json['description'] as String? ?? '',
+    modules: asMapList(json['modules']),
+  );
 }

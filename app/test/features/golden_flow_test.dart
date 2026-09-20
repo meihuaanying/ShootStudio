@@ -124,10 +124,13 @@ void main() {
 
     // 中文标题与主题。
     controller.setTitle('雨夜赛博朋克风初音正片');
-    final themeModule =
-        state.modules.firstWhere((m) => m.type == PlanModuleType.theme);
+    final themeModule = state.modules.firstWhere(
+      (m) => m.type == PlanModuleType.theme,
+    );
     controller.updateModule(
-        themeModule.id, (m) => m.data['text'] = '霓虹雨夜，初音未来，未来感');
+      themeModule.id,
+      (m) => m.data['text'] = '霓虹雨夜，初音未来，未来感',
+    );
     await controller.saveNow();
 
     // 快照存在且可回滚。
@@ -139,8 +142,9 @@ void main() {
     controller.addModule(PlanModuleType.richText);
     await controller.saveNow();
     state = container.read(plannerControllerProvider);
-    final richText =
-        state.modules.firstWhere((m) => m.type == PlanModuleType.richText);
+    final richText = state.modules.firstWhere(
+      (m) => m.type == PlanModuleType.richText,
+    );
     await controller.restoreSnapshot(state.snapshots.last.id);
     state = container.read(plannerControllerProvider);
     expect(state.modules.any((m) => m.id == richText.id), isFalse);
@@ -152,12 +156,12 @@ void main() {
       <String, Object?>{
         'type': 'theme',
         'title': '主题',
-        'data': <String, Object?>{'text': 'x'}
+        'data': <String, Object?>{'text': 'x'},
       },
       <String, Object?>{
         'type': 'not-a-type',
         'title': 'x',
-        'data': <String, Object?>{}
+        'data': <String, Object?>{},
       },
     ]);
     expect(errors, hasLength(1));

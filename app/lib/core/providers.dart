@@ -29,7 +29,8 @@ final bootstrapPathOverrideProvider = Provider<String?>((ref) => null);
 /// 未选择工作区时以 [NeedWorkspaceException] 结束，由根组件切换到引导页。
 final appRuntimeProvider =
     AsyncNotifierProvider<AppRuntimeNotifier, AppRuntime>(
-        AppRuntimeNotifier.new);
+      AppRuntimeNotifier.new,
+    );
 
 class AppRuntimeNotifier extends AsyncNotifier<AppRuntime> {
   @override

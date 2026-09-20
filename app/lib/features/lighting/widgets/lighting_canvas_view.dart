@@ -83,9 +83,12 @@ class _LightingCanvasViewState extends State<LightingCanvasView> {
     DeviceSpec? best;
     var bestDist = 24.0;
     for (final DeviceSpec device in widget.scene.devices) {
-      final pos = center +
-          Offset(device.x * widget.pixelsPerMeter,
-              device.y * widget.pixelsPerMeter);
+      final pos =
+          center +
+          Offset(
+            device.x * widget.pixelsPerMeter,
+            device.y * widget.pixelsPerMeter,
+          );
       final dist = (pos - p).distance;
       if (dist <= bestDist) {
         best = device;
@@ -98,9 +101,12 @@ class _LightingCanvasViewState extends State<LightingCanvasView> {
   /// V6/D105：相机机位命中（半径 16px）。
   bool _hitCamera(Offset p, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final pos = center +
-        Offset(widget.scene.camera.x * widget.pixelsPerMeter,
-            widget.scene.camera.y * widget.pixelsPerMeter);
+    final pos =
+        center +
+        Offset(
+          widget.scene.camera.x * widget.pixelsPerMeter,
+          widget.scene.camera.y * widget.pixelsPerMeter,
+        );
     return (pos - p).distance <= 16;
   }
 
@@ -187,12 +193,18 @@ class _StagePainter extends CustomPainter {
     for (var m = -scene.width / 2; m <= scene.width / 2; m += 1) {
       final x = center.dx + m * pixelsPerMeter;
       canvas.drawLine(
-          Offset(x, stageRect.top), Offset(x, stageRect.bottom), grid);
+        Offset(x, stageRect.top),
+        Offset(x, stageRect.bottom),
+        grid,
+      );
     }
     for (var m = -scene.depth / 2; m <= scene.depth / 2; m += 1) {
       final y = center.dy + m * pixelsPerMeter;
       canvas.drawLine(
-          Offset(stageRect.left, y), Offset(stageRect.right, y), grid);
+        Offset(stageRect.left, y),
+        Offset(stageRect.right, y),
+        grid,
+      );
     }
 
     // 方位角参考环。
@@ -218,7 +230,12 @@ class _StagePainter extends CustomPainter {
     // 被摄体。
     canvas.drawCircle(center, 10, Paint()..color = inkColor);
     _label(
-        canvas, '被摄体（面向↑）', center + const Offset(-34, 16), 10.5, mutedColor);
+      canvas,
+      '被摄体（面向↑）',
+      center + const Offset(-34, 16),
+      10.5,
+      mutedColor,
+    );
 
     // V6/D105：相机机位 + 视野扇形（随焦段变化）。
     {
@@ -227,22 +244,30 @@ class _StagePainter extends CustomPainter {
           center + Offset(cam.x * pixelsPerMeter, cam.y * pixelsPerMeter);
       // 水平视场角（全画幅 36mm 宽）。
       final double hfov = 2 * math.atan(18 / math.max(8, cam.focal.toDouble()));
-      final double base =
-          math.atan2(center.dy - camPos.dy, center.dx - camPos.dx);
+      final double base = math.atan2(
+        center.dy - camPos.dy,
+        center.dx - camPos.dx,
+      );
       final double dir = base + cam.yaw * math.pi / 180;
       final double len = 3.2 * pixelsPerMeter;
       final Path wedge = Path()
         ..moveTo(camPos.dx, camPos.dy)
-        ..lineTo(camPos.dx + math.cos(dir - hfov / 2) * len,
-            camPos.dy + math.sin(dir - hfov / 2) * len)
-        ..lineTo(camPos.dx + math.cos(dir + hfov / 2) * len,
-            camPos.dy + math.sin(dir + hfov / 2) * len)
+        ..lineTo(
+          camPos.dx + math.cos(dir - hfov / 2) * len,
+          camPos.dy + math.sin(dir - hfov / 2) * len,
+        )
+        ..lineTo(
+          camPos.dx + math.cos(dir + hfov / 2) * len,
+          camPos.dy + math.sin(dir + hfov / 2) * len,
+        )
         ..close();
       canvas.drawPath(
-          wedge,
-          Paint()
-            ..color = (cameraSelected ? inkColor : accent)
-                .withValues(alpha: cameraSelected ? 0.16 : 0.09));
+        wedge,
+        Paint()
+          ..color = (cameraSelected ? inkColor : accent).withValues(
+            alpha: cameraSelected ? 0.16 : 0.09,
+          ),
+      );
       canvas.drawLine(
         camPos,
         center,
@@ -254,12 +279,16 @@ class _StagePainter extends CustomPainter {
       final camColor = cameraSelected ? inkColor : const Color(0xFF5B6B8C);
       canvas.drawRRect(
         RRect.fromRectAndRadius(
-            Rect.fromCenter(center: camPos, width: 16, height: 12),
-            const Radius.circular(2.5)),
+          Rect.fromCenter(center: camPos, width: 16, height: 12),
+          const Radius.circular(2.5),
+        ),
         Paint()..color = camColor,
       );
       canvas.drawCircle(
-          camPos, 3.2, Paint()..color = Colors.white.withValues(alpha: 0.9));
+        camPos,
+        3.2,
+        Paint()..color = Colors.white.withValues(alpha: 0.9),
+      );
       if (cameraSelected) {
         canvas.drawCircle(
           camPos,
@@ -270,8 +299,13 @@ class _StagePainter extends CustomPainter {
             ..strokeWidth = 1.6,
         );
       }
-      _label(canvas, '机位 ${cam.focal}mm', camPos + const Offset(12, -6), 10,
-          mutedColor);
+      _label(
+        canvas,
+        '机位 ${cam.focal}mm',
+        camPos + const Offset(12, -6),
+        10,
+        mutedColor,
+      );
     }
 
     // 设备。
@@ -310,7 +344,10 @@ class _StagePainter extends CustomPainter {
       } else {
         // 道具图标：方块。
         final rect = Rect.fromCenter(
-            center: pos, width: selected ? 20 : 16, height: selected ? 20 : 16);
+          center: pos,
+          width: selected ? 20 : 16,
+          height: selected ? 20 : 16,
+        );
         canvas.drawRRect(
           RRect.fromRectAndRadius(rect, const Radius.circular(4)),
           Paint()..color = color.withValues(alpha: 0.85),

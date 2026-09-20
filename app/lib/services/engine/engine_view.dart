@@ -224,30 +224,49 @@ class _EngineViewState extends State<EngineView> {
             );
             widget.onBridgeReady?.call(_bridge);
           },
-          onReceivedError: (InAppWebViewController controller,
-              WebResourceRequest request, WebResourceError error) {
-            if (request.isForMainFrame ?? false) {
-              AppLogger.I.error('主框架加载失败：${error.description}', tag: 'engine');
-              setState(() => _failed = true);
-            }
-          },
-          onConsoleMessage: (InAppWebViewController controller,
-              ConsoleMessage consoleMessage) {
-            // V6/R43：WebView 控制台全量落盘（供诊断包定位）。
-            final String level =
-                '${consoleMessage.messageLevel}'.split('.').last.toLowerCase();
-            if (level.contains('error')) {
-              AppLogger.I.error(consoleMessage.message, tag: 'engine-console');
-            } else {
-              AppLogger.I.info(consoleMessage.message, tag: 'engine-console');
-            }
-          },
+          onReceivedError:
+              (
+                InAppWebViewController controller,
+                WebResourceRequest request,
+                WebResourceError error,
+              ) {
+                if (request.isForMainFrame ?? false) {
+                  AppLogger.I.error(
+                    '主框架加载失败：${error.description}',
+                    tag: 'engine',
+                  );
+                  setState(() => _failed = true);
+                }
+              },
+          onConsoleMessage:
+              (
+                InAppWebViewController controller,
+                ConsoleMessage consoleMessage,
+              ) {
+                // V6/R43：WebView 控制台全量落盘（供诊断包定位）。
+                final String level = '${consoleMessage.messageLevel}'
+                    .split('.')
+                    .last
+                    .toLowerCase();
+                if (level.contains('error')) {
+                  AppLogger.I.error(
+                    consoleMessage.message,
+                    tag: 'engine-console',
+                  );
+                } else {
+                  AppLogger.I.info(
+                    consoleMessage.message,
+                    tag: 'engine-console',
+                  );
+                }
+              },
         ),
         if (!_ready)
           Positioned.fill(
             child: ColoredBox(
-              color: theme.colorScheme.surfaceContainerHighest
-                  .withValues(alpha: 0.7),
+              color: theme.colorScheme.surfaceContainerHighest.withValues(
+                alpha: 0.7,
+              ),
               child: const Center(
                 child: SizedBox(
                   width: 22,

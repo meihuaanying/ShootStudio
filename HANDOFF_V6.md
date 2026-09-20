@@ -1,15 +1,19 @@
 # ShootStudio V6 交接文档（进行中）—— 搜索重做 + 3D 稳定/建模 + 端上识别 + 资源库图
 
 > 更新：2026-09-20 ｜ 版本基线 `1.1.0+6`（目标 `1.2.0`）｜ 约束文件：`FIX_CONTRACT_V6.0.md`（**开工前必读**）
-> 进度：**A（②引擎稳定化）✅ ｜ B（③3D 建模与布光）✅ ｜ C（①搜索重做）✅ ｜ D（④姿势/端上识别）⏳ ｜ E（⑤资源库图）⏳ ｜ F（交付 v1.2.0）⏳**
-> 本机状态：全量 **230 passed + 23 skipped**（live 默认跳过；`SS_SEARCH_LIVE=1` 时 22/22 真实网络全过）；`flutter analyze --fatal-infos` 0 问题；format 通过；引擎包 950.7KB
+> 进度：**A（②引擎稳定化）✅ ｜ B（③3D 建模与布光）✅ ｜ C（①搜索重做）✅ ｜ D（④姿势/端上识别）⏳（PoC ✅ / 精度偏差已登记） ｜ E（⑤资源库图）⏳ ｜ F（交付 v1.2.0）⏳**
+> 本机状态：全量 **231 passed + 25 skipped**（live/PoC/精度默认跳过）；`flutter analyze --fatal-infos` 0 问题；format 通过；引擎包 950.7KB
 > 仓库：`D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）
 
 ---
 
 ## 0. 30 秒速览：下一步做什么
 
-1. **D 阶段（姿势/端上识别）**：`pose_detection: ^3.7.0` PoC（Windows+Android 构建）→ 全链路识别 → 120 张亚洲图重跑管线 → 精度报告。
+1. **D 阶段（姿势/端上识别）剩余**：
+   - 精度改进（可选）：复刻 MediaPipe **BlazePose 检测器 + 旋转 ROI**（包内 `pose_landmark_full.tflite` 已证与 MediaPipe task 同字节；差距全在 ROI），再跑 `SS_POSE_ACCURACY=1` 直到均值 ≤5°/90% ≤10°；否则维持偏差登记（R54：Python 管线仍是正式参考图来源）。
+   - UI：`poses_page` 导入照片识别全流程（选图 → 多人点选 → 骨架叠加 → 12 关节 → 手动导入布光预演/存自定义；覆盖内置图可恢复；自定义库随工作区导出）。
+   - 120 张亚洲图替换：`tool/gen_pose_photos_asian.py`（Pexels + 正版图库，逐图核许可）→ `extract_pose_skeletons.py` → `skeleton_to_joints.py` → `pose_qa.mjs photo` → `annotate_pose_visibility.py` → `gen_pose_qa3_report.py` → 更新 `attribution.json`。
+   - 测试：`q6_pose_test`（mapper/接地/自定义库往返/覆盖恢复/导入状态机）。
 2. **E 阶段（资源库图）**：`tool/gear_photos_v3/` + 增量同步 + 补图 UI；覆盖率报告。
 3. **F 阶段**：全量门禁 → 双端构建 → v1.2.0（版本/公告/dist/合同日志/CI 绿）。
 
@@ -72,14 +76,23 @@
 
 ---
 
-## 3. 待做：D / E（按合同 §3 执行）
+## 3. 待做：D（剩余）/ E（按合同 §3 执行）
 
-### D（④姿势/端上识别）—— 关键点
-- **先 PoC**：`pose_detection: ^3.7.0`（BlazePose 33 点，Windows+Android）；Windows 构建需 CMake 拉 opencv_dart 预编译库；**若失败** → 回退 `flutter_litert` 自研管线（合同 D123）。
-- 服务：`lib/services/pose/`（detector/joint_mapper 复用 `pose_landmark_math.dart`/grounding）。
-- UI：导入照片 → 多人点选 → 骨架叠加 → 12 关节 → **手动**再导入；覆盖内置参考图（可恢复）+ 新建自定义；工作区存储。
-- 120 张亚洲图：`tool/gen_pose_photos_asian.py`（Pexels + 正版图库混合）→ 重跑骨架/接地/对比管线 → 精度报告（均值 ≤5°、90% ≤10°）。
-- 门禁：`q6_pose_test`。
+### D（④姿势/端上识别）—— 已完成与剩余
+
+**已完成（2026-09-20）**
+- 依赖：`pose_detection: ^3.7.0`（含 `flutter_litert 3.8` + `opencv_dart 2.2`，均为 Native Assets）；`pubspec` SDK 约束升至 `>=3.10.0`（触发 Dart 3.10 tall-style 全仓 format，属预期）。
+- PoC：`test/features/q6_pose_poc_test.dart`（`SS_POSE_POC=1` 实跑）：Windows 上 `flutter test` 即可跑通，YOLOv8n 检测 + BlazePose lite 33 点（`POCOK poses=1 landmarks=33`）。模型在 pub 包内（`packages/pose_detection/assets/models/*.tflite`），随包离线（R53）。
+- 服务：`lib/services/pose/pose_detector_service.dart`（检测/2D/多尺度 ROI 集成 world 推理/关节置信度）、`pose_joint_mapper.dart`（33→12 关节，复用 `pose_landmark_math`）、`pose_grounding.dart`（脚部可见性接地校准）。
+- 关键实测：包内 `pose_landmark_full.tflite` 与 MediaPipe `pose_landmarker_full.task` 内 `pose_landmarks_detector.tflite` **SHA1 完全一致**；Python `world3d → Dart deriveJoints` 复现 `poses3.json` 误差 **0.000°**（`q6_pose_consistency_test`）。误差全部来自 world 估计。
+- 精度：`test/features/q6_pose_accuracy_test.dart`（`SS_POSE_ACCURACY=1`，120 张）：均值 14.48°、≤10° 67.0%、P50 4.00°、13 张未检测 → `docs/qa/pose-accuracy-2026-09-20T17-38-03.md`。**未达 D128（≤5°/90%≤10°）**，偏差已登记（R54：不替换正式参考图管线）。
+- 诊断工具：`tool/pose_diag_compare.py`（同一裁剪图上 MediaPipe vs Dart world 对比）。
+
+**剩余**
+1. 精度改进（可选）：复刻 BlazePose 检测器（`pose_detector.tflite` 在 task 内，2.96MB）+ MediaPipe 旋转 ROI；或继续调 ROI 策略。门禁通过前不得用端上结果替换内置参考数据。
+2. UI：`poses_page` 导入照片识别全流程（选图 → 多人点选 → 骨架叠加 → 12 关节 → 「导入布光预演/保存为自定义姿势」）；「替换参考图」覆盖内置（可恢复）+ 新建自定义；自定义库随工作区导出（D124–D127）。
+3. 120 张亚洲图替换（D122）：`tool/gen_pose_photos_asian.py` → 重跑 Python 管线 → 精度报告/attribution。
+4. `q6_pose_test`（mapper 数学/接地/自定义库往返/覆盖恢复/导入状态机）。
 
 ### E（⑤资源库图）—— 关键点
 - 覆盖率：相机/镜头 ≥95%，灯具/附件/服装/道具 ≥90%。
@@ -105,6 +118,14 @@
 9. **`docs/screenshots/lighting-v6/` 是 B 阶段正式证据**，勿清；清理只删临时图。
 10. **搜索 live 证据**：`SS_SEARCH_LIVE=1 flutter test test/features/q6_search_live_test.dart`（默认 skip，CI 不跑）；TMDB 走 DoH 隧道偶发 TLS 握手失败，用例内置 3 次重试；`docs/qa/search-live-*.txt` 只留成功那一份。
 11. **拼音词表生成**：`python tool/gen_pinyin_dict.py`（需 `pip install pypinyin`；语料 = 词表/搜索服务/内容资产 + 高频字），改人名表或主题包后可重跑。
+12. **pose_detection / Native Assets（D 阶段新增）**：
+    - `pubspec` SDK 已升 `>=3.10.0`，全仓按 Dart 3.10 tall-style 格式化（`dart format lib test` 必须跑，否则 CI 红）。
+    - 无 Developer Mode 时 `flutter pub get` 会因插件 symlink 报错：先跑 `powershell -File tool/setup_symlinks.ps1` 建 junction，再 `flutter pub get`。
+    - 模型字节在 pub 缓存 `pose_detection-3.7.0/assets/models/`；测试环境 rootBundle 读不到依赖包 asset，用 `PoseDetectorService.debugModelsFromPubCache()`（正式 App 走 rootBundle 的 `packages/pose_detection/...`）。
+    - `flutter test` 在本机可直接跑端上推理（ffi + XNNPACK），无需起 Windows App；首次运行较慢。
+    - 精度：`SS_POSE_ACCURACY=1 flutter test test/features/q6_pose_accuracy_test.dart`（可加 `SS_POSE_N=30` 快跑）；PoC：`SS_POSE_POC=1`。
+    - Android CI 构建体积会因 opencv/litert 明显增大（D95：不限包体）；若 CI 构建失败，按 D123 评估回退。
+13. **临时诊断文件已清理**（`q6_pose_exp/roi/diag`）；`tool/pose_diag_compare.py` 保留备用（对比同一裁剪图上的 MediaPipe vs Dart world）。
 
 ---
 
@@ -120,6 +141,8 @@ cd app && <dart.cmd> format lib test
 cd app && <flutter.cmd> analyze --fatal-infos
 cd app && <flutter.cmd> test
 cd app && $env:SS_SEARCH_LIVE='1'; <flutter.cmd> test test/features/q6_search_live_test.dart
+cd app && $env:SS_POSE_POC='1'; <flutter.cmd> test test/features/q6_pose_poc_test.dart
+cd app && $env:SS_POSE_ACCURACY='1'; <flutter.cmd> test test/features/q6_pose_accuracy_test.dart
 ```
 
 ---
@@ -127,6 +150,6 @@ cd app && $env:SS_SEARCH_LIVE='1'; <flutter.cmd> test test/features/q6_search_li
 ## 6. 新对话开场建议
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 **V6 收尾**：先读 `FIX_CONTRACT_V6.0.md`（D94–D131 + R41–R60）与本文件。
-> A/B/C 已完成并推送（CI 绿）；从 **D 阶段（姿势与端上识别）** 开始：先做 `pose_detection` PoC（Windows+Android 构建），失败即按 D123 回退自研管线并登记偏差。
-> 基线：全量 **230 passed + 23 skipped**；引擎包 950.7KB；live 搜索 22/22。
+> A/B/C 已完成并推送（CI 绿）；D 阶段 PoC 已通过、精度偏差已登记（见 §3.D）：优先补 **导入识别 UI + q6_pose_test + 120 张亚洲图替换**；若要把 D128 精度打到达标线，先实现 BlazePose 检测器 + 旋转 ROI。
+> 基线：全量 **231 passed + 25 skipped**；引擎包 950.7KB；live 搜索 22/22。
 

@@ -14,13 +14,15 @@ class PlanReadView extends StatelessWidget {
   final AiDraftResult draft;
   final String idea;
 
-  static Future<String?> show(BuildContext context, AiDraftResult draft,
-          {required String idea}) =>
-      showDialog<String>(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => PlanReadView(draft: draft, idea: idea),
-      );
+  static Future<String?> show(
+    BuildContext context,
+    AiDraftResult draft, {
+    required String idea,
+  }) => showDialog<String>(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => PlanReadView(draft: draft, idea: idea),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -58,33 +60,45 @@ class PlanReadView extends StatelessWidget {
             children: <Widget>[
               const Icon(Icons.menu_book_rounded, color: AppTokens.accent),
               const SizedBox(width: 8),
-              const Text('全案阅读',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+              const Text(
+                '全案阅读',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+              ),
               const SizedBox(width: 10),
               if (local)
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTokens.warning.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Text('本地引擎兜底',
-                      style: TextStyle(fontSize: 11, color: AppTokens.warning)),
+                  child: const Text(
+                    '本地引擎兜底',
+                    style: TextStyle(fontSize: 11, color: AppTokens.warning),
+                  ),
                 ),
             ],
           ),
           const SizedBox(height: 6),
-          Text('想法：$idea',
-              style: TextStyle(
-                  fontSize: 12.5, color: theme.colorScheme.onSurfaceVariant)),
+          Text(
+            '想法：$idea',
+            style: TextStyle(
+              fontSize: 12.5,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
           const SizedBox(height: 10),
           Wrap(
             spacing: 6,
             runSpacing: 6,
             children: <Widget>[
-              _chip('质量分 ${draft.totalScore.toStringAsFixed(0)}',
-                  good: draft.totalScore >= 90),
+              _chip(
+                '质量分 ${draft.totalScore.toStringAsFixed(0)}',
+                good: draft.totalScore >= 90,
+              ),
               _chip('细节 ${draft.detailScore.toStringAsFixed(0)}'),
               _chip('一致性 ${draft.consistencyScore.toStringAsFixed(0)}'),
               _chip(draft.providerName),
@@ -100,16 +114,20 @@ class PlanReadView extends StatelessWidget {
               child: ExpansionTile(
                 tilePadding: EdgeInsets.zero,
                 dense: true,
-                title: Text('生成尝试链（${draft.attempts.length}）',
-                    style: const TextStyle(fontSize: 12)),
+                title: Text(
+                  '生成尝试链（${draft.attempts.length}）',
+                  style: const TextStyle(fontSize: 12),
+                ),
                 children: <Widget>[
                   for (final String attempt in draft.attempts)
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 2),
-                        child: Text('· $attempt',
-                            style: const TextStyle(fontSize: 11.5)),
+                        child: Text(
+                          '· $attempt',
+                          style: const TextStyle(fontSize: 11.5),
+                        ),
                       ),
                     ),
                 ],
@@ -122,19 +140,22 @@ class PlanReadView extends StatelessWidget {
   }
 
   Widget _chip(String label, {bool good = false}) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-        decoration: BoxDecoration(
-          color: good
-              ? AppTokens.success.withValues(alpha: 0.12)
-              : AppTokens.accentSoft,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(label,
-            style: TextStyle(
-                fontSize: 11.5,
-                color: good ? AppTokens.success : AppTokens.accent,
-                fontWeight: FontWeight.w600)),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+    decoration: BoxDecoration(
+      color: good
+          ? AppTokens.success.withValues(alpha: 0.12)
+          : AppTokens.accentSoft,
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Text(
+      label,
+      style: TextStyle(
+        fontSize: 11.5,
+        color: good ? AppTokens.success : AppTokens.accent,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+  );
 
   Widget _shortcomings(BuildContext context) {
     return SsCard(
@@ -143,8 +164,10 @@ class PlanReadView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text('待改进（可一键让 AI 重试修正）',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+          const Text(
+            '待改进（可一键让 AI 重试修正）',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+          ),
           const SizedBox(height: 4),
           for (final String item in draft.shortcomings)
             Text('· $item', style: const TextStyle(fontSize: 12)),
@@ -161,12 +184,16 @@ class PlanReadView extends StatelessWidget {
         type: MaterialType.transparency,
         child: ExpansionTile(
           initiallyExpanded: true,
-          title: const Text('AI 策划思路（推理原文）',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+          title: const Text(
+            'AI 策划思路（推理原文）',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+          ),
           childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
           children: <Widget>[
-            SelectableText(draft.reasoning,
-                style: const TextStyle(fontSize: 12.5, height: 1.6)),
+            SelectableText(
+              draft.reasoning,
+              style: const TextStyle(fontSize: 12.5, height: 1.6),
+            ),
           ],
         ),
       ),
@@ -182,11 +209,13 @@ class PlanReadView extends StatelessWidget {
         child: ExpansionTile(
           initiallyExpanded: index <= 2,
           title: Text(
-              '$index. ${module.title.isEmpty ? module.type.label : module.title}',
-              style:
-                  const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700)),
-          subtitle:
-              Text(module.type.label, style: const TextStyle(fontSize: 11)),
+            '$index. ${module.title.isEmpty ? module.type.label : module.title}',
+            style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700),
+          ),
+          subtitle: Text(
+            module.type.label,
+            style: const TextStyle(fontSize: 11),
+          ),
           childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
           children: <Widget>[
             Align(

@@ -72,8 +72,12 @@ class GearPhotoSync {
   /// 已缓存的本地文件路径（未同步/工作区未就绪时返回 null）。
   static String? localPathFor(String gearId) {
     try {
-      final String path =
-          p.join(Workspace.I.root.path, 'images', 'gear', '$gearId.jpg');
+      final String path = p.join(
+        Workspace.I.root.path,
+        'images',
+        'gear',
+        '$gearId.jpg',
+      );
       return File(path).existsSync() ? path : null;
     } catch (_) {
       return null;
@@ -137,8 +141,9 @@ class GearPhotoSync {
           );
           final List<int>? bytes = res.data;
           if (bytes == null || bytes.length < 2048) break;
-          await File(p.join(dir.path, '$id.jpg'))
-              .writeAsBytes(bytes, flush: true);
+          await File(
+            p.join(dir.path, '$id.jpg'),
+          ).writeAsBytes(bytes, flush: true);
           ok++;
           break;
         } on DioException catch (_) {
@@ -178,8 +183,9 @@ class GearPhotoSync {
 
   static Directory? _cacheDir() {
     try {
-      final Directory dir =
-          Directory(p.join(Workspace.I.root.path, 'images', 'gear'));
+      final Directory dir = Directory(
+        p.join(Workspace.I.root.path, 'images', 'gear'),
+      );
       if (!dir.existsSync()) dir.createSync(recursive: true);
       return dir;
     } catch (_) {

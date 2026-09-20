@@ -32,19 +32,22 @@ class ResultRanker {
     required SearchQuery query,
     bool commercialOnly = false,
   }) {
-    final List<String> tokens = _tokens(<String>[
-      query.text,
-      query.title,
-      query.person,
-      query.raw,
-    ].where((String s) => s.trim().isNotEmpty).join(' '));
+    final List<String> tokens = _tokens(
+      <String>[
+        query.text,
+        query.title,
+        query.person,
+        query.raw,
+      ].where((String s) => s.trim().isNotEmpty).join(' '),
+    );
     final List<SearchHit> filtered = commercialOnly
         ? hits.where((SearchHit h) => h.commercialOk).toList()
         : List<SearchHit>.of(hits);
     final List<SearchHit> deduped = dedupe(filtered);
     final List<SearchHit> scored = deduped
-        .map((SearchHit h) =>
-            h.copyWith(score: scoreOf(h, tokens, query: query)))
+        .map(
+          (SearchHit h) => h.copyWith(score: scoreOf(h, tokens, query: query)),
+        )
         .toList();
     scored.sort((SearchHit a, SearchHit b) {
       final int byScore = b.score.compareTo(a.score);
@@ -155,8 +158,12 @@ class ResultRanker {
   }
 
   /// RGB 转灰度（感知权重）。
-  static Uint8List toGrayscale(Uint8List rgb, int width, int height,
-      {int channels = 3}) {
+  static Uint8List toGrayscale(
+    Uint8List rgb,
+    int width,
+    int height, {
+    int channels = 3,
+  }) {
     final int pixels = width * height;
     final Uint8List gray = Uint8List(pixels);
     for (var i = 0; i < pixels; i++) {

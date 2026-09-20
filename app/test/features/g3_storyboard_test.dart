@@ -48,14 +48,18 @@ void main() {
       overrides: <Override>[databaseProvider.overrideWithValue(db)],
     );
     addTearDown(container.dispose);
-    final AiController controller =
-        container.read(aiControllerProvider.notifier);
+    final AiController controller = container.read(
+      aiControllerProvider.notifier,
+    );
     await controller.init();
 
-    final AiDraftResult draft =
-        await controller.generatePlan('汉服园林晨雾', forceLocal: true);
-    final PlanModuleData sb = draft.modules
-        .firstWhere((PlanModuleData m) => m.type == PlanModuleType.storyboard);
+    final AiDraftResult draft = await controller.generatePlan(
+      '汉服园林晨雾',
+      forceLocal: true,
+    );
+    final PlanModuleData sb = draft.modules.firstWhere(
+      (PlanModuleData m) => m.type == PlanModuleType.storyboard,
+    );
     final List<Object?> shots = sb.data['shots'] as List<Object?>;
     expect(shots.length, inInclusiveRange(8, 12));
     for (final Object? shot in shots) {
@@ -67,11 +71,15 @@ void main() {
     }
     expect((shots.first as Map)['key'], isTrue);
     expect((shots.last as Map)['key'], isTrue);
-    expect(draft.totalScore, greaterThanOrEqualTo(90),
-        reason: '${draft.shortcomings}');
+    expect(
+      draft.totalScore,
+      greaterThanOrEqualTo(90),
+      reason: '${draft.shortcomings}',
+    );
     // 布光也已物化为可打开场景。
-    final PlanModuleData lighting = draft.modules
-        .firstWhere((PlanModuleData m) => m.type == PlanModuleType.lighting);
+    final PlanModuleData lighting = draft.modules.firstWhere(
+      (PlanModuleData m) => m.type == PlanModuleType.lighting,
+    );
     expect((lighting.data['sceneId'] as String? ?? ''), isNotEmpty);
   });
 
@@ -137,31 +145,35 @@ void main() {
       workspace = await Workspace.initAt(p.join(TestEnv.root.path, 'ws'));
       db = AppDatabase.forTesting(NativeDatabase.memory());
       final int now = DateTime.now().millisecondsSinceEpoch;
-      await db.into(db.plans).insert(
+      await db
+          .into(db.plans)
+          .insert(
             PlansCompanion.insert(
               id: 'p-g3',
               title: '分镜测试',
-              modulesJson: Value(jsonEncode(<Map<String, Object?>>[
-                PlanModuleData(
-                  id: 'm-sb',
-                  type: PlanModuleType.storyboard,
-                  title: '分镜表',
-                  data: <String, Object?>{
-                    'shots': <Object?>[
-                      <String, Object?>{
-                        'no': 1,
-                        'shotSize': '全身',
-                        'camera': '腰位',
-                        'lens': '35mm',
-                        'pose': '自然站姿',
-                        'lighting': '',
-                        'key': true,
-                        'note': '',
-                      },
-                    ],
-                  },
-                ).toJson(),
-              ])),
+              modulesJson: Value(
+                jsonEncode(<Map<String, Object?>>[
+                  PlanModuleData(
+                    id: 'm-sb',
+                    type: PlanModuleType.storyboard,
+                    title: '分镜表',
+                    data: <String, Object?>{
+                      'shots': <Object?>[
+                        <String, Object?>{
+                          'no': 1,
+                          'shotSize': '全身',
+                          'camera': '腰位',
+                          'lens': '35mm',
+                          'pose': '自然站姿',
+                          'lighting': '',
+                          'key': true,
+                          'note': '',
+                        },
+                      ],
+                    },
+                  ).toJson(),
+                ]),
+              ),
               createdAt: now,
               updatedAt: now,
             ),
@@ -187,16 +199,20 @@ void main() {
         child: const MaterialApp(home: Scaffold(body: PlannerPage())),
       ),
     );
-    await settleUntil(tester, find.byKey(const ValueKey<String>('m-sb')),
-        required: true);
+    await settleUntil(
+      tester,
+      find.byKey(const ValueKey<String>('m-sb')),
+      required: true,
+    );
     await tester.tap(find.byKey(const ValueKey<String>('m-sb')));
     await tester.pump(const Duration(milliseconds: 100));
     await settleUntil(tester, find.text('添加镜头'), required: true);
     await tester.tap(find.text('添加镜头'));
     await tester.pump(const Duration(milliseconds: 100));
     final PlannerState state = container.read(plannerControllerProvider);
-    final PlanModuleData sb =
-        state.modules.firstWhere((PlanModuleData m) => m.id == 'm-sb');
+    final PlanModuleData sb = state.modules.firstWhere(
+      (PlanModuleData m) => m.id == 'm-sb',
+    );
     expect((sb.data['shots'] as List<Object?>).length, 2);
     // 标重点按钮存在且可点（切回取消）。
     expect(find.byIcon(Icons.star_rounded), findsWidgets);

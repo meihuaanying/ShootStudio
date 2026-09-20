@@ -48,11 +48,14 @@ class RuntimeProvider {
 /// 三协议适配（OpenAI 兼容 / Anthropic Messages / Responses 经 OpenAI 兼容兜底）。
 class AiClient {
   AiClient({Dio? dio})
-      : _dio = dio ??
-            Dio(BaseOptions(
+    : _dio =
+          dio ??
+          Dio(
+            BaseOptions(
               connectTimeout: const Duration(seconds: 20),
               receiveTimeout: const Duration(seconds: 90),
-            ));
+            ),
+          );
 
   final Dio _dio;
 
@@ -88,11 +91,15 @@ class AiClient {
     final headers = _headers(provider);
     final Response<dynamic> response;
     if (provider.protocol == 'anthropic') {
-      response = await _dio.get<dynamic>('${provider.baseUrl}/v1/models',
-          options: Options(headers: headers));
+      response = await _dio.get<dynamic>(
+        '${provider.baseUrl}/v1/models',
+        options: Options(headers: headers),
+      );
     } else {
-      response = await _dio.get<dynamic>('$base/models',
-          options: Options(headers: headers));
+      response = await _dio.get<dynamic>(
+        '$base/models',
+        options: Options(headers: headers),
+      );
     }
     final data = response.data;
     final list = data is Map ? (data['data'] ?? data['models']) : null;
@@ -644,10 +651,7 @@ List<Map<String, Object?>> normalizeModules(List<Object?> raw) {
       }
     }
     if (data is! Map) data = <String, Object?>{};
-    out.add(<String, Object?>{
-      ...map,
-      'data': (data).cast<String, Object?>(),
-    });
+    out.add(<String, Object?>{...map, 'data': (data).cast<String, Object?>()});
   }
   return out;
 }

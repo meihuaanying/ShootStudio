@@ -12,7 +12,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 /// 任何情况下不写入日志、不进入导出文件。
 class KeyVault {
   KeyVault({FlutterSecureStorage? storage})
-      : _storage = storage ?? const FlutterSecureStorage();
+    : _storage = storage ?? const FlutterSecureStorage();
 
   static const String _masterKeyEntry = 'shootstudio.master_key.v1';
   static const String _prefix = 'v1';
@@ -38,7 +38,9 @@ class KeyVault {
       }
       final generated = _randomBytes(32);
       await _storage.write(
-          key: _masterKeyEntry, value: base64Encode(generated));
+        key: _masterKeyEntry,
+        value: base64Encode(generated),
+      );
       _cachedMaster = generated;
       return generated;
     } catch (_) {
@@ -54,7 +56,8 @@ class KeyVault {
   static Uint8List _randomBytes(int length) {
     final rnd = Random.secure();
     return Uint8List.fromList(
-        List<int>.generate(length, (_) => rnd.nextInt(256)));
+      List<int>.generate(length, (_) => rnd.nextInt(256)),
+    );
   }
 
   /// 加密 API Key（返回可存库的字符串）。
@@ -84,8 +87,10 @@ class KeyVault {
         nonce: base64Decode(parts[1]),
         mac: Mac(base64Decode(parts[3])),
       );
-      final clear =
-          await _algorithm.decrypt(secretBox, secretKey: SecretKey(key));
+      final clear = await _algorithm.decrypt(
+        secretBox,
+        secretKey: SecretKey(key),
+      );
       return utf8.decode(clear);
     } catch (_) {
       return '';

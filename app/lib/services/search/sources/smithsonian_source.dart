@@ -6,7 +6,7 @@ import 'source_utils.dart';
 /// 史密森尼源（D98 Key 预留）：api.si.edu 开放访问 API。
 class SmithsonianSource implements SearchSource {
   SmithsonianSource(this.apiKey, {Dio? dio})
-      : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
 
   final String apiKey;
   final Dio _dio;
@@ -17,14 +17,14 @@ class SmithsonianSource implements SearchSource {
   String get label => '史密森尼';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: true,
-        byKeyword: true,
-        hasLicenseFilter: true,
-        domains: <ImageDomain>{ImageDomain.art},
-        requiresKey: true,
-        keySettingId: 'search_key_smithsonian',
-      );
+    byTitle: true,
+    byPerson: true,
+    byKeyword: true,
+    hasLicenseFilter: true,
+    domains: <ImageDomain>{ImageDomain.art},
+    requiresKey: true,
+    keySettingId: 'search_key_smithsonian',
+  );
 
   @override
   bool get enabled => apiKey.trim().isNotEmpty;
@@ -66,8 +66,9 @@ class SmithsonianSource implements SearchSource {
     for (final Object? item in asListSafe(response['rows'])) {
       final Map<String, Object?> m = asMapSafe(item);
       final Map<String, Object?> content = asMapSafe(m['content']);
-      final Map<String, Object?> dnr =
-          asMapSafe(content['descriptiveNonRepeating']);
+      final Map<String, Object?> dnr = asMapSafe(
+        content['descriptiveNonRepeating'],
+      );
       final Map<String, Object?> media = asMapSafe(dnr['online_media']);
       Map<String, Object?>? picked;
       for (final Object? entry in asListSafe(media['media'])) {
@@ -82,27 +83,30 @@ class SmithsonianSource implements SearchSource {
       final String full = strSafe(picked['content']);
       final String thumb = strSafe(picked['thumbnail'], full);
       final String title = strSafe(m['title'], 'Smithsonian 藏品');
-      final String access =
-          strSafe(asMapSafe(picked['usage'])['access']).toUpperCase();
+      final String access = strSafe(
+        asMapSafe(picked['usage'])['access'],
+      ).toUpperCase();
       final bool commercial = access.contains('CC0');
       final String recordLink = strSafe(dnr['record_link']);
-      out.add(SearchHit(
-        id: hitId('smithsonian', strSafe(m['id'], full)),
-        title: title,
-        thumbUrl: thumb,
-        fullUrl: full,
-        sourceId: 'smithsonian',
-        sourceLabel: '史密森尼',
-        license: commercial
-            ? 'CC0 / Public Domain'
-            : (access.isEmpty ? 'Smithsonian（许可未知）' : access),
-        commercialOk: commercial,
-        attribution:
-            'Smithsonian${strSafe(dnr['unit_code']).isEmpty ? '' : ' · ${dnr['unit_code']}'}',
-        sourcePageUrl: recordLink,
-        domain: ImageDomain.art,
-        imageType: 'artwork',
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('smithsonian', strSafe(m['id'], full)),
+          title: title,
+          thumbUrl: thumb,
+          fullUrl: full,
+          sourceId: 'smithsonian',
+          sourceLabel: '史密森尼',
+          license: commercial
+              ? 'CC0 / Public Domain'
+              : (access.isEmpty ? 'Smithsonian（许可未知）' : access),
+          commercialOk: commercial,
+          attribution:
+              'Smithsonian${strSafe(dnr['unit_code']).isEmpty ? '' : ' · ${dnr['unit_code']}'}',
+          sourcePageUrl: recordLink,
+          domain: ImageDomain.art,
+          imageType: 'artwork',
+        ),
+      );
     }
     return out;
   }

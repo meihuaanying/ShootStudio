@@ -27,34 +27,40 @@ void main() {
 
     // 策划案。
     final plans = await db.select(db.plans).get();
-    final demoPlan =
-        plans.where((Plan p) => p.id == DemoContentService.planId).toList();
+    final demoPlan = plans
+        .where((Plan p) => p.id == DemoContentService.planId)
+        .toList();
     expect(demoPlan, hasLength(1));
     expect(demoPlan.first.title, contains('示例'));
     expect(demoPlan.first.modulesJson.length, greaterThan(200));
 
     // 布光方案。
     final scenes = await db.select(db.lightingScenes).get();
-    expect(scenes.any((LightingScene s) => s.id == DemoContentService.sceneId),
-        isTrue);
+    expect(
+      scenes.any((LightingScene s) => s.id == DemoContentService.sceneId),
+      isTrue,
+    );
 
     // 资源。
     final resources = await db.select(db.resources).get();
     for (final String id in DemoContentService.resourceIds) {
-      expect(resources.any((Resource r) => r.id == id), isTrue,
-          reason: '缺少 $id');
+      expect(
+        resources.any((Resource r) => r.id == id),
+        isTrue,
+        reason: '缺少 $id',
+      );
     }
 
     // 画板帧（6 帧入板）。
-    final frames = await (db.select(db.filmFrames)
-          ..where((t) => t.inBoard.equals(true)))
-        .get();
+    final frames = await (db.select(
+      db.filmFrames,
+    )..where((t) => t.inBoard.equals(true))).get();
     expect(frames.length, greaterThanOrEqualTo(6));
 
     // 姿势收藏（≥3）。
-    final favorites = await (db.select(db.poses)
-          ..where((t) => t.favorite.equals(true)))
-        .get();
+    final favorites = await (db.select(
+      db.poses,
+    )..where((t) => t.favorite.equals(true))).get();
     expect(favorites.length, greaterThanOrEqualTo(3));
 
     // 重复载入幂等。
@@ -64,7 +70,9 @@ void main() {
   test('移除示例内容：新建行删除、既有行还原、用户数据保留', () async {
     // 用户自建数据（应不受影响）。
     final now = DateTime.now().millisecondsSinceEpoch;
-    await db.into(db.resources).insert(
+    await db
+        .into(db.resources)
+        .insert(
           ResourcesCompanion.insert(
             id: 'user-res-1',
             type: 'models',
@@ -81,21 +89,23 @@ void main() {
     final plans = await db.select(db.plans).get();
     expect(plans.any((Plan p) => p.id == DemoContentService.planId), isFalse);
     final scenes = await db.select(db.lightingScenes).get();
-    expect(scenes.any((LightingScene s) => s.id == DemoContentService.sceneId),
-        isFalse);
+    expect(
+      scenes.any((LightingScene s) => s.id == DemoContentService.sceneId),
+      isFalse,
+    );
     final resources = await db.select(db.resources).get();
     for (final String id in DemoContentService.resourceIds) {
       expect(resources.any((Resource r) => r.id == id), isFalse);
     }
     expect(resources.any((Resource r) => r.id == 'user-res-1'), isTrue);
 
-    final frames = await (db.select(db.filmFrames)
-          ..where((t) => t.inBoard.equals(true)))
-        .get();
+    final frames = await (db.select(
+      db.filmFrames,
+    )..where((t) => t.inBoard.equals(true))).get();
     expect(frames, isEmpty);
-    final favorites = await (db.select(db.poses)
-          ..where((t) => t.favorite.equals(true)))
-        .get();
+    final favorites = await (db.select(
+      db.poses,
+    )..where((t) => t.favorite.equals(true))).get();
     expect(favorites, isEmpty);
   });
 }

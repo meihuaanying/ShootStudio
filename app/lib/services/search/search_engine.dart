@@ -7,7 +7,7 @@ import 'search_models.dart';
 /// V6 聚合搜索（合同 §3.C）：多源并发、逐源状态、统一排序去重。
 class SearchEngine {
   SearchEngine({required List<SearchSource> sources})
-      : _sources = List<SearchSource>.of(sources);
+    : _sources = List<SearchSource>.of(sources);
 
   final List<SearchSource> _sources;
 
@@ -29,51 +29,59 @@ class SearchEngine {
     final List<SourceStatus> statuses = <SourceStatus>[];
     final List<bool> more = <bool>[];
 
-    await Future.wait(active.map((SearchSource source) async {
-      if (!source.enabled) {
-        statuses.add(SourceStatus(
-          id: source.id,
-          label: source.label,
-          ok: false,
-          count: 0,
-          elapsedMs: 0,
-          enabled: false,
-          hint: source.disabledHint,
-          domain: query.domain,
-        ));
-        return;
-      }
-      final Stopwatch sw = Stopwatch()..start();
-      try {
-        final SourceSearchPage result = await source.search(
-          query,
-          page: page,
-          perPage: perPage,
-        );
-        sw.stop();
-        hits.addAll(result.hits);
-        more.add(result.hasMore);
-        statuses.add(SourceStatus(
-          id: source.id,
-          label: source.label,
-          ok: true,
-          count: result.hits.length,
-          elapsedMs: sw.elapsedMilliseconds,
-          domain: query.domain,
-        ));
-      } catch (e) {
-        sw.stop();
-        statuses.add(SourceStatus(
-          id: source.id,
-          label: source.label,
-          ok: false,
-          count: 0,
-          elapsedMs: sw.elapsedMilliseconds,
-          error: describeNetworkError(e),
-          domain: query.domain,
-        ));
-      }
-    }));
+    await Future.wait(
+      active.map((SearchSource source) async {
+        if (!source.enabled) {
+          statuses.add(
+            SourceStatus(
+              id: source.id,
+              label: source.label,
+              ok: false,
+              count: 0,
+              elapsedMs: 0,
+              enabled: false,
+              hint: source.disabledHint,
+              domain: query.domain,
+            ),
+          );
+          return;
+        }
+        final Stopwatch sw = Stopwatch()..start();
+        try {
+          final SourceSearchPage result = await source.search(
+            query,
+            page: page,
+            perPage: perPage,
+          );
+          sw.stop();
+          hits.addAll(result.hits);
+          more.add(result.hasMore);
+          statuses.add(
+            SourceStatus(
+              id: source.id,
+              label: source.label,
+              ok: true,
+              count: result.hits.length,
+              elapsedMs: sw.elapsedMilliseconds,
+              domain: query.domain,
+            ),
+          );
+        } catch (e) {
+          sw.stop();
+          statuses.add(
+            SourceStatus(
+              id: source.id,
+              label: source.label,
+              ok: false,
+              count: 0,
+              elapsedMs: sw.elapsedMilliseconds,
+              error: describeNetworkError(e),
+              domain: query.domain,
+            ),
+          );
+        }
+      }),
+    );
 
     statuses.sort((SourceStatus a, SourceStatus b) {
       if (a.enabled != b.enabled) return a.enabled ? -1 : 1;

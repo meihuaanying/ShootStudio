@@ -34,10 +34,8 @@ class LocalPlanEngine {
   Future<List<PlanModuleData>> generate({
     required String theme,
     required String Function() nextId,
-    List<({String id, String name})> resourcesOfType = const <({
-      String id,
-      String name
-    })>[],
+    List<({String id, String name})> resourcesOfType =
+        const <({String id, String name})>[],
     Map<String, List<String>> resourceNamesByType =
         const <String, List<String>>{},
     List<Map<String, Object?>> boardFrames = const <Map<String, Object?>>[],
@@ -60,8 +58,9 @@ class LocalPlanEngine {
     final template = templates.firstWhere(
       (TemplateEntry t) => t.category == category,
       orElse: () => templates.firstWhere(
-          (TemplateEntry t) => t.category == '写真',
-          orElse: () => templates.first),
+        (TemplateEntry t) => t.category == '写真',
+        orElse: () => templates.first,
+      ),
     );
 
     final modules = modulesFromTemplate(template, nextId);
@@ -78,7 +77,7 @@ class LocalPlanEngine {
           module.data['text'] = raw.length >= 40
               ? raw
               : '$raw。\n画面方向：以参考画板的色调与构图为基调，突出人物神态与环境氛围的呼应；'
-                  '整体低饱和中保留一处高亮色作为视觉锚点，服化道与场地质感统一。';
+                    '整体低饱和中保留一处高亮色作为视觉锚点，服化道与场地质感统一。';
         case PlanModuleType.model:
         case PlanModuleType.location:
         case PlanModuleType.clothing:
@@ -107,18 +106,20 @@ class LocalPlanEngine {
           final palette = boardFrames.isNotEmpty
               ? (boardFrames.first['palette'] as List?)?.take(5).toList()
               : null;
-          module.data['colors'] = palette ??
+          module.data['colors'] =
+              palette ??
               <String>['#2f3a4a', '#4d6bfe', '#c24e2a', '#e3dbcf', '#f6f3ee'];
         case PlanModuleType.lighting:
           module.data['sceneId'] = lightingScene?.id ?? '';
           module.data['sceneName'] = lightingScene?.name ?? '';
           module.data['note'] = lightingScene == null
               ? '三点布光起手：主光 45° 侧前 2.2m、高位，辅光对侧 2.6m 亮度 40%，'
-                  '轮廓光侧后 2.8m 勾边；按环境色微调色温（夜景 5600K+，室内 3200K）'
+                    '轮廓光侧后 2.8m 勾边；按环境色微调色温（夜景 5600K+，室内 3200K）'
               : '已绑定布光方案，导出时附带灯位图与参数清单';
           // D29：无已保存方案时给出可物化的三点灯位（生成后自动落库成可打开场景）。
           if (lightingScene == null) {
-            final bool night = theme.contains('夜') ||
+            final bool night =
+                theme.contains('夜') ||
                 theme.contains('霓虹') ||
                 theme.contains('赛博');
             final int kelvin = night ? 4300 : 5600;
@@ -163,16 +164,18 @@ class LocalPlanEngine {
             final poses = await ContentPacks.poses();
             module.data['poses'] = poses
                 .take(3)
-                .map((PoseEntry p) => <String, Object?>{
-                      'name': p.name,
-                      'joints': <String, Object?>{
-                        ...p.joints,
-                        'rootY': p.rootY,
-                        'rootPitch': p.rootPitch,
-                      },
-                      'lens': p.lens,
-                      'cameraPosition': p.cameraPosition,
-                    })
+                .map(
+                  (PoseEntry p) => <String, Object?>{
+                    'name': p.name,
+                    'joints': <String, Object?>{
+                      ...p.joints,
+                      'rootY': p.rootY,
+                      'rootPitch': p.rootPitch,
+                    },
+                    'lens': p.lens,
+                    'cameraPosition': p.cameraPosition,
+                  },
+                )
                 .toList();
           }
         case PlanModuleType.sun:
@@ -255,8 +258,9 @@ class LocalPlanEngine {
           ],
         },
       );
-      final int themeIndex = modules
-          .indexWhere((PlanModuleData m) => m.type == PlanModuleType.theme);
+      final int themeIndex = modules.indexWhere(
+        (PlanModuleData m) => m.type == PlanModuleType.theme,
+      );
       modules.insert(themeIndex >= 0 ? themeIndex + 1 : 0, lighting);
     }
 
@@ -274,10 +278,13 @@ class LocalPlanEngine {
         title: '分镜表',
         data: <String, Object?>{'shots': <Object?>[]},
       );
-      final int posesIndex = modules
-          .indexWhere((PlanModuleData m) => m.type == PlanModuleType.poses);
+      final int posesIndex = modules.indexWhere(
+        (PlanModuleData m) => m.type == PlanModuleType.poses,
+      );
       modules.insert(
-          posesIndex >= 0 ? posesIndex + 1 : modules.length, storyboardModule);
+        posesIndex >= 0 ? posesIndex + 1 : modules.length,
+        storyboardModule,
+      );
     }
     {
       final List<String> poseNames =
@@ -292,14 +299,7 @@ class LocalPlanEngine {
       final String sceneName =
           lightingModule?.data['sceneName'] as String? ?? '';
       final String lightingText = sceneName.isNotEmpty ? sceneName : '三点布光';
-      const List<String> sizes = <String>[
-        '远景',
-        '全身',
-        '中景',
-        '近景',
-        '特写',
-        '空镜',
-      ];
+      const List<String> sizes = <String>['远景', '全身', '中景', '近景', '特写', '空镜'];
       const Map<String, String> lensBySize = <String, String>{
         '远景': '24mm',
         '空镜': '35mm',
@@ -308,15 +308,10 @@ class LocalPlanEngine {
         '近景': '85mm',
         '特写': '135mm',
       };
-      const List<String> cameras = <String>[
-        '低机位',
-        '腰位',
-        '胸口',
-        '眼位',
-        '俯拍',
-      ];
-      final int count =
-          poseNames.isEmpty ? 8 : (poseNames.length + 3).clamp(8, 12);
+      const List<String> cameras = <String>['低机位', '腰位', '胸口', '眼位', '俯拍'];
+      final int count = poseNames.isEmpty
+          ? 8
+          : (poseNames.length + 3).clamp(8, 12);
       final List<Object?> shots = <Object?>[];
       for (var i = 0; i < count; i++) {
         final String size = sizes[i % sizes.length];
@@ -331,8 +326,8 @@ class LocalPlanEngine {
           'note': i == 0
               ? '开场建立环境与人物关系'
               : i == count - 1
-                  ? '收尾情绪落幅'
-                  : '',
+              ? '收尾情绪落幅'
+              : '',
         });
       }
       storyboardModule.data['shots'] = shots;

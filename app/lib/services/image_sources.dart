@@ -296,8 +296,9 @@ String translateSceneToKeywords(String input, {bool allowTail = true}) {
   if (allowTail) {
     final String tail = rest
         .split(RegExp(r'[\s，,。.；;、]+'))
-        .where((String s) =>
-            s.isNotEmpty && !RegExp(r'[\u4e00-\u9fff]').hasMatch(s))
+        .where(
+          (String s) => s.isNotEmpty && !RegExp(r'[\u4e00-\u9fff]').hasMatch(s),
+        )
         .join(' ');
     if (tail.isNotEmpty) parts.add(tail);
   }
@@ -350,8 +351,11 @@ class OpenverseSource implements ImageSource {
   String get disabledHint => '';
 
   @override
-  Future<SourcePage> search(String query,
-      {int page = 1, int perPage = 18}) async {
+  Future<SourcePage> search(
+    String query, {
+    int page = 1,
+    int perPage = 18,
+  }) async {
     final Response<Object?> res = await _dio.get<Object?>(
       'https://api.openverse.org/v1/images/',
       queryParameters: <String, Object?>{
@@ -364,8 +368,8 @@ class OpenverseSource implements ImageSource {
         receiveTimeout: const Duration(seconds: 10),
       ),
     );
-    final Map<String, Object?> data =
-        (res.data as Map? ?? <String, Object?>{}).cast<String, Object?>();
+    final Map<String, Object?> data = (res.data as Map? ?? <String, Object?>{})
+        .cast<String, Object?>();
     final List<Object?> results =
         data['results'] as List<Object?>? ?? <Object?>[];
     final List<ImageHit> hits = results
@@ -389,13 +393,15 @@ class OpenverseSource implements ImageSource {
         .toList();
     final int total = (data['result_count'] as num?)?.toInt() ?? hits.length;
     return SourcePage(
-        hits: hits, hasMore: hits.isNotEmpty && page * perPage < total);
+      hits: hits,
+      hasMore: hits.isNotEmpty && page * perPage < total,
+    );
   }
 }
 
 class PexelsSource implements ImageSource {
   PexelsSource(this.apiKey, {Dio? dio, this.locale = 'zh-CN'})
-      : _dio = dio ?? NetRouter.I.dio();
+    : _dio = dio ?? NetRouter.I.dio();
 
   final String apiKey;
   final Dio _dio;
@@ -413,8 +419,11 @@ class PexelsSource implements ImageSource {
   String get disabledHint => '缺 Pexels Key（设置 → 图片素材通道）';
 
   @override
-  Future<SourcePage> search(String query,
-      {int page = 1, int perPage = 18}) async {
+  Future<SourcePage> search(
+    String query, {
+    int page = 1,
+    int perPage = 18,
+  }) async {
     final Response<Object?> res = await _dio.get<Object?>(
       'https://api.pexels.com/v1/search',
       queryParameters: <String, Object?>{
@@ -428,8 +437,8 @@ class PexelsSource implements ImageSource {
         receiveTimeout: const Duration(seconds: 15),
       ),
     );
-    final Map<String, Object?> data =
-        (res.data as Map? ?? <String, Object?>{}).cast<String, Object?>();
+    final Map<String, Object?> data = (res.data as Map? ?? <String, Object?>{})
+        .cast<String, Object?>();
     final List<Object?> photos =
         data['photos'] as List<Object?>? ?? <Object?>[];
     final List<ImageHit> hits = photos
@@ -455,7 +464,9 @@ class PexelsSource implements ImageSource {
         .toList();
     final int total = (data['total_results'] as num?)?.toInt() ?? hits.length;
     return SourcePage(
-        hits: hits, hasMore: hits.isNotEmpty && page * perPage < total);
+      hits: hits,
+      hasMore: hits.isNotEmpty && page * perPage < total,
+    );
   }
 }
 
@@ -477,8 +488,11 @@ class TmdbSource implements ImageSource {
   String get disabledHint => '缺 TMDB Key（设置 → 图片素材通道）';
 
   @override
-  Future<SourcePage> search(String query,
-      {int page = 1, int perPage = 18}) async {
+  Future<SourcePage> search(
+    String query, {
+    int page = 1,
+    int perPage = 18,
+  }) async {
     final Response<Object?> res = await _dio.get<Object?>(
       'https://api.themoviedb.org/3/search/movie',
       queryParameters: <String, Object?>{
@@ -489,8 +503,8 @@ class TmdbSource implements ImageSource {
       },
       options: Options(receiveTimeout: const Duration(seconds: 15)),
     );
-    final Map<String, Object?> data =
-        (res.data as Map? ?? <String, Object?>{}).cast<String, Object?>();
+    final Map<String, Object?> data = (res.data as Map? ?? <String, Object?>{})
+        .cast<String, Object?>();
     final List<Object?> movies =
         data['results'] as List<Object?>? ?? <Object?>[];
     final int totalPages = (data['total_pages'] as num?)?.toInt() ?? 1;
@@ -500,18 +514,20 @@ class TmdbSource implements ImageSource {
       final Map<String, Object?> movie = raw.cast<String, Object?>();
       final String poster = '${movie['poster_path'] ?? ''}';
       if (poster.isEmpty) continue;
-      hits.add(ImageHit(
-        title:
-            '${movie['title'] ?? movie['original_title'] ?? 'TMDB'}（${movie['release_date'] ?? ''}）',
-        thumbUrl: 'https://image.tmdb.org/t/p/w500$poster',
-        fullUrl: 'https://image.tmdb.org/t/p/w780$poster',
-        source: 'TMDB',
-        license: 'TMDB 剧照（个人参考）',
-        attribution:
-            'TMDB · ${movie['original_title'] ?? movie['title'] ?? ''}',
-        width: 500,
-        height: 750,
-      ));
+      hits.add(
+        ImageHit(
+          title:
+              '${movie['title'] ?? movie['original_title'] ?? 'TMDB'}（${movie['release_date'] ?? ''}）',
+          thumbUrl: 'https://image.tmdb.org/t/p/w500$poster',
+          fullUrl: 'https://image.tmdb.org/t/p/w780$poster',
+          source: 'TMDB',
+          license: 'TMDB 剧照（个人参考）',
+          attribution:
+              'TMDB · ${movie['original_title'] ?? movie['title'] ?? ''}',
+          width: 500,
+          height: 750,
+        ),
+      );
     }
     return SourcePage(hits: hits, hasMore: page < totalPages);
   }
@@ -570,7 +586,7 @@ class SmartSearchResult {
 
 class SmartImageSearch {
   SmartImageSearch({List<ImageSource>? sources})
-      : _sources = sources ?? const <ImageSource>[];
+    : _sources = sources ?? const <ImageSource>[];
 
   final List<ImageSource> _sources;
 
@@ -580,12 +596,13 @@ class SmartImageSearch {
     String tmdbKey = '',
     bool includeOpenverse = true,
     Dio? dio,
-  }) =>
-      SmartImageSearch(sources: <ImageSource>[
-        if (pexelsKey.isNotEmpty) PexelsSource(pexelsKey, dio: dio),
-        if (tmdbKey.isNotEmpty) TmdbSource(tmdbKey, dio: dio),
-        if (includeOpenverse) OpenverseSource(dio: dio),
-      ]);
+  }) => SmartImageSearch(
+    sources: <ImageSource>[
+      if (pexelsKey.isNotEmpty) PexelsSource(pexelsKey, dio: dio),
+      if (tmdbKey.isNotEmpty) TmdbSource(tmdbKey, dio: dio),
+      if (includeOpenverse) OpenverseSource(dio: dio),
+    ],
+  );
 
   List<ImageSource> get sources => _sources;
 
@@ -596,54 +613,66 @@ class SmartImageSearch {
   }) async {
     final List<ImageHit> hits = <ImageHit>[];
     final List<SourceStatus> statuses = <SourceStatus>[];
-    await Future.wait(_sources.map((ImageSource source) async {
-      if (!source.enabled) {
-        statuses.add(SourceStatus(
-          id: source.id,
-          label: source.label,
-          ok: false,
-          count: 0,
-          elapsedMs: 0,
-          experimental: source.experimental,
-          enabled: false,
-          hint: source.disabledHint,
-        ));
-        return;
-      }
-      final Stopwatch sw = Stopwatch()..start();
-      try {
-        final SourcePage result =
-            await source.search(query, page: page, perPage: perPage);
-        sw.stop();
-        hits.addAll(result.hits);
-        statuses.add(SourceStatus(
-          id: source.id,
-          label: source.label,
-          ok: true,
-          count: result.hits.length,
-          elapsedMs: sw.elapsedMilliseconds,
-          experimental: source.experimental,
-        ));
-      } catch (e) {
-        sw.stop();
-        statuses.add(SourceStatus(
-          id: source.id,
-          label: source.label,
-          ok: false,
-          count: 0,
-          elapsedMs: sw.elapsedMilliseconds,
-          error: describeNetworkError(e),
-          experimental: source.experimental,
-        ));
-      }
-    }));
+    await Future.wait(
+      _sources.map((ImageSource source) async {
+        if (!source.enabled) {
+          statuses.add(
+            SourceStatus(
+              id: source.id,
+              label: source.label,
+              ok: false,
+              count: 0,
+              elapsedMs: 0,
+              experimental: source.experimental,
+              enabled: false,
+              hint: source.disabledHint,
+            ),
+          );
+          return;
+        }
+        final Stopwatch sw = Stopwatch()..start();
+        try {
+          final SourcePage result = await source.search(
+            query,
+            page: page,
+            perPage: perPage,
+          );
+          sw.stop();
+          hits.addAll(result.hits);
+          statuses.add(
+            SourceStatus(
+              id: source.id,
+              label: source.label,
+              ok: true,
+              count: result.hits.length,
+              elapsedMs: sw.elapsedMilliseconds,
+              experimental: source.experimental,
+            ),
+          );
+        } catch (e) {
+          sw.stop();
+          statuses.add(
+            SourceStatus(
+              id: source.id,
+              label: source.label,
+              ok: false,
+              count: 0,
+              elapsedMs: sw.elapsedMilliseconds,
+              error: describeNetworkError(e),
+              experimental: source.experimental,
+            ),
+          );
+        }
+      }),
+    );
     statuses.sort((SourceStatus a, SourceStatus b) {
       if (a.experimental != b.experimental) return a.experimental ? 1 : -1;
       return a.id.compareTo(b.id);
     });
     final List<ImageHit> deduped = dedupeHits(hits);
-    final bool hasMore =
-        statuses.any((SourceStatus s) => s.ok && s.count >= perPage);
+    final bool hasMore = statuses.any(
+      (SourceStatus s) => s.ok && s.count >= perPage,
+    );
     return SmartSearchResult(
       hits: deduped,
       statuses: statuses,

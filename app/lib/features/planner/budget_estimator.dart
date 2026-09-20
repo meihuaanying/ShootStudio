@@ -48,8 +48,11 @@ class BudgetEstimator {
   }
 
   /// 按城市名解析系数（未知城市按二线）。
-  static double multiplierFor(String city, Map<String, double> multipliers,
-      {String? tier}) {
+  static double multiplierFor(
+    String city,
+    Map<String, double> multipliers, {
+    String? tier,
+  }) {
     if (tier != null && multipliers.containsKey(tier)) {
       return multipliers[tier]!;
     }

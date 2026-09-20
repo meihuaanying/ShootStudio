@@ -17,25 +17,29 @@ import '../shell/app_shell.dart';
 /// 最近策划案（开案页与编辑器共用，创建后失效刷新）。
 final recentPlansProvider = FutureProvider.autoDispose<List<Plan>>((ref) async {
   final AppDatabase db = ref.watch(databaseProvider);
-  final rows = await (db.select(db.plans)
-        ..orderBy(<OrderClauseGenerator<$PlansTable>>[
-          (t) => OrderingTerm(expression: t.updatedAt, mode: OrderingMode.desc),
-        ])
-        ..limit(6))
-      .get();
+  final rows =
+      await (db.select(db.plans)
+            ..orderBy(<OrderClauseGenerator<$PlansTable>>[
+              (t) => OrderingTerm(
+                expression: t.updatedAt,
+                mode: OrderingMode.desc,
+              ),
+            ])
+            ..limit(6))
+          .get();
   return rows;
 });
 
 /// 灵感卡片（极简首屏：默认收起，「换一批灵感」展开）。
 const List<({String title, String prompt})> _inspirations =
     <({String title, String prompt})>[
-  (title: '雨夜赛博', prompt: '雨夜赛博朋克风正片，霓虹与湿地反光，冷主光加品红点缀'),
-  (title: '汉服晨雾', prompt: '汉服园林晨雾，柔光与衣料质感，轻叙事'),
-  (title: '棚拍情绪', prompt: '棚拍情绪人像，伦勃朗光与低饱和色调'),
-  (title: 'JK 放学后', prompt: '双人校园 JK，放学后教室与天台，自然光生活化抓拍'),
-  (title: '婚纱旅拍', prompt: '婚纱旅拍，海边黄金时刻，仪式感叙事'),
-  (title: '商拍产品人像', prompt: '商拍人像，品牌概念片，干净留白与统一色温'),
-];
+      (title: '雨夜赛博', prompt: '雨夜赛博朋克风正片，霓虹与湿地反光，冷主光加品红点缀'),
+      (title: '汉服晨雾', prompt: '汉服园林晨雾，柔光与衣料质感，轻叙事'),
+      (title: '棚拍情绪', prompt: '棚拍情绪人像，伦勃朗光与低饱和色调'),
+      (title: 'JK 放学后', prompt: '双人校园 JK，放学后教室与天台，自然光生活化抓拍'),
+      (title: '婚纱旅拍', prompt: '婚纱旅拍，海边黄金时刻，仪式感叙事'),
+      (title: '商拍产品人像', prompt: '商拍人像，品牌概念片，干净留白与统一色温'),
+    ];
 
 /// F1 开案页：极简首屏（输入框 + 可展开灵感区 + 最近策划案）。
 class HomePage extends ConsumerStatefulWidget {
@@ -77,11 +81,16 @@ class _HomePageState extends ConsumerState<HomePage> {
     while (mounted) {
       setState(() => _generating = false);
       if (!mounted) return;
-      final String? action =
-          await PlanReadView.show(context, draft, idea: theme);
+      final String? action = await PlanReadView.show(
+        context,
+        draft,
+        idea: theme,
+      );
       if (!mounted) return;
       if (action == 'accept') {
-        await ref.read(plannerControllerProvider.notifier).createFromDraft(
+        await ref
+            .read(plannerControllerProvider.notifier)
+            .createFromDraft(
               title: theme.length > 18 ? '${theme.substring(0, 18)}…' : theme,
               modules: draft.modules,
             );
@@ -129,8 +138,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                   Text(
                     '例：雨夜赛博朋克风初音正片，霓虹雨夜，未来感；或直接粘贴角色设定。',
                     style: TextStyle(
-                        fontSize: 12.5,
-                        color: theme.colorScheme.onSurfaceVariant),
+                      fontSize: 12.5,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   const SizedBox(height: AppTokens.s16),
                   Row(
@@ -176,7 +186,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                           final item = _sliced[i];
                           return SsCard(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 14, vertical: 10),
+                              horizontal: 14,
+                              vertical: 10,
+                            ),
                             onTap: () => _theme.text = item.prompt,
                             child: SizedBox(
                               width: 150,
@@ -222,12 +234,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ],
                   ),
                   const SizedBox(height: AppTokens.s8),
-                  _RecentPlans(onOpen: (Plan plan) async {
-                    await ref
-                        .read(plannerControllerProvider.notifier)
-                        .openPlan(plan);
-                    ref.read(shellTabProvider.notifier).state = 5;
-                  }),
+                  _RecentPlans(
+                    onOpen: (Plan plan) async {
+                      await ref
+                          .read(plannerControllerProvider.notifier)
+                          .openPlan(plan);
+                      ref.read(shellTabProvider.notifier).state = 5;
+                    },
+                  ),
                 ],
               ),
             ),
@@ -270,7 +284,9 @@ class _RecentPlans extends ConsumerWidget {
             child: Text(
               '还没有策划案 —— 在上面输入想法，或从模板库开始。',
               style: TextStyle(
-                  fontSize: 12.5, color: theme.colorScheme.onSurfaceVariant),
+                fontSize: 12.5,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
           );
         }
@@ -280,8 +296,10 @@ class _RecentPlans extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 6),
                 child: SsCard(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 10,
+                  ),
                   onTap: () => onOpen(plan),
                   child: Row(
                     children: <Widget>[
@@ -333,10 +351,13 @@ class _LiveReasoning extends ConsumerWidget {
         if (attempt.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 6),
-            child: Text(attempt,
-                style: TextStyle(
-                    fontSize: 11.5,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant)),
+            child: Text(
+              attempt,
+              style: TextStyle(
+                fontSize: 11.5,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
           ),
         if (ai.reasoningText.trim().isNotEmpty)
           Container(

@@ -24,18 +24,20 @@ enum PlanModuleType {
   final String category;
 
   static PlanModuleType fromName(String name) =>
-      PlanModuleType.values.firstWhere((PlanModuleType t) => t.name == name,
-          orElse: () => PlanModuleType.theme);
+      PlanModuleType.values.firstWhere(
+        (PlanModuleType t) => t.name == name,
+        orElse: () => PlanModuleType.theme,
+      );
 
   /// 绑定类模块对应的资源库 type（model/location/clothing/props/makeup）。
   String? get resourceKind => switch (this) {
-        PlanModuleType.model => 'models',
-        PlanModuleType.location => 'locations',
-        PlanModuleType.clothing => 'clothing',
-        PlanModuleType.props => 'props',
-        PlanModuleType.makeup => 'makeup',
-        _ => null,
-      };
+    PlanModuleType.model => 'models',
+    PlanModuleType.location => 'locations',
+    PlanModuleType.clothing => 'clothing',
+    PlanModuleType.props => 'props',
+    PlanModuleType.makeup => 'makeup',
+    _ => null,
+  };
 }
 
 /// 策划案模块。
@@ -55,37 +57,35 @@ class PlanModuleData {
   bool folded;
 
   String get summary => switch (type) {
-        PlanModuleType.theme ||
-        PlanModuleType.richText =>
-          (data['text'] as String? ?? '').replaceAll('\n', ' ').trim(),
-        PlanModuleType.sun => '${data['place'] ?? ''} · ${data['date'] ?? ''}',
-        PlanModuleType.refs => '${(data['refs'] as List?)?.length ?? 0} 张样片',
-        PlanModuleType.palette =>
-          ((data['colors'] as List?) ?? const <Object?>[]).join(' '),
-        PlanModuleType.lighting => data['sceneName'] as String? ?? '未绑定布光方案',
-        PlanModuleType.poses => '${(data['poses'] as List?)?.length ?? 0} 个姿势',
-        PlanModuleType.storyboard =>
-          '${(data['shots'] as List?)?.length ?? 0} 个镜头',
-        PlanModuleType.crew => '${(data['rows'] as List?)?.length ?? 0} 条分工',
-        PlanModuleType.budget => '${(data['rows'] as List?)?.length ?? 0} 条预算',
-        _ => '${(data['ids'] as List?)?.length ?? 0} 项绑定',
-      };
+    PlanModuleType.theme || PlanModuleType.richText =>
+      (data['text'] as String? ?? '').replaceAll('\n', ' ').trim(),
+    PlanModuleType.sun => '${data['place'] ?? ''} · ${data['date'] ?? ''}',
+    PlanModuleType.refs => '${(data['refs'] as List?)?.length ?? 0} 张样片',
+    PlanModuleType.palette =>
+      ((data['colors'] as List?) ?? const <Object?>[]).join(' '),
+    PlanModuleType.lighting => data['sceneName'] as String? ?? '未绑定布光方案',
+    PlanModuleType.poses => '${(data['poses'] as List?)?.length ?? 0} 个姿势',
+    PlanModuleType.storyboard => '${(data['shots'] as List?)?.length ?? 0} 个镜头',
+    PlanModuleType.crew => '${(data['rows'] as List?)?.length ?? 0} 条分工',
+    PlanModuleType.budget => '${(data['rows'] as List?)?.length ?? 0} 条预算',
+    _ => '${(data['ids'] as List?)?.length ?? 0} 项绑定',
+  };
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'id': id,
-        'type': type.name,
-        'title': title,
-        'data': data,
-        'folded': folded,
-      };
+    'id': id,
+    'type': type.name,
+    'title': title,
+    'data': data,
+    'folded': folded,
+  };
 
   static PlanModuleData fromJson(Map<String, Object?> json) => PlanModuleData(
-        id: json['id'] as String? ?? '',
-        type: PlanModuleType.fromName(json['type'] as String? ?? 'theme'),
-        title: json['title'] as String? ?? '',
-        data: asMap(json['data']),
-        folded: json['folded'] as bool? ?? false,
-      );
+    id: json['id'] as String? ?? '',
+    type: PlanModuleType.fromName(json['type'] as String? ?? 'theme'),
+    title: json['title'] as String? ?? '',
+    data: asMap(json['data']),
+    folded: json['folded'] as bool? ?? false,
+  );
 
   /// 应用模板预设（保留 type/title，注入预设数据）。
   static PlanModuleData fromTemplate(Map<String, Object?> raw, String id) {
@@ -143,10 +143,10 @@ enum PlanDocStatus {
   final String label;
 
   static PlanDocStatus fromName(String name) => switch (name) {
-        'final' => PlanDocStatus.final_,
-        'done' => PlanDocStatus.done,
-        _ => PlanDocStatus.draft,
-      };
+    'final' => PlanDocStatus.final_,
+    'done' => PlanDocStatus.done,
+    _ => PlanDocStatus.draft,
+  };
 
   String get storageName => this == PlanDocStatus.final_ ? 'final' : name;
 }
@@ -168,10 +168,14 @@ class PlanSnapshotInfo {
 
 /// 从模板创建模块序列。
 List<PlanModuleData> modulesFromTemplate(
-    TemplateEntry template, String Function() nextId) {
+  TemplateEntry template,
+  String Function() nextId,
+) {
   return template.modules
-      .map((Map<String, Object?> raw) =>
-          PlanModuleData.fromTemplate(raw, nextId()))
+      .map(
+        (Map<String, Object?> raw) =>
+            PlanModuleData.fromTemplate(raw, nextId()),
+      )
       .toList();
 }
 
@@ -194,8 +198,9 @@ class ModuleSchemaValidator {
       final map = raw.cast<String, Object?>();
       final typeName = map['type'];
       if (typeName is! String ||
-          !PlanModuleType.values
-              .any((PlanModuleType t) => t.name == typeName)) {
+          !PlanModuleType.values.any(
+            (PlanModuleType t) => t.name == typeName,
+          )) {
         errors.add('模块 #${i + 1} type 非法：$typeName');
         continue;
       }

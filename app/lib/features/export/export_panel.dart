@@ -69,11 +69,13 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
           ),
           actions: <Widget>[
             TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: const Text('取消')),
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('取消'),
+            ),
             FilledButton(
-                onPressed: () => Navigator.pop(ctx, true),
-                child: const Text('继续导出')),
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('继续导出'),
+            ),
           ],
         ),
       );
@@ -139,9 +141,10 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  const Text('导出策划案',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                  const Text(
+                    '导出策划案',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                  ),
                   const Spacer(),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
@@ -165,8 +168,10 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                           color: _format == format ? AppTokens.accent : null,
                         ),
                         const SizedBox(width: 8),
-                        Text('${format.label} · ${format.usage}',
-                            style: const TextStyle(fontSize: 12.5)),
+                        Text(
+                          '${format.label} · ${format.usage}',
+                          style: const TextStyle(fontSize: 12.5),
+                        ),
                       ],
                     ),
                   ),
@@ -184,8 +189,9 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8),
                   child: SsBanner(
-                      text: '当前为草稿态：导出物将带「草稿 · 未定稿」标注',
-                      kind: SsBannerKind.info),
+                    text: '当前为草稿态：导出物将带「草稿 · 未定稿」标注',
+                    kind: SsBannerKind.info,
+                  ),
                 ),
               Container(
                 width: double.infinity,
@@ -200,7 +206,9 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                     Text(
                       '排版预览 · ${widget.modules.length} 个模块',
                       style: const TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.w600),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(height: 6),
                     Wrap(
@@ -210,12 +218,15 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                         for (var i = 0; i < widget.modules.length; i++)
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 3),
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(99),
                               border: Border.all(
-                                  color: Theme.of(context).colorScheme.outline),
+                                color: Theme.of(context).colorScheme.outline,
+                              ),
                             ),
                             child: Text(
                               '${i + 1} ${widget.modules[i].type.label}',
@@ -244,13 +255,18 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
               for (final String file in _done)
                 Row(
                   children: <Widget>[
-                    const Icon(Icons.check_circle_outline_rounded,
-                        size: 14, color: AppTokens.success),
+                    const Icon(
+                      Icons.check_circle_outline_rounded,
+                      size: 14,
+                      color: AppTokens.success,
+                    ),
                     const SizedBox(width: 6),
                     Expanded(
-                      child: Text(file,
-                          style: AppTokens.mono(context, size: 10.5),
-                          overflow: TextOverflow.ellipsis),
+                      child: Text(
+                        file,
+                        style: AppTokens.mono(context, size: 10.5),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),

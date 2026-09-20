@@ -74,9 +74,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         child: SsChip(
                           label: entry.$1,
                           selected: mode == entry.$2,
-                          onTap: () => ref
-                              .read(themeModeProvider.notifier)
-                              .state = entry.$2,
+                          onTap: () =>
+                              ref.read(themeModeProvider.notifier).state =
+                                  entry.$2,
                         ),
                       ),
                   ],
@@ -93,8 +93,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 const SizedBox(height: AppTokens.s12),
                 Text(
                   workspace.root.path,
-                  style: AppTokens.mono(context,
-                      size: 12, color: theme.colorScheme.onSurfaceVariant),
+                  style: AppTokens.mono(
+                    context,
+                    size: 12,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),
@@ -109,9 +112,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            const SsSectionTitle('示例内容',
-                                subtitle:
-                                    '首次引导载入的演示数据（策划案 / 参考帧 / 布光方案 / 资源 / 姿势）'),
+                            const SsSectionTitle(
+                              '示例内容',
+                              subtitle:
+                                  '首次引导载入的演示数据（策划案 / 参考帧 / 布光方案 / 资源 / 姿势）',
+                            ),
                             const SizedBox(height: AppTokens.s8),
                             SsButton(
                               label: '移除示例内容',
@@ -120,7 +125,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                               dense: true,
                               onPressed: () async {
                                 await DemoContentService.remove(
-                                    ref.read(databaseProvider));
+                                  ref.read(databaseProvider),
+                                );
                                 ref.invalidate(demoSeededProvider);
                                 if (context.mounted) {
                                   ssToast(context, '示例内容已移除（你的数据未被触碰）');
@@ -144,13 +150,17 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const SsSectionTitle('关于与更新',
-                    subtitle: 'GitHub Release 为唯一事实源 · 版本与内容包双通道'),
+                const SsSectionTitle(
+                  '关于与更新',
+                  subtitle: 'GitHub Release 为唯一事实源 · 版本与内容包双通道',
+                ),
                 const SizedBox(height: AppTokens.s12),
                 Row(
                   children: <Widget>[
-                    Text('当前版本 v$kAppVersion',
-                        style: const TextStyle(fontSize: 13)),
+                    Text(
+                      '当前版本 v$kAppVersion',
+                      style: const TextStyle(fontSize: 13),
+                    ),
                     const Spacer(),
                     SsButton(
                       label: updater.checking ? '检查中…' : '检查更新',
@@ -192,13 +202,15 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                           final url = entry == null
                               ? ''
                               : (entry.mirror.isNotEmpty
-                                  ? entry.mirror
-                                  : entry.github);
+                                    ? entry.mirror
+                                    : entry.github);
                           if (url.isEmpty) {
                             ssToast(context, '请前往官网下载最新版本');
                           } else {
-                            launchUrl(Uri.parse(url),
-                                mode: LaunchMode.externalApplication);
+                            launchUrl(
+                              Uri.parse(url),
+                              mode: LaunchMode.externalApplication,
+                            );
                           }
                         },
                       ),
@@ -213,20 +225,24 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     ],
                   ),
                 ],
-                for (final op in updater.announcement?.ops ??
-                    const <({String date, String title})>[])
+                for (final op
+                    in updater.announcement?.ops ??
+                        const <({String date, String title})>[])
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       '公告：${op.title}${op.date.isEmpty ? '' : '（${op.date}）'}',
                       style: const TextStyle(
-                          fontSize: 11.5, color: AppTokens.accent),
+                        fontSize: 11.5,
+                        color: AppTokens.accent,
+                      ),
                     ),
                   ),
                 const SizedBox(height: 10),
                 TextField(
-                  controller:
-                      TextEditingController(text: _announcementUrl ?? ''),
+                  controller: TextEditingController(
+                    text: _announcementUrl ?? '',
+                  ),
                   decoration: const InputDecoration(
                     labelText: '公告 JSON 地址（空 = 官方默认；支持自建站点 / 内网）',
                     isDense: true,
@@ -291,8 +307,9 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
 
   Future<void> _fetch(String id) async {
     setState(() => _fetching.add(id));
-    final List<String> models =
-        await ref.read(aiControllerProvider.notifier).fetchModels(id);
+    final List<String> models = await ref
+        .read(aiControllerProvider.notifier)
+        .fetchModels(id);
     if (!mounted) return;
     setState(() => _fetching.remove(id));
     final AiProviderView? view = ref
@@ -313,14 +330,18 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
     final AiState ai = ref.watch(aiControllerProvider);
     final ThemeData theme = Theme.of(context);
     final List<AiProviderView> providers = <AiProviderView>[...ai.providers]
-      ..sort((AiProviderView a, AiProviderView b) =>
-          a.priority.compareTo(b.priority));
+      ..sort(
+        (AiProviderView a, AiProviderView b) =>
+            a.priority.compareTo(b.priority),
+      );
     return SsCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const SsSectionTitle('AI 通道',
-              subtitle: 'D40：自动拉取模型列表 · 自动选可用模型 · 失败自动换模型/换商'),
+          const SsSectionTitle(
+            'AI 通道',
+            subtitle: 'D40：自动拉取模型列表 · 自动选可用模型 · 失败自动换模型/换商',
+          ),
           const SizedBox(height: AppTokens.s12),
           for (final AiProviderView view in providers.take(8)) ...<Widget>[
             _row(context, theme, view),
@@ -329,7 +350,9 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
           Text(
             'Key 仅保存在本机工作区（AES-256-GCM 加密）；未配置时自动使用本地引擎。',
             style: TextStyle(
-                fontSize: 11, color: theme.colorScheme.onSurfaceVariant),
+              fontSize: 11,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),
@@ -338,8 +361,10 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
 
   Widget _row(BuildContext context, ThemeData theme, AiProviderView view) {
     final bool expanded = _expanded.contains(view.preset.id);
-    final TextEditingController key =
-        _keys.putIfAbsent(view.preset.id, () => TextEditingController());
+    final TextEditingController key = _keys.putIfAbsent(
+      view.preset.id,
+      () => TextEditingController(),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -364,15 +389,18 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
                     '${view.preset.name}'
                     '${view.hasKey ? ' · ${view.maskedKey}' : ''}',
                     style: const TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w600),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   Text(
                     view.models.isEmpty
                         ? '模型：${view.model.isEmpty ? '未选择（生成时自动探测）' : view.model}'
                         : '模型：${view.model} · 已发现 ${view.models.length} 个',
                     style: TextStyle(
-                        fontSize: 11,
-                        color: theme.colorScheme.onSurfaceVariant),
+                      fontSize: 11,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ],
               ),
@@ -423,8 +451,9 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
                   controller: key,
                   obscureText: true,
                   decoration: InputDecoration(
-                    hintText:
-                        view.hasKey ? '已保存（重新输入可覆盖）' : view.preset.keyHint,
+                    hintText: view.hasKey
+                        ? '已保存（重新输入可覆盖）'
+                        : view.preset.keyHint,
                     isDense: true,
                   ),
                 ),
@@ -434,7 +463,9 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
                 label: '保存',
                 dense: true,
                 onPressed: () async {
-                  await ref.read(aiControllerProvider.notifier).saveProvider(
+                  await ref
+                      .read(aiControllerProvider.notifier)
+                      .saveProvider(
                         view.preset,
                         apiKey: key.text.trim(),
                         model: view.model,
@@ -501,8 +532,10 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
       final String netMode = await db.getSetting('net_mode') ?? 'auto';
       final NetConfig defaults = await loadNetConfig();
       final List<Map<String, Object?>> items = await _loadAttribution();
-      final SearchCache cache =
-          await SearchCache.from(db, ref.read(workspaceProvider).root.path);
+      final SearchCache cache = await SearchCache.from(
+        db,
+        ref.read(workspaceProvider).root.path,
+      );
       final int bytes = await cache.totalBytes();
       final int files = await cache.fileCount();
       if (!mounted) return;
@@ -513,8 +546,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
         _smithsonian.text = si;
         _harvard.text = ha;
         _rijks.text = rk;
-        _cacheLimit.text =
-            cacheLimit.isEmpty ? '${SearchCache.defaultLimitMb}' : cacheLimit;
+        _cacheLimit.text = cacheLimit.isEmpty
+            ? '${SearchCache.defaultLimitMb}'
+            : cacheLimit;
         _proxy.text = proxy;
         _packDir.text = pack;
         _gearDir.text = gear;
@@ -535,15 +569,20 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
     final NetRouter router = NetRouter.I;
     final List<String> out = <String>[];
     out.add('通道：${router.modeLabel}');
-    final (bool ok1, int ms1, String d1) = await router
-        .probe('https://api.pexels.com/v1/search?query=portrait&per_page=1');
+    final (bool ok1, int ms1, String d1) = await router.probe(
+      'https://api.pexels.com/v1/search?query=portrait&per_page=1',
+    );
     out.add('Pexels API：${ok1 ? '可用' : '失败'} · ${ms1}ms${ok1 ? '' : ' · $d1'}');
-    final (bool ok2, int ms2, String d2) = await router
-        .probe('https://api.themoviedb.org/3/configuration?api_key=probe');
-    out.add('TMDB API：${ok2 ? '可用' : '失败'} · ${ms2}ms'
-        '${ok2 ? '（${d2.contains('401') || d2.contains('200') ? '已连通' : ''}）' : ' · $d2'}');
+    final (bool ok2, int ms2, String d2) = await router.probe(
+      'https://api.themoviedb.org/3/configuration?api_key=probe',
+    );
+    out.add(
+      'TMDB API：${ok2 ? '可用' : '失败'} · ${ms2}ms'
+      '${ok2 ? '（${d2.contains('401') || d2.contains('200') ? '已连通' : ''}）' : ' · $d2'}',
+    );
     final (bool ok3, int ms3, String d3) = await router.probe(
-        'https://image.tmdb.org/t/p/w92/8CdXyOlgb3vJzWqBQhQnQ0kZ8rY.jpg');
+      'https://image.tmdb.org/t/p/w92/8CdXyOlgb3vJzWqBQhQnQ0kZ8rY.jpg',
+    );
     out.add('TMDB 图床：${ok3 ? '可用' : '失败'} · ${ms3}ms${ok3 ? '' : ' · $d3'}');
     if (!mounted) return;
     setState(() {
@@ -554,10 +593,11 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
 
   Future<List<Map<String, Object?>>> _loadAttribution() async {
     try {
-      final String raw =
-          await rootBundle.loadString('assets/content/attribution.json');
-      final Map<String, Object?> data =
-          (jsonDecode(raw) as Map).cast<String, Object?>();
+      final String raw = await rootBundle.loadString(
+        'assets/content/attribution.json',
+      );
+      final Map<String, Object?> data = (jsonDecode(raw) as Map)
+          .cast<String, Object?>();
       return (data['items'] as List<Object?>? ?? <Object?>[])
           .whereType<Map>()
           .map((Map m) => m.cast<String, Object?>())
@@ -589,9 +629,11 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const SsSectionTitle('图片素材通道',
-              subtitle:
-                  'V6：搜图工作台 Key（Pexels/TMDB）+ 免 Key 博物馆（Met/芝加哥/克利夫兰/V&A/WikiArt/Artvee/AniList）+ Key 预留源'),
+          const SsSectionTitle(
+            '图片素材通道',
+            subtitle:
+                'V6：搜图工作台 Key（Pexels/TMDB）+ 免 Key 博物馆（Met/芝加哥/克利夫兰/V&A/WikiArt/Artvee/AniList）+ Key 预留源',
+          ),
           const SizedBox(height: AppTokens.s12),
           Row(
             children: <Widget>[
@@ -600,7 +642,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   controller: _pexels,
                   obscureText: true,
                   decoration: const InputDecoration(
-                      labelText: 'Pexels API Key（可空）', isDense: true),
+                    labelText: 'Pexels API Key（可空）',
+                    isDense: true,
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
@@ -609,7 +653,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   controller: _tmdb,
                   obscureText: true,
                   decoration: const InputDecoration(
-                      labelText: 'TMDB API Key（可空）', isDense: true),
+                    labelText: 'TMDB API Key（可空）',
+                    isDense: true,
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
@@ -621,16 +667,25 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   await db.setSetting('image_pexels_key', _pexels.text.trim());
                   await db.setSetting('image_tmdb_key', _tmdb.text.trim());
                   await db.setSetting(
-                      'search_key_europeana', _europeana.text.trim());
+                    'search_key_europeana',
+                    _europeana.text.trim(),
+                  );
                   await db.setSetting(
-                      'search_key_smithsonian', _smithsonian.text.trim());
+                    'search_key_smithsonian',
+                    _smithsonian.text.trim(),
+                  );
                   await db.setSetting(
-                      'search_key_harvard', _harvard.text.trim());
+                    'search_key_harvard',
+                    _harvard.text.trim(),
+                  );
                   await db.setSetting('search_key_rijks', _rijks.text.trim());
-                  final int cacheMb = int.tryParse(_cacheLimit.text.trim()) ??
+                  final int cacheMb =
+                      int.tryParse(_cacheLimit.text.trim()) ??
                       SearchCache.defaultLimitMb;
-                  await db.setSetting(SearchCache.limitSettingKey,
-                      '${cacheMb < 0 ? 0 : cacheMb}');
+                  await db.setSetting(
+                    SearchCache.limitSettingKey,
+                    '${cacheMb < 0 ? 0 : cacheMb}',
+                  );
                   await db.setSetting('proxy_url', _proxy.text.trim());
                   await db.setSetting('user_pack_dir', _packDir.text.trim());
                   await db.setSetting('gear_image_dir', _gearDir.text.trim());
@@ -655,7 +710,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   controller: _europeana,
                   obscureText: true,
                   decoration: const InputDecoration(
-                      labelText: 'Europeana Key（可空，填入即启用）', isDense: true),
+                    labelText: 'Europeana Key（可空，填入即启用）',
+                    isDense: true,
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
@@ -664,7 +721,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   controller: _smithsonian,
                   obscureText: true,
                   decoration: const InputDecoration(
-                      labelText: 'Smithsonian Key（可空）', isDense: true),
+                    labelText: 'Smithsonian Key（可空）',
+                    isDense: true,
+                  ),
                 ),
               ),
             ],
@@ -677,7 +736,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   controller: _harvard,
                   obscureText: true,
                   decoration: const InputDecoration(
-                      labelText: 'Harvard Art Museums Key（可空）', isDense: true),
+                    labelText: 'Harvard Art Museums Key（可空）',
+                    isDense: true,
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
@@ -686,7 +747,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   controller: _rijks,
                   obscureText: true,
                   decoration: const InputDecoration(
-                      labelText: 'Rijksmuseum Key（可空）', isDense: true),
+                    labelText: 'Rijksmuseum Key（可空）',
+                    isDense: true,
+                  ),
                 ),
               ),
             ],
@@ -700,7 +763,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   controller: _cacheLimit,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                      labelText: '搜图缓存上限（MB）', isDense: true),
+                    labelText: '搜图缓存上限（MB）',
+                    isDense: true,
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
@@ -708,7 +773,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                 '当前 ${(_cacheBytes / (1024 * 1024)).toStringAsFixed(1)}MB / '
                 '$_cacheFiles 个文件（LRU，超限自动淘汰）',
                 style: TextStyle(
-                    fontSize: 11, color: theme.colorScheme.onSurfaceVariant),
+                  fontSize: 11,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
               const Spacer(),
               SsButton(
@@ -718,7 +785,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                 onPressed: () async {
                   final AppDatabase db = ref.read(databaseProvider);
                   final SearchCache cache = await SearchCache.from(
-                      db, ref.read(workspaceProvider).root.path);
+                    db,
+                    ref.read(workspaceProvider).root.path,
+                  );
                   await cache.clear();
                   if (!mounted) return;
                   setState(() {
@@ -744,9 +813,13 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
             runSpacing: 4,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: <Widget>[
-              Text('网络通道',
-                  style: TextStyle(
-                      fontSize: 12, color: theme.colorScheme.onSurfaceVariant)),
+              Text(
+                '网络通道',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
               for (final (String id, String label) in <(String, String)>[
                 ('auto', '自动（DoH 隧道）'),
                 ('direct', '强制直连'),
@@ -768,8 +841,10 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           if (_probeResults.isNotEmpty) ...<Widget>[
             const SizedBox(height: 6),
             for (final String line in _probeResults)
-              Text(line,
-                  style: TextStyle(fontSize: 11, color: AppTokens.lightMuted)),
+              Text(
+                line,
+                style: TextStyle(fontSize: 11, color: AppTokens.lightMuted),
+              ),
           ],
           const SizedBox(height: 8),
           Row(
@@ -827,8 +902,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           Row(
             children: <Widget>[
               SsButton(
-                label:
-                    _showLicense ? '收起许可清单' : '开源与素材许可（${_attribution.length}）',
+                label: _showLicense
+                    ? '收起许可清单'
+                    : '开源与素材许可（${_attribution.length}）',
                 kind: SsButtonKind.ghost,
                 dense: true,
                 onPressed: () => setState(() => _showLicense = !_showLicense),
@@ -839,7 +915,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                     ? '当前版本内置素材为程序生成插画（无需署名）'
                     : '真实图片素材逐条署名（Wikimedia CC0/PD/CC BY）',
                 style: TextStyle(
-                    fontSize: 11, color: theme.colorScheme.onSurfaceVariant),
+                  fontSize: 11,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),

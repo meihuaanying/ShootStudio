@@ -13,17 +13,20 @@ class SolarCalculator {
     required double minutesUtcFromMidnight,
   }) {
     final dayOfYear = _dayOfYear(dateUtc);
-    final fracYear = 2 *
+    final fracYear =
+        2 *
         math.pi /
         365 *
         (dayOfYear - 1 + (minutesUtcFromMidnight - 720) / 1440);
-    final eqTime = 229.18 *
+    final eqTime =
+        229.18 *
         (0.000075 +
             0.001868 * math.cos(fracYear) -
             0.032077 * math.sin(fracYear) -
             0.014615 * math.cos(2 * fracYear) -
             0.040849 * math.sin(2 * fracYear));
-    final decl = 0.006918 -
+    final decl =
+        0.006918 -
         0.399912 * math.cos(fracYear) +
         0.070257 * math.sin(fracYear) -
         0.006758 * math.cos(2 * fracYear) +
@@ -33,7 +36,8 @@ class SolarCalculator {
     final tst = minutesUtcFromMidnight + eqTime + 4 * longitude;
     final ha = (tst / 4 - 180) * math.pi / 180;
     final lat = latitude * math.pi / 180;
-    final cosZenith = math.sin(lat) * math.sin(decl) +
+    final cosZenith =
+        math.sin(lat) * math.sin(decl) +
         math.cos(lat) * math.cos(decl) * math.cos(ha);
     final zenith = math.acos(cosZenith.clamp(-1.0, 1.0));
     return 90 - zenith * 180 / math.pi;
@@ -84,22 +88,26 @@ class SolarCalculator {
     return SolarDay(
       sunrise: sunrise,
       sunset: sunset,
-      goldenMorning: (sunrise != null &&
+      goldenMorning:
+          (sunrise != null &&
               goldenMorningEnd != null &&
               goldenMorningEnd > sunrise)
           ? SolarWindow('黄金时刻（晨）', sunrise, goldenMorningEnd)
           : null,
-      goldenEvening: (goldenEveningStart != null &&
+      goldenEvening:
+          (goldenEveningStart != null &&
               sunset != null &&
               sunset > goldenEveningStart)
           ? SolarWindow('黄金时刻（暮）', goldenEveningStart, sunset)
           : null,
-      blueMorning: (blueMorningStart != null &&
+      blueMorning:
+          (blueMorningStart != null &&
               blueMorningEnd != null &&
               blueMorningEnd > blueMorningStart)
           ? SolarWindow('蓝调时刻（晨）', blueMorningStart, blueMorningEnd)
           : null,
-      blueEvening: (blueEveningStart != null &&
+      blueEvening:
+          (blueEveningStart != null &&
               blueEveningEnd != null &&
               blueEveningEnd > blueEveningStart)
           ? SolarWindow('蓝调时刻（暮）', blueEveningStart, blueEveningEnd)

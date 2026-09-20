@@ -6,7 +6,7 @@ import 'source_utils.dart';
 /// V6 英国 V&A 博物馆源（D115 免 Key）：v2 搜索 API + IIIF 图片。
 class VamSource implements SearchSource {
   VamSource({Dio? dio})
-      : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
 
   final Dio _dio;
 
@@ -18,13 +18,13 @@ class VamSource implements SearchSource {
   String get label => 'V&A 博物馆';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: true,
-        byKeyword: true,
-        hasLicenseFilter: false,
-        domains: <ImageDomain>{ImageDomain.art},
-        requiresKey: false,
-      );
+    byTitle: true,
+    byPerson: true,
+    byKeyword: true,
+    hasLicenseFilter: false,
+    domains: <ImageDomain>{ImageDomain.art},
+    requiresKey: false,
+  );
 
   @override
   bool get enabled => true;
@@ -40,8 +40,8 @@ class VamSource implements SearchSource {
   }) async {
     final String text =
         query.intent == SearchIntent.person && query.person.isNotEmpty
-            ? query.person
-            : query.forSource(id);
+        ? query.person
+        : query.forSource(id);
     if (text.trim().isEmpty) {
       return const SourceSearchPage(hits: <SearchHit>[], hasMore: false);
     }
@@ -83,23 +83,25 @@ class VamSource implements SearchSource {
       final String pageUrl = systemNumber.isEmpty
           ? ''
           : 'https://collections.vam.ac.uk/item/$systemNumber/';
-      out.add(SearchHit(
-        id: hitId('vam', systemNumber.isEmpty ? image : systemNumber),
-        title: title,
-        thumbUrl: thumb.isEmpty ? image : thumb,
-        fullUrl: image,
-        sourceId: 'vam',
-        sourceLabel: 'V&A 博物馆',
-        license: 'V&A 免费非商用（商用需授权）',
-        commercialOk: false,
-        attribution:
-            'Victoria and Albert Museum${makerName.isEmpty ? '' : ' · $makerName'}',
-        sourcePageUrl: pageUrl,
-        domain: ImageDomain.art,
-        imageType: 'artwork',
-        description: strSafe(m['objectType']),
-        extra: <String, Object?>{'date': strSafe(m['_primaryDate'])},
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('vam', systemNumber.isEmpty ? image : systemNumber),
+          title: title,
+          thumbUrl: thumb.isEmpty ? image : thumb,
+          fullUrl: image,
+          sourceId: 'vam',
+          sourceLabel: 'V&A 博物馆',
+          license: 'V&A 免费非商用（商用需授权）',
+          commercialOk: false,
+          attribution:
+              'Victoria and Albert Museum${makerName.isEmpty ? '' : ' · $makerName'}',
+          sourcePageUrl: pageUrl,
+          domain: ImageDomain.art,
+          imageType: 'artwork',
+          description: strSafe(m['objectType']),
+          extra: <String, Object?>{'date': strSafe(m['_primaryDate'])},
+        ),
+      );
     }
     return out;
   }

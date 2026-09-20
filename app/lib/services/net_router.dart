@@ -140,15 +140,20 @@ class NetRouter {
     if (!_autoTunnel || _forceDirect || _userProxy.isNotEmpty) return;
     if (_server != null) return;
     try {
-      final ServerSocket server =
-          await ServerSocket.bind(InternetAddress.loopbackIPv4, 0);
+      final ServerSocket server = await ServerSocket.bind(
+        InternetAddress.loopbackIPv4,
+        0,
+      );
       _server = server;
       _tunnelPort = server.port;
       _record('DoH 隧道已启动 127.0.0.1:$_tunnelPort');
-      server.listen(_handleSocket, onError: (Object e) {
-        _lastError = '$e';
-        _record('隧道监听错误：$e');
-      });
+      server.listen(
+        _handleSocket,
+        onError: (Object e) {
+          _lastError = '$e';
+          _record('隧道监听错误：$e');
+        },
+      );
     } catch (e) {
       _lastError = '$e';
       _record('隧道启动失败：$e（回退直连）');
@@ -186,62 +191,70 @@ class NetRouter {
     guard = Timer(const Duration(seconds: 10), () {
       if (!established) fail('');
     });
-    client.listen((List<int> chunk) {
-      if (established) {
-        try {
-          upstream?.add(chunk);
-        } catch (_) {}
-        return;
-      }
-      buffer.add(chunk);
-      final Uint8List all = buffer.toBytes();
-      final int end = _headerEnd(all);
-      if (end < 0) {
-        if (all.length > 16 * 1024) {
-          guard?.cancel();
-          fail('HTTP/1.1 431 Request Header Fields Too Large\r\n'
-              'Content-Length: 0\r\nConnection: close\r\n\r\n');
-        }
-        return;
-      }
-      guard?.cancel();
-      unawaited(_establish(client, all, end).then((Socket? up) {
-        if (up == null) return;
-        established = true;
-        upstream = up;
-        final Uint8List remain = all.sublist(end);
-        if (remain.isNotEmpty) {
+    client.listen(
+      (List<int> chunk) {
+        if (established) {
           try {
-            up.add(remain);
+            upstream?.add(chunk);
+          } catch (_) {}
+          return;
+        }
+        buffer.add(chunk);
+        final Uint8List all = buffer.toBytes();
+        final int end = _headerEnd(all);
+        if (end < 0) {
+          if (all.length > 16 * 1024) {
+            guard?.cancel();
+            fail(
+              'HTTP/1.1 431 Request Header Fields Too Large\r\n'
+              'Content-Length: 0\r\nConnection: close\r\n\r\n',
+            );
+          }
+          return;
+        }
+        guard?.cancel();
+        unawaited(
+          _establish(client, all, end).then((Socket? up) {
+            if (up == null) return;
+            established = true;
+            upstream = up;
+            final Uint8List remain = all.sublist(end);
+            if (remain.isNotEmpty) {
+              try {
+                up.add(remain);
+              } catch (_) {}
+            }
+            up.listen(
+              (List<int> data) {
+                try {
+                  client.add(data);
+                } catch (_) {}
+              },
+              onDone: () {
+                try {
+                  client.destroy();
+                } catch (_) {}
+              },
+              onError: (Object _) {
+                try {
+                  client.destroy();
+                } catch (_) {}
+              },
+            );
+          }),
+        );
+      },
+      onError: (Object _) {
+        if (!established) fail('');
+      },
+      onDone: () {
+        if (!established) {
+          try {
+            upstream?.destroy();
           } catch (_) {}
         }
-        up.listen(
-          (List<int> data) {
-            try {
-              client.add(data);
-            } catch (_) {}
-          },
-          onDone: () {
-            try {
-              client.destroy();
-            } catch (_) {}
-          },
-          onError: (Object _) {
-            try {
-              client.destroy();
-            } catch (_) {}
-          },
-        );
-      }));
-    }, onError: (Object _) {
-      if (!established) fail('');
-    }, onDone: () {
-      if (!established) {
-        try {
-          upstream?.destroy();
-        } catch (_) {}
-      }
-    });
+      },
+    );
   }
 
   static int _headerEnd(Uint8List bytes) {
@@ -263,32 +276,38 @@ class NetRouter {
     final List<String> parts = requestLine.split(' ');
     if (parts.length < 2 || parts[0].toUpperCase() != 'CONNECT') {
       _reply(
-          client,
-          'HTTP/1.1 405 Method Not Allowed\r\n'
-          'Content-Length: 0\r\nConnection: close\r\n\r\n');
+        client,
+        'HTTP/1.1 405 Method Not Allowed\r\n'
+        'Content-Length: 0\r\nConnection: close\r\n\r\n',
+      );
       return null;
     }
     final String authority = parts[1];
     final int colon = authority.lastIndexOf(':');
     final String host = colon > 0 ? authority.substring(0, colon) : authority;
-    final int port =
-        colon > 0 ? (int.tryParse(authority.substring(colon + 1)) ?? 443) : 443;
+    final int port = colon > 0
+        ? (int.tryParse(authority.substring(colon + 1)) ?? 443)
+        : 443;
     final List<String> ips = await _resolver.resolve(host);
     if (ips.isEmpty) {
       _lastError = 'DoH 解析失败：$host';
       _record('DoH 解析失败：$host');
       _reply(
-          client,
-          'HTTP/1.1 502 Bad Gateway\r\n'
-          'Content-Length: 0\r\nConnection: close\r\n\r\n');
+        client,
+        'HTTP/1.1 502 Bad Gateway\r\n'
+        'Content-Length: 0\r\nConnection: close\r\n\r\n',
+      );
       return null;
     }
     Socket? upstream;
     Object? lastErr;
     for (final String ip in ips) {
       try {
-        upstream = await Socket.connect(ip, port,
-            timeout: const Duration(seconds: 12));
+        upstream = await Socket.connect(
+          ip,
+          port,
+          timeout: const Duration(seconds: 12),
+        );
         break;
       } catch (e) {
         lastErr = e;
@@ -298,9 +317,10 @@ class NetRouter {
       _lastError = 'TCP 连接失败：$host（$lastErr）';
       _record('TCP 连接失败：$host → $ips（$lastErr）');
       _reply(
-          client,
-          'HTTP/1.1 502 Bad Gateway\r\n'
-          'Content-Length: 0\r\nConnection: close\r\n\r\n');
+        client,
+        'HTTP/1.1 502 Bad Gateway\r\n'
+        'Content-Length: 0\r\nConnection: close\r\n\r\n',
+      );
       return null;
     }
     upstream.setOption(SocketOption.tcpNoDelay, true);
@@ -338,28 +358,37 @@ class NetRouter {
     int retries = 2,
     Map<String, dynamic>? headers,
   }) {
-    final int effectiveRetries =
-        (_isFlutterTest && !debugRetriesInTests) ? 0 : retries;
-    final Dio d = Dio(BaseOptions(
-      connectTimeout: connectTimeout,
-      receiveTimeout: receiveTimeout,
-      sendTimeout: receiveTimeout,
-      headers: headers,
-    ));
+    final int effectiveRetries = (_isFlutterTest && !debugRetriesInTests)
+        ? 0
+        : retries;
+    final Dio d = Dio(
+      BaseOptions(
+        connectTimeout: connectTimeout,
+        receiveTimeout: receiveTimeout,
+        sendTimeout: receiveTimeout,
+        headers: headers,
+      ),
+    );
     if (effectiveRetries > 0) {
-      d.interceptors
-          .add(_RetryInterceptor(retries: effectiveRetries, log: _record));
+      d.interceptors.add(
+        _RetryInterceptor(retries: effectiveRetries, log: _record),
+      );
     }
     return d;
   }
 
   /// 测速：对目标 URL 发 HEAD/GET，返回 (ok, ms, detail)。
-  Future<(bool, int, String)> probe(String url,
-      {Duration timeout = const Duration(seconds: 12)}) async {
+  Future<(bool, int, String)> probe(
+    String url, {
+    Duration timeout = const Duration(seconds: 12),
+  }) async {
     final Stopwatch sw = Stopwatch()..start();
     try {
-      final Dio d =
-          dio(connectTimeout: timeout, receiveTimeout: timeout, retries: 0);
+      final Dio d = dio(
+        connectTimeout: timeout,
+        receiveTimeout: timeout,
+        retries: 0,
+      );
       final Response<Object?> r = await d.get<Object?>(
         url,
         options: Options(
@@ -401,7 +430,7 @@ class NetRouter {
 /// DoH JSON 客户端（缓存 + 并发去重 + 端点回退）。
 class DohResolver {
   DohResolver({Future<String> Function(String url)? httpGet})
-      : _httpGet = httpGet;
+    : _httpGet = httpGet;
 
   final Future<String> Function(String url)? _httpGet;
   final Map<String, _DohCacheEntry> _cache = <String, _DohCacheEntry>{};
@@ -452,12 +481,13 @@ class DohResolver {
   }
 
   Future<(List<String>, int)> _query(String endpoint, String host) async {
-    final String url = '$endpoint?name=${Uri.encodeQueryComponent(host)}'
+    final String url =
+        '$endpoint?name=${Uri.encodeQueryComponent(host)}'
         '&type=A';
     final Future<String> Function(String) getter = _httpGet ?? _defaultGet;
     final String body = await getter(url);
-    final Map<String, Object?> json =
-        (jsonDecode(body) as Map).cast<String, Object?>();
+    final Map<String, Object?> json = (jsonDecode(body) as Map)
+        .cast<String, Object?>();
     final List<Object?> answers =
         json['Answer'] as List<Object?>? ?? <Object?>[];
     final List<String> ips = <String>[];
@@ -482,7 +512,7 @@ class DohResolver {
 
 class _DohCacheEntry {
   _DohCacheEntry(this.ips, int ttlSeconds)
-      : expiry = DateTime.now().add(Duration(seconds: ttlSeconds));
+    : expiry = DateTime.now().add(Duration(seconds: ttlSeconds));
   final List<String> ips;
   final DateTime expiry;
   bool get expired => DateTime.now().isAfter(expiry);
@@ -503,7 +533,9 @@ class _RetryInterceptor extends Interceptor {
 
   @override
   Future<void> onError(
-      DioException err, ErrorInterceptorHandler handler) async {
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     final RequestOptions o = err.requestOptions;
     int attempt = (o.extra['retry_attempt'] as int?) ?? 0;
     DioException last = err;

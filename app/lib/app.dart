@@ -88,12 +88,16 @@ class _InitError extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Icon(Icons.error_outline_rounded,
-                    size: 40, color: AppTokens.danger),
+                const Icon(
+                  Icons.error_outline_rounded,
+                  size: 40,
+                  color: AppTokens.danger,
+                ),
                 const SizedBox(height: AppTokens.s12),
-                const Text('工作区初始化失败',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                const Text(
+                  '工作区初始化失败',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
                 const SizedBox(height: AppTokens.s8),
                 SsBanner(text: '$error', kind: SsBannerKind.danger),
                 const SizedBox(height: AppTokens.s16),

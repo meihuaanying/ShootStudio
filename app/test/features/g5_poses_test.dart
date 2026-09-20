@@ -25,10 +25,18 @@ void main() {
       expect(pose.mistake, isNotEmpty);
       expect(pose.hands, isNotEmpty);
     }
-    expect(
-      byCategory.keys.toSet(),
-      <String>{'站姿', '坐姿', '蹲姿', '跪姿', '靠姿', '躺姿', '动态', '手部', '神态', '道具互动'},
-    );
+    expect(byCategory.keys.toSet(), <String>{
+      '站姿',
+      '坐姿',
+      '蹲姿',
+      '跪姿',
+      '靠姿',
+      '躺姿',
+      '动态',
+      '手部',
+      '神态',
+      '道具互动',
+    });
     for (final MapEntry<String, int> entry in byCategory.entries) {
       expect(entry.value, 12, reason: '${entry.key} 应为 12 条');
     }
@@ -36,8 +44,9 @@ void main() {
 
   test('V4：低置信度姿势必须标注 referenceOnly（R20/D68）', () async {
     final List<PoseEntry> poses = await ContentPacks.poses();
-    final List<PoseEntry> reference =
-        poses.where((PoseEntry p) => p.referenceOnly).toList();
+    final List<PoseEntry> reference = poses
+        .where((PoseEntry p) => p.referenceOnly)
+        .toList();
     expect(reference, isNotEmpty, reason: '应存在低置信度（<0.6）姿势样本');
     for (final PoseEntry pose in poses) {
       expect(pose.referenceOnly, pose.confidence < 0.6, reason: pose.id);
@@ -53,8 +62,9 @@ void main() {
       overrides: <Override>[databaseProvider.overrideWithValue(db)],
     );
     addTearDown(container.dispose);
-    final PosesController controller =
-        container.read(posesControllerProvider.notifier);
+    final PosesController controller = container.read(
+      posesControllerProvider.notifier,
+    );
     await controller.init();
 
     PosesState state = container.read(posesControllerProvider);
@@ -73,7 +83,9 @@ void main() {
     state = container.read(posesControllerProvider);
     expect(state.filtered, isNotEmpty);
     expect(
-        state.filtered.every((PoseEntry p) => p.name.contains('展臂')), isTrue);
+      state.filtered.every((PoseEntry p) => p.name.contains('展臂')),
+      isTrue,
+    );
     controller.setKeyword('');
 
     controller.next();
@@ -99,8 +111,9 @@ void main() {
       overrides: <Override>[databaseProvider.overrideWithValue(db)],
     );
     addTearDown(container.dispose);
-    final PosesController controller =
-        container.read(posesControllerProvider.notifier);
+    final PosesController controller = container.read(
+      posesControllerProvider.notifier,
+    );
     await controller.init();
     final PoseEntry? current = container.read(posesControllerProvider).current;
     expect(current, isNotNull);
@@ -109,13 +122,19 @@ void main() {
     controller.adjustJoint('shoulder_l', 'rx', 40);
     final Map<String, Object?> override =
         container.read(posesControllerProvider).jointsOverride ??
-            <String, Object?>{};
+        <String, Object?>{};
     final List<Object?> adjusted = override['shoulder_l'] as List<Object?>;
     expect((adjusted[0] as num).toDouble(), 40);
-    expect((adjusted[1] as num).toDouble(), (base[1] as num?)?.toDouble() ?? 0,
-        reason: 'ry 不应被清零');
-    expect((adjusted[2] as num).toDouble(), (base[2] as num?)?.toDouble() ?? 0,
-        reason: 'rz 不应被清零');
+    expect(
+      (adjusted[1] as num).toDouble(),
+      (base[1] as num?)?.toDouble() ?? 0,
+      reason: 'ry 不应被清零',
+    );
+    expect(
+      (adjusted[2] as num).toDouble(),
+      (base[2] as num?)?.toDouble() ?? 0,
+      reason: 'rz 不应被清零',
+    );
   });
 
   test('另存为自定义姿势：写入 DB 并进入当前列表', () async {
@@ -126,8 +145,9 @@ void main() {
       overrides: <Override>[databaseProvider.overrideWithValue(db)],
     );
     addTearDown(container.dispose);
-    final PosesController controller =
-        container.read(posesControllerProvider.notifier);
+    final PosesController controller = container.read(
+      posesControllerProvider.notifier,
+    );
     await controller.init();
     final int before = container.read(posesControllerProvider).all.length;
     controller.adjustJoint('neck', 'ry', 12);

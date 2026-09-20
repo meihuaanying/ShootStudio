@@ -49,9 +49,7 @@ class AppDatabase extends _$AppDatabase {
         : AppDatabase._(
             driftDatabase(
               name: 'database',
-              native: DriftNativeOptions(
-                databasePath: () async => ws.dbPath,
-              ),
+              native: DriftNativeOptions(databasePath: () async => ws.dbPath),
             ),
           );
     await _instance!.customSelect('SELECT 1').getSingle(); // 触发建库
@@ -63,25 +61,27 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (m) => m.createAll(),
-        onUpgrade: (m, from, to) async {
-          // 版本升级时的迁移入口；保持所有历史表不丢数据
-        },
-        beforeOpen: (details) async {
-          await customStatement('PRAGMA foreign_keys = ON');
-          await customStatement('PRAGMA journal_mode = WAL');
-        },
-      );
+    onCreate: (m) => m.createAll(),
+    onUpgrade: (m, from, to) async {
+      // 版本升级时的迁移入口；保持所有历史表不丢数据
+    },
+    beforeOpen: (details) async {
+      await customStatement('PRAGMA foreign_keys = ON');
+      await customStatement('PRAGMA journal_mode = WAL');
+    },
+  );
 
   // ---------- 通用读写 ----------
   Future<String?> getSetting(String key) async {
-    final row = await (select(settings)..where((s) => s.key.equals(key)))
-        .getSingleOrNull();
+    final row = await (select(
+      settings,
+    )..where((s) => s.key.equals(key))).getSingleOrNull();
     return row?.value;
   }
 
   Future<void> setSetting(String key, String value) async {
-    await into(settings)
-        .insertOnConflictUpdate(Setting(key: key, value: value));
+    await into(
+      settings,
+    ).insertOnConflictUpdate(Setting(key: key, value: value));
   }
 }

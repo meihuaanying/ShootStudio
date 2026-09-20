@@ -38,12 +38,9 @@ class TmdbImage {
 }
 
 class TmdbSource {
-  TmdbSource({
-    required this.apiKey,
-    required this.readToken,
-    Dio? dio,
-  }) : _dio = dio ??
-            Dio(BaseOptions(connectTimeout: const Duration(seconds: 20)));
+  TmdbSource({required this.apiKey, required this.readToken, Dio? dio})
+    : _dio =
+          dio ?? Dio(BaseOptions(connectTimeout: const Duration(seconds: 20)));
 
   final String apiKey;
   final String readToken;
@@ -52,19 +49,21 @@ class TmdbSource {
   bool get configured => apiKey.isNotEmpty || readToken.isNotEmpty;
 
   Options _options() => Options(
-        headers: <String, Object?>{
-          if (readToken.isNotEmpty) 'Authorization': 'Bearer $readToken',
-        },
-      );
+    headers: <String, Object?>{
+      if (readToken.isNotEmpty) 'Authorization': 'Bearer $readToken',
+    },
+  );
 
   Map<String, Object?> _params(Map<String, Object?> extra) => <String, Object?>{
-        if (readToken.isEmpty && apiKey.isNotEmpty) 'api_key': apiKey,
-        ...extra,
-      };
+    if (readToken.isEmpty && apiKey.isNotEmpty) 'api_key': apiKey,
+    ...extra,
+  };
 
   /// 中国区常用语言：zh-CN 优先。
-  Future<List<TmdbItem>> search(String query,
-      {String mediaType = 'multi'}) async {
+  Future<List<TmdbItem>> search(
+    String query, {
+    String mediaType = 'multi',
+  }) async {
     final Response<Object?> res = await _dio.get<Object?>(
       'https://api.themoviedb.org/3/search/$mediaType',
       queryParameters: _params(<String, Object?>{
@@ -79,18 +78,22 @@ class TmdbSource {
     final List<TmdbItem> out = <TmdbItem>[];
     for (final Object? raw in results) {
       if (raw is! Map) continue;
-      final String mt =
-          mediaType == 'multi' ? '${raw['media_type'] ?? 'movie'}' : mediaType;
+      final String mt = mediaType == 'multi'
+          ? '${raw['media_type'] ?? 'movie'}'
+          : mediaType;
       if (mt != 'movie' && mt != 'tv') continue;
       final String date =
           '${raw['release_date'] ?? raw['first_air_date'] ?? ''}';
-      out.add(TmdbItem(
-        id: (raw['id'] as num?)?.toInt() ?? 0,
-        mediaType: mt,
-        title: '${raw['title'] ?? raw['name'] ?? raw['original_title'] ?? ''}',
-        year: date.length >= 4 ? date.substring(0, 4) : '',
-        posterPath: '${raw['poster_path'] ?? ''}',
-      ));
+      out.add(
+        TmdbItem(
+          id: (raw['id'] as num?)?.toInt() ?? 0,
+          mediaType: mt,
+          title:
+              '${raw['title'] ?? raw['name'] ?? raw['original_title'] ?? ''}',
+          year: date.length >= 4 ? date.substring(0, 4) : '',
+          posterPath: '${raw['poster_path'] ?? ''}',
+        ),
+      );
     }
     return out.where((TmdbItem t) => t.id != 0 && t.title.isNotEmpty).toList();
   }
@@ -100,8 +103,9 @@ class TmdbSource {
     final List<TmdbImage> out = <TmdbImage>[];
     final Response<Object?> res = await _dio.get<Object?>(
       'https://api.themoviedb.org/3/${item.mediaType}/${item.id}/images',
-      queryParameters:
-          _params(<String, Object?>{'include_image_language': 'zh,en,null'}),
+      queryParameters: _params(<String, Object?>{
+        'include_image_language': 'zh,en,null',
+      }),
       options: _options(),
     );
     final Map<String, Object?> data =
@@ -109,11 +113,13 @@ class TmdbSource {
     for (final Object? raw
         in (data['backdrops'] as List<Object?>? ?? <Object?>[]).take(12)) {
       if (raw is! Map) continue;
-      out.add(TmdbImage(
-        filePath: '${raw['file_path'] ?? ''}',
-        width: (raw['width'] as num?)?.toInt() ?? 0,
-        height: (raw['height'] as num?)?.toInt() ?? 0,
-      ));
+      out.add(
+        TmdbImage(
+          filePath: '${raw['file_path'] ?? ''}',
+          width: (raw['width'] as num?)?.toInt() ?? 0,
+          height: (raw['height'] as num?)?.toInt() ?? 0,
+        ),
+      );
     }
     if (item.mediaType == 'tv') {
       // 分集 stills：对第 1 季前几集各抓一张（动漫/剧集静帧的关键来源）。
@@ -124,7 +130,7 @@ class TmdbSource {
       );
       final List<Object?> episodes =
           (((season.data as Map?)?['episodes']) as List<Object?>?) ??
-              <Object?>[];
+          <Object?>[];
       for (final Object? ep in episodes.take(episodeFetch)) {
         if (ep is! Map) continue;
         final String still = '${ep['still_path'] ?? ''}';

@@ -52,7 +52,9 @@ final class AppBootstrap {
     try {
       final docs = await getApplicationDocumentsDirectory();
       return p.join(
-          docs.path, Platform.isWindows ? 'ShootStudio' : 'workspace');
+        docs.path,
+        Platform.isWindows ? 'ShootStudio' : 'workspace',
+      );
     } catch (_) {
       return p.join(Directory.systemTemp.path, 'ShootStudio');
     }

@@ -23,26 +23,35 @@ void main() {
     test('分类规则：皮肤/头发/眼睛/金属/鞋/布料（含 Human.* 名单）', () {
       // D89 名单：body/lips/ears/fingernails/teeth/tongue/face → skin。
       expect(
-        RegExp(r'/skin\|body\|lips\?\|ear\|fingernail\|teeth\|tongue\|face/')
-            .hasMatch(src),
+        RegExp(
+          r'/skin\|body\|lips\?\|ear\|fingernail\|teeth\|tongue\|face/',
+        ).hasMatch(src),
         isTrue,
         reason: '缺少皮肤分类正则',
       );
       // eyelashes/brow/short01 → hair。
-      expect(RegExp(r'/hair\|brow\|moustache\|beard\|eyelash/').hasMatch(src),
-          isTrue);
-      expect(RegExp(r'/short0\?\\d\+\$/').hasMatch(src), isTrue,
-          reason: '缺少 Human.short01 短发分类');
+      expect(
+        RegExp(r'/hair\|brow\|moustache\|beard\|eyelash/').hasMatch(src),
+        isTrue,
+      );
+      expect(
+        RegExp(r'/short0\?\\d\+\$/').hasMatch(src),
+        isTrue,
+        reason: '缺少 Human.short01 短发分类',
+      );
       // high-poly → eye。
       expect(RegExp(r'/high-\?poly/').hasMatch(src), isTrue);
       // 金属/鞋/布料兜底。
       expect(
-        RegExp(r'/metal\|gold\|silver\|earring\|visor\|buckle\|zipper\|chain\|armor/')
-            .hasMatch(src),
+        RegExp(
+          r'/metal\|gold\|silver\|earring\|visor\|buckle\|zipper\|chain\|armor/',
+        ).hasMatch(src),
         isTrue,
       );
       expect(
-          RegExp(r'/shoe\|boot\|sneaker\|sandal\|heel/').hasMatch(src), isTrue);
+        RegExp(r'/shoe\|boot\|sneaker\|sandal\|heel/').hasMatch(src),
+        isTrue,
+      );
       // 顺序红线：hair 先于 skin（Human.eyelashes01 不得被判成皮肤）。
       expect(src.indexOf('hair|brow') < src.indexOf('skin|body'), isTrue);
       // 眼睛先于皮肤（Human.high-poly）。
@@ -86,8 +95,9 @@ void main() {
 
   group('引擎 bundle 材质/HDRI/接触阴影静态门禁', () {
     test('bundle 含关键特征串（压缩后仍保留）', () {
-      final String js =
-          File('assets/engine/js/engine.bundle.js').readAsStringSync();
+      final String js = File(
+        'assets/engine/js/engine.bundle.js',
+      ).readAsStringSync();
       for (final String token in <String>[
         'ss-skin-sss-v2',
         'ss-cloth-sheen-',
@@ -104,8 +114,10 @@ void main() {
         expect(js.contains(token), isTrue, reason: '引擎缺少 $token');
       }
       // 分类正则（minify 不改正则字面量）。
-      expect(js.contains('/skin|body|lips?|ear|fingernail|teeth|tongue|face/'),
-          isTrue);
+      expect(
+        js.contains('/skin|body|lips?|ear|fingernail|teeth|tongue|face/'),
+        isTrue,
+      );
       expect(js.contains('/hair|brow|moustache|beard|eyelash/'), isTrue);
       expect(RegExp(r'/high-\?poly/').hasMatch(js), isTrue);
       // 预算：≤2.2MB（R21 延续）。
@@ -120,20 +132,25 @@ void main() {
       expect(hdr.lengthSync(), greaterThan(1024 * 100));
 
       final String pubspec = File('pubspec.yaml').readAsStringSync();
-      expect(pubspec.contains('assets/engine/env/'), isTrue,
-          reason: 'pubspec 未声明 assets/engine/env/');
+      expect(
+        pubspec.contains('assets/engine/env/'),
+        isTrue,
+        reason: 'pubspec 未声明 assets/engine/env/',
+      );
 
-      final Map<String, Object?> attribution = (jsonDecode(
-                  File('assets/content/attribution.json').readAsStringSync())
-              as Map)
-          .cast<String, Object?>();
+      final Map<String, Object?> attribution =
+          (jsonDecode(
+                    File('assets/content/attribution.json').readAsStringSync(),
+                  )
+                  as Map)
+              .cast<String, Object?>();
       final List<Map<String, Object?>> items =
           (attribution['items'] as List<Object?>? ?? <Object?>[])
               .map((Object? e) => (e as Map).cast<String, Object?>())
               .toList();
       final Iterable<Map<String, Object?>> hdrItems = items.where(
-          (Map<String, Object?> e) =>
-              '${e['file']}'.contains('studio_small_03'));
+        (Map<String, Object?> e) => '${e['file']}'.contains('studio_small_03'),
+      );
       expect(hdrItems.length, 1, reason: 'HDRI 未在 attribution 登记');
       final Map<String, Object?> entry = hdrItems.first;
       expect('${entry['license']}'.toUpperCase(), contains('CC0'));
@@ -198,10 +215,14 @@ void main() {
     });
 
     test('默认开 + 持久化 + 重启恢复', () async {
-      final LightingController controller =
-          container.read(lightingControllerProvider.notifier);
-      expect(container.read(lightingControllerProvider).contactShadow, isTrue,
-          reason: '接触阴影默认应为开（R38 性能退路由用户关闭）');
+      final LightingController controller = container.read(
+        lightingControllerProvider.notifier,
+      );
+      expect(
+        container.read(lightingControllerProvider).contactShadow,
+        isTrue,
+        reason: '接触阴影默认应为开（R38 性能退路由用户关闭）',
+      );
       await controller.setContactShadow(false);
       expect(container.read(lightingControllerProvider).contactShadow, isFalse);
       expect(await db.getSetting('quality_contact_shadow'), '0');
@@ -212,17 +233,22 @@ void main() {
       addTearDown(container2.dispose);
       await container2.read(lightingControllerProvider.notifier).init();
       expect(
-          container2.read(lightingControllerProvider).contactShadow, isFalse);
+        container2.read(lightingControllerProvider).contactShadow,
+        isFalse,
+      );
     });
 
     test('环境光与接触阴影互不联动（D85 语义不冲突）', () async {
-      final LightingController controller =
-          container.read(lightingControllerProvider.notifier);
+      final LightingController controller = container.read(
+        lightingControllerProvider.notifier,
+      );
       await controller.setAmbientEnabled(false);
       expect(container.read(lightingControllerProvider).contactShadow, isTrue);
       await controller.setContactShadow(false);
       expect(
-          container.read(lightingControllerProvider).ambientEnabled, isFalse);
+        container.read(lightingControllerProvider).ambientEnabled,
+        isFalse,
+      );
     });
   });
 }

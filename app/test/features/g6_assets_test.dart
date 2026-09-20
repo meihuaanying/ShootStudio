@@ -18,20 +18,19 @@ class _Adapter implements HttpClientAdapter {
     RequestOptions options,
     Stream<Uint8List>? requestStream,
     Future<void>? cancelFuture,
-  ) =>
-      handler(options);
+  ) => handler(options);
 
   @override
   void close({bool force = false}) {}
 }
 
 ResponseBody _json(Object data) => ResponseBody.fromString(
-      jsonEncode(data),
-      200,
-      headers: <String, List<String>>{
-        Headers.contentTypeHeader: <String>[Headers.jsonContentType],
-      },
-    );
+  jsonEncode(data),
+  200,
+  headers: <String, List<String>>{
+    Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+  },
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -60,8 +59,10 @@ void main() {
             .where((String t) => t.isNotEmpty)
             .toList();
         return gear
-            .where((GearEntry g) =>
-                tokens.every((String t) => g.searchText.contains(t)))
+            .where(
+              (GearEntry g) =>
+                  tokens.every((String t) => g.searchText.contains(t)),
+            )
             .toList();
       }
 
@@ -77,7 +78,9 @@ void main() {
     test('自定义设备可写入 gearItems 表（builtin=false）', () async {
       final AppDatabase db = AppDatabase.forTesting(NativeDatabase.memory());
       addTearDown(db.close);
-      await db.into(db.gearItems).insert(
+      await db
+          .into(db.gearItems)
+          .insert(
             GearItemsCompanion.insert(
               id: 'custom-test',
               kind: 'camera',
@@ -109,8 +112,11 @@ void main() {
         if (bundled) {
           expect(File(file).existsSync(), isTrue, reason: '$file 缺失');
         } else {
-          expect('${item['source']}'.isNotEmpty, isTrue,
-              reason: '$file 非内置条目缺来源');
+          expect(
+            '${item['source']}'.isNotEmpty,
+            isTrue,
+            reason: '$file 非内置条目缺来源',
+          );
         }
         final String license = '${item['license']}';
         expect(
@@ -207,13 +213,17 @@ void main() {
             ],
           });
         });
-      final SourcePage pexels =
-          await PexelsSource('pk-test', dio: dio).search('rain', page: 2);
+      final SourcePage pexels = await PexelsSource(
+        'pk-test',
+        dio: dio,
+      ).search('rain', page: 2);
       expect(pexels.hits.single.source, 'Pexels');
       expect(pexels.hits.single.fullUrl, contains('large.jpg'));
       expect(pexels.hasMore, isTrue);
-      final SourcePage tmdb =
-          await TmdbSource('tmdb-test', dio: dio).search('movie');
+      final SourcePage tmdb = await TmdbSource(
+        'tmdb-test',
+        dio: dio,
+      ).search('movie');
       expect(tmdb.hits.single.fullUrl, contains('image.tmdb.org'));
       expect(tmdb.hasMore, isTrue);
       // 缺 Key 的源被禁用并给出提示（R32）。
@@ -238,19 +248,23 @@ void main() {
           }
           throw DioException(requestOptions: o, message: 'offline');
         });
-      final SmartImageSearch search = SmartImageSearch(sources: <ImageSource>[
-        OpenverseSource(dio: dio),
-        PexelsSource('bad-key', dio: dio),
-      ]);
+      final SmartImageSearch search = SmartImageSearch(
+        sources: <ImageSource>[
+          OpenverseSource(dio: dio),
+          PexelsSource('bad-key', dio: dio),
+        ],
+      );
       final SmartSearchResult result = await search.search('雨夜');
       expect(result.hits, hasLength(1));
       expect(result.statuses, hasLength(2));
-      final SourceStatus ok =
-          result.statuses.firstWhere((SourceStatus s) => s.id == 'openverse');
+      final SourceStatus ok = result.statuses.firstWhere(
+        (SourceStatus s) => s.id == 'openverse',
+      );
       expect(ok.ok, isTrue);
       expect(ok.count, 1);
-      final SourceStatus failed =
-          result.statuses.firstWhere((SourceStatus s) => s.id == 'pexels');
+      final SourceStatus failed = result.statuses.firstWhere(
+        (SourceStatus s) => s.id == 'pexels',
+      );
       expect(failed.ok, isFalse);
       expect(failed.error, contains('offline'));
       expect(failed.elapsedMs, greaterThanOrEqualTo(0));

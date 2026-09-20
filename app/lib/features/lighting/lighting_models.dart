@@ -13,9 +13,10 @@ enum LightType {
   const LightType(this.label);
   final String label;
 
-  static LightType fromName(String? name) =>
-      LightType.values.firstWhere((LightType t) => t.name == name,
-          orElse: () => LightType.hard);
+  static LightType fromName(String? name) => LightType.values.firstWhere(
+    (LightType t) => t.name == name,
+    orElse: () => LightType.hard,
+  );
 }
 
 /// 单个设备/道具实例。
@@ -81,30 +82,30 @@ class DeviceSpec {
   DeviceSpec copy() => DeviceSpec.fromJson(deepCopy(toJson()), id: id);
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'id': id,
-        'kind': kind,
-        'name': name,
-        'type': type,
-        'x': x,
-        'y': y,
-        'height': height,
-        'intensity': intensity,
-        'kelvin': kelvin,
-        'beamAngle': beamAngle,
-        'softness': softness,
-        'fixture': fixture,
-        'modifier': modifier,
-        'color': color,
-        'on': on,
-        'note': note,
-        'rotation': rotation,
-        if (isLight) 'rotationY': rotation,
-        'scale': scale,
-        if (texture.isNotEmpty) 'texture': texture,
-        if (isLight) 'stand': stand,
-        if (isLight) 'offsetYaw': offsetYaw,
-        if (isLight) 'offsetPitch': offsetPitch,
-      };
+    'id': id,
+    'kind': kind,
+    'name': name,
+    'type': type,
+    'x': x,
+    'y': y,
+    'height': height,
+    'intensity': intensity,
+    'kelvin': kelvin,
+    'beamAngle': beamAngle,
+    'softness': softness,
+    'fixture': fixture,
+    'modifier': modifier,
+    'color': color,
+    'on': on,
+    'note': note,
+    'rotation': rotation,
+    if (isLight) 'rotationY': rotation,
+    'scale': scale,
+    if (texture.isNotEmpty) 'texture': texture,
+    if (isLight) 'stand': stand,
+    if (isLight) 'offsetYaw': offsetYaw,
+    if (isLight) 'offsetPitch': offsetPitch,
+  };
 
   static DeviceSpec fromJson(Map<String, Object?> json, {String? id}) =>
       DeviceSpec(
@@ -154,14 +155,14 @@ class CameraRigData {
   bool enabled;
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'x': x,
-        'y': y,
-        'height': height,
-        'yaw': yaw,
-        'pitch': pitch,
-        'focal': focal,
-        'enabled': enabled,
-      };
+    'x': x,
+    'y': y,
+    'height': height,
+    'yaw': yaw,
+    'pitch': pitch,
+    'focal': focal,
+    'enabled': enabled,
+  };
 
   static CameraRigData fromJson(Map<String, Object?>? json) {
     final Map<String, Object?> j = json ?? <String, Object?>{};
@@ -228,16 +229,16 @@ class LightingSceneData {
   static const int maxDevices = 40;
 
   Map<String, Object?> toJson() => <String, Object?>{
-        'id': id,
-        'name': name,
-        'width': width,
-        'depth': depth,
-        'height': height,
-        'devices': devices.map((DeviceSpec d) => d.toJson()).toList(),
-        if (hands != null && hands!.isNotEmpty) 'hands': hands,
-        'ambientEnabled': ambientEnabled,
-        'camera': camera.toJson(),
-      };
+    'id': id,
+    'name': name,
+    'width': width,
+    'depth': depth,
+    'height': height,
+    'devices': devices.map((DeviceSpec d) => d.toJson()).toList(),
+    if (hands != null && hands!.isNotEmpty) 'hands': hands,
+    'ambientEnabled': ambientEnabled,
+    'camera': camera.toJson(),
+  };
 
   static LightingSceneData fromJson(Map<String, Object?> json) =>
       LightingSceneData(
@@ -250,7 +251,8 @@ class LightingSceneData {
         hands: json['hands'] == null ? null : asMap(json['hands']),
         ambientEnabled: json['ambientEnabled'] as bool? ?? true,
         camera: CameraRigData.fromJson(
-            json['camera'] == null ? null : asMap(json['camera'])),
+          json['camera'] == null ? null : asMap(json['camera']),
+        ),
       );
 
   List<DeviceSpec> get lights =>
@@ -263,46 +265,45 @@ class LightingSceneData {
     Map<String, Object?>? poseJoints,
     Map<String, Object?>? hands,
     bool showPerson = true,
-  }) =>
-      <String, Object?>{
-        'version': 1,
-        'studio': <String, Object?>{
-          'width': width,
-          'depth': depth,
-          'height': height
-        },
-        'subject': <String, Object?>{
-          'height': 1.7,
-          'visible': showPerson,
-          'rotationY': 0,
-          if (poseJoints != null)
-            'pose': <String, Object?>{'joints': poseJoints, 'duration': 380},
-          if (hands != null && hands.isNotEmpty) 'hands': hands,
-        },
-        'lights': lights.map((DeviceSpec d) => d.toJson()).toList(),
-        'props': props.map((DeviceSpec d) => d.toJson()).toList(),
-        // V6/D105：机位随场景同步（引擎侧 setCameraRig 消费）。
-        'camera': camera.toJson(),
-      };
+  }) => <String, Object?>{
+    'version': 1,
+    'studio': <String, Object?>{
+      'width': width,
+      'depth': depth,
+      'height': height,
+    },
+    'subject': <String, Object?>{
+      'height': 1.7,
+      'visible': showPerson,
+      'rotationY': 0,
+      if (poseJoints != null)
+        'pose': <String, Object?>{'joints': poseJoints, 'duration': 380},
+      if (hands != null && hands.isNotEmpty) 'hands': hands,
+    },
+    'lights': lights.map((DeviceSpec d) => d.toJson()).toList(),
+    'props': props.map((DeviceSpec d) => d.toJson()).toList(),
+    // V6/D105：机位随场景同步（引擎侧 setCameraRig 消费）。
+    'camera': camera.toJson(),
+  };
 
-  LightingSceneData copy() => LightingSceneData.fromJson(
-        deepCopy(toJson()),
-      );
+  LightingSceneData copy() => LightingSceneData.fromJson(deepCopy(toJson()));
 }
 
 /// 从预设设备列表创建设备实例（分配 id 与名称序号）。
 List<DeviceSpec> instantiatePresetDevices(
-    List<Map<String, Object?>> presetDevices) {
+  List<Map<String, Object?>> presetDevices,
+) {
   const Uuid uuid = Uuid();
   return presetDevices.map((Map<String, Object?> raw) {
-    final isProp = raw.containsKey('type') &&
+    final isProp =
+        raw.containsKey('type') &&
         const <String>[
           'sofa',
           'umbrella',
           'crate',
           'backdrop',
           'reflector',
-          'bouquet'
+          'bouquet',
         ].contains(raw['type']);
     if (isProp) {
       return DeviceSpec(

@@ -24,9 +24,10 @@ enum SearchIntent {
   const SearchIntent(this.label);
   final String label;
 
-  static SearchIntent fromName(String name) =>
-      SearchIntent.values.firstWhere((SearchIntent t) => t.name == name,
-          orElse: () => SearchIntent.keyword);
+  static SearchIntent fromName(String name) => SearchIntent.values.firstWhere(
+    (SearchIntent t) => t.name == name,
+    orElse: () => SearchIntent.keyword,
+  );
 }
 
 /// 源能力声明（合同 §3.C.1）。
@@ -100,11 +101,7 @@ class SearchHit {
   final double score;
   final Map<String, Object?> extra;
 
-  SearchHit copyWith({
-    double? score,
-    String? group,
-    String? description,
-  }) =>
+  SearchHit copyWith({double? score, String? group, String? description}) =>
       SearchHit(
         id: id,
         title: title,
@@ -176,17 +173,16 @@ class SearchQuery {
     ImageDomain? domain,
     Map<String, String>? perSource,
     String? sourceNote,
-  }) =>
-      SearchQuery(
-        raw: raw,
-        intent: intent ?? this.intent,
-        text: text ?? this.text,
-        title: title ?? this.title,
-        person: person ?? this.person,
-        domain: domain ?? this.domain,
-        perSource: perSource ?? this.perSource,
-        sourceNote: sourceNote ?? this.sourceNote,
-      );
+  }) => SearchQuery(
+    raw: raw,
+    intent: intent ?? this.intent,
+    text: text ?? this.text,
+    title: title ?? this.title,
+    person: person ?? this.person,
+    domain: domain ?? this.domain,
+    perSource: perSource ?? this.perSource,
+    sourceNote: sourceNote ?? this.sourceNote,
+  );
 }
 
 /// 单源一页结果。

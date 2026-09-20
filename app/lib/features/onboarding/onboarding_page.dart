@@ -50,8 +50,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   }
 
   Future<void> _pick() async {
-    final path =
-        await FilePicker.platform.getDirectoryPath(dialogTitle: '选择工作区目录');
+    final path = await FilePicker.platform.getDirectoryPath(
+      dialogTitle: '选择工作区目录',
+    );
     if (path == null || path.isEmpty) return;
     await _confirm(path);
   }
@@ -82,9 +83,10 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   child: const Text(
                     '正',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800),
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
                 const SizedBox(height: AppTokens.s24),
@@ -96,19 +98,20 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                 Text(
                   '画面参考 → 布光预演 → 动作摆姿 → 一键成案\n本地优先，数据全部保存在你选择的目录里，可整体迁移。',
                   style: TextStyle(
-                      fontSize: 13.5,
-                      height: 1.7,
-                      color: theme.colorScheme.onSurfaceVariant),
+                    fontSize: 13.5,
+                    height: 1.7,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 const SizedBox(height: AppTokens.s24),
                 Row(
                   children: <Widget>[
                     for (final (int i, String label, IconData icon)
                         in <(int, String, IconData)>[
-                      (1, '找画面参考', Icons.movie_filter_outlined),
-                      (2, '摆灯光与姿势', Icons.wb_incandescent_outlined),
-                      (3, '一键成案导出', Icons.ios_share_rounded),
-                    ])
+                          (1, '找画面参考', Icons.movie_filter_outlined),
+                          (2, '摆灯光与姿势', Icons.wb_incandescent_outlined),
+                          (3, '一键成案导出', Icons.ios_share_rounded),
+                        ])
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(right: i == 3 ? 0 : 10),
@@ -126,7 +129,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                                         gradient: const LinearGradient(
                                           colors: <Color>[
                                             AppTokens.accent,
-                                            AppTokens.accent2
+                                            AppTokens.accent2,
                                           ],
                                         ),
                                         borderRadius: BorderRadius.circular(6),
@@ -142,15 +145,21 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                                       ),
                                     ),
                                     const SizedBox(width: 6),
-                                    Icon(icon,
-                                        size: 15, color: AppTokens.accent),
+                                    Icon(
+                                      icon,
+                                      size: 15,
+                                      color: AppTokens.accent,
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                                Text(label,
-                                    style: const TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w700)),
+                                Text(
+                                  label,
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -164,9 +173,13 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Text('工作区目录',
-                          style: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w700)),
+                      const Text(
+                        '工作区目录',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                       const SizedBox(height: AppTokens.s8),
                       Text(
                         _defaultPath ?? '（正在准备默认目录…）',
@@ -213,8 +226,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       ? '提示：目录内会自动创建 database.sqlite、images/ 与 exports/ 子目录。'
                       : '提示：建议选择存储空间充足的目录；数据仅存留在本机。',
                   style: TextStyle(
-                      fontSize: 11.5,
-                      color: theme.colorScheme.onSurfaceVariant),
+                    fontSize: 11.5,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),

@@ -31,7 +31,8 @@ void main() {
       };
       for (final MapEntry<String, int> entry in densities.entries) {
         final File mipmap = File(
-            'android/app/src/main/res/mipmap-${entry.key}/ic_launcher.png');
+          'android/app/src/main/res/mipmap-${entry.key}/ic_launcher.png',
+        );
         expect(mipmap.existsSync(), isTrue, reason: '缺少 ${entry.key}');
         final List<int> bytes = mipmap.readAsBytesSync();
         expect(bytes.sublist(0, 4), <int>[0x89, 0x50, 0x4E, 0x47]);
@@ -43,18 +44,20 @@ void main() {
   group('F7 动效与空态', () {
     testWidgets('SsFadeSwitch：切换索引重放淡入', (WidgetTester tester) async {
       Widget build(int index) => MaterialApp(
-            home: SsFadeSwitch(
-              index: index,
-              child: const Text('内容', key: ValueKey<String>('content')),
-            ),
-          );
+        home: SsFadeSwitch(
+          index: index,
+          child: const Text('内容', key: ValueKey<String>('content')),
+        ),
+      );
       await tester.pumpWidget(build(0));
-      FadeTransition fade() => tester.widget<FadeTransition>(find
-          .descendant(
-            of: find.byType(SsFadeSwitch),
-            matching: find.byType(FadeTransition),
-          )
-          .first);
+      FadeTransition fade() => tester.widget<FadeTransition>(
+        find
+            .descendant(
+              of: find.byType(SsFadeSwitch),
+              matching: find.byType(FadeTransition),
+            )
+            .first,
+      );
       expect(fade().opacity.value, 1.0);
 
       await tester.pumpWidget(build(1));
@@ -69,9 +72,11 @@ void main() {
     });
 
     testWidgets('SsShimmer：流光持续动画且不抛异常', (WidgetTester tester) async {
-      await tester.pumpWidget(const MaterialApp(
-        home: Scaffold(body: SsShimmer(label: '正在生成…')),
-      ));
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(body: SsShimmer(label: '正在生成…')),
+        ),
+      );
       expect(find.text('正在生成…'), findsOneWidget);
       await tester.pump(const Duration(milliseconds: 320));
       await tester.pump(const Duration(milliseconds: 320));
@@ -80,11 +85,17 @@ void main() {
 
     testWidgets('SsEmpty：程序绘制插画可渲染（四种变体）', (WidgetTester tester) async {
       for (final SsArt art in SsArt.values) {
-        await tester.pumpWidget(MaterialApp(
-          home: Scaffold(
-            body: SsEmpty(icon: Icons.star, art: art, title: '空态 ${art.name}'),
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: SsEmpty(
+                icon: Icons.star,
+                art: art,
+                title: '空态 ${art.name}',
+              ),
+            ),
           ),
-        ));
+        );
         expect(find.text('空态 ${art.name}'), findsOneWidget);
         expect(
           find.descendant(
@@ -98,23 +109,26 @@ void main() {
     });
 
     testWidgets('SsCard：悬停轻抬 + 时长令牌一致', (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: SsCard(
-              onTap: () {},
-              child: const SizedBox(width: 120, height: 60),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: SsCard(
+                onTap: () {},
+                child: const SizedBox(width: 120, height: 60),
+              ),
             ),
           ),
         ),
-      ));
+      );
       Matrix4 transformOf() => tester
           .widget<AnimatedContainer>(find.byType(AnimatedContainer))
           .transform!;
       expect(transformOf().getTranslation().y, 0);
 
-      final TestGesture gesture =
-          await tester.createGesture(kind: PointerDeviceKind.mouse);
+      final TestGesture gesture = await tester.createGesture(
+        kind: PointerDeviceKind.mouse,
+      );
       await gesture.addPointer(location: Offset.zero);
       addTearDown(gesture.removePointer);
       await tester.pump();

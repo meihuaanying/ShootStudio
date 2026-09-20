@@ -32,27 +32,31 @@ void main() {
     setUpAll(() async {
       NetRouter.debugRetriesInTests = true;
       await NetRouter.I.configure(userProxy: '', autoTunnel: true);
-      final Map<String, Object?> config = jsonDecode(
-              File('assets/config/image_sources.json').readAsStringSync())
-          as Map<String, Object?>;
+      final Map<String, Object?> config =
+          jsonDecode(
+                File('assets/config/image_sources.json').readAsStringSync(),
+              )
+              as Map<String, Object?>;
       final Map<String, Object?> pexels =
           (config['pexels'] as Map? ?? <String, Object?>{}).cast();
       final Map<String, Object?> tmdb =
           (config['tmdb'] as Map? ?? <String, Object?>{}).cast();
-      engine = SearchEngine(sources: <SearchSource>[
-        PexelsImageSource('${pexels['apiKey'] ?? ''}'),
-        TmdbImageSource(
-          apiKey: '${tmdb['apiKey'] ?? ''}',
-          readToken: '${tmdb['readToken'] ?? ''}',
-        ),
-        AniListSource(),
-        MetSource(),
-        ArticSource(),
-        ClevelandSource(),
-        VamSource(),
-        WikiArtSource(),
-        ArtveeSource(),
-      ]);
+      engine = SearchEngine(
+        sources: <SearchSource>[
+          PexelsImageSource('${pexels['apiKey'] ?? ''}'),
+          TmdbImageSource(
+            apiKey: '${tmdb['apiKey'] ?? ''}',
+            readToken: '${tmdb['readToken'] ?? ''}',
+          ),
+          AniListSource(),
+          MetSource(),
+          ArticSource(),
+          ClevelandSource(),
+          VamSource(),
+          WikiArtSource(),
+          ArtveeSource(),
+        ],
+      );
       db = AppDatabase.forTesting(NativeDatabase.memory());
       planner = QueryPlanner(db);
       report
@@ -78,29 +82,29 @@ void main() {
 
     final List<({String input, ImageDomain domain})> cases =
         <({String input, ImageDomain domain})>[
-      (input: '星际穿越', domain: ImageDomain.film),
-      (input: 'Interstellar', domain: ImageDomain.film),
-      (input: '导演 诺兰', domain: ImageDomain.film),
-      (input: '新海诚', domain: ImageDomain.film),
-      (input: 'Demon Slayer', domain: ImageDomain.film),
-      (input: 'Attack on Titan', domain: ImageDomain.film),
-      (input: '雨夜霓虹 天台', domain: ImageDomain.photo),
-      (input: 'backlit portrait', domain: ImageDomain.photo),
-      (input: '伦勃朗光', domain: ImageDomain.photo),
-      (input: 'golden hour couple', domain: ImageDomain.photo),
-      (input: 'cyberpunk neon', domain: ImageDomain.photo),
-      (input: '赛博 霓虹', domain: ImageDomain.photo),
-      (input: '国风 汉服', domain: ImageDomain.photo),
-      (input: 'japanese kimono portrait', domain: ImageDomain.photo),
-      (input: '梵高 向日葵', domain: ImageDomain.art),
-      (input: 'Van Gogh Sunflowers', domain: ImageDomain.art),
-      (input: 'Hokusai wave', domain: ImageDomain.art),
-      (input: '莫奈 睡莲', domain: ImageDomain.art),
-      (input: 'Rembrandt self portrait', domain: ImageDomain.art),
-      (input: 'ukiyo-e', domain: ImageDomain.art),
-      (input: 'art nouveau poster', domain: ImageDomain.art),
-      (input: 'Claude Monet Water Lilies', domain: ImageDomain.art),
-    ];
+          (input: '星际穿越', domain: ImageDomain.film),
+          (input: 'Interstellar', domain: ImageDomain.film),
+          (input: '导演 诺兰', domain: ImageDomain.film),
+          (input: '新海诚', domain: ImageDomain.film),
+          (input: 'Demon Slayer', domain: ImageDomain.film),
+          (input: 'Attack on Titan', domain: ImageDomain.film),
+          (input: '雨夜霓虹 天台', domain: ImageDomain.photo),
+          (input: 'backlit portrait', domain: ImageDomain.photo),
+          (input: '伦勃朗光', domain: ImageDomain.photo),
+          (input: 'golden hour couple', domain: ImageDomain.photo),
+          (input: 'cyberpunk neon', domain: ImageDomain.photo),
+          (input: '赛博 霓虹', domain: ImageDomain.photo),
+          (input: '国风 汉服', domain: ImageDomain.photo),
+          (input: 'japanese kimono portrait', domain: ImageDomain.photo),
+          (input: '梵高 向日葵', domain: ImageDomain.art),
+          (input: 'Van Gogh Sunflowers', domain: ImageDomain.art),
+          (input: 'Hokusai wave', domain: ImageDomain.art),
+          (input: '莫奈 睡莲', domain: ImageDomain.art),
+          (input: 'Rembrandt self portrait', domain: ImageDomain.art),
+          (input: 'ukiyo-e', domain: ImageDomain.art),
+          (input: 'art nouveau poster', domain: ImageDomain.art),
+          (input: 'Claude Monet Water Lilies', domain: ImageDomain.art),
+        ];
 
     for (final ({String input, ImageDomain domain}) c in cases) {
       test('live：${c.input}（${c.domain.label}）', () async {

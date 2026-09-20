@@ -77,13 +77,16 @@ class PlannerController extends Notifier<PlannerState> {
 
   Future<void> init() async {
     if (state.loaded) return;
-    final rows = await (_db.select(_db.plans)
-          ..orderBy(<OrderClauseGenerator<$PlansTable>>[
-            (t) =>
-                OrderingTerm(expression: t.updatedAt, mode: OrderingMode.desc),
-          ])
-          ..limit(1))
-        .get();
+    final rows =
+        await (_db.select(_db.plans)
+              ..orderBy(<OrderClauseGenerator<$PlansTable>>[
+                (t) => OrderingTerm(
+                  expression: t.updatedAt,
+                  mode: OrderingMode.desc,
+                ),
+              ])
+              ..limit(1))
+            .get();
     if (rows.isNotEmpty) {
       final Plan row = rows.first;
       final modules = _decodeModules(row.modulesJson);
@@ -146,13 +149,18 @@ class PlannerController extends Notifier<PlannerState> {
 
   void setTitle(String title) {
     state = state.copyWith(
-        title: title.trim().isEmpty ? '未命名策划案' : title.trim(), dirty: true);
+      title: title.trim().isEmpty ? '未命名策划案' : title.trim(),
+      dirty: true,
+    );
     _scheduleSnapshot();
   }
 
   void setStatus(PlanDocStatus status) {
     state = state.copyWith(
-        status: status, dirty: true, statusText: '状态：${status.label}');
+      status: status,
+      dirty: true,
+      statusText: '状态：${status.label}',
+    );
     _scheduleSnapshot();
   }
 
@@ -240,14 +248,11 @@ class PlannerController extends Notifier<PlannerState> {
   }
 
   PlanModuleData addModule(PlanModuleType type) {
-    final module = PlanModuleData.fromTemplate(
-      <String, Object?>{
-        'type': type.name,
-        'title': type.label,
-        'preset': <String, Object?>{}
-      },
-      _uuid.v4(),
-    );
+    final module = PlanModuleData.fromTemplate(<String, Object?>{
+      'type': type.name,
+      'title': type.label,
+      'preset': <String, Object?>{},
+    }, _uuid.v4());
     state = state.copyWith(
       modules: <PlanModuleData>[...state.modules, module],
       dirty: true,
@@ -268,13 +273,11 @@ class PlannerController extends Notifier<PlannerState> {
   void duplicateModule(String id) {
     final index = state.modules.indexWhere((PlanModuleData m) => m.id == id);
     if (index < 0) return;
-    final copy = PlanModuleData.fromJson(
-      <String, Object?>{
-        ...state.modules[index].toJson(),
-        'id': _uuid.v4(),
-        'folded': false,
-      },
-    );
+    final copy = PlanModuleData.fromJson(<String, Object?>{
+      ...state.modules[index].toJson(),
+      'id': _uuid.v4(),
+      'folded': false,
+    });
     final modules = <PlanModuleData>[...state.modules]..insert(index + 1, copy);
     state = state.copyWith(modules: modules, dirty: true);
     _scheduleSnapshot();
@@ -302,8 +305,10 @@ class PlannerController extends Notifier<PlannerState> {
         break;
       }
     }
-    state = state
-        .copyWith(modules: <PlanModuleData>[...state.modules], dirty: true);
+    state = state.copyWith(
+      modules: <PlanModuleData>[...state.modules],
+      dirty: true,
+    );
     _scheduleSnapshot();
   }
 
@@ -324,14 +329,17 @@ class PlannerController extends Notifier<PlannerState> {
   }
 
   Future<void> _persist() async {
-    await _db.into(_db.plans).insertOnConflictUpdate(
+    await _db
+        .into(_db.plans)
+        .insertOnConflictUpdate(
           PlansCompanion.insert(
             id: state.planId,
             title: state.title,
             status: Value(state.status.storageName),
             modulesJson: Value(
               jsonEncode(
-                  state.modules.map((PlanModuleData m) => m.toJson()).toList()),
+                state.modules.map((PlanModuleData m) => m.toJson()).toList(),
+              ),
             ),
             createdAt: DateTime.now().millisecondsSinceEpoch,
             updatedAt: DateTime.now().millisecondsSinceEpoch,
@@ -342,8 +350,11 @@ class PlannerController extends Notifier<PlannerState> {
 
   Future<void> _recordSnapshot({String? label}) async {
     final key = jsonEncode(
-        state.modules.map((PlanModuleData m) => m.toJson()).toList());
-    await _db.into(_db.planSnapshots).insert(
+      state.modules.map((PlanModuleData m) => m.toJson()).toList(),
+    );
+    await _db
+        .into(_db.planSnapshots)
+        .insert(
           PlanSnapshotsCompanion.insert(
             id: _uuid.v4(),
             planId: state.planId,
@@ -367,13 +378,16 @@ class PlannerController extends Notifier<PlannerState> {
       state.snapshots.isEmpty ? '' : (state.snapshots.first.label ?? '');
 
   Future<void> _reloadSnapshots() async {
-    final rows = await (_db.select(_db.planSnapshots)
-          ..where((t) => t.planId.equals(state.planId))
-          ..orderBy(<OrderClauseGenerator<$PlanSnapshotsTable>>[
-            (t) =>
-                OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc),
-          ]))
-        .get();
+    final rows =
+        await (_db.select(_db.planSnapshots)
+              ..where((t) => t.planId.equals(state.planId))
+              ..orderBy(<OrderClauseGenerator<$PlanSnapshotsTable>>[
+                (t) => OrderingTerm(
+                  expression: t.createdAt,
+                  mode: OrderingMode.desc,
+                ),
+              ]))
+            .get();
     final snapshots = rows
         .map(
           (PlanSnapshot row) => PlanSnapshotInfo(
@@ -389,18 +403,18 @@ class PlannerController extends Notifier<PlannerState> {
 
   /// 读取指定快照的模块列表（版本对比用，D17）。
   Future<List<PlanModuleData>> modulesOfSnapshot(String snapshotId) async {
-    final row = await (_db.select(_db.planSnapshots)
-          ..where((t) => t.id.equals(snapshotId)))
-        .getSingleOrNull();
+    final row = await (_db.select(
+      _db.planSnapshots,
+    )..where((t) => t.id.equals(snapshotId))).getSingleOrNull();
     if (row == null) return const <PlanModuleData>[];
     return _decodeModules(row.modulesJson);
   }
 
   /// 回滚到快照（回滚也产生新快照，永不丢历史，D17）。
   Future<void> restoreSnapshot(String snapshotId) async {
-    final row = await (_db.select(_db.planSnapshots)
-          ..where((t) => t.id.equals(snapshotId)))
-        .getSingleOrNull();
+    final row = await (_db.select(
+      _db.planSnapshots,
+    )..where((t) => t.id.equals(snapshotId))).getSingleOrNull();
     if (row == null) return;
     await _recordSnapshot(label: '回滚前自动备份');
     final modules = _decodeModules(row.modulesJson);

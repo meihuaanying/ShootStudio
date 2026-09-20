@@ -16,7 +16,7 @@ import 'search_models.dart';
 /// - 网络/Key 不可用时返回空列表，由调用方提示，不阻塞策划案生成。
 class PlannerRefsService {
   PlannerRefsService({required AppDatabase db, required this.workspaceRoot})
-      : _db = db;
+    : _db = db;
 
   final AppDatabase _db;
   final String workspaceRoot;
@@ -31,8 +31,10 @@ class PlannerRefsService {
     SearchQuery query = await planner.plan(trimmed, domain: ImageDomain.photo);
     if (query.text.trim().isEmpty) {
       // 摄影域无词时尝试影视域（TMDB 支持中文检索但红线优先英文词）。
-      final SearchQuery film =
-          await planner.plan(trimmed, domain: ImageDomain.film);
+      final SearchQuery film = await planner.plan(
+        trimmed,
+        domain: ImageDomain.film,
+      );
       if (film.text.trim().isNotEmpty || film.title.trim().isNotEmpty) {
         query = film;
       } else {
@@ -41,8 +43,10 @@ class PlannerRefsService {
     }
     final SearchKeys keys = await SearchKeys.load(_db);
     final SearchEngine engine = SearchEngine(sources: keys.sources());
-    final AggregatedResult result =
-        await engine.search(query, perPage: target + 6);
+    final AggregatedResult result = await engine.search(
+      query,
+      perPage: target + 6,
+    );
     if (result.hits.isEmpty) return <Map<String, Object?>>[];
     final SearchCache cache = await SearchCache.from(_db, workspaceRoot);
     final ImageStore store = ImageStore(workspaceRoot);
@@ -55,14 +59,15 @@ class PlannerRefsService {
           original: true,
         );
         if (bytes.isEmpty) continue;
-        final (String fileName, PaletteResult palette) =
-            await store.importBytes(bytes, category: 'refs', title: hit.title);
+        final (String fileName, PaletteResult palette) = await store
+            .importBytes(bytes, category: 'refs', title: hit.title);
         entries.add(<String, Object?>{
           'name': '${hit.title}（${hit.sourceLabel}）',
           'palette': palette.colors,
           'gradient': palette.colors.take(2).toList(),
-          'sourceUrl':
-              hit.sourcePageUrl.isEmpty ? hit.fullUrl : hit.sourcePageUrl,
+          'sourceUrl': hit.sourcePageUrl.isEmpty
+              ? hit.fullUrl
+              : hit.sourcePageUrl,
           'imageRef': fileName,
           'source': hit.sourceLabel,
           'license': hit.license,

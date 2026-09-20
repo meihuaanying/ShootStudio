@@ -107,7 +107,8 @@ class EngineBridge {
           _events.add(EngineJointClicked(data['joint'] as String? ?? ''));
         case 'selection':
           _events.add(
-              EngineSelection(data['kind'] as String?, data['id'] as String?));
+            EngineSelection(data['kind'] as String?, data['id'] as String?),
+          );
         case 'sceneChanged':
           _events.add(
             EngineSceneChanged(
@@ -116,11 +117,13 @@ class EngineBridge {
             ),
           );
         case 'characterChanged':
-          _events.add(EngineCharacterChanged(
-            character: data['character'] as String? ?? '',
-            name: data['name'] as String? ?? '',
-            hair: data['hair'] as String?,
-          ));
+          _events.add(
+            EngineCharacterChanged(
+              character: data['character'] as String? ?? '',
+              name: data['name'] as String? ?? '',
+              hair: data['hair'] as String?,
+            ),
+          );
         case 'hairChanged':
           // 发型变化并入人物事件流（信息性，UI 可不处理）。
           break;
@@ -128,24 +131,30 @@ class EngineBridge {
           final dataUrl = data['dataUrl'] as String? ?? '';
           if (dataUrl.isNotEmpty) _events.add(EngineCaptured(dataUrl));
         case 'engineHeartbeat':
-          _events.add(EngineHeartbeat(
-            frames: asInt(data['frames']),
-            fps: asInt(data['fps']),
-            usedHeapMB: (data['memory'] as Map?)?['usedMB'] is num
-                ? ((data['memory'] as Map)['usedMB'] as num).toDouble()
-                : null,
-          ));
+          _events.add(
+            EngineHeartbeat(
+              frames: asInt(data['frames']),
+              fps: asInt(data['fps']),
+              usedHeapMB: (data['memory'] as Map?)?['usedMB'] is num
+                  ? ((data['memory'] as Map)['usedMB'] as num).toDouble()
+                  : null,
+            ),
+          );
         case 'engineConsole':
-          _events.add(EngineConsole(
-            level: data['level'] as String? ?? 'log',
-            message: data['message'] as String? ?? '',
-          ));
+          _events.add(
+            EngineConsole(
+              level: data['level'] as String? ?? 'log',
+              message: data['message'] as String? ?? '',
+            ),
+          );
         case 'error':
-          _events.add(EngineErrorEvent(
-            data['message'] as String? ?? '未知错误',
-            fatal: data['fatal'] == true,
-            source: data['source'] as String? ?? '',
-          ));
+          _events.add(
+            EngineErrorEvent(
+              data['message'] as String? ?? '未知错误',
+              fatal: data['fatal'] == true,
+              source: data['source'] as String? ?? '',
+            ),
+          );
       }
     } catch (_) {
       // 忽略无法解析的消息。
@@ -175,10 +184,13 @@ class EngineBridge {
 
   /// 平滑切换到姿势（关节角 JSON）。
   Future<void> setPose(Map<String, Object?> joints, {int durationMs = 300}) =>
-      _js('window.ss && window.ss.setPose(${jsonEncode(joints)}, $durationMs);');
+      _js(
+        'window.ss && window.ss.setPose(${jsonEncode(joints)}, $durationMs);',
+      );
 
   Future<void> setJoint(String joint, List<double> rotation) => _js(
-      'window.ss && window.ss.setJoint("$joint", ${jsonEncode(rotation)});');
+    'window.ss && window.ss.setJoint("$joint", ${jsonEncode(rotation)});',
+  );
 
   Future<void> setJointMode(bool on) =>
       _js('window.ss && window.ss.setJointMode(${on ? 'true' : 'false'});');
@@ -203,51 +215,63 @@ class EngineBridge {
       _js('window.ss && window.ss.setGender && window.ss.setGender("$gender")');
 
   Future<void> setSkeletonMode(bool on) => _js(
-      'window.ss && window.ss.setSkeletonMode && window.ss.setSkeletonMode(${on ? 'true' : 'false'})');
+    'window.ss && window.ss.setSkeletonMode && window.ss.setSkeletonMode(${on ? 'true' : 'false'})',
+  );
 
   /// V4/Q1：细分等级（0 轻量 / 1 标准 / 2 高）。
   Future<void> setSubdivision(int level) => _js(
-      'window.ss && window.ss.setSubdivision && window.ss.setSubdivision($level);');
+    'window.ss && window.ss.setSubdivision && window.ss.setSubdivision($level);',
+  );
 
   /// V4/Q1：材质预设（standard | realistic | light）。
   Future<void> setMaterialPreset(String preset) => _js(
-      'window.ss && window.ss.setMaterialPreset && window.ss.setMaterialPreset("$preset");');
+    'window.ss && window.ss.setMaterialPreset && window.ss.setMaterialPreset("$preset");',
+  );
 
   /// V4/Q1：环境反射强度（0..2）。
   Future<void> setEnvIntensity(double value) => _js(
-      'window.ss && window.ss.setEnvIntensity && window.ss.setEnvIntensity($value);');
+    'window.ss && window.ss.setEnvIntensity && window.ss.setEnvIntensity($value);',
+  );
 
   /// V5/D85：环境光开关（关 = 半球光 + 环境贴图贡献全部关闭）。
   Future<void> setAmbientEnabled(bool on) => _js(
-      'window.ss && window.ss.setAmbientEnabled && window.ss.setAmbientEnabled(${on ? 'true' : 'false'});');
+    'window.ss && window.ss.setAmbientEnabled && window.ss.setAmbientEnabled(${on ? 'true' : 'false'});',
+  );
 
   /// V5/D91：接触阴影开关（仅 realistic 预设生效）。
   Future<void> setContactShadow(bool on) => _js(
-      'window.ss && window.ss.setContactShadow && window.ss.setContactShadow(${on ? 'true' : 'false'});');
+    'window.ss && window.ss.setContactShadow && window.ss.setContactShadow(${on ? 'true' : 'false'});',
+  );
 
   /// V6/D104：性能档（auto | high | low）。
   Future<void> setPerformanceProfile(String profile) => _js(
-      'window.ss && window.ss.setPerformanceProfile && window.ss.setPerformanceProfile("$profile");');
+    'window.ss && window.ss.setPerformanceProfile && window.ss.setPerformanceProfile("$profile");',
+  );
 
   /// V6/D111：光锥可视化开关。
   Future<void> setLightCones(bool on) => _js(
-      'window.ss && window.ss.setLightCones && window.ss.setLightCones(${on ? 'true' : 'false'});');
+    'window.ss && window.ss.setLightCones && window.ss.setLightCones(${on ? 'true' : 'false'});',
+  );
 
   /// V6/D105：相机 POV 预览开关。
   Future<void> setCameraView(bool on) => _js(
-      'window.ss && window.ss.setCameraView && window.ss.setCameraView(${on ? 'true' : 'false'});');
+    'window.ss && window.ss.setCameraView && window.ss.setCameraView(${on ? 'true' : 'false'});',
+  );
 
   /// V6/D105：机位参数（位置/高度/俯仰/偏航/焦段）。
   Future<void> setCameraRig(Map<String, Object?> rig) => _js(
-      'window.ss && window.ss.setCameraRig && window.ss.setCameraRig(${jsonEncode(rig)});');
+    'window.ss && window.ss.setCameraRig && window.ss.setCameraRig(${jsonEncode(rig)});',
+  );
 
   /// V5/D86：手部预设（side: l|r；双手组合预设会同时写入左右手）。
   Future<void> setHandPose(String side, String presetId) => _js(
-      'window.ss && window.ss.setHandPose && window.ss.setHandPose("$side", "$presetId");');
+    'window.ss && window.ss.setHandPose && window.ss.setHandPose("$side", "$presetId");',
+  );
 
   /// V5/D86：每指微调（curls: {thumb,index,middle,ring,pinky,spread,wrist}）。
   Future<void> setHandCurls(String side, Map<String, Object?> curls) => _js(
-      'window.ss && window.ss.setHandCurls && window.ss.setHandCurls("$side", ${jsonEncode(curls)});');
+    'window.ss && window.ss.setHandCurls && window.ss.setHandCurls("$side", ${jsonEncode(curls)});',
+  );
 
   /// V5/D86：重置手部为自然放松。
   Future<void> resetHands() =>
@@ -255,19 +279,24 @@ class EngineBridge {
 
   /// V3：切换 GLB 人物（'legacy' 为显式轻量假人）。
   Future<void> setCharacter(String id) => _js(
-      'window.ss && window.ss.setCharacter && window.ss.setCharacter("$id")');
+    'window.ss && window.ss.setCharacter && window.ss.setCharacter("$id")',
+  );
 
   Future<void> setOutfit(String? id) => _js(
-      'window.ss && window.ss.setOutfit && window.ss.setOutfit(${id == null ? 'null' : '"$id"'});');
+    'window.ss && window.ss.setOutfit && window.ss.setOutfit(${id == null ? 'null' : '"$id"'});',
+  );
 
   Future<void> setHair(String? id) => _js(
-      'window.ss && window.ss.setHair && window.ss.setHair(${id == null ? 'null' : '"$id"'});');
+    'window.ss && window.ss.setHair && window.ss.setHair(${id == null ? 'null' : '"$id"'});',
+  );
 
   Future<void> setSkinTone(String? hex) => _js(
-      'window.ss && window.ss.setSkinTone && window.ss.setSkinTone(${hex == null ? 'null' : '"$hex"'});');
+    'window.ss && window.ss.setSkinTone && window.ss.setSkinTone(${hex == null ? 'null' : '"$hex"'});',
+  );
 
   Future<void> setSubjectVisible(bool on) => _js(
-      'window.ss && window.ss.setSubjectVisible(${on ? 'true' : 'false'});');
+    'window.ss && window.ss.setSubjectVisible(${on ? 'true' : 'false'});',
+  );
 
   Future<void> capturePhoto() => _js('window.ss && window.ss.capturePhoto();');
 

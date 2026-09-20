@@ -46,61 +46,64 @@ void main() {
   }
 
   ExportService serviceWithRefs() => ExportService(
-        workspace: workspace,
-        db: db,
-        refBytesLoader: (String ref) async {
-          requestedRefs.add(ref);
-          return ref == 'up-1.jpg' ? redImage() : null;
-        },
-      );
+    workspace: workspace,
+    db: db,
+    refBytesLoader: (String ref) async {
+      requestedRefs.add(ref);
+      return ref == 'up-1.jpg' ? redImage() : null;
+    },
+  );
 
   List<PlanModuleData> buildModules() => <PlanModuleData>[
-        PlanModuleData(
-          id: 'm1',
-          type: PlanModuleType.theme,
-          title: '拍摄主题',
-          data: <String, Object?>{
-            'text': '**雨夜霓虹**主基调\n- 主光 45° 侧前 2.2m\n- 品红点缀 90°\n'
-                '服装与角色设定保持一致，突出神态。',
+    PlanModuleData(
+      id: 'm1',
+      type: PlanModuleType.theme,
+      title: '拍摄主题',
+      data: <String, Object?>{
+        'text':
+            '**雨夜霓虹**主基调\n- 主光 45° 侧前 2.2m\n- 品红点缀 90°\n'
+            '服装与角色设定保持一致，突出神态。',
+      },
+    ),
+    PlanModuleData(
+      id: 'm2',
+      type: PlanModuleType.refs,
+      title: '参考样片',
+      data: <String, Object?>{
+        'refs': <Object?>[
+          <String, Object?>{
+            'name': '本地上传样片',
+            'palette': <String>['#c24e2a', '#2f3a4a'],
+            'gradient': <String>['#c24e2a', '#2f3a4a'],
+            'sourceUrl': '',
+            'imageRef': 'up-1.jpg',
           },
-        ),
-        PlanModuleData(
-          id: 'm2',
-          type: PlanModuleType.refs,
-          title: '参考样片',
-          data: <String, Object?>{
-            'refs': <Object?>[
-              <String, Object?>{
-                'name': '本地上传样片',
-                'palette': <String>['#c24e2a', '#2f3a4a'],
-                'gradient': <String>['#c24e2a', '#2f3a4a'],
-                'sourceUrl': '',
-                'imageRef': 'up-1.jpg',
-              },
-              <String, Object?>{
-                'name': '画板参考帧',
-                'palette': <String>['#224466', '#113355'],
-                'gradient': <String>['#224466', '#113355'],
-                'sourceUrl': 'https://example.com',
-                'imageRef': '',
-              },
-            ],
+          <String, Object?>{
+            'name': '画板参考帧',
+            'palette': <String>['#224466', '#113355'],
+            'gradient': <String>['#224466', '#113355'],
+            'sourceUrl': 'https://example.com',
+            'imageRef': '',
           },
-        ),
-        PlanModuleData(
-          id: 'm3',
-          type: PlanModuleType.lighting,
-          title: '布光图',
-          data: <String, Object?>{
-            'sceneId': 'scene-f4',
-            'sceneName': 'F4 双灯方案',
-            'note': '主光 45° 2.2m，轮廓光侧后 2.8m',
-          },
-        ),
-      ];
+        ],
+      },
+    ),
+    PlanModuleData(
+      id: 'm3',
+      type: PlanModuleType.lighting,
+      title: '布光图',
+      data: <String, Object?>{
+        'sceneId': 'scene-f4',
+        'sceneName': 'F4 双灯方案',
+        'note': '主光 45° 2.2m，轮廓光侧后 2.8m',
+      },
+    ),
+  ];
 
   Future<void> seedScene() async {
-    await db.into(db.lightingScenes).insert(
+    await db
+        .into(db.lightingScenes)
+        .insert(
           LightingScenesCompanion.insert(
             id: 'scene-f4',
             name: 'F4 双灯方案',

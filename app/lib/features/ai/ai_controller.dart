@@ -131,11 +131,16 @@ class AiState {
   /// 生成尝试链（提供方/模型/结果），供阅读模式与设置页展示（D40）。
   final List<String> attempts;
 
-  List<AiProviderView> get routed => providers
-      .where((AiProviderView p) => p.enabled && (p.hasKey || p.preset.isCustom))
-      .toList()
-    ..sort((AiProviderView a, AiProviderView b) =>
-        a.priority.compareTo(b.priority));
+  List<AiProviderView> get routed =>
+      providers
+          .where(
+            (AiProviderView p) => p.enabled && (p.hasKey || p.preset.isCustom),
+          )
+          .toList()
+        ..sort(
+          (AiProviderView a, AiProviderView b) =>
+              a.priority.compareTo(b.priority),
+        );
 
   AiState copyWith({
     List<AiProviderView>? providers,
@@ -158,8 +163,9 @@ class AiState {
       streamText: streamText ?? this.streamText,
       reasoningText: reasoningText ?? this.reasoningText,
       draft: draft == _sentinel ? this.draft : draft as AiDraftResult?,
-      revision:
-          revision == _sentinel ? this.revision : revision as AiRevisionDraft?,
+      revision: revision == _sentinel
+          ? this.revision
+          : revision as AiRevisionDraft?,
       status: status ?? this.status,
       monthlyFreeUsed: monthlyFreeUsed ?? this.monthlyFreeUsed,
       attempts: attempts ?? this.attempts,
@@ -169,8 +175,9 @@ class AiState {
   static const Object _sentinel = Object();
 }
 
-final aiControllerProvider =
-    NotifierProvider<AiController, AiState>(AiController.new);
+final aiControllerProvider = NotifierProvider<AiController, AiState>(
+  AiController.new,
+);
 
 /// 官方免费额度上限（D11：每月 30 次，未部署官方通道时自动走本地引擎）。
 const int kOfficialMonthlyQuota = 30;
@@ -202,7 +209,9 @@ class AiController extends Notifier<AiState> {
     for (var i = 0; i < aiProviderPresets.length; i++) {
       final AiProviderPreset preset = aiProviderPresets[i];
       if (existingIds.contains(preset.id)) continue;
-      await _db.into(_db.providerConfigs).insert(
+      await _db
+          .into(_db.providerConfigs)
+          .insert(
             ProviderConfigsCompanion.insert(
               id: preset.id,
               name: preset.name,
@@ -219,34 +228,38 @@ class AiController extends Notifier<AiState> {
   Future<void> refresh() async {
     final rows = await _db.select(_db.providerConfigs).get();
     final byId = <String, ProviderConfig>{
-      for (final ProviderConfig row in rows) row.id: row
+      for (final ProviderConfig row in rows) row.id: row,
     };
     final providers = <AiProviderView>[];
     for (final AiProviderPreset preset in aiProviderPresets) {
       final ProviderConfig? row = byId[preset.id];
       final encryptedKey = row?.encryptedKey ?? '';
-      final decrypted =
-          encryptedKey.isEmpty ? '' : await _vault.decrypt(encryptedKey);
-      providers.add(AiProviderView(
-        preset: preset,
-        enabled: row?.enabled ?? false,
-        priority: row?.priority ?? 0,
-        hasKey: decrypted.isNotEmpty,
-        maskedKey: KeyVault.mask(decrypted),
-        model: (row?.defaultModel.isNotEmpty ?? false)
-            ? row!.defaultModel
-            : preset.defaultModel,
-        models: asStringList(jsonDecode(row?.modelsJson ?? '[]')),
-        lastError: '',
-        encryptedKey: encryptedKey,
-      ));
+      final decrypted = encryptedKey.isEmpty
+          ? ''
+          : await _vault.decrypt(encryptedKey);
+      providers.add(
+        AiProviderView(
+          preset: preset,
+          enabled: row?.enabled ?? false,
+          priority: row?.priority ?? 0,
+          hasKey: decrypted.isNotEmpty,
+          maskedKey: KeyVault.mask(decrypted),
+          model: (row?.defaultModel.isNotEmpty ?? false)
+              ? row!.defaultModel
+              : preset.defaultModel,
+          models: asStringList(jsonDecode(row?.modelsJson ?? '[]')),
+          lastError: '',
+          encryptedKey: encryptedKey,
+        ),
+      );
     }
-    final logs = await (_db.select(_db.callLogs)
-          ..orderBy(<OrderClauseGenerator<$CallLogsTable>>[
-            (t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc),
-          ])
-          ..limit(30))
-        .get();
+    final logs =
+        await (_db.select(_db.callLogs)
+              ..orderBy(<OrderClauseGenerator<$CallLogsTable>>[
+                (t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc),
+              ])
+              ..limit(30))
+            .get();
     final quota = await _loadQuota();
     state = state.copyWith(
       providers: providers,
@@ -283,17 +296,20 @@ class AiController extends Notifier<AiState> {
     required bool enabled,
   }) async {
     final encrypted = apiKey.isEmpty ? '' : await _vault.encrypt(apiKey);
-    final rows = await (_db.select(_db.providerConfigs)
-          ..where((t) => t.id.equals(preset.id)))
-        .getSingleOrNull();
-    await _db.into(_db.providerConfigs).insertOnConflictUpdate(
+    final rows = await (_db.select(
+      _db.providerConfigs,
+    )..where((t) => t.id.equals(preset.id))).getSingleOrNull();
+    await _db
+        .into(_db.providerConfigs)
+        .insertOnConflictUpdate(
           ProviderConfigsCompanion.insert(
             id: preset.id,
             name: preset.name,
             baseUrl: baseUrl,
             protocol: Value(preset.protocol),
             encryptedKey: Value(
-                encrypted.isNotEmpty ? encrypted : (rows?.encryptedKey ?? '')),
+              encrypted.isNotEmpty ? encrypted : (rows?.encryptedKey ?? ''),
+            ),
             defaultModel: Value(model),
             modelsJson: Value(rows?.modelsJson ?? '[]'),
             enabled: Value(enabled),
@@ -314,10 +330,13 @@ class AiController extends Notifier<AiState> {
   Future<void> movePriority(String providerId, int delta) async {
     final rows = await _db.select(_db.providerConfigs).get();
     final sorted = rows.toList()
-      ..sort((ProviderConfig a, ProviderConfig b) =>
-          a.priority.compareTo(b.priority));
-    final index =
-        sorted.indexWhere((ProviderConfig row) => row.id == providerId);
+      ..sort(
+        (ProviderConfig a, ProviderConfig b) =>
+            a.priority.compareTo(b.priority),
+      );
+    final index = sorted.indexWhere(
+      (ProviderConfig row) => row.id == providerId,
+    );
     if (index < 0) return;
     final target = (index + delta).clamp(0, sorted.length - 1);
     if (target == index) return;
@@ -332,8 +351,9 @@ class AiController extends Notifier<AiState> {
   }
 
   Future<AiCallResult> testProvider(String providerId) async {
-    final view = state.providers
-        .firstWhere((AiProviderView p) => p.preset.id == providerId);
+    final view = state.providers.firstWhere(
+      (AiProviderView p) => p.preset.id == providerId,
+    );
     final key = view.encryptedKey.isEmpty
         ? ''
         : await _vault.decrypt(view.encryptedKey);
@@ -356,8 +376,9 @@ class AiController extends Notifier<AiState> {
   }
 
   Future<List<String>> discoverModels(String providerId) async {
-    final view = state.providers
-        .firstWhere((AiProviderView p) => p.preset.id == providerId);
+    final view = state.providers.firstWhere(
+      (AiProviderView p) => p.preset.id == providerId,
+    );
     final key = view.encryptedKey.isEmpty
         ? ''
         : await _vault.decrypt(view.encryptedKey);
@@ -371,10 +392,11 @@ class AiController extends Notifier<AiState> {
     );
     try {
       final models = await AiClient().discoverModels(provider);
-      await (_db.update(_db.providerConfigs)
-            ..where((t) => t.id.equals(providerId)))
-          .write(
-              ProviderConfigsCompanion(modelsJson: Value(jsonEncode(models))));
+      await (_db.update(
+        _db.providerConfigs,
+      )..where((t) => t.id.equals(providerId))).write(
+        ProviderConfigsCompanion(modelsJson: Value(jsonEncode(models))),
+      );
       await refresh();
       state = state.copyWith(status: '已发现 ${models.length} 个模型');
       return models;
@@ -385,7 +407,9 @@ class AiController extends Notifier<AiState> {
   }
 
   Future<void> _log(AiCallResult result) async {
-    await _db.into(_db.callLogs).insert(
+    await _db
+        .into(_db.callLogs)
+        .insert(
           CallLogsCompanion.insert(
             providerId: result.providerId,
             model: result.model,
@@ -400,8 +424,10 @@ class AiController extends Notifier<AiState> {
   }
 
   /// 生成策划案：智能路由（失败自动切换）→ Schema 校验 → 本地引擎兜底（D10/D11）。
-  Future<AiDraftResult> generatePlan(String theme,
-      {bool forceLocal = false}) async {
+  Future<AiDraftResult> generatePlan(
+    String theme, {
+    bool forceLocal = false,
+  }) async {
     state = state.copyWith(
       generating: true,
       streamText: '',
@@ -419,8 +445,10 @@ class AiController extends Notifier<AiState> {
     final knownScenes = await _knownSceneIds();
 
     var localSeq = 0;
-    Future<AiDraftResult> viaLocal(String reason,
-        {String reasoning = ''}) async {
+    Future<AiDraftResult> viaLocal(
+      String reason, {
+      String reasoning = '',
+    }) async {
       final modules = await _localEngine.generate(
         theme: theme,
         nextId: () =>
@@ -464,8 +492,10 @@ class AiController extends Notifier<AiState> {
 
     final routed = state.routed;
     final configured = routed
-        .where((AiProviderView p) =>
-            p.preset.id != 'custom' || p.preset.baseUrl.isNotEmpty)
+        .where(
+          (AiProviderView p) =>
+              p.preset.id != 'custom' || p.preset.baseUrl.isNotEmpty,
+        )
         .toList();
     if (configured.isEmpty) {
       await _bumpQuota(); // 记录一次“本应调用的免费额度”
@@ -473,7 +503,12 @@ class AiController extends Notifier<AiState> {
     }
 
     final String context = await _buildContext(
-        theme, resources, boardFrames, scene, favoritePoses);
+      theme,
+      resources,
+      boardFrames,
+      scene,
+      favoritePoses,
+    );
     final AiClient client = _client ?? AiClient();
     final failures = <String>[];
 
@@ -486,7 +521,8 @@ class AiController extends Notifier<AiState> {
       for (final String model in _candidatesFor(view)) {
         final RuntimeProvider provider = await _runtimeOf(view, model: model);
         state = state.copyWith(
-            status: '正在构思策划思路 · ${view.preset.name}/${provider.model}…');
+          status: '正在构思策划思路 · ${view.preset.name}/${provider.model}…',
+        );
         final AiCallResult result = await client.chat(
           provider: provider,
           systemPrompt: buildReasoningSystemPrompt(),
@@ -500,18 +536,21 @@ class AiController extends Notifier<AiState> {
           },
         );
         await _log(result);
-        state = state.copyWith(attempts: <String>[
-          ...state.attempts,
-          '${view.preset.name}/${provider.model} · '
-              '${result.success ? '构思成功' : '构思失败：${result.error}'}',
-        ]);
+        state = state.copyWith(
+          attempts: <String>[
+            ...state.attempts,
+            '${view.preset.name}/${provider.model} · '
+                '${result.success ? '构思成功' : '构思失败：${result.error}'}',
+          ],
+        );
         if (result.success) {
           reasoning = result.content;
           working = provider;
           break stage1;
         }
-        failures
-            .add('${view.preset.name}/${provider.model}(构思): ${result.error}');
+        failures.add(
+          '${view.preset.name}/${provider.model}(构思): ${result.error}',
+        );
       }
     }
 
@@ -522,7 +561,8 @@ class AiController extends Notifier<AiState> {
       stage2:
       for (final AiProviderView view in configured) {
         for (final String model in _candidatesFor(view)) {
-          final RuntimeProvider provider = (working != null &&
+          final RuntimeProvider provider =
+              (working != null &&
                   working.id == view.preset.id &&
                   working.model == model)
               ? working
@@ -534,10 +574,11 @@ class AiController extends Notifier<AiState> {
           );
           final String feedback =
               attempt == 2 && (state.draft?.shortcomings.isNotEmpty ?? false)
-                  ? '\n\n上一次输出的不足（必须逐条修正）：\n'
-                      '${state.draft!.shortcomings.take(6).join('\n')}'
-                  : '';
-          final String userPrompt = '$context\n\n策划思路（供结构化参考）：\n'
+              ? '\n\n上一次输出的不足（必须逐条修正）：\n'
+                    '${state.draft!.shortcomings.take(6).join('\n')}'
+              : '';
+          final String userPrompt =
+              '$context\n\n策划思路（供结构化参考）：\n'
               '${reasoning.isEmpty ? '（无，直接按主题生成）' : reasoning}'
               '$feedback';
           final AiCallResult result = await client.chat(
@@ -550,27 +591,34 @@ class AiController extends Notifier<AiState> {
           );
           await _log(result);
           if (!result.success) {
-            state = state.copyWith(attempts: <String>[
-              ...state.attempts,
-              '${view.preset.name}/${provider.model} · 结构化失败：${result.error}',
-            ]);
+            state = state.copyWith(
+              attempts: <String>[
+                ...state.attempts,
+                '${view.preset.name}/${provider.model} · 结构化失败：${result.error}',
+              ],
+            );
             failures.add(
-                '${view.preset.name}/${provider.model}(结构化): ${result.error}');
+              '${view.preset.name}/${provider.model}(结构化): ${result.error}',
+            );
             continue;
           }
           final List<Object?>? raw = extractModules(result.content);
           if (raw == null) {
-            state = state.copyWith(attempts: <String>[
-              ...state.attempts,
-              '${view.preset.name}/${provider.model} · 未包含模块 JSON',
-            ]);
-            failures
-                .add('${view.preset.name}/${provider.model}(结构化): 未包含模块 JSON');
+            state = state.copyWith(
+              attempts: <String>[
+                ...state.attempts,
+                '${view.preset.name}/${provider.model} · 未包含模块 JSON',
+              ],
+            );
+            failures.add(
+              '${view.preset.name}/${provider.model}(结构化): 未包含模块 JSON',
+            );
             continue;
           }
           final List<Map<String, Object?>> normalized = normalizeModules(raw);
-          final List<String> errors =
-              ModuleSchemaValidator.validate(normalized);
+          final List<String> errors = ModuleSchemaValidator.validate(
+            normalized,
+          );
           if (errors.isNotEmpty) {
             failures.add('${view.preset.name}(结构化): 结构校验失败（${errors.first}）');
             continue;
@@ -606,11 +654,13 @@ class AiController extends Notifier<AiState> {
           state = state.copyWith(draft: draft);
           if (score.needsRetry && attempt == 1) {
             failures.add('质量分 ${score.total.toStringAsFixed(0)} < 80，自动重试');
-            state = state.copyWith(attempts: <String>[
-              ...state.attempts,
-              '${view.preset.name}/${provider.model} · 质量分 '
-                  '${score.total.toStringAsFixed(0)} < 80，自动重试',
-            ]);
+            state = state.copyWith(
+              attempts: <String>[
+                ...state.attempts,
+                '${view.preset.name}/${provider.model} · 质量分 '
+                    '${score.total.toStringAsFixed(0)} < 80，自动重试',
+              ],
+            );
             break stage2;
           }
           state = state.copyWith(
@@ -620,7 +670,8 @@ class AiController extends Notifier<AiState> {
               '${view.preset.name}/${provider.model} · 成功（质量分 '
                   '${score.total.toStringAsFixed(0)}，${result.latencyMs}ms）',
             ],
-            status: '${view.preset.name} 生成完成（${modules.length} 个模块 · '
+            status:
+                '${view.preset.name} 生成完成（${modules.length} 个模块 · '
                 '质量分 ${score.total.toStringAsFixed(0)} · ${result.latencyMs}ms）',
           );
           return draft;
@@ -628,8 +679,10 @@ class AiController extends Notifier<AiState> {
       }
     }
 
-    return viaLocal('云端全部失败（${failures.take(3).join('；')}）→ 已降级本地引擎',
-        reasoning: reasoning);
+    return viaLocal(
+      '云端全部失败（${failures.take(3).join('；')}）→ 已降级本地引擎',
+      reasoning: reasoning,
+    );
   }
 
   /// 对话式修订（F3）：返回合并后的模块与 diff，需用户确认后应用。
@@ -639,8 +692,10 @@ class AiController extends Notifier<AiState> {
     String? targetModuleId,
   }) async {
     final List<AiProviderView> configured = state.routed
-        .where((AiProviderView p) =>
-            p.preset.id != 'custom' || p.preset.baseUrl.isNotEmpty)
+        .where(
+          (AiProviderView p) =>
+              p.preset.id != 'custom' || p.preset.baseUrl.isNotEmpty,
+        )
         .toList();
     if (configured.isEmpty) {
       state = state.copyWith(status: '对话式修订需要配置 AI 提供方；离线时可手动编辑模块');
@@ -650,13 +705,15 @@ class AiController extends Notifier<AiState> {
     for (var i = 0; i < modules.length; i++) {
       final PlanModuleData m = modules[i];
       summary.writeln(
-          '${i + 1}. id=${m.id} type=${m.type.name} title=${m.title} 摘要=${m.summary}');
+        '${i + 1}. id=${m.id} type=${m.type.name} title=${m.title} 摘要=${m.summary}',
+      );
     }
     PlanModuleData? target;
     for (final PlanModuleData m in modules) {
       if (m.id == targetModuleId) target = m;
     }
-    final String userPrompt = '$summary\n'
+    final String userPrompt =
+        '$summary\n'
         '${target == null ? '' : '目标模块完整 JSON：\n${jsonEncode(target.toJson())}\n'}\n'
         '修改指令：$instruction\n'
         '只输出需要变更或新增的模块（修改的模块必须保持原 id）；data 为 JSON 字符串。';
@@ -682,20 +739,25 @@ class AiController extends Notifier<AiState> {
 
       final changedIds = <String>{};
       final merged = <PlanModuleData>[
-        ...modules
-            .map((PlanModuleData m) => PlanModuleData.fromJson(m.toJson())),
+        ...modules.map(
+          (PlanModuleData m) => PlanModuleData.fromJson(m.toJson()),
+        ),
       ];
       for (final Map<String, Object?> rawModule in normalized) {
         final PlanModuleData incoming = PlanModuleData.fromJson(rawModule);
-        final int index =
-            merged.indexWhere((PlanModuleData m) => m.id == incoming.id);
+        final int index = merged.indexWhere(
+          (PlanModuleData m) => m.id == incoming.id,
+        );
         if (index >= 0) {
           merged[index] = PlanModuleData(
             id: incoming.id,
             type: incoming.type,
             title: incoming.title,
             data: _preserveLocalAssets(
-                incoming.type, merged[index].data, incoming.data),
+              incoming.type,
+              merged[index].data,
+              incoming.data,
+            ),
             folded: merged[index].folded,
           );
         } else {
@@ -767,10 +829,12 @@ class AiController extends Notifier<AiState> {
           : trimmed.substring(0, trimmed.length > 14 ? 14 : trimmed.length);
       final String name =
           (module.data['sceneName'] as String? ?? '').trim().isEmpty
-              ? '$title · AI 布光'
-              : module.data['sceneName'] as String;
+          ? '$title · AI 布光'
+          : module.data['sceneName'] as String;
       final String newId = 'ai-${DateTime.now().microsecondsSinceEpoch}';
-      await _db.into(_db.lightingScenes).insert(
+      await _db
+          .into(_db.lightingScenes)
+          .insert(
             LightingScenesCompanion.insert(
               id: newId,
               name: name,
@@ -790,8 +854,10 @@ class AiController extends Notifier<AiState> {
     }
   }
 
-  Future<RuntimeProvider> _runtimeOf(AiProviderView view,
-      {String? model}) async {
+  Future<RuntimeProvider> _runtimeOf(
+    AiProviderView view, {
+    String? model,
+  }) async {
     final String key = view.encryptedKey.isEmpty
         ? ''
         : await _vault.decrypt(view.encryptedKey);
@@ -824,16 +890,19 @@ class AiController extends Notifier<AiState> {
     if (view == null) return <String>[];
     final RuntimeProvider provider = await _runtimeOf(view);
     try {
-      final List<String> models =
-          await (_client ?? AiClient()).discoverModels(provider);
+      final List<String> models = await (_client ?? AiClient()).discoverModels(
+        provider,
+      );
       if (models.isEmpty) return <String>[];
       final String picked = pickBestModel(models, preferred: view.model);
-      await (_db.update(_db.providerConfigs)
-            ..where((t) => t.id.equals(providerId)))
-          .write(ProviderConfigsCompanion(
-        modelsJson: Value(jsonEncode(models)),
-        defaultModel: Value(picked),
-      ));
+      await (_db.update(
+        _db.providerConfigs,
+      )..where((t) => t.id.equals(providerId))).write(
+        ProviderConfigsCompanion(
+          modelsJson: Value(jsonEncode(models)),
+          defaultModel: Value(picked),
+        ),
+      );
       await refresh();
       return models;
     } catch (_) {
@@ -872,13 +941,16 @@ class AiController extends Notifier<AiState> {
   }
 
   /// 修订合并时保护本地资产：同名的样片图片与姿势骨骼不被 AI 文本改写丢失。
-  Map<String, Object?> _preserveLocalAssets(PlanModuleType type,
-      Map<String, Object?> oldData, Map<String, Object?> newData) {
+  Map<String, Object?> _preserveLocalAssets(
+    PlanModuleType type,
+    Map<String, Object?> oldData,
+    Map<String, Object?> newData,
+  ) {
     if (type == PlanModuleType.refs) {
-      final List<Object?> oldRefs =
-          (oldData['refs'] as List? ?? <Object?>[]).cast<Object?>();
-      final List<Object?> newRefs =
-          (newData['refs'] as List? ?? <Object?>[]).cast<Object?>();
+      final List<Object?> oldRefs = (oldData['refs'] as List? ?? <Object?>[])
+          .cast<Object?>();
+      final List<Object?> newRefs = (newData['refs'] as List? ?? <Object?>[])
+          .cast<Object?>();
       for (final Object? entry in newRefs) {
         if (entry is! Map) continue;
         if ((entry['imageRef'] as String? ?? '').isNotEmpty) continue;
@@ -894,10 +966,10 @@ class AiController extends Notifier<AiState> {
       newData['refs'] = newRefs;
     }
     if (type == PlanModuleType.poses) {
-      final List<Object?> oldPoses =
-          (oldData['poses'] as List? ?? <Object?>[]).cast<Object?>();
-      final List<Object?> newPoses =
-          (newData['poses'] as List? ?? <Object?>[]).cast<Object?>();
+      final List<Object?> oldPoses = (oldData['poses'] as List? ?? <Object?>[])
+          .cast<Object?>();
+      final List<Object?> newPoses = (newData['poses'] as List? ?? <Object?>[])
+          .cast<Object?>();
       for (final Object? entry in newPoses) {
         if (entry is! Map) continue;
         if (asMap(entry['joints']).isNotEmpty) continue;
@@ -923,38 +995,45 @@ class AiController extends Notifier<AiState> {
   List<Map<String, Object?>> _boardFrames() {
     final board = ref.read(refsControllerProvider).board;
     return board
-        .map((RefFrame frame) => <String, Object?>{
-              'name': frame.name,
-              'palette': frame.palette,
-              'gradient': frame.gradient,
-              'sourceUrl': frame.sourceUrl,
-              'imageRef': frame.imagePath,
-            })
+        .map(
+          (RefFrame frame) => <String, Object?>{
+            'name': frame.name,
+            'palette': frame.palette,
+            'gradient': frame.gradient,
+            'sourceUrl': frame.sourceUrl,
+            'imageRef': frame.imagePath,
+          },
+        )
         .toList();
   }
 
   Future<({String id, String name})?> _latestLightingScene() async {
-    final rows = await (_db.select(_db.lightingScenes)
-          ..orderBy(<OrderClauseGenerator<$LightingScenesTable>>[
-            (t) =>
-                OrderingTerm(expression: t.updatedAt, mode: OrderingMode.desc),
-          ])
-          ..limit(1))
-        .get();
+    final rows =
+        await (_db.select(_db.lightingScenes)
+              ..orderBy(<OrderClauseGenerator<$LightingScenesTable>>[
+                (t) => OrderingTerm(
+                  expression: t.updatedAt,
+                  mode: OrderingMode.desc,
+                ),
+              ])
+              ..limit(1))
+            .get();
     if (rows.isEmpty) return null;
     return (id: rows.first.id, name: rows.first.name);
   }
 
   Future<List<Map<String, Object?>>> _favoritePoses() async {
-    final rows = await (_db.select(_db.poses)
-          ..where((t) => t.favorite.equals(true)))
-        .get();
+    final rows = await (_db.select(
+      _db.poses,
+    )..where((t) => t.favorite.equals(true))).get();
     return rows
-        .map((Pose row) => <String, Object?>{
-              'name': row.name,
-              'lens': row.lensAdvice,
-              'joints': asMap(jsonDecode(row.jointsJson)),
-            })
+        .map(
+          (Pose row) => <String, Object?>{
+            'name': row.name,
+            'lens': row.lensAdvice,
+            'joints': asMap(jsonDecode(row.jointsJson)),
+          },
+        )
         .toList();
   }
 
@@ -977,34 +1056,41 @@ class AiController extends Notifier<AiState> {
     if (boardFrames.isNotEmpty) {
       final palettes = boardFrames
           .take(3)
-          .map((Map<String, Object?> f) =>
-              (f['palette'] as List?)?.join('/') ?? '')
+          .map(
+            (Map<String, Object?> f) =>
+                (f['palette'] as List?)?.join('/') ?? '',
+          )
           .where((String s) => s.isNotEmpty)
           .join('；');
       if (palettes.isNotEmpty) buffer.writeln('画板色卡参考：$palettes');
     }
     if (scene != null) {
-      buffer
-          .writeln('已有布光方案：${scene.name}（lighting 模块可引用 sceneId=${scene.id}）');
+      buffer.writeln(
+        '已有布光方案：${scene.name}（lighting 模块可引用 sceneId=${scene.id}）',
+      );
     }
     if (poses.isNotEmpty) {
       buffer.writeln('收藏姿势（含镜头与机位建议）：');
       for (final Map<String, Object?> p in poses.take(6)) {
         buffer.writeln(
-            '- ${p['name']}：${p['lens'] ?? ''}；${p['cameraPosition'] ?? ''}');
+          '- ${p['name']}：${p['lens'] ?? ''}；${p['cameraPosition'] ?? ''}',
+        );
       }
     }
     final List<CityEntry> cities = await ContentPacks.cities();
     final List<BudgetItemEntry> budget = await ContentPacks.budgetRefs();
     if (cities.isNotEmpty) {
-      buffer.writeln('可选城市（sun 模块用，含坐标）：'
-          '${cities.take(12).map((CityEntry c) => '${c.name}(${c.lat},${c.lon})').join('、')} 等');
+      buffer.writeln(
+        '可选城市（sun 模块用，含坐标）：'
+        '${cities.take(12).map((CityEntry c) => '${c.name}(${c.lat},${c.lon})').join('、')} 等',
+      );
     }
     if (budget.isNotEmpty) {
       buffer.writeln('预算参考区间（人民币，按城市档位乘系数）：');
       for (final BudgetItemEntry item in budget) {
         buffer.writeln(
-            '- ${item.label}: ${item.min.round()}–${item.max.round()}（${item.note}）');
+          '- ${item.label}: ${item.min.round()}–${item.max.round()}（${item.note}）',
+        );
       }
     }
     return buffer.toString();
@@ -1012,7 +1098,7 @@ class AiController extends Notifier<AiState> {
 
   /// 观测台汇总。
   ({int calls, int success, double avgLatency, int tokensIn, int tokensOut})
-      logSummary() {
+  logSummary() {
     final logs = state.logs;
     if (logs.isEmpty) {
       return (calls: 0, success: 0, avgLatency: 0, tokensIn: 0, tokensOut: 0);
@@ -1020,7 +1106,7 @@ class AiController extends Notifier<AiState> {
     final success = logs.where((CallLog l) => l.success).length;
     final avg =
         logs.map((CallLog l) => l.latencyMs).reduce((int a, int b) => a + b) /
-            logs.length;
+        logs.length;
     return (
       calls: logs.length,
       success: success,

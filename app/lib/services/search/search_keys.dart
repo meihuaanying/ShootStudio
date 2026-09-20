@@ -55,18 +55,18 @@ class SearchKeys {
 
   /// 默认全源（含 Key 预留源；未填 Key 的源显示"未启用"并可点击去设置）。
   List<SearchSource> sources() => <SearchSource>[
-        PexelsImageSource(pexelsKey),
-        TmdbImageSource(apiKey: tmdbKey, readToken: tmdbToken),
-        AniListSource(),
-        MetSource(),
-        ArticSource(),
-        ClevelandSource(),
-        VamSource(),
-        WikiArtSource(),
-        ArtveeSource(),
-        EuropeanaSource(europeanaKey),
-        SmithsonianSource(smithsonianKey),
-        HarvardSource(harvardKey),
-        RijksSource(rijksKey),
-      ];
+    PexelsImageSource(pexelsKey),
+    TmdbImageSource(apiKey: tmdbKey, readToken: tmdbToken),
+    AniListSource(),
+    MetSource(),
+    ArticSource(),
+    ClevelandSource(),
+    VamSource(),
+    WikiArtSource(),
+    ArtveeSource(),
+    EuropeanaSource(europeanaKey),
+    SmithsonianSource(smithsonianKey),
+    HarvardSource(harvardKey),
+    RijksSource(rijksKey),
+  ];
 }

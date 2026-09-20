@@ -7,7 +7,7 @@ import 'source_utils.dart';
 /// 人名意图走 Staff → staffMedia，按作品分组（D114）。
 class AniListSource implements SearchSource {
   AniListSource({Dio? dio})
-      : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
 
   final Dio _dio;
 
@@ -19,12 +19,12 @@ class AniListSource implements SearchSource {
   String get label => 'AniList';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: true,
-        byKeyword: true,
-        domains: <ImageDomain>{ImageDomain.film},
-        requiresKey: false,
-      );
+    byTitle: true,
+    byPerson: true,
+    byKeyword: true,
+    domains: <ImageDomain>{ImageDomain.film},
+    requiresKey: false,
+  );
 
   @override
   bool get enabled => true;
@@ -94,7 +94,9 @@ query (\$search: String) {
       }
       final List<SearchHit> hits = parseStaff(staff);
       return SourceSearchPage(
-          hits: hits.take(perPage).toList(), hasMore: hits.length > perPage);
+        hits: hits.take(perPage).toList(),
+        hasMore: hits.length > perPage,
+      );
     }
     final Response<Object?> res = await _dio.post<Object?>(
       _endpoint,
@@ -128,29 +130,36 @@ query (\$search: String) {
       if (name.isEmpty) continue;
       final Map<String, Object?> cover = asMapSafe(m['coverImage']);
       final String banner = strSafe(m['bannerImage']);
-      final String thumb =
-          strSafe(cover['large'], strSafe(cover['extraLarge']));
-      final String full =
-          banner.isNotEmpty ? banner : strSafe(cover['extraLarge'], thumb);
+      final String thumb = strSafe(
+        cover['large'],
+        strSafe(cover['extraLarge']),
+      );
+      final String full = banner.isNotEmpty
+          ? banner
+          : strSafe(cover['extraLarge'], thumb);
       if (full.isEmpty) continue;
       final String year = strSafe(asMapSafe(m['startDate'])['year']);
-      out.add(SearchHit(
-        id: hitId(
-            'anilist', strSafe(m['siteUrl'], '$name-${intSafe(m['id'])}')),
-        title: '$name${year.isEmpty ? '' : '（$year）'}',
-        thumbUrl: thumb.isEmpty ? full : thumb,
-        fullUrl: full,
-        sourceId: 'anilist',
-        sourceLabel: 'AniList',
-        license: 'AniList（版权归制作方，个人参考）',
-        commercialOk: false,
-        attribution: 'AniList · $name',
-        sourcePageUrl: strSafe(m['siteUrl']),
-        group: name,
-        domain: ImageDomain.film,
-        imageType: banner.isNotEmpty ? 'still' : 'poster',
-        extra: <String, Object?>{'format': strSafe(m['format'])},
-      ));
+      out.add(
+        SearchHit(
+          id: hitId(
+            'anilist',
+            strSafe(m['siteUrl'], '$name-${intSafe(m['id'])}'),
+          ),
+          title: '$name${year.isEmpty ? '' : '（$year）'}',
+          thumbUrl: thumb.isEmpty ? full : thumb,
+          fullUrl: full,
+          sourceId: 'anilist',
+          sourceLabel: 'AniList',
+          license: 'AniList（版权归制作方，个人参考）',
+          commercialOk: false,
+          attribution: 'AniList · $name',
+          sourcePageUrl: strSafe(m['siteUrl']),
+          group: name,
+          domain: ImageDomain.film,
+          imageType: banner.isNotEmpty ? 'still' : 'poster',
+          extra: <String, Object?>{'format': strSafe(m['format'])},
+        ),
+      );
     }
     return out;
   }
@@ -165,32 +174,37 @@ query (\$search: String) {
       if (name.isEmpty) continue;
       final Map<String, Object?> cover = asMapSafe(m['coverImage']);
       final String banner = strSafe(m['bannerImage']);
-      final String thumb =
-          strSafe(cover['large'], strSafe(cover['extraLarge']));
-      final String full =
-          banner.isNotEmpty ? banner : strSafe(cover['extraLarge'], thumb);
+      final String thumb = strSafe(
+        cover['large'],
+        strSafe(cover['extraLarge']),
+      );
+      final String full = banner.isNotEmpty
+          ? banner
+          : strSafe(cover['extraLarge'], thumb);
       if (full.isEmpty) continue;
-      out.add(SearchHit(
-        id: hitId('anilist', 'staff-${intSafe(m['id'])}'),
-        title: name,
-        thumbUrl: thumb.isEmpty ? full : thumb,
-        fullUrl: full,
-        sourceId: 'anilist',
-        sourceLabel: 'AniList',
-        license: 'AniList（版权归制作方，个人参考）',
-        commercialOk: false,
-        attribution: 'AniList · $name',
-        sourcePageUrl: strSafe(m['siteUrl']),
-        group: name,
-        domain: ImageDomain.film,
-        imageType: banner.isNotEmpty ? 'still' : 'poster',
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('anilist', 'staff-${intSafe(m['id'])}'),
+          title: name,
+          thumbUrl: thumb.isEmpty ? full : thumb,
+          fullUrl: full,
+          sourceId: 'anilist',
+          sourceLabel: 'AniList',
+          license: 'AniList（版权归制作方，个人参考）',
+          commercialOk: false,
+          attribution: 'AniList · $name',
+          sourcePageUrl: strSafe(m['siteUrl']),
+          group: name,
+          domain: ImageDomain.film,
+          imageType: banner.isNotEmpty ? 'still' : 'poster',
+        ),
+      );
     }
     return out;
   }
 
   static String _titleOf(Map<String, Object?> title) => strSafe(
-        title['english'],
-        strSafe(title['romaji'], strSafe(title['native'])),
-      );
+    title['english'],
+    strSafe(title['romaji'], strSafe(title['native'])),
+  );
 }

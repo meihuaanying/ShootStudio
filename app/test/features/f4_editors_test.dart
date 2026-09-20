@@ -95,68 +95,73 @@ void main() {
   });
 
   List<PlanModuleData> seedModules() => <PlanModuleData>[
-        PlanModuleData(
-          id: 'm1',
-          type: PlanModuleType.theme,
-          title: '拍摄主题',
-          data: <String, Object?>{'text': '雨夜霓虹主基调'},
-        ),
-        PlanModuleData(
-          id: 'm2',
-          type: PlanModuleType.budget,
-          title: '预算表',
-          data: <String, Object?>{
-            'rows': <Object?>[
-              <String, Object?>{'item': '场地', 'price': 400, 'note': ''},
-            ],
+    PlanModuleData(
+      id: 'm1',
+      type: PlanModuleType.theme,
+      title: '拍摄主题',
+      data: <String, Object?>{'text': '雨夜霓虹主基调'},
+    ),
+    PlanModuleData(
+      id: 'm2',
+      type: PlanModuleType.budget,
+      title: '预算表',
+      data: <String, Object?>{
+        'rows': <Object?>[
+          <String, Object?>{'item': '场地', 'price': 400, 'note': ''},
+        ],
+      },
+    ),
+    PlanModuleData(
+      id: 'm3',
+      type: PlanModuleType.sun,
+      title: '日照时间',
+      data: <String, Object?>{
+        'place': '上海',
+        'date': '2026-09-12',
+        'lat': 31.23,
+        'lon': 121.47,
+      },
+    ),
+    PlanModuleData(
+      id: 'm4',
+      type: PlanModuleType.palette,
+      title: '色卡',
+      data: <String, Object?>{
+        'colors': <String>['#c24e2a', '#2f3a4a'],
+      },
+    ),
+    PlanModuleData(
+      id: 'm5',
+      type: PlanModuleType.poses,
+      title: '姿势清单',
+      data: <String, Object?>{
+        'poses': <Object?>[
+          <String, Object?>{
+            'name': '侧身回眸',
+            'lens': '35mm',
+            'cameraPosition': '腰位',
+            'joints': <String, Object?>{
+              'spine': <double>[0, 20, 0],
+            },
           },
-        ),
-        PlanModuleData(
-          id: 'm3',
-          type: PlanModuleType.sun,
-          title: '日照时间',
-          data: <String, Object?>{
-            'place': '上海',
-            'date': '2026-09-12',
-            'lat': 31.23,
-            'lon': 121.47,
-          },
-        ),
-        PlanModuleData(
-          id: 'm4',
-          type: PlanModuleType.palette,
-          title: '色卡',
-          data: <String, Object?>{
-            'colors': <String>['#c24e2a', '#2f3a4a'],
-          },
-        ),
-        PlanModuleData(
-          id: 'm5',
-          type: PlanModuleType.poses,
-          title: '姿势清单',
-          data: <String, Object?>{
-            'poses': <Object?>[
-              <String, Object?>{
-                'name': '侧身回眸',
-                'lens': '35mm',
-                'cameraPosition': '腰位',
-                'joints': <String, Object?>{
-                  'spine': <double>[0, 20, 0],
-                },
-              },
-            ],
-          },
-        ),
-      ];
+        ],
+      },
+    ),
+  ];
 
   Future<void> seedPlan() async {
     final int now = DateTime.now().millisecondsSinceEpoch;
-    await db.into(db.plans).insert(
+    await db
+        .into(db.plans)
+        .insert(
           PlansCompanion.insert(
             id: 'p-f4',
             title: 'F4 编辑器测试',
-            modulesJson: Value(jsonEncode(
-                seedModules().map((PlanModuleData m) => m.toJson()).toList())),
+            modulesJson: Value(
+              jsonEncode(
+                seedModules().map((PlanModuleData m) => m.toJson()).toList(),
+              ),
+            ),
             createdAt: now,
             updatedAt: now,
           ),
@@ -251,8 +256,8 @@ void main() {
     await tester.pump(const Duration(milliseconds: 100));
 
     final PlanModuleData palette = moduleById('m4');
-    final List<String> colors =
-        (palette.data['colors'] as List? ?? <Object?>[]).cast<String>();
+    final List<String> colors = (palette.data['colors'] as List? ?? <Object?>[])
+        .cast<String>();
     expect(colors, hasLength(3));
     expect(colors.last, startsWith('#'));
     expect(colors.last.length, 7);
@@ -263,8 +268,11 @@ void main() {
     await seedPlan();
     await pumpPlanner(tester);
     await selectModule(tester, 'm5');
-    await settleUntil(tester, find.byIcon(Icons.swap_horiz_rounded),
-        required: true);
+    await settleUntil(
+      tester,
+      find.byIcon(Icons.swap_horiz_rounded),
+      required: true,
+    );
     await tester.tap(find.byIcon(Icons.swap_horiz_rounded).first);
     await settleUntil(tester, find.text('替换姿势'), required: true);
     await settleUntil(tester, find.text('站姿·展臂'), required: true);
@@ -289,8 +297,11 @@ void main() {
     await seedPlan();
     await pumpPlanner(tester);
     await selectModule(tester, 'm1');
-    await settleUntil(tester, find.byIcon(Icons.format_bold_rounded),
-        required: true);
+    await settleUntil(
+      tester,
+      find.byIcon(Icons.format_bold_rounded),
+      required: true,
+    );
     await tester.tap(find.byIcon(Icons.format_bold_rounded));
     await tester.pump(const Duration(milliseconds: 100));
 
@@ -299,11 +310,14 @@ void main() {
     await settleTimers(tester);
   });
 
-  testWidgets('样片编辑：待插入帧带 imageRef 落入模块（导出可渲染真实图）',
-      (WidgetTester tester) async {
+  testWidgets('样片编辑：待插入帧带 imageRef 落入模块（导出可渲染真实图）', (
+    WidgetTester tester,
+  ) async {
     await seedPlan();
     await pumpPlanner(tester);
-    container.read(pendingFramesProvider.notifier).add(
+    container
+        .read(pendingFramesProvider.notifier)
+        .add(
           const PendingFrame(
             name: '本地上传样片',
             palette: <String>['#c24e2a', '#2f3a4a'],
@@ -317,7 +331,9 @@ void main() {
     await selectModule(tester, 'm1');
     await tester.pump(const Duration(milliseconds: 50));
     final PlanModuleData theme = moduleById('m1');
-    container.read(plannerControllerProvider.notifier).insertModule(
+    container
+        .read(plannerControllerProvider.notifier)
+        .insertModule(
           PlanModuleData(
             id: 'm6',
             type: PlanModuleType.refs,
@@ -326,10 +342,16 @@ void main() {
           ),
         );
     await tester.pump(const Duration(milliseconds: 100));
-    final String refsId =
-        container.read(plannerControllerProvider).modules.last.id;
-    await settleUntil(tester, find.byKey(ValueKey<String>(refsId)),
-        required: true);
+    final String refsId = container
+        .read(plannerControllerProvider)
+        .modules
+        .last
+        .id;
+    await settleUntil(
+      tester,
+      find.byKey(ValueKey<String>(refsId)),
+      required: true,
+    );
     await selectModule(tester, refsId);
     await settleUntil(tester, find.text('插入待选（1）'), required: true);
     await tester.tap(find.text('插入待选（1）'));

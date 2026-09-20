@@ -72,8 +72,10 @@ void main() {
       final AppDatabase db = AppDatabase.forTesting(NativeDatabase.memory());
       addTearDown(db.close);
       final QueryPlanner planner = QueryPlanner(db);
-      final SearchQuery query =
-          await planner.plan('导演 诺兰', domain: ImageDomain.film);
+      final SearchQuery query = await planner.plan(
+        '导演 诺兰',
+        domain: ImageDomain.film,
+      );
       expect(query.intent, SearchIntent.person);
       expect(query.person, '诺兰');
       // TMDB 多语源支持中文人名；AniList 英文源必须转拼音。
@@ -101,37 +103,40 @@ void main() {
       bool commercial = true,
       int w = 1200,
       int h = 800,
-    }) =>
-        SearchHit(
-          id: id,
-          title: title,
-          thumbUrl: url,
-          fullUrl: url,
-          sourceId: sourceId,
-          sourceLabel: sourceId,
-          license: commercial ? 'CC0' : '© 版权',
-          commercialOk: commercial,
-          width: w,
-          height: h,
-        );
+    }) => SearchHit(
+      id: id,
+      title: title,
+      thumbUrl: url,
+      fullUrl: url,
+      sourceId: sourceId,
+      sourceLabel: sourceId,
+      license: commercial ? 'CC0' : '© 版权',
+      commercialOk: commercial,
+      width: w,
+      height: h,
+    );
 
     test('URL/ID 去重 + 匹配分排序', () {
       final List<SearchHit> hits = <SearchHit>[
         hit(id: 'a', url: 'https://x/1.jpg'),
         hit(id: 'b', url: 'https://x/1.jpg?size=big'),
         hit(
-            id: 'c',
-            url: 'https://y/2.jpg',
-            title: 'Rooftop rainy night',
-            sourceId: 'tmdb'),
+          id: 'c',
+          url: 'https://y/2.jpg',
+          title: 'Rooftop rainy night',
+          sourceId: 'tmdb',
+        ),
       ];
       final SearchQuery query = const SearchQuery(
         raw: '雨夜霓虹',
         intent: SearchIntent.keyword,
         text: 'rainy night neon',
       );
-      final List<SearchHit> ranked =
-          ResultRanker.rank(hits, query: query, commercialOnly: false);
+      final List<SearchHit> ranked = ResultRanker.rank(
+        hits,
+        query: query,
+        commercialOnly: false,
+      );
       expect(ranked, hasLength(2), reason: '同 URL 仅保留一条');
       // 文本命中 rainy night 的条目应排在前面（标题匹配加分）。
       expect(ranked.first.id, 'c');
@@ -140,25 +145,31 @@ void main() {
     test('仅可商用过滤（D117）', () {
       final List<SearchHit> hits = <SearchHit>[
         hit(
-            id: 'a',
-            url: 'https://x/a.jpg',
-            title: 'Free portrait',
-            commercial: true),
+          id: 'a',
+          url: 'https://x/a.jpg',
+          title: 'Free portrait',
+          commercial: true,
+        ),
         hit(
-            id: 'b',
-            url: 'https://x/b.jpg',
-            title: 'Copyrighted portrait',
-            commercial: false),
+          id: 'b',
+          url: 'https://x/b.jpg',
+          title: 'Copyrighted portrait',
+          commercial: false,
+        ),
       ];
       const SearchQuery query = SearchQuery(
         raw: 'q',
         intent: SearchIntent.keyword,
         text: 'portrait',
       );
-      expect(ResultRanker.rank(hits, query: query, commercialOnly: true),
-          hasLength(1));
-      expect(ResultRanker.rank(hits, query: query, commercialOnly: false),
-          hasLength(2));
+      expect(
+        ResultRanker.rank(hits, query: query, commercialOnly: true),
+        hasLength(1),
+      );
+      expect(
+        ResultRanker.rank(hits, query: query, commercialOnly: false),
+        hasLength(2),
+      );
     });
 
     test('感知哈希：dHash 稳定 + 汉明距离', () {
@@ -203,44 +214,58 @@ void main() {
 
   group('SearchEngine 聚合与每源状态（R45）', () {
     test('并发聚合 + 失败源状态 + 跳过禁用源', () async {
-      final SearchEngine engine = SearchEngine(sources: <SearchSource>[
-        _FakeSource(id: 'ok1', hits: <SearchHit>[_fakeHit('ok1', 'a')]),
-        _FakeSource(id: 'ok2', hits: <SearchHit>[_fakeHit('ok2', 'b')]),
-        _FakeSource(id: 'bad', error: 'offline'),
-        _DisabledSource(),
-      ]);
+      final SearchEngine engine = SearchEngine(
+        sources: <SearchSource>[
+          _FakeSource(id: 'ok1', hits: <SearchHit>[_fakeHit('ok1', 'a')]),
+          _FakeSource(id: 'ok2', hits: <SearchHit>[_fakeHit('ok2', 'b')]),
+          _FakeSource(id: 'bad', error: 'offline'),
+          _DisabledSource(),
+        ],
+      );
       final AggregatedResult result = await engine.search(
         const SearchQuery(
-            raw: 'q', intent: SearchIntent.keyword, text: 'portrait'),
+          raw: 'q',
+          intent: SearchIntent.keyword,
+          text: 'portrait',
+        ),
       );
       expect(result.hits, hasLength(2));
       expect(result.okSources, 2);
       expect(result.failedSources, 1);
-      final SourceStatus disabled =
-          result.statuses.firstWhere((SourceStatus s) => s.id == 'disabled');
+      final SourceStatus disabled = result.statuses.firstWhere(
+        (SourceStatus s) => s.id == 'disabled',
+      );
       expect(disabled.enabled, isFalse);
       expect(disabled.hint, isNotEmpty);
-      final SourceStatus failed =
-          result.statuses.firstWhere((SourceStatus s) => s.id == 'bad');
+      final SourceStatus failed = result.statuses.firstWhere(
+        (SourceStatus s) => s.id == 'bad',
+      );
       expect(failed.ok, isFalse);
       expect(failed.error, contains('offline'));
     });
 
     test('人名结果按作品分组（D114）', () async {
-      final SearchEngine engine = SearchEngine(sources: <SearchSource>[
-        _FakeSource(id: 'tmdb', hits: <SearchHit>[
-          _fakeHit('tmdb', 'a', group: '星际穿越'),
-          _fakeHit('tmdb', 'b', group: '星际穿越'),
-          _fakeHit('tmdb', 'c', group: '盗梦空间'),
-        ]),
-      ]);
-      final AggregatedResult result = await engine.search(const SearchQuery(
-        raw: '导演 诺兰',
-        intent: SearchIntent.person,
-        text: '',
-        person: '诺兰',
-        domain: ImageDomain.film,
-      ));
+      final SearchEngine engine = SearchEngine(
+        sources: <SearchSource>[
+          _FakeSource(
+            id: 'tmdb',
+            hits: <SearchHit>[
+              _fakeHit('tmdb', 'a', group: '星际穿越'),
+              _fakeHit('tmdb', 'b', group: '星际穿越'),
+              _fakeHit('tmdb', 'c', group: '盗梦空间'),
+            ],
+          ),
+        ],
+      );
+      final AggregatedResult result = await engine.search(
+        const SearchQuery(
+          raw: '导演 诺兰',
+          intent: SearchIntent.person,
+          text: '',
+          person: '诺兰',
+          domain: ImageDomain.film,
+        ),
+      );
       final Map<String, List<SearchHit>> groups = result.groupedByWork;
       expect(groups.keys, containsAll(<String>['星际穿越', '盗梦空间']));
       expect(groups['星际穿越'], hasLength(2));
@@ -254,8 +279,11 @@ void main() {
         expect(pack.name, isNotEmpty);
         expect(pack.description, isNotEmpty);
         expect(pack.enQuery, isNotEmpty);
-        expect(containsCjk(pack.enQuery), isFalse,
-            reason: '${pack.id} 的检索词不得含中文');
+        expect(
+          containsCjk(pack.enQuery),
+          isFalse,
+          reason: '${pack.id} 的检索词不得含中文',
+        );
         expect(pack.zhTerms, isNotEmpty);
       }
       expect(themePackById('cyber-neon')?.enQuery, contains('cyberpunk'));
@@ -289,24 +317,34 @@ void main() {
         if (await dir.exists()) await dir.delete(recursive: true);
       });
       final SearchCache cache = SearchCache(dir.path, limitMb: 10);
-      await cache.put('https://x/a.jpg', Uint8List.fromList(<int>[1, 2, 3]),
-          original: false);
-      await cache.put('https://x/a.jpg', Uint8List.fromList(<int>[4, 5, 6]),
-          original: true);
+      await cache.put(
+        'https://x/a.jpg',
+        Uint8List.fromList(<int>[1, 2, 3]),
+        original: false,
+      );
+      await cache.put(
+        'https://x/a.jpg',
+        Uint8List.fromList(<int>[4, 5, 6]),
+        original: true,
+      );
       expect(await cache.get('https://x/a.jpg'), isNotNull);
       expect(await cache.get('https://x/a.jpg', original: true), isNotNull);
       expect(
-          Directory('${dir.path}${Platform.pathSeparator}cache'
-                  '${Platform.pathSeparator}search'
-                  '${Platform.pathSeparator}thumb')
-              .existsSync(),
-          isTrue);
+        Directory(
+          '${dir.path}${Platform.pathSeparator}cache'
+          '${Platform.pathSeparator}search'
+          '${Platform.pathSeparator}thumb',
+        ).existsSync(),
+        isTrue,
+      );
       expect(
-          Directory('${dir.path}${Platform.pathSeparator}cache'
-                  '${Platform.pathSeparator}search'
-                  '${Platform.pathSeparator}orig')
-              .existsSync(),
-          isTrue);
+        Directory(
+          '${dir.path}${Platform.pathSeparator}cache'
+          '${Platform.pathSeparator}search'
+          '${Platform.pathSeparator}orig',
+        ).existsSync(),
+        isTrue,
+      );
     });
   });
 
@@ -315,8 +353,9 @@ void main() {
       final AppDatabase db = AppDatabase.forTesting(NativeDatabase.memory());
       addTearDown(db.close);
       final ImageToSearch service = ImageToSearch(db);
-      final VisionResult result =
-          await service.describe(Uint8List.fromList(<int>[1, 2, 3]));
+      final VisionResult result = await service.describe(
+        Uint8List.fromList(<int>[1, 2, 3]),
+      );
       expect(result.success, isFalse);
       expect(result.needsConfiguration, isTrue);
       expect(result.error, contains('未配置'));
@@ -324,7 +363,8 @@ void main() {
 
     test('视觉输出解析：描述 + KEYWORDS 行', () {
       final (String desc, String kw) = ImageToSearch.debugSplit(
-          '冷调侧光人像，背景深蓝。\nKEYWORDS: cold blue portrait side light');
+        '冷调侧光人像，背景深蓝。\nKEYWORDS: cold blue portrait side light',
+      );
       expect(desc, contains('冷调侧光'));
       expect(kw, 'cold blue portrait side light');
     });
@@ -332,86 +372,97 @@ void main() {
 
   group('图源解析 fixture（R48：CI 不依赖外网）', () {
     test('TMDB：作品/人名分组/剧照/分集', () {
-      final List<TmdbWork> works =
-          TmdbImageSource.parseSearch(<String, Object?>{
-        'results': <Object?>[
-          <String, Object?>{
-            'id': 1,
-            'media_type': 'movie',
-            'title': '星际穿越',
-            'release_date': '2014-11-05',
-            'poster_path': '/p.jpg',
-            'popularity': 90,
-          },
-        ],
-      });
+      final List<TmdbWork> works = TmdbImageSource.parseSearch(
+        <String, Object?>{
+          'results': <Object?>[
+            <String, Object?>{
+              'id': 1,
+              'media_type': 'movie',
+              'title': '星际穿越',
+              'release_date': '2014-11-05',
+              'poster_path': '/p.jpg',
+              'popularity': 90,
+            },
+          ],
+        },
+      );
       expect(works.single.title, '星际穿越');
       expect(works.single.year, '2014');
 
-      final List<TmdbWork> credits =
-          TmdbImageSource.parseCredits(<String, Object?>{
-        'cast': <Object?>[
-          <String, Object?>{
-            'id': 2,
-            'media_type': 'movie',
-            'title': '盗梦空间',
-            'release_date': '2010-07-16',
-            'poster_path': '/i.jpg',
-            'popularity': 80,
-          },
-        ],
-        'crew': <Object?>[
-          <String, Object?>{
-            'id': 2,
-            'media_type': 'movie',
-            'title': '盗梦空间',
-            'popularity': 80,
-          },
-        ],
-      });
+      final List<TmdbWork> credits = TmdbImageSource.parseCredits(
+        <String, Object?>{
+          'cast': <Object?>[
+            <String, Object?>{
+              'id': 2,
+              'media_type': 'movie',
+              'title': '盗梦空间',
+              'release_date': '2010-07-16',
+              'poster_path': '/i.jpg',
+              'popularity': 80,
+            },
+          ],
+          'crew': <Object?>[
+            <String, Object?>{
+              'id': 2,
+              'media_type': 'movie',
+              'title': '盗梦空间',
+              'popularity': 80,
+            },
+          ],
+        },
+      );
       expect(credits, hasLength(1), reason: 'cast/crew 同一作品去重');
 
-      final TmdbWork work =
-          TmdbWork(id: 1, mediaType: 'movie', title: '星际穿越', year: '2014');
-      final List<SearchHit> stills =
-          TmdbImageSource.parseImages(<String, Object?>{
-        'backdrops': <Object?>[
-          <String, Object?>{
-            'file_path': '/still.jpg',
-            'width': 1920,
-            'height': 1080,
-          },
-        ],
-      }, work: work);
+      final TmdbWork work = TmdbWork(
+        id: 1,
+        mediaType: 'movie',
+        title: '星际穿越',
+        year: '2014',
+      );
+      final List<SearchHit> stills = TmdbImageSource.parseImages(
+        <String, Object?>{
+          'backdrops': <Object?>[
+            <String, Object?>{
+              'file_path': '/still.jpg',
+              'width': 1920,
+              'height': 1080,
+            },
+          ],
+        },
+        work: work,
+      );
       expect(stills.single.fullUrl, contains('w1280'));
       expect(stills.single.group, '星际穿越');
       expect(stills.single.commercialOk, isFalse);
 
-      final List<SearchHit> episodes =
-          TmdbImageSource.parseEpisodeStills(<String, Object?>{
-        'episodes': <Object?>[
-          <String, Object?>{'episode_number': 3, 'still_path': '/e3.jpg'},
-        ],
-      }, work: work);
+      final List<SearchHit> episodes = TmdbImageSource.parseEpisodeStills(
+        <String, Object?>{
+          'episodes': <Object?>[
+            <String, Object?>{'episode_number': 3, 'still_path': '/e3.jpg'},
+          ],
+        },
+        work: work,
+      );
       expect(episodes.single.title, contains('第 3 集'));
     });
 
     test('Pexels：可商用 + 作者署名', () {
-      final List<SearchHit> hits =
-          PexelsImageSource.parsePhotos(<String, Object?>{
-        'photos': <Object?>[
-          <String, Object?>{
-            'alt': 'rainy night',
-            'photographer': '张三',
-            'src': <String, Object?>{
-              'medium': 'https://p/m.jpg',
-              'large2x': 'https://p/l.jpg',
+      final List<SearchHit> hits = PexelsImageSource.parsePhotos(
+        <String, Object?>{
+          'photos': <Object?>[
+            <String, Object?>{
+              'alt': 'rainy night',
+              'photographer': '张三',
+              'src': <String, Object?>{
+                'medium': 'https://p/m.jpg',
+                'large2x': 'https://p/l.jpg',
+              },
+              'width': 1200,
+              'height': 800,
             },
-            'width': 1200,
-            'height': 800,
-          },
-        ],
-      });
+          ],
+        },
+      );
       expect(hits.single.commercialOk, isTrue);
       expect(hits.single.attribution, contains('张三'));
       expect(hits.single.thumbUrl, 'https://p/m.jpg');
@@ -419,10 +470,11 @@ void main() {
 
     test('大都会：公有领域标记 + objectID 解析', () {
       expect(
-          MetSource.parseSearch(<String, Object?>{
-            'objectIDs': <Object?>[10, 20, null],
-          }),
-          <int>[10, 20]);
+        MetSource.parseSearch(<String, Object?>{
+          'objectIDs': <Object?>[10, 20, null],
+        }),
+        <int>[10, 20],
+      );
       final SearchHit? pd = MetSource.parseObject(<String, Object?>{
         'objectID': 10,
         'title': 'Sunflowers',
@@ -458,8 +510,10 @@ void main() {
         ],
       });
       expect(page.hasMore, isTrue);
-      expect(page.hits.single.fullUrl,
-          contains('https://www.artic.edu/iiif/2/abc-123/full/'));
+      expect(
+        page.hits.single.fullUrl,
+        contains('https://www.artic.edu/iiif/2/abc-123/full/'),
+      );
       expect(page.hits.single.commercialOk, isTrue);
     });
 
@@ -552,9 +606,11 @@ void main() {
       expect(hits.single.fullUrl, 'https://uploads.wikiart.org/i.jpg');
       expect(WikiArtSource.parse('not json'), isEmpty);
       expect(
-          WikiArtSource.parse(
-              '{"Paintings":[{"title":"A","image":"https://x/a.jpg"}]}'),
-          hasLength(1));
+        WikiArtSource.parse(
+          '{"Paintings":[{"title":"A","image":"https://x/a.jpg"}]}',
+        ),
+        hasLength(1),
+      );
     });
 
     test('Artvee：HTML 图片/链接/标题提取', () {
@@ -591,7 +647,7 @@ void main() {
             'edmPreview': <Object?>['https://e/thumb.jpg'],
             'edmIsShownBy': <Object?>['https://e/full.jpg'],
             'rights': <Object?>[
-              'http://creativecommons.org/publicdomain/zero/1.0/'
+              'http://creativecommons.org/publicdomain/zero/1.0/',
             ],
             'guid': 'https://e/guid',
           },
@@ -675,8 +731,10 @@ void main() {
       final String pinyin = toPinyin('雨夜');
       expect(pinyin, 'yu ye');
       expect(containsCjk(toPinyin('雨夜霓虹')), isFalse);
-      expect(translateToEnglish('完全没收录的词').contains(RegExp(r'[\u4e00-\u9fff]')),
-          isFalse);
+      expect(
+        translateToEnglish('完全没收录的词').contains(RegExp(r'[\u4e00-\u9fff]')),
+        isFalse,
+      );
     });
 
     test('拼音字典规模与抽查', () {
@@ -688,21 +746,24 @@ void main() {
 }
 
 SearchHit _fakeHit(String source, String id, {String group = ''}) => SearchHit(
-      id: '$source:$id',
-      title: 'hit $id',
-      thumbUrl: 'https://x/$source-$id.jpg',
-      fullUrl: 'https://x/$source-$id.jpg',
-      sourceId: source,
-      sourceLabel: source,
-      license: 'CC0',
-      commercialOk: true,
-      group: group,
-      domain: ImageDomain.film,
-    );
+  id: '$source:$id',
+  title: 'hit $id',
+  thumbUrl: 'https://x/$source-$id.jpg',
+  fullUrl: 'https://x/$source-$id.jpg',
+  sourceId: source,
+  sourceLabel: source,
+  license: 'CC0',
+  commercialOk: true,
+  group: group,
+  domain: ImageDomain.film,
+);
 
 class _FakeSource implements SearchSource {
-  _FakeSource(
-      {required this.id, this.hits = const <SearchHit>[], this.error = ''});
+  _FakeSource({
+    required this.id,
+    this.hits = const <SearchHit>[],
+    this.error = '',
+  });
 
   @override
   final String id;
@@ -713,14 +774,18 @@ class _FakeSource implements SearchSource {
   String get label => id;
   @override
   SourceCapability get capability => const SourceCapability(
-      domains: <ImageDomain>{ImageDomain.film, ImageDomain.photo});
+    domains: <ImageDomain>{ImageDomain.film, ImageDomain.photo},
+  );
   @override
   bool get enabled => true;
   @override
   String get disabledHint => '';
   @override
-  Future<SourceSearchPage> search(SearchQuery query,
-      {int page = 1, int perPage = 24}) async {
+  Future<SourceSearchPage> search(
+    SearchQuery query, {
+    int page = 1,
+    int perPage = 24,
+  }) async {
     if (error.isNotEmpty) throw StateError(error);
     return SourceSearchPage(hits: hits, hasMore: false);
   }
@@ -733,13 +798,16 @@ class _DisabledSource implements SearchSource {
   String get label => '未启用源';
   @override
   SourceCapability get capability => const SourceCapability(
-      domains: <ImageDomain>{ImageDomain.film, ImageDomain.photo});
+    domains: <ImageDomain>{ImageDomain.film, ImageDomain.photo},
+  );
   @override
   bool get enabled => false;
   @override
   String get disabledHint => '缺 Key（设置 → 图片素材通道）';
   @override
-  Future<SourceSearchPage> search(SearchQuery query,
-          {int page = 1, int perPage = 24}) async =>
-      const SourceSearchPage(hits: <SearchHit>[], hasMore: false);
+  Future<SourceSearchPage> search(
+    SearchQuery query, {
+    int page = 1,
+    int perPage = 24,
+  }) async => const SourceSearchPage(hits: <SearchHit>[], hasMore: false);
 }

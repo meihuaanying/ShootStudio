@@ -13,13 +13,12 @@ Dio searchDio({
   Duration receiveTimeout = const Duration(seconds: 20),
   int retries = 2,
   Map<String, dynamic>? headers,
-}) =>
-    NetRouter.I.dio(
-      connectTimeout: connectTimeout,
-      receiveTimeout: receiveTimeout,
-      retries: retries,
-      headers: headers,
-    );
+}) => NetRouter.I.dio(
+  connectTimeout: connectTimeout,
+  receiveTimeout: receiveTimeout,
+  retries: retries,
+  headers: headers,
+);
 
 /// 并发限流映射（保持输入顺序）。
 Future<List<R>> mapLimit<T, R>(
@@ -40,7 +39,9 @@ Future<List<R>> mapLimit<T, R>(
   final int workers = limit < 1 ? 1 : limit;
   await Future.wait(
     List<Future<void>>.generate(
-        workers < items.length ? workers : items.length, (int _) => worker()),
+      workers < items.length ? workers : items.length,
+      (int _) => worker(),
+    ),
   );
   return results.cast<R>();
 }
@@ -77,8 +78,9 @@ String _clean(String url) {
 
 /// IIIF 尺寸链接（缺省取 width 边）。
 String iiifUrl(String base, {int width = 600, String region = 'full'}) {
-  final String b =
-      base.endsWith('/') ? base.substring(0, base.length - 1) : base;
+  final String b = base.endsWith('/')
+      ? base.substring(0, base.length - 1)
+      : base;
   return '$b/$region/!$width,$width/0/default.jpg';
 }
 

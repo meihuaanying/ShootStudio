@@ -102,8 +102,9 @@ class PosesState {
   static const Object _sentinel = Object();
 }
 
-final posesControllerProvider =
-    NotifierProvider<PosesController, PosesState>(PosesController.new);
+final posesControllerProvider = NotifierProvider<PosesController, PosesState>(
+  PosesController.new,
+);
 
 class PosesController extends Notifier<PosesState> {
   late final AppDatabase _db = ref.read(databaseProvider);
@@ -123,19 +124,24 @@ class PosesController extends Notifier<PosesState> {
       initialized: true,
       status: '共 ${all.length} 个姿势',
     );
-    _applyFilter(state.category, state.difficulty, state.keyword,
-        resetIndex: true);
+    _applyFilter(
+      state.category,
+      state.difficulty,
+      state.keyword,
+      resetIndex: true,
+    );
   }
 
   Future<List<PoseEntry>> _loadCustomPoses() async {
-    final rows = await (_db.select(_db.poses)
-          ..where((t) => t.builtin.equals(false)))
-        .get();
+    final rows = await (_db.select(
+      _db.poses,
+    )..where((t) => t.builtin.equals(false))).get();
     return rows.map((Pose row) {
       final joints = deepCopy(asMap(_decode(row.jointsJson)));
       // V5/D88：保留键 `_hands` 存手部姿态（不影响 12 关节解析）。
-      final (HandPoseState?, HandPoseState?) hands =
-          handsFromJson(joints.remove('_hands'));
+      final (HandPoseState?, HandPoseState?) hands = handsFromJson(
+        joints.remove('_hands'),
+      );
       final rootY = joints.remove('rootY');
       final rootPitch = joints.remove('rootPitch');
       return PoseEntry(
@@ -165,14 +171,18 @@ class PosesController extends Notifier<PosesState> {
   }
 
   Future<Set<String>> _loadFavorites() async {
-    final rows = await (_db.select(_db.poses)
-          ..where((t) => t.favorite.equals(true)))
-        .get();
+    final rows = await (_db.select(
+      _db.poses,
+    )..where((t) => t.favorite.equals(true))).get();
     return rows.map((Pose row) => row.id).toSet();
   }
 
-  void _applyFilter(String category, String difficulty, String keyword,
-      {bool resetIndex = false}) {
+  void _applyFilter(
+    String category,
+    String difficulty,
+    String keyword, {
+    bool resetIndex = false,
+  }) {
     final lower = keyword.trim().toLowerCase();
     final filtered = state.all.where((PoseEntry p) {
       if (category != '全部' && p.category != category) return false;
@@ -209,10 +219,13 @@ class PosesController extends Notifier<PosesState> {
   }
 
   void next() => select(
-      (state.index + 1) % (state.filtered.isEmpty ? 1 : state.filtered.length));
+    (state.index + 1) % (state.filtered.isEmpty ? 1 : state.filtered.length),
+  );
 
-  void prev() => select((state.index - 1 + state.filtered.length) %
-      (state.filtered.isEmpty ? 1 : state.filtered.length));
+  void prev() => select(
+    (state.index - 1 + state.filtered.length) %
+        (state.filtered.isEmpty ? 1 : state.filtered.length),
+  );
 
   /// 今日姿势：按日期种子推荐。
   void today() {
@@ -233,10 +246,12 @@ class PosesController extends Notifier<PosesState> {
     } else {
       favorites.remove(pose.id);
     }
-    final existing = await (_db.select(_db.poses)
-          ..where((t) => t.id.equals(pose.id)))
-        .getSingleOrNull();
-    await _db.into(_db.poses).insertOnConflictUpdate(
+    final existing = await (_db.select(
+      _db.poses,
+    )..where((t) => t.id.equals(pose.id))).getSingleOrNull();
+    await _db
+        .into(_db.poses)
+        .insertOnConflictUpdate(
           PosesCompanion.insert(
             id: pose.id,
             name: pose.name,
@@ -250,16 +265,23 @@ class PosesController extends Notifier<PosesState> {
           ),
         );
     state = state.copyWith(
-        favorites: favorites, status: now ? '已收藏「${pose.name}」' : '已取消收藏');
+      favorites: favorites,
+      status: now ? '已收藏「${pose.name}」' : '已取消收藏',
+    );
   }
 
   /// 关节微调（轴：rx/ry/rz）。以当前姿势为基线，三轴互不覆盖（G5 修复）。
   void adjustJoint(String joint, String axis, double value) {
-    final joints =
-        Map<String, Object?>.of(state.jointsOverride ?? <String, Object?>{});
+    final joints = Map<String, Object?>.of(
+      state.jointsOverride ?? <String, Object?>{},
+    );
     final List<double> base = tripleOf(state.current?.joints[joint]);
     final List<double> axes = tripleOf(joints[joint] ?? base);
-    final axisIndex = switch (axis) { 'rx' => 0, 'ry' => 1, _ => 2 };
+    final axisIndex = switch (axis) {
+      'rx' => 0,
+      'ry' => 1,
+      _ => 2,
+    };
     axes[axisIndex] = value;
     joints[joint] = <double>[axes[0], axes[1], axes[2]];
     state = state.copyWith(jointsOverride: joints, status: '微调中：$joint');
@@ -298,7 +320,9 @@ class PosesController extends Notifier<PosesState> {
     final Map<String, Object?> stored = Map<String, Object?>.of(joints);
     final Map<String, Object?>? hands = handsToJson(handsL, handsR);
     if (hands != null) stored['_hands'] = hands;
-    await _db.into(_db.poses).insertOnConflictUpdate(
+    await _db
+        .into(_db.poses)
+        .insertOnConflictUpdate(
           PosesCompanion.insert(
             id: id,
             name: trimmed,

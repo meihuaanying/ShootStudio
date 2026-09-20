@@ -7,7 +7,7 @@ import 'source_utils.dart';
 /// 搜索返回 objectID 列表，再并发取对象详情（限流 6 并发）。
 class MetSource implements SearchSource {
   MetSource({Dio? dio})
-      : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
 
   final Dio _dio;
 
@@ -20,13 +20,13 @@ class MetSource implements SearchSource {
   String get label => '大都会博物馆';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: true,
-        byKeyword: true,
-        hasLicenseFilter: true,
-        domains: <ImageDomain>{ImageDomain.art},
-        requiresKey: false,
-      );
+    byTitle: true,
+    byPerson: true,
+    byKeyword: true,
+    hasLicenseFilter: true,
+    domains: <ImageDomain>{ImageDomain.art},
+    requiresKey: false,
+  );
 
   @override
   bool get enabled => true;
@@ -42,25 +42,24 @@ class MetSource implements SearchSource {
   }) async {
     final String text =
         query.intent == SearchIntent.person && query.person.isNotEmpty
-            ? query.person
-            : query.forSource(id);
+        ? query.person
+        : query.forSource(id);
     if (text.trim().isEmpty) {
       return const SourceSearchPage(hits: <SearchHit>[], hasMore: false);
     }
     final Response<Object?> res = await _dio.get<Object?>(
       '$_base/search',
-      queryParameters: <String, Object?>{
-        'q': text,
-        'hasImages': true,
-      },
+      queryParameters: <String, Object?>{'q': text, 'hasImages': true},
     );
     final List<int> ids = parseSearch(res.data);
     final int start = (page - 1) * perPage;
     if (start >= ids.length) {
       return const SourceSearchPage(hits: <SearchHit>[], hasMore: false);
     }
-    final List<int> slice =
-        ids.sublist(start, (start + perPage).clamp(0, ids.length));
+    final List<int> slice = ids.sublist(
+      start,
+      (start + perPage).clamp(0, ids.length),
+    );
     final List<SearchHit?> hits = await mapLimit<int, SearchHit?>(
       slice,
       6,
@@ -74,8 +73,9 @@ class MetSource implements SearchSource {
 
   Future<SearchHit?> _object(int objectId) async {
     try {
-      final Response<Object?> res =
-          await _dio.get<Object?>('$_base/objects/$objectId');
+      final Response<Object?> res = await _dio.get<Object?>(
+        '$_base/objects/$objectId',
+      );
       return parseObject(asMapSafe(res.data));
     } catch (_) {
       return null;
@@ -103,10 +103,11 @@ class MetSource implements SearchSource {
     final bool publicDomain = data['isPublicDomain'] == true;
     final int objectId = intSafe(data['objectID']);
     final String pageUrl = strSafe(
-        data['objectURL'],
-        objectId == 0
-            ? ''
-            : 'https://www.metmuseum.org/art/collection/search/$objectId');
+      data['objectURL'],
+      objectId == 0
+          ? ''
+          : 'https://www.metmuseum.org/art/collection/search/$objectId',
+    );
     return SearchHit(
       id: hitId('met', pageUrl.isEmpty ? full : pageUrl),
       title: title,

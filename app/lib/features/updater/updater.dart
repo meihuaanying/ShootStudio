@@ -23,24 +23,30 @@ enum UpdateState { hasUpdate, upToDate, failed, silent }
 
 /// 平台下载入口。
 class DownloadEntry {
-  const DownloadEntry(
-      {required this.mirror, required this.github, required this.sha256});
+  const DownloadEntry({
+    required this.mirror,
+    required this.github,
+    required this.sha256,
+  });
 
   final String mirror;
   final String github;
   final String sha256;
 
   static DownloadEntry fromJson(Map<String, Object?> json) => DownloadEntry(
-        mirror: json['mirror'] as String? ?? '',
-        github: json['github'] as String? ?? '',
-        sha256: json['sha256'] as String? ?? '',
-      );
+    mirror: json['mirror'] as String? ?? '',
+    github: json['github'] as String? ?? '',
+    sha256: json['sha256'] as String? ?? '',
+  );
 }
 
 /// 内容包条目（模板/姿势包增量）。
 class ContentPackEntry {
-  const ContentPackEntry(
-      {required this.type, required this.version, required this.url});
+  const ContentPackEntry({
+    required this.type,
+    required this.version,
+    required this.url,
+  });
 
   final String type;
   final int version;
@@ -77,23 +83,27 @@ class Announcement {
   DownloadEntry? downloadFor(String platform) => downloads[platform];
 
   static Announcement fromJson(Map<String, Object?> json) => Announcement(
-        version: json['version'] as String? ?? '0.0.0',
-        notes: asStringList(json['notes']).isNotEmpty
-            ? asStringList(json['notes'])
-            : <String>[json['releaseNotes'] as String? ?? ''],
-        publishedAt: json['publishedAt'] as String? ?? '',
-        downloads: asMap(json['downloads']).map((String key, Object? value) =>
-            MapEntry(key, DownloadEntry.fromJson(asMap(value)))),
-        contentPacks: asMapList(json['contentPacks'])
-            .map(ContentPackEntry.fromJson)
-            .toList(),
-        ops: asMapList(json['ops'])
-            .map((Map<String, Object?> op) => (
-                  title: op['title'] as String? ?? '',
-                  date: op['date'] as String? ?? '',
-                ))
-            .toList(),
-      );
+    version: json['version'] as String? ?? '0.0.0',
+    notes: asStringList(json['notes']).isNotEmpty
+        ? asStringList(json['notes'])
+        : <String>[json['releaseNotes'] as String? ?? ''],
+    publishedAt: json['publishedAt'] as String? ?? '',
+    downloads: asMap(json['downloads']).map(
+      (String key, Object? value) =>
+          MapEntry(key, DownloadEntry.fromJson(asMap(value))),
+    ),
+    contentPacks: asMapList(
+      json['contentPacks'],
+    ).map(ContentPackEntry.fromJson).toList(),
+    ops: asMapList(json['ops'])
+        .map(
+          (Map<String, Object?> op) => (
+            title: op['title'] as String? ?? '',
+            date: op['date'] as String? ?? '',
+          ),
+        )
+        .toList(),
+  );
 }
 
 /// 更新检查器（D3：版本走公告 JSON；内容包走独立增量通道）。
@@ -124,8 +134,10 @@ class UpdateChecker {
   }
 
   /// 拉取内容包（模板/姿势包），合并进内容层（无需升级应用）。
-  Future<int> pullContentPacks(Announcement announcement,
-      {required int currentVersion}) async {
+  Future<int> pullContentPacks(
+    Announcement announcement, {
+    required int currentVersion,
+  }) async {
     var applied = 0;
     for (final ContentPackEntry pack in announcement.contentPacks) {
       if (pack.version <= currentVersion || pack.url.isEmpty) continue;
@@ -180,8 +192,9 @@ class UpdaterState {
       announcement: announcement == _sentinel
           ? this.announcement
           : announcement as Announcement?,
-      lastState:
-          lastState == _sentinel ? this.lastState : lastState as UpdateState?,
+      lastState: lastState == _sentinel
+          ? this.lastState
+          : lastState as UpdateState?,
       checking: checking ?? this.checking,
       status: status ?? this.status,
       dismissed: dismissed ?? this.dismissed,
@@ -191,8 +204,9 @@ class UpdaterState {
   static const Object _sentinel = Object();
 }
 
-final updaterProvider =
-    NotifierProvider<UpdaterController, UpdaterState>(UpdaterController.new);
+final updaterProvider = NotifierProvider<UpdaterController, UpdaterState>(
+  UpdaterController.new,
+);
 
 class UpdaterController extends Notifier<UpdaterState> {
   late final AppDatabase _db = ref.read(databaseProvider);
@@ -229,7 +243,10 @@ class UpdaterController extends Notifier<UpdaterState> {
         .check(announcementUrl: await _announcementUrl(), manual: false);
     if (result == UpdateState.hasUpdate) {
       state = state.copyWith(
-          lastState: result, announcement: announcement, dismissed: false);
+        lastState: result,
+        announcement: announcement,
+        dismissed: false,
+      );
     }
   }
 
@@ -240,7 +257,10 @@ class UpdaterController extends Notifier<UpdaterState> {
     final (UpdateState result, Announcement? announcement) = await checker
         .check(announcementUrl: await _announcementUrl(), manual: true);
     state = state.copyWith(
-        checking: false, lastState: result, announcement: announcement);
+      checking: false,
+      lastState: result,
+      announcement: announcement,
+    );
     switch (result) {
       case UpdateState.hasUpdate:
         state = state.copyWith(
@@ -254,7 +274,9 @@ class UpdaterController extends Notifier<UpdaterState> {
         );
         if (applied > 0) {
           await _db.setSetting(
-              'content_version', '${ContentPacks.builtinVersion}');
+            'content_version',
+            '${ContentPacks.builtinVersion}',
+          );
           state = state.copyWith(status: '${state.status}；已更新 $applied 个内容包');
         }
       case UpdateState.upToDate:

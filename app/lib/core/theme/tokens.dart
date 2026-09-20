@@ -52,8 +52,11 @@ abstract final class AppTokens {
   static const String monoFamily = 'JetBrains Mono';
   static const String monoFallback = 'Consolas';
 
-  static TextStyle mono(BuildContext context,
-      {double size = 12, Color? color}) {
+  static TextStyle mono(
+    BuildContext context, {
+    double size = 12,
+    Color? color,
+  }) {
     final base = DefaultTextStyle.of(context).style;
     return TextStyle(
       fontFamily: monoFamily,

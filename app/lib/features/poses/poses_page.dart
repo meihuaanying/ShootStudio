@@ -67,7 +67,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       SizedBox(
-                          width: 252, child: _buildGrid(state, controller)),
+                        width: 252,
+                        child: _buildGrid(state, controller),
+                      ),
                       const SizedBox(width: AppTokens.s12),
                       Expanded(child: _buildDetail(state, controller)),
                     ],
@@ -114,8 +116,10 @@ class _PosesPageState extends ConsumerState<PosesPage> {
             SizedBox(
               width: 200,
               child: TextField(
-                decoration:
-                    const InputDecoration(hintText: '搜索姿势名称…', isDense: true),
+                decoration: const InputDecoration(
+                  hintText: '搜索姿势名称…',
+                  isDense: true,
+                ),
                 onChanged: controller.setKeyword,
               ),
             ),
@@ -148,7 +152,8 @@ class _PosesPageState extends ConsumerState<PosesPage> {
           ? const SsEmpty(
               icon: Icons.accessibility_new_outlined,
               art: SsArt.pose,
-              title: '没有匹配的姿势')
+              title: '没有匹配的姿势',
+            )
           : GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -187,8 +192,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 11.5,
-                          fontWeight:
-                              selected ? FontWeight.w700 : FontWeight.w500,
+                          fontWeight: selected
+                              ? FontWeight.w700
+                              : FontWeight.w500,
                           color: selected ? AppTokens.accent : null,
                         ),
                       ),
@@ -202,27 +208,37 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 9.5,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ),
                           if (fav)
-                            const Icon(Icons.star_rounded,
-                                size: 12, color: AppTokens.warning),
+                            const Icon(
+                              Icons.star_rounded,
+                              size: 12,
+                              color: AppTokens.warning,
+                            ),
                           if (pose.referenceOnly || pose.partialBody)
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 4, vertical: 1),
+                                horizontal: 4,
+                                vertical: 1,
+                              ),
                               decoration: BoxDecoration(
-                                color:
-                                    AppTokens.warning.withValues(alpha: 0.16),
+                                color: AppTokens.warning.withValues(
+                                  alpha: 0.16,
+                                ),
                                 borderRadius: BorderRadius.circular(4),
                               ),
-                              child: Text(pose.partialBody ? '半身' : '参考',
-                                  style: const TextStyle(
-                                      fontSize: 8.5, color: AppTokens.warning)),
+                              child: Text(
+                                pose.partialBody ? '半身' : '参考',
+                                style: const TextStyle(
+                                  fontSize: 8.5,
+                                  color: AppTokens.warning,
+                                ),
+                              ),
                             ),
                         ],
                       ),
@@ -256,9 +272,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                       fit: StackFit.expand,
                       children: <Widget>[
                         Container(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surfaceContainerHighest,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest,
                           child: PosePhotoView(
                             photo: pose.photo,
                             skeleton: pose.skeleton,
@@ -281,7 +297,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                           bottom: 10,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 6),
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.black.withValues(alpha: 0.45),
                               borderRadius: BorderRadius.circular(8),
@@ -289,7 +307,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                             child: Text(
                               '${pose.name} · ${pose.category} · ${pose.difficulty}',
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 11.5),
+                                color: Colors.white,
+                                fontSize: 11.5,
+                              ),
                             ),
                           ),
                         ),
@@ -342,8 +362,10 @@ class _PosesPageState extends ConsumerState<PosesPage> {
     return SsCard(
       child: ListView(
         children: <Widget>[
-          SsSectionTitle(pose.name,
-              subtitle: '${pose.category} · ${pose.difficulty}'),
+          SsSectionTitle(
+            pose.name,
+            subtitle: '${pose.category} · ${pose.difficulty}',
+          ),
           const SizedBox(height: AppTokens.s8),
           if (pose.referenceOnly)
             Container(
@@ -351,8 +373,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
               decoration: BoxDecoration(
                 color: AppTokens.warning.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(AppTokens.rSm),
-                border:
-                    Border.all(color: AppTokens.warning.withValues(alpha: 0.4)),
+                border: Border.all(
+                  color: AppTokens.warning.withValues(alpha: 0.4),
+                ),
               ),
               child: Text(
                 '骨架置信度 $confidence% · 低置信度，仅供构图参考（不可宣称可复现）',
@@ -374,8 +397,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
               decoration: BoxDecoration(
                 color: AppTokens.warning.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(AppTokens.rSm),
-                border:
-                    Border.all(color: AppTokens.warning.withValues(alpha: 0.3)),
+                border: Border.all(
+                  color: AppTokens.warning.withValues(alpha: 0.3),
+                ),
               ),
               child: Text(
                 '照片局限：${pose.partialReason} · 3D 关节复现仅供构图参考',
@@ -420,7 +444,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
             label: '导入到布光预演',
             icon: Icons.wb_incandescent_outlined,
             onPressed: () {
-              ref.read(lightingControllerProvider.notifier).injectPose(
+              ref
+                  .read(lightingControllerProvider.notifier)
+                  .injectPose(
                     state.effectiveJoints,
                     pose.name,
                     handL: pose.handsL,
@@ -436,16 +462,20 @@ class _PosesPageState extends ConsumerState<PosesPage> {
             icon: Icons.playlist_add_rounded,
             kind: SsButtonKind.soft,
             onPressed: () {
-              ref.read(pendingPosesProvider.notifier).add(PendingPose(
-                    name: pose.name,
-                    joints: state.effectiveJoints,
-                    lens: pose.lens,
-                    cameraPosition: pose.cameraPosition,
-                    photo: pose.photo,
-                    author: pose.author,
-                    license: pose.license,
-                    source: pose.source,
-                  ));
+              ref
+                  .read(pendingPosesProvider.notifier)
+                  .add(
+                    PendingPose(
+                      name: pose.name,
+                      joints: state.effectiveJoints,
+                      lens: pose.lens,
+                      cameraPosition: pose.cameraPosition,
+                      photo: pose.photo,
+                      author: pose.author,
+                      license: pose.license,
+                      source: pose.source,
+                    ),
+                  );
               ssToast(context, '已加入待插入清单（策划案 → 姿势清单模块可插入）');
             },
           ),
@@ -474,13 +504,16 @@ class _PosesPageState extends ConsumerState<PosesPage> {
           Text(
             label,
             style: const TextStyle(
-                fontSize: 11.5,
-                color: AppTokens.accent,
-                fontWeight: FontWeight.w600),
+              fontSize: 11.5,
+              color: AppTokens.accent,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 2),
-          Text(text.isEmpty ? '—' : text,
-              style: const TextStyle(fontSize: 12.5, height: 1.5)),
+          Text(
+            text.isEmpty ? '—' : text,
+            style: const TextStyle(fontSize: 12.5, height: 1.5),
+          ),
         ],
       ),
     );

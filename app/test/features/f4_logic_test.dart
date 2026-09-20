@@ -18,8 +18,7 @@ class _FakeAdapter implements HttpClientAdapter {
     RequestOptions options,
     Stream<Uint8List>? requestStream,
     Future<void>? cancelFuture,
-  ) =>
-      handler(options);
+  ) => handler(options);
 
   @override
   void close({bool force = false}) {}
@@ -29,7 +28,12 @@ void main() {
   group('预算估算（F4/F9）', () {
     const List<BudgetItemEntry> items = <BudgetItemEntry>[
       BudgetItemEntry(
-          key: 'studio', label: '影棚（小时）', min: 150, max: 600, note: ''),
+        key: 'studio',
+        label: '影棚（小时）',
+        min: 150,
+        max: 600,
+        note: '',
+      ),
       BudgetItemEntry(key: 'meal', label: '餐费（人）', min: 30, max: 80, note: ''),
     ];
 
@@ -76,8 +80,9 @@ void main() {
 
   group('富文本轻量解析（F12）', () {
     test('列表与加粗解析', () {
-      final List<RichLine> lines =
-          RichTextLite.parse('**重点**普通文字\n- 第一项\n- **第二项**');
+      final List<RichLine> lines = RichTextLite.parse(
+        '**重点**普通文字\n- 第一项\n- **第二项**',
+      );
       expect(lines, hasLength(3));
       expect(lines[0].bullet, isFalse);
       expect(lines[0].spans[0].bold, isTrue);
@@ -87,20 +92,32 @@ void main() {
     });
 
     test('加粗切换可往返', () {
-      final ({String text, int selection}) bold =
-          RichTextLite.toggleBold('氛围要突出', 0, 4);
+      final ({String text, int selection}) bold = RichTextLite.toggleBold(
+        '氛围要突出',
+        0,
+        4,
+      );
       expect(bold.text, '**氛围要突**出');
-      final ({String text, int selection}) again =
-          RichTextLite.toggleBold(bold.text, 0, bold.selection);
+      final ({String text, int selection}) again = RichTextLite.toggleBold(
+        bold.text,
+        0,
+        bold.selection,
+      );
       expect(again.text, '氛围要突出');
     });
 
     test('无序列表切换可往返', () {
-      final ({String text, int selection}) bullet =
-          RichTextLite.toggleBullet('第一行\n第二行', 0, 7);
+      final ({String text, int selection}) bullet = RichTextLite.toggleBullet(
+        '第一行\n第二行',
+        0,
+        7,
+      );
       expect(bullet.text, '- 第一行\n- 第二行');
-      final ({String text, int selection}) again =
-          RichTextLite.toggleBullet(bullet.text, 0, bullet.text.length);
+      final ({String text, int selection}) again = RichTextLite.toggleBullet(
+        bullet.text,
+        0,
+        bullet.text.length,
+      );
       expect(again.text, '第一行\n第二行');
     });
 

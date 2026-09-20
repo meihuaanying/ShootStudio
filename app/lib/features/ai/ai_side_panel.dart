@@ -84,8 +84,9 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final PlanDiff? diff =
-        _draft?.diff is PlanDiff ? _draft!.diff as PlanDiff : null;
+    final PlanDiff? diff = _draft?.diff is PlanDiff
+        ? _draft!.diff as PlanDiff
+        : null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -113,12 +114,15 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
             children: <Widget>[
               for (final ({bool user, String text}) line in _chat)
                 Align(
-                  alignment:
-                      line.user ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: line.user
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 6),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 7,
+                    ),
                     constraints: const BoxConstraints(maxWidth: 260),
                     decoration: BoxDecoration(
                       color: line.user
@@ -126,8 +130,10 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
                           : theme.colorScheme.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(AppTokens.rSm),
                     ),
-                    child:
-                        Text(line.text, style: const TextStyle(fontSize: 12)),
+                    child: Text(
+                      line.text,
+                      style: const TextStyle(fontSize: 12),
+                    ),
                   ),
                 ),
               if (_draft != null && diff != null) _buildDiffCard(diff),
@@ -180,14 +186,23 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
           ),
           const SizedBox(height: 6),
           for (final PlanModuleData m in diff.added)
-            _line(Icons.add_circle_outline_rounded, AppTokens.success,
-                '新增：${m.title}'),
+            _line(
+              Icons.add_circle_outline_rounded,
+              AppTokens.success,
+              '新增：${m.title}',
+            ),
           for (final PlanModuleData m in diff.removed)
-            _line(Icons.remove_circle_outline_rounded, AppTokens.danger,
-                '删除：${m.title}'),
+            _line(
+              Icons.remove_circle_outline_rounded,
+              AppTokens.danger,
+              '删除：${m.title}',
+            ),
           for (final ModuleChange c in diff.changed)
-            _line(Icons.change_circle_outlined, AppTokens.warning,
-                '修改：${c.after.title} · ${c.changedKeys.join('、')}'),
+            _line(
+              Icons.change_circle_outlined,
+              AppTokens.warning,
+              '修改：${c.after.title} · ${c.changedKeys.join('、')}',
+            ),
           const SizedBox(height: 8),
           Row(
             children: <Widget>[

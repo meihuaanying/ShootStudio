@@ -16,10 +16,10 @@ V3 v3(double x, double y, double z) => <double>[x, y, z];
 double _dot(V3 a, V3 b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 
 V3 _cross(V3 a, V3 b) => <double>[
-      a[1] * b[2] - a[2] * b[1],
-      a[2] * b[0] - a[0] * b[2],
-      a[0] * b[1] - a[1] * b[0],
-    ];
+  a[1] * b[2] - a[2] * b[1],
+  a[2] * b[0] - a[0] * b[2],
+  a[0] * b[1] - a[1] * b[0],
+];
 
 V3 _sub(V3 a, V3 b) => <double>[a[0] - b[0], a[1] - b[1], a[2] - b[2]];
 
@@ -52,8 +52,10 @@ Mat3 eulerXyz(double rx, double ry, double rz) {
 }
 
 Mat3 _matMul(Mat3 a, Mat3 b) {
-  final Mat3 out =
-      List<List<double>>.generate(3, (_) => List<double>.filled(3, 0));
+  final Mat3 out = List<List<double>>.generate(
+    3,
+    (_) => List<double>.filled(3, 0),
+  );
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       double sum = 0;
@@ -67,22 +69,22 @@ Mat3 _matMul(Mat3 a, Mat3 b) {
 }
 
 Mat3 matT(Mat3 a) => <List<double>>[
-      <double>[a[0][0], a[1][0], a[2][0]],
-      <double>[a[0][1], a[1][1], a[2][1]],
-      <double>[a[0][2], a[1][2], a[2][2]],
-    ];
+  <double>[a[0][0], a[1][0], a[2][0]],
+  <double>[a[0][1], a[1][1], a[2][1]],
+  <double>[a[0][2], a[1][2], a[2][2]],
+];
 
 V3 matVec(Mat3 a, V3 v) => <double>[
-      a[0][0] * v[0] + a[0][1] * v[1] + a[0][2] * v[2],
-      a[1][0] * v[0] + a[1][1] * v[1] + a[1][2] * v[2],
-      a[2][0] * v[0] + a[2][1] * v[1] + a[2][2] * v[2],
-    ];
+  a[0][0] * v[0] + a[0][1] * v[1] + a[0][2] * v[2],
+  a[1][0] * v[0] + a[1][1] * v[1] + a[1][2] * v[2],
+  a[2][0] * v[0] + a[2][1] * v[1] + a[2][2] * v[2],
+];
 
 Mat3 _columnStack(V3 c0, V3 c1, V3 c2) => <List<double>>[
-      <double>[c0[0], c1[0], c2[0]],
-      <double>[c0[1], c1[1], c2[1]],
-      <double>[c0[2], c1[2], c2[2]],
-    ];
+  <double>[c0[0], c1[0], c2[0]],
+  <double>[c0[1], c1[1], c2[1]],
+  <double>[c0[2], c1[2], c2[2]],
+];
 
 /// 由旋转矩阵反解 Euler XYZ（度）；gimbal lock 时 rz=0。
 List<double> eulerFromMatrix(Mat3 r) {
@@ -125,27 +127,27 @@ Mat3 rotY(double deg) {
 /// 各关节三轴限位（未列出的轴为 ±180）；与 Python 管线一致。
 const Map<String, Map<int, (double, double)>> jointLimits =
     <String, Map<int, (double, double)>>{
-  'shoulder': <int, (double, double)>{
-    0: (-180.0, 180.0),
-    1: (-180.0, 180.0),
-    2: (-90.0, 90.0),
-  },
-  'elbow': <int, (double, double)>{
-    0: (-150.0, 5.0),
-    1: (-180.0, 180.0),
-    2: (-180.0, 180.0),
-  },
-  'hip': <int, (double, double)>{
-    0: (-120.0, 40.0),
-    1: (-180.0, 180.0),
-    2: (-180.0, 180.0),
-  },
-  'knee': <int, (double, double)>{
-    0: (0.0, 140.0),
-    1: (-180.0, 180.0),
-    2: (-180.0, 180.0),
-  },
-};
+      'shoulder': <int, (double, double)>{
+        0: (-180.0, 180.0),
+        1: (-180.0, 180.0),
+        2: (-90.0, 90.0),
+      },
+      'elbow': <int, (double, double)>{
+        0: (-150.0, 5.0),
+        1: (-180.0, 180.0),
+        2: (-180.0, 180.0),
+      },
+      'hip': <int, (double, double)>{
+        0: (-120.0, 40.0),
+        1: (-180.0, 180.0),
+        2: (-180.0, 180.0),
+      },
+      'knee': <int, (double, double)>{
+        0: (0.0, 140.0),
+        1: (-180.0, 180.0),
+        2: (-180.0, 180.0),
+      },
+    };
 
 const double genericLimit = 180.0;
 
@@ -162,8 +164,12 @@ double _limitPenalty(List<double> angles, Map<int, (double, double)> limits) {
   return penalty;
 }
 
-double _limbCost(List<double> parent, List<double> child, String parentName,
-    String childName) {
+double _limbCost(
+  List<double> parent,
+  List<double> child,
+  String parentName,
+  String childName,
+) {
   double cost = 25.0 * _limitPenalty(parent, jointLimits[parentName]!);
   cost += _limitPenalty(child, jointLimits[childName]!);
   cost += 0.02 * (child[2].abs() + parent[0].abs() + parent[1].abs());
@@ -175,16 +181,18 @@ double _limbCost(List<double> parent, List<double> child, String parentName,
 /// 扫描沿骨轴的扭转自由度 φ，选「关节限位代价最小」的解，
 /// 使肘/膝成为单轴铰链； flexionSign：肘 = -1、膝 = +1。
 ({List<double> parent, List<double> child}) solveLimb(
-    V3 prox, V3 dist, String parentName, String childName, double flexionSign) {
+  V3 prox,
+  V3 dist,
+  String parentName,
+  String childName,
+  double flexionSign,
+) {
   final V3 u = unit(prox);
   final V3 f = unit(dist);
   final V3 axis = _cross(u, f);
   final double n = _norm(axis);
   if (n < 1e-6) {
-    return (
-      parent: solveDown(u),
-      child: <double>[0, 0, 0],
-    );
+    return (parent: solveDown(u), child: <double>[0, 0, 0]);
   }
   final V3 h = _scale(axis, (1.0 / n) * (flexionSign > 0 ? 1 : -1));
   final V3 yAxis = _scale(u, -1);
@@ -310,10 +318,10 @@ class DerivedPose {
   final double rootPitch;
 
   Map<String, Object?> toJson() => <String, Object?>{
-        for (final String joint in engineJoints) joint: joints[joint],
-        'rootY': rootY,
-        'rootPitch': rootPitch,
-      };
+    for (final String joint in engineJoints) joint: joints[joint],
+    'rootY': rootY,
+    'rootPitch': rootPitch,
+  };
 }
 
 /// 核心推导：world landmarks（33 点，米制，hip 中心）→ 12 关节角。
@@ -339,7 +347,8 @@ DerivedPose deriveJoints(List<V3> world, {String category = ''}) {
 
   // 躯干扭转（肩线相对髋线绕躯干轴）。
   final V3 shoulderLine = unit(_sub(p('l_sho'), p('r_sho')));
-  final double twist = math.atan2(
+  final double twist =
+      math.atan2(
         _dot(_cross(left, shoulderLine), up),
         _dot(left, shoulderLine),
       ) *
@@ -353,9 +362,9 @@ DerivedPose deriveJoints(List<V3> world, {String category = ''}) {
 
   for (final (String side, String aSho, String aElb, String aWri, String aIdx)
       in <(String, String, String, String, String)>[
-    ('l', 'l_sho', 'l_elb', 'l_wri', 'l_index'),
-    ('r', 'r_sho', 'r_elb', 'r_wri', 'r_index'),
-  ]) {
+        ('l', 'l_sho', 'l_elb', 'l_wri', 'l_index'),
+        ('r', 'r_sho', 'r_elb', 'r_wri', 'r_index'),
+      ]) {
     final V3 upper = toBody(unit(_sub(p(aElb), p(aSho))));
     final V3 fore = toBody(unit(_sub(p(aWri), p(aElb))));
     V3 handDir = toBody(unit(_sub(p(aIdx), p(aWri))));
@@ -363,10 +372,16 @@ DerivedPose deriveJoints(List<V3> world, {String category = ''}) {
     final V3 bLocal = matVec(matT(rSpine), upper);
     final V3 cLocal = matVec(matT(rSpine), fore);
     final solved = solveLimb(bLocal, cLocal, 'shoulder', 'elbow', -1.0);
-    final Mat3 rSho =
-        eulerXyz(solved.parent[0], solved.parent[1], solved.parent[2]);
-    final Mat3 rElb =
-        eulerXyz(solved.child[0], solved.child[1], solved.child[2]);
+    final Mat3 rSho = eulerXyz(
+      solved.parent[0],
+      solved.parent[1],
+      solved.parent[2],
+    );
+    final Mat3 rElb = eulerXyz(
+      solved.child[0],
+      solved.child[1],
+      solved.child[2],
+    );
     final V3 wLocal = matVec(matT(_matMul(rSho, rElb)), handDir);
     joints['shoulder_$side'] = solved.parent;
     joints['elbow_$side'] = solved.child;
@@ -375,9 +390,9 @@ DerivedPose deriveJoints(List<V3> world, {String category = ''}) {
 
   for (final (String side, String aHip, String aKne, String aAnk)
       in <(String, String, String, String)>[
-    ('l', 'l_hip', 'l_kne', 'l_ank'),
-    ('r', 'r_hip', 'r_kne', 'r_ank'),
-  ]) {
+        ('l', 'l_hip', 'l_kne', 'l_ank'),
+        ('r', 'r_hip', 'r_kne', 'r_ank'),
+      ]) {
     final V3 thigh = toBody(unit(_sub(p(aKne), p(aHip))));
     final V3 shin = toBody(unit(_sub(p(aAnk), p(aKne))));
     final solved = solveLimb(thigh, shin, 'hip', 'knee', 1.0);

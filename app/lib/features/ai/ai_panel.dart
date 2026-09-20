@@ -57,12 +57,16 @@ class _AiPanelState extends ConsumerState<AiPanel> {
               padding: const EdgeInsets.fromLTRB(16, 12, 10, 8),
               child: Row(
                 children: <Widget>[
-                  const Icon(Icons.auto_awesome_rounded,
-                      size: 18, color: AppTokens.accent),
+                  const Icon(
+                    Icons.auto_awesome_rounded,
+                    size: 18,
+                    color: AppTokens.accent,
+                  ),
                   const SizedBox(width: 8),
-                  const Text('AI 策划助手',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                  const Text(
+                    'AI 策划助手',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                  ),
                   const SizedBox(width: 16),
                   for (final (int index, String label) in <(int, String)>[
                     (0, '生成'),
@@ -130,8 +134,9 @@ class _AiPanelState extends ConsumerState<AiPanel> {
           TextField(
             controller: _theme,
             maxLines: 3,
-            decoration:
-                const InputDecoration(hintText: '例：雨夜赛博朋克风初音正片，霓虹雨夜，未来感'),
+            decoration: const InputDecoration(
+              hintText: '例：雨夜赛博朋克风初音正片，霓虹雨夜，未来感',
+            ),
           ),
           const SizedBox(height: 8),
           Wrap(
@@ -142,8 +147,10 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                 InkWell(
                   onTap: () => _theme.text = cmd,
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: AppTokens.accentSoft,
                       borderRadius: BorderRadius.circular(99),
@@ -151,7 +158,9 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                     child: Text(
                       cmd.length > 14 ? '${cmd.substring(0, 14)}…' : cmd,
                       style: const TextStyle(
-                          fontSize: 11, color: AppTokens.accent),
+                        fontSize: 11,
+                        color: AppTokens.accent,
+                      ),
                     ),
                   ),
                 ),
@@ -175,8 +184,10 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                       ssToast(context, '请先输入主题描述（至少 5 个字）');
                       return;
                     }
-                    await controller.generatePlan(_theme.text.trim(),
-                        forceLocal: _forceLocal);
+                    await controller.generatePlan(
+                      _theme.text.trim(),
+                      forceLocal: _forceLocal,
+                    );
                   },
           ),
           const SizedBox(height: 8),
@@ -285,8 +296,9 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                               Text(
                                 '${module.title} · ${module.type.label}',
                                 style: const TextStyle(
-                                    fontSize: 12.5,
-                                    fontWeight: FontWeight.w600),
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                               const SizedBox(height: 2),
                               Text(
@@ -297,9 +309,9 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
                                 ),
                               ),
                             ],
@@ -348,8 +360,10 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                   padding: const EdgeInsets.only(bottom: 4),
                   child: SsCard(
                     selected: p.preset.id == selectedId,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 8,
+                    ),
                     onTap: () =>
                         setState(() => _selectedProvider = p.preset.id),
                     child: Row(
@@ -362,19 +376,25 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                             color: p.hasKey
                                 ? AppTokens.success
                                 : (p.enabled
-                                    ? AppTokens.warning
-                                    : Theme.of(context).colorScheme.outline),
+                                      ? AppTokens.warning
+                                      : Theme.of(context).colorScheme.outline),
                           ),
                         ),
                         const SizedBox(width: 8),
                         Expanded(
-                          child: Text(p.preset.name,
-                              style: const TextStyle(fontSize: 12.5)),
+                          child: Text(
+                            p.preset.name,
+                            style: const TextStyle(fontSize: 12.5),
+                          ),
                         ),
                         if (p.enabled)
-                          const Text('已启用',
-                              style: TextStyle(
-                                  fontSize: 9.5, color: AppTokens.accent)),
+                          const Text(
+                            '已启用',
+                            style: TextStyle(
+                              fontSize: 9.5,
+                              color: AppTokens.accent,
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -396,22 +416,26 @@ class _AiPanelState extends ConsumerState<AiPanel> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const SsSectionTitle('调用观测台',
-              subtitle: '提供方 / 模型 / 延迟 / token / 成败（本地记录）'),
+          const SsSectionTitle(
+            '调用观测台',
+            subtitle: '提供方 / 模型 / 延迟 / token / 成败（本地记录）',
+          ),
           const SizedBox(height: AppTokens.s12),
           Row(
             children: <Widget>[
               _stat('调用次数', '${summary.calls}'),
               _stat(
-                  '成功率',
-                  summary.calls == 0
-                      ? '—'
-                      : '${(summary.success * 100 / summary.calls).toStringAsFixed(0)}%'),
+                '成功率',
+                summary.calls == 0
+                    ? '—'
+                    : '${(summary.success * 100 / summary.calls).toStringAsFixed(0)}%',
+              ),
               _stat(
-                  '平均延迟',
-                  summary.calls == 0
-                      ? '—'
-                      : '${summary.avgLatency.toStringAsFixed(0)}ms'),
+                '平均延迟',
+                summary.calls == 0
+                    ? '—'
+                    : '${summary.avgLatency.toStringAsFixed(0)}ms',
+              ),
               _stat('输入 tokens', '${summary.tokensIn}'),
               _stat('输出 tokens', '${summary.tokensOut}'),
             ],
@@ -420,7 +444,9 @@ class _AiPanelState extends ConsumerState<AiPanel> {
           Expanded(
             child: state.logs.isEmpty
                 ? const SsEmpty(
-                    icon: Icons.monitor_heart_outlined, title: '还没有调用记录')
+                    icon: Icons.monitor_heart_outlined,
+                    title: '还没有调用记录',
+                  )
                 : ListView.builder(
                     itemCount: state.logs.length,
                     itemBuilder: (BuildContext context, int i) {
@@ -449,8 +475,10 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                             ),
                             SizedBox(
                               width: 70,
-                              child: Text('${log.latencyMs}ms',
-                                  style: AppTokens.mono(context, size: 10.5)),
+                              child: Text(
+                                '${log.latencyMs}ms',
+                                style: AppTokens.mono(context, size: 10.5),
+                              ),
                             ),
                             SizedBox(
                               width: 100,
@@ -463,7 +491,9 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                               child: Text(
                                 log.error ?? '',
                                 style: const TextStyle(
-                                    fontSize: 10.5, color: AppTokens.danger),
+                                  fontSize: 10.5,
+                                  color: AppTokens.danger,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -580,8 +610,10 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
           ),
         TextField(
           controller: _baseUrl,
-          decoration:
-              const InputDecoration(labelText: 'Base URL', isDense: true),
+          decoration: const InputDecoration(
+            labelText: 'Base URL',
+            isDense: true,
+          ),
         ),
         const SizedBox(height: 8),
         TextField(
@@ -595,10 +627,11 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
             isDense: true,
             suffixIcon: IconButton(
               icon: Icon(
-                  _obscure
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  size: 16),
+                _obscure
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                size: 16,
+              ),
               onPressed: () => setState(() => _obscure = !_obscure),
             ),
           ),
@@ -611,14 +644,18 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
                   ? TextField(
                       controller: _model,
                       decoration: const InputDecoration(
-                          labelText: '模型名', isDense: true),
+                        labelText: '模型名',
+                        isDense: true,
+                      ),
                     )
                   : DropdownButtonFormField<String>(
                       initialValue: view.models.contains(_model.text)
                           ? _model.text
                           : view.models.first,
                       decoration: const InputDecoration(
-                          labelText: '模型（来自模型发现）', isDense: true),
+                        labelText: '模型（来自模型发现）',
+                        isDense: true,
+                      ),
                       items: <DropdownMenuItem<String>>[
                         for (final String m in view.models)
                           DropdownMenuItem<String>(value: m, child: Text(m)),
@@ -681,15 +718,17 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
                   ? null
                   : () async {
                       setState(() => _discovering = true);
-                      final models =
-                          await controller.discoverModels(provider.id);
+                      final models = await controller.discoverModels(
+                        provider.id,
+                      );
                       if (!context.mounted) return;
                       setState(() => _discovering = false);
                       ssToast(
-                          context,
-                          models.isEmpty
-                              ? '未发现模型（可用手动输入）'
-                              : '发现 ${models.length} 个模型');
+                        context,
+                        models.isEmpty
+                            ? '未发现模型（可用手动输入）'
+                            : '发现 ${models.length} 个模型',
+                      );
                     },
             ),
             const Spacer(),

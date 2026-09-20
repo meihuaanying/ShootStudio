@@ -41,8 +41,9 @@ class Option {
 }
 
 /// 已保存布光方案列表（供布光图模块绑定）。
-final lightingScenesProvider =
-    FutureProvider.autoDispose<List<Option>>((ref) async {
+final lightingScenesProvider = FutureProvider.autoDispose<List<Option>>((
+  ref,
+) async {
   final db = ref.watch(databaseProvider);
   final rows = await db.select(db.lightingScenes).get();
   return rows.map((r) => Option(r.id, r.name)).toList();
@@ -91,16 +92,19 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
         db: ref.read(databaseProvider),
         workspaceRoot: ref.read(workspaceProvider).root.path,
       );
-      final List<Map<String, Object?>> entries =
-          await service.searchForTheme(theme, target: 8);
+      final List<Map<String, Object?>> entries = await service.searchForTheme(
+        theme,
+        target: 8,
+      );
       if (!mounted) return;
       if (entries.isEmpty) {
         ssToast(context, '自动参考图未搜集到（可检查网络/Key，或在搜图工作台手动搜索）');
         return;
       }
       final String targetId = target.id;
-      ref.read(plannerControllerProvider.notifier).updateModule(targetId,
-          (PlanModuleData m) {
+      ref.read(plannerControllerProvider.notifier).updateModule(targetId, (
+        PlanModuleData m,
+      ) {
         final List<Object?> list = <Object?>[
           ...(m.data['refs'] as List? ?? <Object?>[]),
           ...entries,
@@ -161,8 +165,10 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
               ).import(path);
               await controller.reloadLatest();
               if (context.mounted) {
-                ssToast(context,
-                    '已导入「${imported.title}」（${imported.moduleCount} 个模块）');
+                ssToast(
+                  context,
+                  '已导入「${imported.title}」（${imported.moduleCount} 个模块）',
+                );
               }
             } catch (e) {
               if (context.mounted) ssToast(context, '导入失败：$e');
@@ -256,21 +262,27 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                       padding: const EdgeInsets.only(bottom: 4),
                       child: SsCard(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 8),
+                          horizontal: 10,
+                          vertical: 8,
+                        ),
                         onTap: state.modules.length >= 50
                             ? null
                             : () => controller.addModule(type),
                         child: Row(
                           children: <Widget>[
                             Expanded(
-                              child: Text(type.label,
-                                  style: const TextStyle(fontSize: 12.5)),
+                              child: Text(
+                                type.label,
+                                style: const TextStyle(fontSize: 12.5),
+                              ),
                             ),
                             if (type.category == '绑定')
                               const Text(
                                 '绑',
                                 style: TextStyle(
-                                    fontSize: 9, color: AppTokens.accent),
+                                  fontSize: 9,
+                                  color: AppTokens.accent,
+                                ),
                               ),
                           ],
                         ),
@@ -308,10 +320,14 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
             Expanded(
               child: TextField(
                 controller: TextEditingController(text: state.title),
-                decoration:
-                    const InputDecoration(hintText: '策划案标题', isDense: true),
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                decoration: const InputDecoration(
+                  hintText: '策划案标题',
+                  isDense: true,
+                ),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
                 onChanged: controller.setTitle,
               ),
             ),
@@ -374,7 +390,9 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                                   ? module.type.label
                                   : module.title,
                               style: const TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.w600),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                             Text(
                               module.summary.isEmpty
@@ -384,27 +402,31 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 11,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                               ),
                             ),
                             if (_expandedIds.contains(module.id)) ...<Widget>[
                               const SizedBox(height: 6),
                               Container(
-                                constraints:
-                                    const BoxConstraints(maxHeight: 260),
+                                constraints: const BoxConstraints(
+                                  maxHeight: 260,
+                                ),
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .surfaceContainerHighest,
-                                  borderRadius:
-                                      BorderRadius.circular(AppTokens.rSm),
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainerHighest,
+                                  borderRadius: BorderRadius.circular(
+                                    AppTokens.rSm,
+                                  ),
                                 ),
                                 child: SingleChildScrollView(
                                   child: ModuleContentView(
-                                      module: module, compact: true),
+                                    module: module,
+                                    compact: true,
+                                  ),
                                 ),
                               ),
                             ],
@@ -413,8 +435,9 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                       ),
                       IconButton(
                         visualDensity: VisualDensity.compact,
-                        tooltip:
-                            _expandedIds.contains(module.id) ? '收起全文' : '展开全文',
+                        tooltip: _expandedIds.contains(module.id)
+                            ? '收起全文'
+                            : '展开全文',
                         icon: Icon(
                           _expandedIds.contains(module.id)
                               ? Icons.unfold_less_rounded
@@ -440,10 +463,9 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                       IconButton(
                         visualDensity: VisualDensity.compact,
                         icon: Icon(
-                            module.folded
-                                ? Icons.expand_more
-                                : Icons.expand_less,
-                            size: 17),
+                          module.folded ? Icons.expand_more : Icons.expand_less,
+                          size: 17,
+                        ),
                         onPressed: () => controller.toggleFold(module.id),
                       ),
                       IconButton(
@@ -453,8 +475,10 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                       ),
                       IconButton(
                         visualDensity: VisualDensity.compact,
-                        icon:
-                            const Icon(Icons.delete_outline_rounded, size: 16),
+                        icon: const Icon(
+                          Icons.delete_outline_rounded,
+                          size: 16,
+                        ),
                         onPressed: () => controller.removeModule(module.id),
                       ),
                     ],
@@ -511,15 +535,15 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                   },
                 )
               : module == null
-                  ? const SsCard(
-                      child: SsEmpty(
-                        icon: Icons.edit_note_rounded,
-                        art: SsArt.compass,
-                        title: '未选中模块',
-                        hint: '点击中间画布里的模块卡片进行编辑，或用卡片上的 ✨ 让 AI 改写',
-                      ),
-                    )
-                  : _ModuleEditor(module: module, controller: controller),
+              ? const SsCard(
+                  child: SsEmpty(
+                    icon: Icons.edit_note_rounded,
+                    art: SsArt.compass,
+                    title: '未选中模块',
+                    hint: '点击中间画布里的模块卡片进行编辑，或用卡片上的 ✨ 让 AI 改写',
+                  ),
+                )
+              : _ModuleEditor(module: module, controller: controller),
         ),
       ],
     );
@@ -556,7 +580,9 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                     Text(
                       t.name,
                       style: const TextStyle(
-                          fontSize: 13, fontWeight: FontWeight.w700),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     const SizedBox(height: 2),
                     Text(
@@ -576,7 +602,9 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
         ),
         actions: <Widget>[
           TextButton(
-              onPressed: () => Navigator.pop(ctx), child: const Text('取消')),
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
         ],
       ),
     );
@@ -596,8 +624,10 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
               padding: const EdgeInsets.all(12),
               child: Row(
                 children: <Widget>[
-                  const Text('版本历史（无限保留）',
-                      style: TextStyle(fontWeight: FontWeight.w700)),
+                  const Text(
+                    '版本历史（无限保留）',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
                   const Spacer(),
                   SsButton(
                     label: '创建里程碑',
@@ -617,10 +647,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
               ),
             ),
             if (latest.snapshots.isEmpty)
-              const Padding(
-                padding: EdgeInsets.all(20),
-                child: Text('暂无快照'),
-              )
+              const Padding(padding: EdgeInsets.all(20), child: Text('暂无快照'))
             else
               Flexible(
                 child: ListView.builder(
@@ -651,8 +678,10 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                           IconButton(
                             tooltip: '对比当前',
                             visualDensity: VisualDensity.compact,
-                            icon: const Icon(Icons.compare_arrows_rounded,
-                                size: 17),
+                            icon: const Icon(
+                              Icons.compare_arrows_rounded,
+                              size: 17,
+                            ),
                             onPressed: () => _showDiff(ctx, snap.id),
                           ),
                           IconButton(
@@ -708,20 +737,31 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                     ),
                     const SizedBox(height: 8),
                     for (final PlanModuleData m in diff.added)
-                      _diffLine(Icons.add_circle_outline_rounded,
-                          AppTokens.success, '新增：${m.title}（${m.type.label}）'),
+                      _diffLine(
+                        Icons.add_circle_outline_rounded,
+                        AppTokens.success,
+                        '新增：${m.title}（${m.type.label}）',
+                      ),
                     for (final PlanModuleData m in diff.removed)
-                      _diffLine(Icons.remove_circle_outline_rounded,
-                          AppTokens.danger, '删除：${m.title}（${m.type.label}）'),
+                      _diffLine(
+                        Icons.remove_circle_outline_rounded,
+                        AppTokens.danger,
+                        '删除：${m.title}（${m.type.label}）',
+                      ),
                     for (final ModuleChange c in diff.changed)
-                      _diffLine(Icons.change_circle_outlined, AppTokens.warning,
-                          '修改：${c.after.title} · ${c.changedKeys.join('、')}'),
+                      _diffLine(
+                        Icons.change_circle_outlined,
+                        AppTokens.warning,
+                        '修改：${c.after.title} · ${c.changedKeys.join('、')}',
+                      ),
                   ],
                 ),
         ),
         actions: <Widget>[
           TextButton(
-              onPressed: () => Navigator.pop(ctx), child: const Text('关闭')),
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('关闭'),
+          ),
         ],
       ),
     );
@@ -752,10 +792,13 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
         ),
         actions: <Widget>[
           TextButton(
-              onPressed: () => Navigator.pop(ctx), child: const Text('取消')),
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
           FilledButton(
-              onPressed: () => Navigator.pop(ctx, ctl.text),
-              child: const Text('确定')),
+            onPressed: () => Navigator.pop(ctx, ctl.text),
+            child: const Text('确定'),
+          ),
         ],
       ),
     );
@@ -780,7 +823,9 @@ class _ModuleEditor extends ConsumerWidget {
             controller: TextEditingController(text: module.title),
             decoration: const InputDecoration(hintText: '模块标题', isDense: true),
             onChanged: (String v) => controller.updateModule(
-                module.id, (PlanModuleData m) => m.title = v),
+              module.id,
+              (PlanModuleData m) => m.title = v,
+            ),
           ),
           const SizedBox(height: AppTokens.s12),
           ..._body(context, ref),
@@ -807,8 +852,11 @@ class _ModuleEditor extends ConsumerWidget {
       case PlanModuleType.storyboard:
         return _storyboardEditor(context, ref);
       case PlanModuleType.crew:
-        return _rowsEditor(context, <String>['role', 'who', 'time'],
-            <String>['角色', '成员', '时间']);
+        return _rowsEditor(
+          context,
+          <String>['role', 'who', 'time'],
+          <String>['角色', '成员', '时间'],
+        );
       case PlanModuleType.budget:
         return _budgetEditor(context, ref);
       default:
@@ -851,9 +899,10 @@ class _ModuleEditor extends ConsumerWidget {
               controller: TextEditingController(text: lat.toStringAsFixed(4)),
               decoration: const InputDecoration(labelText: '纬度', isDense: true),
               onChanged: (String v) => controller.updateModule(
-                  module.id,
-                  (PlanModuleData m) =>
-                      m.data['lat'] = double.tryParse(v) ?? m.data['lat']),
+                module.id,
+                (PlanModuleData m) =>
+                    m.data['lat'] = double.tryParse(v) ?? m.data['lat'],
+              ),
             ),
           ),
           const SizedBox(width: 6),
@@ -862,9 +911,10 @@ class _ModuleEditor extends ConsumerWidget {
               controller: TextEditingController(text: lon.toStringAsFixed(4)),
               decoration: const InputDecoration(labelText: '经度', isDense: true),
               onChanged: (String v) => controller.updateModule(
-                  module.id,
-                  (PlanModuleData m) =>
-                      m.data['lon'] = double.tryParse(v) ?? m.data['lon']),
+                module.id,
+                (PlanModuleData m) =>
+                    m.data['lon'] = double.tryParse(v) ?? m.data['lon'],
+              ),
             ),
           ),
         ],
@@ -872,10 +922,14 @@ class _ModuleEditor extends ConsumerWidget {
       const SizedBox(height: 8),
       TextField(
         controller: TextEditingController(text: date),
-        decoration:
-            const InputDecoration(hintText: '日期 yyyy-MM-dd', isDense: true),
+        decoration: const InputDecoration(
+          hintText: '日期 yyyy-MM-dd',
+          isDense: true,
+        ),
         onChanged: (String v) => controller.updateModule(
-            module.id, (PlanModuleData m) => m.data['date'] = v),
+          module.id,
+          (PlanModuleData m) => m.data['date'] = v,
+        ),
       ),
       const SizedBox(height: 10),
       if (solar != null)
@@ -891,7 +945,9 @@ class _ModuleEditor extends ConsumerWidget {
               Text(
                 '日出 ${SolarCalculator.fmt(solar.sunrise)} · 日落 ${SolarCalculator.fmt(solar.sunset)}',
                 style: const TextStyle(
-                    fontSize: 12.5, fontWeight: FontWeight.w600),
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               for (final SolarWindow? w in <SolarWindow?>[
                 solar.goldenMorning,
@@ -903,7 +959,9 @@ class _ModuleEditor extends ConsumerWidget {
                   Text(
                     '${w.label} ${SolarCalculator.fmt(w.startMin)} – ${SolarCalculator.fmt(w.endMin)}',
                     style: const TextStyle(
-                        fontSize: 11.5, color: AppTokens.success),
+                      fontSize: 11.5,
+                      color: AppTokens.success,
+                    ),
                   ),
             ],
           ),
@@ -924,8 +982,10 @@ class _ModuleEditor extends ConsumerWidget {
       final String? path = result?.files.single.path;
       if (path == null) return;
       final store = ImageStore(workspace.root.path);
-      final (String fileName, PaletteResult palette) =
-          await store.importFile(path, category: 'refs');
+      final (String fileName, PaletteResult palette) = await store.importFile(
+        path,
+        category: 'refs',
+      );
       controller.updateModule(module.id, (PlanModuleData m) {
         final list = <Object?>[...(m.data['refs'] as List? ?? <Object?>[])];
         list.add(<String, Object?>{
@@ -960,7 +1020,7 @@ class _ModuleEditor extends ConsumerWidget {
                 : () {
                     controller.updateModule(module.id, (PlanModuleData m) {
                       final list = <Object?>[
-                        ...(m.data['refs'] as List? ?? <Object?>[])
+                        ...(m.data['refs'] as List? ?? <Object?>[]),
                       ];
                       for (final PendingFrame f in pending) {
                         list.add(<String, Object?>{
@@ -1019,23 +1079,28 @@ class _ModuleEditor extends ConsumerWidget {
                 icon: const Icon(Icons.close_rounded, size: 14),
                 onPressed: () =>
                     controller.updateModule(module.id, (PlanModuleData m) {
-                  final list = <Object?>[
-                    ...(m.data['refs'] as List? ?? <Object?>[])
-                  ]..removeAt(i);
-                  m.data['refs'] = list;
-                }),
+                      final list = <Object?>[
+                        ...(m.data['refs'] as List? ?? <Object?>[]),
+                      ]..removeAt(i);
+                      m.data['refs'] = list;
+                    }),
               ),
             ],
           ),
         ),
       if (refs.isEmpty && pending.isEmpty)
-        const Text('可本地上传图片，或去「画面参考库」选静帧 →「插入策划案样片」',
-            style: TextStyle(fontSize: 11.5)),
+        const Text(
+          '可本地上传图片，或去「画面参考库」选静帧 →「插入策划案样片」',
+          style: TextStyle(fontSize: 11.5),
+        ),
     ];
   }
 
   Widget _refThumb(
-      BuildContext context, String workspaceRoot, Map<String, Object?> item) {
+    BuildContext context,
+    String workspaceRoot,
+    Map<String, Object?> item,
+  ) {
     final palette = (item['palette'] as List? ?? <Object?>[]).cast<String>();
     final imageRef = item['imageRef'] as String? ?? '';
     Widget fallback = Container(
@@ -1060,15 +1125,19 @@ class _ModuleEditor extends ConsumerWidget {
     );
   }
 
-  Color _hexColor(String hex) => Color(0xFF000000 |
-      (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888));
+  Color _hexColor(String hex) => Color(
+    0xFF000000 |
+        (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888),
+  );
 
   List<Widget> _paletteEditor(BuildContext context, WidgetRef ref) {
-    final colors =
-        (module.data['colors'] as List? ?? <Object?>[]).cast<String>();
+    final colors = (module.data['colors'] as List? ?? <Object?>[])
+        .cast<String>();
 
     void setColors(List<String> next) => controller.updateModule(
-        module.id, (PlanModuleData m) => m.data['colors'] = next);
+      module.id,
+      (PlanModuleData m) => m.data['colors'] = next,
+    );
 
     return <Widget>[
       Wrap(
@@ -1097,7 +1166,8 @@ class _ModuleEditor extends ConsumerWidget {
                         color: _hexColor(colors[i]),
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(
-                            color: Theme.of(context).colorScheme.outline),
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
                       ),
                     ),
                     Positioned(
@@ -1113,8 +1183,11 @@ class _ModuleEditor extends ConsumerWidget {
                             shape: BoxShape.circle,
                             color: Color(0xCC1F2329),
                           ),
-                          child: const Icon(Icons.close_rounded,
-                              size: 11, color: Colors.white),
+                          child: const Icon(
+                            Icons.close_rounded,
+                            size: 11,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -1147,8 +1220,9 @@ class _ModuleEditor extends ConsumerWidget {
             kind: SsButtonKind.ghost,
             dense: true,
             onPressed: () async {
-              final result =
-                  await FilePicker.platform.pickFiles(type: FileType.image);
+              final result = await FilePicker.platform.pickFiles(
+                type: FileType.image,
+              );
               final String? path = result?.files.single.path;
               if (path == null) return;
               final bytes = await File(path).readAsBytes();
@@ -1167,10 +1241,9 @@ class _ModuleEditor extends ConsumerWidget {
                 ssToast(context, '待插入样片为空：先去画面参考库收帧');
                 return;
               }
-              setColors(pending
-                  .expand((PendingFrame f) => f.palette)
-                  .take(5)
-                  .toList());
+              setColors(
+                pending.expand((PendingFrame f) => f.palette).take(5).toList(),
+              );
             },
           ),
           SsButton(
@@ -1189,11 +1262,13 @@ class _ModuleEditor extends ConsumerWidget {
         ],
       ),
       const SizedBox(height: 4),
-      Text('长按色块或点右上角 × 删除；导出长图取前 5 色',
-          style: TextStyle(
-            fontSize: 11,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          )),
+      Text(
+        '长按色块或点右上角 × 删除；导出长图取前 5 色',
+        style: TextStyle(
+          fontSize: 11,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+      ),
     ];
   }
 
@@ -1206,8 +1281,10 @@ class _ModuleEditor extends ConsumerWidget {
             ? Row(
                 children: <Widget>[
                   const Expanded(
-                    child: Text('还没有已保存的布光方案：去「布光预演」页保存一个',
-                        style: TextStyle(fontSize: 11.5)),
+                    child: Text(
+                      '还没有已保存的布光方案：去「布光预演」页保存一个',
+                      style: TextStyle(fontSize: 11.5),
+                    ),
                   ),
                   SsButton(
                     label: '刷新',
@@ -1241,8 +1318,10 @@ class _ModuleEditor extends ConsumerWidget {
                                   : null,
                             ),
                             const SizedBox(width: 8),
-                            Text(scene.name,
-                                style: const TextStyle(fontSize: 12.5)),
+                            Text(
+                              scene.name,
+                              style: const TextStyle(fontSize: 12.5),
+                            ),
                           ],
                         ),
                       ),
@@ -1293,13 +1372,17 @@ class _ModuleEditor extends ConsumerWidget {
     final pending = ref.watch(pendingPosesProvider);
 
     void setPoses(List<Object?> next) => controller.updateModule(
-        module.id, (PlanModuleData m) => m.data['poses'] = next);
+      module.id,
+      (PlanModuleData m) => m.data['poses'] = next,
+    );
 
     return <Widget>[
       Row(
         children: <Widget>[
-          Text('清单 ${poses.length} 个 · 拖拽排序',
-              style: const TextStyle(fontSize: 12.5)),
+          Text(
+            '清单 ${poses.length} 个 · 拖拽排序',
+            style: const TextStyle(fontSize: 12.5),
+          ),
           const Spacer(),
           SsButton(
             label: '插入待选（${pending.length}）',
@@ -1308,10 +1391,10 @@ class _ModuleEditor extends ConsumerWidget {
             onPressed: pending.isEmpty
                 ? null
                 : () => setPoses(<Object?>[
-                      ...poses,
-                      for (final PendingPose pose in pending)
-                        pose.toModuleEntry(),
-                    ]),
+                    ...poses,
+                    for (final PendingPose pose in pending)
+                      pose.toModuleEntry(),
+                  ]),
           ),
         ],
       ),
@@ -1324,28 +1407,38 @@ class _ModuleEditor extends ConsumerWidget {
           Text(
             '导出渲染',
             style: TextStyle(
-                fontSize: 11.5,
-                color: Theme.of(context).colorScheme.onSurfaceVariant),
+              fontSize: 11.5,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
           SsChip(
             label: '照片',
-            selected: (module.data['poseRenderMode'] as String? ?? 'photo') ==
+            selected:
+                (module.data['poseRenderMode'] as String? ?? 'photo') ==
                 'photo',
-            onTap: () => controller.updateModule(module.id,
-                (PlanModuleData m) => m.data['poseRenderMode'] = 'photo'),
+            onTap: () => controller.updateModule(
+              module.id,
+              (PlanModuleData m) => m.data['poseRenderMode'] = 'photo',
+            ),
           ),
           SsChip(
             label: '骨架示意',
             selected: module.data['poseRenderMode'] == 'skeleton',
-            onTap: () => controller.updateModule(module.id,
-                (PlanModuleData m) => m.data['poseRenderMode'] = 'skeleton'),
+            onTap: () => controller.updateModule(
+              module.id,
+              (PlanModuleData m) => m.data['poseRenderMode'] = 'skeleton',
+            ),
           ),
-          if (poses.any((Map<String, Object?> p) =>
-              (p['photo'] as String? ?? '').isEmpty))
-            Text('部分姿势无照片，导出回退骨架示意',
-                style: TextStyle(
-                    fontSize: 10,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant)),
+          if (poses.any(
+            (Map<String, Object?> p) => (p['photo'] as String? ?? '').isEmpty,
+          ))
+            Text(
+              '部分姿势无照片，导出回退骨架示意',
+              style: TextStyle(
+                fontSize: 10,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
         ],
       ),
       const SizedBox(height: 6),
@@ -1371,8 +1464,10 @@ class _ModuleEditor extends ConsumerWidget {
                 index: i,
                 child: const Icon(Icons.drag_indicator_rounded, size: 16),
               ),
-              title: Text(poses[i]['name'] as String? ?? '',
-                  style: const TextStyle(fontSize: 12.5)),
+              title: Text(
+                poses[i]['name'] as String? ?? '',
+                style: const TextStyle(fontSize: 12.5),
+              ),
               subtitle: Text(
                 <String>[
                   if ((poses[i]['lens'] as String? ?? '').isNotEmpty)
@@ -1396,9 +1491,9 @@ class _ModuleEditor extends ConsumerWidget {
                     onPressed: () async {
                       final Map<String, Object?>? picked =
                           await showDialog<Map<String, Object?>>(
-                        context: context,
-                        builder: (_) => const _PoseReplaceDialog(),
-                      );
+                            context: context,
+                            builder: (_) => const _PoseReplaceDialog(),
+                          );
                       if (picked == null) return;
                       final list = <Object?>[...poses];
                       list[i] = <String, Object?>{
@@ -1438,7 +1533,9 @@ class _ModuleEditor extends ConsumerWidget {
             .cast<Map<String, Object?>>();
 
     void setShots(List<Object?> next) => controller.updateModule(
-        module.id, (PlanModuleData m) => m.data['shots'] = next);
+      module.id,
+      (PlanModuleData m) => m.data['shots'] = next,
+    );
 
     void patch(int index, String key, Object? value) {
       final List<Object?> list = <Object?>[...shots];
@@ -1449,8 +1546,10 @@ class _ModuleEditor extends ConsumerWidget {
     return <Widget>[
       Row(
         children: <Widget>[
-          Text('共 ${shots.length} 镜 · 第一镜/末镜为重点',
-              style: const TextStyle(fontSize: 12.5)),
+          Text(
+            '共 ${shots.length} 镜 · 第一镜/末镜为重点',
+            style: const TextStyle(fontSize: 12.5),
+          ),
           const Spacer(),
           SsButton(
             label: '添加镜头',
@@ -1479,9 +1578,10 @@ class _ModuleEditor extends ConsumerWidget {
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             border: Border.all(
-                color: shots[i]['key'] == true
-                    ? AppTokens.accent
-                    : Theme.of(context).colorScheme.outline),
+              color: shots[i]['key'] == true
+                  ? AppTokens.accent
+                  : Theme.of(context).colorScheme.outline,
+            ),
             borderRadius: BorderRadius.circular(AppTokens.rSm),
           ),
           child: Column(
@@ -1489,12 +1589,21 @@ class _ModuleEditor extends ConsumerWidget {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Text('${i + 1}'.padLeft(2, '0'),
-                      style: AppTokens.mono(context, size: 11)),
+                  Text(
+                    '${i + 1}'.padLeft(2, '0'),
+                    style: AppTokens.mono(context, size: 11),
+                  ),
                   const SizedBox(width: 6),
                   DropdownButton<String>(
-                    value: <String>['远景', '全身', '中景', '近景', '特写', '空镜']
-                            .contains(shots[i]['shotSize'])
+                    value:
+                        <String>[
+                          '远景',
+                          '全身',
+                          '中景',
+                          '近景',
+                          '特写',
+                          '空镜',
+                        ].contains(shots[i]['shotSize'])
                         ? shots[i]['shotSize'] as String
                         : '全身',
                     isDense: true,
@@ -1509,9 +1618,9 @@ class _ModuleEditor extends ConsumerWidget {
                         '空镜',
                       ])
                         DropdownMenuItem<String>(
-                            value: v,
-                            child:
-                                Text(v, style: const TextStyle(fontSize: 12))),
+                          value: v,
+                          child: Text(v, style: const TextStyle(fontSize: 12)),
+                        ),
                     ],
                     onChanged: (String? v) {
                       if (v != null) patch(i, 'shotSize', v);
@@ -1521,9 +1630,12 @@ class _ModuleEditor extends ConsumerWidget {
                   Expanded(
                     child: TextField(
                       controller: TextEditingController(
-                          text: shots[i]['lens'] as String? ?? ''),
-                      decoration:
-                          const InputDecoration(hintText: '焦段', isDense: true),
+                        text: shots[i]['lens'] as String? ?? '',
+                      ),
+                      decoration: const InputDecoration(
+                        hintText: '焦段',
+                        isDense: true,
+                      ),
                       onChanged: (String v) => patch(i, 'lens', v),
                     ),
                   ),
@@ -1546,9 +1658,12 @@ class _ModuleEditor extends ConsumerWidget {
                   Expanded(
                     child: TextField(
                       controller: TextEditingController(
-                          text: shots[i]['camera'] as String? ?? ''),
-                      decoration:
-                          const InputDecoration(hintText: '机位', isDense: true),
+                        text: shots[i]['camera'] as String? ?? '',
+                      ),
+                      decoration: const InputDecoration(
+                        hintText: '机位',
+                        isDense: true,
+                      ),
                       onChanged: (String v) => patch(i, 'camera', v),
                     ),
                   ),
@@ -1556,9 +1671,12 @@ class _ModuleEditor extends ConsumerWidget {
                   Expanded(
                     child: TextField(
                       controller: TextEditingController(
-                          text: shots[i]['pose'] as String? ?? ''),
-                      decoration:
-                          const InputDecoration(hintText: '姿势', isDense: true),
+                        text: shots[i]['pose'] as String? ?? '',
+                      ),
+                      decoration: const InputDecoration(
+                        hintText: '姿势',
+                        isDense: true,
+                      ),
                       onChanged: (String v) => patch(i, 'pose', v),
                     ),
                   ),
@@ -1569,9 +1687,12 @@ class _ModuleEditor extends ConsumerWidget {
                   Expanded(
                     child: TextField(
                       controller: TextEditingController(
-                          text: shots[i]['note'] as String? ?? ''),
+                        text: shots[i]['note'] as String? ?? '',
+                      ),
                       decoration: const InputDecoration(
-                          hintText: '备注（可选）', isDense: true),
+                        hintText: '备注（可选）',
+                        isDense: true,
+                      ),
                       onChanged: (String v) => patch(i, 'note', v),
                     ),
                   ),
@@ -1589,8 +1710,10 @@ class _ModuleEditor extends ConsumerWidget {
                   ),
                   IconButton(
                     visualDensity: VisualDensity.compact,
-                    icon:
-                        const Icon(Icons.keyboard_arrow_down_rounded, size: 16),
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      size: 16,
+                    ),
                     onPressed: i == shots.length - 1
                         ? null
                         : () {
@@ -1616,8 +1739,10 @@ class _ModuleEditor extends ConsumerWidget {
         ),
       ],
       if (shots.isEmpty)
-        const Text('分镜为空：可让 AI 生成 8–12 镜，或手动添加',
-            style: TextStyle(fontSize: 11.5)),
+        const Text(
+          '分镜为空：可让 AI 生成 8–12 镜，或手动添加',
+          style: TextStyle(fontSize: 11.5),
+        ),
     ];
   }
 
@@ -1627,7 +1752,9 @@ class _ModuleEditor extends ConsumerWidget {
     final double total = BudgetEstimator.total(rows);
 
     void setRows(List<Object?> next) => controller.updateModule(
-        module.id, (PlanModuleData m) => m.data['rows'] = next);
+      module.id,
+      (PlanModuleData m) => m.data['rows'] = next,
+    );
 
     return <Widget>[
       Container(
@@ -1640,40 +1767,47 @@ class _ModuleEditor extends ConsumerWidget {
           children: <Widget>[
             const Text('自动合计', style: TextStyle(fontSize: 12)),
             const Spacer(),
-            Text('¥${total.toStringAsFixed(0)}',
-                style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+            Text(
+              '¥${total.toStringAsFixed(0)}',
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+            ),
             const SizedBox(width: 8),
             SsButton(
               label: 'AI 估算',
               dense: true,
               kind: SsButtonKind.soft,
               onPressed: () async {
-                final result = await showDialog<
-                    ({
-                      String city,
-                      String tier,
-                      double multiplier,
-                      int people
-                    })>(
-                  context: context,
-                  builder: (_) => const _BudgetEstimateDialog(),
-                );
+                final result =
+                    await showDialog<
+                      ({
+                        String city,
+                        String tier,
+                        double multiplier,
+                        int people,
+                      })
+                    >(
+                      context: context,
+                      builder: (_) => const _BudgetEstimateDialog(),
+                    );
                 if (result == null) return;
                 final items = await ContentPacks.budgetRefs();
                 final List<Map<String, Object?>> estimated =
                     BudgetEstimator.estimate(
-                  items: items,
-                  multiplier: result.multiplier,
-                  tier: result.tier,
-                  people: result.people,
+                      items: items,
+                      multiplier: result.multiplier,
+                      tier: result.tier,
+                      people: result.people,
+                    );
+                setRows(
+                  estimated
+                      .map((Map<String, Object?> r) => r as Object?)
+                      .toList(),
                 );
-                setRows(estimated
-                    .map((Map<String, Object?> r) => r as Object?)
-                    .toList());
                 if (context.mounted) {
-                  ssToast(context,
-                      '已按 ${result.city}（${result.tier}）估算 ${estimated.length} 项，可继续手动微调');
+                  ssToast(
+                    context,
+                    '已按 ${result.city}（${result.tier}）估算 ${estimated.length} 项，可继续手动微调',
+                  );
                 }
               },
             ),
@@ -1689,47 +1823,56 @@ class _ModuleEditor extends ConsumerWidget {
               Expanded(
                 flex: 2,
                 child: TextField(
-                  controller:
-                      TextEditingController(text: '${rows[i]['item'] ?? ''}'),
-                  decoration:
-                      const InputDecoration(hintText: '项目', isDense: true),
+                  controller: TextEditingController(
+                    text: '${rows[i]['item'] ?? ''}',
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: '项目',
+                    isDense: true,
+                  ),
                   onChanged: (String v) =>
                       controller.updateModule(module.id, (PlanModuleData m) {
-                    final list = (m.data['rows'] as List? ?? <Object?>[]);
-                    (list[i] as Map)['item'] = v;
-                    m.data['rows'] = list;
-                  }),
+                        final list = (m.data['rows'] as List? ?? <Object?>[]);
+                        (list[i] as Map)['item'] = v;
+                        m.data['rows'] = list;
+                      }),
                 ),
               ),
               const SizedBox(width: 4),
               Expanded(
                 child: TextField(
-                  controller:
-                      TextEditingController(text: '${rows[i]['price'] ?? 0}'),
-                  decoration:
-                      const InputDecoration(hintText: '金额', isDense: true),
+                  controller: TextEditingController(
+                    text: '${rows[i]['price'] ?? 0}',
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: '金额',
+                    isDense: true,
+                  ),
                   onChanged: (String v) =>
                       controller.updateModule(module.id, (PlanModuleData m) {
-                    final list = (m.data['rows'] as List? ?? <Object?>[]);
-                    (list[i] as Map)['price'] = double.tryParse(v) ?? 0;
-                    m.data['rows'] = list;
-                  }),
+                        final list = (m.data['rows'] as List? ?? <Object?>[]);
+                        (list[i] as Map)['price'] = double.tryParse(v) ?? 0;
+                        m.data['rows'] = list;
+                      }),
                 ),
               ),
               const SizedBox(width: 4),
               Expanded(
                 flex: 2,
                 child: TextField(
-                  controller:
-                      TextEditingController(text: '${rows[i]['note'] ?? ''}'),
-                  decoration:
-                      const InputDecoration(hintText: '备注', isDense: true),
+                  controller: TextEditingController(
+                    text: '${rows[i]['note'] ?? ''}',
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: '备注',
+                    isDense: true,
+                  ),
                   onChanged: (String v) =>
                       controller.updateModule(module.id, (PlanModuleData m) {
-                    final list = (m.data['rows'] as List? ?? <Object?>[]);
-                    (list[i] as Map)['note'] = v;
-                    m.data['rows'] = list;
-                  }),
+                        final list = (m.data['rows'] as List? ?? <Object?>[]);
+                        (list[i] as Map)['note'] = v;
+                        m.data['rows'] = list;
+                      }),
                 ),
               ),
               IconButton(
@@ -1756,7 +1899,10 @@ class _ModuleEditor extends ConsumerWidget {
   }
 
   List<Widget> _rowsEditor(
-      BuildContext context, List<String> fields, List<String> labels) {
+    BuildContext context,
+    List<String> fields,
+    List<String> labels,
+  ) {
     final rows = (module.data['rows'] as List? ?? <Object?>[])
         .cast<Map<String, Object?>>();
     return <Widget>[
@@ -1770,16 +1916,20 @@ class _ModuleEditor extends ConsumerWidget {
                   flex: f == 1 ? 1 : 2,
                   child: TextField(
                     controller: TextEditingController(
-                        text: '${rows[i][fields[f]] ?? ''}'),
-                    decoration:
-                        InputDecoration(hintText: labels[f], isDense: true),
+                      text: '${rows[i][fields[f]] ?? ''}',
+                    ),
+                    decoration: InputDecoration(
+                      hintText: labels[f],
+                      isDense: true,
+                    ),
                     onChanged: (String v) =>
                         controller.updateModule(module.id, (PlanModuleData m) {
-                      final list = (m.data['rows'] as List? ?? <Object?>[]);
-                      (list[i] as Map)[fields[f]] =
-                          fields[f] == 'price' ? (double.tryParse(v) ?? 0) : v;
-                      m.data['rows'] = list;
-                    }),
+                          final list = (m.data['rows'] as List? ?? <Object?>[]);
+                          (list[i] as Map)[fields[f]] = fields[f] == 'price'
+                              ? (double.tryParse(v) ?? 0)
+                              : v;
+                          m.data['rows'] = list;
+                        }),
                   ),
                 ),
                 if (f != fields.length - 1) const SizedBox(width: 4),
@@ -1789,11 +1939,11 @@ class _ModuleEditor extends ConsumerWidget {
                 icon: const Icon(Icons.close_rounded, size: 14),
                 onPressed: () =>
                     controller.updateModule(module.id, (PlanModuleData m) {
-                  final list = <Object?>[
-                    ...(m.data['rows'] as List? ?? <Object?>[])
-                  ]..removeAt(i);
-                  m.data['rows'] = list;
-                }),
+                      final list = <Object?>[
+                        ...(m.data['rows'] as List? ?? <Object?>[]),
+                      ]..removeAt(i);
+                      m.data['rows'] = list;
+                    }),
               ),
             ],
           ),
@@ -1805,7 +1955,7 @@ class _ModuleEditor extends ConsumerWidget {
         onPressed: () => controller.updateModule(module.id, (PlanModuleData m) {
           final list = <Object?>[...(m.data['rows'] as List? ?? <Object?>[])];
           list.add(<String, Object?>{
-            for (final String f in fields) f: f == 'price' ? 0 : ''
+            for (final String f in fields) f: f == 'price' ? 0 : '',
           });
           m.data['rows'] = list;
         }),
@@ -1822,22 +1972,26 @@ class _ModuleEditor extends ConsumerWidget {
             ? '拍摄主题、氛围与表达目标…（支持 **加粗** 与 - 列表）'
             : '自由文本…（支持 **加粗** 与 - 列表）',
         onChanged: (String v) => controller.updateModule(
-            module.id, (PlanModuleData m) => m.data['text'] = v),
+          module.id,
+          (PlanModuleData m) => m.data['text'] = v,
+        ),
       ),
       const SizedBox(height: 4),
-      Text('导出长图 / PDF 将同步渲染格式',
-          style: TextStyle(
-            fontSize: 11,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          )),
+      Text(
+        '导出长图 / PDF 将同步渲染格式',
+        style: TextStyle(
+          fontSize: 11,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+      ),
     ];
   }
 
   Future<List<Option>> _resourcesOf(WidgetRef ref, String kind) async {
     final db = ref.watch(databaseProvider);
-    final rows = await (db.select(db.resources)
-          ..where((t) => t.type.equals(kind)))
-        .get();
+    final rows = await (db.select(
+      db.resources,
+    )..where((t) => t.type.equals(kind))).get();
     return rows.map((Resource r) => Option(r.id, r.name)).toList();
   }
 
@@ -1863,12 +2017,15 @@ class _ModuleEditor extends ConsumerWidget {
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                   value: ids.contains(item.id),
-                  title:
-                      Text(item.name, style: const TextStyle(fontSize: 12.5)),
-                  onChanged: (bool? v) =>
-                      controller.updateModule(module.id, (PlanModuleData m) {
+                  title: Text(
+                    item.name,
+                    style: const TextStyle(fontSize: 12.5),
+                  ),
+                  onChanged: (bool? v) => controller.updateModule(module.id, (
+                    PlanModuleData m,
+                  ) {
                     final list2 = <String>[
-                      ...(m.data['ids'] as List? ?? <Object?>[]).cast<String>()
+                      ...(m.data['ids'] as List? ?? <Object?>[]).cast<String>(),
                     ];
                     if (v == true) {
                       list2.add(item.id);
@@ -1881,11 +2038,16 @@ class _ModuleEditor extends ConsumerWidget {
                 ),
               TextField(
                 controller: TextEditingController(
-                    text: module.data['note'] as String? ?? ''),
-                decoration:
-                    const InputDecoration(hintText: '补充说明（可空）', isDense: true),
+                  text: module.data['note'] as String? ?? '',
+                ),
+                decoration: const InputDecoration(
+                  hintText: '补充说明（可空）',
+                  isDense: true,
+                ),
                 onChanged: (String v) => controller.updateModule(
-                    module.id, (PlanModuleData m) => m.data['note'] = v),
+                  module.id,
+                  (PlanModuleData m) => m.data['note'] = v,
+                ),
               ),
             ],
           );
@@ -1913,8 +2075,9 @@ class _RichTextInput extends StatefulWidget {
 }
 
 class _RichTextInputState extends State<_RichTextInput> {
-  late final TextEditingController _controller =
-      TextEditingController(text: widget.initial);
+  late final TextEditingController _controller = TextEditingController(
+    text: widget.initial,
+  );
   final FocusNode _focus = FocusNode();
 
   @override
@@ -1955,7 +2118,8 @@ class _RichTextInputState extends State<_RichTextInput> {
               tooltip: '无序列表',
               icon: const Icon(Icons.format_list_bulleted_rounded, size: 18),
               onPressed: () => _apply(
-                  RichTextLite.toggleBullet(_controller.text, start, end)),
+                RichTextLite.toggleBullet(_controller.text, start, end),
+              ),
             ),
           ],
         ),
@@ -1983,8 +2147,9 @@ class _CitySearchField extends StatefulWidget {
 }
 
 class _CitySearchFieldState extends State<_CitySearchField> {
-  late final TextEditingController _controller =
-      TextEditingController(text: widget.initial);
+  late final TextEditingController _controller = TextEditingController(
+    text: widget.initial,
+  );
   List<CityEntry> _all = <CityEntry>[];
   List<CityEntry> _matches = <CityEntry>[];
   bool _searching = false;
@@ -2059,8 +2224,10 @@ class _CitySearchFieldState extends State<_CitySearchField> {
             child: ListTile(
               dense: true,
               contentPadding: EdgeInsets.zero,
-              title: Text('${city.name} · ${city.tier}',
-                  style: const TextStyle(fontSize: 12.5)),
+              title: Text(
+                '${city.name} · ${city.tier}',
+                style: const TextStyle(fontSize: 12.5),
+              ),
               onTap: () {
                 _controller.text = city.name;
                 setState(() => _matches = <CityEntry>[]);
@@ -2083,8 +2250,9 @@ class _ColorPickerDialog extends StatefulWidget {
 
 class _ColorPickerDialogState extends State<_ColorPickerDialog> {
   double _h = 210, _s = 0.7, _v = 0.8;
-  late final TextEditingController _hex =
-      TextEditingController(text: _hexOf(HSVColor.fromAHSV(1, _h, _s, _v)));
+  late final TextEditingController _hex = TextEditingController(
+    text: _hexOf(HSVColor.fromAHSV(1, _h, _s, _v)),
+  );
 
   static String _hexOf(HSVColor c) {
     final int v = c.toColor().toARGB32() & 0xFFFFFF;
@@ -2140,16 +2308,21 @@ class _ColorPickerDialogState extends State<_ColorPickerDialog> {
             }),
             TextField(
               controller: _hex,
-              decoration:
-                  const InputDecoration(labelText: '色值 #RRGGBB', isDense: true),
+              decoration: const InputDecoration(
+                labelText: '色值 #RRGGBB',
+                isDense: true,
+              ),
               onChanged: (String v) {
-                final int? parsed =
-                    int.tryParse(v.replaceFirst('#', ''), radix: 16);
+                final int? parsed = int.tryParse(
+                  v.replaceFirst('#', ''),
+                  radix: 16,
+                );
                 if (parsed == null || v.replaceFirst('#', '').length != 6) {
                   return;
                 }
-                final HSVColor hsv =
-                    HSVColor.fromColor(Color(0xFF000000 | parsed));
+                final HSVColor hsv = HSVColor.fromColor(
+                  Color(0xFF000000 | parsed),
+                );
                 setState(() {
                   _h = hsv.hue;
                   _s = hsv.saturation;
@@ -2175,18 +2348,19 @@ class _ColorPickerDialogState extends State<_ColorPickerDialog> {
   }
 
   Widget _slider(
-      String label, double value, double max, ValueChanged<double> onChanged) {
+    String label,
+    double value,
+    double max,
+    ValueChanged<double> onChanged,
+  ) {
     return Row(
       children: <Widget>[
         SizedBox(
-            width: 32,
-            child: Text(label, style: const TextStyle(fontSize: 12))),
+          width: 32,
+          child: Text(label, style: const TextStyle(fontSize: 12)),
+        ),
         Expanded(
-          child: Slider(
-            value: value,
-            max: max,
-            onChanged: onChanged,
-          ),
+          child: Slider(value: value, max: max, onChanged: onChanged),
         ),
       ],
     );
@@ -2213,8 +2387,10 @@ class _PoseInfoDialog extends StatelessWidget {
       if (license.isNotEmpty) license,
     ].join(' · ');
     return AlertDialog(
-      title: Text(pose['name'] as String? ?? '姿势',
-          style: const TextStyle(fontSize: 16)),
+      title: Text(
+        pose['name'] as String? ?? '姿势',
+        style: const TextStyle(fontSize: 16),
+      ),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -2240,16 +2416,21 @@ class _PoseInfoDialog extends StatelessWidget {
             if (camera.isNotEmpty)
               Text('机位建议：$camera', style: const TextStyle(fontSize: 13)),
             if (jointCount > 0)
-              Text('关节数：$jointCount（导出可选「照片 / 骨架示意」）',
-                  style: const TextStyle(fontSize: 12)),
+              Text(
+                '关节数：$jointCount（导出可选「照片 / 骨架示意」）',
+                style: const TextStyle(fontSize: 12),
+              ),
             if (attribution.isNotEmpty)
-              Text('照片：$attribution',
-                  style:
-                      const TextStyle(fontSize: 11, color: Color(0xFF8A919E))),
+              Text(
+                '照片：$attribution',
+                style: const TextStyle(fontSize: 11, color: Color(0xFF8A919E)),
+              ),
             const SizedBox(height: 4),
             if (photo.isEmpty)
-              const Text('在「动作摆姿库」可查看照片、骨架与动作要领。',
-                  style: TextStyle(fontSize: 12)),
+              const Text(
+                '在「动作摆姿库」可查看照片、骨架与动作要领。',
+                style: TextStyle(fontSize: 12),
+              ),
           ],
         ),
       ),
@@ -2288,9 +2469,9 @@ class _PoseReplaceDialogState extends State<_PoseReplaceDialog> {
     final List<PoseEntry> matches = _query.trim().isEmpty
         ? _all.take(30).toList()
         : _all
-            .where((PoseEntry p) => p.name.contains(_query.trim()))
-            .take(30)
-            .toList();
+              .where((PoseEntry p) => p.name.contains(_query.trim()))
+              .take(30)
+              .toList();
     return AlertDialog(
       title: const Text('替换姿势', style: TextStyle(fontSize: 16)),
       content: SizedBox(
@@ -2300,7 +2481,9 @@ class _PoseReplaceDialogState extends State<_PoseReplaceDialog> {
           children: <Widget>[
             TextField(
               decoration: const InputDecoration(
-                  hintText: '搜索姿势名，例如：回眸 / 蹲', isDense: true),
+                hintText: '搜索姿势名，例如：回眸 / 蹲',
+                isDense: true,
+              ),
               onChanged: (String v) => setState(() => _query = v),
             ),
             const SizedBox(height: 6),
@@ -2311,12 +2494,15 @@ class _PoseReplaceDialogState extends State<_PoseReplaceDialog> {
                   final PoseEntry pose = matches[i];
                   return ListTile(
                     dense: true,
-                    title:
-                        Text(pose.name, style: const TextStyle(fontSize: 12.5)),
+                    title: Text(
+                      pose.name,
+                      style: const TextStyle(fontSize: 12.5),
+                    ),
                     subtitle: Text(
-                      <String>[pose.lens, pose.cameraPosition]
-                          .where((String s) => s.isNotEmpty)
-                          .join(' · '),
+                      <String>[
+                        pose.lens,
+                        pose.cameraPosition,
+                      ].where((String s) => s.isNotEmpty).join(' · '),
                       style: const TextStyle(fontSize: 11),
                     ),
                     onTap: () => Navigator.pop(context, <String, Object?>{
@@ -2394,8 +2580,10 @@ class _BudgetEstimateDialogState extends State<_BudgetEstimateDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text('按内置价格区间 × 城市档位系数生成，结果标注「估算值」，可手动微调。',
-                style: TextStyle(fontSize: 12)),
+            const Text(
+              '按内置价格区间 × 城市档位系数生成，结果标注「估算值」，可手动微调。',
+              style: TextStyle(fontSize: 12),
+            ),
             const SizedBox(height: 8),
             DropdownButtonFormField<CityEntry>(
               initialValue: _city,
@@ -2403,7 +2591,9 @@ class _BudgetEstimateDialogState extends State<_BudgetEstimateDialog> {
               items: <DropdownMenuItem<CityEntry>>[
                 for (final CityEntry c in _cities)
                   DropdownMenuItem<CityEntry>(
-                      value: c, child: Text('${c.name} · ${c.tier}')),
+                    value: c,
+                    child: Text('${c.name} · ${c.tier}'),
+                  ),
               ],
               onChanged: (CityEntry? v) => setState(() => _city = v),
             ),
@@ -2411,7 +2601,9 @@ class _BudgetEstimateDialogState extends State<_BudgetEstimateDialog> {
             TextField(
               controller: _people,
               decoration: const InputDecoration(
-                  labelText: '人数（餐饮按人数估算）', isDense: true),
+                labelText: '人数（餐饮按人数估算）',
+                isDense: true,
+              ),
               keyboardType: TextInputType.number,
             ),
           ],
@@ -2428,15 +2620,12 @@ class _BudgetEstimateDialogState extends State<_BudgetEstimateDialog> {
               ? null
               : () {
                   final String tier = _city!.tier;
-                  Navigator.pop(
-                    context,
-                    (
-                      city: _city!.name,
-                      tier: tier,
-                      multiplier: _multipliers[tier] ?? 1.0,
-                      people: int.tryParse(_people.text) ?? 1,
-                    ),
-                  );
+                  Navigator.pop(context, (
+                    city: _city!.name,
+                    tier: tier,
+                    multiplier: _multipliers[tier] ?? 1.0,
+                    people: int.tryParse(_people.text) ?? 1,
+                  ));
                 },
         ),
       ],

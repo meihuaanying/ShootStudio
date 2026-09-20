@@ -18,7 +18,8 @@ class Resources extends Table {
 class ResourceImages extends Table {
   TextColumn get id => text()();
   TextColumn get resourceId => text().customConstraint(
-      'NOT NULL REFERENCES resources(id) ON DELETE CASCADE')();
+    'NOT NULL REFERENCES resources(id) ON DELETE CASCADE',
+  )();
   TextColumn get filePath => text()(); // 工作区内相对路径
   TextColumn get note => text().withDefault(const Constant(''))();
   IntColumn get sort => integer().withDefault(const Constant(0))();
@@ -42,8 +43,9 @@ class Films extends Table {
 /// 影片静帧
 class FilmFrames extends Table {
   TextColumn get id => text()();
-  TextColumn get filmId => text()
-      .customConstraint('NOT NULL REFERENCES films(id) ON DELETE CASCADE')();
+  TextColumn get filmId => text().customConstraint(
+    'NOT NULL REFERENCES films(id) ON DELETE CASCADE',
+  )();
   TextColumn get name => text()();
   TextColumn get imageRef => text()(); // 本地路径或远程 URL
   TextColumn get paletteJson =>
@@ -75,9 +77,9 @@ class LightingScenes extends Table {
   TextColumn get id => text()();
   TextColumn get name => text()();
   TextColumn get sceneJson => text()(); // 引擎场景完整 JSON（灯/道具/假人姿势/相机）
-  TextColumn get linkedPoseId => text()
-      .nullable()
-      .customConstraint('REFERENCES poses(id) ON DELETE SET NULL')();
+  TextColumn get linkedPoseId => text().nullable().customConstraint(
+    'REFERENCES poses(id) ON DELETE SET NULL',
+  )();
   IntColumn get updatedAt => integer()();
   @override
   Set<Column> get primaryKey => {id};
@@ -115,8 +117,9 @@ class Plans extends Table {
 /// 策划案版本快照（D15–D17：无限历史 + 里程碑）
 class PlanSnapshots extends Table {
   TextColumn get id => text()();
-  TextColumn get planId => text()
-      .customConstraint('NOT NULL REFERENCES plans(id) ON DELETE CASCADE')();
+  TextColumn get planId => text().customConstraint(
+    'NOT NULL REFERENCES plans(id) ON DELETE CASCADE',
+  )();
   TextColumn get modulesJson => text()();
   TextColumn get label => text().nullable()(); // 手动里程碑名
   IntColumn get createdAt => integer()();
@@ -129,8 +132,9 @@ class ProviderConfigs extends Table {
   TextColumn get id => text()(); // preset id 或自定义 uuid
   TextColumn get name => text()();
   TextColumn get baseUrl => text()();
-  TextColumn get protocol => text()
-      .withDefault(const Constant('openai'))(); // openai|anthropic|responses
+  TextColumn get protocol => text().withDefault(
+    const Constant('openai'),
+  )(); // openai|anthropic|responses
   TextColumn get encryptedKey =>
       text().withDefault(const Constant(''))(); // AES-256-GCM 密文（D9）
   TextColumn get defaultModel => text().withDefault(const Constant(''))();

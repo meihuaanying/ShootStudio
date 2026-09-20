@@ -33,15 +33,17 @@ class VisionResult {
 /// → 多源文本搜；无视觉能力时提示配置并降级为文本关键词（D96）。
 class ImageToSearch {
   ImageToSearch(this._db, {AiClient? client})
-      : _client = client ??
-            AiClient(
-              dio: NetRouter.I.dio(receiveTimeout: const Duration(seconds: 60)),
-            );
+    : _client =
+          client ??
+          AiClient(
+            dio: NetRouter.I.dio(receiveTimeout: const Duration(seconds: 60)),
+          );
 
   final AppDatabase _db;
   final AiClient _client;
 
-  static const String systemPrompt = '你是摄影参考图分析助手。'
+  static const String systemPrompt =
+      '你是摄影参考图分析助手。'
       '分析用户上传的图片，用中文描述其风格、光线（方向/软硬/色温）、'
       '色彩（给出 2-3 个主色）、构图与题材；'
       '最后另起一行输出 3-8 个英文检索关键词，格式：KEYWORDS: word1 word2 …';
@@ -51,8 +53,9 @@ class ImageToSearch {
     if (bytes.isEmpty) {
       return const VisionResult(success: false, error: '图片为空');
     }
-    final RuntimeProvider? provider =
-        await QueryTranslator(_db).defaultProvider();
+    final RuntimeProvider? provider = await QueryTranslator(
+      _db,
+    ).defaultProvider();
     if (provider == null) {
       return const VisionResult(
         success: false,
@@ -72,7 +75,8 @@ class ImageToSearch {
       return VisionResult(
         success: false,
         providerName: provider.name,
-        error: '视觉调用失败（${provider.name}）：${result.error}；'
+        error:
+            '视觉调用失败（${provider.name}）：${result.error}；'
             '可切换到支持图片输入的提供方，或改用关键词搜索',
       );
     }

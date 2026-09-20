@@ -12,12 +12,9 @@ import 'theme_packs.dart';
 /// 红线（R46）：任何路径都不得把中文原样发往英文源；
 /// 词表/拼音/AI 全部失败时返回空文本，由 UI 给出可执行建议（R45）。
 class QueryPlanner {
-  QueryPlanner(
-    this._db, {
-    QueryTranslator? translator,
-    bool allowAi = true,
-  })  : _translator = translator ?? QueryTranslator(_db),
-        _allowAi = allowAi;
+  QueryPlanner(this._db, {QueryTranslator? translator, bool allowAi = true})
+    : _translator = translator ?? QueryTranslator(_db),
+      _allowAi = allowAi;
 
   final AppDatabase _db;
   final QueryTranslator _translator;
@@ -171,7 +168,10 @@ class QueryPlanner {
       );
 
   Map<String, String> _perSource(
-      ImageDomain domain, String raw, String person) {
+    ImageDomain domain,
+    String raw,
+    String person,
+  ) {
     final Map<String, String> map = <String, String>{};
     if (person.isNotEmpty) {
       // TMDB 是多语源（language=zh-CN），中文人名可直接检索；
@@ -187,7 +187,10 @@ class QueryPlanner {
   }
 
   SearchQuery _fromCache(
-      String raw, ImageDomain domain, Map<String, Object?> cached) {
+    String raw,
+    ImageDomain domain,
+    Map<String, Object?> cached,
+  ) {
     final String text = '${cached['keywords'] ?? ''}';
     final String person = '${cached['person'] ?? ''}';
     return SearchQuery(

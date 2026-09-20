@@ -201,8 +201,10 @@ const List<String> _excludeHints = <String>[
 /// 从模型列表里挑质量最高的可用模型；都未知时取第一个可对话模型。
 String pickBestModel(List<String> models, {String preferred = ''}) {
   final List<String> chat = models
-      .where((String m) =>
-          !_excludeHints.any((String e) => m.toLowerCase().contains(e)))
+      .where(
+        (String m) =>
+            !_excludeHints.any((String e) => m.toLowerCase().contains(e)),
+      )
       .toList();
   if (chat.isEmpty) return preferred;
   if (preferred.isNotEmpty) {

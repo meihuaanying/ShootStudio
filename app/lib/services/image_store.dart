@@ -15,8 +15,11 @@ class ImageStore {
   static const Uuid _uuid = Uuid();
 
   /// 压缩编码：限制最长边与质量，直到 ≤ [maxKb]。
-  static Uint8List compress(Uint8List raw,
-      {int maxKb = 300, int maxEdge = 2000}) {
+  static Uint8List compress(
+    Uint8List raw, {
+    int maxKb = 300,
+    int maxEdge = 2000,
+  }) {
     final decoded = img.decodeImage(raw);
     if (decoded == null) return raw;
     var work = decoded;
@@ -53,8 +56,10 @@ class ImageStore {
   }) async {
     final compressed = compress(raw);
     final palette = PaletteExtractor.extract(compressed);
-    final safeTitle =
-        (title ?? 'img').replaceAll(RegExp(r'[\\/:*?"<>|\s]'), '_');
+    final safeTitle = (title ?? 'img').replaceAll(
+      RegExp(r'[\\/:*?"<>|\s]'),
+      '_',
+    );
     final name =
         '${DateTime.now().millisecondsSinceEpoch}_${_uuid.v4().substring(0, 6)}_$safeTitle.jpg';
     final dir = Directory(p.join(workspaceRoot, 'images', category));
@@ -68,8 +73,11 @@ class ImageStore {
     required String category,
   }) async {
     final raw = await File(sourcePath).readAsBytes();
-    return importBytes(raw,
-        category: category, title: p.basenameWithoutExtension(sourcePath));
+    return importBytes(
+      raw,
+      category: category,
+      title: p.basenameWithoutExtension(sourcePath),
+    );
   }
 
   String pathOf(String category, String fileName) =>

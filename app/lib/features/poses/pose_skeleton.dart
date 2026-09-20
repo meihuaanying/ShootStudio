@@ -52,11 +52,7 @@ class PoseSkeletonData {
     final points = <PosePoint?>[
       for (final Object? item in raw)
         if (item is List && item.length >= 4)
-          PosePoint(
-            asDouble(item[0]),
-            asDouble(item[1]),
-            asDouble(item[3]),
-          )
+          PosePoint(asDouble(item[0]), asDouble(item[1]), asDouble(item[3]))
         else if (item is List && item.length >= 2)
           PosePoint(asDouble(item[0]), asDouble(item[1]), 1)
         else
@@ -128,12 +124,18 @@ class PoseSkeletonPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (data.points.isEmpty || size.isEmpty) return;
     final double scale = fit == BoxFit.contain
-        ? math.min(size.width / data.imageSize.width,
-            size.height / data.imageSize.height)
-        : math.max(size.width / data.imageSize.width,
-            size.height / data.imageSize.height);
-    final Size dest =
-        Size(data.imageSize.width * scale, data.imageSize.height * scale);
+        ? math.min(
+            size.width / data.imageSize.width,
+            size.height / data.imageSize.height,
+          )
+        : math.max(
+            size.width / data.imageSize.width,
+            size.height / data.imageSize.height,
+          );
+    final Size dest = Size(
+      data.imageSize.width * scale,
+      data.imageSize.height * scale,
+    );
     final Rect rect = Alignment.center.inscribe(dest, Offset.zero & size);
 
     Offset? map(int index) {
@@ -203,8 +205,11 @@ class PosePhotoView extends StatelessWidget {
       return Container(
         color: scheme.surfaceContainerHighest,
         child: Center(
-          child: Icon(Icons.accessibility_new_outlined,
-              size: 28, color: scheme.onSurfaceVariant.withValues(alpha: 0.6)),
+          child: Icon(
+            Icons.accessibility_new_outlined,
+            size: 28,
+            color: scheme.onSurfaceVariant.withValues(alpha: 0.6),
+          ),
         ),
       );
     }
@@ -215,12 +220,15 @@ class PosePhotoView extends StatelessWidget {
       gaplessPlayback: true,
       errorBuilder: (BuildContext context, Object error, StackTrace? stack) =>
           Container(
-        color: scheme.surfaceContainerHighest,
-        child: Center(
-          child: Icon(Icons.broken_image_outlined,
-              size: 24, color: scheme.onSurfaceVariant),
-        ),
-      ),
+            color: scheme.surfaceContainerHighest,
+            child: Center(
+              child: Icon(
+                Icons.broken_image_outlined,
+                size: 24,
+                color: scheme.onSurfaceVariant,
+              ),
+            ),
+          ),
     );
     if (!showSkeleton || skeleton.isEmpty) return image;
     return Stack(
@@ -229,15 +237,18 @@ class PosePhotoView extends StatelessWidget {
         image,
         FutureBuilder<PoseSkeletonData?>(
           future: PoseSkeletonData.load(skeleton),
-          builder: (BuildContext context,
-              AsyncSnapshot<PoseSkeletonData?> snapshot) {
-            final PoseSkeletonData? data = snapshot.data;
-            if (data == null) return const SizedBox.shrink();
-            return CustomPaint(
-              painter: PoseSkeletonPainter(data: data, fit: fit),
-              child: const SizedBox.expand(),
-            );
-          },
+          builder:
+              (
+                BuildContext context,
+                AsyncSnapshot<PoseSkeletonData?> snapshot,
+              ) {
+                final PoseSkeletonData? data = snapshot.data;
+                if (data == null) return const SizedBox.shrink();
+                return CustomPaint(
+                  painter: PoseSkeletonPainter(data: data, fit: fit),
+                  child: const SizedBox.expand(),
+                );
+              },
         ),
       ],
     );

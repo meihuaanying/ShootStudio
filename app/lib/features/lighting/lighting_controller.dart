@@ -127,8 +127,9 @@ class LightingState {
   }) {
     return LightingState(
       scene: scene ?? this.scene,
-      selectedId:
-          selectedId == _sentinel ? this.selectedId : selectedId as String?,
+      selectedId: selectedId == _sentinel
+          ? this.selectedId
+          : selectedId as String?,
       linkage: linkage ?? this.linkage,
       viewMode: viewMode ?? this.viewMode,
       dirty: dirty ?? this.dirty,
@@ -170,7 +171,10 @@ class LightingController extends Notifier<LightingState> {
   LightingState build() {
     return LightingState(
       scene: LightingSceneData(
-          id: _uuid.v4(), name: '未命名布光方案', devices: <DeviceSpec>[]),
+        id: _uuid.v4(),
+        name: '未命名布光方案',
+        devices: <DeviceSpec>[],
+      ),
     );
   }
 
@@ -178,13 +182,16 @@ class LightingController extends Notifier<LightingState> {
   Future<void> init() async {
     if (state.initialized) return;
     await _loadQualitySettings();
-    final rows = await (_db.select(_db.lightingScenes)
-          ..orderBy(<OrderClauseGenerator<$LightingScenesTable>>[
-            (t) =>
-                OrderingTerm(expression: t.updatedAt, mode: OrderingMode.desc),
-          ])
-          ..limit(1))
-        .get();
+    final rows =
+        await (_db.select(_db.lightingScenes)
+              ..orderBy(<OrderClauseGenerator<$LightingScenesTable>>[
+                (t) => OrderingTerm(
+                  expression: t.updatedAt,
+                  mode: OrderingMode.desc,
+                ),
+              ])
+              ..limit(1))
+            .get();
     LightingSceneData scene;
     if (rows.isNotEmpty) {
       scene = LightingSceneData.fromJson(
@@ -212,14 +219,18 @@ class LightingController extends Notifier<LightingState> {
       devices: instantiatePresetDevices(threePoint.devices),
     );
     state = state.copyWith(
-        scene: scene, initialized: true, dirty: true, status: '已应用预设：三点布光');
+      scene: scene,
+      initialized: true,
+      dirty: true,
+      status: '已应用预设：三点布光',
+    );
   }
 
   /// D29：从策划案「打开预演」直接载入指定布光场景。
   Future<void> openScene(String sceneId) async {
-    final rows = await (_db.select(_db.lightingScenes)
-          ..where((t) => t.id.equals(sceneId)))
-        .get();
+    final rows = await (_db.select(
+      _db.lightingScenes,
+    )..where((t) => t.id.equals(sceneId))).get();
     if (rows.isEmpty) {
       state = state.copyWith(status: '布光场景不存在或已删除');
       return;
@@ -304,8 +315,9 @@ class LightingController extends Notifier<LightingState> {
     if (!_belowLimit()) return;
     final isFlash = type.contains('闪光') || type.contains('环闪');
     final singleCct = RegExp(r'^(\d{4})K').firstMatch(cct);
-    final kelvin =
-        singleCct != null ? int.tryParse(singleCct.group(1)!) ?? 5500 : 5500;
+    final kelvin = singleCct != null
+        ? int.tryParse(singleCct.group(1)!) ?? 5500
+        : 5500;
     final device = DeviceSpec(
       id: _uuid.v4(),
       kind: 'light',
@@ -325,7 +337,10 @@ class LightingController extends Notifier<LightingState> {
     );
     state.scene.devices.add(device);
     state = state.copyWith(
-        selectedId: device.id, dirty: true, status: '已从设备库放入：$name');
+      selectedId: device.id,
+      dirty: true,
+      status: '已从设备库放入：$name',
+    );
   }
 
   /// 上传道具/灯光贴图（dataURL）。
@@ -334,7 +349,9 @@ class LightingController extends Notifier<LightingState> {
     if (d == null) return;
     d.texture = dataUrl;
     state = state.copyWith(
-        dirty: true, status: dataUrl.isEmpty ? '已移除贴图' : '已应用自定义贴图');
+      dirty: true,
+      status: dataUrl.isEmpty ? '已移除贴图' : '已应用自定义贴图',
+    );
   }
 
   void addProp({String type = 'crate'}) {
@@ -342,7 +359,8 @@ class LightingController extends Notifier<LightingState> {
     final device = DeviceSpec(
       id: _uuid.v4(),
       kind: 'prop',
-      name: const <String, String>{
+      name:
+          const <String, String>{
             'sofa': '沙发',
             'umbrella': '透明伞',
             'crate': '箱体',
@@ -428,9 +446,12 @@ class LightingController extends Notifier<LightingState> {
 
   /// 保存到工作区数据库（策划案可引用）。
   Future<bool> save() async {
-    state.scene.name =
-        state.scene.name.trim().isEmpty ? '未命名布光方案' : state.scene.name;
-    await _db.into(_db.lightingScenes).insertOnConflictUpdate(
+    state.scene.name = state.scene.name.trim().isEmpty
+        ? '未命名布光方案'
+        : state.scene.name;
+    await _db
+        .into(_db.lightingScenes)
+        .insertOnConflictUpdate(
           LightingScenesCompanion.insert(
             id: state.scene.id,
             name: state.scene.name,
@@ -444,8 +465,12 @@ class LightingController extends Notifier<LightingState> {
   }
 
   /// 从摆姿库注入姿势（D6：姿势一键注入布光预演 3D 场景；V5 支持随姿势带入手部）。
-  void injectPose(Map<String, Object?> joints, String poseName,
-      {HandPoseState? handL, HandPoseState? handR}) {
+  void injectPose(
+    Map<String, Object?> joints,
+    String poseName, {
+    HandPoseState? handL,
+    HandPoseState? handR,
+  }) {
     final merged = <String, Object?>{
       ...joints,
       'rootY': joints['rootY'],
@@ -469,7 +494,11 @@ class LightingController extends Notifier<LightingState> {
     if (pose == null) return;
     final joints = Map<String, Object?>.of(pose);
     final List<double> axes = tripleOf(joints[joint]);
-    final int index = switch (axis) { 'rx' => 0, 'ry' => 1, _ => 2 };
+    final int index = switch (axis) {
+      'rx' => 0,
+      'ry' => 1,
+      _ => 2,
+    };
     axes[index] = value;
     joints[joint] = <double>[axes[0], axes[1], axes[2]];
     state = state.copyWith(pendingPose: joints, status: '关节微调：$joint');
@@ -480,7 +509,9 @@ class LightingController extends Notifier<LightingState> {
     final base = state.basePose;
     if (base == null) return;
     state = state.copyWith(
-        pendingPose: Map<String, Object?>.of(base), status: '已恢复注入姿势');
+      pendingPose: Map<String, Object?>.of(base),
+      status: '已恢复注入姿势',
+    );
   }
 
   // ---------------- V4/Q1 画质设置（持久化） ----------------
@@ -492,7 +523,7 @@ class LightingController extends Notifier<LightingState> {
         await _db.getSetting('quality_material_preset') ?? 'standard';
     final double env =
         double.tryParse(await _db.getSetting('quality_env_intensity') ?? '') ??
-            1.0;
+        1.0;
     final bool ambient =
         (await _db.getSetting('quality_ambient_enabled') ?? '1') != '0';
     final bool contact =
@@ -509,8 +540,8 @@ class LightingController extends Notifier<LightingState> {
       contactShadow: contact,
       performanceProfile:
           const <String>['auto', 'high', 'low'].contains(performance)
-              ? performance
-              : 'auto',
+          ? performance
+          : 'auto',
       lightCones: cones,
     );
   }
@@ -519,14 +550,17 @@ class LightingController extends Notifier<LightingState> {
   Future<void> setSubdivision(int level) async {
     final int v = level.clamp(0, 2);
     state = state.copyWith(
-        subdivisionLevel: v,
-        status: '细分等级：${const <String>['轻量', '标准', '高'][v]}');
+      subdivisionLevel: v,
+      status: '细分等级：${const <String>['轻量', '标准', '高'][v]}',
+    );
     await _db.setSetting('quality_subdivision', '$v');
   }
 
   Future<void> setMaterialPreset(String preset) async {
     state = state.copyWith(
-        materialPreset: preset, status: '材质预设：${_presetLabel(preset)}');
+      materialPreset: preset,
+      status: '材质预设：${_presetLabel(preset)}',
+    );
     await _db.setSetting('quality_material_preset', preset);
   }
 
@@ -537,10 +571,10 @@ class LightingController extends Notifier<LightingState> {
   }
 
   static String _presetLabel(String preset) => switch (preset) {
-        'realistic' => '写实',
-        'light' => '轻量',
-        _ => '标准',
-      };
+    'realistic' => '写实',
+    'light' => '轻量',
+    _ => '标准',
+  };
 
   // ---------------- V5/D85 环境光 ----------------
 
@@ -559,8 +593,10 @@ class LightingController extends Notifier<LightingState> {
 
   /// 光锥可视化开关（展示每盏灯的照射范围；性能可退回，R52）。
   Future<void> setLightCones(bool on) async {
-    state =
-        state.copyWith(lightCones: on, status: on ? '光锥可视化已开启' : '光锥可视化已关闭');
+    state = state.copyWith(
+      lightCones: on,
+      status: on ? '光锥可视化已开启' : '光锥可视化已关闭',
+    );
     await _db.setSetting('quality_light_cones', on ? '1' : '0');
   }
 
@@ -568,9 +604,9 @@ class LightingController extends Notifier<LightingState> {
 
   /// 相机 POV 预览开关（引擎侧 setCameraView）。
   void setCameraView(bool on) => state = state.copyWith(
-        cameraView: on,
-        status: on ? '已切到相机视角（看构图）' : '已返回自由视角',
-      );
+    cameraView: on,
+    status: on ? '已切到相机视角（看构图）' : '已返回自由视角',
+  );
 
   /// 俯视图拖动相机机位。
   void moveCamera(double x, double y) {
@@ -636,7 +672,8 @@ class LightingController extends Notifier<LightingState> {
       final Map<String, Map<String, List<double>>>? arms = preset.arms;
       if (arms != null) {
         final Map<String, Object?> base = Map<String, Object?>.of(
-            pose ?? state.basePose ?? <String, Object?>{});
+          pose ?? state.basePose ?? <String, Object?>{},
+        );
         arms.forEach((String s, Map<String, List<double>> joints) {
           joints.forEach((String joint, List<double> value) {
             base['${joint}_$s'] = List<double>.of(value);
@@ -649,8 +686,9 @@ class LightingController extends Notifier<LightingState> {
         handR: next.copyWith(wrist: preset.wrist),
         pendingPose: pose,
         basePose: state.basePose ?? pose,
-        poseInjectionSeq:
-            pose == null ? state.poseInjectionSeq : state.poseInjectionSeq + 1,
+        poseInjectionSeq: pose == null
+            ? state.poseInjectionSeq
+            : state.poseInjectionSeq + 1,
         dirty: true,
         status: '手部预设：${preset.label}',
       );
@@ -663,9 +701,15 @@ class LightingController extends Notifier<LightingState> {
       );
       state = side == 'r'
           ? state.copyWith(
-              handR: next, dirty: true, status: '手部预设：${preset.label}')
+              handR: next,
+              dirty: true,
+              status: '手部预设：${preset.label}',
+            )
           : state.copyWith(
-              handL: next, dirty: true, status: '手部预设：${preset.label}');
+              handL: next,
+              dirty: true,
+              status: '手部预设：${preset.label}',
+            );
     }
     _syncSceneHands();
   }
@@ -685,8 +729,10 @@ class LightingController extends Notifier<LightingState> {
   /// 张开度（0..1）。
   void setHandSpread(String side, double value) {
     final HandPoseState current = side == 'r' ? state.handR : state.handL;
-    final HandPoseState next =
-        current.copyWith(preset: 'custom', spread: value.clamp(0, 1));
+    final HandPoseState next = current.copyWith(
+      preset: 'custom',
+      spread: value.clamp(0, 1),
+    );
     state = side == 'r'
         ? state.copyWith(handR: next, dirty: true)
         : state.copyWith(handL: next, dirty: true);

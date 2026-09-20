@@ -30,8 +30,7 @@ class _FakeAdapter implements HttpClientAdapter {
     RequestOptions options,
     Stream<Uint8List>? requestStream,
     Future<void>? cancelFuture,
-  ) =>
-      handler(options);
+  ) => handler(options);
 
   @override
   void close({bool force = false}) {}
@@ -80,7 +79,8 @@ void main() {
           },
         ],
       });
-      final sse = 'data: ${jsonEncode(<String, Object?>{
+      final sse =
+          'data: ${jsonEncode(<String, Object?>{
             'choices': <Object?>[
               <String, Object?>{
                 'delta': <String, Object?>{'content': modulesJson},
@@ -90,10 +90,13 @@ void main() {
       final dio = Dio();
       dio.httpClientAdapter = _FakeAdapter((RequestOptions options) async {
         expect(options.uri.path, endsWith('/chat/completions'));
-        return ResponseBody.fromString(sse, 200,
-            headers: <String, List<String>>{
-              Headers.contentTypeHeader: <String>[Headers.jsonContentType],
-            });
+        return ResponseBody.fromString(
+          sse,
+          200,
+          headers: <String, List<String>>{
+            Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+          },
+        );
       });
       final client = AiClient(dio: dio);
       final buffer = StringBuffer();
@@ -210,11 +213,16 @@ void main() {
         pixel.g = 107;
         pixel.b = 254;
       }
-      final (String fileName, _) = await store.importBytes(pngBytes(png),
-          category: 'models', title: '测试模特');
+      final (String fileName, _) = await store.importBytes(
+        pngBytes(png),
+        category: 'models',
+        title: '测试模特',
+      );
       const String resourceId = 'res-1';
       final now = DateTime.now().millisecondsSinceEpoch;
-      await db.into(db.resources).insert(
+      await db
+          .into(db.resources)
+          .insert(
             ResourcesCompanion.insert(
               id: resourceId,
               type: 'models',
@@ -224,8 +232,9 @@ void main() {
               updatedAt: now,
             ),
           );
-      final modelModule =
-          modules.firstWhere((m) => m.type == PlanModuleType.model);
+      final modelModule = modules.firstWhere(
+        (m) => m.type == PlanModuleType.model,
+      );
       modelModule.data['ids'] = <String>[resourceId];
       // 画板参考帧。
       final board = modules.firstWhere((m) => m.type == PlanModuleType.refs);
@@ -237,14 +246,16 @@ void main() {
             '#2f5d50',
             '#e3dbcf',
             '#28231f',
-            '#f6f3ee'
+            '#f6f3ee',
           ],
           'gradient': <String>['#c24e2a', '#2f5d50'],
           'sourceUrl': 'https://film-grab.com/?s=test',
         },
       ];
       // 布光方案。
-      await db.into(db.lightingScenes).insert(
+      await db
+          .into(db.lightingScenes)
+          .insert(
             LightingScenesCompanion.insert(
               id: 'scene-1',
               name: '三点布光方案',
@@ -253,8 +264,9 @@ void main() {
               updatedAt: now,
             ),
           );
-      final lighting =
-          modules.firstWhere((m) => m.type == PlanModuleType.lighting);
+      final lighting = modules.firstWhere(
+        (m) => m.type == PlanModuleType.lighting,
+      );
       lighting.data['sceneId'] = 'scene-1';
       lighting.data['sceneName'] = '三点布光方案';
       // 姿势清单。
@@ -265,7 +277,7 @@ void main() {
           'lens': '35mm 全身',
           'joints': <String, Object?>{
             'spine': <double>[0, 20, 0],
-            'shoulder_l': <double>[0, 0, 8]
+            'shoulder_l': <double>[0, 0, 8],
           },
         },
       ];
@@ -343,16 +355,18 @@ void main() {
           .whereType<Map>()
           .map((Map m) => PlanModuleData.fromJson(m.cast<String, Object?>()))
           .toList();
-      final modelModule =
-          restoredModules.firstWhere((m) => m.type == PlanModuleType.model);
+      final modelModule = restoredModules.firstWhere(
+        (m) => m.type == PlanModuleType.model,
+      );
       expect((modelModule.data['ids'] as List).first, startsWith('imported-'));
       await db2.close();
     });
 
     test('完整性检查发现失效引用', () async {
       final modules = await buildPlanModules();
-      final modelModule =
-          modules.firstWhere((m) => m.type == PlanModuleType.model);
+      final modelModule = modules.firstWhere(
+        (m) => m.type == PlanModuleType.model,
+      );
       modelModule.data['ids'] = <String>['missing-id'];
       final issues = await service.checkIntegrity(modules);
       expect(issues, isNotEmpty);
@@ -374,13 +388,16 @@ void main() {
       );
       final controller = container.read(aiControllerProvider.notifier);
       await controller.init();
-      final draft =
-          await controller.generatePlan('汉服园林晨雾，柔光衣料质感', forceLocal: true);
+      final draft = await controller.generatePlan(
+        '汉服园林晨雾，柔光衣料质感',
+        forceLocal: true,
+      );
       expect(draft.viaLocal, isTrue);
       expect(draft.modules, isNotEmpty);
       expect(draft.modules.map((m) => m.type), contains(PlanModuleType.theme));
-      final theme =
-          draft.modules.firstWhere((m) => m.type == PlanModuleType.theme);
+      final theme = draft.modules.firstWhere(
+        (m) => m.type == PlanModuleType.theme,
+      );
       expect(theme.data['text'], contains('汉服'));
       container.dispose();
       await db.close();

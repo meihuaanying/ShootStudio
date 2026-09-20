@@ -35,7 +35,9 @@ class DemoContentService {
     final poses = await ContentPacks.poses();
     final chosenPoses = poses.take(3).toList();
     for (final PoseEntry pose in chosenPoses) {
-      await db.into(db.poses).insertOnConflictUpdate(
+      await db
+          .into(db.poses)
+          .insertOnConflictUpdate(
             PosesCompanion.insert(
               id: pose.id,
               name: pose.name,
@@ -57,7 +59,9 @@ class DemoContentService {
       (LightPresetEntry p) => p.id == 'three-point',
       orElse: () => presets.first,
     );
-    await db.into(db.lightingScenes).insertOnConflictUpdate(
+    await db
+        .into(db.lightingScenes)
+        .insertOnConflictUpdate(
           LightingScenesCompanion.insert(
             id: sceneId,
             name: '示例 · 三点布光方案',
@@ -115,9 +119,12 @@ class DemoContentService {
           String id,
           String type,
           String name,
-          Map<String, Object?> fields
-        ) in resources) {
-      await db.into(db.resources).insertOnConflictUpdate(
+          Map<String, Object?> fields,
+        )
+        in resources) {
+      await db
+          .into(db.resources)
+          .insertOnConflictUpdate(
             ResourcesCompanion.insert(
               id: id,
               type: type,
@@ -137,7 +144,9 @@ class DemoContentService {
     for (final FrameEntry frame in frames) {
       final id = '${films.first.id}:${frame.name}';
       frameIds.add(id);
-      await db.into(db.filmFrames).insertOnConflictUpdate(
+      await db
+          .into(db.filmFrames)
+          .insertOnConflictUpdate(
             FilmFramesCompanion.insert(
               id: id,
               filmId: films.first.id,
@@ -163,7 +172,8 @@ class DemoContentService {
     for (final PlanModuleData module in modules) {
       switch (module.type) {
         case PlanModuleType.theme:
-          module.data['text'] = '示例：雨夜霓虹 · Cosplay 正片。\n'
+          module.data['text'] =
+              '示例：雨夜霓虹 · Cosplay 正片。\n'
               '以冷主光塑造角色轮廓，用霓虹色点缀环境；服化道对齐角色设定，突出神态与配色。';
         case PlanModuleType.model:
           module.data['ids'] = <String>['demo-res-model'];
@@ -177,12 +187,14 @@ class DemoContentService {
           module.data['placeholder'] = false;
         case PlanModuleType.refs:
           module.data['refs'] = frames
-              .map((FrameEntry f) => <String, Object?>{
-                    'name': f.name,
-                    'palette': f.palette,
-                    'gradient': f.gradient,
-                    'sourceUrl': f.sourceUrl,
-                  })
+              .map(
+                (FrameEntry f) => <String, Object?>{
+                  'name': f.name,
+                  'palette': f.palette,
+                  'gradient': f.gradient,
+                  'sourceUrl': f.sourceUrl,
+                },
+              )
               .toList();
         case PlanModuleType.palette:
           module.data['colors'] = firstPalette;
@@ -192,20 +204,22 @@ class DemoContentService {
           module.data['placeholder'] = false;
         case PlanModuleType.poses:
           module.data['poses'] = chosenPoses
-              .map((PoseEntry p) => <String, Object?>{
-                    'name': p.name,
-                    'joints': <String, Object?>{
-                      ...p.joints,
-                      'rootY': p.rootY,
-                      'rootPitch': p.rootPitch,
-                    },
-                    'lens': p.lens,
-                    'cameraPosition': p.cameraPosition,
-                    'photo': p.photo,
-                    'author': p.author,
-                    'license': p.license,
-                    'source': p.source,
-                  })
+              .map(
+                (PoseEntry p) => <String, Object?>{
+                  'name': p.name,
+                  'joints': <String, Object?>{
+                    ...p.joints,
+                    'rootY': p.rootY,
+                    'rootPitch': p.rootPitch,
+                  },
+                  'lens': p.lens,
+                  'cameraPosition': p.cameraPosition,
+                  'photo': p.photo,
+                  'author': p.author,
+                  'license': p.license,
+                  'source': p.source,
+                },
+              )
               .toList();
         case PlanModuleType.storyboard:
           module.data['shots'] = <Object?>[];
@@ -213,15 +227,18 @@ class DemoContentService {
           module.data['place'] = '上海';
           module.data['lat'] = 31.23;
           module.data['lon'] = 121.47;
-          module.data['date'] =
-              DateTime.now().toIso8601String().substring(0, 10);
+          module.data['date'] = DateTime.now().toIso8601String().substring(
+            0,
+            10,
+          );
         default:
           break;
       }
     }
     // 示例补齐分镜模块（旗舰功能：8 镜，绑定姿势与灯位）。
-    if (!modules
-        .any((PlanModuleData m) => m.type == PlanModuleType.storyboard)) {
+    if (!modules.any(
+      (PlanModuleData m) => m.type == PlanModuleType.storyboard,
+    )) {
       const List<String> sizes = <String>['远景', '全身', '中景', '近景', '特写', '空镜'];
       const Map<String, String> lensBySize = <String, String>{
         '远景': '24mm',
@@ -253,19 +270,27 @@ class DemoContentService {
         title: '分镜表',
         data: <String, Object?>{'shots': shots},
       );
-      final int posesIndex = modules
-          .indexWhere((PlanModuleData m) => m.type == PlanModuleType.poses);
+      final int posesIndex = modules.indexWhere(
+        (PlanModuleData m) => m.type == PlanModuleType.poses,
+      );
       modules.insert(
-          posesIndex >= 0 ? posesIndex + 1 : modules.length, storyboard);
+        posesIndex >= 0 ? posesIndex + 1 : modules.length,
+        storyboard,
+      );
     }
 
-    await db.into(db.plans).insertOnConflictUpdate(
+    await db
+        .into(db.plans)
+        .insertOnConflictUpdate(
           PlansCompanion.insert(
             id: planId,
             title: '示例 · 雨夜霓虹 Cosplay 正片',
             status: const Value('draft'),
-            modulesJson: Value(jsonEncode(
-                modules.map((PlanModuleData m) => m.toJson()).toList())),
+            modulesJson: Value(
+              jsonEncode(
+                modules.map((PlanModuleData m) => m.toJson()).toList(),
+              ),
+            ),
             createdAt: now,
             updatedAt: now,
           ),
@@ -275,30 +300,37 @@ class DemoContentService {
     await db.setSetting(_keySeeded, 'true');
     await db.setSetting(_keyFrames, jsonEncode(frameIds));
     await db.setSetting(
-        _keyPoses, jsonEncode(chosenPoses.map((PoseEntry p) => p.id).toList()));
+      _keyPoses,
+      jsonEncode(chosenPoses.map((PoseEntry p) => p.id).toList()),
+    );
     return seeded;
   }
 
   /// 一键移除示例内容（保留用户自己创建的数据）。
   static Future<void> remove(AppDatabase db) async {
     // 还原画板帧。
-    final frameIds =
-        asStringList(jsonDecode(await db.getSetting(_keyFrames) ?? '[]'));
+    final frameIds = asStringList(
+      jsonDecode(await db.getSetting(_keyFrames) ?? '[]'),
+    );
     for (final String id in frameIds) {
-      await (db.update(db.filmFrames)..where((t) => t.id.equals(id)))
-          .write(const FilmFramesCompanion(inBoard: Value(false)));
+      await (db.update(db.filmFrames)..where((t) => t.id.equals(id))).write(
+        const FilmFramesCompanion(inBoard: Value(false)),
+      );
     }
     // 还原姿势收藏。
-    final poseIds =
-        asStringList(jsonDecode(await db.getSetting(_keyPoses) ?? '[]'));
+    final poseIds = asStringList(
+      jsonDecode(await db.getSetting(_keyPoses) ?? '[]'),
+    );
     for (final String id in poseIds) {
-      await (db.update(db.poses)..where((t) => t.id.equals(id)))
-          .write(const PosesCompanion(favorite: Value(false)));
+      await (db.update(db.poses)..where((t) => t.id.equals(id))).write(
+        const PosesCompanion(favorite: Value(false)),
+      );
     }
     // 删除示例新建行。
     await (db.delete(db.plans)..where((t) => t.id.equals(planId))).go();
-    await (db.delete(db.lightingScenes)..where((t) => t.id.equals(sceneId)))
-        .go();
+    await (db.delete(
+      db.lightingScenes,
+    )..where((t) => t.id.equals(sceneId))).go();
     for (final String id in resourceIds) {
       await (db.delete(db.resources)..where((t) => t.id.equals(id))).go();
     }

@@ -16,8 +16,11 @@ class PaletteExtractor {
     '#444444',
   ];
 
-  static PaletteResult extract(Uint8List bytes,
-      {int count = 5, int minDistance = 48}) {
+  static PaletteResult extract(
+    Uint8List bytes, {
+    int count = 5,
+    int minDistance = 48,
+  }) {
     img.Image? image;
     try {
       image = img.decodeImage(bytes);
@@ -51,7 +54,8 @@ class PaletteExtractor {
     for (final key in order) {
       final rgb = _avg(sums[key]!, buckets[key]!);
       if (picked.every(
-          (List<int> c) => _dist2(rgb, c) >= minDistance * minDistance)) {
+        (List<int> c) => _dist2(rgb, c) >= minDistance * minDistance,
+      )) {
         picked.add(rgb);
         if (picked.length >= count) break;
       }
@@ -92,8 +96,11 @@ class PaletteExtractor {
   static int _bucket(int r, int g, int b) =>
       (r >> 4 << 8) | (g >> 4 << 4) | (b >> 4);
 
-  static List<int> _avg(List<int> sum, int n) =>
-      <int>[(sum[0] / n).round(), (sum[1] / n).round(), (sum[2] / n).round()];
+  static List<int> _avg(List<int> sum, int n) => <int>[
+    (sum[0] / n).round(),
+    (sum[1] / n).round(),
+    (sum[2] / n).round(),
+  ];
 
   static int _dist2(List<int> a, List<int> b) {
     final dr = a[0] - b[0], dg = a[1] - b[1], db = a[2] - b[2];

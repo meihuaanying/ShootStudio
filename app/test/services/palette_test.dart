@@ -43,14 +43,17 @@ void main() {
   });
 
   test('非法字节 → 灰色占位不崩溃', () {
-    final palette =
-        PaletteExtractor.extract(Uint8List.fromList(<int>[1, 2, 3]));
+    final palette = PaletteExtractor.extract(
+      Uint8List.fromList(<int>[1, 2, 3]),
+    );
     expect(palette.colors, hasLength(5));
   });
 
   test('色距计算', () {
-    expect(PaletteExtractor.colorDistance('#000000', '#ffffff'),
-        closeTo(441.67, 0.1));
+    expect(
+      PaletteExtractor.colorDistance('#000000', '#ffffff'),
+      closeTo(441.67, 0.1),
+    );
     expect(PaletteExtractor.colorDistance('#123456', '#123456'), 0);
   });
 }

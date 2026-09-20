@@ -39,9 +39,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
     final String dir = await db.getSetting('user_pack_dir') ?? '';
     if (dir.isEmpty) return;
     try {
-      _watchSub = Directory(dir)
-          .watch(events: FileSystemEvent.create)
-          .listen((FileSystemEvent event) {
+      _watchSub = Directory(dir).watch(events: FileSystemEvent.create).listen((
+        FileSystemEvent event,
+      ) {
         final String path = event.path;
         final String ext = path.contains('.')
             ? path.substring(path.lastIndexOf('.')).toLowerCase()
@@ -51,7 +51,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
         file.length().then((int size) async {
           if (size > 15 * 1024 * 1024) return;
           final Uint8List bytes = await file.readAsBytes();
-          await ref.read(refsControllerProvider.notifier).addFetched(
+          await ref
+              .read(refsControllerProvider.notifier)
+              .addFetched(
                 bytes: bytes,
                 title: path.split(Platform.pathSeparator).last.split('.').first,
                 sourceUrl: path,
@@ -75,8 +77,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((Duration _) async {
       await _startFolderWatch();
-      final int synced =
-          await ref.read(refsControllerProvider.notifier).syncUserPack();
+      final int synced = await ref
+          .read(refsControllerProvider.notifier)
+          .syncUserPack();
       if (synced > 0 && mounted) ssToast(context, '我的素材包已同步 $synced 张');
 
       unawaited(ref.read(refsControllerProvider.notifier).init());
@@ -88,131 +91,137 @@ class _RefsPageState extends ConsumerState<RefsPage> {
     final state = ref.watch(refsControllerProvider);
     final controller = ref.read(refsControllerProvider.notifier);
     final boardCount = state.board.length;
-    return _wrapPage(SsPage(
-      title: '画面参考库',
-      subtitle: '影片静帧索引 · 多源搜图工作台 · 五色色卡 · 参考画板 · FILMGRAB 浏览器',
-      actions: <Widget>[
-        SsButton(
-          label: 'TMDB 剧照/动漫',
-          icon: Icons.movie_filter_rounded,
-          dense: true,
-          onPressed: () => _openTmdb(context),
-        ),
-        const SizedBox(width: 6),
-        SsButton(
-          label: '我的素材包',
-          icon: Icons.folder_special_rounded,
-          kind: SsButtonKind.ghost,
-          dense: true,
-          onPressed: () async {
-            final int count =
-                await ref.read(refsControllerProvider.notifier).syncUserPack();
-            if (context.mounted) {
-              ssToast(
+    return _wrapPage(
+      SsPage(
+        title: '画面参考库',
+        subtitle: '影片静帧索引 · 多源搜图工作台 · 五色色卡 · 参考画板 · FILMGRAB 浏览器',
+        actions: <Widget>[
+          SsButton(
+            label: 'TMDB 剧照/动漫',
+            icon: Icons.movie_filter_rounded,
+            dense: true,
+            onPressed: () => _openTmdb(context),
+          ),
+          const SizedBox(width: 6),
+          SsButton(
+            label: '我的素材包',
+            icon: Icons.folder_special_rounded,
+            kind: SsButtonKind.ghost,
+            dense: true,
+            onPressed: () async {
+              final int count = await ref
+                  .read(refsControllerProvider.notifier)
+                  .syncUserPack();
+              if (context.mounted) {
+                ssToast(
                   context,
-                  count > 0
-                      ? '已同步 $count 张（目录可在设置页修改）'
-                      : '没有新素材（先在设置页指定素材包目录）');
-            }
-          },
-        ),
-        const SizedBox(width: 6),
-        SsButton(
-          label: '智能搜图',
-          icon: Icons.travel_explore_rounded,
-          dense: true,
-          onPressed: () => _openSmartSearch(context),
-        ),
-        const SizedBox(width: 6),
-        SsButton(
-          label: '粘贴截图',
-          icon: Icons.content_paste_rounded,
-          kind: SsButtonKind.ghost,
-          dense: true,
-          onPressed: _pasteImage,
-        ),
-        const SizedBox(width: 6),
-        SsButton(
-          label: '本地导入',
-          icon: Icons.upload_file_rounded,
-          kind: SsButtonKind.ghost,
-          dense: true,
-          onPressed: () async {
-            final count = await controller.importLocalImages();
-            if (count > 0 && context.mounted) ssToast(context, '已导入 $count 张');
-          },
-        ),
-        const SizedBox(width: 6),
-        SsButton(
-          label: '打开 FILMGRAB 浏览',
-          icon: Icons.public_rounded,
-          dense: true,
-          onPressed: () => _openBrowserPanel(context),
-        ),
-      ],
-      body: !state.initialized
-          ? const Center(child: CircularProgressIndicator(strokeWidth: 2.4))
-          : Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    SsChip(
-                      label: 'PD 静帧库（真实）',
-                      selected: state.view == RefsView.films,
-                      onTap: () => controller.setView(RefsView.films),
-                    ),
-                    const SizedBox(width: 6),
-                    SsChip(
-                      label: '我的参考画板（$boardCount）',
-                      selected: state.view == RefsView.board,
-                      onTap: () => controller.setView(RefsView.board),
-                    ),
-                    const Spacer(),
-                    if (state.view == RefsView.films) ...<Widget>[
-                      SizedBox(
-                        width: 280,
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            hintText: '搜索公有领域影片（PD 静帧库）',
-                            isDense: true,
+                  count > 0 ? '已同步 $count 张（目录可在设置页修改）' : '没有新素材（先在设置页指定素材包目录）',
+                );
+              }
+            },
+          ),
+          const SizedBox(width: 6),
+          SsButton(
+            label: '智能搜图',
+            icon: Icons.travel_explore_rounded,
+            dense: true,
+            onPressed: () => _openSmartSearch(context),
+          ),
+          const SizedBox(width: 6),
+          SsButton(
+            label: '粘贴截图',
+            icon: Icons.content_paste_rounded,
+            kind: SsButtonKind.ghost,
+            dense: true,
+            onPressed: _pasteImage,
+          ),
+          const SizedBox(width: 6),
+          SsButton(
+            label: '本地导入',
+            icon: Icons.upload_file_rounded,
+            kind: SsButtonKind.ghost,
+            dense: true,
+            onPressed: () async {
+              final count = await controller.importLocalImages();
+              if (count > 0 && context.mounted) {
+                ssToast(context, '已导入 $count 张');
+              }
+            },
+          ),
+          const SizedBox(width: 6),
+          SsButton(
+            label: '打开 FILMGRAB 浏览',
+            icon: Icons.public_rounded,
+            dense: true,
+            onPressed: () => _openBrowserPanel(context),
+          ),
+        ],
+        body: !state.initialized
+            ? const Center(child: CircularProgressIndicator(strokeWidth: 2.4))
+            : Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      SsChip(
+                        label: 'PD 静帧库（真实）',
+                        selected: state.view == RefsView.films,
+                        onTap: () => controller.setView(RefsView.films),
+                      ),
+                      const SizedBox(width: 6),
+                      SsChip(
+                        label: '我的参考画板（$boardCount）',
+                        selected: state.view == RefsView.board,
+                        onTap: () => controller.setView(RefsView.board),
+                      ),
+                      const Spacer(),
+                      if (state.view == RefsView.films) ...<Widget>[
+                        SizedBox(
+                          width: 280,
+                          child: TextField(
+                            decoration: const InputDecoration(
+                              hintText: '搜索公有领域影片（PD 静帧库）',
+                              isDense: true,
+                            ),
+                            onChanged: controller.setKeyword,
                           ),
-                          onChanged: controller.setKeyword,
                         ),
-                      ),
-                    ] else
-                      SsButton(
-                        label: '清空待插入',
-                        kind: SsButtonKind.ghost,
-                        dense: true,
-                        onPressed: () =>
-                            ref.read(pendingFramesProvider.notifier).clear(),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: AppTokens.s8),
-                if (state.status.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 6),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        state.status,
-                        style: AppTokens.mono(
-                          context,
-                          size: 11.5,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ] else
+                        SsButton(
+                          label: '清空待插入',
+                          kind: SsButtonKind.ghost,
+                          dense: true,
+                          onPressed: () =>
+                              ref.read(pendingFramesProvider.notifier).clear(),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: AppTokens.s8),
+                  if (state.status.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          state.status,
+                          style: AppTokens.mono(
+                            context,
+                            size: 11.5,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
+                          ),
                         ),
                       ),
                     ),
+                  Expanded(
+                    child: state.view == RefsView.films
+                        ? _PdStillsView(keyword: state.keyword)
+                        : _buildBoard(state),
                   ),
-                Expanded(
-                  child: state.view == RefsView.films
-                      ? _PdStillsView(keyword: state.keyword)
-                      : _buildBoard(state),
-                ),
-              ],
-            ),
-    ));
+                ],
+              ),
+      ),
+    );
   }
 
   // ignore: unused_element
@@ -234,13 +243,17 @@ class _RefsPageState extends ConsumerState<RefsPage> {
               const SizedBox(width: 10),
               Text(
                 '${film.title}（${film.year ?? '—'}）· ${film.director}',
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(width: 10),
               InkWell(
-                onTap: () => launchUrl(Uri.parse(film.sourceUrl),
-                    mode: LaunchMode.externalApplication),
+                onTap: () => launchUrl(
+                  Uri.parse(film.sourceUrl),
+                  mode: LaunchMode.externalApplication,
+                ),
                 child: Text(
                   '在 FILMGRAB 查看原片页 ↗',
                   style: TextStyle(fontSize: 11.5, color: AppTokens.accent),
@@ -299,12 +312,16 @@ class _RefsPageState extends ConsumerState<RefsPage> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: <Color>[
-                        _color(f.frames.first.gradient.isNotEmpty
-                            ? f.frames.first.gradient[0]
-                            : '#444444'),
-                        _color(f.frames.first.gradient.length > 1
-                            ? f.frames.first.gradient[1]
-                            : '#222222'),
+                        _color(
+                          f.frames.first.gradient.isNotEmpty
+                              ? f.frames.first.gradient[0]
+                              : '#444444',
+                        ),
+                        _color(
+                          f.frames.first.gradient.length > 1
+                              ? f.frames.first.gradient[1]
+                              : '#222222',
+                        ),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -322,7 +339,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          fontSize: 13, fontWeight: FontWeight.w700),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     Text(
                       '${f.director} · ${f.year ?? '—'} · ${f.frames.length} 帧',
@@ -338,14 +357,20 @@ class _RefsPageState extends ConsumerState<RefsPage> {
                         for (final String tag in f.tags.take(3))
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 1),
+                              horizontal: 6,
+                              vertical: 1,
+                            ),
                             decoration: BoxDecoration(
                               color: AppTokens.accentSoft,
                               borderRadius: BorderRadius.circular(99),
                             ),
-                            child: Text(tag,
-                                style: const TextStyle(
-                                    fontSize: 10, color: AppTokens.accent)),
+                            child: Text(
+                              tag,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: AppTokens.accent,
+                              ),
+                            ),
                           ),
                       ],
                     ),
@@ -393,8 +418,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
   String? _localImagePath(RefFrame frame) {
     if (frame.imagePath.isEmpty) return null;
     final workspace = ref.read(workspaceProvider);
-    final file =
-        File(p.join(workspace.root.path, 'images', 'refs', frame.imagePath));
+    final file = File(
+      p.join(workspace.root.path, 'images', 'refs', frame.imagePath),
+    );
     return file.existsSync() ? file.path : null;
   }
 
@@ -457,7 +483,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
             if (!RefsController.imageExts.contains(ext)) continue;
             try {
               final Uint8List bytes = await File(path).readAsBytes();
-              await ref.read(refsControllerProvider.notifier).addFetched(
+              await ref
+                  .read(refsControllerProvider.notifier)
+                  .addFetched(
                     bytes: bytes,
                     title: path
                         .split(Platform.pathSeparator)
@@ -494,7 +522,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
         if (mounted) ssToast(context, '剪贴板没有图片（可先 Win+Shift+S 截图再按 Ctrl+V）');
         return;
       }
-      await ref.read(refsControllerProvider.notifier).addFetched(
+      await ref
+          .read(refsControllerProvider.notifier)
+          .addFetched(
             bytes: bytes,
             title: '剪贴板 ${DateTime.now().toIso8601String().substring(11, 19)}',
             sourceUrl: '',
@@ -518,9 +548,7 @@ class _RefsPageState extends ConsumerState<RefsPage> {
 
   void _openSmartSearch(BuildContext context) {
     Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (BuildContext _) => const SearchPage(),
-      ),
+      MaterialPageRoute<void>(builder: (BuildContext _) => const SearchPage()),
     );
   }
 
@@ -549,8 +577,10 @@ class _FrameCard extends StatelessWidget {
   final String badge;
   final String? imagePath;
 
-  Color _color(String hex) => Color(0xFF000000 |
-      (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x666666));
+  Color _color(String hex) => Color(
+    0xFF000000 |
+        (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x666666),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -586,7 +616,9 @@ class _FrameCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      fontSize: 11.5, fontWeight: FontWeight.w600),
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Row(
@@ -663,18 +695,24 @@ class _FrameDetailDialog extends ConsumerWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: <Color>[
-                    Color(0xFF000000 |
-                        (int.tryParse(
+                    Color(
+                      0xFF000000 |
+                          (int.tryParse(
                                 (gradient.isNotEmpty ? gradient[0] : '#555555')
                                     .replaceFirst('#', ''),
-                                radix: 16) ??
-                            0x555555)),
-                    Color(0xFF000000 |
-                        (int.tryParse(
+                                radix: 16,
+                              ) ??
+                              0x555555),
+                    ),
+                    Color(
+                      0xFF000000 |
+                          (int.tryParse(
                                 (gradient.length > 1 ? gradient[1] : '#222222')
                                     .replaceFirst('#', ''),
-                                radix: 16) ??
-                            0x222222)),
+                                radix: 16,
+                              ) ??
+                              0x222222),
+                    ),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -688,17 +726,23 @@ class _FrameDetailDialog extends ConsumerWidget {
             Text('出处：$filmTitle', style: const TextStyle(fontSize: 12)),
             if (sourceUrl.isNotEmpty)
               InkWell(
-                onTap: () => launchUrl(Uri.parse(sourceUrl),
-                    mode: LaunchMode.externalApplication),
+                onTap: () => launchUrl(
+                  Uri.parse(sourceUrl),
+                  mode: LaunchMode.externalApplication,
+                ),
                 child: Text(
                   sourceUrl,
-                  style:
-                      const TextStyle(fontSize: 11.5, color: AppTokens.accent),
+                  style: const TextStyle(
+                    fontSize: 11.5,
+                    color: AppTokens.accent,
+                  ),
                 ),
               ),
             const SizedBox(height: AppTokens.s12),
-            const Text('五色色卡（点击复制色值）',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+            const Text(
+              '五色色卡（点击复制色值）',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+            ),
             const SizedBox(height: 6),
             Row(
               children: <Widget>[
@@ -715,13 +759,18 @@ class _FrameDetailDialog extends ConsumerWidget {
                             height: 34,
                             margin: const EdgeInsets.only(right: 4),
                             decoration: BoxDecoration(
-                              color: Color(0xFF000000 |
-                                  (int.tryParse(hex.replaceFirst('#', ''),
-                                          radix: 16) ??
-                                      0x888888)),
+                              color: Color(
+                                0xFF000000 |
+                                    (int.tryParse(
+                                          hex.replaceFirst('#', ''),
+                                          radix: 16,
+                                        ) ??
+                                        0x888888),
+                              ),
                               borderRadius: BorderRadius.circular(6),
                               border: Border.all(
-                                  color: Theme.of(context).colorScheme.outline),
+                                color: Theme.of(context).colorScheme.outline,
+                              ),
                             ),
                           ),
                           Text(hex, style: AppTokens.mono(context, size: 9.5)),
@@ -750,7 +799,9 @@ class _FrameDetailDialog extends ConsumerWidget {
         SsButton(
           label: '插入策划案样片',
           onPressed: () {
-            ref.read(pendingFramesProvider.notifier).add(
+            ref
+                .read(pendingFramesProvider.notifier)
+                .add(
                   PendingFrame(
                     name: title,
                     palette: palette,
@@ -793,8 +844,10 @@ class _FilmGrabPanelState extends ConsumerState<_FilmGrabPanel> {
               padding: const EdgeInsets.fromLTRB(16, 12, 12, 8),
               child: Row(
                 children: <Widget>[
-                  const Text('内置浏览面板 · film-grab.com',
-                      style: TextStyle(fontWeight: FontWeight.w700)),
+                  const Text(
+                    '内置浏览面板 · film-grab.com',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
@@ -825,9 +878,7 @@ class _FilmGrabPanelState extends ConsumerState<_FilmGrabPanel> {
                         }
                       } catch (_) {
                         if (mounted) {
-                          setState(
-                            () => _status = '当前平台不支持一键截取，请改用「本地导入」上传截图',
-                          );
+                          setState(() => _status = '当前平台不支持一键截取，请改用「本地导入」上传截图');
                         }
                       }
                     },
@@ -853,8 +904,9 @@ class _FilmGrabPanelState extends ConsumerState<_FilmGrabPanel> {
             const Divider(height: 1),
             Expanded(
               child: InAppWebView(
-                initialUrlRequest:
-                    URLRequest(url: WebUri('https://film-grab.com')),
+                initialUrlRequest: URLRequest(
+                  url: WebUri('https://film-grab.com'),
+                ),
                 initialSettings: InAppWebViewSettings(
                   javaScriptEnabled: true,
                   transparentBackground: false,
@@ -867,12 +919,18 @@ class _FilmGrabPanelState extends ConsumerState<_FilmGrabPanel> {
                     setState(() => _status = '已加载：${url?.toString() ?? ''}');
                   }
                 },
-                onReceivedError: (InAppWebViewController controller,
-                    WebResourceRequest request, WebResourceError error) {
-                  if ((request.isForMainFrame ?? false) && mounted) {
-                    setState(() => _status = '加载失败（网络受限）：${error.description}');
-                  }
-                },
+                onReceivedError:
+                    (
+                      InAppWebViewController controller,
+                      WebResourceRequest request,
+                      WebResourceError error,
+                    ) {
+                      if ((request.isForMainFrame ?? false) && mounted) {
+                        setState(
+                          () => _status = '加载失败（网络受限）：${error.description}',
+                        );
+                      }
+                    },
               ),
             ),
           ],
@@ -892,7 +950,7 @@ const Map<String, List<String>> kPdFilmAliases = <String, List<String>>{
     '波将金号',
     '爱森斯坦',
     'Eisenstein',
-    '蒙太奇'
+    '蒙太奇',
   ],
   'The General': <String>['将军号', '基顿', 'Keaton', '喜剧', '火车'],
   'Metropolis': <String>['大都会', '科幻', '弗里茨朗', 'Fritz Lang', '未来都市'],
@@ -935,31 +993,34 @@ class _PdStillsViewState extends ConsumerState<_PdStillsView> {
   @override
   void initState() {
     super.initState();
-    ContentPacks.pdStills().then((Map<String, Object?> data) {
-      if (!mounted) return;
-      setState(() {
-        _films = (data['films'] as List<Object?>? ?? <Object?>[])
-            .whereType<Map>()
-            .map((Map m) => m.cast<String, Object?>())
-            .toList();
-        _loaded = true;
-      });
-    }).catchError((Object e) {
-      if (!mounted) return;
-      setState(() {
-        _loaded = true;
-        _error = 'PD 静帧库加载失败：$e';
-      });
-    });
+    ContentPacks.pdStills()
+        .then((Map<String, Object?> data) {
+          if (!mounted) return;
+          setState(() {
+            _films = (data['films'] as List<Object?>? ?? <Object?>[])
+                .whereType<Map>()
+                .map((Map m) => m.cast<String, Object?>())
+                .toList();
+            _loaded = true;
+          });
+        })
+        .catchError((Object e) {
+          if (!mounted) return;
+          setState(() {
+            _loaded = true;
+            _error = 'PD 静帧库加载失败：$e';
+          });
+        });
   }
 
   Future<void> _import(Map<String, Object?> frame, String film) async {
     final String file = '${frame['file']}';
-    final Uint8List bytes =
-        (await rootBundle.load('assets/content/stills/pd/$file'))
-            .buffer
-            .asUint8List();
-    await ref.read(refsControllerProvider.notifier).addFetched(
+    final Uint8List bytes = (await rootBundle.load(
+      'assets/content/stills/pd/$file',
+    )).buffer.asUint8List();
+    await ref
+        .read(refsControllerProvider.notifier)
+        .addFetched(
           bytes: bytes,
           title: '${frame['title'] ?? file}',
           sourceUrl: '${frame['source'] ?? ''}',
@@ -993,14 +1054,16 @@ class _PdStillsViewState extends ConsumerState<_PdStillsView> {
       return SsEmpty(
         icon: Icons.movie_outlined,
         title: '没有匹配的影片',
-        hint: '支持片名/年份/导演/题材与中文别名（如「大都会」「卓别林」「恐怖」）；'
+        hint:
+            '支持片名/年份/导演/题材与中文别名（如「大都会」「卓别林」「恐怖」）；'
             '更多剧照请用「TMDB 剧照/动漫」或「我的素材包」',
       );
     }
     final int frameTotal = films.fold<int>(
-        0,
-        (int sum, Map<String, Object?> f) =>
-            sum + ((f['frames'] as List?)?.length ?? 0));
+      0,
+      (int sum, Map<String, Object?> f) =>
+          sum + ((f['frames'] as List?)?.length ?? 0),
+    );
     return ListView(
       children: <Widget>[
         Container(
@@ -1049,11 +1112,11 @@ class _PdStillsViewState extends ConsumerState<_PdStillsView> {
                       errorBuilder:
                           (BuildContext c, Object e, StackTrace? st) =>
                               Container(
-                        width: 210,
-                        color: AppTokens.accentSoft,
-                        alignment: Alignment.center,
-                        child: const Icon(Icons.broken_image_outlined),
-                      ),
+                                width: 210,
+                                color: AppTokens.accentSoft,
+                                alignment: Alignment.center,
+                                child: const Icon(Icons.broken_image_outlined),
+                              ),
                     ),
                   ),
                 );

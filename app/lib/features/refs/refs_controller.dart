@@ -89,8 +89,9 @@ class RefsState {
   static const Object _sentinel = Object();
 }
 
-final refsControllerProvider =
-    NotifierProvider<RefsController, RefsState>(RefsController.new);
+final refsControllerProvider = NotifierProvider<RefsController, RefsState>(
+  RefsController.new,
+);
 
 /// 待插入策划案的参考帧。
 class PendingFrame {
@@ -111,8 +112,8 @@ class PendingFrame {
 
 final pendingFramesProvider =
     StateNotifierProvider<PendingFramesNotifier, List<PendingFrame>>(
-  (ref) => PendingFramesNotifier(),
-);
+      (ref) => PendingFramesNotifier(),
+    );
 
 class PendingFramesNotifier extends StateNotifier<List<PendingFrame>> {
   PendingFramesNotifier() : super(const <PendingFrame>[]);
@@ -137,8 +138,11 @@ class RefsController extends Notifier<RefsState> {
   Future<void> init() async {
     if (state.initialized) return;
     final films = await ContentPacks.films();
-    state =
-        state.copyWith(films: films, filteredFilms: films, initialized: true);
+    state = state.copyWith(
+      films: films,
+      filteredFilms: films,
+      initialized: true,
+    );
     await _reloadBoard();
   }
 
@@ -160,12 +164,12 @@ class RefsController extends Notifier<RefsState> {
   }
 
   Future<void> _reloadBoard() async {
-    final rows = await (_db.select(_db.filmFrames)
-          ..where((t) => t.inBoard.equals(true)))
-        .get();
+    final rows = await (_db.select(
+      _db.filmFrames,
+    )..where((t) => t.inBoard.equals(true))).get();
     final films = await _db.select(_db.films).get();
     final filmTitles = <String, String>{
-      for (final Film f in films) f.id: f.title
+      for (final Film f in films) f.id: f.title,
     };
     final board = rows.map((FilmFrame row) {
       final palette = _decodeList(row.paletteJson);
@@ -199,11 +203,13 @@ class RefsController extends Notifier<RefsState> {
   /// 收入/移出画板（写库）。
   Future<void> toggleBoard(FilmEntry film, FrameEntry frame) async {
     final id = '${film.id}:${frame.name}';
-    final existing = await (_db.select(_db.filmFrames)
-          ..where((t) => t.id.equals(id)))
-        .getSingleOrNull();
+    final existing = await (_db.select(
+      _db.filmFrames,
+    )..where((t) => t.id.equals(id))).getSingleOrNull();
     final nowIn = !(existing?.inBoard ?? false);
-    await _db.into(_db.filmFrames).insertOnConflictUpdate(
+    await _db
+        .into(_db.filmFrames)
+        .insertOnConflictUpdate(
           FilmFramesCompanion.insert(
             id: id,
             filmId: film.id,
@@ -228,7 +234,9 @@ class RefsController extends Notifier<RefsState> {
     if (result == null || result.files.isEmpty) return 0;
     final store = ImageStore(_workspaceRoot);
     const String localFilmId = 'film-local-imports';
-    await _db.into(_db.films).insertOnConflictUpdate(
+    await _db
+        .into(_db.films)
+        .insertOnConflictUpdate(
           FilmsCompanion.insert(
             id: localFilmId,
             title: '我的导入',
@@ -241,10 +249,15 @@ class RefsController extends Notifier<RefsState> {
       final path = file.path;
       if (path == null) continue;
       final raw = await File(path).readAsBytes();
-      final (String fileName, PaletteResult palette) =
-          await store.importBytes(raw, category: 'refs', title: file.name);
+      final (String fileName, PaletteResult palette) = await store.importBytes(
+        raw,
+        category: 'refs',
+        title: file.name,
+      );
       final frameId = '$localFilmId:$fileName';
-      await _db.into(_db.filmFrames).insertOnConflictUpdate(
+      await _db
+          .into(_db.filmFrames)
+          .insertOnConflictUpdate(
             FilmFramesCompanion.insert(
               id: frameId,
               filmId: localFilmId,
@@ -263,11 +276,15 @@ class RefsController extends Notifier<RefsState> {
   }
 
   /// 从浏览器截取当前画面（Android 支持截图；Windows 走提示降级）。
-  Future<void> importScreenshotBytes(Uint8List bytes,
-      {String title = '浏览面板截取'}) async {
+  Future<void> importScreenshotBytes(
+    Uint8List bytes, {
+    String title = '浏览面板截取',
+  }) async {
     final store = ImageStore(_workspaceRoot);
     const String localFilmId = 'film-local-imports';
-    await _db.into(_db.films).insertOnConflictUpdate(
+    await _db
+        .into(_db.films)
+        .insertOnConflictUpdate(
           FilmsCompanion.insert(
             id: localFilmId,
             title: '我的导入',
@@ -275,9 +292,14 @@ class RefsController extends Notifier<RefsState> {
             year: Value(DateTime.now().year),
           ),
         );
-    final (String fileName, PaletteResult palette) =
-        await store.importBytes(bytes, category: 'refs', title: title);
-    await _db.into(_db.filmFrames).insertOnConflictUpdate(
+    final (String fileName, PaletteResult palette) = await store.importBytes(
+      bytes,
+      category: 'refs',
+      title: title,
+    );
+    await _db
+        .into(_db.filmFrames)
+        .insertOnConflictUpdate(
           FilmFramesCompanion.insert(
             id: '$localFilmId:$fileName',
             filmId: localFilmId,
@@ -309,16 +331,17 @@ class RefsController extends Notifier<RefsState> {
     if (!await directory.exists()) return 0;
     var count = 0;
     try {
-      await for (final FileSystemEntity entity
-          in directory.list(recursive: true)) {
+      await for (final FileSystemEntity entity in directory.list(
+        recursive: true,
+      )) {
         if (entity is! File) continue;
         if (!imageExts.contains(p.extension(entity.path).toLowerCase())) {
           continue;
         }
         final String title = p.basenameWithoutExtension(entity.path);
-        final List<FilmFrame> existing = await (_db.select(_db.filmFrames)
-              ..where((t) => t.name.equals(title)))
-            .get();
+        final List<FilmFrame> existing = await (_db.select(
+          _db.filmFrames,
+        )..where((t) => t.name.equals(title))).get();
         if (existing.isNotEmpty) continue;
         final int size = await entity.length();
         if (size > 15 * 1024 * 1024) continue;
@@ -349,7 +372,9 @@ class RefsController extends Notifier<RefsState> {
   }) async {
     final store = ImageStore(_workspaceRoot);
     const String localFilmId = 'film-local-imports';
-    await _db.into(_db.films).insertOnConflictUpdate(
+    await _db
+        .into(_db.films)
+        .insertOnConflictUpdate(
           FilmsCompanion.insert(
             id: localFilmId,
             title: '我的导入',
@@ -362,7 +387,9 @@ class RefsController extends Notifier<RefsState> {
       category: 'refs',
       title: title,
     );
-    await _db.into(_db.filmFrames).insertOnConflictUpdate(
+    await _db
+        .into(_db.filmFrames)
+        .insertOnConflictUpdate(
           FilmFramesCompanion.insert(
             id: '$localFilmId:$fileName',
             filmId: localFilmId,
@@ -393,7 +420,9 @@ class RefsController extends Notifier<RefsState> {
   }) async {
     final id = 'custom:${_uuid.v4()}';
     const String localFilmId = 'film-local-imports';
-    await _db.into(_db.films).insertOnConflictUpdate(
+    await _db
+        .into(_db.films)
+        .insertOnConflictUpdate(
           FilmsCompanion.insert(
             id: localFilmId,
             title: '我的导入',
@@ -401,7 +430,9 @@ class RefsController extends Notifier<RefsState> {
             year: Value(DateTime.now().year),
           ),
         );
-    await _db.into(_db.filmFrames).insertOnConflictUpdate(
+    await _db
+        .into(_db.filmFrames)
+        .insertOnConflictUpdate(
           FilmFramesCompanion.insert(
             id: id,
             filmId: localFilmId,

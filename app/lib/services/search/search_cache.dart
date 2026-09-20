@@ -13,7 +13,7 @@ import '../net_router.dart';
 /// 5GB LRU（设置页可调）；绝不入 git/安装包；每图可追溯来源（由调用方登记）。
 class SearchCache {
   SearchCache(this.workspaceRoot, {int? limitMb})
-      : _limitMb = limitMb ?? defaultLimitMb;
+    : _limitMb = limitMb ?? defaultLimitMb;
 
   final String workspaceRoot;
   int _limitMb;
@@ -33,7 +33,7 @@ class SearchCache {
   static Future<SearchCache> from(AppDatabase db, String workspaceRoot) async {
     final int limit =
         int.tryParse((await db.getSetting(limitSettingKey)) ?? '') ??
-            defaultLimitMb;
+        defaultLimitMb;
     return SearchCache(workspaceRoot, limitMb: limit < 0 ? 0 : limit);
   }
 
@@ -89,8 +89,10 @@ class SearchCache {
     if (cached != null) return cached.readAsBytes();
     final Response<List<int>> res = await NetRouter.I
         .dio(retries: 2, receiveTimeout: const Duration(seconds: 40))
-        .get<List<int>>(url,
-            options: Options(responseType: ResponseType.bytes));
+        .get<List<int>>(
+          url,
+          options: Options(responseType: ResponseType.bytes),
+        );
     final Uint8List bytes = Uint8List.fromList(res.data ?? <int>[]);
     if (bytes.isEmpty) throw StateError('下载为空：$url');
     await put(url, bytes, original: original);

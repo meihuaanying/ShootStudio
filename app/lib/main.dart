@@ -19,8 +19,8 @@ Future<void> main() async {
     logger.error(error, stack: stack, tag: 'platform');
     return true;
   };
-  ErrorWidget.builder =
-      (FlutterErrorDetails details) => AppErrorWidget(details: details);
+  ErrorWidget.builder = (FlutterErrorDetails details) =>
+      AppErrorWidget(details: details);
 
   // 桌面窗口规范（F5/F8）：标题、默认与最小尺寸、居中、尺寸记忆。
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
@@ -69,9 +69,10 @@ class AppErrorWidget extends StatelessWidget {
             const Text(
               '页面渲染出错',
               style: TextStyle(
-                  color: Color(0xFFE8EAF0),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700),
+                color: Color(0xFFE8EAF0),
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(height: 8),
             const Text(

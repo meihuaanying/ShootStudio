@@ -22,14 +22,18 @@ void main() {
 
   setUpAll(() {
     final File file = File('assets/models/characters/manifest.json');
-    expect(file.existsSync(), isTrue,
-        reason: '缺少 assets/models/characters/manifest.json');
-    manifest =
-        (jsonDecode(file.readAsStringSync()) as Map).cast<String, Object?>();
+    expect(
+      file.existsSync(),
+      isTrue,
+      reason: '缺少 assets/models/characters/manifest.json',
+    );
+    manifest = (jsonDecode(file.readAsStringSync()) as Map)
+        .cast<String, Object?>();
     characters = (manifest['characters'] as List<Object?>? ?? <Object?>[])
         .map((Object? e) => (e as Map).cast<String, Object?>())
         .toList();
-    realistic = (manifest['realistic'] as Map?)?.cast<String, Object?>() ??
+    realistic =
+        (manifest['realistic'] as Map?)?.cast<String, Object?>() ??
         <String, Object?>{};
   });
 
@@ -49,40 +53,66 @@ void main() {
         expect(glb.lengthSync(), greaterThan(1024 * 100), reason: '$file 体积异常');
 
         final int triCount = (entry['triCount'] as num?)?.toInt() ?? 0;
-        expect(triCount, greaterThanOrEqualTo(60000),
-            reason: '${entry['id']} 写实面数不足 60k');
-        expect(triCount, lessThanOrEqualTo(120000),
-            reason: '${entry['id']} 写实面数超过 120k 硬上限');
+        expect(
+          triCount,
+          greaterThanOrEqualTo(60000),
+          reason: '${entry['id']} 写实面数不足 60k',
+        );
+        expect(
+          triCount,
+          lessThanOrEqualTo(120000),
+          reason: '${entry['id']} 写实面数超过 120k 硬上限',
+        );
         final int base = (entry['baseTriCount'] as num?)?.toInt() ?? 0;
-        expect(base, lessThan(triCount),
-            reason: '${entry['id']} 应记录构建期细分前的基础面数');
-        expect('${entry['license'] ?? ''}'.isNotEmpty, isTrue,
-            reason: '${entry['id']} 缺 license');
-        expect('${entry['source'] ?? ''}'.isNotEmpty, isTrue,
-            reason: '${entry['id']} 缺 source');
+        expect(
+          base,
+          lessThan(triCount),
+          reason: '${entry['id']} 应记录构建期细分前的基础面数',
+        );
+        expect(
+          '${entry['license'] ?? ''}'.isNotEmpty,
+          isTrue,
+          reason: '${entry['id']} 缺 license',
+        );
+        expect(
+          '${entry['source'] ?? ''}'.isNotEmpty,
+          isTrue,
+          reason: '${entry['id']} 缺 source',
+        );
       }
 
       // 最高标准路线（MakeHuman/MPFB2）产出必须可追溯；等价替代（CC-BY）若存在也不得沉默。
       final String allSources = entries
           .map((Map<String, Object?> c) => '${c['source']} ${c['file']}')
           .join(' | ');
-      expect(allSources.toLowerCase().contains('makehuman'), isTrue,
-          reason: '写实条目未记录 MakeHuman 管线来源');
-      expect(realistic['pipeline'], isA<Map<Object?, Object?>>(),
-          reason: 'realistic.pipeline 必须记录管线各步骤（Blender/插件/资产/骨架）');
+      expect(
+        allSources.toLowerCase().contains('makehuman'),
+        isTrue,
+        reason: '写实条目未记录 MakeHuman 管线来源',
+      );
+      expect(
+        realistic['pipeline'],
+        isA<Map<Object?, Object?>>(),
+        reason: 'realistic.pipeline 必须记录管线各步骤（Blender/插件/资产/骨架）',
+      );
     });
 
     test('realistic.items 与 characters 条目一致，且保持轻量/兜底资产不删除（R26）', () {
       final List<Object?> items =
           realistic['items'] as List<Object?>? ?? <Object?>[];
-      expect(items.length, greaterThanOrEqualTo(2),
-          reason: 'realistic.items 应同时登记 MakeHuman 产出与等价兜底资产');
+      expect(
+        items.length,
+        greaterThanOrEqualTo(2),
+        reason: 'realistic.items 应同时登记 MakeHuman 产出与等价兜底资产',
+      );
       for (final Object? raw in items) {
         final Map<String, Object?> item = (raw as Map).cast<String, Object?>();
         final File glb = File('assets/models/characters/${item['file']}');
         expect(glb.existsSync(), isTrue, reason: '写实资产缺失：${item['file']}');
-        expect((item['triCount'] as num?)?.toInt() ?? 0,
-            greaterThanOrEqualTo(40000));
+        expect(
+          (item['triCount'] as num?)?.toInt() ?? 0,
+          greaterThanOrEqualTo(40000),
+        );
       }
     });
 
@@ -96,8 +126,11 @@ void main() {
         'boneMappingStats',
         'realistic',
       ]) {
-        expect(js.contains(feature), isTrue,
-            reason: 'engine.bundle.js 缺少写实特征串 $feature');
+        expect(
+          js.contains(feature),
+          isTrue,
+          reason: 'engine.bundle.js 缺少写实特征串 $feature',
+        );
       }
       // 骨骼模糊匹配的候选键必须覆盖 MakeHuman 命名（game_engine 骨架）。
       final File character = File('assets/engine/js/character.js');
@@ -108,25 +141,31 @@ void main() {
         'thigh',
         'calf',
         'neck01',
-        'spine01'
+        'spine01',
       ]) {
         expect(src.contains(key), isTrue, reason: 'character.js 骨骼模糊匹配缺少 $key');
       }
-      expect(src.contains('REALISTIC_IDENTITY_REMAP'), isTrue,
-          reason: '缺少写实躯干链矫正豁免（避免头颈被拧到非自然角度）');
+      expect(
+        src.contains('REALISTIC_IDENTITY_REMAP'),
+        isTrue,
+        reason: '缺少写实躯干链矫正豁免（避免头颈被拧到非自然角度）',
+      );
       expect(src.contains('isRealisticEntry'), isTrue, reason: '缺少写实条目判定');
     });
 
     test('构建报告与三张截图证据存在（正/侧/非直立姿势）', () {
-      final File report =
-          File('../docs/screenshots/realistic-build-report.json');
+      final File report = File(
+        '../docs/screenshots/realistic-build-report.json',
+      );
       expect(report.existsSync(), isTrue, reason: '缺少写实构建报告');
       final Map<String, Object?> data =
           (jsonDecode(report.readAsStringSync()) as Map)
               .cast<String, Object?>();
       expect(data['ok'], isTrue, reason: '构建报告标记失败');
-      expect((data['totalTris'] as num?)?.toInt() ?? 0,
-          greaterThanOrEqualTo(60000));
+      expect(
+        (data['totalTris'] as num?)?.toInt() ?? 0,
+        greaterThanOrEqualTo(60000),
+      );
       expect(data['rig'], isA<Map<Object?, Object?>>(), reason: '构建报告缺骨架信息');
       final List<Object?> bones =
           ((data['rig'] as Map)['bones'] as List<Object?>?) ?? <Object?>[];

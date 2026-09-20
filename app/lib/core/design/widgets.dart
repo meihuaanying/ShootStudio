@@ -53,16 +53,17 @@ class _SsCardState extends State<SsCard> {
             color: widget.selected
                 ? AppTokens.accent
                 : _hover
-                    ? AppTokens.accent.withValues(alpha: 0.45)
-                    : rule,
+                ? AppTokens.accent.withValues(alpha: 0.45)
+                : rule,
             width: widget.selected ? 1.5 : 1,
           ),
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: Colors.black.withValues(
-                  alpha: theme.brightness == Brightness.dark
-                      ? (_hover ? 0.42 : 0.32)
-                      : (_hover ? 0.10 : 0.04)),
+                alpha: theme.brightness == Brightness.dark
+                    ? (_hover ? 0.42 : 0.32)
+                    : (_hover ? 0.10 : 0.04),
+              ),
               blurRadius: _hover ? 22 : 14,
               offset: Offset(0, _hover ? 9 : 6),
             ),
@@ -116,7 +117,9 @@ class SsSectionTitle extends StatelessWidget {
               Text(
                 subtitle!,
                 style: TextStyle(
-                    fontSize: 12, color: theme.colorScheme.onSurfaceVariant),
+                  fontSize: 12,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
           ],
         ),
@@ -131,13 +134,14 @@ class SsSectionTitle extends StatelessWidget {
 enum SsArt { film, light, pose, compass }
 
 class SsEmpty extends StatelessWidget {
-  const SsEmpty(
-      {super.key,
-      required this.icon,
-      required this.title,
-      this.hint,
-      this.action,
-      this.art});
+  const SsEmpty({
+    super.key,
+    required this.icon,
+    required this.title,
+    this.hint,
+    this.action,
+    this.art,
+  });
 
   final IconData icon;
   final String title;
@@ -170,9 +174,10 @@ class SsEmpty extends StatelessWidget {
             else
               Icon(icon, size: 44, color: muted.withValues(alpha: 0.5)),
             const SizedBox(height: AppTokens.s12),
-            Text(title,
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            ),
             if (hint != null) ...<Widget>[
               const SizedBox(height: AppTokens.s4),
               Text(
@@ -213,23 +218,32 @@ class _SsArtPainter extends CustomPainter {
     switch (art) {
       case SsArt.film:
         final RRect frame = RRect.fromRectAndRadius(
-            Rect.fromLTWH(box.left + 8, box.top, box.width - 16, box.height),
-            const Radius.circular(6));
+          Rect.fromLTWH(box.left + 8, box.top, box.width - 16, box.height),
+          const Radius.circular(6),
+        );
         canvas.drawRRect(frame, line);
         for (var i = 0; i < 5; i++) {
           final double x = frame.left + 8 + i * ((frame.width - 16) / 4);
           canvas.drawRRect(
             RRect.fromRectAndRadius(
-                Rect.fromCenter(
-                    center: Offset(x, frame.top + 6), width: 8, height: 5),
-                const Radius.circular(1.5)),
+              Rect.fromCenter(
+                center: Offset(x, frame.top + 6),
+                width: 8,
+                height: 5,
+              ),
+              const Radius.circular(1.5),
+            ),
             line,
           );
           canvas.drawRRect(
             RRect.fromRectAndRadius(
-                Rect.fromCenter(
-                    center: Offset(x, frame.bottom - 6), width: 8, height: 5),
-                const Radius.circular(1.5)),
+              Rect.fromCenter(
+                center: Offset(x, frame.bottom - 6),
+                width: 8,
+                height: 5,
+              ),
+              const Radius.circular(1.5),
+            ),
             line,
           );
         }
@@ -316,8 +330,10 @@ class _SsShimmerState extends State<SsShimmer>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         if (widget.label != null) ...<Widget>[
-          Text(widget.label!,
-              style: const TextStyle(fontSize: 12, color: AppTokens.accent)),
+          Text(
+            widget.label!,
+            style: const TextStyle(fontSize: 12, color: AppTokens.accent),
+          ),
           const SizedBox(height: 6),
         ],
         AnimatedBuilder(
@@ -382,8 +398,10 @@ class _SsFadeSwitchState extends State<SsFadeSwitch>
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> curved =
-        CurvedAnimation(parent: _controller, curve: AppTokens.cEmphasis);
+    final Animation<double> curved = CurvedAnimation(
+      parent: _controller,
+      curve: AppTokens.cEmphasis,
+    );
     return FadeTransition(
       opacity: curved,
       child: SlideTransition(
@@ -399,11 +417,12 @@ class _SsFadeSwitchState extends State<SsFadeSwitch>
 
 /// 筛选胶囊。
 class SsChip extends StatelessWidget {
-  const SsChip(
-      {super.key,
-      required this.label,
-      required this.selected,
-      required this.onTap});
+  const SsChip({
+    super.key,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   final String label;
   final bool selected;
@@ -425,7 +444,8 @@ class SsChip extends StatelessWidget {
               : theme.colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(999),
           border: Border.all(
-              color: selected ? AppTokens.accent : theme.colorScheme.outline),
+            color: selected ? AppTokens.accent : theme.colorScheme.outline,
+          ),
         ),
         child: Text(
           label,
@@ -516,12 +536,13 @@ class SsButton extends StatelessWidget {
 
 /// 表单行：标签 + 控件。
 class SsField extends StatelessWidget {
-  const SsField(
-      {super.key,
-      required this.label,
-      required this.child,
-      this.hint,
-      this.copy});
+  const SsField({
+    super.key,
+    required this.label,
+    required this.child,
+    this.hint,
+    this.copy,
+  });
 
   final String label;
   final Widget child;
@@ -545,8 +566,9 @@ class SsField extends StatelessWidget {
                   Text(
                     label,
                     style: TextStyle(
-                        fontSize: 12.5,
-                        color: theme.colorScheme.onSurfaceVariant),
+                      fontSize: 12.5,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   if (copy != null)
                     InkWell(
@@ -571,7 +593,9 @@ class SsField extends StatelessWidget {
               child: Text(
                 hint!,
                 style: TextStyle(
-                    fontSize: 11.5, color: theme.colorScheme.onSurfaceVariant),
+                  fontSize: 11.5,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
         ],
@@ -611,8 +635,9 @@ class SsToggleRow extends StatelessWidget {
                   Text(
                     subtitle!,
                     style: TextStyle(
-                        fontSize: 11.5,
-                        color: theme.colorScheme.onSurfaceVariant),
+                      fontSize: 11.5,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
               ],
             ),
@@ -628,8 +653,11 @@ class SsToggleRow extends StatelessWidget {
 enum SsBannerKind { info, success, warning, danger }
 
 class SsBanner extends StatelessWidget {
-  const SsBanner(
-      {super.key, required this.text, this.kind = SsBannerKind.info});
+  const SsBanner({
+    super.key,
+    required this.text,
+    this.kind = SsBannerKind.info,
+  });
 
   final String text;
   final SsBannerKind kind;
@@ -663,8 +691,8 @@ class SsBanner extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Expanded(
-              child:
-                  Text(text, style: TextStyle(fontSize: 12.5, color: color))),
+            child: Text(text, style: TextStyle(fontSize: 12.5, color: color)),
+          ),
         ],
       ),
     );
@@ -756,17 +784,22 @@ class SsPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w800)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
                   if (subtitle != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 2),
                       child: Text(
                         subtitle!,
                         style: TextStyle(
-                            fontSize: 11.5,
-                            color: theme.colorScheme.onSurfaceVariant),
+                          fontSize: 11.5,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
                 ],
@@ -777,7 +810,9 @@ class SsPage extends StatelessWidget {
           ),
         ),
         Divider(height: 1, color: theme.colorScheme.outline),
-        Expanded(child: Padding(padding: padding, child: body)),
+        Expanded(
+          child: Padding(padding: padding, child: body),
+        ),
       ],
     );
   }

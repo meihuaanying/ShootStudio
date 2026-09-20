@@ -6,7 +6,7 @@ import 'source_utils.dart';
 /// 哈佛艺术博物馆源（D98 Key 预留）：imagepermissionlevel==0 视为开放。
 class HarvardSource implements SearchSource {
   HarvardSource(this.apiKey, {Dio? dio})
-      : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
 
   final String apiKey;
   final Dio _dio;
@@ -17,14 +17,14 @@ class HarvardSource implements SearchSource {
   String get label => '哈佛艺术博物馆';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: true,
-        byKeyword: true,
-        hasLicenseFilter: true,
-        domains: <ImageDomain>{ImageDomain.art},
-        requiresKey: true,
-        keySettingId: 'search_key_harvard',
-      );
+    byTitle: true,
+    byPerson: true,
+    byKeyword: true,
+    hasLicenseFilter: true,
+    domains: <ImageDomain>{ImageDomain.art},
+    requiresKey: true,
+    keySettingId: 'search_key_harvard',
+  );
 
   @override
   bool get enabled => apiKey.trim().isNotEmpty;
@@ -72,21 +72,24 @@ class HarvardSource implements SearchSource {
       final bool open = intSafe(m['imagepermissionlevel'], 1) == 0;
       final String people = _people(m['people']);
       final String pageUrl = strSafe(m['url']);
-      out.add(SearchHit(
-        id: hitId('harvard', strSafe(m['id'], full)),
-        title: title,
-        thumbUrl: full,
-        fullUrl: full,
-        sourceId: 'harvard',
-        sourceLabel: '哈佛艺术博物馆',
-        license: open ? 'Harvard Open Access（无已知限制）' : '© 哈佛艺术博物馆（非商用参考）',
-        commercialOk: open,
-        attribution: 'Harvard Art Museums${people.isEmpty ? '' : ' · $people'}',
-        sourcePageUrl: pageUrl,
-        domain: ImageDomain.art,
-        imageType: 'artwork',
-        extra: <String, Object?>{'dated': strSafe(m['dated'])},
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('harvard', strSafe(m['id'], full)),
+          title: title,
+          thumbUrl: full,
+          fullUrl: full,
+          sourceId: 'harvard',
+          sourceLabel: '哈佛艺术博物馆',
+          license: open ? 'Harvard Open Access（无已知限制）' : '© 哈佛艺术博物馆（非商用参考）',
+          commercialOk: open,
+          attribution:
+              'Harvard Art Museums${people.isEmpty ? '' : ' · $people'}',
+          sourcePageUrl: pageUrl,
+          domain: ImageDomain.art,
+          imageType: 'artwork',
+          extra: <String, Object?>{'dated': strSafe(m['dated'])},
+        ),
+      );
     }
     return out;
   }

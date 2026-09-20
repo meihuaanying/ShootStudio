@@ -6,7 +6,7 @@ import 'source_utils.dart';
 /// 荷兰国立博物馆源（D98 Key 预留）：Rijksmuseum 收藏 API。
 class RijksSource implements SearchSource {
   RijksSource(this.apiKey, {Dio? dio})
-      : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
 
   final String apiKey;
   final Dio _dio;
@@ -17,14 +17,14 @@ class RijksSource implements SearchSource {
   String get label => '荷兰国立博物馆';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: true,
-        byKeyword: true,
-        hasLicenseFilter: false,
-        domains: <ImageDomain>{ImageDomain.art},
-        requiresKey: true,
-        keySettingId: 'search_key_rijks',
-      );
+    byTitle: true,
+    byPerson: true,
+    byKeyword: true,
+    hasLicenseFilter: false,
+    domains: <ImageDomain>{ImageDomain.art},
+    requiresKey: true,
+    keySettingId: 'search_key_rijks',
+  );
 
   @override
   bool get enabled => apiKey.trim().isNotEmpty;
@@ -71,22 +71,24 @@ class RijksSource implements SearchSource {
       final String title = strSafe(m['title'], '未命名藏品');
       final String maker = strSafe(m['principalOrFirstMaker']);
       final String pageUrl = strSafe(asMapSafe(m['links'])['web']);
-      out.add(SearchHit(
-        id: hitId('rijks', strSafe(m['objectNumber'], full)),
-        title: title,
-        thumbUrl: full,
-        fullUrl: full,
-        sourceId: 'rijks',
-        sourceLabel: '荷兰国立博物馆',
-        license: 'Rijksmuseum（许可以作品页为准）',
-        commercialOk: false,
-        attribution: 'Rijksmuseum${maker.isEmpty ? '' : ' · $maker'}',
-        sourcePageUrl: pageUrl,
-        width: intSafe(web['width']),
-        height: intSafe(web['height']),
-        domain: ImageDomain.art,
-        imageType: 'artwork',
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('rijks', strSafe(m['objectNumber'], full)),
+          title: title,
+          thumbUrl: full,
+          fullUrl: full,
+          sourceId: 'rijks',
+          sourceLabel: '荷兰国立博物馆',
+          license: 'Rijksmuseum（许可以作品页为准）',
+          commercialOk: false,
+          attribution: 'Rijksmuseum${maker.isEmpty ? '' : ' · $maker'}',
+          sourcePageUrl: pageUrl,
+          width: intSafe(web['width']),
+          height: intSafe(web['height']),
+          domain: ImageDomain.art,
+          imageType: 'artwork',
+        ),
+      );
     }
     return out;
   }

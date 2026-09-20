@@ -51,13 +51,13 @@ class TmdbImageSource implements SearchSource {
   String get label => 'TMDB';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: true,
-        byKeyword: true,
-        domains: <ImageDomain>{ImageDomain.film},
-        requiresKey: true,
-        keySettingId: 'image_tmdb_key',
-      );
+    byTitle: true,
+    byPerson: true,
+    byKeyword: true,
+    domains: <ImageDomain>{ImageDomain.film},
+    requiresKey: true,
+    keySettingId: 'image_tmdb_key',
+  );
 
   @override
   bool get enabled => apiKey.trim().isNotEmpty || readToken.trim().isNotEmpty;
@@ -66,18 +66,18 @@ class TmdbImageSource implements SearchSource {
   String get disabledHint => '缺 TMDB Key/Token（设置 → 图片素材通道）';
 
   Options _options() => Options(
-        headers: <String, Object?>{
-          if (readToken.trim().isNotEmpty)
-            'Authorization': 'Bearer ${readToken.trim()}',
-        },
-      );
+    headers: <String, Object?>{
+      if (readToken.trim().isNotEmpty)
+        'Authorization': 'Bearer ${readToken.trim()}',
+    },
+  );
 
   Map<String, Object?> _params(Map<String, Object?> extra) => <String, Object?>{
-        if (readToken.trim().isEmpty && apiKey.trim().isNotEmpty)
-          'api_key': apiKey.trim(),
-        'language': language,
-        ...extra,
-      };
+    if (readToken.trim().isEmpty && apiKey.trim().isNotEmpty)
+      'api_key': apiKey.trim(),
+    'language': language,
+    ...extra,
+  };
 
   @override
   Future<SourceSearchPage> search(
@@ -98,17 +98,19 @@ class TmdbImageSource implements SearchSource {
       }
       final _CreditPage credits = await _credits(found.id, page: page);
       hasMore = credits.hasMore;
-      hits.addAll(await _expandWorks(
-        credits.works.take(perPage).toList(),
-        expandLimit: 4,
-        groupOverride: '',
-      ));
+      hits.addAll(
+        await _expandWorks(
+          credits.works.take(perPage).toList(),
+          expandLimit: 4,
+          groupOverride: '',
+        ),
+      );
       return SourceSearchPage(hits: hits, hasMore: hasMore);
     }
     final String text =
         query.intent == SearchIntent.title && query.title.isNotEmpty
-            ? query.title
-            : query.forSource(id);
+        ? query.title
+        : query.forSource(id);
     if (text.trim().isEmpty) {
       return const SourceSearchPage(hits: <SearchHit>[], hasMore: false);
     }
@@ -118,20 +120,24 @@ class TmdbImageSource implements SearchSource {
       final TmdbWork? person = await _findPerson(text);
       if (person != null) {
         final _CreditPage credits = await _credits(person.id, page: 1);
-        hits.addAll(await _expandWorks(
-          credits.works.take(perPage).toList(),
-          expandLimit: 4,
-          groupOverride: '',
-        ));
+        hits.addAll(
+          await _expandWorks(
+            credits.works.take(perPage).toList(),
+            expandLimit: 4,
+            groupOverride: '',
+          ),
+        );
         return SourceSearchPage(hits: hits, hasMore: credits.hasMore);
       }
     }
     hasMore = works.hasMore;
-    hits.addAll(await _expandWorks(
-      works.works.take(perPage).toList(),
-      expandLimit: 4,
-      groupOverride: '',
-    ));
+    hits.addAll(
+      await _expandWorks(
+        works.works.take(perPage).toList(),
+        expandLimit: 4,
+        groupOverride: '',
+      ),
+    );
     return SourceSearchPage(hits: hits, hasMore: hasMore);
   }
 
@@ -192,8 +198,9 @@ class TmdbImageSource implements SearchSource {
     final List<SearchHit> hits = <SearchHit>[];
     for (var i = 0; i < works.length; i++) {
       final TmdbWork work = works[i];
-      final String group =
-          groupOverride.isNotEmpty ? groupOverride : work.title;
+      final String group = groupOverride.isNotEmpty
+          ? groupOverride
+          : work.title;
       if (i < expandLimit) {
         try {
           final List<SearchHit> stills = await _workImages(work, group);
@@ -204,23 +211,25 @@ class TmdbImageSource implements SearchSource {
         }
       }
       if (work.posterFull.isNotEmpty) {
-        hits.add(SearchHit(
-          id: hitId(id, '${work.mediaType}:${work.id}:poster'),
-          title: '${work.title}${work.year.isEmpty ? '' : '（${work.year}）'}',
-          thumbUrl: work.posterThumb,
-          fullUrl: work.posterFull,
-          sourceId: id,
-          sourceLabel: 'TMDB',
-          license: 'TMDB 海报（个人参考）',
-          commercialOk: false,
-          attribution: 'TMDB · ${work.title}',
-          sourcePageUrl: work.pageUrl,
-          width: 500,
-          height: 750,
-          group: group,
-          domain: ImageDomain.film,
-          imageType: 'poster',
-        ));
+        hits.add(
+          SearchHit(
+            id: hitId(id, '${work.mediaType}:${work.id}:poster'),
+            title: '${work.title}${work.year.isEmpty ? '' : '（${work.year}）'}',
+            thumbUrl: work.posterThumb,
+            fullUrl: work.posterFull,
+            sourceId: id,
+            sourceLabel: 'TMDB',
+            license: 'TMDB 海报（个人参考）',
+            commercialOk: false,
+            attribution: 'TMDB · ${work.title}',
+            sourcePageUrl: work.pageUrl,
+            width: 500,
+            height: 750,
+            group: group,
+            domain: ImageDomain.film,
+            imageType: 'poster',
+          ),
+        );
       }
     }
     return hits;
@@ -234,8 +243,11 @@ class TmdbImageSource implements SearchSource {
       }),
       options: _options(),
     );
-    final List<SearchHit> hits =
-        parseImages(res.data, work: work, group: group);
+    final List<SearchHit> hits = parseImages(
+      res.data,
+      work: work,
+      group: group,
+    );
     if (work.mediaType == 'tv') {
       // 剧集/动漫：补分集 stills（V3 关键来源，V6 保留）。
       try {
@@ -259,20 +271,28 @@ class TmdbImageSource implements SearchSource {
     for (final Object? item in results) {
       final Map<String, Object?> m = asMapSafe(item);
       final String mediaType = strSafe(
-          m['media_type'], m.containsKey('known_for') ? 'person' : 'movie');
-      final String date =
-          strSafe(m['release_date'], strSafe(m['first_air_date']));
-      final String title =
-          strSafe(m['title'], strSafe(m['name'], strSafe(m['original_title'])));
+        m['media_type'],
+        m.containsKey('known_for') ? 'person' : 'movie',
+      );
+      final String date = strSafe(
+        m['release_date'],
+        strSafe(m['first_air_date']),
+      );
+      final String title = strSafe(
+        m['title'],
+        strSafe(m['name'], strSafe(m['original_title'])),
+      );
       if (title.isEmpty) continue;
-      out.add(TmdbWork(
-        id: intSafe(m['id']),
-        mediaType: mediaType,
-        title: title,
-        year: date.length >= 4 ? date.substring(0, 4) : '',
-        posterPath: strSafe(m['poster_path']),
-        popularity: (m['popularity'] as num?)?.toDouble() ?? 0,
-      ));
+      out.add(
+        TmdbWork(
+          id: intSafe(m['id']),
+          mediaType: mediaType,
+          title: title,
+          year: date.length >= 4 ? date.substring(0, 4) : '',
+          posterPath: strSafe(m['poster_path']),
+          popularity: (m['popularity'] as num?)?.toDouble() ?? 0,
+        ),
+      );
     }
     return out;
   }
@@ -291,16 +311,20 @@ class TmdbImageSource implements SearchSource {
         final int workId = intSafe(m['id']);
         if (title.isEmpty || workId == 0) continue;
         if (!seen.add('$mediaType:$workId')) continue;
-        final String date =
-            strSafe(m['release_date'], strSafe(m['first_air_date']));
-        out.add(TmdbWork(
-          id: workId,
-          mediaType: mediaType,
-          title: title,
-          year: date.length >= 4 ? date.substring(0, 4) : '',
-          posterPath: strSafe(m['poster_path']),
-          popularity: (m['popularity'] as num?)?.toDouble() ?? 0,
-        ));
+        final String date = strSafe(
+          m['release_date'],
+          strSafe(m['first_air_date']),
+        );
+        out.add(
+          TmdbWork(
+            id: workId,
+            mediaType: mediaType,
+            title: title,
+            year: date.length >= 4 ? date.substring(0, 4) : '',
+            posterPath: strSafe(m['poster_path']),
+            popularity: (m['popularity'] as num?)?.toDouble() ?? 0,
+          ),
+        );
       }
     }
     out.sort((TmdbWork a, TmdbWork b) => b.popularity.compareTo(a.popularity));
@@ -320,24 +344,26 @@ class TmdbImageSource implements SearchSource {
       final String still = strSafe(m['still_path']);
       if (still.isEmpty) continue;
       final int no = intSafe(m['episode_number']);
-      out.add(SearchHit(
-        id: hitId('tmdb', still),
-        title: '$label · 第 ${no == 0 ? '?' : no} 集',
-        thumbUrl: 'https://image.tmdb.org/t/p/w300$still',
-        fullUrl: 'https://image.tmdb.org/t/p/w1280$still',
-        sourceId: 'tmdb',
-        sourceLabel: 'TMDB',
-        license: 'TMDB 剧照（个人参考）',
-        commercialOk: false,
-        attribution: 'TMDB · ${work.title}',
-        sourcePageUrl: work.pageUrl,
-        width: intSafe(m['width']),
-        height: intSafe(m['height']),
-        group: label,
-        domain: ImageDomain.film,
-        imageType: 'still',
-        extra: <String, Object?>{'episode': no},
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('tmdb', still),
+          title: '$label · 第 ${no == 0 ? '?' : no} 集',
+          thumbUrl: 'https://image.tmdb.org/t/p/w300$still',
+          fullUrl: 'https://image.tmdb.org/t/p/w1280$still',
+          sourceId: 'tmdb',
+          sourceLabel: 'TMDB',
+          license: 'TMDB 剧照（个人参考）',
+          commercialOk: false,
+          attribution: 'TMDB · ${work.title}',
+          sourcePageUrl: work.pageUrl,
+          width: intSafe(m['width']),
+          height: intSafe(m['height']),
+          group: label,
+          domain: ImageDomain.film,
+          imageType: 'still',
+          extra: <String, Object?>{'episode': no},
+        ),
+      );
     }
     return out;
   }
@@ -357,23 +383,25 @@ class TmdbImageSource implements SearchSource {
       final int w = intSafe(m['width']);
       final int h = intSafe(m['height']);
       final String label = group.isNotEmpty ? group : work.title;
-      out.add(SearchHit(
-        id: hitId('tmdb', path),
-        title: '$label · 剧照',
-        thumbUrl: 'https://image.tmdb.org/t/p/w300$path',
-        fullUrl: 'https://image.tmdb.org/t/p/w1280$path',
-        sourceId: 'tmdb',
-        sourceLabel: 'TMDB',
-        license: 'TMDB 剧照（个人参考）',
-        commercialOk: false,
-        attribution: 'TMDB · ${work.title}',
-        sourcePageUrl: work.pageUrl,
-        width: w,
-        height: h,
-        group: label,
-        domain: ImageDomain.film,
-        imageType: 'still',
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('tmdb', path),
+          title: '$label · 剧照',
+          thumbUrl: 'https://image.tmdb.org/t/p/w300$path',
+          fullUrl: 'https://image.tmdb.org/t/p/w1280$path',
+          sourceId: 'tmdb',
+          sourceLabel: 'TMDB',
+          license: 'TMDB 剧照（个人参考）',
+          commercialOk: false,
+          attribution: 'TMDB · ${work.title}',
+          sourcePageUrl: work.pageUrl,
+          width: w,
+          height: h,
+          group: label,
+          domain: ImageDomain.film,
+          imageType: 'still',
+        ),
+      );
     }
     return out;
   }

@@ -16,29 +16,32 @@ class _FakeAdapter implements HttpClientAdapter {
     RequestOptions options,
     Stream<Uint8List>? requestStream,
     Future<void>? cancelFuture,
-  ) =>
-      handler(options);
+  ) => handler(options);
 
   @override
   void close({bool force = false}) {}
 }
 
 ResponseBody _json(Object data) => ResponseBody.fromString(
-      jsonEncode(data),
-      200,
-      headers: <String, List<String>>{
-        Headers.contentTypeHeader: <String>[Headers.jsonContentType],
-      },
-    );
+  jsonEncode(data),
+  200,
+  headers: <String, List<String>>{
+    Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+  },
+);
 
 void main() {
   group('SemVer', () {
     test('主/次/修订与预发布', () {
       expect(SemVer.parse('1.1.0').isNewerThan(SemVer.parse('1.0.0')), isTrue);
-      expect(SemVer.parse('1.0.0').isNewerThan(SemVer.parse('1.0.0-rc.1')),
-          isTrue);
-      expect(SemVer.parse('1.0.0-rc.1').isNewerThan(SemVer.parse('1.0.0')),
-          isFalse);
+      expect(
+        SemVer.parse('1.0.0').isNewerThan(SemVer.parse('1.0.0-rc.1')),
+        isTrue,
+      );
+      expect(
+        SemVer.parse('1.0.0-rc.1').isNewerThan(SemVer.parse('1.0.0')),
+        isFalse,
+      );
       expect(SemVer.parse('v2.0.0').isNewerThan(SemVer.parse('1.9.9')), isTrue);
       expect(SemVer.parse('1.0.10').isNewerThan(SemVer.parse('1.0.9')), isTrue);
     });
@@ -79,11 +82,11 @@ void main() {
         }),
       );
       final checker = UpdateChecker(dio: dio);
-      final (UpdateState state, Announcement? announcement) =
-          await checker.check(
-        announcementUrl: 'https://cdn.example.com/announcements.json',
-        manual: true,
-      );
+      final (UpdateState state, Announcement? announcement) = await checker
+          .check(
+            announcementUrl: 'https://cdn.example.com/announcements.json',
+            manual: true,
+          );
       expect(state, UpdateState.hasUpdate);
       expect(announcement!.version, '1.2.0');
       expect(announcement.downloadFor('windows')!.mirror, contains('cdn'));
@@ -94,10 +97,9 @@ void main() {
     test('已是最新 → upToDate', () async {
       final dio = Dio();
       dio.httpClientAdapter = _FakeAdapter(
-          (RequestOptions options) async => _json(<String, Object?>{
-                'version': '1.0.0',
-                'notes': <String>[],
-              }));
+        (RequestOptions options) async =>
+            _json(<String, Object?>{'version': '1.0.0', 'notes': <String>[]}),
+      );
       final checker = UpdateChecker(dio: dio);
       final (UpdateState state, _) = await checker.check(
         announcementUrl: 'https://cdn.example.com/announcements.json',
@@ -158,17 +160,19 @@ void main() {
           <String, Object?>{
             'type': 'templates',
             'version': 2,
-            'url': 'https://x/templates.json'
+            'url': 'https://x/templates.json',
           },
           <String, Object?>{
             'type': 'poses',
             'version': 2,
-            'url': 'https://x/poses.json'
+            'url': 'https://x/poses.json',
           },
         ],
       });
-      final applied =
-          await checker.pullContentPacks(announcement, currentVersion: 1);
+      final applied = await checker.pullContentPacks(
+        announcement,
+        currentVersion: 1,
+      );
       expect(applied, 2);
     });
   });

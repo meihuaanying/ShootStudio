@@ -6,7 +6,7 @@ import 'source_utils.dart';
 /// Europeana 源（D98 Key 预留）：用户填入 wskey 即启用。
 class EuropeanaSource implements SearchSource {
   EuropeanaSource(this.apiKey, {Dio? dio})
-      : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
 
   final String apiKey;
   final Dio _dio;
@@ -17,14 +17,14 @@ class EuropeanaSource implements SearchSource {
   String get label => 'Europeana';
   @override
   SourceCapability get capability => const SourceCapability(
-        byTitle: true,
-        byPerson: true,
-        byKeyword: true,
-        hasLicenseFilter: true,
-        domains: <ImageDomain>{ImageDomain.art},
-        requiresKey: true,
-        keySettingId: 'search_key_europeana',
-      );
+    byTitle: true,
+    byPerson: true,
+    byKeyword: true,
+    hasLicenseFilter: true,
+    domains: <ImageDomain>{ImageDomain.art},
+    requiresKey: true,
+    keySettingId: 'search_key_europeana',
+  );
 
   @override
   bool get enabled => apiKey.trim().isNotEmpty;
@@ -67,30 +67,34 @@ class EuropeanaSource implements SearchSource {
     for (final Object? item in asListSafe(data['items'])) {
       final Map<String, Object?> m = asMapSafe(item);
       final String thumb = _first(m['edmPreview']);
-      final String full =
-          _first(m['edmIsShownBy']).isEmpty ? thumb : _first(m['edmIsShownBy']);
+      final String full = _first(m['edmIsShownBy']).isEmpty
+          ? thumb
+          : _first(m['edmIsShownBy']);
       if (full.isEmpty) continue;
       final String title = _first(m['title'], fallback: 'Europeana 藏品');
       final String creator = _first(m['dcCreator']);
       final String rights = _first(m['rights']);
-      final bool commercial = isCommercialLicense(rights) ||
+      final bool commercial =
+          isCommercialLicense(rights) ||
           rights.toLowerCase().contains('publicdomain');
       final String guid = strSafe(m['guid']);
-      out.add(SearchHit(
-        id: hitId('europeana', strSafe(m['id'], guid)),
-        title: title,
-        thumbUrl: thumb.isEmpty ? full : thumb,
-        fullUrl: full,
-        sourceId: 'europeana',
-        sourceLabel: 'Europeana',
-        license: rights.isEmpty ? 'Europeana（许可未知）' : rights,
-        licenseUrl: rights,
-        commercialOk: commercial,
-        attribution: 'Europeana${creator.isEmpty ? '' : ' · $creator'}',
-        sourcePageUrl: guid,
-        domain: ImageDomain.art,
-        imageType: 'artwork',
-      ));
+      out.add(
+        SearchHit(
+          id: hitId('europeana', strSafe(m['id'], guid)),
+          title: title,
+          thumbUrl: thumb.isEmpty ? full : thumb,
+          fullUrl: full,
+          sourceId: 'europeana',
+          sourceLabel: 'Europeana',
+          license: rights.isEmpty ? 'Europeana（许可未知）' : rights,
+          licenseUrl: rights,
+          commercialOk: commercial,
+          attribution: 'Europeana${creator.isEmpty ? '' : ' · $creator'}',
+          sourcePageUrl: guid,
+          domain: ImageDomain.art,
+          imageType: 'artwork',
+        ),
+      );
     }
     return out;
   }

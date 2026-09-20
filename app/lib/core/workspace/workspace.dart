@@ -18,7 +18,8 @@ final class Workspace {
     if (_instance != null) return _instance!;
     final base = await getApplicationDocumentsDirectory();
     final root = Directory(
-        p.join(base.path, Platform.isWindows ? 'ShootStudio' : 'workspace'));
+      p.join(base.path, Platform.isWindows ? 'ShootStudio' : 'workspace'),
+    );
     return _open(root);
   }
 

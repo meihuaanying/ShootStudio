@@ -3,9 +3,12 @@ import 'package:shoot_studio/features/planner/planner_diff.dart';
 import 'package:shoot_studio/features/planner/planner_models.dart';
 import 'package:shoot_studio/services/content_packs.dart';
 
-PlanModuleData _module(String id, PlanModuleType type, String title,
-        Map<String, Object?> data) =>
-    PlanModuleData(id: id, type: type, title: title, data: data);
+PlanModuleData _module(
+  String id,
+  PlanModuleType type,
+  String title,
+  Map<String, Object?> data,
+) => PlanModuleData(id: id, type: type, title: title, data: data);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -13,23 +16,28 @@ void main() {
   group('模块级 diff（D17）', () {
     test('新增 / 删除 / 修改 / 未变 四类变化', () {
       final base = <PlanModuleData>[
-        _module(
-            'm1', PlanModuleType.theme, '主题', <String, Object?>{'text': '旧文案'}),
+        _module('m1', PlanModuleType.theme, '主题', <String, Object?>{
+          'text': '旧文案',
+        }),
         _module('m2', PlanModuleType.budget, '预算', <String, Object?>{
           'rows': <Object?>[
             <String, Object?>{'item': '场地', 'price': 300},
           ],
         }),
-        _module('m3', PlanModuleType.crew, '分工',
-            <String, Object?>{'rows': <Object?>[]}),
+        _module('m3', PlanModuleType.crew, '分工', <String, Object?>{
+          'rows': <Object?>[],
+        }),
       ];
       final current = <PlanModuleData>[
-        _module(
-            'm1', PlanModuleType.theme, '主题', <String, Object?>{'text': '新文案'}),
-        _module('m3', PlanModuleType.crew, '分工',
-            <String, Object?>{'rows': <Object?>[]}),
-        _module('m4', PlanModuleType.poses, '姿势',
-            <String, Object?>{'poses': <Object?>[]}),
+        _module('m1', PlanModuleType.theme, '主题', <String, Object?>{
+          'text': '新文案',
+        }),
+        _module('m3', PlanModuleType.crew, '分工', <String, Object?>{
+          'rows': <Object?>[],
+        }),
+        _module('m4', PlanModuleType.poses, '姿势', <String, Object?>{
+          'poses': <Object?>[],
+        }),
       ];
       final diff = diffPlans(base, current);
       expect(diff.added, hasLength(1));
@@ -44,12 +52,14 @@ void main() {
 
     test('标题变化单独识别', () {
       final base = <PlanModuleData>[
-        _module(
-            'm1', PlanModuleType.theme, '旧标题', <String, Object?>{'text': 'x'})
+        _module('m1', PlanModuleType.theme, '旧标题', <String, Object?>{
+          'text': 'x',
+        }),
       ];
       final current = <PlanModuleData>[
-        _module(
-            'm1', PlanModuleType.theme, '新标题', <String, Object?>{'text': 'x'})
+        _module('m1', PlanModuleType.theme, '新标题', <String, Object?>{
+          'text': 'x',
+        }),
       ];
       final diff = diffPlans(base, current);
       expect(diff.changed.single.changedKeys, contains('标题'));
@@ -57,7 +67,9 @@ void main() {
 
     test('完全一致为空 diff', () {
       final modules = <PlanModuleData>[
-        _module('m1', PlanModuleType.theme, 'T', <String, Object?>{'text': 'x'})
+        _module('m1', PlanModuleType.theme, 'T', <String, Object?>{
+          'text': 'x',
+        }),
       ];
       expect(diffPlans(modules, modules).isEmpty, isTrue);
     });

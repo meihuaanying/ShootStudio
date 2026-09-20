@@ -24,13 +24,12 @@ class CharacterSelection {
     String? characterName,
     Object? hairId = _sentinel,
     Object? skinTone = _sentinel,
-  }) =>
-      CharacterSelection(
-        characterId: characterId ?? this.characterId,
-        characterName: characterName ?? this.characterName,
-        hairId: hairId == _sentinel ? this.hairId : hairId as String?,
-        skinTone: skinTone == _sentinel ? this.skinTone : skinTone as String?,
-      );
+  }) => CharacterSelection(
+    characterId: characterId ?? this.characterId,
+    characterName: characterName ?? this.characterName,
+    hairId: hairId == _sentinel ? this.hairId : hairId as String?,
+    skinTone: skinTone == _sentinel ? this.skinTone : skinTone as String?,
+  );
 
   static const Object _sentinel = Object();
 }
@@ -39,16 +38,17 @@ class CharacterSelection {
 Future<CharacterSelection?> showCharacterPicker(
   BuildContext context, {
   required CharacterSelection current,
-}) =>
-    showModalBottomSheet<CharacterSelection>(
-      context: context,
-      isScrollControlled: true,
-      builder: (_) => _CharacterPickerSheet(current: current),
-    );
+}) => showModalBottomSheet<CharacterSelection>(
+  context: context,
+  isScrollControlled: true,
+  builder: (_) => _CharacterPickerSheet(current: current),
+);
 
 /// 应用选择到 3D 引擎（含失败提示由引擎 error 事件负责）。
 Future<void> applyCharacterSelection(
-    EngineBridge? bridge, CharacterSelection selection) async {
+  EngineBridge? bridge,
+  CharacterSelection selection,
+) async {
   if (bridge == null) return;
   await bridge.setCharacter(selection.characterId);
   await bridge.setHair(selection.hairId);
@@ -115,9 +115,10 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SsSectionTitle('人物与服装',
-                subtitle:
-                    '写实人物（MakeHuman CC0，74k–85k 面）· 高面数 Quaternius 模型（CC0）'),
+            const SsSectionTitle(
+              '人物与服装',
+              subtitle: '写实人物（MakeHuman CC0，74k–85k 面）· 高面数 Quaternius 模型（CC0）',
+            ),
             const SizedBox(height: AppTokens.s12),
             if (!_loaded)
               const Center(child: CircularProgressIndicator(strokeWidth: 2))
@@ -138,10 +139,12 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                         badge: '写实',
                         selected: _selection.characterId == id,
                         theme: theme,
-                        onTap: () => setState(() => _selection =
-                            _selection.copyWith(
-                                characterId: id,
-                                characterName: '${c['name']}')),
+                        onTap: () => setState(
+                          () => _selection = _selection.copyWith(
+                            characterId: id,
+                            characterName: '${c['name']}',
+                          ),
+                        ),
                       );
                     }
                     final int ci = i - _realistic.length;
@@ -152,9 +155,12 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                         subtitle: '程序几何',
                         selected: legacy,
                         theme: theme,
-                        onTap: () => setState(() => _selection =
-                            _selection.copyWith(
-                                characterId: 'legacy', characterName: '轻量假人')),
+                        onTap: () => setState(
+                          () => _selection = _selection.copyWith(
+                            characterId: 'legacy',
+                            characterName: '轻量假人',
+                          ),
+                        ),
                       );
                     }
                     final Map<String, Object?> c = _characters[ci];
@@ -164,9 +170,12 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                       subtitle: '${c['tag']} · ${c['triCount']} 面',
                       selected: _selection.characterId == id,
                       theme: theme,
-                      onTap: () => setState(() => _selection =
-                          _selection.copyWith(
-                              characterId: id, characterName: '${c['name']}')),
+                      onTap: () => setState(
+                        () => _selection = _selection.copyWith(
+                          characterId: id,
+                          characterName: '${c['name']}',
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -182,14 +191,18 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                     label: '默认',
                     selected: _selection.hairId == null,
                     onTap: () => setState(
-                        () => _selection = _selection.copyWith(hairId: null)),
+                      () => _selection = _selection.copyWith(hairId: null),
+                    ),
                   ),
                   for (final Map<String, Object?> h in _hair)
                     SsChip(
                       label: '${h['name']}',
                       selected: _selection.hairId == '${h['id']}',
-                      onTap: () => setState(() => _selection =
-                          _selection.copyWith(hairId: '${h['id']}')),
+                      onTap: () => setState(
+                        () => _selection = _selection.copyWith(
+                          hairId: '${h['id']}',
+                        ),
+                      ),
                     ),
                 ],
               ),
@@ -201,8 +214,9 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                   const Text('肤色', style: TextStyle(fontSize: 12)),
                   for (final String hex in _skinTones)
                     InkWell(
-                      onTap: () => setState(() =>
-                          _selection = _selection.copyWith(skinTone: hex)),
+                      onTap: () => setState(
+                        () => _selection = _selection.copyWith(skinTone: hex),
+                      ),
                       child: Container(
                         width: 26,
                         height: 26,
@@ -227,8 +241,9 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                 const Spacer(),
                 SsButton(
                   label: '应用',
-                  onPressed:
-                      _loaded ? () => Navigator.pop(context, _selection) : null,
+                  onPressed: _loaded
+                      ? () => Navigator.pop(context, _selection)
+                      : null,
                 ),
               ],
             ),
@@ -245,62 +260,77 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
     required ThemeData theme,
     required VoidCallback onTap,
     String? badge,
-  }) =>
-      InkWell(
-        onTap: onTap,
+  }) => InkWell(
+    onTap: onTap,
+    borderRadius: BorderRadius.circular(AppTokens.rMd),
+    child: Container(
+      width: 118,
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: selected
+            ? AppTokens.accentSoft
+            : theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(AppTokens.rMd),
-        child: Container(
-          width: 118,
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: selected
-                ? AppTokens.accentSoft
-                : theme.colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(AppTokens.rMd),
-            border: Border.all(
-                color: selected ? AppTokens.accent : theme.colorScheme.outline),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        border: Border.all(
+          color: selected ? AppTokens.accent : theme.colorScheme.outline,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Icon(Icons.person_rounded,
-                      size: 30,
-                      color: selected
-                          ? AppTokens.accent
-                          : theme.colorScheme.onSurfaceVariant),
-                  const Spacer(),
-                  if (badge != null)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4, vertical: 1),
-                      decoration: BoxDecoration(
-                        color: AppTokens.accent.withValues(alpha: 0.16),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(badge,
-                          style: const TextStyle(
-                              fontSize: 9, color: AppTokens.accent)),
-                    ),
-                ],
+              Icon(
+                Icons.person_rounded,
+                size: 30,
+                color: selected
+                    ? AppTokens.accent
+                    : theme.colorScheme.onSurfaceVariant,
               ),
               const Spacer(),
-              Text(title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w700)),
-              Text(subtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 10, color: theme.colorScheme.onSurfaceVariant)),
+              if (badge != null)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 1,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppTokens.accent.withValues(alpha: 0.16),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    badge,
+                    style: const TextStyle(
+                      fontSize: 9,
+                      color: AppTokens.accent,
+                    ),
+                  ),
+                ),
             ],
           ),
-        ),
-      );
+          const Spacer(),
+          Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+          ),
+          Text(
+            subtitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 10,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 
-  Color _hex(String hex) => Color(0xFF000000 |
-      (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888));
+  Color _hex(String hex) => Color(
+    0xFF000000 |
+        (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888),
+  );
 }

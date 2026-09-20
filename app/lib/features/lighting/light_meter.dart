@@ -91,12 +91,14 @@ class LightMeter {
     final double power = light.type == 'panel'
         ? 5200
         : light.type == 'soft'
-            ? 3800
-            : 4600;
+        ? 3800
+        : 4600;
     final double modifier = _modifierAttenuation[light.modifier] ?? 1.0;
     final double base = (light.intensity / 100) * power * modifier;
-    final double distance =
-        math.max(0.6, math.sqrt(light.x * light.x + light.y * light.y));
+    final double distance = math.max(
+      0.6,
+      math.sqrt(light.x * light.x + light.y * light.y),
+    );
     // 柔光衰减较慢（大面积光源），硬光按平方反比。
     final double falloff = light.type == 'hard' ? 1.0 : 0.78;
     final double softening = 1 - (light.softness.clamp(0.02, 1) * 0.2);
@@ -104,8 +106,9 @@ class LightMeter {
   }
 
   static LightMeterReading compute(LightingSceneData scene) {
-    final List<DeviceSpec> lights =
-        scene.devices.where((DeviceSpec d) => d.isLight && d.on).toList();
+    final List<DeviceSpec> lights = scene.devices
+        .where((DeviceSpec d) => d.isLight && d.on)
+        .toList();
     if (lights.isEmpty) {
       return const LightMeterReading(
         keyLux: 0,
@@ -120,13 +123,13 @@ class LightMeter {
       );
     }
     const double ambient = 12; // 白棚环境底光
-    final List<double> luxes = lights
-        .map((DeviceSpec d) => _luxOf(d, ambient))
-        .toList()
-      ..sort((double a, double b) => b.compareTo(a));
+    final List<double> luxes =
+        lights.map((DeviceSpec d) => _luxOf(d, ambient)).toList()
+          ..sort((double a, double b) => b.compareTo(a));
     final double key = luxes.first;
-    final double fill =
-        luxes.skip(1).fold<double>(0, (double a, double b) => a + b);
+    final double fill = luxes
+        .skip(1)
+        .fold<double>(0, (double a, double b) => a + b);
     final double ev = math.log(key / 2.5) / math.ln2;
 
     final int iso = 100;
@@ -145,18 +148,19 @@ class LightMeter {
     final double fNumber = _nearestStop(aperture ?? 8);
 
     final double ratio = key / math.max(12, fill);
-    final String ratioLabel =
-        ratio >= 2 ? '${(ratio.round())}:1' : '${ratio.toStringAsFixed(1)}:1';
+    final String ratioLabel = ratio >= 2
+        ? '${(ratio.round())}:1'
+        : '${ratio.toStringAsFixed(1)}:1';
     final String mood = key > 900
         ? (ratio >= 4 ? '硬调·高反差' : '明亮·硬光')
         : key > 350
-            ? (ratio >= 4 ? '低调·戏剧感' : '柔和·自然')
-            : '暗调·氛围感';
+        ? (ratio >= 4 ? '低调·戏剧感' : '柔和·自然')
+        : '暗调·氛围感';
     final String advice = ratio >= 4
         ? '光比大：注意阴影补光或反光板距离'
         : ratio >= 2
-            ? '光比适中：可直接拍摄，留出面部转折'
-            : '光比小：画面偏平，可降低辅光或拉开主光';
+        ? '光比适中：可直接拍摄，留出面部转折'
+        : '光比小：画面偏平，可降低辅光或拉开主光';
     return LightMeterReading(
       keyLux: key,
       fillLux: fill,

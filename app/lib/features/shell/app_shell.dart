@@ -41,7 +41,10 @@ class _AppShellState extends ConsumerState<AppShell> {
     _NavItem('动作摆姿', Icons.accessibility_new_outlined, Icons.accessibility_new),
     _NavItem('资源库', Icons.grid_view_outlined, Icons.grid_view),
     _NavItem(
-        '策划案', Icons.dashboard_customize_outlined, Icons.dashboard_customize),
+      '策划案',
+      Icons.dashboard_customize_outlined,
+      Icons.dashboard_customize,
+    ),
     _NavItem('设置', Icons.tune_outlined, Icons.tune),
   ];
 
@@ -146,8 +149,11 @@ class _UpdateBanner extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         child: Row(
           children: <Widget>[
-            const Icon(Icons.system_update_alt_rounded,
-                size: 17, color: Colors.white),
+            const Icon(
+              Icons.system_update_alt_rounded,
+              size: 17,
+              color: Colors.white,
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -160,8 +166,10 @@ class _UpdateBanner extends ConsumerWidget {
             TextButton(
               onPressed: () =>
                   ref.read(updaterProvider.notifier).dismissBanner(),
-              child: const Text('下次再说',
-                  style: TextStyle(color: Colors.white70, fontSize: 12)),
+              child: const Text(
+                '下次再说',
+                style: TextStyle(color: Colors.white70, fontSize: 12),
+              ),
             ),
             FilledButton(
               onPressed: () {
@@ -176,8 +184,10 @@ class _UpdateBanner extends ConsumerWidget {
                 if (url.isEmpty) {
                   ssToast(context, '请前往官网下载 v${announcement.version}');
                 } else {
-                  launchUrl(Uri.parse(url),
-                      mode: LaunchMode.externalApplication);
+                  launchUrl(
+                    Uri.parse(url),
+                    mode: LaunchMode.externalApplication,
+                  );
                 }
               },
               style: FilledButton.styleFrom(
@@ -201,8 +211,11 @@ class _NavItem {
 }
 
 class _SideNav extends StatelessWidget {
-  const _SideNav(
-      {required this.items, required this.index, required this.onSelect});
+  const _SideNav({
+    required this.items,
+    required this.index,
+    required this.onSelect,
+  });
 
   final List<_NavItem> items;
   final int index;
@@ -235,22 +248,30 @@ class _SideNav extends StatelessWidget {
                   child: const Text(
                     '正',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 15),
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
                 const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('正片工坊',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w800)),
+                    Text(
+                      '正片工坊',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
                     Text(
                       'SHOOTSTUDIO',
                       style: TextStyle(
-                          fontSize: 9, letterSpacing: 1.6, color: Colors.grey),
+                        fontSize: 9,
+                        letterSpacing: 1.6,
+                        color: Colors.grey,
+                      ),
                     ),
                   ],
                 ),
@@ -261,8 +282,11 @@ class _SideNav extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
               '工作流',
-              style:
-                  TextStyle(fontSize: 10.5, letterSpacing: 1.2, color: muted),
+              style: TextStyle(
+                fontSize: 10.5,
+                letterSpacing: 1.2,
+                color: muted,
+              ),
             ),
           ),
           const SizedBox(height: 6),
@@ -272,8 +296,11 @@ class _SideNav extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
               '成案',
-              style:
-                  TextStyle(fontSize: 10.5, letterSpacing: 1.2, color: muted),
+              style: TextStyle(
+                fontSize: 10.5,
+                letterSpacing: 1.2,
+                color: muted,
+              ),
             ),
           ),
           const SizedBox(height: 6),
@@ -325,8 +352,9 @@ class _SideNav extends StatelessWidget {
               item.label,
               style: TextStyle(
                 fontSize: 13,
-                color:
-                    selected ? AppTokens.accent : theme.colorScheme.onSurface,
+                color: selected
+                    ? AppTokens.accent
+                    : theme.colorScheme.onSurface,
                 fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
               ),
             ),

@@ -39,13 +39,13 @@ class RichTextLite {
 
   /// 编辑器工具栏：对选区施加加粗。
   static ({String text, int selection}) toggleBold(
-      String text, int selectionStart, int selectionEnd) {
+    String text,
+    int selectionStart,
+    int selectionEnd,
+  ) {
     if (selectionStart == selectionEnd) {
       final String next = '$text**加粗文字**';
-      return (
-        text: next,
-        selection: selectionStart + 2 + '加粗文字'.length,
-      );
+      return (text: next, selection: selectionStart + 2 + '加粗文字'.length);
     }
     final String before = text.substring(0, selectionStart);
     final String selected = text.substring(selectionStart, selectionEnd);
@@ -56,15 +56,15 @@ class RichTextLite {
       final String plain = selected.substring(2, selected.length - 2);
       return (text: '$before$plain$after', selection: selectionEnd - 4);
     }
-    return (
-      text: '$before**$selected**$after',
-      selection: selectionEnd + 4,
-    );
+    return (text: '$before**$selected**$after', selection: selectionEnd + 4);
   }
 
   /// 编辑器工具栏：把选中行转为无序列表（前缀 `- `）。
   static ({String text, int selection}) toggleBullet(
-      String text, int selectionStart, int selectionEnd) {
+    String text,
+    int selectionStart,
+    int selectionEnd,
+  ) {
     final int lineStart =
         text.lastIndexOf('\n', selectionStart > 0 ? selectionStart - 1 : 0) + 1;
     final int lineEnd = text.indexOf('\n', selectionEnd);
@@ -76,13 +76,15 @@ class RichTextLite {
         .every((String l) => l.startsWith('- '));
     final String next = block
         .split('\n')
-        .map((String l) => l.trim().isEmpty
-            ? l
-            : allBullets
-                ? l.startsWith('- ')
+        .map(
+          (String l) => l.trim().isEmpty
+              ? l
+              : allBullets
+              ? l.startsWith('- ')
                     ? l.substring(2)
                     : l
-                : '- $l')
+              : '- $l',
+        )
         .join('\n');
     final String updated =
         text.substring(0, lineStart) + next + text.substring(end);
@@ -90,9 +92,9 @@ class RichTextLite {
   }
 
   /// 去除标记的纯文本（用于测试与校字）。
-  static String plain(String text) => parse(text)
-      .map((RichLine l) => l.spans.map((RichSpan s) => s.text).join())
-      .join('\n');
+  static String plain(String text) => parse(
+    text,
+  ).map((RichLine l) => l.spans.map((RichSpan s) => s.text).join()).join('\n');
 }
 
 class RichLine {

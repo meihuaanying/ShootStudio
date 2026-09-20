@@ -18,8 +18,8 @@ void main() {
   setUpAll(() {
     final File file = File('assets/content/gear/gear_photos2.json');
     expect(file.existsSync(), isTrue, reason: '缺 gear_photos2.json');
-    catalog =
-        (jsonDecode(file.readAsStringSync()) as Map).cast<String, Object?>();
+    catalog = (jsonDecode(file.readAsStringSync()) as Map)
+        .cast<String, Object?>();
     byId = (catalog['byId'] as Map).cast<String, Object?>();
     stats = (catalog['stats'] as Map).cast<String, Object?>();
     final Map<String, Object?> attr =
@@ -34,14 +34,17 @@ void main() {
 
   group('Q3 产品图', () {
     test('覆盖率：相机 / 镜头 ≥90%（D72/R27）', () {
-      final Map<String, Object?> coverage =
-          (stats['coverage'] as Map).cast<String, Object?>();
+      final Map<String, Object?> coverage = (stats['coverage'] as Map)
+          .cast<String, Object?>();
       for (final String kind in <String>['camera', 'lens']) {
-        final Map<String, Object?> c =
-            (coverage[kind] as Map).cast<String, Object?>();
+        final Map<String, Object?> c = (coverage[kind] as Map)
+            .cast<String, Object?>();
         final double ratio = (c['ratio'] as num).toDouble();
-        expect(ratio, greaterThanOrEqualTo(0.90),
-            reason: '$kind 覆盖率 ${(ratio * 100).toStringAsFixed(1)}% < 90%');
+        expect(
+          ratio,
+          greaterThanOrEqualTo(0.90),
+          reason: '$kind 覆盖率 ${(ratio * 100).toStringAsFixed(1)}% < 90%',
+        );
         expect((c['covered'] as num).toInt(), greaterThan(0));
       }
       // 未覆盖项必须可枚举（UI 标注「缺图/插画」）。
@@ -71,8 +74,11 @@ void main() {
         expect(diskFiles, contains(file), reason: '内置图缺文件：$file');
         totalBytes += File('assets/content/gear/photo2/$file').lengthSync();
       }
-      expect(totalBytes, lessThanOrEqualTo(15 * 1024 * 1024),
-          reason: '内置产品图超 15MB 预算');
+      expect(
+        totalBytes,
+        lessThanOrEqualTo(15 * 1024 * 1024),
+        reason: '内置产品图超 15MB 预算',
+      );
       // D1：包内只保留内置文件（其余走素材同步，不入包）。
       for (final String disk in diskFiles) {
         expect(
@@ -99,48 +105,70 @@ void main() {
         'Pexels License',
       };
       int withFile = 0;
-      for (final Map<String, Object?> item in byId.values
-          .whereType<Map>()
-          .map((Map m) => m.cast<String, Object?>())) {
+      for (final Map<String, Object?> item in byId.values.whereType<Map>().map(
+        (Map m) => m.cast<String, Object?>(),
+      )) {
         final String file = item['file'] as String? ?? '';
         if (file.isEmpty) continue;
         withFile++;
         expect(item['license'], isNotNull, reason: '${item['id']} 缺许可');
-        expect(item['author'] as String? ?? '', isNotEmpty,
-            reason: '${item['id']} 缺署名');
-        expect('${item['license']}'.toUpperCase(), isNot(contains('NC')),
-            reason: '${item['id']} 禁 NC 数据（R24）');
-        expect(allowed, contains('${item['license']}'),
-            reason: '${item['id']} 许可不在白名单');
-        expect(item['tier'], anyOf('product', 'series'),
-            reason: '${item['id']} 缺 tier 标注（R19）');
+        expect(
+          item['author'] as String? ?? '',
+          isNotEmpty,
+          reason: '${item['id']} 缺署名',
+        );
+        expect(
+          '${item['license']}'.toUpperCase(),
+          isNot(contains('NC')),
+          reason: '${item['id']} 禁 NC 数据（R24）',
+        );
+        expect(
+          allowed,
+          contains('${item['license']}'),
+          reason: '${item['id']} 许可不在白名单',
+        );
+        expect(
+          item['tier'],
+          anyOf('product', 'series'),
+          reason: '${item['id']} 缺 tier 标注（R19）',
+        );
         // 署名登记（attribution.json：file 或来源页至少其一可查）。
         final bool registered =
             attributedFiles.contains('assets/content/gear/photo2/$file') ||
-                attributedFiles.contains('${item['pageUrl'] ?? ''}') ||
-                attributedFiles.contains('${item['sourceUrl'] ?? ''}');
-        expect(registered, isTrue,
-            reason: '${item['id']} 未登记 attribution.json');
+            attributedFiles.contains('${item['pageUrl'] ?? ''}') ||
+            attributedFiles.contains('${item['sourceUrl'] ?? ''}');
+        expect(
+          registered,
+          isTrue,
+          reason: '${item['id']} 未登记 attribution.json',
+        );
       }
       expect(withFile, greaterThanOrEqualTo(200));
-      final Map<String, Object?> tier =
-          (stats['tier'] as Map).cast<String, Object?>();
-      expect((tier['product'] as num).toInt(),
-          greaterThan((tier['series'] as num).toInt()),
-          reason: '应以产品图为主（不允许氛围图冒充，R19）');
+      final Map<String, Object?> tier = (stats['tier'] as Map)
+          .cast<String, Object?>();
+      expect(
+        (tier['product'] as num).toInt(),
+        greaterThan((tier['series'] as num).toInt()),
+        reason: '应以产品图为主（不允许氛围图冒充，R19）',
+      );
     });
 
     test('运行时同步：非内置条目带 runtimeUrl（D73）', () {
       final List<Map<String, Object?>> rest = byId.values
           .whereType<Map>()
           .map((Map m) => m.cast<String, Object?>())
-          .where((Map<String, Object?> v) =>
-              v['builtin'] != true && v['file'] != null)
+          .where(
+            (Map<String, Object?> v) =>
+                v['builtin'] != true && v['file'] != null,
+          )
           .toList();
       expect(rest.length, greaterThan(100));
       for (final Map<String, Object?> item in rest) {
-        expect('${item['runtimeUrl'] ?? ''}', isNotEmpty,
-            reason: '${item['id']} 缺 runtimeUrl，无法素材同步');
+        expect(
+          '${item['runtimeUrl'] ?? ''}',
+          isNotEmpty,
+          reason: '${item['id']} 缺 runtimeUrl，无法素材同步',
+        );
       }
     });
 
@@ -154,15 +182,22 @@ void main() {
       int sampled = 0;
       for (int i = 0; i < builtin.length && sampled < 12; i += step) {
         final String file = '${builtin[i]['file']}';
-        final Uint8List bytes =
-            File('assets/content/gear/photo2/$file').readAsBytesSync();
+        final Uint8List bytes = File(
+          'assets/content/gear/photo2/$file',
+        ).readAsBytesSync();
         final (int, int) size = _jpegSize(bytes);
         final int longEdge = size.$1 > size.$2 ? size.$1 : size.$2;
-        expect(longEdge, inInclusiveRange(800, 1200),
-            reason: '$file 长边 $longEdge 越界');
+        expect(
+          longEdge,
+          inInclusiveRange(800, 1200),
+          reason: '$file 长边 $longEdge 越界',
+        );
         final double aspect = size.$1 / size.$2;
-        expect(aspect, inInclusiveRange(1.28, 1.38),
-            reason: '$file 长宽比 $aspect 非 4:3');
+        expect(
+          aspect,
+          inInclusiveRange(1.28, 1.38),
+          reason: '$file 长宽比 $aspect 非 4:3',
+        );
 
         final img.Image? decoded = img.decodeImage(bytes);
         expect(decoded, isNotNull, reason: '$file 解码失败');

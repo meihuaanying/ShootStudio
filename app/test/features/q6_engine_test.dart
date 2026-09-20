@@ -19,9 +19,11 @@ void main() {
       bridge.events.listen(events.add);
 
       bridge.handleMessage(
-          '{"type":"error","message":"角色模型加载失败","fatal":false,"source":"character"}');
+        '{"type":"error","message":"角色模型加载失败","fatal":false,"source":"character"}',
+      );
       bridge.handleMessage(
-          '{"type":"error","message":"引擎引导失败","fatal":true,"source":"boot"}');
+        '{"type":"error","message":"引擎引导失败","fatal":true,"source":"boot"}',
+      );
       await pumpEventQueue();
 
       expect(events.length, 2);
@@ -40,7 +42,8 @@ void main() {
       bridge.events.listen(events.add);
 
       bridge.handleMessage(
-          '{"type":"engineHeartbeat","frames":321,"fps":59,"memory":{"usedMB":128.5}}');
+        '{"type":"engineHeartbeat","frames":321,"fps":59,"memory":{"usedMB":128.5}}',
+      );
       await pumpEventQueue();
 
       final EngineHeartbeat hb = events.single as EngineHeartbeat;
@@ -55,7 +58,8 @@ void main() {
       final List<EngineEvent> events = <EngineEvent>[];
       bridge.events.listen(events.add);
       bridge.handleMessage(
-          '{"type":"engineConsole","level":"error","message":"THREE.WebGLRenderer: context lost"}');
+        '{"type":"engineConsole","level":"error","message":"THREE.WebGLRenderer: context lost"}',
+      );
       await pumpEventQueue();
       final EngineConsole c = events.single as EngineConsole;
       expect(c.level, 'error');
@@ -66,8 +70,9 @@ void main() {
 
   group('引擎 bundle 静态门禁（V6 阶段 A）', () {
     test('bundle 含错误分级/心跳/缓存/性能档特征串', () {
-      final String js =
-          File('assets/engine/js/engine.bundle.js').readAsStringSync();
+      final String js = File(
+        'assets/engine/js/engine.bundle.js',
+      ).readAsStringSync();
       for (final String token in <String>[
         'engineHeartbeat',
         'getEngineStats',
@@ -79,12 +84,19 @@ void main() {
         expect(js.contains(token), isTrue, reason: '引擎缺少 $token');
       }
       // 控制台落盘在 Dart 侧（WebView onConsoleMessage）。
-      final String view =
-          File('lib/services/engine/engine_view.dart').readAsStringSync();
-      expect(view.contains('onConsoleMessage'), isTrue,
-          reason: 'engine_view 缺少控制台转发');
-      expect(view.contains('_heartbeatTimeout'), isTrue,
-          reason: 'engine_view 缺少心跳超时监控');
+      final String view = File(
+        'lib/services/engine/engine_view.dart',
+      ).readAsStringSync();
+      expect(
+        view.contains('onConsoleMessage'),
+        isTrue,
+        reason: 'engine_view 缺少控制台转发',
+      );
+      expect(
+        view.contains('_heartbeatTimeout'),
+        isTrue,
+        reason: 'engine_view 缺少心跳超时监控',
+      );
       // 错误来源字符串（minify 保留字符串字面量）。
       expect(js.contains('character'), isTrue);
       expect(js.contains('boot'), isTrue);
@@ -109,14 +121,19 @@ void main() {
     });
 
     test('默认 auto + 持久化 + 非法值回退', () async {
-      final LightingController controller =
-          container.read(lightingControllerProvider.notifier);
-      expect(container.read(lightingControllerProvider).performanceProfile,
-          'auto');
+      final LightingController controller = container.read(
+        lightingControllerProvider.notifier,
+      );
+      expect(
+        container.read(lightingControllerProvider).performanceProfile,
+        'auto',
+      );
 
       await controller.setPerformanceProfile('low');
       expect(
-          container.read(lightingControllerProvider).performanceProfile, 'low');
+        container.read(lightingControllerProvider).performanceProfile,
+        'low',
+      );
       expect(await db.getSetting('quality_performance_profile'), 'low');
 
       final ProviderContainer container2 = ProviderContainer(
@@ -124,12 +141,16 @@ void main() {
       );
       addTearDown(container2.dispose);
       await container2.read(lightingControllerProvider.notifier).init();
-      expect(container2.read(lightingControllerProvider).performanceProfile,
-          'low');
+      expect(
+        container2.read(lightingControllerProvider).performanceProfile,
+        'low',
+      );
 
       await controller.setPerformanceProfile('bogus');
-      expect(container.read(lightingControllerProvider).performanceProfile,
-          'auto');
+      expect(
+        container.read(lightingControllerProvider).performanceProfile,
+        'auto',
+      );
     });
   });
 }

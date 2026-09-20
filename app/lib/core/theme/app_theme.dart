@@ -6,24 +6,24 @@ import 'tokens.dart';
 /// 明暗双主题 ThemeData 构建器（D12）。
 abstract final class AppTheme {
   static ThemeData light() => _build(
-        brightness: Brightness.light,
-        bg: AppTokens.lightBg,
-        surface: AppTokens.lightSurface,
-        card: AppTokens.lightCard,
-        ink: AppTokens.lightInk,
-        muted: AppTokens.lightMuted,
-        rule: AppTokens.lightRule,
-      );
+    brightness: Brightness.light,
+    bg: AppTokens.lightBg,
+    surface: AppTokens.lightSurface,
+    card: AppTokens.lightCard,
+    ink: AppTokens.lightInk,
+    muted: AppTokens.lightMuted,
+    rule: AppTokens.lightRule,
+  );
 
   static ThemeData dark() => _build(
-        brightness: Brightness.dark,
-        bg: AppTokens.darkBg,
-        surface: AppTokens.darkSurface,
-        card: AppTokens.darkCard,
-        ink: AppTokens.darkInk,
-        muted: AppTokens.darkMuted,
-        rule: AppTokens.darkRule,
-      );
+    brightness: Brightness.dark,
+    bg: AppTokens.darkBg,
+    surface: AppTokens.darkSurface,
+    card: AppTokens.darkCard,
+    ink: AppTokens.darkInk,
+    muted: AppTokens.darkMuted,
+    rule: AppTokens.darkRule,
+  );
 
   static ThemeData _build({
     required Brightness brightness,
@@ -76,8 +76,10 @@ abstract final class AppTheme {
         filled: true,
         fillColor: surface,
         hintStyle: TextStyle(color: muted, fontSize: 14),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 12,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppTokens.rMd),
           borderSide: BorderSide(color: rule),
@@ -97,7 +99,8 @@ abstract final class AppTheme {
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppTokens.rMd)),
+            borderRadius: BorderRadius.circular(AppTokens.rMd),
+          ),
           textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
       ),
@@ -107,7 +110,8 @@ abstract final class AppTheme {
           side: BorderSide(color: rule),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppTokens.rMd)),
+            borderRadius: BorderRadius.circular(AppTokens.rMd),
+          ),
         ),
       ),
       chipTheme: ChipThemeData(
@@ -116,7 +120,8 @@ abstract final class AppTheme {
         side: BorderSide(color: rule),
         labelStyle: TextStyle(color: ink, fontSize: 13),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppTokens.rSm)),
+          borderRadius: BorderRadius.circular(AppTokens.rSm),
+        ),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
@@ -124,11 +129,13 @@ abstract final class AppTheme {
             ? AppTokens.darkCard
             : AppTokens.lightInk,
         contentTextStyle: TextStyle(
-            color: brightness == Brightness.dark
-                ? AppTokens.darkInk
-                : Colors.white),
+          color: brightness == Brightness.dark
+              ? AppTokens.darkInk
+              : Colors.white,
+        ),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppTokens.rMd)),
+          borderRadius: BorderRadius.circular(AppTokens.rMd),
+        ),
       ),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
