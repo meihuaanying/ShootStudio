@@ -1,9 +1,9 @@
-# 正片工坊 ShootStudio —— 交接文档（V5 已完成，v1.1.0）
+# 正片工坊 ShootStudio —— 交接文档（V6 进行中，v1.1.0 基线）
 
-> **V5 已完成并发布 v1.1.0**：请优先阅读 [`HANDOFF_V5.md`](HANDOFF_V5.md)（搜索可用性 + DoH 隧道 + 环境光/手部 + 写实材质/HDRI/接触阴影）。
-> 更新：2026-09-17（V5 收尾发布） ｜ 版本：`1.1.0+6`
+> **V6 进行中**：请优先阅读 [`HANDOFF_V6.md`](HANDOFF_V6.md) 与 [`FIX_CONTRACT_V6.0.md`](FIX_CONTRACT_V6.0.md)（搜索重做 + 3D 稳定/建模 + 端上识别 + 资源库图，目标 v1.2.0）。
+> 更新：2026-09-19（V6 A/B 完成） ｜ 版本基线：`1.1.0+6`
 > 仓库：`D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter 应用在 `app/`，官网在 `web/`，证据与文档在 `docs/`）
-> 约束文件（必读，优先级从新到旧）：`FIX_CONTRACT_V5.0.md` → `FIX_CONTRACT_V4.0.md` → `FIX_CONTRACT_V3.0.md` → `FIX_CONTRACT_V2.0.md` → `FIX_CONTRACT_V1.0.1.md` → `BUILD_CONTRACT.md`
+> 约束文件（必读，优先级从新到旧）：`FIX_CONTRACT_V6.0.md` → `FIX_CONTRACT_V5.0.md` → `FIX_CONTRACT_V4.0.md` → `FIX_CONTRACT_V3.0.md` → `FIX_CONTRACT_V2.0.md` → `FIX_CONTRACT_V1.0.1.md` → `BUILD_CONTRACT.md`
 
 ---
 
