@@ -25,7 +25,7 @@ class QueryTranslator {
     final Object? cached = cache[input];
     if (cached is String && cached.isNotEmpty) return cached;
 
-    final RuntimeProvider? provider = await _defaultProvider();
+    final RuntimeProvider? provider = await defaultProvider();
     if (provider == null) return '';
     try {
       final AiCallResult result = await AiClient()
@@ -68,7 +68,8 @@ class QueryTranslator {
       .replaceAll(RegExp(r'\s+'), ' ')
       .trim();
 
-  Future<RuntimeProvider?> _defaultProvider() async {
+  /// 默认 AI 提供方（按 priority；未配置/无 Key 返回 null）。
+  Future<RuntimeProvider?> defaultProvider() async {
     final List<ProviderConfig> rows =
         await _db.select(_db.providerConfigs).get();
     rows.sort((ProviderConfig a, ProviderConfig b) =>

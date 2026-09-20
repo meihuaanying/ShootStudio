@@ -244,6 +244,7 @@
 | 2026-09-19 | — | V6 合同建立：D94–D131（41 项用户确认）；本机实测图源可达性；完成引擎崩溃根因诊断（实例缓存泄漏 + 错误误判降级）与布光不还原根因诊断（瞄准数学 + 预设朝向全 0） | 本文件 §0；诊断分析；源探测记录 |
 | 2026-09-19 | A（②） | 引擎稳定化完成：实例/GLB LRU（≤2/≤3）+ 级联 dispose + 角色失败自动清缓存重试；错误分级（fatal 透传，局部错误不再降级整页）；JS 错误/控制台/心跳全量落盘；心跳超时自动重载（≤2 次）；性能档 auto/high/low；诊断包导出（错误面板+设置页） | `docs/qa/engine-mem-2026-09-19-08-29-56.json`（23 角色切换 0 失败，LRU PASS，堆增长 PASS）；`q6_engine_test` 5/5；全量 191+1；`engine.bundle.js` 950.7KB |
 | 2026-09-19 | B（③） | 3D 建模与布光重写完成：新增 `aim.js`（纯函数瞄准数学）+ `rig.js`（参数化灯架/灯头/控光件/相机机位）；`lights.js` 重写（几何自动瞄准、16 种控光件、光锥可视化、软硬阴影随附件、色片/旗板）；相机机位 + POV + 俯视图视野扇形；27 套预设重写/扩充（含 4 套新预设）；测光表按控光件衰减校准 | `tool/test_aim.mjs` ALL PASS（已入 CI）；`docs/screenshots/lighting-v6/`（27 after + 4 before）；`q6_lighting_test` 8/8；全量 199+1；CI 新增 Node 瞄准单测步骤 |
+| 2026-09-20 | C（①） | 搜索重做完成：新增 `lib/services/search/`（统一 `SourceCapability` + 13 源：TMDB 升级/人名、Pexels、AniList、Met、芝加哥、克利夫兰、V&A、WikiArt、Artvee + Europeana/Smithsonian/Harvard/Rijks 预留 Key；`QueryPlanner` 意图分类 + 人名表 + 词表 + 拼音兜底 + AI 翻译 + LRU 缓存；`ResultRanker` 源权重/匹配分/分辨率/许可/URL+感知哈希去重；`ImageToSearch` AI 视觉描述→多源搜+降级；24 主题包；`SearchCache` 5GB LRU 缩略图/原图分目录；`SearchEngine` 并发聚合逐源状态）；`refs_page` 搜索弹窗升级为独立「搜图工作台」（三 Tab/人名按作品分组/每源 chips 重试/仅可商用筛选/一键加入参考画面/历史收藏/免责声明）；设置页新增 4 个预留 Key + 缓存上限与清理；AI 策划自动附 5–10 张参考图（含来源许可，可换删）。偏差澄清：TMDB 为多语源（`language=zh-CN`）接受中文原名/人名，其余英文源一律词表/人名表/拼音/AI，符合 R46 语义 | `q6_search_test` 31/31（全部离线 fixture）；live 22/22（中/英/人名/主题）→ `docs/qa/search-live-2026-09-20T14-32-56.txt`；全量 230 passed + 23 skipped（live 默认跳过）；format/analyze 0 问题 |
 |  |  |  |  |
 
 ---

@@ -184,6 +184,137 @@ class AiClient {
     }
   }
 
+  /// 视觉调用（D96/D116 以图搜图）：OpenAI 兼容 content 数组 / Anthropic image block。
+  /// 不支持图片输入的提供方会返回失败（由调用方提示切换或降级文本，不静默失败）。
+  Future<AiCallResult> chatWithImage({
+    required RuntimeProvider provider,
+    required String systemPrompt,
+    required String userPrompt,
+    required String imageBase64,
+    String imageMime = 'image/jpeg',
+    int maxTokens = 512,
+  }) async {
+    final started = DateTime.now();
+    int latency() => DateTime.now().difference(started).inMilliseconds;
+    try {
+      final Response<Map<String, dynamic>> response;
+      if (provider.protocol == 'anthropic') {
+        response = await _dio.post<Map<String, dynamic>>(
+          '${_normalize(provider)}/v1/messages',
+          options: Options(headers: _headers(provider)),
+          data: <String, Object?>{
+            'model': provider.model,
+            'max_tokens': maxTokens,
+            'system': systemPrompt,
+            'messages': <Object?>[
+              <String, Object?>{
+                'role': 'user',
+                'content': <Object?>[
+                  <String, Object?>{
+                    'type': 'image',
+                    'source': <String, Object?>{
+                      'type': 'base64',
+                      'media_type': imageMime,
+                      'data': imageBase64,
+                    },
+                  },
+                  <String, Object?>{'type': 'text', 'text': userPrompt},
+                ],
+              },
+            ],
+          },
+        );
+      } else {
+        response = await _dio.post<Map<String, dynamic>>(
+          '${_normalize(provider)}/chat/completions',
+          options: Options(headers: _headers(provider)),
+          data: <String, Object?>{
+            'model': provider.model,
+            'max_tokens': maxTokens,
+            'messages': <Object?>[
+              <String, Object?>{'role': 'system', 'content': systemPrompt},
+              <String, Object?>{
+                'role': 'user',
+                'content': <Object?>[
+                  <String, Object?>{'type': 'text', 'text': userPrompt},
+                  <String, Object?>{
+                    'type': 'image_url',
+                    'image_url': <String, Object?>{
+                      'url': 'data:$imageMime;base64,$imageBase64',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        );
+      }
+      final data = response.data ?? <String, dynamic>{};
+      final usage = data['usage'] is Map
+          ? (data['usage'] as Map).cast<String, Object?>()
+          : <String, Object?>{};
+      final buffer = StringBuffer();
+      if (provider.protocol == 'anthropic') {
+        final contentField = data['content'];
+        if (contentField is List) {
+          for (final Object? block in contentField) {
+            if (block is Map && block['type'] == 'text') {
+              buffer.write(block['text']);
+            }
+          }
+        }
+      } else {
+        final choices = data['choices'];
+        if (choices is List && choices.isNotEmpty && choices.first is Map) {
+          final message = (choices.first as Map)['message'];
+          if (message is Map) {
+            final content = message['content'];
+            if (content is String) {
+              buffer.write(content);
+            } else if (content is List) {
+              for (final Object? part in content) {
+                if (part is Map && part['text'] != null) {
+                  buffer.write(part['text']);
+                }
+              }
+            }
+          }
+        }
+      }
+      final content = buffer.toString().trim();
+      final Object? promptUsage =
+          usage['prompt_tokens'] ?? usage['input_tokens'];
+      final Object? completionUsage =
+          usage['completion_tokens'] ?? usage['output_tokens'];
+      return AiCallResult(
+        success: content.isNotEmpty,
+        providerId: provider.id,
+        model: provider.model,
+        latencyMs: latency(),
+        content: content,
+        promptTokens: promptUsage is num ? promptUsage.toInt() : 0,
+        completionTokens: completionUsage is num ? completionUsage.toInt() : 0,
+        error: content.isEmpty ? '视觉返回为空（提供方可能不支持图片输入）' : '',
+      );
+    } on DioException catch (e) {
+      return AiCallResult(
+        success: false,
+        providerId: provider.id,
+        model: provider.model,
+        latencyMs: latency(),
+        error: _describeDioError(e),
+      );
+    } catch (e) {
+      return AiCallResult(
+        success: false,
+        providerId: provider.id,
+        model: provider.model,
+        latencyMs: latency(),
+        error: '$e',
+      );
+    }
+  }
+
   /// OpenAI 兼容的结构化输出链：json_schema(strict) → json_object → 纯提示。
   Future<AiCallResult> _openAiStructured({
     required RuntimeProvider provider,

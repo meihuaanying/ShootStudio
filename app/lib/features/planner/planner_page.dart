@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -19,6 +20,7 @@ import '../../services/geocoding.dart';
 import '../../services/image_store.dart';
 import '../../services/palette_extractor.dart';
 import '../../services/richtext_lite.dart';
+import '../../services/search/planner_refs.dart';
 import '../../services/solar_calculator.dart';
 import '../lighting/lighting_controller.dart';
 import '../poses/pose_skeleton.dart';
@@ -63,6 +65,54 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
     });
   }
 
+  /// AI 策划联动（D121）：插入模块后按主题自动搜集 5–10 张参考图。
+  Future<void> _autoCollectRefs(List<PlanModuleData> inserted) async {
+    if (!mounted) return;
+    String theme = '';
+    for (final PlanModuleData m in inserted) {
+      if (m.type == PlanModuleType.theme) {
+        theme = (m.data['text'] as String? ?? '').trim();
+        if (theme.isNotEmpty) break;
+      }
+    }
+    if (theme.isEmpty) return;
+    final PlannerState state = ref.read(plannerControllerProvider);
+    PlanModuleData? target;
+    for (final PlanModuleData m in state.modules.reversed) {
+      if (m.type == PlanModuleType.refs) {
+        target = m;
+        break;
+      }
+    }
+    if (target == null) return;
+    ssToast(context, '正在为主题自动搜集参考图（5–10 张）…');
+    try {
+      final PlannerRefsService service = PlannerRefsService(
+        db: ref.read(databaseProvider),
+        workspaceRoot: ref.read(workspaceProvider).root.path,
+      );
+      final List<Map<String, Object?>> entries =
+          await service.searchForTheme(theme, target: 8);
+      if (!mounted) return;
+      if (entries.isEmpty) {
+        ssToast(context, '自动参考图未搜集到（可检查网络/Key，或在搜图工作台手动搜索）');
+        return;
+      }
+      final String targetId = target.id;
+      ref.read(plannerControllerProvider.notifier).updateModule(targetId,
+          (PlanModuleData m) {
+        final List<Object?> list = <Object?>[
+          ...(m.data['refs'] as List? ?? <Object?>[]),
+          ...entries,
+        ];
+        m.data['refs'] = list;
+      });
+      ssToast(context, '已自动附入 ${entries.length} 张参考图（含来源与许可，可换/删）');
+    } catch (e) {
+      if (mounted) ssToast(context, '自动参考图失败：$e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(plannerControllerProvider);
@@ -82,6 +132,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
             builder: (BuildContext ctx) => AiPanel(
               onInsertAll: (List<PlanModuleData> modules) {
                 controller.insertModules(modules);
+                unawaited(_autoCollectRefs(modules));
               },
               onInsertModule: (PlanModuleData module) {
                 controller.insertModule(module);

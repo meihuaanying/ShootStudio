@@ -14,6 +14,7 @@ import '../../app.dart';
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
 import '../../core/theme/tokens.dart';
+import '../../services/search/search_cache.dart';
 import '../ai/ai_controller.dart';
 import '../onboarding/demo_content.dart';
 import '../updater/updater.dart';
@@ -465,6 +466,11 @@ class _AssetSourcesCard extends ConsumerStatefulWidget {
 class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
   final TextEditingController _pexels = TextEditingController();
   final TextEditingController _tmdb = TextEditingController();
+  final TextEditingController _europeana = TextEditingController();
+  final TextEditingController _smithsonian = TextEditingController();
+  final TextEditingController _harvard = TextEditingController();
+  final TextEditingController _rijks = TextEditingController();
+  final TextEditingController _cacheLimit = TextEditingController();
   final TextEditingController _proxy = TextEditingController();
   final TextEditingController _packDir = TextEditingController();
   final TextEditingController _gearDir = TextEditingController();
@@ -473,6 +479,8 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
   String _netMode = 'auto';
   bool _probing = false;
   List<String> _probeResults = <String>[];
+  int _cacheBytes = 0;
+  int _cacheFiles = 0;
 
   @override
   void initState() {
@@ -481,21 +489,39 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
       final AppDatabase db = ref.read(databaseProvider);
       final String? p = await db.getSetting('image_pexels_key');
       final String? t = await db.getSetting('image_tmdb_key');
+      final String eu = await db.getSetting('search_key_europeana') ?? '';
+      final String si = await db.getSetting('search_key_smithsonian') ?? '';
+      final String ha = await db.getSetting('search_key_harvard') ?? '';
+      final String rk = await db.getSetting('search_key_rijks') ?? '';
+      final String cacheLimit =
+          await db.getSetting(SearchCache.limitSettingKey) ?? '';
       final String proxy = await db.getSetting('proxy_url') ?? '';
       final String pack = await db.getSetting('user_pack_dir') ?? '';
       final String gear = await db.getSetting('gear_image_dir') ?? '';
       final String netMode = await db.getSetting('net_mode') ?? 'auto';
       final NetConfig defaults = await loadNetConfig();
       final List<Map<String, Object?>> items = await _loadAttribution();
+      final SearchCache cache =
+          await SearchCache.from(db, ref.read(workspaceProvider).root.path);
+      final int bytes = await cache.totalBytes();
+      final int files = await cache.fileCount();
       if (!mounted) return;
       setState(() {
         _pexels.text = (p ?? '').isNotEmpty ? p! : defaults.pexelsKey;
         _tmdb.text = (t ?? '').isNotEmpty ? t! : defaults.tmdbKey;
+        _europeana.text = eu;
+        _smithsonian.text = si;
+        _harvard.text = ha;
+        _rijks.text = rk;
+        _cacheLimit.text =
+            cacheLimit.isEmpty ? '${SearchCache.defaultLimitMb}' : cacheLimit;
         _proxy.text = proxy;
         _packDir.text = pack;
         _gearDir.text = gear;
         _netMode = netMode;
         _attribution = items;
+        _cacheBytes = bytes;
+        _cacheFiles = files;
       });
     });
   }
@@ -545,6 +571,11 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
   void dispose() {
     _pexels.dispose();
     _tmdb.dispose();
+    _europeana.dispose();
+    _smithsonian.dispose();
+    _harvard.dispose();
+    _rijks.dispose();
+    _cacheLimit.dispose();
     _proxy.dispose();
     _packDir.dispose();
     _gearDir.dispose();
@@ -559,7 +590,8 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SsSectionTitle('图片素材通道',
-              subtitle: 'G6：智能搜图 Key（Pexels/TMDB）；Openverse 免 Key'),
+              subtitle:
+                  'V6：搜图工作台 Key（Pexels/TMDB）+ 免 Key 博物馆（Met/芝加哥/克利夫兰/V&A/WikiArt/Artvee/AniList）+ Key 预留源'),
           const SizedBox(height: AppTokens.s12),
           Row(
             children: <Widget>[
@@ -588,6 +620,17 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   final AppDatabase db = ref.read(databaseProvider);
                   await db.setSetting('image_pexels_key', _pexels.text.trim());
                   await db.setSetting('image_tmdb_key', _tmdb.text.trim());
+                  await db.setSetting(
+                      'search_key_europeana', _europeana.text.trim());
+                  await db.setSetting(
+                      'search_key_smithsonian', _smithsonian.text.trim());
+                  await db.setSetting(
+                      'search_key_harvard', _harvard.text.trim());
+                  await db.setSetting('search_key_rijks', _rijks.text.trim());
+                  final int cacheMb = int.tryParse(_cacheLimit.text.trim()) ??
+                      SearchCache.defaultLimitMb;
+                  await db.setSetting(SearchCache.limitSettingKey,
+                      '${cacheMb < 0 ? 0 : cacheMb}');
                   await db.setSetting('proxy_url', _proxy.text.trim());
                   await db.setSetting('user_pack_dir', _packDir.text.trim());
                   await db.setSetting('gear_image_dir', _gearDir.text.trim());
@@ -600,6 +643,89 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   if (mounted) {
                     ssToast(this.context, '已保存（网络通道：${NetRouter.I.modeLabel}）');
                   }
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: _europeana,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                      labelText: 'Europeana Key（可空，填入即启用）', isDense: true),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: TextField(
+                  controller: _smithsonian,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                      labelText: 'Smithsonian Key（可空）', isDense: true),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: _harvard,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                      labelText: 'Harvard Art Museums Key（可空）', isDense: true),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: TextField(
+                  controller: _rijks,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                      labelText: 'Rijksmuseum Key（可空）', isDense: true),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: 160,
+                child: TextField(
+                  controller: _cacheLimit,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      labelText: '搜图缓存上限（MB）', isDense: true),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                '当前 ${(_cacheBytes / (1024 * 1024)).toStringAsFixed(1)}MB / '
+                '$_cacheFiles 个文件（LRU，超限自动淘汰）',
+                style: TextStyle(
+                    fontSize: 11, color: theme.colorScheme.onSurfaceVariant),
+              ),
+              const Spacer(),
+              SsButton(
+                label: '清空搜图缓存',
+                kind: SsButtonKind.ghost,
+                dense: true,
+                onPressed: () async {
+                  final AppDatabase db = ref.read(databaseProvider);
+                  final SearchCache cache = await SearchCache.from(
+                      db, ref.read(workspaceProvider).root.path);
+                  await cache.clear();
+                  if (!mounted) return;
+                  setState(() {
+                    _cacheBytes = 0;
+                    _cacheFiles = 0;
+                  });
+                  ssToast(this.context, '搜图缓存已清空');
                 },
               ),
             ],
