@@ -1,6 +1,6 @@
 {
   "photo": {
-    "at": "2026-09-21T07:45:28.611Z",
+    "at": "2026-09-21T08:53:40.998Z",
     "poses": "D:\\trae\\6aa175d7786dd07d04fe3d2e\\ShootStudio\\app\\assets\\content\\poses3\\poses3.json",
     "chars": [
       "qs-women-casual"
@@ -49,6 +49,30 @@
         "minY": -1.193,
         "after": 0.418,
         "airborne": false
+      },
+      {
+        "id": "p084",
+        "category": "动态",
+        "before": -0.608,
+        "minY": -0.23,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p047",
+        "category": "跪姿",
+        "before": -0.682,
+        "minY": -0.317,
+        "after": -0.365,
+        "airborne": false
+      },
+      {
+        "id": "p083",
+        "category": "动态",
+        "before": -0.26,
+        "minY": 0.116,
+        "after": 0.2,
+        "airborne": true
       }
     ],
     "grounding": [
@@ -330,8 +354,8 @@
       },
       {
         "id": "p047",
-        "rootY": 0.6,
-        "minY": -0.079,
+        "rootY": -0.365,
+        "minY": 0,
         "airborne": false
       },
       {
@@ -547,13 +571,13 @@
       {
         "id": "p083",
         "rootY": 0.2,
-        "minY": 0.31,
+        "minY": 0.576,
         "airborne": true
       },
       {
         "id": "p084",
         "rootY": 0.2,
-        "minY": 0.318,
+        "minY": 0.578,
         "airborne": true
       },
       {
@@ -1171,13 +1195,13 @@
         "char": "qs-women-casual"
       },
       "p047": {
-        "minY": -0.0793,
-        "maxY": 1.184,
-        "minX": -0.4198,
-        "maxX": 0.2073,
-        "minZ": 0.22,
-        "maxZ": 1.6592,
-        "char": "qs-men-casual"
+        "minY": 0.0002,
+        "maxY": 1.253,
+        "minX": -0.2033,
+        "maxX": 0.4337,
+        "minZ": -0.0289,
+        "maxZ": 0.8913,
+        "char": "qs-women-casual"
       },
       "p044": {
         "minY": 0,
@@ -1477,13 +1501,13 @@
         "char": "qs-women-casual"
       },
       "p083": {
-        "minY": 0.3102,
-        "maxY": 1.8805,
-        "minX": -0.6787,
-        "maxX": 0.2669,
-        "minZ": -0.477,
-        "maxZ": 0.3982,
-        "char": "qs-men-casual"
+        "minY": 0.5759,
+        "maxY": 1.8447,
+        "minX": -0.9027,
+        "maxX": 0.8322,
+        "minZ": -0.4464,
+        "maxZ": 0.6215,
+        "char": "qs-women-casual"
       },
       "p082": {
         "minY": 0.2255,
@@ -1504,12 +1528,12 @@
         "char": "qs-men-casual"
       },
       "p084": {
-        "minY": 0.318,
-        "maxY": 1.9078,
-        "minX": -0.4884,
-        "maxX": 0.1634,
-        "minZ": -0.2569,
-        "maxZ": 0.5083,
+        "minY": 0.578,
+        "maxY": 1.8353,
+        "minX": -0.2049,
+        "maxX": 0.2863,
+        "minZ": 0.1788,
+        "maxZ": 0.8669,
         "char": "qs-women-casual"
       },
       "p087": {

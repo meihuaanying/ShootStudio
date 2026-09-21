@@ -303,3 +303,6 @@ node tool/engine_mem_qa.mjs                          # 角色 LRU/内存门禁
 **证据**
 - 数据：`app/assets/content/poses3/photos/`（120 jpg + 120 skeleton）、`poses3.json`、`photos_manifest.json`、`attribution.json`、`rejects.json`（空）。
 - QA：`docs/pose-qa3/{overlay,compare}-*.png` ×120、`qa_photo_state.json`（bounds/grounding 120、calibrations 5 条全部与当前 rootY 一致）。
+
+**P1 抽查（同日晚）**
+- `alt` 未含 asian 的 14 张逐图目视：p079（抱头跳跃，可辨）等保留；p047（跪姿用了起跑蹲 → 换为单膝跪地亚洲女性）、p083（纯剪影 → 换为亮部清晰的空中舞者）、p084（暗光不可辨 → 换为聚光亮相亚洲舞者）三张定向换图并重跑 extract/build 定点替换/QA；全量 242 passed + 25 skipped 复验通过。

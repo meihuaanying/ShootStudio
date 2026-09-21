@@ -5018,13 +5018,6 @@
       "author": "Joshua Lim"
     },
     {
-      "file": "assets/content/poses3/photos/p047.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/a-woman-kneeling-on-the-floor-7793228/",
-      "license": "Pexels License",
-      "author": "cottonbro studio"
-    },
-    {
       "file": "assets/content/poses3/photos/p048.jpg",
       "name": "姿势参考（跪姿）",
       "source": "https://www.pexels.com/photo/woman-in-white-long-sleeve-shirt-and-black-skirt-sitting-on-green-grass-10535679/",
@@ -5247,13 +5240,6 @@
       "source": "https://www.pexels.com/photo/a-woman-in-yellow-tank-top-dancing-on-the-street-8927309/",
       "license": "Pexels License",
       "author": "RDNE Stock project"
-    },
-    {
-      "file": "assets/content/poses3/photos/p084.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/woman-dancing-in-a-shadow-19629395/",
-      "license": "Pexels License",
-      "author": "Osman Arabacı"
     },
     {
       "file": "assets/content/poses3/photos/p085.jpg",
@@ -5515,13 +5501,6 @@
       "author": "Juliano Astc"
     },
     {
-      "file": "assets/content/poses3/photos/p083.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/silhouette-of-woman-jumping-on-beach-during-sunset-12909945/",
-      "license": "Pexels License",
-      "author": "Sean"
-    },
-    {
       "file": "assets/content/poses3/photos/p117.jpg",
       "name": "姿势参考（道具互动）",
       "source": "https://www.pexels.com/photo/a-beautiful-woman-in-beige-dress-smiling-while-holding-an-umbrella-15455220/",
@@ -5534,6 +5513,27 @@
       "source": "https://www.pexels.com/photo/woman-lying-on-the-floor-with-a-round-mirror-near-her-face-8484012/",
       "license": "Pexels License",
       "author": "Sasha  Kim"
+    },
+    {
+      "file": "assets/content/poses3/photos/p083.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/dynamic-dance-leap-captured-in-mid-air-with-dramatic-lighting-36410928/",
+      "license": "Pexels License",
+      "author": "Ana Belen Gomez Garcia"
+    },
+    {
+      "file": "assets/content/poses3/photos/p084.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/dynamic-dance-leap-against-rustic-wall-in-studio-35926496/",
+      "license": "Pexels License",
+      "author": "Natalia Olivera"
+    },
+    {
+      "file": "assets/content/poses3/photos/p047.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/woman-kneeling-on-pavement-at-night-19061411/",
+      "license": "Pexels License",
+      "author": "UMUT   🆁🅰🆆"
     }
   ],
   "note": "素材许可登记（V6）：姿势照片为亚洲人（Pexels License / Wikimedia CC0/PD/CC BY）。"

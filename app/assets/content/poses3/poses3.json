@@ -4054,90 +4054,90 @@
     },
     {
       "id": "p047",
-      "name": "跪姿·单膝跪地",
+      "name": "跪姿·双膝跪地",
       "category": "跪姿",
       "difficulty": "高难度",
       "photo": "assets/content/poses3/photos/p047.jpg",
       "overlay": "assets/content/poses3/photos/p047.overlay.png",
       "overlayRel": "docs/pose-qa3/overlay-p047.png",
       "skeleton": "assets/content/poses3/photos/p047.skeleton.json",
-      "confidence": 0.6698,
+      "confidence": 0.7339,
       "referenceOnly": false,
-      "bodySpan": 0.618,
+      "bodySpan": 0.566,
       "partialBody": false,
       "partialReason": "",
       "joints": {
         "spine": [
           0,
-          -8.2,
+          5.67,
           0
         ],
         "neck": [
-          17.3,
-          -10.29,
-          10.38
+          -3.31,
+          -47.45,
+          27.14
         ],
         "shoulder_l": [
-          0.39,
-          -67.5,
-          48.67
+          -11.36,
+          0.03,
+          15.29
         ],
         "elbow_l": [
-          -90.72,
+          -62.02,
           0,
-          -23
+          15.11
         ],
         "wrist_l": [
-          -51.64,
+          12.13,
           0,
-          28.55
+          -1.84
         ],
         "shoulder_r": [
-          -50.04,
-          -0.62,
-          0.52
+          -0.24,
+          12,
+          -18.95
         ],
         "elbow_r": [
-          -37.91,
+          -49.82,
           0,
-          0
+          17.97
         ],
         "wrist_r": [
-          43.52,
+          -26.38,
           0,
-          -22.13
+          -7.05
         ],
         "hip_l": [
-          -2.31,
-          79.74,
-          -84.11
+          -42.81,
+          0.42,
+          15.21
         ],
         "knee_l": [
-          47.4,
+          127.87,
           0,
-          34.47
+          -4.74
         ],
         "hip_r": [
-          -52.56,
-          25.02,
-          -6.9
+          -64.07,
+          -0.26,
+          6.62
         ],
         "knee_r": [
-          81.32,
+          140,
           0,
-          0
+          1.93
         ]
       },
-      "rootY": 0.6,
-      "rootPitch": 70.52,
+      "rootY": -0.365,
+      "rootPitch": 19.35,
       "weight": "小腿与脚背贴地，重心稳定",
       "hands": "双手自然下垂或搭在腿上",
       "commonMistake": "腰部塌陷、重心偏向一侧",
       "lens": "35mm（参考）",
       "cameraPosition": "膝盖高度略低",
-      "source": "https://www.pexels.com/photo/a-woman-kneeling-on-the-floor-7793228/",
+      "source": "https://www.pexels.com/photo/woman-kneeling-on-pavement-at-night-19061411/",
       "license": "Pexels License",
-      "author": "cottonbro studio",
+      "author": "UMUT   🆁🅰🆆",
       "origin": "pexels"
     },
     {
@@ -7222,178 +7222,178 @@
     },
     {
       "id": "p083",
-      "name": "动态·跃起挥臂",
+      "name": "动态·舞动抬腿",
       "category": "动态",
       "difficulty": "高难度",
       "photo": "assets/content/poses3/photos/p083.jpg",
       "overlay": "assets/content/poses3/photos/p083.overlay.png",
       "overlayRel": "docs/pose-qa3/overlay-p083.png",
       "skeleton": "assets/content/poses3/photos/p083.skeleton.json",
-      "confidence": 0.9286,
+      "confidence": 0.8512,
       "referenceOnly": false,
-      "bodySpan": 0.452,
+      "bodySpan": 0.561,
       "partialBody": false,
       "partialReason": "",
       "joints": {
         "spine": [
           0,
-          -25.04,
+          -39.58,
           0
         ],
         "neck": [
-          20.95,
-          -50.31,
-          11.43
+          -43.87,
+          -12.39,
+          -68.38
         ],
         "shoulder_l": [
-          80.3,
-          -36.23,
-          -89.38
+          132.74,
+          0.08,
+          31.48
         ],
         "elbow_l": [
-          -14,
+          -23.48,
           0,
-          12.71
+          -32.52
         ],
         "wrist_l": [
-          4.71,
+          -90.47,
           0,
-          55.03
+          30.74
         ],
         "shoulder_r": [
-          0.06,
-          -43.34,
-          -79.75
+          135.48,
+          -0.18,
+          -2.58
         ],
         "elbow_r": [
-          4.45,
+          -16.64,
           0,
-          -10.35
+          9.02
         ],
         "wrist_r": [
-          8.03,
+          -78.69,
           0,
-          -0.04
+          27.24
         ],
         "hip_l": [
-          -29.15,
-          0.18,
-          18.48
+          39.16,
+          47.98,
+          73.8
         ],
         "knee_l": [
-          88.15,
           0,
-          -33.99
+          0,
+          35.5
         ],
         "hip_r": [
-          30.6,
-          0.32,
-          -24.89
+          -112.61,
+          -39.73,
+          -94.78
         ],
         "knee_r": [
-          77.83,
           0,
-          -37.37
+          0,
+          26.74
         ]
       },
       "rootY": 0.2,
-      "rootPitch": 7.52,
+      "rootPitch": 7,
       "weight": "起跳/舞动瞬间收紧核心，落地前脚掌缓冲",
       "hands": "手臂随动势摆动，手腕放松",
       "commonMistake": "关节锁死、落地重心不稳",
       "lens": "35mm 高速快门（参考）",
       "cameraPosition": "与胸部同高，预留动作空间",
-      "source": "https://www.pexels.com/photo/silhouette-of-woman-jumping-on-beach-during-sunset-12909945/",
+      "source": "https://www.pexels.com/photo/dynamic-dance-leap-captured-in-mid-air-with-dramatic-lighting-36410928/",
       "license": "Pexels License",
-      "author": "Sean",
+      "author": "Ana Belen Gomez Garcia",
       "origin": "pexels"
     },
     {
       "id": "p084",
-      "name": "动态·动态摆姿",
+      "name": "动态·舞动抬腿",
       "category": "动态",
       "difficulty": "高难度",
       "photo": "assets/content/poses3/photos/p084.jpg",
       "overlay": "assets/content/poses3/photos/p084.overlay.png",
       "overlayRel": "docs/pose-qa3/overlay-p084.png",
       "skeleton": "assets/content/poses3/photos/p084.skeleton.json",
-      "confidence": 0.9058,
+      "confidence": 0.8243,
       "referenceOnly": false,
-      "bodySpan": 0.361,
+      "bodySpan": 0.374,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.36）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.37）",
       "joints": {
         "spine": [
           0,
-          -7.19,
+          0.06,
           0
         ],
         "neck": [
-          -3.18,
-          8.34,
-          -10.13
+          9.15,
+          -33.05,
+          28.91
         ],
         "shoulder_l": [
-          -54.88,
-          -0.22,
-          -5.47
+          -0.16,
+          -37.51,
+          40.36
         ],
         "elbow_l": [
-          -52.08,
+          -28.07,
           0,
-          -26.24
+          -9.72
         ],
         "wrist_l": [
-          -11.15,
+          -3.02,
           0,
-          -0.33
+          -30.05
         ],
         "shoulder_r": [
-          -20.11,
-          14.53,
-          -34.5
+          -68.9,
+          0.27,
+          28.9
         ],
         "elbow_r": [
-          -71.93,
+          -106.34,
           0,
-          0
+          32.91
         ],
         "wrist_r": [
-          -42.2,
+          -46.61,
           0,
-          -10.99
+          -17.89
         ],
         "hip_l": [
-          -26.02,
-          0.71,
-          1.39
+          -91.4,
+          3.16,
+          19.62
         ],
         "knee_l": [
-          44.69,
+          140,
           0,
-          -37.99
+          -1.26
         ],
         "hip_r": [
-          -42.34,
-          0.3,
-          -17.28
+          -111.85,
+          -19.45,
+          13.41
         ],
         "knee_r": [
-          38.36,
+          140,
           0,
-          -10.74
+          0
         ]
       },
       "rootY": 0.2,
-      "rootPitch": -6.01,
+      "rootPitch": 16.28,
       "weight": "起跳/舞动瞬间收紧核心，落地前脚掌缓冲",
       "hands": "手臂随动势摆动，手腕放松",
       "commonMistake": "关节锁死、落地重心不稳",
       "lens": "35mm 高速快门（参考）",
       "cameraPosition": "与胸部同高，预留动作空间",
-      "source": "https://www.pexels.com/photo/woman-dancing-in-a-shadow-19629395/",
+      "source": "https://www.pexels.com/photo/dynamic-dance-leap-against-rustic-wall-in-studio-35926496/",
       "license": "Pexels License",
-      "author": "Osman Arabacı",
+      "author": "Natalia Olivera",
       "origin": "pexels"
     },
     {
@@ -10795,6 +10795,34 @@
       "joint": "knee_r",
       "axis": "rx",
       "from": 158.95,
+      "to": 140
+    },
+    {
+      "id": "p047",
+      "joint": "knee_r",
+      "axis": "rx",
+      "from": 140,
+      "to": 140
+    },
+    {
+      "id": "p083",
+      "joint": "knee_l",
+      "axis": "rx",
+      "from": -6.49,
+      "to": 0
+    },
+    {
+      "id": "p084",
+      "joint": "knee_l",
+      "axis": "rx",
+      "from": 141.13,
+      "to": 140
+    },
+    {
+      "id": "p084",
+      "joint": "knee_r",
+      "axis": "rx",
+      "from": 142.12,
       "to": 140
     }
   ]

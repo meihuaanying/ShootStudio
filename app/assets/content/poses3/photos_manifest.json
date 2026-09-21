@@ -976,14 +976,14 @@
       "category": "跪姿",
       "categoryId": "kneeling",
       "photo": "assets/content/poses3/photos/p047.jpg",
-      "source": "https://www.pexels.com/photo/a-woman-kneeling-on-the-floor-7793228/",
+      "source": "https://www.pexels.com/photo/woman-kneeling-on-pavement-at-night-19061411/",
       "license": "Pexels License",
-      "author": "cottonbro studio",
+      "author": "UMUT   🆁🅰🆆",
       "origin": "pexels",
-      "sourceId": "7793228",
-      "query": "asian woman kneeling pose studio",
-      "alt": "Cosplayer in sportswear kneeling in a dynamic pose, showcasing strength and agility indoors.",
-      "fetchedAt": "2026-09-21T02:43:18Z",
+      "sourceId": "19061411",
+      "query": "asian woman kneeling on ground pose",
+      "alt": "Fashion portrait of an Asian woman in jeans and sneakers posing artistically on an urban night street.",
+      "fetchedAt": "2026-09-21T08:24:14Z",
       "imageSize": [
         720,
         1080
@@ -1660,14 +1660,14 @@
       "category": "动态",
       "categoryId": "dynamic",
       "photo": "assets/content/poses3/photos/p083.jpg",
-      "source": "https://www.pexels.com/photo/silhouette-of-woman-jumping-on-beach-during-sunset-12909945/",
+      "source": "https://www.pexels.com/photo/dynamic-dance-leap-captured-in-mid-air-with-dramatic-lighting-36410928/",
       "license": "Pexels License",
-      "author": "Sean",
+      "author": "Ana Belen Gomez Garcia",
       "origin": "pexels",
-      "sourceId": "12909945",
-      "query": "asian woman dancing jump motion",
-      "alt": "A silhouette of a woman gracefully leaping against a sunset backdrop on a beach.",
-      "fetchedAt": "2026-09-21T02:46:57Z",
+      "sourceId": "36410928",
+      "query": "asian woman dancer jumping mid air studio motion",
+      "alt": "A dancer elegantly leaps amidst a powdery burst, captured in dramatic lighting against a dark backdrop.",
+      "fetchedAt": "2026-09-21T08:13:22Z",
       "imageSize": [
         720,
         1080
@@ -1679,16 +1679,16 @@
       "category": "动态",
       "categoryId": "dynamic",
       "photo": "assets/content/poses3/photos/p084.jpg",
-      "source": "https://www.pexels.com/photo/woman-dancing-in-a-shadow-19629395/",
+      "source": "https://www.pexels.com/photo/dynamic-dance-leap-against-rustic-wall-in-studio-35926496/",
       "license": "Pexels License",
-      "author": "Osman Arabacı",
+      "author": "Natalia Olivera",
       "origin": "pexels",
-      "sourceId": "19629395",
-      "query": "asian woman dancing jump motion",
-      "alt": "A powerful leap captures the essence of dance and movement in dramatic lighting.",
-      "fetchedAt": "2026-09-21T02:44:13Z",
+      "sourceId": "35926496",
+      "query": "asian woman dancer jumping mid air studio motion",
+      "alt": "Woman in motion leaping mid-air against a textured wall, captured indoors with dramatic lighting.",
+      "fetchedAt": "2026-09-21T08:13:24Z",
       "imageSize": [
-        720,
+        721,
         1080
       ]
     },
@@ -2377,6 +2377,6 @@
       ]
     }
   ],
-  "generatedAt": "2026-09-21T07:40:57Z",
+  "generatedAt": "2026-09-21T08:24:14Z",
   "total": 120
 }
