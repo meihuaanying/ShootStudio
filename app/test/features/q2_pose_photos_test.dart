@@ -61,11 +61,7 @@ void main() {
           startsWith('assets/content/poses3/photos/'),
           reason: '${pose.id} 骨架路径',
         );
-        expect(
-          pose.overlay,
-          startsWith('assets/content/poses3/photos/'),
-          reason: '${pose.id} 叠加图路径',
-        );
+        expect(pose.overlay, isNotEmpty, reason: '${pose.id} 缺叠加图路径');
         final File photo = File(pose.photo);
         expect(photo.existsSync(), isTrue, reason: '${pose.id} 缺照片文件');
         expect(
@@ -78,8 +74,10 @@ void main() {
           isTrue,
           reason: '${pose.id} 缺骨架 JSON',
         );
+        // D122 后叠加图只作 QA 证据：旧位 assets 或 docs/pose-qa3 任一存在即可（D66）。
         expect(
-          File(pose.overlay).existsSync(),
+          File(pose.overlay).existsSync() ||
+              File('../docs/pose-qa3/overlay-${pose.id}.png').existsSync(),
           isTrue,
           reason: '${pose.id} 缺骨架叠加图（D66 证据）',
         );

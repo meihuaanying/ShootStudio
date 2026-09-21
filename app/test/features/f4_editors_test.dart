@@ -276,6 +276,9 @@ void main() {
     await tester.tap(find.byIcon(Icons.swap_horiz_rounded).first);
     await settleUntil(tester, find.text('替换姿势'), required: true);
     await settleUntil(tester, find.text('站姿·展臂'), required: true);
+    // D122 换图重建后姿势名在列表中的位置会变，先滚到可见再点（避免 tap 落空）。
+    await tester.ensureVisible(find.text('站姿·展臂').first);
+    await tester.pump(const Duration(milliseconds: 100));
     await tester.tap(find.text('站姿·展臂').first);
     await settleUntilGone(tester, find.text('替换姿势'));
     await waitForState(

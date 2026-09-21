@@ -182,6 +182,8 @@ void main() {
           .read(posesControllerProvider)
           .all
           .firstWhere((PoseEntry p) => p.id == 'p001');
+      // 内置数据会随照片/骨架重跑而变（D122），期望值一律从当前数据动态读取。
+      final double builtinShoulderL = tripleOf(target.joints['shoulder_l'])[0];
       final Map<String, Object?> joints = <String, Object?>{
         ...target.joints,
         'shoulder_l': <double>[-10, 0, 5],
@@ -217,7 +219,7 @@ void main() {
       final PoseEntry restored = state.all.firstWhere(
         (PoseEntry p) => p.id == 'p001',
       );
-      expect(tripleOf(restored.joints['shoulder_l'])[0], -32.74);
+      expect(tripleOf(restored.joints['shoulder_l'])[0], builtinShoulderL);
     });
 
     test('自定义姿势：保存（含 rootY/图片文件名）→ 重启仍在 → 删除', () async {
