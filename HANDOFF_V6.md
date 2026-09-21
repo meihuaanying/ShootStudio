@@ -1,8 +1,8 @@
 # ShootStudio V6 交接文档（进行中）—— 搜索重做 + 3D 稳定/建模 + 端上识别 + 资源库图
 
 > 更新：2026-09-20 ｜ 版本基线 `1.1.0+6`（目标 `1.2.0`）｜ 约束文件：`FIX_CONTRACT_V6.0.md`（**开工前必读**）
-> 进度：**A（②引擎稳定化）✅ ｜ B（③3D 建模与布光）✅ ｜ C（①搜索重做）✅ ｜ D（④姿势/端上识别）⏳（PoC ✅ / 精度偏差已登记） ｜ E（⑤资源库图）⏳ ｜ F（交付 v1.2.0）⏳**
-> 本机状态：全量 **231 passed + 25 skipped**（live/PoC/精度默认跳过）；`flutter analyze --fatal-infos` 0 问题；format 通过；引擎包 950.7KB
+> 进度：**A（②引擎稳定化）✅ ｜ B（③3D 建模与布光）✅ ｜ C（①搜索重做）✅ ｜ D（④姿势/端上识别）✅（120 张亚洲参考图 + 导入 UI 落地；D128 精度偏差保留登记） ｜ E（⑤资源库图）⏳ ｜ F（交付 v1.2.0）⏳**
+> 本机状态：全量 **242 passed + 25 skipped**（live/PoC/精度默认跳过）；`flutter analyze --fatal-infos` 0 问题；format 通过；引擎包 950.7KB
 > 仓库：`D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）
 
 ---
@@ -88,11 +88,14 @@
 - 精度：`test/features/q6_pose_accuracy_test.dart`（`SS_POSE_ACCURACY=1`，120 张）：均值 14.48°、≤10° 67.0%、P50 4.00°、13 张未检测 → `docs/qa/pose-accuracy-2026-09-20T17-38-03.md`。**未达 D128（≤5°/90%≤10°）**，偏差已登记（R54：不替换正式参考图管线）。
 - 诊断工具：`tool/pose_diag_compare.py`（同一裁剪图上 MediaPipe vs Dart world 对比）。
 
+**已完成（2026-09-21 收尾）**
+- D122 亚洲参考图：120 张全量替换（Pexels 主 + Wikimedia 备，逐图许可登记）；`tool/gen_pose_photos_asian.py` 增候选顺延下载 + `--query`/`--source-id` 定向补图；MediaPipe 骨架/叠加图 120 全量重提，`skeleton_to_joints build --force` 重建 12 关节；`pose_qa.mjs photo` 全量渲染 + 接地校准（120 条 bounds/grounding；工具修 stitch SameFileError、bounds/校准跨轮合并剔陈旧）。QA 复核 p071 换图重跑（坐姿冒充躺姿 + 接地超限 → rootY 0.418）。证据：`app/assets/content/poses3/photos/`、`docs/pose-qa3/`。
+- 导入 UI（D124–D127）：`poses_page` 替换参考图/恢复默认/删除自定义 + 照片导入识别全流程；`q6_pose_test` 11 项。
+- 适配 D122 数据：q2 叠加图证据改认 assets/docs 双路径、q6 覆盖测试去硬编码、f4 姿势选择先滚到可见再点；全量 242 passed + 25 skipped。
+
 **剩余**
-1. 精度改进（可选）：复刻 BlazePose 检测器（`pose_detector.tflite` 在 task 内，2.96MB）+ MediaPipe 旋转 ROI；或继续调 ROI 策略。门禁通过前不得用端上结果替换内置参考数据。
-2. UI：`poses_page` 导入照片识别全流程（选图 → 多人点选 → 骨架叠加 → 12 关节 → 「导入布光预演/保存为自定义姿势」）；「替换参考图」覆盖内置（可恢复）+ 新建自定义；自定义库随工作区导出（D124–D127）。
-3. 120 张亚洲图替换（D122）：`tool/gen_pose_photos_asian.py` → 重跑 Python 管线 → 精度报告/attribution。
-4. `q6_pose_test`（mapper 数学/接地/自定义库往返/覆盖恢复/导入状态机）。
+1. 精度改进（可选）：复刻 BlazePose 检测器（`pose_detector.tflite` 在 task 内，2.96MB）+ MediaPipe 旋转 ROI；或继续调 ROI 策略。门禁通过前不得用端上结果替换内置参考数据（R54）。
+2. 人工抽查 D122 少量 `alt` 未含 asian 的图（如 p079/p083）；Windows 手测导入 UI 链路。
 
 ### E（⑤资源库图）—— 关键点
 - 覆盖率：相机/镜头 ≥95%，灯具/附件/服装/道具 ≥90%。

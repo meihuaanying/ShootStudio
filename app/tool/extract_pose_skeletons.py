@@ -367,7 +367,9 @@ def stitch_batch(poses_file, renders_dir, out_dir, ids=None):
             ' · %s' % char if char else '')
         out = os.path.join(out_dir, 'compare-%s.png' % pid)
         stitch(photo, overlay, render, out, label)
-        shutil.copyfile(overlay, os.path.join(out_dir, 'overlay-%s.png' % pid))
+        overlay_out = os.path.join(out_dir, 'overlay-%s.png' % pid)
+        if os.path.abspath(overlay) != os.path.abspath(overlay_out):
+            shutil.copyfile(overlay, overlay_out)
         ok += 1
     print('[stitch-batch] 拼接 %d 张（缺 %d）-> %s' % (ok, missing, out_dir))
     return 0 if missing == 0 else 1

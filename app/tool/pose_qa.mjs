@@ -928,29 +928,44 @@ async function cmdPhoto(args) {
   let state = {};
   try { state = JSON.parse(fs.readFileSync(stateFile, 'utf8')); } catch (_) { state = {}; }
   // 校准记录跨轮累积（按 id 合并，后写入者覆盖）：保证接地校准可追溯（R20/D68）。
-  const previousCalibrations = Array.isArray(state.photo?.calibrations) ? state.photo.calibrations : [];
+  // 骨架/照片重建会重置 rootY，与当前值不符的历史记录已不可追溯，先剔除。
+  const currentRootY = new Map(poses.map((p) => [p.id, Number(p.rootY ?? 0)]));
+  const previousCalibrations = (
+    Array.isArray(state.photo?.calibrations) ? state.photo.calibrations : []
+  ).filter(
+    (c) => typeof c?.after === 'number' && currentRootY.has(c.id) &&
+      Math.abs(currentRootY.get(c.id) - c.after) <= 0.005,
+  );
   const mergedCalibrations = new Map(previousCalibrations.map((c) => [c.id, c]));
   for (const c of calibrations) mergedCalibrations.set(c.id, c);
+  // bounds 同样跨轮合并：--ids 单点重跑不应清空其余姿势的接地测量证据。
+  const previousBounds = (
+    state.photo?.bounds && typeof state.photo.bounds === 'object'
+      ? state.photo.bounds
+      : {}
+  );
+  const mergedBounds = { ...previousBounds, ...bounds };
   state.photo = {
     at: new Date().toISOString(),
     poses: posesFile,
     chars,
-    count: jobs.length - failures.length,
+    count: Object.keys(mergedBounds).length,
+    renderedThisRun: jobs.length - failures.length,
     failures: failures.map((f) => ({ id: f.job.pose, char: f.job.charId, error: f.error })),
     ground,
     calibrations: Array.from(mergedCalibrations.values()),
     // 全量接地验证快照：每条姿势最终 rootY 下模型最低点（|minY| 越小越贴地）。
     grounding: ground
       ? poses
-          .filter((p) => bounds[p.id] && typeof bounds[p.id].minY === 'number')
+          .filter((p) => mergedBounds[p.id] && typeof mergedBounds[p.id].minY === 'number')
           .map((p) => ({
             id: p.id,
             rootY: Number(p.rootY ?? 0),
-            minY: Number(bounds[p.id].minY.toFixed(3)),
+            minY: Number(mergedBounds[p.id].minY.toFixed(3)),
             airborne: p.category === '动态' || /跳|跃|腾空|flight/i.test(p.name || ''),
           }))
       : [],
-    bounds,
+    bounds: mergedBounds,
   };
   fs.writeFileSync(stateFile, JSON.stringify(state, null, 2), 'utf8');
   if (failures.length) {

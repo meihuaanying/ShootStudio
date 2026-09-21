@@ -30,3 +30,7 @@ app/*.jks
 *.iml
 .DS_Store
 Thumbs.db
+
+# Python 工具缓存
+__pycache__/
+*.pyc

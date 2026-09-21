@@ -1696,846 +1696,6 @@
       "note": "原始包页 https://quaternius.com/packs/ultimatemodularcharacters.html；来源为 Quaternius 官方 CC0 资产的 GitHub 镜像"
     },
     {
-      "file": "assets/content/poses3/photos/p001.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/sensual-woman-in-bodysuit-in-studio-7480638/",
-      "license": "Pexels License",
-      "author": "Vika Glitter"
-    },
-    {
-      "file": "assets/content/poses3/photos/p002.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/casual-portrait-of-young-adult-male-in-studio-31969138/",
-      "license": "Pexels License",
-      "author": "Sephina Cornwall"
-    },
-    {
-      "file": "assets/content/poses3/photos/p003.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/stylish-woman-posing-with-toy-gun-on-grey-background-32794645/",
-      "license": "Pexels License",
-      "author": "artepixel prostudio"
-    },
-    {
-      "file": "assets/content/poses3/photos/p004.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/elegant-portrait-of-a-young-woman-in-studio-light-36215331/",
-      "license": "Pexels License",
-      "author": "Daniil Kondrashin"
-    },
-    {
-      "file": "assets/content/poses3/photos/p005.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/woman-with-hand-on-waist-wearing-gray-crop-top-and-jeans-8485343/",
-      "license": "Pexels License",
-      "author": "Nguyễn Văn Minh Vương"
-    },
-    {
-      "file": "assets/content/poses3/photos/p006.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/woman-standing-and-posing-by-column-18430369/",
-      "license": "Pexels License",
-      "author": "Hawk i i"
-    },
-    {
-      "file": "assets/content/poses3/photos/p007.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/unemotional-woman-leaning-on-hip-and-looking-at-camera-7000913/",
-      "license": "Pexels License",
-      "author": "sushantphotographyy"
-    },
-    {
-      "file": "assets/content/poses3/photos/p008.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/elegant-woman-in-blue-dress-posing-in-studio-31046827/",
-      "license": "Pexels License",
-      "author": "Andrea Musto"
-    },
-    {
-      "file": "assets/content/poses3/photos/p009.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/stylish-black-and-white-fashion-portrait-30416679/",
-      "license": "Pexels License",
-      "author": "Jimmy Elizarraras"
-    },
-    {
-      "file": "assets/content/poses3/photos/p010.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/stylish-woman-in-white-with-green-background-30998951/",
-      "license": "Pexels License",
-      "author": "Jimmy Elizarraras"
-    },
-    {
-      "file": "assets/content/poses3/photos/p011.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/confident-ethnic-woman-in-trendy-wear-on-seashore-4267228/",
-      "license": "Pexels License",
-      "author": "RAM DABHI"
-    },
-    {
-      "file": "assets/content/poses3/photos/p012.jpg",
-      "name": "姿势参考（站姿）",
-      "source": "https://www.pexels.com/photo/woman-posing-by-water-15650812/",
-      "license": "Pexels License",
-      "author": "Andrea Musto"
-    },
-    {
-      "file": "assets/content/poses3/photos/p013.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/woman-in-black-tank-top-and-gray-pants-7261558/",
-      "license": "Pexels License",
-      "author": "Heriberto Jahir Medina"
-    },
-    {
-      "file": "assets/content/poses3/photos/p014.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/sexy-woman-in-gown-sitting-on-chair-in-studio-5036908/",
-      "license": "Pexels License",
-      "author": "SAN  Wedding"
-    },
-    {
-      "file": "assets/content/poses3/photos/p015.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/woman-in-bra-and-short-skirt-15196947/",
-      "license": "Pexels License",
-      "author": "Heyy  Kazz"
-    },
-    {
-      "file": "assets/content/poses3/photos/p016.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/woman-in-black-dress-sitting-on-a-chair-9690414/",
-      "license": "Pexels License",
-      "author": "RAJESH KUMAR    VERMA"
-    },
-    {
-      "file": "assets/content/poses3/photos/p017.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/woman-sitting-and-posing-in-black-dress-17433073/",
-      "license": "Pexels License",
-      "author": "Sandro  Tavares"
-    },
-    {
-      "file": "assets/content/poses3/photos/p018.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/photo-of-woman-sitting-on-stairs-1670512/",
-      "license": "Pexels License",
-      "author": "Harsh Raj Gond"
-    },
-    {
-      "file": "assets/content/poses3/photos/p019.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/elegant-portrait-of-woman-in-black-lingerie-39330625/",
-      "license": "Pexels License",
-      "author": "Rob Ruth"
-    },
-    {
-      "file": "assets/content/poses3/photos/p020.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/elegant-female-posing-in-black-swimwear-34437080/",
-      "license": "Pexels License",
-      "author": "Rob Ruth"
-    },
-    {
-      "file": "assets/content/poses3/photos/p021.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/a-woman-in-a-white-dress-sitting-on-a-chair-27383810/",
-      "license": "Pexels License",
-      "author": "Andrea Musto"
-    },
-    {
-      "file": "assets/content/poses3/photos/p022.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/model-posing-in-a-garden-19312465/",
-      "license": "Pexels License",
-      "author": "Manish Jangid"
-    },
-    {
-      "file": "assets/content/poses3/photos/p023.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/woman-wearing-black-and-white-sleeveless-rompers-3041844/",
-      "license": "Pexels License",
-      "author": "Galvão Menacho"
-    },
-    {
-      "file": "assets/content/poses3/photos/p024.jpg",
-      "name": "姿势参考（坐姿）",
-      "source": "https://www.pexels.com/photo/blonde-woman-posing-in-black-outfit-in-front-of-green-door-19445081/",
-      "license": "Pexels License",
-      "author": "Angel Rondon"
-    },
-    {
-      "file": "assets/content/poses3/photos/p025.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/woman-in-blue-white-and-red-jacket-and-white-pants-squatting-on-floor-2468231/",
-      "license": "Pexels License",
-      "author": "Marcelo Chagas"
-    },
-    {
-      "file": "assets/content/poses3/photos/p026.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/woman-performing-fitness-squats-in-studio-30246176/",
-      "license": "Pexels License",
-      "author": "Andrea Musto"
-    },
-    {
-      "file": "assets/content/poses3/photos/p027.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/woman-squatting-in-top-underwear-and-boots-20408690/",
-      "license": "Pexels License",
-      "author": "Jaycee300s"
-    },
-    {
-      "file": "assets/content/poses3/photos/p028.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/woman-squatting-and-posing-in-black-and-white-18939852/",
-      "license": "Pexels License",
-      "author": "Oss Leos"
-    },
-    {
-      "file": "assets/content/poses3/photos/p029.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/woman-in-a-squatting-pose-1803779/",
-      "license": "Pexels License",
-      "author": "Jack Winbow"
-    },
-    {
-      "file": "assets/content/poses3/photos/p030.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/professional-woman-in-black-suit-squatting-pose-38213594/",
-      "license": "Pexels License",
-      "author": "Himanshu Singh"
-    },
-    {
-      "file": "assets/content/poses3/photos/p031.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/a-tattooed-woman-in-her-underwear-8213424/",
-      "license": "Pexels License",
-      "author": "TITI BRAZIL"
-    },
-    {
-      "file": "assets/content/poses3/photos/p032.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/active-woman-performing-squat-exercise-indoors-30246175/",
-      "license": "Pexels License",
-      "author": "Andrea Musto"
-    },
-    {
-      "file": "assets/content/poses3/photos/p033.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/woman-with-curly-hair-squatting-in-high-heels-23669194/",
-      "license": "Pexels License",
-      "author": "Andrea Musto"
-    },
-    {
-      "file": "assets/content/poses3/photos/p034.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/photograph-of-a-topless-man-looking-away-8875303/",
-      "license": "Pexels License",
-      "author": "Mike Jones"
-    },
-    {
-      "file": "assets/content/poses3/photos/p035.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/a-topless-man-in-black-shorts-doing-squats-with-a-barbell-9602276/",
-      "license": "Pexels License",
-      "author": "Leon Mart"
-    },
-    {
-      "file": "assets/content/poses3/photos/p036.jpg",
-      "name": "姿势参考（蹲姿）",
-      "source": "https://www.pexels.com/photo/woman-with-braid-squatting-20408699/",
-      "license": "Pexels License",
-      "author": "Jaycee300s"
-    },
-    {
-      "file": "assets/content/poses3/photos/p037.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/woman-in-white-top-and-black-skirt-kneeling-on-the-floor-11216022/",
-      "license": "Pexels License",
-      "author": "Antonio Friedemann"
-    },
-    {
-      "file": "assets/content/poses3/photos/p038.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/woman-kneeling-in-shirt-24461798/",
-      "license": "Pexels License",
-      "author": "Breno Cardoso"
-    },
-    {
-      "file": "assets/content/poses3/photos/p039.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/brunette-woman-in-bodysuit-kneeling-on-red-background-27174985/",
-      "license": "Pexels License",
-      "author": "Oss Leos"
-    },
-    {
-      "file": "assets/content/poses3/photos/p040.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/graceful-portrait-of-woman-in-tulle-skirt-33515302/",
-      "license": "Pexels License",
-      "author": "Arash Kh"
-    },
-    {
-      "file": "assets/content/poses3/photos/p041.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/woman-in-leather-outfit-kneeling-on-the-floor-16058273/",
-      "license": "Pexels License",
-      "author": "David Lyutov"
-    },
-    {
-      "file": "assets/content/poses3/photos/p042.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/woman-in-white-shirt-kneeling-24461837/",
-      "license": "Pexels License",
-      "author": "Breno Cardoso"
-    },
-    {
-      "file": "assets/content/poses3/photos/p043.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/kneeling-woman-bending-up-7322516/",
-      "license": "Pexels License",
-      "author": "KoolShooters"
-    },
-    {
-      "file": "assets/content/poses3/photos/p044.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/a-woman-in-black-swimsuit-posing-at-the-camera-while-eyes-are-closed-13159728/",
-      "license": "Pexels License",
-      "author": "Gislaine  Almeida Santos"
-    },
-    {
-      "file": "assets/content/poses3/photos/p045.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/smiling-women-kneeling-15537439/",
-      "license": "Pexels License",
-      "author": "Manuel Gamboa"
-    },
-    {
-      "file": "assets/content/poses3/photos/p046.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/black-and-white-photo-of-a-shirtless-man-kneeling-15491571/",
-      "license": "Pexels License",
-      "author": "Farhad Irani"
-    },
-    {
-      "file": "assets/content/poses3/photos/p047.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/woman-posing-in-black-clothes-16716621/",
-      "license": "Pexels License",
-      "author": "Huy Tran"
-    },
-    {
-      "file": "assets/content/poses3/photos/p048.jpg",
-      "name": "姿势参考（跪姿）",
-      "source": "https://www.pexels.com/photo/woman-on-the-floor-12676571/",
-      "license": "Pexels License",
-      "author": "Mario Mota"
-    },
-    {
-      "file": "assets/content/poses3/photos/p049.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/red-head-woman-in-blue-denim-jacket-leaning-on-gray-wall-6089702/",
-      "license": "Pexels License",
-      "author": "Tnarg"
-    },
-    {
-      "file": "assets/content/poses3/photos/p050.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/woman-in-green-top-leaning-on-hand-4940336/",
-      "license": "Pexels License",
-      "author": "Tnarg"
-    },
-    {
-      "file": "assets/content/poses3/photos/p051.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/woman-standing-with-arms-raised-18052090/",
-      "license": "Pexels License",
-      "author": "Alican Helik"
-    },
-    {
-      "file": "assets/content/poses3/photos/p052.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/young-woman-leaning-against-colorful-brick-wall-35905254/",
-      "license": "Pexels License",
-      "author": "Rob Ruth"
-    },
-    {
-      "file": "assets/content/poses3/photos/p053.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/red-head-woman-in-blue-denim-jacket-leaning-on-wall-6089714/",
-      "license": "Pexels License",
-      "author": "Tnarg"
-    },
-    {
-      "file": "assets/content/poses3/photos/p054.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/stylish-woman-posing-urban-scene-outdoors-37036178/",
-      "license": "Pexels License",
-      "author": "Murat IŞIK"
-    },
-    {
-      "file": "assets/content/poses3/photos/p055.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/red-head-woman-in-blue-denim-jacket-leaning-on-gray-wall-6089710/",
-      "license": "Pexels License",
-      "author": "Tnarg"
-    },
-    {
-      "file": "assets/content/poses3/photos/p056.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/woman-leaning-on-post-18983414/",
-      "license": "Pexels License",
-      "author": "Connor Scott McManus"
-    },
-    {
-      "file": "assets/content/poses3/photos/p057.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/photo-of-woman-holding-her-hair-while-leaning-on-railings-2535188/",
-      "license": "Pexels License",
-      "author": "Bá Soares"
-    },
-    {
-      "file": "assets/content/poses3/photos/p058.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/woman-in-yellow-crew-neck-shirt-and-blue-denim-jeans-3641824/",
-      "license": "Pexels License",
-      "author": "Israelzin Oliveira"
-    },
-    {
-      "file": "assets/content/poses3/photos/p059.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/a-woman-in-a-black-long-sleeves-and-denim-pants-leaning-on-a-brick-wall-14415464/",
-      "license": "Pexels License",
-      "author": "Connor Scott McManus"
-    },
-    {
-      "file": "assets/content/poses3/photos/p060.jpg",
-      "name": "姿势参考（靠姿）",
-      "source": "https://www.pexels.com/photo/stylish-young-woman-posing-in-pretoria-37819129/",
-      "license": "Pexels License",
-      "author": "Ntate Mohlala Sir"
-    },
-    {
-      "file": "assets/content/poses3/photos/p061.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/a-woman-in-black-dress-10279699/",
-      "license": "Pexels License",
-      "author": "Yvana  Dina"
-    },
-    {
-      "file": "assets/content/poses3/photos/p062.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/grayscale-photo-of-woman-wearing-leotard-3344190/",
-      "license": "Pexels License",
-      "author": "Vika Glitter"
-    },
-    {
-      "file": "assets/content/poses3/photos/p063.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/model-in-red-dress-lying-on-rug-18840252/",
-      "license": "Pexels License",
-      "author": "Connor Scott McManus"
-    },
-    {
-      "file": "assets/content/poses3/photos/p064.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/model-in-bikini-lying-down-19036533/",
-      "license": "Pexels License",
-      "author": "Shuvalova Natalia"
-    },
-    {
-      "file": "assets/content/poses3/photos/p065.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/a-beautiful-woman-lying-on-the-train-tracks-9357321/",
-      "license": "Pexels License",
-      "author": "Gustavo Henrique"
-    },
-    {
-      "file": "assets/content/poses3/photos/p066.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/young-woman-in-a-white-tank-top-and-jeans-posing-on-the-floor-20438297/",
-      "license": "Pexels License",
-      "author": "tany"
-    },
-    {
-      "file": "assets/content/poses3/photos/p067.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/woman-in-white-sexy-top-lying-on-black-fabric-while-posing-at-the-camera-11895920/",
-      "license": "Pexels License",
-      "author": "Tanya Gupta"
-    },
-    {
-      "file": "assets/content/poses3/photos/p068.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/woman-lying-down-on-wooden-pier-and-posing-16424648/",
-      "license": "Pexels License",
-      "author": "Wisnu Phaewchimplee"
-    },
-    {
-      "file": "assets/content/poses3/photos/p069.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/woman-lying-on-a-rug-10334181/",
-      "license": "Pexels License",
-      "author": "Nastya Korenkova"
-    },
-    {
-      "file": "assets/content/poses3/photos/p070.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/a-woman-in-white-tube-top-and-skirt-lying-down-while-looking-up-12672060/",
-      "license": "Pexels License",
-      "author": "Maksim Krapivin"
-    },
-    {
-      "file": "assets/content/poses3/photos/p071.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/a-woman-in-floral-dress-lying-down-7089069/",
-      "license": "Pexels License",
-      "author": "Polina ⠀"
-    },
-    {
-      "file": "assets/content/poses3/photos/p072.jpg",
-      "name": "姿势参考（躺姿）",
-      "source": "https://www.pexels.com/photo/woman-lying-on-floor-3477183/",
-      "license": "Pexels License",
-      "author": "Ivan Oboleninov"
-    },
-    {
-      "file": "assets/content/poses3/photos/p073.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/ballerina-dancing-1844038/",
-      "license": "Pexels License",
-      "author": "Gabriel Santos"
-    },
-    {
-      "file": "assets/content/poses3/photos/p074.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/man-dancing-at-a-studio-8853914/",
-      "license": "Pexels License",
-      "author": "Los Muertos Crew"
-    },
-    {
-      "file": "assets/content/poses3/photos/p075.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/ballet-dancer-against-black-background-15213809/",
-      "license": "Pexels License",
-      "author": "Alejandro Aznar"
-    },
-    {
-      "file": "assets/content/poses3/photos/p076.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/jump-shot-of-a-person-under-golden-sky-12233264/",
-      "license": "Pexels License",
-      "author": "David Gari"
-    },
-    {
-      "file": "assets/content/poses3/photos/p077.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/woman-in-yellow-tank-top-jumping-8928733/",
-      "license": "Pexels License",
-      "author": "RDNE Stock project"
-    },
-    {
-      "file": "assets/content/poses3/photos/p078.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/woman-in-red-shirt-and-green-jogging-pants-jumping-11638265/",
-      "license": "Pexels License",
-      "author": "Brunxs"
-    },
-    {
-      "file": "assets/content/poses3/photos/p079.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/dancer-dancing-at-the-hallway-8854014/",
-      "license": "Pexels License",
-      "author": "Los Muertos Crew"
-    },
-    {
-      "file": "assets/content/poses3/photos/p080.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/man-dancing-on-the-hallway-8854013/",
-      "license": "Pexels License",
-      "author": "Los Muertos Crew"
-    },
-    {
-      "file": "assets/content/poses3/photos/p081.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/a-woman-jumping-on-the-street-13273136/",
-      "license": "Pexels License",
-      "author": "RedWolf"
-    },
-    {
-      "file": "assets/content/poses3/photos/p082.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/gymnast-mid-jump-on-the-riverbank-9397116/",
-      "license": "Pexels License",
-      "author": "Juliano Astc"
-    },
-    {
-      "file": "assets/content/poses3/photos/p083.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://www.pexels.com/photo/woman-in-blue-dress-holding-pink-textile-7008928/",
-      "license": "Pexels License",
-      "author": "Evgeniya Litovchenko"
-    },
-    {
-      "file": "assets/content/poses3/photos/p084.jpg",
-      "name": "姿势参考（动态）",
-      "source": "https://commons.wikimedia.org/wiki/File:Ballet_dancer_in_Matosinhos_(Unsplash).jpg",
-      "license": "CC0",
-      "author": "Miguel Salgado jmdsalgado"
-    },
-    {
-      "file": "assets/content/poses3/photos/p085.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/artistic-portrait-with-intriguing-hand-poses-30713507/",
-      "license": "Pexels License",
-      "author": "Eyüpcan Timur"
-    },
-    {
-      "file": "assets/content/poses3/photos/p086.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/black-and-white-portrait-of-smiling-woman-38178737/",
-      "license": "Pexels License",
-      "author": "Uday Veeru"
-    },
-    {
-      "file": "assets/content/poses3/photos/p087.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/woman-in-gloves-and-with-hands-around-face-20052409/",
-      "license": "Pexels License",
-      "author": "Екатерина Тафейко"
-    },
-    {
-      "file": "assets/content/poses3/photos/p088.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/persons-hand-doing-peace-sign-9486606/",
-      "license": "Pexels License",
-      "author": "ROCKETMANN TEAM"
-    },
-    {
-      "file": "assets/content/poses3/photos/p089.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/outstretched-hand-against-gray-background-34200724/",
-      "license": "Pexels License",
-      "author": "Ahmad  Roihan Muqoddes"
-    },
-    {
-      "file": "assets/content/poses3/photos/p090.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/hand-on-black-background-18782641/",
-      "license": "Pexels License",
-      "author": "Anastasiya Badun"
-    },
-    {
-      "file": "assets/content/poses3/photos/p091.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/playful-young-woman-posing-outdoors-in-summer-37217818/",
-      "license": "Pexels License",
-      "author": "🇻🇳🇻🇳Nguyễn Tiến Thịnh 🇻🇳🇻🇳"
-    },
-    {
-      "file": "assets/content/poses3/photos/p092.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/monochrome-portrait-of-woman-holding-flowers-39400948/",
-      "license": "Pexels License",
-      "author": "Cesar  Lalangui Eras"
-    },
-    {
-      "file": "assets/content/poses3/photos/p093.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/woman-standing-by-the-wall-with-her-arm-reached-toward-the-camera-18950417/",
-      "license": "Pexels License",
-      "author": "Arda Kaykısız"
-    },
-    {
-      "file": "assets/content/poses3/photos/p094.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/minimalist-gesture-against-dark-background-33681510/",
-      "license": "Pexels License",
-      "author": "Alexander Mass"
-    },
-    {
-      "file": "assets/content/poses3/photos/p095.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/dramatic-black-and-white-open-hand-closeup-34167728/",
-      "license": "Pexels License",
-      "author": "Oviul Maruf"
-    },
-    {
-      "file": "assets/content/poses3/photos/p096.jpg",
-      "name": "姿势参考（手部）",
-      "source": "https://www.pexels.com/photo/hands-against-gradient-background-20212666/",
-      "license": "Pexels License",
-      "author": "Vera Emilie"
-    },
-    {
-      "file": "assets/content/poses3/photos/p097.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/face-of-brunette-woman-6757309/",
-      "license": "Pexels License",
-      "author": "Sakshi Patwa"
-    },
-    {
-      "file": "assets/content/poses3/photos/p098.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/grayscale-photo-of-a-beautiful-woman-14257475/",
-      "license": "Pexels License",
-      "author": "Alexander Krivitskiy"
-    },
-    {
-      "file": "assets/content/poses3/photos/p099.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/beautiful-woman-posing-in-studio-16138977/",
-      "license": "Pexels License",
-      "author": "Israel Torres"
-    },
-    {
-      "file": "assets/content/poses3/photos/p100.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/creative-portrait-of-woman-with-hands-artistic-pose-30057732/",
-      "license": "Pexels License",
-      "author": "Ander Masó (Lord Ander M)"
-    },
-    {
-      "file": "assets/content/poses3/photos/p101.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/face-of-woman-with-brown-hair-15973121/",
-      "license": "Pexels License",
-      "author": "Alexander Krivitskiy"
-    },
-    {
-      "file": "assets/content/poses3/photos/p102.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/woman-resting-her-chin-on-hand-2899774/",
-      "license": "Pexels License",
-      "author": "Brenda Lelis"
-    },
-    {
-      "file": "assets/content/poses3/photos/p103.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/woman-face-in-black-and-white-16017830/",
-      "license": "Pexels License",
-      "author": "Alexander Krivitskiy"
-    },
-    {
-      "file": "assets/content/poses3/photos/p104.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/close-up-portrait-of-young-woman-with-natural-makeup-33949302/",
-      "license": "Pexels License",
-      "author": "juliane Monari"
-    },
-    {
-      "file": "assets/content/poses3/photos/p105.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/elegant-portrait-of-a-young-woman-34717758/",
-      "license": "Pexels License",
-      "author": "Justbeingblythe"
-    },
-    {
-      "file": "assets/content/poses3/photos/p106.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/portrait-of-a-woman-with-red-eyeshadow-13234822/",
-      "license": "Pexels License",
-      "author": "Çağla Ateş"
-    },
-    {
-      "file": "assets/content/poses3/photos/p107.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/portrait-photo-of-woman-in-yellow-t-shirt-posing-with-her-hand-on-her-chin-3760955/",
-      "license": "Pexels License",
-      "author": "Sound On"
-    },
-    {
-      "file": "assets/content/poses3/photos/p108.jpg",
-      "name": "姿势参考（神态）",
-      "source": "https://www.pexels.com/photo/portrait-of-brunette-with-mustache-15519509/",
-      "license": "Pexels License",
-      "author": "joao Guerreiro"
-    },
-    {
-      "file": "assets/content/poses3/photos/p109.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/woman-in-floral-dress-holding-red-umbrella-12984893/",
-      "license": "Pexels License",
-      "author": "Ali  Alcántara"
-    },
-    {
-      "file": "assets/content/poses3/photos/p110.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/elegant-portrait-of-woman-with-umbrella-34411779/",
-      "license": "Pexels License",
-      "author": "Đan Thy Nguyễn Mai"
-    },
-    {
-      "file": "assets/content/poses3/photos/p111.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/young-woman-in-a-pink-dress-sitting-on-the-background-of-pink-balloons-and-a-barbie-box-17037716/",
-      "license": "Pexels License",
-      "author": "Criativa Pix Fotografia"
-    },
-    {
-      "file": "assets/content/poses3/photos/p112.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/a-barefooted-woman-sitting-beside-head-statue-while-looking-afar-11780515/",
-      "license": "Pexels License",
-      "author": "Vika Glitter"
-    },
-    {
-      "file": "assets/content/poses3/photos/p113.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/a-woman-wearing-a-bralette-and-a-sheer-skirt-holding-dried-flowers-13007309/",
-      "license": "Pexels License",
-      "author": "Như Khuê"
-    },
-    {
-      "file": "assets/content/poses3/photos/p114.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/elegant-portrait-photography-in-red-cheongsam-30542775/",
-      "license": "Pexels License",
-      "author": "Howdy Hada"
-    },
-    {
-      "file": "assets/content/poses3/photos/p115.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/woman-in-white-top-smiling-6519372/",
-      "license": "Pexels License",
-      "author": "RDNE Stock project"
-    },
-    {
-      "file": "assets/content/poses3/photos/p116.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/a-woman-in-beige-halter-top-holding-an-umbrella-8669434/",
-      "license": "Pexels License",
-      "author": "Mikhail Nilov"
-    },
-    {
-      "file": "assets/content/poses3/photos/p117.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/festive-christmas-scene-with-young-woman-and-candy-cane-34880796/",
-      "license": "Pexels License",
-      "author": "Walter Alejandro"
-    },
-    {
-      "file": "assets/content/poses3/photos/p118.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/a-woman-holding-an-umbrella-and-posing-in-front-of-a-statue-27832777/",
-      "license": "Pexels License",
-      "author": "Vinh Chế"
-    },
-    {
-      "file": "assets/content/poses3/photos/p119.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/woman-holding-a-camera-9839519/",
-      "license": "Pexels License",
-      "author": "Vika Glitter"
-    },
-    {
-      "file": "assets/content/poses3/photos/p120.jpg",
-      "name": "姿势参考（道具互动）",
-      "source": "https://www.pexels.com/photo/flexible-woman-stretching-leg-in-fitness-studio-6454034/",
-      "license": "Pexels License",
-      "author": "Marta Wave"
-    },
-    {
       "file": "assets/content/gear/photo2/cam-1.jpg",
       "name": "器材图（佳能 EOS R5）",
       "source": "https://commons.wikimedia.org/wiki/File:Canon_EOS_R5_with_Canon_RF_24-70mm_F2.8L_IS_USM_(50170662581).jpg",
@@ -5534,7 +4694,847 @@
       "source": "https://polyhaven.com/a/studio_small_03",
       "license": "CC0",
       "author": "Poly Haven"
+    },
+    {
+      "file": "assets/content/poses3/photos/p001.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/woman-standing-beside-a-green-wall-7705949/",
+      "license": "Pexels License",
+      "author": "ShotPot"
+    },
+    {
+      "file": "assets/content/poses3/photos/p002.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/portrait-of-a-woman-with-her-arms-crossed-26953103/",
+      "license": "Pexels License",
+      "author": "Pro5 vn"
+    },
+    {
+      "file": "assets/content/poses3/photos/p003.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/portrait-of-a-woman-sitting-on-a-chair-26953109/",
+      "license": "Pexels License",
+      "author": "Pro5 vn"
+    },
+    {
+      "file": "assets/content/poses3/photos/p004.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/businesswoman-wearing-a-suit-26728093/",
+      "license": "Pexels License",
+      "author": "HANUMAN PHOTO STUDIO🏕️📸"
+    },
+    {
+      "file": "assets/content/poses3/photos/p005.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/a-woman-wearing-a-floral-top-and-ripped-jeans-7208435/",
+      "license": "Pexels License",
+      "author": "อ้อม ภาณุวัฒน์"
+    },
+    {
+      "file": "assets/content/poses3/photos/p006.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/a-woman-wearing-a-floral-top-and-ripped-jeans-7208431/",
+      "license": "Pexels License",
+      "author": "อ้อม ภาณุวัฒน์"
+    },
+    {
+      "file": "assets/content/poses3/photos/p007.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/woman-in-white-tank-top-and-blue-denim-jeans-7208437/",
+      "license": "Pexels License",
+      "author": "อ้อม ภาณุวัฒน์"
+    },
+    {
+      "file": "assets/content/poses3/photos/p008.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/woman-in-green-and-white-tank-top-and-blue-denim-jeans-7208434/",
+      "license": "Pexels License",
+      "author": "อ้อม ภาณุวัฒน์"
+    },
+    {
+      "file": "assets/content/poses3/photos/p009.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/a-woman-wearing-a-floral-top-and-ripped-jeans-7208448/",
+      "license": "Pexels License",
+      "author": "อ้อม ภาณุวัฒน์"
+    },
+    {
+      "file": "assets/content/poses3/photos/p010.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/studio-portrait-of-a-smiling-woman-in-a-leather-jacket-6211616/",
+      "license": "Pexels License",
+      "author": "Dima Valkov"
+    },
+    {
+      "file": "assets/content/poses3/photos/p011.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/professional-asian-woman-in-corporate-attire-37830403/",
+      "license": "Pexels License",
+      "author": "PROFFESIONAL PHOTO STOCK"
+    },
+    {
+      "file": "assets/content/poses3/photos/p012.jpg",
+      "name": "姿势参考（站姿）",
+      "source": "https://www.pexels.com/photo/asian-woman-hitching-ride-on-road-7262879/",
+      "license": "Pexels License",
+      "author": "Muhammad Dzaki Zaidan"
+    },
+    {
+      "file": "assets/content/poses3/photos/p013.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/pretty-woman-sitting-on-a-chair-11571297/",
+      "license": "Pexels License",
+      "author": "OC1820"
+    },
+    {
+      "file": "assets/content/poses3/photos/p014.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/a-man-in-a-black-suit-sitting-on-a-chair-14230742/",
+      "license": "Pexels License",
+      "author": "HONG SON"
+    },
+    {
+      "file": "assets/content/poses3/photos/p015.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/a-young-woman-wearing-a-traditional-ao-dai-and-holding-flowers-19887634/",
+      "license": "Pexels License",
+      "author": "Thanh Xuan Nguyen Ly"
+    },
+    {
+      "file": "assets/content/poses3/photos/p016.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/a-man-in-a-black-suit-sitting-on-a-chair-14615367/",
+      "license": "Pexels License",
+      "author": "lu luan"
+    },
+    {
+      "file": "assets/content/poses3/photos/p017.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/a-woman-in-red-long-sleeve-dress-sitting-on-a-white-wooden-table-13181683/",
+      "license": "Pexels License",
+      "author": "HONG SON"
+    },
+    {
+      "file": "assets/content/poses3/photos/p018.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/professional-asian-man-in-studio-portrait-setting-31268614/",
+      "license": "Pexels License",
+      "author": "Duy's  House of Photo"
+    },
+    {
+      "file": "assets/content/poses3/photos/p019.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/a-man-in-black-outfit-sitting-on-chair-10423604/",
+      "license": "Pexels License",
+      "author": "HONG SON"
+    },
+    {
+      "file": "assets/content/poses3/photos/p020.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/photo-of-a-woman-wearing-denim-pants-sitting-on-a-white-chair-7208440/",
+      "license": "Pexels License",
+      "author": "อ้อม ภาณุวัฒน์"
+    },
+    {
+      "file": "assets/content/poses3/photos/p021.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/a-man-in-black-pants-sitting-on-a-folding-chair-with-his-legs-crossed-10423654/",
+      "license": "Pexels License",
+      "author": "HONG SON"
+    },
+    {
+      "file": "assets/content/poses3/photos/p022.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/woman-wearing-white-blazer-while-sitting-on-chair-8250263/",
+      "license": "Pexels License",
+      "author": "PNW Production"
+    },
+    {
+      "file": "assets/content/poses3/photos/p023.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/attractive-asian-woman-sitting-on-floor-in-light-studio-5311762/",
+      "license": "Pexels License",
+      "author": "Roberto Hund"
+    },
+    {
+      "file": "assets/content/poses3/photos/p024.jpg",
+      "name": "姿势参考（坐姿）",
+      "source": "https://www.pexels.com/photo/graceful-young-ethnic-woman-sitting-on-floor-with-crossed-legs-in-studio-5311795/",
+      "license": "Pexels License",
+      "author": "Roberto Hund"
+    },
+    {
+      "file": "assets/content/poses3/photos/p025.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/a-woman-in-brown-sweater-squatting-on-the-floor-7760236/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/poses3/photos/p026.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/woman-squatting-on-a-white-platform-6765171/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/poses3/photos/p027.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/a-woman-in-sitting-on-a-gym-equipment-12890814/",
+      "license": "Pexels License",
+      "author": "Connor Scott McManus"
+    },
+    {
+      "file": "assets/content/poses3/photos/p028.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/woman-in-black-blazer-and-blue-denim-shorts-12972427/",
+      "license": "Pexels License",
+      "author": "Weezy  Mie"
+    },
+    {
+      "file": "assets/content/poses3/photos/p029.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/a-woman-in-her-nightwear-posing-on-a-pedestal-8406515/",
+      "license": "Pexels License",
+      "author": "Vasya  Sleptsov"
+    },
+    {
+      "file": "assets/content/poses3/photos/p030.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/woman-in-white-outfit-sitting-on-white-chair-8483811/",
+      "license": "Pexels License",
+      "author": "Sasha  Kim"
+    },
+    {
+      "file": "assets/content/poses3/photos/p031.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/a-woman-wearing-a-white-dress-and-a-hat-8073804/",
+      "license": "Pexels License",
+      "author": "Art Laurence Luzon"
+    },
+    {
+      "file": "assets/content/poses3/photos/p032.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/stylish-female-squatting-down-on-street-5755674/",
+      "license": "Pexels License",
+      "author": "Abdo. Shannan"
+    },
+    {
+      "file": "assets/content/poses3/photos/p033.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/a-mysterious-woman-in-black-sleeveless-dress-13520099/",
+      "license": "Pexels License",
+      "author": "TH Team"
+    },
+    {
+      "file": "assets/content/poses3/photos/p034.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/a-woman-in-black-blazer-sitting-on-the-street-while-looking-afar-15080067/",
+      "license": "Pexels License",
+      "author": "firman fatthul"
+    },
+    {
+      "file": "assets/content/poses3/photos/p035.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/woman-in-black-clothes-and-high-heels-squatting-and-posing-17493623/",
+      "license": "Pexels License",
+      "author": "Caio Mantovani"
+    },
+    {
+      "file": "assets/content/poses3/photos/p036.jpg",
+      "name": "姿势参考（蹲姿）",
+      "source": "https://www.pexels.com/photo/woman-in-red-spaghetti-strap-dress-squatting-on-white-floor-8789401/",
+      "license": "Pexels License",
+      "author": "Darina Belonogova"
+    },
+    {
+      "file": "assets/content/poses3/photos/p037.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/a-woman-kneeling-in-a-dress-13960415/",
+      "license": "Pexels License",
+      "author": "Jame_9bkk"
+    },
+    {
+      "file": "assets/content/poses3/photos/p038.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/woman-with-tattoos-and-in-bikini-20374671/",
+      "license": "Pexels License",
+      "author": "Luis  Erives"
+    },
+    {
+      "file": "assets/content/poses3/photos/p039.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/a-stylish-woman-kneeling-13035173/",
+      "license": "Pexels License",
+      "author": "Lê Đức"
+    },
+    {
+      "file": "assets/content/poses3/photos/p040.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/a-woman-in-printed-dress-kneeling-on-the-floor-13077740/",
+      "license": "Pexels License",
+      "author": "Weezy  Mie"
+    },
+    {
+      "file": "assets/content/poses3/photos/p041.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/photo-of-a-kneeling-woman-against-a-yellow-background-17041813/",
+      "license": "Pexels License",
+      "author": "Erika  Reyes"
+    },
+    {
+      "file": "assets/content/poses3/photos/p042.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/woman-kneeling-in-black-and-white-25267262/",
+      "license": "Pexels License",
+      "author": "Felix Young"
+    },
+    {
+      "file": "assets/content/poses3/photos/p043.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/woman-in-sleeves-sitting-in-black-and-white-25267257/",
+      "license": "Pexels License",
+      "author": "Felix Young"
+    },
+    {
+      "file": "assets/content/poses3/photos/p044.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/artistic-portrait-of-a-woman-in-black-dress-32466303/",
+      "license": "Pexels License",
+      "author": "YI REN"
+    },
+    {
+      "file": "assets/content/poses3/photos/p045.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/woman-floral-dress-holding-red-flowers-13960412/",
+      "license": "Pexels License",
+      "author": "Jame_9bkk"
+    },
+    {
+      "file": "assets/content/poses3/photos/p046.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/young-woman-in-a-black-tank-top-kneeling-on-a-stool-22601724/",
+      "license": "Pexels License",
+      "author": "Joshua Lim"
+    },
+    {
+      "file": "assets/content/poses3/photos/p047.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/a-woman-kneeling-on-the-floor-7793228/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/poses3/photos/p048.jpg",
+      "name": "姿势参考（跪姿）",
+      "source": "https://www.pexels.com/photo/woman-in-white-long-sleeve-shirt-and-black-skirt-sitting-on-green-grass-10535679/",
+      "license": "Pexels License",
+      "author": "거열 박"
+    },
+    {
+      "file": "assets/content/poses3/photos/p049.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/woman-in-a-coat-leaning-on-a-gray-surface-7682066/",
+      "license": "Pexels License",
+      "author": "Mikhail Nilov"
+    },
+    {
+      "file": "assets/content/poses3/photos/p050.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/young-woman-posing-in-striped-top-18976783/",
+      "license": "Pexels License",
+      "author": "BYB  BYB"
+    },
+    {
+      "file": "assets/content/poses3/photos/p051.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/woman-in-a-blue-ao-dai-leaning-on-a-concrete-wall-7237988/",
+      "license": "Pexels License",
+      "author": "Sang Tran"
+    },
+    {
+      "file": "assets/content/poses3/photos/p052.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/close-up-shot-of-a-beautiful-girl-leaning-on-the-wall-11494120/",
+      "license": "Pexels License",
+      "author": "Chu Cuong"
+    },
+    {
+      "file": "assets/content/poses3/photos/p053.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/glad-asian-woman-dangling-foot-from-tiled-edge-7262944/",
+      "license": "Pexels License",
+      "author": "Muhammad Dzaki Zaidan"
+    },
+    {
+      "file": "assets/content/poses3/photos/p055.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/grayscale-photograph-of-a-woman-leaning-on-glass-10050500/",
+      "license": "Pexels License",
+      "author": "Marina Abrosimova"
+    },
+    {
+      "file": "assets/content/poses3/photos/p056.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/woman-leaning-on-a-wall-10341411/",
+      "license": "Pexels License",
+      "author": "Đặng Thanh Tú"
+    },
+    {
+      "file": "assets/content/poses3/photos/p057.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/a-woman-posing-in-a-white-long-sleeve-dress-8620853/",
+      "license": "Pexels License",
+      "author": "Tiểu Bảo Trương"
+    },
+    {
+      "file": "assets/content/poses3/photos/p058.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/woman-in-white-collared-shirt-3701227/",
+      "license": "Pexels License",
+      "author": "Nothing Ahead"
+    },
+    {
+      "file": "assets/content/poses3/photos/p059.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/woman-standing-by-wall-18426208/",
+      "license": "Pexels License",
+      "author": "Felix Young"
+    },
+    {
+      "file": "assets/content/poses3/photos/p060.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/woman-leaning-on-mirror-3064587/",
+      "license": "Pexels License",
+      "author": "mikoto.raw Photographer"
+    },
+    {
+      "file": "assets/content/poses3/photos/p061.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/a-woman-lying-down-7872875/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/poses3/photos/p062.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/woman-in-shirt-lying-down-and-posing-on-couch-18393778/",
+      "license": "Pexels License",
+      "author": "YI REN"
+    },
+    {
+      "file": "assets/content/poses3/photos/p063.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/brothers-lying-on-the-floor-7694689/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/poses3/photos/p064.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/woman-lying-on-the-floor-beside-a-round-mirror-8484003/",
+      "license": "Pexels License",
+      "author": "Sasha  Kim"
+    },
+    {
+      "file": "assets/content/poses3/photos/p065.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/a-woman-lying-on-the-table-8820477/",
+      "license": "Pexels License",
+      "author": "Rizky Sabriansyah"
+    },
+    {
+      "file": "assets/content/poses3/photos/p066.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/female-in-white-tank-top-lying-on-bed-4399370/",
+      "license": "Pexels License",
+      "author": "Joshua Lim"
+    },
+    {
+      "file": "assets/content/poses3/photos/p067.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/a-woman-lying-down-on-green-grass-while-seriously-looking-at-the-camera-8835400/",
+      "license": "Pexels License",
+      "author": "Zero Pamungkas"
+    },
+    {
+      "file": "assets/content/poses3/photos/p068.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/a-man-lying-on-the-floor-5291655/",
+      "license": "Pexels License",
+      "author": "ihsan ayyasy"
+    },
+    {
+      "file": "assets/content/poses3/photos/p069.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/man-in-yellow-crew-neck-shirt-leaning-his-head-on-skateboard-7081149/",
+      "license": "Pexels License",
+      "author": "Antoni Shkraba"
+    },
+    {
+      "file": "assets/content/poses3/photos/p070.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/a-woman-with-red-lips-lying-down-10488152/",
+      "license": "Pexels License",
+      "author": "Mavluda Tashbaeva"
+    },
+    {
+      "file": "assets/content/poses3/photos/p072.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/a-beautiful-woman-lying-on-gray-furry-blanket-seriously-looking-at-the-camera-10168715/",
+      "license": "Pexels License",
+      "author": "TH Team"
+    },
+    {
+      "file": "assets/content/poses3/photos/p073.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/graceful-ethnic-female-dancer-performing-dance-in-studio-5150444/",
+      "license": "Pexels License",
+      "author": "Budgeron Bach"
+    },
+    {
+      "file": "assets/content/poses3/photos/p074.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/a-woman-in-black-dress-dancing-near-white-wall-while-looking-at-the-camera-12402971/",
+      "license": "Pexels License",
+      "author": "TH Team"
+    },
+    {
+      "file": "assets/content/poses3/photos/p075.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/asian-ballerina-standing-graciously-with-arm-raised-in-studio-5149569/",
+      "license": "Pexels License",
+      "author": "Budgeron Bach"
+    },
+    {
+      "file": "assets/content/poses3/photos/p076.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/concentrated-ethnic-dancer-stretching-legs-in-ballet-studio-5150506/",
+      "license": "Pexels License",
+      "author": "Budgeron Bach"
+    },
+    {
+      "file": "assets/content/poses3/photos/p077.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/woman-in-black-dress-jumping-in-studio-7168151/",
+      "license": "Pexels License",
+      "author": "Anand Kulkarni"
+    },
+    {
+      "file": "assets/content/poses3/photos/p078.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/dancer-doing-the-splits-in-the-air-19629397/",
+      "license": "Pexels License",
+      "author": "Osman Arabacı"
+    },
+    {
+      "file": "assets/content/poses3/photos/p080.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/young-woman-in-blue-activewear-dancing-15155268/",
+      "license": "Pexels License",
+      "author": "YI REN"
+    },
+    {
+      "file": "assets/content/poses3/photos/p081.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/woman-in-orange-and-yellow-sari-8489689/",
+      "license": "Pexels License",
+      "author": "Thirdman"
+    },
+    {
+      "file": "assets/content/poses3/photos/p082.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/a-woman-in-yellow-tank-top-dancing-on-the-street-8927309/",
+      "license": "Pexels License",
+      "author": "RDNE Stock project"
+    },
+    {
+      "file": "assets/content/poses3/photos/p084.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/woman-dancing-in-a-shadow-19629395/",
+      "license": "Pexels License",
+      "author": "Osman Arabacı"
+    },
+    {
+      "file": "assets/content/poses3/photos/p085.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/woman-with-long-black-hair-26791396/",
+      "license": "Pexels License",
+      "author": "Anh Nguyen"
+    },
+    {
+      "file": "assets/content/poses3/photos/p086.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/a-woman-holding-on-metal-bar-7716860/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/poses3/photos/p087.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/woman-in-black-top-clenching-fists-9017016/",
+      "license": "Pexels License",
+      "author": "Kevin  Malik"
+    },
+    {
+      "file": "assets/content/poses3/photos/p088.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/a-woman-in-black-shirt-pointing-on-her-head-9017023/",
+      "license": "Pexels License",
+      "author": "Kevin  Malik"
+    },
+    {
+      "file": "assets/content/poses3/photos/p089.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/woman-in-black-dress-doing-hand-gestures-9017029/",
+      "license": "Pexels License",
+      "author": "Kevin  Malik"
+    },
+    {
+      "file": "assets/content/poses3/photos/p090.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/a-woman-wearing-a-black-dress-doing-hand-gestures-9017035/",
+      "license": "Pexels License",
+      "author": "Kevin  Malik"
+    },
+    {
+      "file": "assets/content/poses3/photos/p091.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/a-woman-doing-sign-language-9017378/",
+      "license": "Pexels License",
+      "author": "Kevin  Malik"
+    },
+    {
+      "file": "assets/content/poses3/photos/p092.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/a-woman-in-black-shirt-with-her-hands-together-9017019/",
+      "license": "Pexels License",
+      "author": "Kevin  Malik"
+    },
+    {
+      "file": "assets/content/poses3/photos/p093.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/woman-in-black-crew-neck-t-shirt-doing-hand-gestures-9017022/",
+      "license": "Pexels License",
+      "author": "Kevin  Malik"
+    },
+    {
+      "file": "assets/content/poses3/photos/p094.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/a-woman-in-black-crew-neck-t-shirt-9017015/",
+      "license": "Pexels License",
+      "author": "Kevin  Malik"
+    },
+    {
+      "file": "assets/content/poses3/photos/p095.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/woman-in-black-long-sleeve-shirt-looking-at-hand-palm-9017030/",
+      "license": "Pexels License",
+      "author": "Kevin  Malik"
+    },
+    {
+      "file": "assets/content/poses3/photos/p096.jpg",
+      "name": "姿势参考（手部）",
+      "source": "https://www.pexels.com/photo/a-woman-pointing-her-finger-8727459/",
+      "license": "Pexels License",
+      "author": "Tima Miroshnichenko"
+    },
+    {
+      "file": "assets/content/poses3/photos/p097.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/a-woman-looking-at-the-camera-10209466/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/poses3/photos/p098.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/a-man-in-white-long-sleeve-shirt-8586782/",
+      "license": "Pexels License",
+      "author": "Joon Tae Kim"
+    },
+    {
+      "file": "assets/content/poses3/photos/p099.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/woman-in-blue-traditional-dress-19887643/",
+      "license": "Pexels License",
+      "author": "Thanh Xuan Nguyen Ly"
+    },
+    {
+      "file": "assets/content/poses3/photos/p100.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/man-sitting-and-fixing-hair-20279543/",
+      "license": "Pexels License",
+      "author": "Burcu Elmas"
+    },
+    {
+      "file": "assets/content/poses3/photos/p101.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/man-sitting-on-black-background-20279541/",
+      "license": "Pexels License",
+      "author": "Burcu Elmas"
+    },
+    {
+      "file": "assets/content/poses3/photos/p102.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/man-in-blue-button-up-shirt-astonished-4584162/",
+      "license": "Pexels License",
+      "author": "Ketut Subiyanto"
+    },
+    {
+      "file": "assets/content/poses3/photos/p103.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/man-in-blue-denim-long-sleeves-shirt-covering-ears-4584192/",
+      "license": "Pexels License",
+      "author": "Ketut Subiyanto"
+    },
+    {
+      "file": "assets/content/poses3/photos/p104.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/portrait-of-a-young-brunette-with-bangs-22042270/",
+      "license": "Pexels License",
+      "author": "Kenneth Surillo"
+    },
+    {
+      "file": "assets/content/poses3/photos/p105.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/woman-in-a-floral-shirt-and-denim-jeans-looking-at-the-camera-7208433/",
+      "license": "Pexels License",
+      "author": "อ้อม ภาณุวัฒน์"
+    },
+    {
+      "file": "assets/content/poses3/photos/p106.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/a-woman-in-white-long-sleeves-raising-her-hands-3866557/",
+      "license": "Pexels License",
+      "author": "Clara Ngo"
+    },
+    {
+      "file": "assets/content/poses3/photos/p107.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/portrait-of-a-man-holding-a-flower-9775818/",
+      "license": "Pexels License",
+      "author": "SHVETS production"
+    },
+    {
+      "file": "assets/content/poses3/photos/p108.jpg",
+      "name": "姿势参考（神态）",
+      "source": "https://www.pexels.com/photo/a-man-with-his-hands-together-7905823/",
+      "license": "Pexels License",
+      "author": "Shuseel  Maharjan"
+    },
+    {
+      "file": "assets/content/poses3/photos/p109.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/elegant-asian-woman-with-traditional-umbrella-35884641/",
+      "license": "Pexels License",
+      "author": "Đan Thy Nguyễn Mai"
+    },
+    {
+      "file": "assets/content/poses3/photos/p110.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/woman-in-white-shorts-holding-an-umbrella-12615365/",
+      "license": "Pexels License",
+      "author": "Jame_9bkk"
+    },
+    {
+      "file": "assets/content/poses3/photos/p111.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/woman-in-white-blazer-holding-a-red-umbrella-8764434/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/poses3/photos/p112.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/woman-dancing-and-raising-green-umbrella-on-grass-during-day-2775518/",
+      "license": "Pexels License",
+      "author": "Neeraj Raj"
+    },
+    {
+      "file": "assets/content/poses3/photos/p113.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/a-woman-in-blue-dress-holding-yellow-umbrella-12757807/",
+      "license": "Pexels License",
+      "author": "keshab chautariya"
+    },
+    {
+      "file": "assets/content/poses3/photos/p114.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/asian-woman-in-traditional-clothing-with-an-umbrella-17667974/",
+      "license": "Pexels License",
+      "author": "HANUMAN PHOTO STUDIO🏕️📸"
+    },
+    {
+      "file": "assets/content/poses3/photos/p115.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/woman-in-white-blazer-with-an-umbrella-8764427/",
+      "license": "Pexels License",
+      "author": "cottonbro studio"
+    },
+    {
+      "file": "assets/content/poses3/photos/p116.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/beautiful-asian-woman-posing-with-an-umbrella-18577970/",
+      "license": "Pexels License",
+      "author": "Tuấn Kiệt Jr."
+    },
+    {
+      "file": "assets/content/poses3/photos/p118.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/traditional-vietnamese-attire-and-umbrella-outdoors-29960970/",
+      "license": "Pexels License",
+      "author": "Thanh  Nhan"
+    },
+    {
+      "file": "assets/content/poses3/photos/p119.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/woman-in-white-dress-posing-with-umbrella-under-trees-15570646/",
+      "license": "Pexels License",
+      "author": "Doci"
+    },
+    {
+      "file": "assets/content/poses3/photos/p120.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/elegant-asian-woman-in-red-cheongsam-with-parasol-30542761/",
+      "license": "Pexels License",
+      "author": "Howdy Hada"
+    },
+    {
+      "file": "assets/content/poses3/photos/p054.jpg",
+      "name": "姿势参考（靠姿）",
+      "source": "https://www.pexels.com/photo/young-woman-posing-in-black-dress-leaning-on-a-concrete-wall-14991743/",
+      "license": "Pexels License",
+      "author": "Đặng Thanh Tú"
+    },
+    {
+      "file": "assets/content/poses3/photos/p079.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/gymnast-mid-jump-on-the-riverbank-9397116/",
+      "license": "Pexels License",
+      "author": "Juliano Astc"
+    },
+    {
+      "file": "assets/content/poses3/photos/p083.jpg",
+      "name": "姿势参考（动态）",
+      "source": "https://www.pexels.com/photo/silhouette-of-woman-jumping-on-beach-during-sunset-12909945/",
+      "license": "Pexels License",
+      "author": "Sean"
+    },
+    {
+      "file": "assets/content/poses3/photos/p117.jpg",
+      "name": "姿势参考（道具互动）",
+      "source": "https://www.pexels.com/photo/a-beautiful-woman-in-beige-dress-smiling-while-holding-an-umbrella-15455220/",
+      "license": "Pexels License",
+      "author": "Tuấn Kiệt Jr."
+    },
+    {
+      "file": "assets/content/poses3/photos/p071.jpg",
+      "name": "姿势参考（躺姿）",
+      "source": "https://www.pexels.com/photo/woman-lying-on-the-floor-with-a-round-mirror-near-her-face-8484012/",
+      "license": "Pexels License",
+      "author": "Sasha  Kim"
     }
   ],
-  "note": "内置第三方素材署名（G6）：Wikimedia 图片仅收录 CC0/PD/CC BY*；程序插画无需署名。"
+  "note": "素材许可登记（V6）：姿势照片为亚洲人（Pexels License / Wikimedia CC0/PD/CC BY）。"
 }
