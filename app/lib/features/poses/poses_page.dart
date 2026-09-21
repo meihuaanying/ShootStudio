@@ -8,7 +8,7 @@ import '../../services/content_packs.dart';
 import '../lighting/lighting_controller.dart';
 import '../planner/planner_pending.dart';
 import '../shell/app_shell.dart';
-import 'pose_recognize_notice.dart';
+import 'pose_import_page.dart';
 import 'pose_skeleton.dart';
 import 'poses_controller.dart';
 
@@ -53,7 +53,11 @@ class _PosesPageState extends ConsumerState<PosesPage> {
           icon: Icons.add_a_photo_outlined,
           kind: SsButtonKind.ghost,
           dense: true,
-          onPressed: () => showPoseRecognizeNotice(context),
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (BuildContext _) => const PoseImportPage(),
+            ),
+          ),
         ),
       ],
       body: !state.initialized
@@ -358,13 +362,21 @@ class _PosesPageState extends ConsumerState<PosesPage> {
       );
     }
     final bool fav = state.favorites.contains(pose.id);
+    final bool overridden = state.isOverridden(pose.id);
+    final bool custom = state.isCustom(pose.id);
     final int confidence = (pose.confidence * 100).round();
     return SsCard(
       child: ListView(
         children: <Widget>[
           SsSectionTitle(
             pose.name,
-            subtitle: '${pose.category} · ${pose.difficulty}',
+            subtitle:
+                '${pose.category} · ${pose.difficulty}'
+                '${overridden
+                    ? ' · 已本地覆盖'
+                    : custom
+                    ? ' · 自定义'
+                    : ''}',
           ),
           const SizedBox(height: AppTokens.s8),
           if (pose.referenceOnly)
@@ -439,6 +451,59 @@ class _PosesPageState extends ConsumerState<PosesPage> {
             kind: SsButtonKind.ghost,
             onPressed: () => controller.toggleFavorite(),
           ),
+          const SizedBox(height: 8),
+          SsButton(
+            label: '替换参考图（导入照片识别）',
+            icon: Icons.swap_horiz_rounded,
+            kind: SsButtonKind.ghost,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (BuildContext _) => PoseImportPage(overridePose: pose),
+              ),
+            ),
+          ),
+          if (overridden) ...<Widget>[
+            const SizedBox(height: 8),
+            SsButton(
+              label: '恢复默认参考图',
+              icon: Icons.settings_backup_restore_rounded,
+              kind: SsButtonKind.ghost,
+              onPressed: () => controller.restoreBuiltin(pose.id),
+            ),
+          ],
+          if (custom) ...<Widget>[
+            const SizedBox(height: 8),
+            SsButton(
+              label: '删除该自定义姿势',
+              icon: Icons.delete_outline_rounded,
+              kind: SsButtonKind.ghost,
+              onPressed: () async {
+                final bool? confirmed = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext ctx) => AlertDialog(
+                    title: const Text(
+                      '删除自定义姿势',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    content: Text('确定删除「${pose.name}」？该操作不可撤销。'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx, false),
+                        child: const Text('取消'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx, true),
+                        child: const Text('删除'),
+                      ),
+                    ],
+                  ),
+                );
+                if (confirmed == true) {
+                  await controller.deleteCustom(pose.id);
+                }
+              },
+            ),
+          ],
           const SizedBox(height: 8),
           SsButton(
             label: '导入到布光预演',

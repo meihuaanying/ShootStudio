@@ -3,9 +3,10 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shoot_studio/features/poses/pose_import_page.dart';
 import 'package:shoot_studio/features/poses/pose_landmark_math.dart';
-import 'package:shoot_studio/features/poses/pose_recognize_notice.dart';
 import 'package:shoot_studio/services/content_packs.dart';
 
 // Q2 照片姿势库硬门禁（D65–D70、R19/R20/R24/R27）。
@@ -365,29 +366,18 @@ void main() {
       expect(partial, greaterThan(0), reason: '应存在半身/特写样本');
     });
 
-    testWidgets('R23：端上识别不可用时给出可读提示且不阻塞（降级路径）', (WidgetTester tester) async {
+    testWidgets('R23/V6-D：端上识别已集成，导入页可打开且首屏不触发模型初始化', (
+      WidgetTester tester,
+    ) async {
+      // V4 曾因包体预算降级为「提示不可用」；V6 已集成 pose_detection，
+      // 此断言改为验证导入入口可用且懒加载模型（未选照片不依赖原生插件）。
       await tester.pumpWidget(
-        MaterialApp(
-          home: Builder(
-            builder: (BuildContext context) => Scaffold(
-              body: Center(
-                child: ElevatedButton(
-                  onPressed: () => showPoseRecognizeNotice(context),
-                  child: const Text('open-notice'),
-                ),
-              ),
-            ),
-          ),
-        ),
+        const ProviderScope(child: MaterialApp(home: PoseImportPage())),
       );
-      await tester.tap(find.text('open-notice'));
-      await tester.pumpAndSettle();
-      expect(find.text('端上照片识别暂不可用'), findsOneWidget);
-      expect(find.textContaining('内置骨架'), findsWidgets);
-      expect(find.textContaining('关节微调'), findsWidgets);
-      await tester.tap(find.text('知道了'));
-      await tester.pumpAndSettle();
-      expect(find.text('端上照片识别暂不可用'), findsNothing);
+      expect(find.text('导入照片识别'), findsOneWidget);
+      expect(find.text('选择照片'), findsOneWidget);
+      expect(find.text('还没有照片'), findsOneWidget);
+      expect(find.textContaining('只输出骨架与 12 关节数据'), findsWidgets);
     });
   });
 }

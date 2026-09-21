@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
 
 import '../../core/db/database.dart';
 import '../../core/providers.dart';
@@ -35,6 +36,8 @@ class PosesState {
     this.keyword = '',
     this.index = 0,
     this.favorites = const <String>{},
+    this.overriddenIds = const <String>{},
+    this.customIds = const <String>{},
     this.jointsOverride,
     this.initialized = false,
     this.status = '',
@@ -50,11 +53,24 @@ class PosesState {
   /// 收藏的姿势 id。
   final Set<String> favorites;
 
+  /// 被本地覆盖的内置姿势 id（D126：可一键恢复默认）。
+  final Set<String> overriddenIds;
+
+  /// 自定义姿势 id（含覆盖行）。
+  final Set<String> customIds;
+
   /// 微调后的关节（覆盖内置姿势的默认值）。
   final Map<String, Object?>? jointsOverride;
 
   final bool initialized;
   final String status;
+
+  /// 当前姿势是否为自定义（可删除）。
+  bool isCustom(String id) =>
+      customIds.contains(id) && !overriddenIds.contains(id);
+
+  /// 当前姿势是否为内置被覆盖（可恢复默认）。
+  bool isOverridden(String id) => overriddenIds.contains(id);
 
   PoseEntry? get current =>
       (index >= 0 && index < filtered.length) ? filtered[index] : null;
@@ -79,6 +95,8 @@ class PosesState {
     String? keyword,
     int? index,
     Set<String>? favorites,
+    Set<String>? overriddenIds,
+    Set<String>? customIds,
     Object? jointsOverride = _sentinel,
     bool? initialized,
     String? status,
@@ -91,6 +109,8 @@ class PosesState {
       keyword: keyword ?? this.keyword,
       index: index ?? this.index,
       favorites: favorites ?? this.favorites,
+      overriddenIds: overriddenIds ?? this.overriddenIds,
+      customIds: customIds ?? this.customIds,
       jointsOverride: jointsOverride == _sentinel
           ? this.jointsOverride
           : jointsOverride as Map<String, Object?>?,
@@ -109,20 +129,54 @@ final posesControllerProvider = NotifierProvider<PosesController, PosesState>(
 class PosesController extends Notifier<PosesState> {
   late final AppDatabase _db = ref.read(databaseProvider);
 
+  /// 内置姿势原始数据（恢复默认用，D126）。
+  final Map<String, PoseEntry> _builtinById = <String, PoseEntry>{};
+
   @override
   PosesState build() => const PosesState();
+
+  String get _posesDir =>
+      p.join(ref.read(workspaceProvider).root.path, 'images', 'poses');
 
   Future<void> init() async {
     if (state.initialized) return;
     final builtin = await ContentPacks.poses();
+    _builtinById
+      ..clear()
+      ..addEntries(
+        builtin.map((PoseEntry p) => MapEntry<String, PoseEntry>(p.id, p)),
+      );
     final custom = await _loadCustomPoses();
     final favorites = await _loadFavorites();
-    final all = <PoseEntry>[...builtin, ...custom];
+    final Map<String, PoseEntry> customById = <String, PoseEntry>{
+      for (final PoseEntry p in custom) p.id: p,
+    };
+    final List<PoseEntry> all = <PoseEntry>[];
+    final Set<String> overridden = <String>{};
+    final Set<String> customIds = <String>{};
+    for (final PoseEntry b in builtin) {
+      final PoseEntry? override = customById.remove(b.id);
+      if (override != null) {
+        all.add(override);
+        overridden.add(b.id);
+        customIds.add(b.id);
+      } else {
+        all.add(b);
+      }
+    }
+    for (final PoseEntry c in customById.values) {
+      all.add(c);
+      customIds.add(c.id);
+    }
     state = state.copyWith(
       all: all,
       favorites: favorites,
+      overriddenIds: overridden,
+      customIds: customIds,
       initialized: true,
-      status: '共 ${all.length} 个姿势',
+      status:
+          '共 ${all.length} 个姿势'
+          '${overridden.isEmpty ? '' : ' · 本地覆盖 ${overridden.length}'}',
     );
     _applyFilter(
       state.category,
@@ -144,6 +198,9 @@ class PosesController extends Notifier<PosesState> {
       );
       final rootY = joints.remove('rootY');
       final rootPitch = joints.remove('rootPitch');
+      // V6/D127：用户导入图存工作区 `images/poses/`，JSON 只存文件名。
+      final String photoFile = '${joints.remove('_photo') ?? ''}';
+      final String skeletonFile = '${joints.remove('_skeleton') ?? ''}';
       return PoseEntry(
         id: row.id,
         name: row.name,
@@ -156,10 +213,117 @@ class PosesController extends Notifier<PosesState> {
         hands: '',
         mistake: '',
         lens: row.lensAdvice,
+        photo: photoFile.isEmpty ? '' : p.join(_posesDir, photoFile),
+        skeleton: skeletonFile.isEmpty ? '' : p.join(_posesDir, skeletonFile),
         handsL: hands.$1,
         handsR: hands.$2,
       );
     }).toList();
+  }
+
+  /// 覆盖内置姿势的关节数据（D126）；可 [restoreBuiltin] 恢复。
+  Future<void> saveOverride({
+    required PoseEntry target,
+    required Map<String, Object?> joints,
+    String photoFile = '',
+    String skeletonFile = '',
+  }) async {
+    if (joints.isEmpty) return;
+    final Map<String, Object?> stored = Map<String, Object?>.of(joints);
+    if (photoFile.isNotEmpty) stored['_photo'] = photoFile;
+    if (skeletonFile.isNotEmpty) stored['_skeleton'] = skeletonFile;
+    final Map<String, Object?>? hands = handsToJson(
+      target.handsL,
+      target.handsR,
+    );
+    if (hands != null) stored['_hands'] = hands;
+    await _db
+        .into(_db.poses)
+        .insertOnConflictUpdate(
+          PosesCompanion.insert(
+            id: target.id,
+            name: target.name,
+            category: target.category,
+            difficulty: Value(target.difficulty),
+            jointsJson: jsonEncode(stored),
+            tip: Value(target.weight),
+            lensAdvice: Value(target.lens),
+            builtin: const Value(false),
+            favorite: Value(state.favorites.contains(target.id)),
+          ),
+        );
+    final PoseEntry entry = PoseEntry(
+      id: target.id,
+      name: target.name,
+      category: target.category,
+      difficulty: target.difficulty,
+      joints: Map<String, Object?>.of(joints)
+        ..remove('rootY')
+        ..remove('rootPitch'),
+      rootY: asDouble(joints['rootY']),
+      rootPitch: asDouble(joints['rootPitch']),
+      weight: target.weight,
+      hands: target.hands,
+      mistake: target.mistake,
+      lens: target.lens,
+      cameraPosition: target.cameraPosition,
+      photo: photoFile.isEmpty ? target.photo : p.join(_posesDir, photoFile),
+      skeleton: skeletonFile.isEmpty ? '' : p.join(_posesDir, skeletonFile),
+      confidence: target.confidence,
+      referenceOnly: target.referenceOnly,
+      handsL: target.handsL,
+      handsR: target.handsR,
+    );
+    _replaceEntry(entry);
+    state = state.copyWith(
+      overriddenIds: <String>{...state.overriddenIds, target.id},
+      customIds: <String>{...state.customIds, target.id},
+      status: '已本地覆盖「${target.name}」（可一键恢复默认）',
+    );
+  }
+
+  /// 恢复内置默认（删除覆盖行）。
+  Future<void> restoreBuiltin(String id) async {
+    final PoseEntry? original = _builtinById[id];
+    if (original == null) return;
+    await (_db.delete(
+      _db.poses,
+    )..where((t) => t.id.equals(id) & t.builtin.equals(false))).go();
+    _replaceEntry(original);
+    state = state.copyWith(
+      overriddenIds: <String>{...state.overriddenIds}..remove(id),
+      customIds: <String>{...state.customIds}..remove(id),
+      status: '已恢复默认「${original.name}」',
+    );
+  }
+
+  /// 删除自定义姿势（覆盖行请用 [restoreBuiltin]）。
+  Future<void> deleteCustom(String id) async {
+    if (!state.isCustom(id)) return;
+    await (_db.delete(
+      _db.poses,
+    )..where((t) => t.id.equals(id) & t.builtin.equals(false))).go();
+    final List<PoseEntry> all = state.all
+        .where((PoseEntry p) => p.id != id)
+        .toList();
+    state = state.copyWith(
+      all: all,
+      filtered: state.filtered.where((PoseEntry p) => p.id != id).toList(),
+      customIds: <String>{...state.customIds}..remove(id),
+      status: '已删除自定义姿势',
+    );
+  }
+
+  void _replaceEntry(PoseEntry entry) {
+    final List<PoseEntry> all = <PoseEntry>[
+      for (final PoseEntry p in state.all)
+        if (p.id == entry.id) entry else p,
+    ];
+    final List<PoseEntry> filtered = <PoseEntry>[
+      for (final PoseEntry p in state.filtered)
+        if (p.id == entry.id) entry else p,
+    ];
+    state = state.copyWith(all: all, filtered: filtered);
   }
 
   Map<String, Object?> _decode(String raw) {
@@ -249,21 +413,32 @@ class PosesController extends Notifier<PosesState> {
     final existing = await (_db.select(
       _db.poses,
     )..where((t) => t.id.equals(pose.id))).getSingleOrNull();
-    await _db
-        .into(_db.poses)
-        .insertOnConflictUpdate(
-          PosesCompanion.insert(
-            id: pose.id,
-            name: pose.name,
-            category: pose.category,
-            difficulty: Value(pose.difficulty),
-            jointsJson: jsonEncode(pose.joints),
-            tip: Value(pose.weight),
-            lensAdvice: Value(pose.lens),
-            builtin: Value(existing?.builtin ?? true),
-            favorite: Value(now),
-          ),
-        );
+    if (existing != null) {
+      // 仅更新收藏位，避免覆盖自定义姿势的根变换/导入图（D126/D127）。
+      await (_db.update(_db.poses)..where((t) => t.id.equals(pose.id))).write(
+        PosesCompanion(favorite: Value(now)),
+      );
+    } else {
+      await _db
+          .into(_db.poses)
+          .insertOnConflictUpdate(
+            PosesCompanion.insert(
+              id: pose.id,
+              name: pose.name,
+              category: pose.category,
+              difficulty: Value(pose.difficulty),
+              jointsJson: jsonEncode(<String, Object?>{
+                ...pose.joints,
+                'rootY': pose.rootY,
+                'rootPitch': pose.rootPitch,
+              }),
+              tip: Value(pose.weight),
+              lensAdvice: Value(pose.lens),
+              builtin: const Value(true),
+              favorite: Value(now),
+            ),
+          );
+    }
     state = state.copyWith(
       favorites: favorites,
       status: now ? '已收藏「${pose.name}」' : '已取消收藏',
@@ -304,6 +479,7 @@ class PosesController extends Notifier<PosesState> {
   }
 
   /// V5/D88：从布光页另存（含手部姿态）；[joints] 可含 rootY/rootPitch。
+  /// V6/D127：[photoFile]/[skeletonFile] 为工作区 `images/poses/` 文件名。
   Future<void> saveCustomPose({
     required String name,
     required Map<String, Object?> joints,
@@ -313,6 +489,8 @@ class PosesController extends Notifier<PosesState> {
     String lens = '',
     HandPoseState? handsL,
     HandPoseState? handsR,
+    String photoFile = '',
+    String skeletonFile = '',
   }) async {
     final String trimmed = name.trim();
     if (trimmed.isEmpty || joints.isEmpty) return;
@@ -320,6 +498,8 @@ class PosesController extends Notifier<PosesState> {
     final Map<String, Object?> stored = Map<String, Object?>.of(joints);
     final Map<String, Object?>? hands = handsToJson(handsL, handsR);
     if (hands != null) stored['_hands'] = hands;
+    if (photoFile.isNotEmpty) stored['_photo'] = photoFile;
+    if (skeletonFile.isNotEmpty) stored['_skeleton'] = skeletonFile;
     await _db
         .into(_db.poses)
         .insertOnConflictUpdate(
@@ -350,12 +530,15 @@ class PosesController extends Notifier<PosesState> {
       hands: '',
       mistake: '',
       lens: lens,
+      photo: photoFile.isEmpty ? '' : p.join(_posesDir, photoFile),
+      skeleton: skeletonFile.isEmpty ? '' : p.join(_posesDir, skeletonFile),
       handsL: handsL,
       handsR: handsR,
     );
     state = state.copyWith(
       all: <PoseEntry>[...state.all, entry],
       filtered: <PoseEntry>[...state.filtered, entry],
+      customIds: <String>{...state.customIds, id},
       status: '已另存为「$trimmed」',
     );
   }

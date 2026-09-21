@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class PoseSkeletonData {
   static final Map<String, Future<PoseSkeletonData?>> _cache =
       <String, Future<PoseSkeletonData?>>{};
 
-  /// 读取并缓存骨架 JSON（asset 为空或失败时返回 null，不抛错）。
+  /// 读取并缓存骨架 JSON（asset 或工作区文件；失败返回 null，不抛错）。
   static Future<PoseSkeletonData?> load(String asset) {
     if (asset.isEmpty) return Future<PoseSkeletonData?>.value(null);
     return _cache.putIfAbsent(asset, () => _load(asset));
@@ -39,7 +40,9 @@ class PoseSkeletonData {
 
   static Future<PoseSkeletonData?> _load(String asset) async {
     try {
-      final raw = await rootBundle.loadString(asset);
+      final String raw = asset.startsWith('assets/')
+          ? await rootBundle.loadString(asset)
+          : await File(asset).readAsString();
       final map = asMap(jsonDecode(raw));
       return PoseSkeletonData.fromJson(map);
     } catch (_) {
@@ -213,23 +216,39 @@ class PosePhotoView extends StatelessWidget {
         ),
       );
     }
-    final Widget image = Image.asset(
-      photo,
-      fit: fit,
-      cacheWidth: cacheWidth,
-      gaplessPlayback: true,
-      errorBuilder: (BuildContext context, Object error, StackTrace? stack) =>
-          Container(
-            color: scheme.surfaceContainerHighest,
-            child: Center(
-              child: Icon(
-                Icons.broken_image_outlined,
-                size: 24,
-                color: scheme.onSurfaceVariant,
-              ),
-            ),
-          ),
+    final Widget fallback = Container(
+      color: scheme.surfaceContainerHighest,
+      child: Center(
+        child: Icon(
+          Icons.broken_image_outlined,
+          size: 24,
+          color: scheme.onSurfaceVariant,
+        ),
+      ),
     );
+    final bool isAsset = photo.startsWith('assets/');
+    final File? file = isAsset ? null : File(photo);
+    final Widget image = isAsset
+        ? Image.asset(
+            photo,
+            fit: fit,
+            cacheWidth: cacheWidth,
+            gaplessPlayback: true,
+            errorBuilder:
+                (BuildContext context, Object error, StackTrace? stack) =>
+                    fallback,
+          )
+        : (file!.existsSync()
+              ? Image.file(
+                  file,
+                  fit: fit,
+                  cacheWidth: cacheWidth,
+                  gaplessPlayback: true,
+                  errorBuilder:
+                      (BuildContext context, Object error, StackTrace? stack) =>
+                          fallback,
+                )
+              : fallback);
     if (!showSkeleton || skeleton.isEmpty) return image;
     return Stack(
       fit: StackFit.expand,
