@@ -172,7 +172,7 @@ $env:GEAR_V3_OFFLINE='1'; python tool/gear_photos_v3/run.py fetch --ids light-g6
 
 ### P2：F 阶段（交付 v1.2.0）（✅ 2026-09-22 完成）
 9. ✅ 全量门禁 + Windows/Android 双端构建 + 冒烟 `tool/smoke_launch.ps1`（LAUNCH-OK）；APK **209.0MB**（D95 不限包体）。
-10. ✅ 版本/公告/dist/合同日志/HANDOFF/下载页全链路同步（`1.2.0+7`、公告 7 条要点）；tag `v1.2.0` 待打（触发 release.yml）。
+10. ✅ 版本/公告/dist/合同日志/HANDOFF/下载页全链路同步（`1.2.0+7`、公告 7 条要点）；tag `v1.2.0` 已发布（GitHub Release 含 APK 224.12MB / Windows zip 120.46MB / sha256 ×2）；官网 Pages 部署因仓库未开启 Pages 待 owner 开启后重跑（release.yml 的 4 处相对路径/顺序缺陷已修复）。
 
 ---
 

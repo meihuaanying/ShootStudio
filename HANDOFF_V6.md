@@ -1,7 +1,7 @@
 # ShootStudio V6 交接文档（进行中）—— 搜索重做 + 3D 稳定/建模 + 端上识别 + 资源库图
 
 > 更新：2026-09-22 ｜ 版本基线 `1.2.0+7`（V6 全部完成，待打 tag `v1.2.0` 触发发布）｜ 约束文件：`FIX_CONTRACT_V6.0.md`（**开工前必读**）
-> 进度：**A（②引擎稳定化）✅ ｜ B（③3D 建模与布光）✅ ｜ C（①搜索重做）✅ ｜ D（④姿势/端上识别）✅（120 张亚洲参考图 + 导入 UI 落地；D128 精度偏差保留登记） ｜ E（⑤资源库图）✅（抓取管线/增量同步/补图/覆盖率报告落地；D129 light·lens 偏差保留登记） ｜ F（交付 v1.2.0）✅（双端构建 LAUNCH-OK / APK 209.0MB / 版本公告同步；tag 发布待执行）**
+> 进度：**A（②引擎稳定化）✅ ｜ B（③3D 建模与布光）✅ ｜ C（①搜索重做）✅ ｜ D（④姿势/端上识别）✅（120 张亚洲参考图 + 导入 UI 落地；D128 精度偏差保留登记） ｜ E（⑤资源库图）✅（抓取管线/增量同步/补图/覆盖率报告落地；D129 light·lens 偏差保留登记） ｜ F（交付 v1.2.0）✅（GitHub Release 已发布含双端资产；官网 Pages 待开启后部署）**
 > 本机状态：全量 **249 passed + 25 skipped**（live/PoC/精度默认跳过）；`flutter analyze --fatal-infos` 0 问题；format 通过；引擎包 950.7KB
 > 仓库：`D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）
 
@@ -9,16 +9,17 @@
 
 ## 0. 30 秒速览：下一步做什么
 
-1. **发布动作（待用户确认后执行）**：`git tag v1.2.0 && git push origin v1.2.0` → `release.yml` 自动打包 Windows zip/APK + SHA256、创建 GitHub Release、构建并部署官网 Pages（公告直链自动写入）。
+1. **开启 GitHub Pages（唯一阻塞项，需 owner 操作）**：仓库 Settings → Pages → Build and deployment → Source 选 **GitHub Actions**；然后重跑 release run 的 `Deploy website (GitHub Pages)` 作业（或重推 tag）。开启后官网（下载页/更新日志/公告直链）即可部署，更新器检查 v1.2.0 也随之可用。
 2. **实机手测（建议发布后做）**：Windows 资源库「补图」文件选择器真实路径、设置页同步源/缓存上限保存生效、更新器检查 v1.2.0（需官网部署完成后）。
 3. **可选改进**：E 覆盖率 P1 定向补采；D128 精度改进（BlazePose 检测器 + 旋转 ROI）；网络恢复后启用 Openverse/Commons 开放源。
 
 ### F 阶段已完成（2026-09-22）
 
 - 版本：`app/pubspec.yaml` `1.2.0+7`、`kAppVersion='1.2.0'`、`web/public/announcements.json`（v1.2.0 七条要点 + 已知限制 + APK 体积）、`web/src/pages/{index,downloads}.astro` 文案/版本占位同步、`web/dist` 重建（5 页）。
-- 构建：Windows release 构建成功 + `tool/smoke_launch.ps1` **LAUNCH-OK**；Android APK **209.0MB**（SHA256 `f320c914…a445`，D95 不限包体）。
+- 构建：Windows release 构建成功 + `tool/smoke_launch.ps1` **LAUNCH-OK**；Android APK **209.0MB**（本地 SHA256 `f320c914…a445`，D95 不限包体）。
 - 门禁：format 0 changed ｜ analyze 0 问题 ｜ 全量 **249 passed + 25 skipped**（`updater_test` 的「未来版本」夹具改为 9.9.9，之后发版不再改用例）。
-- 遗留：`v1.2.0` tag 未打（仓库此前无任何 tag，属公开发布动作，等确认）；Windows 实机手测同上。
+- **已发布**：tag `v1.2.0`（`824c97b`）→ GitHub Release 已创建，资产 `shoot-studio-v1.2.0-android.apk`（224.12MB）、`shoot-studio-v1.2.0-windows.zip`（120.46MB）、两个 `*.sha256`；release run：`https://github.com/meihuaanying/ShootStudio/actions/runs/35739447410`。
+- 遗留：① Pages 未开启导致官网部署失败（见上，owner 操作）；② Windows 实机手测。
 
 ---
 
