@@ -34,3 +34,6 @@ Thumbs.db
 # Python 工具缓存
 __pycache__/
 *.pyc
+
+# E 阶段抓取图池：图片不入 git（R47）
+app/tool/gear_photo_pool/

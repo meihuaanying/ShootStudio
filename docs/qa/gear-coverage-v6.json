@@ -1,0 +1,533 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-22T02:46:37Z",
+  "note": "V6/E D129：覆盖率口径 = 内置产品图（photo2）∪ 已核验图源（官网/平台/开放图源，图片仅存工作区/工具池，不入 git）。",
+  "targets": {
+    "camera": 0.95,
+    "lens": 0.95,
+    "light": 0.9,
+    "accessory": 0.9,
+    "clothing": 0.9,
+    "props": 0.9
+  },
+  "categories": {
+    "camera": {
+      "total": 111,
+      "covered": 106,
+      "ratio": 0.955,
+      "target": 0.95,
+      "pass": true,
+      "bySource": {
+        "builtin": 106
+      },
+      "byTier": {},
+      "missing": [
+        {
+          "id": "cam-72",
+          "brand": "哈苏",
+          "model": "X2D 100C"
+        },
+        {
+          "id": "cam-73",
+          "brand": "哈苏",
+          "model": "907X & CFV 100C"
+        },
+        {
+          "id": "cam-78",
+          "brand": "索尼",
+          "model": "A6100"
+        },
+        {
+          "id": "cam-g6-55",
+          "brand": "哈苏",
+          "model": "X2D 100C"
+        },
+        {
+          "id": "cam-g6-58",
+          "brand": "宾得",
+          "model": "K-3 Mark III"
+        }
+      ],
+      "missingCount": 5
+    },
+    "lens": {
+      "total": 197,
+      "covered": 185,
+      "ratio": 0.9391,
+      "target": 0.95,
+      "pass": false,
+      "bySource": {
+        "builtin": 180,
+        "official": 5
+      },
+      "byTier": {
+        "series": 1,
+        "product": 4
+      },
+      "missing": [
+        {
+          "id": "lens-176",
+          "brand": "腾龙",
+          "model": "50-400mm F4.5-6.3 VC"
+        },
+        {
+          "id": "lens-178",
+          "brand": "腾龙",
+          "model": "150-500mm F5-6.7 VC"
+        },
+        {
+          "id": "lens-180",
+          "brand": "腾龙",
+          "model": "24mm F1.4 Di III VXD"
+        },
+        {
+          "id": "lens-189",
+          "brand": "松下",
+          "model": "Lumix G 12-35mm F2.8 II"
+        },
+        {
+          "id": "lens-190",
+          "brand": "松下",
+          "model": "Lumix G 35-100mm F2.8 II"
+        },
+        {
+          "id": "lens-195",
+          "brand": "蔡司",
+          "model": "Batis 40mm F2 CF"
+        },
+        {
+          "id": "lens-197",
+          "brand": "佳能",
+          "model": "RF 200-800mm F6.3-9 IS"
+        },
+        {
+          "id": "lens-g6-67",
+          "brand": "佳能",
+          "model": "RF 600mm F11 IS STM"
+        },
+        {
+          "id": "lens-g6-112",
+          "brand": "老蛙",
+          "model": "24mm F14 微距"
+        },
+        {
+          "id": "lens-g6-113",
+          "brand": "老蛙",
+          "model": "10mm F4 饼干"
+        },
+        {
+          "id": "lens-g6-115",
+          "brand": "七工匠",
+          "model": "35mm F1.4"
+        },
+        {
+          "id": "lens-g6-116",
+          "brand": "铭匠",
+          "model": "50mm F1.4"
+        }
+      ],
+      "missingCount": 12
+    },
+    "light": {
+      "total": 157,
+      "covered": 91,
+      "ratio": 0.5796,
+      "target": 0.9,
+      "pass": false,
+      "bySource": {
+        "official": 88,
+        "builtin": 3
+      },
+      "byTier": {
+        "series": 27,
+        "product": 61
+      },
+      "missing": [
+        {
+          "id": "light-213",
+          "brand": "神牛 Godox",
+          "model": "R200 环形闪光灯"
+        },
+        {
+          "id": "light-220",
+          "brand": "爱图仕 Aputure",
+          "model": "LC 120"
+        },
+        {
+          "id": "light-228",
+          "brand": "永诺 YONGNUO",
+          "model": "YN360 III"
+        },
+        {
+          "id": "light-229",
+          "brand": "永诺 YONGNUO",
+          "model": "LUX200"
+        },
+        {
+          "id": "light-g6-18",
+          "brand": "神牛",
+          "model": "SL100W"
+        },
+        {
+          "id": "light-g6-20",
+          "brand": "神牛",
+          "model": "V1S"
+        },
+        {
+          "id": "light-g6-27",
+          "brand": "金贝",
+          "model": "EF-200"
+        },
+        {
+          "id": "light-g6-28",
+          "brand": "保荣",
+          "model": "Gemini 500"
+        },
+        {
+          "id": "light-g6-137",
+          "brand": "金贝",
+          "model": "HD-400"
+        },
+        {
+          "id": "light-g6-138",
+          "brand": "金贝",
+          "model": "DP-600"
+        },
+        {
+          "id": "light-g6-139",
+          "brand": "保荣",
+          "model": "Siros 800L"
+        },
+        {
+          "id": "light-g6-140",
+          "brand": "保荣",
+          "model": "D2 500"
+        },
+        {
+          "id": "light-g6-141",
+          "brand": "保荣",
+          "model": "RFS 2.2"
+        },
+        {
+          "id": "light-g6-145",
+          "brand": "易领",
+          "model": "ELC 500"
+        },
+        {
+          "id": "light-g6-146",
+          "brand": "影聚",
+          "model": "Pika 200"
+        },
+        {
+          "id": "light-g6-147",
+          "brand": "影聚",
+          "model": "Pika 400"
+        },
+        {
+          "id": "light-g6-151",
+          "brand": "永诺",
+          "model": "YN360 III"
+        },
+        {
+          "id": "light-g6-152",
+          "brand": "永诺",
+          "model": "YN600 Air"
+        },
+        {
+          "id": "light-g6-162",
+          "brand": "神牛",
+          "model": "V860 III"
+        },
+        {
+          "id": "light-g6-165",
+          "brand": "神牛",
+          "model": "MF12 微距闪"
+        },
+        {
+          "id": "light-g6-166",
+          "brand": "神牛",
+          "model": "R200 环形闪"
+        },
+        {
+          "id": "light-g6-169",
+          "brand": "爱图仕",
+          "model": "Amaran 60d"
+        },
+        {
+          "id": "light-g6-170",
+          "brand": "爱图仕",
+          "model": "Amaran 60x S"
+        },
+        {
+          "id": "light-g6-171",
+          "brand": "爱图仕",
+          "model": "Amaran 100d"
+        },
+        {
+          "id": "light-g6-172",
+          "brand": "爱图仕",
+          "model": "Amaran 100x S"
+        },
+        {
+          "id": "light-g6-173",
+          "brand": "爱图仕",
+          "model": "Amaran 200d S"
+        },
+        {
+          "id": "light-g6-174",
+          "brand": "爱图仕",
+          "model": "Amaran 200x S"
+        },
+        {
+          "id": "light-g6-175",
+          "brand": "爱图仕",
+          "model": "Amaran 300c"
+        },
+        {
+          "id": "light-g6-176",
+          "brand": "爱图仕",
+          "model": "Amaran F22c"
+        },
+        {
+          "id": "light-g6-177",
+          "brand": "爱图仕",
+          "model": "Amaran F21c"
+        },
+        {
+          "id": "light-g6-178",
+          "brand": "爱图仕",
+          "model": "Amaran P60c"
+        },
+        {
+          "id": "light-g6-179",
+          "brand": "爱图仕",
+          "model": "Amaran P60x"
+        },
+        {
+          "id": "light-g6-180",
+          "brand": "爱图仕",
+          "model": "Amaran T2c"
+        },
+        {
+          "id": "light-g6-181",
+          "brand": "爱图仕",
+          "model": "Amaran T4c"
+        },
+        {
+          "id": "light-g6-186",
+          "brand": "南冠",
+          "model": "FS-200B"
+        },
+        {
+          "id": "light-g6-189",
+          "brand": "南冠",
+          "model": "FS-500B"
+        },
+        {
+          "id": "light-g6-196",
+          "brand": "智云",
+          "model": "FIVERAY F100"
+        },
+        {
+          "id": "light-g6-198",
+          "brand": "永诺",
+          "model": "YN360 IV"
+        },
+        {
+          "id": "light-g6-199",
+          "brand": "永诺",
+          "model": "YN300 Air II"
+        },
+        {
+          "id": "light-g6-200",
+          "brand": "永诺",
+          "model": "YN600 II"
+        },
+        {
+          "id": "light-g6-201",
+          "brand": "永诺",
+          "model": "YN900"
+        },
+        {
+          "id": "light-g6-202",
+          "brand": "永诺",
+          "model": "YN968EX"
+        },
+        {
+          "id": "light-g6-203",
+          "brand": "永诺",
+          "model": "YN685"
+        },
+        {
+          "id": "light-g6-204",
+          "brand": "奈特科尔",
+          "model": "PavoTube 30C"
+        },
+        {
+          "id": "light-g6-205",
+          "brand": "奈特科尔",
+          "model": "PavoTube 15C"
+        },
+        {
+          "id": "light-g6-206",
+          "brand": "锐玛",
+          "model": "RL-18"
+        },
+        {
+          "id": "light-g6-207",
+          "brand": "锐玛",
+          "model": "RL-12"
+        },
+        {
+          "id": "light-g6-208",
+          "brand": "神牛",
+          "model": "S30 Bi"
+        },
+        {
+          "id": "light-g6-212",
+          "brand": "神牛",
+          "model": "LDX100Bi"
+        },
+        {
+          "id": "light-g6-216",
+          "brand": "神牛",
+          "model": "UL120"
+        },
+        {
+          "id": "light-g6-217",
+          "brand": "神牛",
+          "model": "UL300"
+        },
+        {
+          "id": "light-g6-218",
+          "brand": "神牛",
+          "model": "SL100D"
+        },
+        {
+          "id": "light-g6-222",
+          "brand": "神牛",
+          "model": "LDX100Bi II"
+        },
+        {
+          "id": "light-g6-223",
+          "brand": "神牛",
+          "model": "ES45"
+        },
+        {
+          "id": "light-g6-224",
+          "brand": "神牛",
+          "model": "ES60"
+        },
+        {
+          "id": "light-g6-226",
+          "brand": "锋影",
+          "model": "FL-60"
+        },
+        {
+          "id": "light-g6-227",
+          "brand": "锋影",
+          "model": "FL-120"
+        },
+        {
+          "id": "light-g6-228",
+          "brand": "锋影",
+          "model": "FL-200"
+        },
+        {
+          "id": "light-g6-229",
+          "brand": "世光",
+          "model": "C-700R"
+        },
+        {
+          "id": "light-g6-230",
+          "brand": "世光",
+          "model": "M-30"
+        },
+        {
+          "id": "light-g6-231",
+          "brand": "世光",
+          "model": "M-60"
+        },
+        {
+          "id": "light-g6-232",
+          "brand": "莱斯",
+          "model": "Aladdin Bi-Flex2"
+        },
+        {
+          "id": "light-g6-233",
+          "brand": "莱斯",
+          "model": "Bi-Flex M2"
+        },
+        {
+          "id": "light-g6-234",
+          "brand": "思锐",
+          "model": "SC-60"
+        },
+        {
+          "id": "light-g6-235",
+          "brand": "思锐",
+          "model": "SC-120"
+        },
+        {
+          "id": "light-g6-236",
+          "brand": "思锐",
+          "model": "SC-200"
+        }
+      ],
+      "missingCount": 66
+    },
+    "accessory": {
+      "total": 28,
+      "covered": 28,
+      "ratio": 1.0,
+      "target": 0.9,
+      "pass": true,
+      "bySource": {
+        "pexels": 23,
+        "official": 5
+      },
+      "byTier": {
+        "product": 26,
+        "series": 2
+      },
+      "missing": [],
+      "missingCount": 0
+    },
+    "clothing": {
+      "total": 9,
+      "covered": 9,
+      "ratio": 1.0,
+      "target": 0.9,
+      "pass": true,
+      "bySource": {
+        "pexels": 9
+      },
+      "byTier": {},
+      "missing": [],
+      "missingCount": 0
+    },
+    "props": {
+      "total": 14,
+      "covered": 14,
+      "ratio": 1.0,
+      "target": 0.9,
+      "pass": true,
+      "bySource": {
+        "pexels": 14
+      },
+      "byTier": {},
+      "missing": [],
+      "missingCount": 0
+    }
+  },
+  "passByKind": {
+    "camera": true,
+    "lens": false,
+    "light": false,
+    "accessory": true,
+    "clothing": true,
+    "props": true
+  },
+  "pass": false,
+  "missingTotal": 83
+}

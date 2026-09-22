@@ -1,0 +1,22 @@
+{
+  "resources": {
+    "results": {
+      "products": [
+        {
+          "title": "Aputure Amaran 60d S Daylight LED Monolight",
+          "url": "/products/amaran-60d-s",
+          "featured_image": {
+            "url": "https://www.aputure.com/cdn/shop/files/amaran-60d-s.jpg"
+          }
+        },
+        {
+          "title": "Aputure Amaran 100d S Daylight LED Monolight",
+          "url": "/products/amaran-100d-s",
+          "featured_image": {
+            "url": "https://www.aputure.com/cdn/shop/files/amaran-100d-s.jpg"
+          }
+        }
+      ]
+    }
+  }
+}
