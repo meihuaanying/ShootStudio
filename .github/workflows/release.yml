@@ -109,6 +109,7 @@ jobs:
           path: rel/android
 
       - name: Collect files
+        working-directory: ${{ github.workspace }}
         run: |
           mkdir -p rel/final
           find rel -type f \( -name "*.zip" -o -name "*.apk" -o -name "*.sha256" \) -exec cp {} rel/final/ \;
@@ -148,10 +149,9 @@ jobs:
 
       # 发版时把版本号 / 下载直链 / SHA-256 写入公告 JSON。
       - name: Patch announcements.json
+        working-directory: web
         run: |
           set -e
-          VER="${{ github.ref_name }}"
-          VER="${VER#v}"
           python3 - <<'PY'
           import json, os
           ver = os.environ['VER_TAG']
