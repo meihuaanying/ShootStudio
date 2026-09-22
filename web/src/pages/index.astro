@@ -1,19 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
-const version = import.meta.env.PUBLIC_APP_VERSION?.replace(/^v/, '') || '1.1.0';
+const version = import.meta.env.PUBLIC_APP_VERSION?.replace(/^v/, '') || '1.2.0';
 const steps = [
-  { no: 'STEP 1', title: '画面参考', tool: 'FILMGRAB + 智能搜图', desc: '影片静帧索引 + Openverse/Pexels/TMDB 聚合搜图；中文画面描述一键找参考，点静帧提取五色色卡收入画板。' },
-  { no: 'STEP 2', title: '布光预演', tool: 'Set.a.light 转化', desc: '俯视灯位图拖拽摆放 + 写实 3D 人体实时预览；灯头朝向、虚拟测光表、效果预览与布光单导出。' },
-  { no: 'STEP 3', title: '动作摆姿', tool: 'posemaniacs 转化', desc: 'CC0 骨骼人体 360° 查看，200+ 动捕姿势库，关节级微调；姿势一键注入布光场景看打光效果。' },
+  { no: 'STEP 1', title: '画面参考', tool: 'FILMGRAB + 智能搜图', desc: '影片静帧索引 + 13 源聚合搜图（Pexels/TMDB/博物馆/艺术馆…）；中文画面描述一键找参考，点静帧提取五色色卡收入画板。' },
+  { no: 'STEP 2', title: '布光预演', tool: 'Set.a.light 转化', desc: '俯视灯位图拖拽摆放 + 写实 3D 人体实时预览；灯头自动瞄准、16 种控光件、虚拟测光表、效果预览与布光单导出。' },
+  { no: 'STEP 3', title: '动作摆姿', tool: 'posemaniacs 转化', desc: 'CC0 骨骼人体 360° 查看，200+ 动捕姿势库，关节级微调；导入照片端上识别骨架与 12 关节；姿势一键注入布光场景看打光效果。' },
   { no: 'STEP 4', title: '一键成案', tool: 'AI 策划助手', desc: '一句话生成全案：分镜 / 灯位 / 姿势 / 预算自动成稿，全案阅读确认后导出长图 / PDF / .sspak。' },
 ];
 const features = [
   { title: '画面参考库', desc: '影片索引 + 聚合搜图（Openverse/Pexels/TMDB）+ 本地导入与截取，五色色卡随帧保存。' },
-  { title: '布光预演室', desc: '23 套经典光位预设、真实灯具语义、写实 3D 人体、虚拟测光表，位置清单实时读数。' },
+  { title: '布光预演室', desc: '27 套经典光位预设、真实灯具语义、写实 3D 人体、虚拟测光表，位置清单实时读数。' },
   { title: '动作摆姿库', desc: '200+ 动捕姿势、CC0 骨骼模型自由旋转、骨骼叠加、今日姿势与收藏清单。' },
   { title: '积木式策划编辑器', desc: '分镜在内 15+ 种模块自由拼装，卡片可展开全文，编辑停顿 3 秒自动快照。' },
   { title: 'AI 策划助手', desc: 'OpenCode Go / DeepSeek / 智谱 / Kimi / 通义预置，自动拉模型、失败自动换商；生成后直接进入全案阅读。' },
-  { title: '设备数据库', desc: '400+ 机身 / 镜头 / 灯具真实参数与图片，规格词搜索、自定义添加，灯具一键放入 3D 场景。' },
+  { title: '设备数据库', desc: '490+ 机身 / 镜头 / 灯具真实参数与图片，器材图增量同步与缺图补图，规格词搜索、自定义添加，灯具一键放入 3D 场景。' },
   { title: '导出与分享', desc: '1080px 长图（含分镜表）、打印版 PDF（矢量灯位图）、整案交接 .sspak 数据包。' },
   { title: '本地优先', desc: 'SQLite + 工作区目录，数据不出本机、随目录迁移；无网也能走完全流程。' },
 ];

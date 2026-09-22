@@ -52,20 +52,21 @@ void main() {
       final dio = Dio();
       dio.httpClientAdapter = _FakeAdapter(
         (RequestOptions options) async => _json(<String, Object?>{
-          'version': '1.2.0',
+          // 固定远高于当前版本的「未来版本」，避免每次发版都要改用例。
+          'version': '9.9.9',
           'publishedAt': '2026-10-01',
           'notes': <String>['云端模板市场', '双人姿势包'],
           'downloads': <String, Object?>{
             'windows': <String, Object?>{
-              'mirror': 'https://cdn.example.com/ss-1.2.0.zip',
+              'mirror': 'https://cdn.example.com/ss-9.9.9.zip',
               'github':
-                  'https://github.com/x/y/releases/download/v1.2.0/ss.zip',
+                  'https://github.com/x/y/releases/download/v9.9.9/ss.zip',
               'sha256': 'abc',
             },
             'android': <String, Object?>{
-              'mirror': 'https://cdn.example.com/ss-1.2.0.apk',
+              'mirror': 'https://cdn.example.com/ss-9.9.9.apk',
               'github':
-                  'https://github.com/x/y/releases/download/v1.2.0/ss.apk',
+                  'https://github.com/x/y/releases/download/v9.9.9/ss.apk',
               'sha256': 'def',
             },
           },
@@ -88,7 +89,7 @@ void main() {
             manual: true,
           );
       expect(state, UpdateState.hasUpdate);
-      expect(announcement!.version, '1.2.0');
+      expect(announcement!.version, '9.9.9');
       expect(announcement.downloadFor('windows')!.mirror, contains('cdn'));
       expect(announcement.contentPacks.single.type, 'templates');
       expect(announcement.ops.single.title, contains('姿势包'));
