@@ -3,6 +3,7 @@ import 'package:path/path.dart' as p;
 import 'dart:io';
 
 import 'package:drift/drift.dart' hide Column;
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,6 +15,9 @@ import '../../core/utils/json_utils.dart';
 import '../../services/content_packs.dart';
 import '../../services/gear_photo_sync.dart';
 import '../lighting/lighting_controller.dart';
+
+/// 产品图免责声明（D130/R47）：资源库底部固定展示。
+const String kGearPhotoDisclaimer = '产品图版权归原品牌/平台，仅供选型参考，禁止商用分发；许可与来源以标注为准。';
 
 /// 设备数据库浏览（D19/D20）：相机 / 镜头 / 灯具；灯具可一键放入布光场景。
 final gearListProvider = FutureProvider.autoDispose<List<GearEntry>>((
@@ -286,14 +290,24 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
                             childAspectRatio: 1.7,
                           ),
                       itemCount: filtered.length,
-                      itemBuilder: (BuildContext context, int i) =>
-                          _GearCard(entry: filtered[i]),
+                      itemBuilder: (BuildContext context, int i) => _GearCard(
+                        entry: filtered[i],
+                        onRephoto: (GearEntry e) =>
+                            _showRephotoDialog(context, ref, e),
+                      ),
                     ),
             ),
             Text(
               '参数与参考价为参考值 · 灯具可一键放入布光预演 3D 场景（含真实光型参数）',
               style: TextStyle(
                 fontSize: 11,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+            Text(
+              kGearPhotoDisclaimer,
+              style: TextStyle(
+                fontSize: 10.5,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
@@ -341,11 +355,13 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
     );
     int downloaded = 0;
     Object? error;
+    GearSyncReport? report;
     try {
-      downloaded = await GearPhotoSync.syncAll(
+      report = await GearPhotoSync.syncAll(
         db: db,
         onProgress: (int done, int total) => progress.value = (done, total),
       );
+      downloaded = report.downloaded;
     } catch (e) {
       error = e;
     }
@@ -355,11 +371,113 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
     setState(() => _syncing = false);
     if (error != null) {
       ssToast(context, '同步失败：$error');
-    } else if (downloaded == 0) {
+    } else if (downloaded == 0 && (report?.gap ?? 0) == 0) {
       ssToast(context, '器材图已就绪（内置或已缓存）');
+    } else if ((report?.gap ?? 0) == 0) {
+      ssToast(
+        context,
+        '同步完成：新增 $downloaded 张'
+        '（跳过内置 ${report?.skippedBuiltin ?? 0} / 本地 ${report?.skippedLocal ?? 0}）',
+      );
     } else {
-      ssToast(context, '同步完成：新增 $downloaded 张器材图');
+      ssToast(context, '同步完成：新增 $downloaded 张；仍缺 ${report?.gap} 条，可在条目详情「补图」');
     }
+  }
+
+  /// D130 补图：本地图片或链接 → 工作区 images/gear + 来源登记。
+  Future<void> _showRephotoDialog(
+    BuildContext context,
+    WidgetRef ref,
+    GearEntry entry,
+  ) async {
+    final String? mode = await showDialog<String>(
+      context: context,
+      builder: (BuildContext ctx) => AlertDialog(
+        title: Text(
+          '补图 · ${entry.displayName}',
+          style: const TextStyle(fontSize: 15),
+        ),
+        content: const Text(
+          '选择本地图片，或粘贴图片链接（自动保存到工作区并登记来源）。',
+          style: TextStyle(fontSize: 12),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, 'file'),
+            child: const Text('选择本地图片'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, 'url'),
+            child: const Text('粘贴图片链接'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
+        ],
+      ),
+    );
+    if (mode == null || !context.mounted) return;
+    String? error;
+    if (mode == 'file') {
+      try {
+        final FilePickerResult? picked = await FilePicker.platform.pickFiles(
+          type: FileType.image,
+        );
+        final String? path = picked?.files.single.path;
+        if (path == null) return;
+        await GearPhotoSync.importLocalFile(entry.id, File(path));
+      } catch (e) {
+        error = '$e';
+      }
+    } else {
+      final TextEditingController controller = TextEditingController();
+      final bool? ok = await showDialog<bool>(
+        context: context,
+        builder: (BuildContext ctx) => AlertDialog(
+          title: const Text('粘贴图片链接', style: TextStyle(fontSize: 15)),
+          content: SizedBox(
+            width: 380,
+            child: TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                hintText: 'https://…（jpg/png/webp）',
+                isDense: true,
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('取消'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('下载并登记'),
+            ),
+          ],
+        ),
+      );
+      if (ok != true || !context.mounted) return;
+      final String url = controller.text.trim();
+      if (url.isEmpty) return;
+      try {
+        await GearPhotoSync.importFromUrl(
+          entry.id,
+          url,
+          db: ref.read(databaseProvider),
+        );
+      } catch (e) {
+        error = '$e';
+      }
+    }
+    if (!context.mounted) return;
+    if (error != null) {
+      ssToast(context, '补图失败：$error');
+      return;
+    }
+    ref.invalidate(gearPhotos2Provider);
+    ssToast(context, '已补图：${entry.displayName}（工作区 images/gear，来源已登记）');
   }
 }
 
@@ -474,9 +592,12 @@ Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
 }
 
 class _GearCard extends ConsumerWidget {
-  const _GearCard({required this.entry});
+  const _GearCard({required this.entry, this.onRephoto});
 
   final GearEntry entry;
+
+  /// D130 补图回调（由资源库页注入，写入工作区并登记来源）。
+  final Future<void> Function(GearEntry entry)? onRephoto;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -573,9 +694,33 @@ class _GearCard extends ConsumerWidget {
                     ? '已同步'
                     : (chain.isEmpty ? '缺图·插画' : '已同步')));
     if (chain.isEmpty) {
-      return Column(
+      return SizedBox(
+        width: 54,
+        height: 54,
+        child: Column(
+          children: <Widget>[
+            Expanded(child: _illustration(entry)),
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 8.5),
+            ),
+          ],
+        ),
+      );
+    }
+    return SizedBox(
+      width: 54,
+      height: 54,
+      child: Column(
         children: <Widget>[
-          Expanded(child: _illustration(entry)),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: _firstAvailable(chain, fallback: _illustration(entry)),
+            ),
+          ),
           Text(
             label,
             maxLines: 1,
@@ -583,23 +728,7 @@ class _GearCard extends ConsumerWidget {
             style: const TextStyle(fontSize: 8.5),
           ),
         ],
-      );
-    }
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: _firstAvailable(chain, fallback: _illustration(entry)),
-          ),
-        ),
-        Text(
-          label,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: 8.5),
-        ),
-      ],
+      ),
     );
   }
 
@@ -881,6 +1010,16 @@ class _GearCard extends ConsumerWidget {
                 if (context.mounted) ssToast(context, '已删除自定义设备');
               },
               child: const Text('删除'),
+            ),
+          if (photo2 == null &&
+              userPhoto == null &&
+              entry.imageSource != 'custom')
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                onRephoto?.call(entry);
+              },
+              child: const Text('补图'),
             ),
           TextButton(
             onPressed: () => Navigator.pop(ctx),

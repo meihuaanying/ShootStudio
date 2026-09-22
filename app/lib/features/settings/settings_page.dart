@@ -14,6 +14,7 @@ import '../../app.dart';
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
 import '../../core/theme/tokens.dart';
+import '../../services/gear_photo_sync.dart';
 import '../../services/search/search_cache.dart';
 import '../ai/ai_controller.dart';
 import '../onboarding/demo_content.dart';
@@ -505,6 +506,8 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
   final TextEditingController _proxy = TextEditingController();
   final TextEditingController _packDir = TextEditingController();
   final TextEditingController _gearDir = TextEditingController();
+  final TextEditingController _gearCacheLimit = TextEditingController();
+  Set<String> _gearSources = <String>{'builtin', 'official', 'jd', 'keyword'};
   List<Map<String, Object?>> _attribution = <Map<String, Object?>>[];
   bool _showLicense = false;
   String _netMode = 'auto';
@@ -529,6 +532,8 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
       final String proxy = await db.getSetting('proxy_url') ?? '';
       final String pack = await db.getSetting('user_pack_dir') ?? '';
       final String gear = await db.getSetting('gear_image_dir') ?? '';
+      final String gearLimit = await db.getSetting('gear_cache_limit_mb') ?? '';
+      final String gearSources = await db.getSetting('gear_sync_sources') ?? '';
       final String netMode = await db.getSetting('net_mode') ?? 'auto';
       final NetConfig defaults = await loadNetConfig();
       final List<Map<String, Object?>> items = await _loadAttribution();
@@ -552,6 +557,10 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
         _proxy.text = proxy;
         _packDir.text = pack;
         _gearDir.text = gear;
+        _gearCacheLimit.text = gearLimit.isEmpty
+            ? GearPhotoSync.defaultCacheLimitMb
+            : gearLimit;
+        _gearSources = _parseGearSources(gearSources);
         _netMode = netMode;
         _attribution = items;
         _cacheBytes = bytes;
@@ -619,7 +628,27 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
     _proxy.dispose();
     _packDir.dispose();
     _gearDir.dispose();
+    _gearCacheLimit.dispose();
     super.dispose();
+  }
+
+  /// 器材图同步源开关（D130/D131）：空/非法值回落默认集合。
+  Set<String> _parseGearSources(String raw) {
+    const Set<String> defaults = <String>{
+      'builtin',
+      'official',
+      'jd',
+      'keyword',
+    };
+    if (raw.trim().isEmpty) return Set<String>.from(defaults);
+    try {
+      final Object? decoded = jsonDecode(raw);
+      if (decoded is List) {
+        final Set<String> out = decoded.map((Object? e) => '$e').toSet();
+        return out.isEmpty ? Set<String>.from(defaults) : out;
+      }
+    } catch (_) {}
+    return Set<String>.from(defaults);
   }
 
   @override
@@ -689,6 +718,14 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                   await db.setSetting('proxy_url', _proxy.text.trim());
                   await db.setSetting('user_pack_dir', _packDir.text.trim());
                   await db.setSetting('gear_image_dir', _gearDir.text.trim());
+                  await db.setSetting(
+                    'gear_cache_limit_mb',
+                    '${int.tryParse(_gearCacheLimit.text.trim()) ?? int.tryParse(GearPhotoSync.defaultCacheLimitMb) ?? 2048}',
+                  );
+                  await db.setSetting(
+                    'gear_sync_sources',
+                    jsonEncode(_gearSources.toList()),
+                  );
                   await db.setSetting('net_mode', _netMode);
                   await NetRouter.I.configure(
                     userProxy: _proxy.text.trim(),
@@ -897,6 +934,47 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                 },
               ),
             ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '器材图同步源（官网 > 京东 > 亚马逊 > 淘宝 > 开放图源；D130）',
+            style: TextStyle(
+              fontSize: 11,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Wrap(
+            spacing: 6,
+            runSpacing: 4,
+            children: <Widget>[
+              for (final (String key, String label) in <(String, String)>[
+                ('builtin', '内置/运行时'),
+                ('official', '官网'),
+                ('jd', '京东'),
+                ('amazon', '亚马逊'),
+                ('taobao', '淘宝'),
+                ('keyword', '开放图源'),
+              ])
+                SsChip(
+                  label: label,
+                  selected: _gearSources.contains(key),
+                  onTap: () => setState(() {
+                    if (!_gearSources.remove(key)) _gearSources.add(key);
+                  }),
+                ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          SizedBox(
+            width: 260,
+            child: TextField(
+              controller: _gearCacheLimit,
+              decoration: const InputDecoration(
+                labelText: '器材图缓存上限（MB，按最早访问清理）',
+                isDense: true,
+              ),
+            ),
           ),
           const SizedBox(height: 8),
           Row(
