@@ -1,7 +1,7 @@
 # ShootStudio V6 交接文档（进行中）—— 搜索重做 + 3D 稳定/建模 + 端上识别 + 资源库图
 
-> 更新：2026-09-22 ｜ 版本基线 `1.1.0+6`（目标 `1.2.0`）｜ 约束文件：`FIX_CONTRACT_V6.0.md`（**开工前必读**）
-> 进度：**A（②引擎稳定化）✅ ｜ B（③3D 建模与布光）✅ ｜ C（①搜索重做）✅ ｜ D（④姿势/端上识别）✅（120 张亚洲参考图 + 导入 UI 落地；D128 精度偏差保留登记） ｜ E（⑤资源库图）✅（抓取管线/增量同步/补图/覆盖率报告落地；D129 light·lens 偏差保留登记） ｜ F（交付 v1.2.0）⏳**
+> 更新：2026-09-22 ｜ 版本基线 `1.2.0+7`（V6 全部完成，待打 tag `v1.2.0` 触发发布）｜ 约束文件：`FIX_CONTRACT_V6.0.md`（**开工前必读**）
+> 进度：**A（②引擎稳定化）✅ ｜ B（③3D 建模与布光）✅ ｜ C（①搜索重做）✅ ｜ D（④姿势/端上识别）✅（120 张亚洲参考图 + 导入 UI 落地；D128 精度偏差保留登记） ｜ E（⑤资源库图）✅（抓取管线/增量同步/补图/覆盖率报告落地；D129 light·lens 偏差保留登记） ｜ F（交付 v1.2.0）✅（双端构建 LAUNCH-OK / APK 209.0MB / 版本公告同步；tag 发布待执行）**
 > 本机状态：全量 **249 passed + 25 skipped**（live/PoC/精度默认跳过）；`flutter analyze --fatal-infos` 0 问题；format 通过；引擎包 950.7KB
 > 仓库：`D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）
 
@@ -9,12 +9,16 @@
 
 ## 0. 30 秒速览：下一步做什么
 
-1. **F 阶段（交付 v1.2.0）**：
-   - 全量门禁（format/analyze/`flutter test`）→ Windows release 构建 + `tool/smoke_launch.ps1`（LAUNCH-OK）+ Android APK（记录体积）；
-   - 版本/公告/dist/合同日志/HANDOFF/下载页同步；`git push` 后 CI 全绿（R60）；
-   - Windows 手测补做（E 遗留）：资源库「补图」文件选择器真实路径、设置页同步源/缓存上限保存生效。
-2. **可选项（不阻塞交付）**：E 覆盖率 P1 定向补采（Amaran/永诺/腾龙等）；D128 精度改进（BlazePose 检测器 + 旋转 ROI）；网络恢复后启用 Openverse/Commons 开放源。
-3. **E 阶段已完成**（详见 §3.E）：`tool/gear_photos_v3/` + R48 离线自测 + 增量同步 + 补图 UI + 覆盖率报告（提交 `6c3b8cf` / `8ba1db6`）。
+1. **发布动作（待用户确认后执行）**：`git tag v1.2.0 && git push origin v1.2.0` → `release.yml` 自动打包 Windows zip/APK + SHA256、创建 GitHub Release、构建并部署官网 Pages（公告直链自动写入）。
+2. **实机手测（建议发布后做）**：Windows 资源库「补图」文件选择器真实路径、设置页同步源/缓存上限保存生效、更新器检查 v1.2.0（需官网部署完成后）。
+3. **可选改进**：E 覆盖率 P1 定向补采；D128 精度改进（BlazePose 检测器 + 旋转 ROI）；网络恢复后启用 Openverse/Commons 开放源。
+
+### F 阶段已完成（2026-09-22）
+
+- 版本：`app/pubspec.yaml` `1.2.0+7`、`kAppVersion='1.2.0'`、`web/public/announcements.json`（v1.2.0 七条要点 + 已知限制 + APK 体积）、`web/src/pages/{index,downloads}.astro` 文案/版本占位同步、`web/dist` 重建（5 页）。
+- 构建：Windows release 构建成功 + `tool/smoke_launch.ps1` **LAUNCH-OK**；Android APK **209.0MB**（SHA256 `f320c914…a445`，D95 不限包体）。
+- 门禁：format 0 changed ｜ analyze 0 问题 ｜ 全量 **249 passed + 25 skipped**（`updater_test` 的「未来版本」夹具改为 9.9.9，之后发版不再改用例）。
+- 遗留：`v1.2.0` tag 未打（仓库此前无任何 tag，属公开发布动作，等确认）；Windows 实机手测同上。
 
 ---
 
@@ -134,6 +138,10 @@
     - 精度：`SS_POSE_ACCURACY=1 flutter test test/features/q6_pose_accuracy_test.dart`（可加 `SS_POSE_N=30` 快跑）；PoC：`SS_POSE_POC=1`。
     - Android CI 构建体积会因 opencv/litert 明显增大（D95：不限包体）；若 CI 构建失败，按 D123 评估回退。
 13. **临时诊断文件已清理**（`q6_pose_exp/roi/diag`）；`tool/pose_diag_compare.py` 保留备用（对比同一裁剪图上的 MediaPipe vs Dart world）。
+14. **Android 本地构建需导出 SDK/NDK 环境变量（F 实测）**：本 shell 默认无 `ANDROID_HOME`，`dartcv4` 会报 `No Android NDK candidates found`。构建前设 `ANDROID_HOME=C:\dev\android-sdk`、`ANDROID_SDK_ROOT` 同值、`ANDROID_NDK_HOME/ANDROID_NDK_ROOT=C:\dev\android-sdk\ndk\28.2.13676358`。
+15. **GitHub 资产下载不稳（F 实测，提交/发布不受影响）**：
+    - `flutter_litert` Windows 构建期下载 GPU 库（`libLiteRtWebGpuAccelerator.dll`/`dxcompiler.dll`/`dxil.dll`）到 `pub cache/flutter_litert/windows/`，失败会致 CMake 配置报错；dxil.dll 用 `curl.exe -L --http1.1 --retry 6 --retry-all-errors` 手动重试成功（SHA256 `cbcfe883…`，已核对）。
+    - `dartcv4` Android 构建期 FetchContent 下载 OpenCV 4.13.0 源码包（95MB）；可从已成功构建缓存复用：`app/.dart_tool/hooks_runner/shared/dartcv4/build/*/_deps/opencv-subbuild/opencv-populate-prefix/src/4.13.0.tar.gz`（SHA256 `1D40CA017E…`），把它复制到目标构建目录同名路径，并临时给 pub cache `dartcv4-2.3.1/src/CMakeLists.txt` 的 `FetchContent_Declare(opencv …)` 加一行 `URL_HASH SHA256=1D40CA017E…`（无 hash 的生成脚本会删除已有文件强刷下载）。构建完成后已还原 pub cache，勿长期保留改动。
 
 ---
 
@@ -160,8 +168,8 @@ cd app && python tool/gear_photos_v3/run.py status          # 抓取进度（断
 
 ## 6. 新对话开场建议
 
-> 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 **V6 F 阶段（交付 v1.2.0）**：先读 `FIX_CONTRACT_V6.0.md`（D94–D131 + R41–R60）与本文件。
-> A/B/C/D/E 已完成并推送（CI 绿）；D128 精度偏差、D129 覆盖率偏差均已登记（见合同 §5）。
-> 下一步：全量门禁 → Windows release 构建 + smoke_launch（LAUNCH-OK）+ Android APK 体积 → v1.2.0 版本/公告/dist/日志/下载页同步 → CI 全绿；顺手补 E 遗留的 Windows 手测（补图文件选择器/设置页保存）。
-> 基线：全量 **249 passed + 25 skipped**；引擎包 950.7KB；覆盖率 camera 95.5% / lens 93.9% / light 58.0% / 其余 100%。
+> 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 **V6 发布收尾**：先读 `FIX_CONTRACT_V6.0.md`（D94–D131 + R41–R60）与本文件。
+> A/B/C/D/E/F 全部完成并已验证（249 passed + 25 skipped；Windows LAUNCH-OK；APK 209.0MB；版本/公告/官网同步）。
+> 仅剩两件事：① 用户确认后打 tag `v1.2.0` 触发 release.yml（GitHub Release + Pages 部署）；② Windows 实机手测（补图文件选择器/设置页保存/更新器）。
+> 基线：`1.2.0+7`；引擎包 950.7KB；覆盖率 camera 95.5% / lens 93.9% / light 58.0% / 其余 100%。
 

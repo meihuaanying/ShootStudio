@@ -15,8 +15,8 @@
 | 门禁 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **249 passed + 25 skipped** ｜ `q6_gear_test` 7/7 ｜ `selftest.py` PASS（退出码 0） |
 | 偏差登记 | 已写入 `FIX_CONTRACT_V6.0.md` §5 E 行（D129：light 58.0% / lens 93.9%，含根因与缓解） |
 | R48 | 已补齐 `fixtures/{godox,aputure,viltrox}/` + `selftest.py`（离线、不触网） |
-| Windows 手测 | 补图入口/免责声明已用 widget 测试覆盖；**系统交互（文件选择器真实路径、设置页保存生效）留待 F 阶段实机复核** |
-| 下一步 | F 阶段交付 v1.2.0（见 `HANDOFF_V6.md` §0）；可选 P1 覆盖率提升（见本文 §4.P1） |
+| Windows 手测 | 补图入口/免责声明已用 widget 测试覆盖；**系统交互（文件选择器真实路径、设置页保存生效）留待实机复核** |
+| 下一步 | F 阶段已完成 v1.2.0（249+25 / LAUNCH-OK / APK 209.0MB / 公告官网同步，见 `HANDOFF_V6.md`）；仅剩 tag `v1.2.0` 发布与 Windows 实机手测；可选 P1 覆盖率提升（见本文 §4.P1） |
 
 ---
 
@@ -170,9 +170,9 @@ $env:GEAR_V3_OFFLINE='1'; python tool/gear_photos_v3/run.py fetch --ids light-g6
 7. 腾龙：确认产品页 URL 规则（sitemap 未见 `/global/products`，可试 `/global/lenses/` 或按产品线索引页展开）。
 8. 通用：网络恢复后启用 Openverse/Commons（`keyword.py` 已就绪），可覆盖小品牌。
 
-### P2：F 阶段（交付 v1.2.0）
-9. 全量门禁 + Windows/Android 双端构建（记录 APK 体积）+ 冒烟 `tool/smoke_launch.ps1`（LAUNCH-OK）。
-10. 版本/公告/dist/合同日志/HANDOFF/下载页全链路同步；CI 全绿（R60）。
+### P2：F 阶段（交付 v1.2.0）（✅ 2026-09-22 完成）
+9. ✅ 全量门禁 + Windows/Android 双端构建 + 冒烟 `tool/smoke_launch.ps1`（LAUNCH-OK）；APK **209.0MB**（D95 不限包体）。
+10. ✅ 版本/公告/dist/合同日志/HANDOFF/下载页全链路同步（`1.2.0+7`、公告 7 条要点）；tag `v1.2.0` 待打（触发 release.yml）。
 
 ---
 
