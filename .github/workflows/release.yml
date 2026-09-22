@@ -139,30 +139,45 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmmirror.com
 
-      - name: Build web (Astro)
-        working-directory: web
-        run: |
-          npm install
-          npm run build
-        env:
-          PUBLIC_APP_VERSION: ${{ github.ref_name }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-windows
+          path: rel/windows
 
-      # 发版时把版本号 / 下载直链 / SHA-256 写入公告 JSON。
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-android
+          path: rel/android
+
+      # 发版时把版本号 / 下载直链 / SHA-256 写入公告 JSON（必须在 Astro 构建前，
+      # 否则 dist 里仍是旧公告）。
       - name: Patch announcements.json
         working-directory: web
         run: |
           set -e
           python3 - <<'PY'
-          import json, os
+          import glob, json, os
           ver = os.environ['VER_TAG']
+          ver = ver[1:] if ver.startswith('v') else ver
           owner = os.environ['OWNER']
           repo = os.environ['REPO']
           base = f"https://github.com/{owner}/{repo}/releases/download/v{ver}"
-          with open('web/public/announcements.json', 'r+', encoding='utf-8') as f:
+
+          def find_hash(pattern):
+              hits = sorted(glob.glob(pattern, recursive=True))
+              return open(hits[0], encoding='utf-8').read().strip() if hits else ''
+
+          win_sha = find_hash(os.path.join('..', 'rel', 'windows', '**', 'windows.sha256'))
+          and_sha = find_hash(os.path.join('..', 'rel', 'android', '**', 'android.sha256'))
+          with open('public/announcements.json', 'r+', encoding='utf-8') as f:
               ann = json.load(f)
               ann['version'] = ver
               ann['downloads']['windows']['github'] = f"{base}/shoot-studio-v{ver}-windows.zip"
               ann['downloads']['android']['github'] = f"{base}/shoot-studio-v{ver}-android.apk"
+              if win_sha:
+                  ann['downloads']['windows']['sha256'] = win_sha
+              if and_sha:
+                  ann['downloads']['android']['sha256'] = and_sha
               f.seek(0); f.truncate()
               json.dump(ann, f, ensure_ascii=False, indent=2)
           PY
@@ -170,6 +185,14 @@ jobs:
           VER_TAG: ${{ github.ref_name }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
+
+      - name: Build web (Astro)
+        working-directory: web
+        run: |
+          npm install
+          npm run build
+        env:
+          PUBLIC_APP_VERSION: ${{ github.ref_name }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
