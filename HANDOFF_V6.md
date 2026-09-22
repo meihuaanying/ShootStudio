@@ -1,21 +1,20 @@
 # ShootStudio V6 交接文档（进行中）—— 搜索重做 + 3D 稳定/建模 + 端上识别 + 资源库图
 
-> 更新：2026-09-20 ｜ 版本基线 `1.1.0+6`（目标 `1.2.0`）｜ 约束文件：`FIX_CONTRACT_V6.0.md`（**开工前必读**）
-> 进度：**A（②引擎稳定化）✅ ｜ B（③3D 建模与布光）✅ ｜ C（①搜索重做）✅ ｜ D（④姿势/端上识别）✅（120 张亚洲参考图 + 导入 UI 落地；D128 精度偏差保留登记） ｜ E（⑤资源库图）⏳ ｜ F（交付 v1.2.0）⏳**
-> 本机状态：全量 **242 passed + 25 skipped**（live/PoC/精度默认跳过）；`flutter analyze --fatal-infos` 0 问题；format 通过；引擎包 950.7KB
+> 更新：2026-09-22 ｜ 版本基线 `1.1.0+6`（目标 `1.2.0`）｜ 约束文件：`FIX_CONTRACT_V6.0.md`（**开工前必读**）
+> 进度：**A（②引擎稳定化）✅ ｜ B（③3D 建模与布光）✅ ｜ C（①搜索重做）✅ ｜ D（④姿势/端上识别）✅（120 张亚洲参考图 + 导入 UI 落地；D128 精度偏差保留登记） ｜ E（⑤资源库图）✅（抓取管线/增量同步/补图/覆盖率报告落地；D129 light·lens 偏差保留登记） ｜ F（交付 v1.2.0）⏳**
+> 本机状态：全量 **249 passed + 25 skipped**（live/PoC/精度默认跳过）；`flutter analyze --fatal-infos` 0 问题；format 通过；引擎包 950.7KB
 > 仓库：`D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）
 
 ---
 
 ## 0. 30 秒速览：下一步做什么
 
-1. **D 阶段（姿势/端上识别）剩余**：
-   - 精度改进（可选）：复刻 MediaPipe **BlazePose 检测器 + 旋转 ROI**（包内 `pose_landmark_full.tflite` 已证与 MediaPipe task 同字节；差距全在 ROI），再跑 `SS_POSE_ACCURACY=1` 直到均值 ≤5°/90% ≤10°；否则维持偏差登记（R54：Python 管线仍是正式参考图来源）。
-   - UI：`poses_page` 导入照片识别全流程（选图 → 多人点选 → 骨架叠加 → 12 关节 → 手动导入布光预演/存自定义；覆盖内置图可恢复；自定义库随工作区导出）。
-   - 120 张亚洲图替换：`tool/gen_pose_photos_asian.py`（Pexels + 正版图库，逐图核许可）→ `extract_pose_skeletons.py` → `skeleton_to_joints.py` → `pose_qa.mjs photo` → `annotate_pose_visibility.py` → `gen_pose_qa3_report.py` → 更新 `attribution.json`。
-   - 测试：`q6_pose_test`（mapper/接地/自定义库往返/覆盖恢复/导入状态机）。
-2. **E 阶段（资源库图）**：`tool/gear_photos_v3/` + 增量同步 + 补图 UI；覆盖率报告。
-3. **F 阶段**：全量门禁 → 双端构建 → v1.2.0（版本/公告/dist/合同日志/CI 绿）。
+1. **F 阶段（交付 v1.2.0）**：
+   - 全量门禁（format/analyze/`flutter test`）→ Windows release 构建 + `tool/smoke_launch.ps1`（LAUNCH-OK）+ Android APK（记录体积）；
+   - 版本/公告/dist/合同日志/HANDOFF/下载页同步；`git push` 后 CI 全绿（R60）；
+   - Windows 手测补做（E 遗留）：资源库「补图」文件选择器真实路径、设置页同步源/缓存上限保存生效。
+2. **可选项（不阻塞交付）**：E 覆盖率 P1 定向补采（Amaran/永诺/腾龙等）；D128 精度改进（BlazePose 检测器 + 旋转 ROI）；网络恢复后启用 Openverse/Commons 开放源。
+3. **E 阶段已完成**（详见 §3.E）：`tool/gear_photos_v3/` + R48 离线自测 + 增量同步 + 补图 UI + 覆盖率报告（提交 `6c3b8cf` / `8ba1db6`）。
 
 ---
 
@@ -76,7 +75,18 @@
 
 ---
 
-## 3. 待做：D（剩余）/ E（按合同 §3 执行）
+## 3. D / E 阶段状态（按合同 §3 执行）
+
+### E（⑤资源库图）—— 已完成（2026-09-22）
+
+- **抓取管线** `app/tool/gear_photos_v3/`：provider 优先级 官网 > 京东 > 亚马逊 > 淘宝 > 开放图源；全局限速 ≥2s + 退避重试 + `state.json` 断点续跑 + 失败清单；Amazon/Taobao 反爬按合同降级跳过（记录原因）。
+- **官网 provider**：sitemapindex（跨品牌过滤）/类目页展开/Shopify `suggest.json`/Godox 直猜 URL 兜底；匹配分 `product`/`series`（`extra.tier`，系列页标注「同系列示意」）。
+- **R48 离线 fixture**：`fixtures/{godox,aputure,viltrox}/`（index/suggest/sitemap/产品页 + 样例图，不触网）；`python tool/gear_photos_v3/selftest.py` 验证 offline 守卫、三品牌解析、端到端 fetch（元数据/原图/规范图 1100×825）、断点续跑/`--retry-failed`/`--force`；`GEAR_V3_OFFLINE=1` 时 `polite_get` 直接拒绝联网。
+- **图源与报告**：`assets/content/gear/gear_photo_sources.json` 135 条（official 98：Godox 52/Aputure 26/Nanlite 12/Viltrox 5/其他 3；pexels 37：props 14 + accessory 23）；`docs/qa/gear-coverage-v6.json` 六类覆盖率（camera 95.5%✅ / lens 93.9%❌ / light 58.0%❌ / accessory·clothing·props 100%✅，缺口 83 条逐条可追溯）。图片只落 `tool/gear_photo_pool/`（.gitignore，R47）。
+- **Dart 侧**：`gear_photo_sync.dart` 重写（修复旧 `_collect` 只认 List 导致 `byId` Map 漏同步；图源开关/断点/缺口报告/`importLocalFile`/`importFromUrl`/LRU 缓存上限）；资源库详情「补图」（本地/链接 → 工作区 `images/gear/<id>.jpg` + `sources.json` 登记）+ 底部免责声明；设置页「器材图同步源」chips + 缓存上限。
+- **门禁**：`q6_gear_test` 7/7（覆盖率口径/图源登记/状态机/补图登记/免责声明/R48 fixture/补图入口）；全量 249 passed + 25 skipped。
+- **偏差登记（D129）**：light 58.0%、lens 93.9% 未达标；根因 = 开放源本机不可达（Openverse 连接被拒/Wikimedia SSL 超时）、Amaran 无 sitemap、永诺/南冠 JS 渲染无型号 slug、腾龙 sitemap 无产品页、京东/亚马逊/淘宝反爬；缓解 = 缺口清单 + 补图 UI + 增量同步，断言按偏差后基线守住不回落。
+- **遗留（F 阶段补做）**：Windows 手测的文件选择器真实路径与设置页保存生效（UI 逻辑已测，系统交互需实机）。
 
 ### D（④姿势/端上识别）—— 已完成与剩余
 
@@ -95,12 +105,7 @@
 
 **剩余**
 1. 精度改进（可选）：复刻 BlazePose 检测器（`pose_detector.tflite` 在 task 内，2.96MB）+ MediaPipe 旋转 ROI；或继续调 ROI 策略。门禁通过前不得用端上结果替换内置参考数据（R54）。
-2. 人工抽查 D122 图：已完成（`alt` 未含 asian 的 14 张逐图目视；p047/p083/p084 因姿态不符/剪影/暗光已换并重跑 QA；p079 抱头跳跃可辨、保留）；Windows 手测导入 UI 链路待做。
-
-### E（⑤资源库图）—— 关键点
-- 覆盖率：相机/镜头 ≥95%，灯具/附件/服装/道具 ≥90%。
-- 渠道：官网 > 京东 > 亚马逊 > 淘宝（尽力而为+缺口清单）；运行时候选缓存不入 git/包；V4 白底 4:3 规范化；「补图」UI；增量同步（断点续传+缺口报告）。
-- 门禁：`q6_gear_test`；`docs/qa/gear-coverage-v6.json`。
+2. 人工抽查 D122 图：已完成（`alt` 未含 asian 的 14 张逐图目视；p047/p083/p084 因姿态不符/剪影/暗光已换并重跑 QA；p079 抱头跳跃可辨、保留）；Windows 手测导入 UI 链路待做（并入 F 阶段实机复核）。
 
 ---
 
@@ -146,13 +151,17 @@ cd app && <flutter.cmd> test
 cd app && $env:SS_SEARCH_LIVE='1'; <flutter.cmd> test test/features/q6_search_live_test.dart
 cd app && $env:SS_POSE_POC='1'; <flutter.cmd> test test/features/q6_pose_poc_test.dart
 cd app && $env:SS_POSE_ACCURACY='1'; <flutter.cmd> test test/features/q6_pose_accuracy_test.dart
+cd app && python tool/gear_coverage.py                      # 六类覆盖率报告
+cd app && python tool/gear_photos_v3/selftest.py            # R48 离线 fixture 自测（不触网）
+cd app && python tool/gear_photos_v3/run.py status          # 抓取进度（断点台账）
 ```
 
 ---
 
 ## 6. 新对话开场建议
 
-> 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 **V6 收尾**：先读 `FIX_CONTRACT_V6.0.md`（D94–D131 + R41–R60）与本文件。
-> A/B/C 已完成并推送（CI 绿）；D 阶段 PoC 已通过、精度偏差已登记（见 §3.D）：优先补 **导入识别 UI + q6_pose_test + 120 张亚洲图替换**；若要把 D128 精度打到达标线，先实现 BlazePose 检测器 + 旋转 ROI。
-> 基线：全量 **231 passed + 25 skipped**；引擎包 950.7KB；live 搜索 22/22。
+> 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 **V6 F 阶段（交付 v1.2.0）**：先读 `FIX_CONTRACT_V6.0.md`（D94–D131 + R41–R60）与本文件。
+> A/B/C/D/E 已完成并推送（CI 绿）；D128 精度偏差、D129 覆盖率偏差均已登记（见合同 §5）。
+> 下一步：全量门禁 → Windows release 构建 + smoke_launch（LAUNCH-OK）+ Android APK 体积 → v1.2.0 版本/公告/dist/日志/下载页同步 → CI 全绿；顺手补 E 遗留的 Windows 手测（补图文件选择器/设置页保存）。
+> 基线：全量 **249 passed + 25 skipped**；引擎包 950.7KB；覆盖率 camera 95.5% / lens 93.9% / light 58.0% / 其余 100%。
 
