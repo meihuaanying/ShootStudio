@@ -23,7 +23,13 @@ class ResultRanker {
     'smithsonian': 0.78,
     'harvard': 0.78,
     'rijks': 0.78,
-    'openverse': 0.60,
+    'openverse': 0.82,
+    'wikimedia': 0.80,
+    'wellcome': 0.80,
+    'smk': 0.78,
+    'loc': 0.78,
+    'nga': 0.80,
+    'walters': 0.78,
   };
 
   /// 排序 + 去重 + 许可过滤（不修改入参）。

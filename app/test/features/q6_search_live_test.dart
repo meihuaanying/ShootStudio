@@ -13,14 +13,21 @@ import 'package:shoot_studio/services/search/sources/artic_source.dart';
 import 'package:shoot_studio/services/search/sources/artvee_source.dart';
 import 'package:shoot_studio/services/search/sources/cleveland_source.dart';
 import 'package:shoot_studio/services/search/sources/met_source.dart';
+import 'package:shoot_studio/services/search/sources/open_index_source.dart';
+import 'package:shoot_studio/services/search/sources/openverse_source.dart';
 import 'package:shoot_studio/services/search/sources/pexels_source.dart';
+import 'package:shoot_studio/services/search/sources/smk_source.dart';
 import 'package:shoot_studio/services/search/sources/tmdb_source.dart';
 import 'package:shoot_studio/services/search/sources/vam_source.dart';
+import 'package:shoot_studio/services/search/sources/wellcome_source.dart';
 import 'package:shoot_studio/services/search/sources/wikiart_source.dart';
+import 'package:shoot_studio/services/search/sources/wikimedia_source.dart';
+import 'package:shoot_studio/services/search/sources/loc_source.dart';
 
 /// V6 搜索 live 门禁（R58）：默认跳过，本机 `SS_SEARCH_LIVE=1 flutter test` 运行。
 /// 覆盖中/英/人名/主题 ≥20 用例，产出 `docs/qa/search-live-*.txt`。
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   final bool live = Platform.environment['SS_SEARCH_LIVE'] == '1';
 
   group('搜索 live 门禁（真实网络）', () {
@@ -55,6 +62,23 @@ void main() {
           VamSource(),
           WikiArtSource(),
           ArtveeSource(),
+          OpenverseSource(),
+          WikimediaSource(),
+          WellcomeSource(),
+          SmkSource(),
+          LocSource(),
+          OpenIndexSource(
+            id: 'nga',
+            label: '美国国家美术馆',
+            asset: 'assets/content/search/open_index/nga.json',
+            attributionBase: 'National Gallery of Art',
+          ),
+          OpenIndexSource(
+            id: 'walters',
+            label: '沃尔特斯艺术博物馆',
+            asset: 'assets/content/search/open_index/walters.json',
+            attributionBase: 'Walters Art Museum',
+          ),
         ],
       );
       db = AppDatabase.forTesting(NativeDatabase.memory());
@@ -112,7 +136,7 @@ void main() {
         AggregatedResult? result;
         final List<String> attempts = <String>[];
         for (var attempt = 1; attempt <= 3; attempt++) {
-          result = await engine.search(query, perPage: 12);
+          result = await engine.search(query, perPage: 12, allDomains: true);
           final int ok = result.statuses.where((SourceStatus s) => s.ok).length;
           attempts.add('第 $attempt 次：$ok 源可用 / ${result.hits.length} 条');
           if (result.hits.isNotEmpty) break;
@@ -135,5 +159,52 @@ void main() {
         expect(r.hits, isNotEmpty, reason: '${c.input}：无结果');
       }, timeout: const Timeout(Duration(minutes: 3)));
     }
+
+    test('live：V7 新增开放源可达性（证据，部分可达即通过）', () async {
+      final SearchQuery query = await planner.plan('monet');
+      final List<SearchSource> newSources = <SearchSource>[
+        OpenverseSource(),
+        WikimediaSource(),
+        WellcomeSource(),
+        SmkSource(),
+        LocSource(),
+      ];
+      int reachable = 0;
+      for (final SearchSource source in newSources) {
+        final Stopwatch sw = Stopwatch()..start();
+        try {
+          final SourceSearchPage page = await source.search(query, perPage: 6);
+          sw.stop();
+          reachable++;
+          report.writeln(
+            '新增源 ${source.id}: ${page.hits.length} 条 · ${sw.elapsedMilliseconds}ms'
+            '${page.hits.isEmpty ? '' : ' · 例：${page.hits.first.title} / ${page.hits.first.license}'}',
+          );
+        } catch (e) {
+          sw.stop();
+          report.writeln(
+            '新增源 ${source.id}: 失败 ${sw.elapsedMilliseconds}ms · $e',
+          );
+        }
+      }
+      // 内置索引源离线可用性（不依赖网络）。
+      final SearchQuery indexQuery = await planner.plan('woman');
+      for (final String id in <String>['nga', 'walters']) {
+        final OpenIndexSource source = OpenIndexSource(
+          id: id,
+          label: id,
+          asset: 'assets/content/search/open_index/$id.json',
+          attributionBase: id,
+        );
+        final SourceSearchPage page = await source.search(
+          indexQuery,
+          perPage: 6,
+        );
+        report.writeln('内置索引 $id: ${page.hits.length} 条');
+        expect(page.hits, isNotEmpty, reason: '$id 索引应命中 woman');
+      }
+      report.writeln('');
+      expect(reachable, greaterThan(0), reason: 'V7 新增开放源全部不可达（检查 DoH 隧道/网络）');
+    }, timeout: const Timeout(Duration(minutes: 5)));
   }, skip: live ? false : '设置 SS_SEARCH_LIVE=1 后本机运行（R58 live 门禁）');
 }

@@ -23,8 +23,11 @@ class SearchEngine {
     int page = 1,
     int perPage = 24,
     bool commercialOnly = false,
+    bool allDomains = false,
   }) async {
-    final List<SearchSource> active = sourcesFor(query.domain);
+    final List<SearchSource> active = allDomains
+        ? List<SearchSource>.of(_sources)
+        : sourcesFor(query.domain);
     final List<SearchHit> hits = <SearchHit>[];
     final List<SourceStatus> statuses = <SourceStatus>[];
     final List<bool> more = <bool>[];

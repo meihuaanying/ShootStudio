@@ -46,13 +46,15 @@ Future<List<R>> mapLimit<T, R>(
   return results.cast<R>();
 }
 
-/// 许可是否允许商用（D117：CC0/PD/可商用）。
+/// 许可是否允许商用（D117/R63：CC0/PD/CC-BY 系；NC/ND 不计可商用）。
 bool isCommercialLicense(String license) {
   final String l = license.toLowerCase();
-  if (l.contains('-nc') ||
-      l.contains(' nc') ||
+  final RegExp boundary = RegExp(r'(^|[^a-z])(nc|nd)([^a-z]|$)');
+  if (boundary.hasMatch(l) ||
       l.contains('noncommercial') ||
-      l.contains('non-commercial')) {
+      l.contains('non-commercial') ||
+      l.contains('noderiv') ||
+      l.contains('no derivative')) {
     return false;
   }
   const List<String> ok = <String>[
@@ -60,6 +62,7 @@ bool isCommercialLicense(String license) {
     'public domain',
     'publicdomain',
     'no known copyright',
+    'no known restrictions',
     'cc by',
     'cc-by',
     'pexels license',
@@ -69,6 +72,22 @@ bool isCommercialLicense(String license) {
     if (l.contains(marker)) return true;
   }
   return false;
+}
+
+/// 开放许可展示标签（D134/R63）：保留来源原始许可文本，缺失时明确标注。
+String openLicenseLabel(String raw, [String version = '']) {
+  final String l = raw.trim().toLowerCase();
+  final String v = version.trim();
+  if (l.isEmpty) return '许可未标注';
+  if (l == 'cc0') return v.isEmpty ? 'CC0 1.0' : 'CC0 $v';
+  if (l == 'pdm') return 'Public Domain Mark';
+  if (l == 'public domain' || l == 'publicdomain') return 'Public Domain';
+  if (l.startsWith('cc ')) return l.toUpperCase().replaceFirst('CC ', 'CC ');
+  if (l.startsWith('by') || l.startsWith('cc-by')) {
+    final String body = l.startsWith('cc-') ? l.substring(3) : l;
+    return 'CC ${body.toUpperCase()}${v.isEmpty ? '' : ' $v'}';
+  }
+  return raw.trim();
 }
 
 String _clean(String url) {

@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:drift/native.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shoot_studio/core/db/database.dart';
 import 'package:shoot_studio/services/search/image_to_search.dart';
@@ -17,14 +19,20 @@ import 'package:shoot_studio/services/search/sources/artvee_source.dart';
 import 'package:shoot_studio/services/search/sources/cleveland_source.dart';
 import 'package:shoot_studio/services/search/sources/europeana_source.dart';
 import 'package:shoot_studio/services/search/sources/harvard_source.dart';
+import 'package:shoot_studio/services/search/sources/loc_source.dart';
 import 'package:shoot_studio/services/search/sources/met_source.dart';
+import 'package:shoot_studio/services/search/sources/open_index_source.dart';
+import 'package:shoot_studio/services/search/sources/openverse_source.dart';
 import 'package:shoot_studio/services/search/sources/pexels_source.dart';
 import 'package:shoot_studio/services/search/sources/rijks_source.dart';
+import 'package:shoot_studio/services/search/sources/smk_source.dart';
 import 'package:shoot_studio/services/search/sources/smithsonian_source.dart';
 import 'package:shoot_studio/services/search/sources/source_utils.dart';
 import 'package:shoot_studio/services/search/sources/tmdb_source.dart';
 import 'package:shoot_studio/services/search/sources/vam_source.dart';
+import 'package:shoot_studio/services/search/sources/wellcome_source.dart';
 import 'package:shoot_studio/services/search/sources/wikiart_source.dart';
+import 'package:shoot_studio/services/search/sources/wikimedia_source.dart';
 import 'package:shoot_studio/services/search/theme_packs.dart';
 
 /// V6 搜索重做门禁（D113–D121 / R44–R48）：
@@ -91,6 +99,38 @@ void main() {
       final SearchQuery query = planner.fromThemePack(pack);
       expect(query.text, contains('rembrandt'));
       expect(query.sourceNote, contains('主题包'));
+    });
+
+    test('主题自动匹配：中文主题词优先（D133）', () async {
+      final AppDatabase db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+      final QueryPlanner planner = QueryPlanner(db);
+      final SearchQuery query = await planner.plan('赛博霓虹');
+      expect(query.sourceNote, contains('主题匹配'));
+      expect(query.text, contains('cyberpunk'));
+      expect(containsCjk(query.text), isFalse, reason: 'R46 红线');
+      expect(matchThemePack('伦勃朗光人像')?.id, 'rembrandt');
+      expect(matchThemePack('完全无关的词组')?.id, isNull);
+    });
+
+    test('主题包 48 个 + 常用 8 个 + enQuery 无中文（D133/R46）', () {
+      expect(kThemePacks, hasLength(48));
+      final Set<String> ids = <String>{};
+      for (final ThemePack pack in kThemePacks) {
+        expect(ids.add(pack.id), isTrue, reason: '主题包 id 重复：${pack.id}');
+        expect(pack.name.isNotEmpty, isTrue);
+        expect(pack.zhTerms, isNotEmpty);
+        expect(
+          containsCjk(pack.enQuery),
+          isFalse,
+          reason: '${pack.id} enQuery 含中文',
+        );
+      }
+      final List<ThemePack> common = commonThemePacks();
+      expect(common, hasLength(8));
+      expect(common.first.id, 'backlit-portrait');
+      expect(themePackById('cinematic-still'), isNotNull);
+      expect(themePackById('editorial-fashion'), isNotNull);
     });
   });
 
@@ -203,12 +243,16 @@ void main() {
       expect(deduped, hasLength(1));
     });
 
-    test('许可判定（CC0/PD 可商用，NC 不可）', () {
+    test('许可判定（CC0/PD/CC-BY 系可商用，NC/ND 不可）', () {
       expect(isCommercialLicense('CC0 1.0'), isTrue);
       expect(isCommercialLicense('Public Domain'), isTrue);
       expect(isCommercialLicense('CC BY-SA 4.0'), isTrue);
       expect(isCommercialLicense('CC BY-NC 4.0'), isFalse);
+      expect(isCommercialLicense('CC BY-ND 4.0'), isFalse);
       expect(isCommercialLicense('© 艺术家（非商用）'), isFalse);
+      expect(openLicenseLabel('by', '4.0'), 'CC BY 4.0');
+      expect(openLicenseLabel('cc0', '1.0'), 'CC0 1.0');
+      expect(openLicenseLabel(''), '许可未标注');
     });
   });
 
@@ -722,6 +766,237 @@ void main() {
       expect(hits.single.width, 2000);
       expect(hits.single.commercialOk, isFalse);
     });
+
+    test('Openverse：CC 全系解析 + NC/ND 不计可商用（D134/R63）', () {
+      final List<SearchHit> hits = OpenverseSource.parse(<String, Object?>{
+        'results': <Object?>[
+          <String, Object?>{
+            'id': 'o1',
+            'title': 'Golden hour portrait',
+            'creator': 'Jane Doe',
+            'url': 'https://openverse/full.jpg',
+            'thumbnail': 'https://openverse/thumb.jpg',
+            'license': 'by',
+            'license_version': '4.0',
+            'license_url': 'https://creativecommons.org/licenses/by/4.0/',
+            'foreign_landing_url': 'https://openverse/page',
+            'width': 1200,
+            'height': 800,
+          },
+          <String, Object?>{
+            'id': 'o2',
+            'title': 'Restricted editorial',
+            'url': 'https://openverse/full2.jpg',
+            'license': 'by-nc-nd',
+            'license_version': '4.0',
+          },
+        ],
+      });
+      expect(hits, hasLength(2));
+      expect(hits[0].license, 'CC BY 4.0');
+      expect(hits[0].commercialOk, isTrue);
+      expect(hits[0].attribution, contains('Jane Doe'));
+      expect(hits[1].commercialOk, isFalse);
+      expect(hits[1].license, contains('NC-ND'));
+    });
+
+    test('Wikimedia：extmetadata 许可/作者解析 + 标题清理', () {
+      final List<SearchHit> hits = WikimediaSource.parse(<String, Object?>{
+        'query': <String, Object?>{
+          'pages': <String, Object?>{
+            '1': <String, Object?>{
+              'pageid': 1,
+              'title': 'File:Rembrandt - The Night Watch.jpg',
+              'imageinfo': <Object?>[
+                <String, Object?>{
+                  'url': 'https://upload.wikimedia.org/full.jpg',
+                  'thumburl': 'https://upload.wikimedia.org/thumb.jpg',
+                  'descriptionurl':
+                      'https://commons.wikimedia.org/wiki/File:Rembrandt',
+                  'width': 4000,
+                  'height': 3000,
+                  'extmetadata': <String, Object?>{
+                    'LicenseShortName': <String, Object?>{'value': 'CC0'},
+                    'Artist': <String, Object?>{
+                      'value': '<a href="#">Rembrandt</a>',
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      });
+      expect(hits.single.title, 'Rembrandt - The Night Watch');
+      expect(hits.single.license, 'CC0');
+      expect(hits.single.commercialOk, isTrue);
+      expect(hits.single.attribution, contains('Rembrandt'));
+    });
+
+    test('Wellcome：thumbnail/locations 许可解析', () {
+      final List<SearchHit> hits = WellcomeSource.parse(<String, Object?>{
+        'totalResults': 1,
+        'results': <Object?>[
+          <String, Object?>{
+            'id': 'w1',
+            'source': <String, Object?>{
+              'title': 'Anatomical illustration',
+              'creators': <Object?>[
+                <String, Object?>{'label': 'William Hunter'},
+              ],
+            },
+            'thumbnail': <String, Object?>{
+              'url': 'https://iiif.wellcome/thumb.jpg',
+              'license': <String, Object?>{
+                'id': 'cc-by',
+                'label': 'Attribution 4.0 International (CC BY 4.0)',
+                'url': 'https://creativecommons.org/licenses/by/4.0/',
+              },
+            },
+            'locations': <Object?>[
+              <String, Object?>{'url': 'https://iiif.wellcome/full.jpg'},
+            ],
+          },
+        ],
+      });
+      expect(hits.single.fullUrl, contains('full.jpg'));
+      expect(hits.single.commercialOk, isTrue);
+      expect(hits.single.attribution, contains('William Hunter'));
+    });
+
+    test('SMK：仅 public_domain 条目收录（R63 门控）', () {
+      final List<SearchHit> hits = SmkSource.parse(<String, Object?>{
+        'found': 2,
+        'items': <Object?>[
+          <String, Object?>{
+            'object_number': 'KMS1',
+            'titles': <Object?>[
+              <String, Object?>{'title': 'Summer Day'},
+            ],
+            'production': <Object?>[
+              <String, Object?>{'creator': 'Vilhelm Hammershøi'},
+            ],
+            'image_thumbnail': 'https://iip.smk.dk/thumb.jpg',
+            'image_native': 'https://iip.smk.dk/full.jpg',
+            'public_domain': true,
+          },
+          <String, Object?>{
+            'object_number': 'KMS2',
+            'titles': <Object?>[
+              <String, Object?>{'title': 'Copyrighted work'},
+            ],
+            'image_thumbnail': 'https://iip.smk.dk/t2.jpg',
+            'public_domain': false,
+          },
+        ],
+      });
+      expect(hits, hasLength(1));
+      expect(hits.single.title, 'Summer Day');
+      expect(hits.single.commercialOk, isTrue);
+      expect(hits.single.sourcePageUrl, contains('KMS1'));
+    });
+
+    test('LoC：Rights Advisory 门控（仅无限制/PD 收录）', () {
+      final List<SearchHit> hits = LocSource.parse(<String, Object?>{
+        'results': <Object?>[
+          <String, Object?>{
+            'id': 'loc-1',
+            'title': 'Open photo',
+            'image_url': <Object?>[
+              'https://tile.loc.gov/thumb.jpg',
+              'https://tile.loc.gov/full.jpg',
+            ],
+            'url': 'https://www.loc.gov/item/loc-1/',
+            'rights_advisory': <Object?>[
+              'No known restrictions on publication.',
+            ],
+          },
+          <String, Object?>{
+            'id': 'loc-2',
+            'title': 'Restricted photo',
+            'image_url': <Object?>['https://tile.loc.gov/r.jpg'],
+            'rights_advisory': <Object?>['Rights status not evaluated.'],
+          },
+        ],
+      });
+      expect(hits, hasLength(1));
+      expect(hits.single.fullUrl, contains('full.jpg'));
+      expect(hits.single.commercialOk, isTrue);
+    });
+
+    test('NGA/Walters 内置索引：解析 + CC0 标注（D134）', () {
+      final List<SearchHit> hits = OpenIndexSource.parse(<String, Object?>{
+        'source': 'nga',
+        'label': '美国国家美术馆',
+        'attribution': 'National Gallery of Art',
+        'license': 'CC0 1.0',
+        'items': <Object?>[
+          <String, Object?>{
+            'id': 'nga-1',
+            'title': 'Saint James Major',
+            'artist': 'Grifo di Tancredi',
+            'date': 'c. 1310',
+            'thumbUrl':
+                'https://api.nga.gov/iiif/x/full/!200,200/0/default.jpg',
+            'fullUrl':
+                'https://api.nga.gov/iiif/x/full/!1200,1200/0/default.jpg',
+            'pageUrl': 'https://www.nga.gov/collection/art-object-page.1.html',
+            'width': 1000,
+            'height': 1300,
+          },
+        ],
+      });
+      expect(hits.single.commercialOk, isTrue);
+      expect(hits.single.attribution, contains('Grifo di Tancredi'));
+      expect(hits.single.sourceLabel, '美国国家美术馆');
+      expect(hits.single.domain, ImageDomain.art);
+    });
+
+    test('NGA/Walters 内置索引资产可加载且条目达标（D134）', () async {
+      for (final String id in <String>['nga', 'walters']) {
+        final String raw = await rootBundle.loadString(
+          'assets/content/search/open_index/$id.json',
+        );
+        final Map<String, Object?> data = (jsonDecode(raw) as Map)
+            .cast<String, Object?>();
+        final List<Object?> items = data['items']! as List<Object?>;
+        expect(items.length, greaterThanOrEqualTo(250), reason: '$id 索引条目过少');
+        expect('${data['license']}', contains('CC0'), reason: '$id 许可标注');
+        final Map<String, Object?> first = (items.first! as Map)
+            .cast<String, Object?>();
+        expect('${first['fullUrl']}'.startsWith('http'), isTrue);
+        expect('${first['title']}'.isNotEmpty, isTrue);
+      }
+    });
+
+    test('全混合模式：allDomains 时全部源参与（D134）', () async {
+      final SearchEngine engine = SearchEngine(
+        sources: <SearchSource>[
+          _FakeSource(id: 'pexels'),
+          _FakeSource(id: 'met', domains: <ImageDomain>{ImageDomain.art}),
+          _FakeSource(id: 'tmdb', domains: <ImageDomain>{ImageDomain.film}),
+        ],
+      );
+      final AggregatedResult mixed = await engine.search(
+        const SearchQuery(
+          raw: 'x',
+          intent: SearchIntent.keyword,
+          text: 'x',
+          domain: ImageDomain.photo,
+        ),
+        allDomains: true,
+      );
+      expect(mixed.statuses, hasLength(3));
+      final AggregatedResult photoOnly = await engine.search(
+        const SearchQuery(
+          raw: 'x',
+          intent: SearchIntent.keyword,
+          text: 'x',
+          domain: ImageDomain.photo,
+        ),
+      );
+      expect(photoOnly.statuses, hasLength(1));
+    });
   });
 
   group('关键词与拼音兜底（R46）', () {
@@ -763,19 +1038,19 @@ class _FakeSource implements SearchSource {
     required this.id,
     this.hits = const <SearchHit>[],
     this.error = '',
+    this.domains = const <ImageDomain>{ImageDomain.film, ImageDomain.photo},
   });
 
   @override
   final String id;
   final List<SearchHit> hits;
   final String error;
+  final Set<ImageDomain> domains;
 
   @override
   String get label => id;
   @override
-  SourceCapability get capability => const SourceCapability(
-    domains: <ImageDomain>{ImageDomain.film, ImageDomain.photo},
-  );
+  SourceCapability get capability => SourceCapability(domains: domains);
   @override
   bool get enabled => true;
   @override

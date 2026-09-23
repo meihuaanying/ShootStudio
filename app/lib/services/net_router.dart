@@ -29,6 +29,12 @@ class NetRouter {
     'wikipedia.org',
     'archive.org',
     'film-grab.com',
+    // V7/D134 新增开放源
+    'wellcomecollection.org',
+    'smk.dk',
+    'loc.gov',
+    'nga.gov',
+    'thewalters.org',
   ];
 
   /// DoH 端点（按顺序回退；doh.pub 实测可用）。
@@ -139,25 +145,39 @@ class NetRouter {
   Future<void> _ensureTunnel() async {
     if (!_autoTunnel || _forceDirect || _userProxy.isNotEmpty) return;
     if (_server != null) return;
-    try {
-      final ServerSocket server = await ServerSocket.bind(
-        InternetAddress.loopbackIPv4,
-        0,
-      );
-      _server = server;
-      _tunnelPort = server.port;
-      _record('DoH 隧道已启动 127.0.0.1:$_tunnelPort');
-      server.listen(
-        _handleSocket,
-        onError: (Object e) {
-          _lastError = '$e';
-          _record('隧道监听错误：$e');
+    final Completer<void> ready = Completer<void>();
+    unawaited(
+      runZonedGuarded(
+        () async {
+          try {
+            final ServerSocket server = await ServerSocket.bind(
+              InternetAddress.loopbackIPv4,
+              0,
+            );
+            _server = server;
+            _tunnelPort = server.port;
+            _record('DoH 隧道已启动 127.0.0.1:$_tunnelPort');
+            server.listen(
+              _handleSocket,
+              onError: (Object e) {
+                _lastError = '$e';
+                _record('隧道监听错误：$e');
+              },
+            );
+          } catch (e) {
+            _lastError = '$e';
+            _record('隧道启动失败：$e（回退直连）');
+          } finally {
+            if (!ready.isCompleted) ready.complete();
+          }
         },
-      );
-    } catch (e) {
-      _lastError = '$e';
-      _record('隧道启动失败：$e（回退直连）');
-    }
+        (Object e, StackTrace _) {
+          _record('隧道 zone 异常：$e');
+          if (!ready.isCompleted) ready.complete();
+        },
+      ),
+    );
+    await ready.future;
   }
 
   Future<void> _stopTunnel() async {
@@ -214,34 +234,45 @@ class NetRouter {
         }
         guard?.cancel();
         unawaited(
-          _establish(client, all, end).then((Socket? up) {
-            if (up == null) return;
-            established = true;
-            upstream = up;
-            final Uint8List remain = all.sublist(end);
-            if (remain.isNotEmpty) {
-              try {
-                up.add(remain);
-              } catch (_) {}
-            }
-            up.listen(
-              (List<int> data) {
-                try {
-                  client.add(data);
-                } catch (_) {}
-              },
-              onDone: () {
+          _establish(client, all, end)
+              .then((Socket? up) {
+                if (up == null) return;
+                established = true;
+                upstream = up;
+                final Uint8List remain = all.sublist(end);
+                if (remain.isNotEmpty) {
+                  try {
+                    up.add(remain);
+                  } catch (_) {}
+                }
+                up.listen(
+                  (List<int> data) {
+                    try {
+                      client.add(data);
+                    } catch (_) {}
+                  },
+                  onDone: () {
+                    try {
+                      client.destroy();
+                    } catch (_) {}
+                  },
+                  onError: (Object _) {
+                    try {
+                      client.destroy();
+                    } catch (_) {}
+                  },
+                );
+                // Socket.add 的写入错误经 done future 异步上报，必须显式接住，
+                // 否则会以未处理异步错误泄漏到上层 zone（V7 修复）。
+                unawaited(up.done.catchError((Object _) {}));
+              })
+              .catchError((Object e) {
+                // 隧道内任何异常都不得外泄为未处理异步错误（R43 精神）。
+                _record('隧道处理异常：$e');
                 try {
                   client.destroy();
                 } catch (_) {}
-              },
-              onError: (Object _) {
-                try {
-                  client.destroy();
-                } catch (_) {}
-              },
-            );
-          }),
+              }),
         );
       },
       onError: (Object _) {
@@ -255,6 +286,8 @@ class NetRouter {
         }
       },
     );
+    // 客户端 socket 写入错误同样经 done future 上报（V7 修复）。
+    unawaited(client.done.catchError((Object _) {}));
   }
 
   static int _headerEnd(Uint8List bytes) {
@@ -288,7 +321,19 @@ class NetRouter {
     final int port = colon > 0
         ? (int.tryParse(authority.substring(colon + 1)) ?? 443)
         : 443;
-    final List<String> ips = await _resolver.resolve(host);
+    List<String> ips;
+    try {
+      ips = await _resolver.resolve(host);
+    } catch (e) {
+      _lastError = 'DoH 解析异常：$host（$e）';
+      _record('DoH 解析异常：$host（$e）');
+      _reply(
+        client,
+        'HTTP/1.1 502 Bad Gateway\r\n'
+        'Content-Length: 0\r\nConnection: close\r\n\r\n',
+      );
+      return null;
+    }
     if (ips.isEmpty) {
       _lastError = 'DoH 解析失败：$host';
       _record('DoH 解析失败：$host');

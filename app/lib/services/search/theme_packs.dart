@@ -191,7 +191,224 @@ const List<ThemePack> kThemePacks = <ThemePack>[
     zhTerms: <String>['宠物', '猫', '狗'],
     enQuery: 'pet portrait cat dog natural light',
   ),
+  ThemePack(
+    id: 'cinematic-still',
+    name: '影视感剧照',
+    description: '电影感打光、叙事氛围（影视剧照参考）',
+    zhTerms: <String>['影视感', '剧照', '电影感'],
+    enQuery: 'cinematic film still dramatic lighting',
+    domains: <ImageDomain>{ImageDomain.film, ImageDomain.photo},
+    sources: <String>['tmdb', 'pexels'],
+  ),
+  ThemePack(
+    id: 'editorial-fashion',
+    name: '杂志大片',
+    description: '时尚编辑大片、造型与硬光',
+    zhTerms: <String>['杂志', '大片', '时尚'],
+    enQuery: 'editorial fashion magazine photoshoot',
+  ),
+  ThemePack(
+    id: 'painterly',
+    name: '画作风格',
+    description: '古典油画光、明暗对照与肌理',
+    zhTerms: <String>['画作', '油画', '古典'],
+    enQuery: 'oil painting classical portrait chiaroscuro',
+    domains: <ImageDomain>{ImageDomain.art},
+  ),
+  ThemePack(
+    id: 'new-chinese',
+    name: '新中式',
+    description: '新中式禅意、留白与器物',
+    zhTerms: <String>['新中式', '禅意', '东方'],
+    enQuery: 'new chinese style zen minimal oriental',
+  ),
+  ThemePack(
+    id: 'hongkong-retro',
+    name: '港风复古',
+    description: '90 年代港风、霓虹与胶片色',
+    zhTerms: <String>['港风', '复古港', '九龙'],
+    enQuery: 'hong kong retro 90s neon film style',
+  ),
+  ThemePack(
+    id: 'japanese-fresh',
+    name: '日系清新',
+    description: '低对比通透、自然光与生活感',
+    zhTerms: <String>['日系', '清新', '通透'],
+    enQuery: 'japanese style airy fresh natural light',
+  ),
+  ThemePack(
+    id: 'korean-profile',
+    name: '韩系写真',
+    description: '柔光氛围、简约造型',
+    zhTerms: <String>['韩系', '写真', '氛围感'],
+    enQuery: 'korean style mood portrait soft light',
+  ),
+  ThemePack(
+    id: 'analog-portrait',
+    name: '复古胶片人像',
+    description: '暖调颗粒、怀旧肤色',
+    zhTerms: <String>['胶片人像', '暖调', '颗粒感'],
+    enQuery: 'analog film portrait warm grain',
+  ),
+  ThemePack(
+    id: 'minimal-white',
+    name: '极简白色',
+    description: '纯白空间、几何留白',
+    zhTerms: <String>['极简白', '留白', '纯色'],
+    enQuery: 'minimal white clean studio photography',
+  ),
+  ThemePack(
+    id: 'blue-hour',
+    name: '蓝调时刻',
+    description: '暮色冷调、城市灯光初上',
+    zhTerms: <String>['蓝调时刻', '暮色', '冷调'],
+    enQuery: 'blue hour twilight city cool tones',
+  ),
+  ThemePack(
+    id: 'neon-rain',
+    name: '霓虹雨夜',
+    description: '霓虹倒影、湿街与伞',
+    zhTerms: <String>['霓虹雨', '湿街', '倒影'],
+    enQuery: 'neon rain night wet street reflections',
+  ),
+  ThemePack(
+    id: 'industrial-ruins',
+    name: '工业废墟',
+    description: '废墟质感、颓废叙事',
+    zhTerms: <String>['废墟', '工业风', '颓废'],
+    enQuery: 'industrial ruins abandoned urban portrait',
+  ),
+  ThemePack(
+    id: 'desert-golden',
+    name: '沙漠黄金',
+    description: '沙丘线条、暖色旷野',
+    zhTerms: <String>['沙漠', '沙丘', '旷野'],
+    enQuery: 'desert dunes golden sand portrait',
+  ),
+  ThemePack(
+    id: 'forest-mood',
+    name: '森系自然',
+    description: '森林散射光、绿意氛围',
+    zhTerms: <String>['森系', '森林', '绿意'],
+    enQuery: 'forest natural light moody green portrait',
+  ),
+  ThemePack(
+    id: 'winter-sun',
+    name: '冬日暖阳',
+    description: '低角度暖阳、雪地反光',
+    zhTerms: <String>['冬日暖阳', '暖冬', '雪地'],
+    enQuery: 'winter warm sunlight snow portrait',
+  ),
+  ThemePack(
+    id: 'street-doc',
+    name: '街头纪实',
+    description: '抓拍瞬间、环境叙事',
+    zhTerms: <String>['街头', '纪实', '抓拍'],
+    enQuery: 'street documentary candid photography',
+  ),
+  ThemePack(
+    id: 'geometric-arch',
+    name: '建筑几何',
+    description: '线条、对称与结构感',
+    zhTerms: <String>['建筑', '几何', '线条'],
+    enQuery: 'architecture geometric lines minimal',
+  ),
+  ThemePack(
+    id: 'shadow-patterns',
+    name: '光影条纹',
+    description: '百叶窗投影、光斑分割',
+    zhTerms: <String>['光影条纹', '百叶窗', '光斑'],
+    enQuery: 'shadow patterns blinds light stripes portrait',
+  ),
+  ThemePack(
+    id: 'watercolor-soft',
+    name: '水彩柔光',
+    description: '低饱和梦幻、柔焦质感',
+    zhTerms: <String>['水彩', '柔焦', '梦幻'],
+    enQuery: 'watercolor soft dreamy pastel portrait',
+  ),
+  ThemePack(
+    id: 'sci-fi-space',
+    name: '科幻太空',
+    description: '未来光源、冷色科技感',
+    zhTerms: <String>['科幻', '太空', '未来感'],
+    enQuery: 'sci-fi space futuristic lighting',
+  ),
+  ThemePack(
+    id: 'gothic-dark',
+    name: '暗黑哥特',
+    description: '暗部层次、神秘叙事',
+    zhTerms: <String>['哥特', '暗黑', '神秘'],
+    enQuery: 'gothic dark mysterious portrait',
+  ),
+  ThemePack(
+    id: 'summer-beach',
+    name: '夏日海滩',
+    description: '阳光水面、度假氛围',
+    zhTerms: <String>['海滩', '夏日', '度假'],
+    enQuery: 'summer beach sunlight vacation portrait',
+  ),
+  ThemePack(
+    id: 'old-money',
+    name: '老钱风',
+    description: '低调质感、经典优雅',
+    zhTerms: <String>['老钱风', '优雅', '质感'],
+    enQuery: 'old money aesthetic elegant classic style',
+  ),
+  ThemePack(
+    id: 'catwalk',
+    name: '秀场走秀',
+    description: 'T 台动态、闪光灯造型',
+    zhTerms: <String>['秀场', '走秀', 'T台'],
+    enQuery: 'runway fashion show catwalk',
+  ),
 ];
+
+/// 常用主题（标签行默认展示，D133）。
+const List<String> kCommonThemeIds = <String>[
+  'backlit-portrait',
+  'rembrandt',
+  'cyber-neon',
+  'bw-documentary',
+  'film-grain',
+  'golden-hour',
+  'studio-fashion',
+  'editorial-fashion',
+];
+
+/// 常用主题包列表（8 个，标签行用）。
+List<ThemePack> commonThemePacks() =>
+    kCommonThemeIds.map(themePackById).whereType<ThemePack>().toList();
+
+/// 关键词自动匹配主题包（D133）：命中名称或中文词条取最长匹配。
+///
+/// 词条需足够「具体」才触发：≥3 字，或占查询长度一半以上
+/// （避免「雨夜霓虹 天台」这类组合查询被单个 2 字词条劫持）。
+ThemePack? matchThemePack(String text) {
+  final String t = text.toLowerCase().trim();
+  if (t.isEmpty) return null;
+  ThemePack? best;
+  int bestScore = 0;
+  for (final ThemePack pack in kThemePacks) {
+    int score = 0;
+    if (t.contains(pack.name.toLowerCase())) {
+      score = pack.name.length + 10;
+    }
+    for (final String term in pack.zhTerms) {
+      final String k = term.toLowerCase();
+      if (k.isEmpty || !t.contains(k)) continue;
+      final bool strong = k.length >= 3 || k.length * 2 >= t.length;
+      if (strong && k.length > score) {
+        score = k.length;
+      }
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      best = pack;
+    }
+  }
+  return bestScore >= 2 ? best : null;
+}
 
 /// 按 id 查找主题包。
 ThemePack? themePackById(String id) {

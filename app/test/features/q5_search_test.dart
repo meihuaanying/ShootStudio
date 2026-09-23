@@ -1,8 +1,7 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shoot_studio/core/db/database.dart';
-import 'package:shoot_studio/features/refs/refs_page.dart'
-    show pdFilmMatches, kPdFilmAliases;
+import 'package:shoot_studio/services/pd_film_index.dart';
 import 'package:shoot_studio/services/image_sources.dart';
 import 'package:shoot_studio/services/query_translator.dart';
 import 'package:shoot_studio/services/search_prefs.dart';

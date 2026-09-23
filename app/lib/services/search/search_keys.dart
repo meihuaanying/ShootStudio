@@ -8,12 +8,18 @@ import 'sources/cleveland_source.dart';
 import 'sources/europeana_source.dart';
 import 'sources/harvard_source.dart';
 import 'sources/met_source.dart';
+import 'sources/open_index_source.dart';
+import 'sources/openverse_source.dart';
 import 'sources/pexels_source.dart';
 import 'sources/rijks_source.dart';
+import 'sources/smk_source.dart';
 import 'sources/smithsonian_source.dart';
 import 'sources/tmdb_source.dart';
 import 'sources/vam_source.dart';
+import 'sources/wellcome_source.dart';
 import 'sources/wikiart_source.dart';
+import 'sources/wikimedia_source.dart';
+import 'sources/loc_source.dart';
 
 /// 搜索相关凭据（内置默认 + 用户设置覆盖，D82/D98）。
 class SearchKeys {
@@ -54,6 +60,7 @@ class SearchKeys {
   }
 
   /// 默认全源（含 Key 预留源；未填 Key 的源显示"未启用"并可点击去设置）。
+  /// V7/D134：新增 7 个开放源（Openverse/Wikimedia/Wellcome/SMK/LoC + NGA/Walters 内置索引）。
   List<SearchSource> sources() => <SearchSource>[
     PexelsImageSource(pexelsKey),
     TmdbImageSource(apiKey: tmdbKey, readToken: tmdbToken),
@@ -68,5 +75,22 @@ class SearchKeys {
     SmithsonianSource(smithsonianKey),
     HarvardSource(harvardKey),
     RijksSource(rijksKey),
+    OpenverseSource(),
+    WikimediaSource(),
+    WellcomeSource(),
+    SmkSource(),
+    LocSource(),
+    OpenIndexSource(
+      id: 'nga',
+      label: '美国国家美术馆',
+      asset: 'assets/content/search/open_index/nga.json',
+      attributionBase: 'National Gallery of Art',
+    ),
+    OpenIndexSource(
+      id: 'walters',
+      label: '沃尔特斯艺术博物馆',
+      asset: 'assets/content/search/open_index/walters.json',
+      attributionBase: 'Walters Art Museum',
+    ),
   ];
 }

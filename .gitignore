@@ -37,3 +37,6 @@ __pycache__/
 
 # E 阶段抓取图池：图片不入 git（R47）
 app/tool/gear_photo_pool/
+
+# V7 开放索引构建缓存（CSV 原始数据不入 git）
+app/tool/open_index_cache/

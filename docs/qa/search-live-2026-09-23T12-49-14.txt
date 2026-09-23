@@ -1,0 +1,457 @@
+V6 搜索 live 证据
+时间：2026-09-23T12:32:25.300633
+网络通道：DoH 隧道（127.0.0.1:3388）
+
+用例：星际穿越 [film] 意图=keyword 关键词=xing ji chuan yue 来源=内置词表/人名表
+  - AniList(anilist): 0 条 · 861ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1009ms
+  - Artvee(artvee): 0 条 · 880ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1324ms
+  - 大都会博物馆(met): 3 条 · 934ms
+  - 美国国家美术馆(nga): 0 条 · 22ms
+  - Pexels(pexels): 12 条 · 1822ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 2003ms
+  - TMDB(tmdb): 16 条 · 3967ms
+  - V&A 博物馆(vam): 0 条 · 1110ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 23ms
+  - Wellcome Collection(wellcome): 0 条 · 995ms
+  - WikiArt(wikiart): 0 条 · 1340ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 32 条
+  命中 32 条 · 例：装饰墙上挂着一位微笑女子的肖像，手捧着打开的书籍和植物。@Pexels | 星际穿越 · 剧照@TMDB | 星际穿越中的科学 · 剧照@TMDB
+
+用例：Interstellar [film] 意图=keyword 关键词=Interstellar 来源=英文原文
+  - AniList(anilist): 2 条 · 734ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 987ms
+  - Artvee(artvee): 0 条 · 1320ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1864ms
+  - 大都会博物馆(met): 11 条 · 1375ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 799ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 1112ms
+  - TMDB(tmdb): 30 条 · 5846ms
+  - V&A 博物馆(vam): 0 条 · 1863ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 740ms
+  - WikiArt(wikiart): 2 条 · 5217ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 56 条
+  命中 56 条 · 例：Interstellar Political Prisoner（2016）@TMDB | Interstellar Interference（2023）@TMDB | Container Interstellar（2001）@TMDB
+
+用例：导演 诺兰 [film] 意图=person 关键词=christopher nolan 来源=内置词表/人名表
+  - AniList(anilist): 12 条 · 792ms
+  - 芝加哥艺术博物馆(artic): 11 条 · 781ms
+  - Artvee(artvee): 0 条 · 891ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1009ms
+  - 大都会博物馆(met): 11 条 · 1493ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 1562ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 1008ms
+  - TMDB(tmdb): 60 条 · 7852ms
+  - V&A 博物馆(vam): 0 条 · 860ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 801ms
+  - WikiArt(wikiart): 0 条 · 4679ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 69 条
+  命中 69 条 · 例：斯蒂芬·科尔伯特深夜秀 · 剧照@TMDB | 奥德赛 · 剧照@TMDB | 肥伦今夜秀 · 剧照@TMDB
+
+用例：新海诚 [film] 意图=keyword 关键词=makoto shinkai 来源=内置词表/人名表
+  - AniList(anilist): 0 条 · 778ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1060ms
+  - Artvee(artvee): 0 条 · 904ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1110ms
+  - 大都会博物馆(met): 0 条 · 407ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 1054ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 1187ms
+  - TMDB(tmdb): 48 条 · 6811ms
+  - V&A 博物馆(vam): 0 条 · 908ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 2097ms
+  - WikiArt(wikiart): 0 条 · 3563ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 36 条
+  命中 36 条 · 例：你的名字。 · 剧照@TMDB | 铃芽之旅 · 剧照@TMDB | 秒速五厘米 · 剧照@TMDB
+
+用例：Demon Slayer [film] 意图=keyword 关键词=Demon Slayer 来源=英文原文
+  - AniList(anilist): 10 条 · 1722ms
+  - 芝加哥艺术博物馆(artic): 11 条 · 675ms
+  - Artvee(artvee): 0 条 · 2239ms
+  - 克利夫兰艺术博物馆(cleveland): 3 条 · 800ms
+  - 大都会博物馆(met): 6 条 · 1320ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 816ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 985ms
+  - TMDB(tmdb): 14 条 · 4400ms
+  - V&A 博物馆(vam): 3 条 · 861ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 2 条 · 788ms
+  - WikiArt(wikiart): 0 条 · 4044ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 57 条
+  命中 57 条 · 例：Demon Slayer: Kimetsu no Yaiba ON STAGE · 剧照@TMDB | Demon Slayer · 剧照@TMDB | Bryson, the Demon Slayer（2024）@TMDB
+
+用例：Attack on Titan [film] 意图=keyword 关键词=Attack on Titan 来源=英文原文
+  - AniList(anilist): 12 条 · 1097ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1074ms
+  - Artvee(artvee): 0 条 · 2174ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1517ms
+  - 大都会博物馆(met): 11 条 · 3137ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 2247ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 4919ms
+  - TMDB(tmdb): 31 条 · 15809ms
+  - V&A 博物馆(vam): 0 条 · 1262ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 2056ms
+  - WikiArt(wikiart): 0 条 · 4308ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 65 条
+  命中 65 条 · 例：一块打磨过的绿色玛瑙石放置在有纹理的布面上，展现其自然之美。@Pexels | 进击！巨人中学 · 剧照@TMDB | 攻击泰坦 · 剧照@TMDB
+
+用例：雨夜霓虹 天台 [photo] 意图=keyword 关键词=rainy night neon neon lights rooftop 来源=内置词表/人名表
+  - AniList(anilist): 0 条 · 1145ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1456ms
+  - Artvee(artvee): 0 条 · 2373ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1719ms
+  - 大都会博物馆(met): 0 条 · 1770ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 1238ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 2655ms
+  - TMDB(tmdb): 0 条 · 2669ms
+  - V&A 博物馆(vam): 0 条 · 4575ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 1838ms
+  - WikiArt(wikiart): 0 条 · 1507ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 23 条
+  命中 23 条 · 例：夜晚在萨拉热窝湿滑街道上反射的生动霓虹灯光。@Pexels | 一个充满情绪的城市夜景，窗户上布满雨滴，背后是霓虹灯的照耀。@Pexels | 在黄昏时分，城市天际线的背景下，顶楼红灯的特写。城市晚间氛围。@Pexels
+
+用例：backlit portrait [photo] 意图=keyword 关键词=backlit portrait 来源=英文原文
+  - AniList(anilist): 0 条 · 1010ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 915ms
+  - Artvee(artvee): 0 条 · 9569ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1391ms
+  - 大都会博物馆(met): 0 条 · 736ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 933ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 1451ms
+  - TMDB(tmdb): 0 条 · 1741ms
+  - V&A 博物馆(vam): 1 条 · 1670ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 1030ms
+  - WikiArt(wikiart): 0 条 · 4196ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 18 条
+  命中 18 条 · 例：背光女性的戏剧性剪影，创造出迷人的光辉。@Pexels | 在阳光明媚的公园中，长棕发女性的侧面轮廓。@Pexels | animals, Beautiful scenery, beautiful woman 的 免费素材图片@Pexels
+
+用例：伦勃朗光 [photo] 意图=keyword 关键词=rembrandt lighting portrait chiaroscuro 来源=主题匹配：伦勃朗光
+  - AniList(anilist): 0 条 · 1023ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1002ms
+  - Artvee(artvee): 0 条 · 3335ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1022ms
+  - 大都会博物馆(met): 12 条 · 2725ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 1119ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 2603ms
+  - TMDB(tmdb): 0 条 · 2461ms
+  - V&A 博物馆(vam): 1 条 · 2317ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 1431ms
+  - WikiArt(wikiart): 0 条 · 1518ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：网络错误（commons.wikimedia.org）：HttpException: Proxy failed to establish tunnel (502 Bad Gateway), uri = //commons.wikimedia.org:443
+  尝试：第 1 次：13 源可用 / 28 条
+  命中 28 条 · 例：animals, Beautiful scenery, beautiful woman 的 免费素材图片@Pexels | 身着文艺复兴时期服饰的优雅女性肖像，背景为戏剧性的黑色。@Pexels | 身着历史服装、带有褶边衣领和羽毛帽子的优雅女性。@Pexels
+
+用例：golden hour couple [photo] 意图=keyword 关键词=golden hour couple 来源=英文原文
+  - AniList(anilist): 0 条 · 1194ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1980ms
+  - Artvee(artvee): 0 条 · 1670ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1392ms
+  - 大都会博物馆(met): 11 条 · 5958ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 2307ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 2616ms
+  - TMDB(tmdb): 0 条 · 2808ms
+  - V&A 博物馆(vam): 3 条 · 1143ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 2567ms
+  - WikiArt(wikiart): 0 条 · 1528ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：网络错误（commons.wikimedia.org）：HttpException: Proxy failed to establish tunnel (502 Bad Gateway), uri = //commons.wikimedia.org:443
+  尝试：第 1 次：13 源可用 / 38 条
+  命中 38 条 · 例：一对恩爱的情侣在户外温暖的夕阳下分享亲密的拥抱。@Pexels | 一对情侣在阳光明媚的田野中，捕捉到宁静而甜蜜的氛围。@Pexels | 一对情侣在阳光透过树林的森林中分享亲吻的亲密时刻。@Pexels
+
+用例：cyberpunk neon [photo] 意图=keyword 关键词=cyberpunk neon 来源=英文原文
+  - AniList(anilist): 0 条 · 1181ms
+  - 芝加哥艺术博物馆(artic): 10 条 · 900ms
+  - Artvee(artvee): 0 条 · 2313ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1417ms
+  - 大都会博物馆(met): 0 条 · 829ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 1179ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 2829ms
+  - TMDB(tmdb): 0 条 · 4350ms
+  - V&A 博物馆(vam): 0 条 · 3879ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 1094ms
+  - WikiArt(wikiart): 0 条 · 4027ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 22 条
+  命中 22 条 · 例：东京银座的夜景展现了充满活力的都市生活，车水马龙，霓虹闪烁。@Pexels | 受到亚洲文化影响的现代城市地区的彩色霓虹灯标志。@Pexels | 一位在赛博朋克环境中，搭配霓虹灯和未来时尚的时尚个体。@Pexels
+
+用例：赛博 霓虹 [photo] 意图=keyword 关键词=neon lights cyberpunk 来源=内置词表/人名表
+  - AniList(anilist): 0 条 · 1005ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1024ms
+  - Artvee(artvee): 0 条 · 3275ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1258ms
+  - 大都会博物馆(met): 7 条 · 3749ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 2055ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 3636ms
+  - TMDB(tmdb): 0 条 · 2678ms
+  - V&A 博物馆(vam): 0 条 · 1165ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 1839ms
+  - WikiArt(wikiart): 0 条 · 1507ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：网络错误（commons.wikimedia.org）：HttpException: Proxy failed to establish tunnel (502 Bad Gateway), uri = //commons.wikimedia.org:443
+  尝试：第 1 次：13 源可用 / 31 条
+  命中 31 条 · 例：时尚女性穿着未来主义赛博朋克服装，搭配霓虹灯和眼镜。@Pexels | 时尚女性在霓虹灯照明的赛博朋克酒吧环境中，体现未来派时尚。@Pexels | 绚丽的霓虹灯在繁华的城市小巷中营造出赛博朋克的美学，尤其是在夜晚。@Pexels
+
+用例：国风 汉服 [photo] 意图=keyword 关键词=chinese traditional style hanfu chinese traditional 来源=内置词表/人名表
+  - AniList(anilist): 0 条 · 1002ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1044ms
+  - Artvee(artvee): 0 条 · 2882ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1395ms
+  - 大都会博物馆(met): 11 条 · 2411ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 1172ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 2525ms
+  - TMDB(tmdb): 0 条 · 2997ms
+  - V&A 博物馆(vam): 1 条 · 1147ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 12 条 · 1207ms
+  - WikiArt(wikiart): 0 条 · 2029ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 40 条
+  命中 40 条 · 例：一位年轻女性穿着传统汉服，站在荷花池旁摆姿势，体现了文化优雅。@Pexels | 宁静的竹园中，身着传统汉服的年轻女孩，散发着优雅的气质。@Pexels | 身着传统汉服的优雅女子坐在户外质朴的石阶上。@Pexels
+
+用例：japanese kimono portrait [photo] 意图=keyword 关键词=japanese kimono portrait 来源=英文原文
+  - AniList(anilist): 0 条 · 981ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 887ms
+  - Artvee(artvee): 0 条 · 4163ms
+  - 克利夫兰艺术博物馆(cleveland): 1 条 · 1236ms
+  - 大都会博物馆(met): 5 条 · 7542ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 947ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 3098ms
+  - TMDB(tmdb): 0 条 · 2563ms
+  - V&A 博物馆(vam): 12 条 · 1234ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 2042ms
+  - WikiArt(wikiart): 0 条 · 1584ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 37 条
+  命中 37 条 · 例：一位身穿鲜艳和服的女性在一个装饰华丽、饰有花卉的房间中拿着传统的雨伞。@Pexels | 身穿鲜艳花卉和服的女性肖像，周围环绕着樱花。@Pexels | 一位年轻女性穿着鲜艳的花卉和服，站在传统的日本环境中，散发着优雅和文化遗产。@Pexels
+
+用例：梵高 向日葵 [art] 意图=keyword 关键词=van gogh 来源=内置词表/人名表
+  - AniList(anilist): 0 条 · 724ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 667ms
+  - Artvee(artvee): 0 条 · 2832ms
+  - 克利夫兰艺术博物馆(cleveland): 12 条 · 1005ms
+  - 大都会博物馆(met): 12 条 · 1863ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 762ms
+  - SMK 丹麦国立美术馆(smk): 3 条 · 1519ms
+  - TMDB(tmdb): 17 条 · 3106ms
+  - V&A 博物馆(vam): 12 条 · 893ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 12 条 · 1849ms
+  - WikiArt(wikiart): 12 条 · 1348ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 90 条
+  命中 90 条 · 例：Vincent Van Gogh · 剧照@TMDB | 艺术静物，包含向日葵和文森特·梵高肖像的杂志。@Pexels | 一个人在盛开的向日葵花园中捧着梵高的书籍。@Pexels
+
+用例：Van Gogh Sunflowers [art] 意图=keyword 关键词=Van Gogh Sunflowers 来源=英文原文
+  - AniList(anilist): 0 条 · 2020ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1399ms
+  - Artvee(artvee): 0 条 · 2376ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1693ms
+  - 大都会博物馆(met): 12 条 · 5775ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 1518ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 9857ms
+  - TMDB(tmdb): 6 条 · 3926ms
+  - V&A 博物馆(vam): 2 条 · 1263ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 2802ms
+  - WikiArt(wikiart): 12 条 · 2320ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 50 条
+  命中 50 条 · 例：Still Life - Vase with Fifteen Sunflowers@WikiArt | Still Life - Vase with Twelve Sunflowers@WikiArt | Still Life - Vase with Fourteen Sunflowers@WikiArt
+
+用例：Hokusai wave [art] 意图=keyword 关键词=Hokusai wave 来源=英文原文
+  - AniList(anilist): 0 条 · 1181ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1201ms
+  - Artvee(artvee): 0 条 · 1607ms
+  - 克利夫兰艺术博物馆(cleveland): 2 条 · 1582ms
+  - 大都会博物馆(met): 0 条 · 1408ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 1697ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 1907ms
+  - TMDB(tmdb): 1 条 · 2669ms
+  - V&A 博物馆(vam): 7 条 · 4164ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 1781ms
+  - WikiArt(wikiart): 7 条 · 4107ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 40 条
+  命中 40 条 · 例：Katsushika Hokusai: The Great Wave（2001）@TMDB | Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjurokkei)"@芝加哥艺术博物馆 | Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)"@芝加哥艺术博物馆
+
+用例：莫奈 睡莲 [art] 意图=keyword 关键词=claude monet 来源=内置词表/人名表
+  - AniList(anilist): 0 条 · 812ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 655ms
+  - Artvee(artvee): 0 条 · 1037ms
+  - 克利夫兰艺术博物馆(cleveland): 12 条 · 2790ms
+  - 大都会博物馆(met): 6 条 · 2448ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 11 条 · 802ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 1026ms
+  - TMDB(tmdb): 10 条 · 4022ms
+  - V&A 博物馆(vam): 3 条 · 826ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 1054ms
+  - WikiArt(wikiart): 12 条 · 1436ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 62 条
+  命中 62 条 · 例：Claude Monet – Im Licht des Augenblicks · 剧照@TMDB | The Greatest Painters of the World: Claude Monet · 剧照@TMDB | 通往法国吉维尼莫奈故居的迷人花卉拱门。@Pexels
+
+用例：Rembrandt self portrait [art] 意图=keyword 关键词=Rembrandt self portrait 来源=英文原文
+  - AniList(anilist): 0 条 · 742ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 680ms
+  - Artvee(artvee): 0 条 · 2170ms
+  - 克利夫兰艺术博物馆(cleveland): 12 条 · 1435ms
+  - 大都会博物馆(met): 12 条 · 1687ms
+  - 美国国家美术馆(nga): 1 条 · 0ms
+  - Pexels(pexels): 12 条 · 1523ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 1225ms
+  - TMDB(tmdb): 1 条 · 2413ms
+  - V&A 博物馆(vam): 12 条 · 2857ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 1002ms
+  - WikiArt(wikiart): 12 条 · 1284ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 52 条
+  命中 52 条 · 例：Rembrandt: A Self-Portrait（1954）@TMDB | Rembrandt, Self-Portrait@美国国家美术馆 | Self-Portrait with curly hair and white collar:  Bust@克利夫兰艺术博物馆
+
+用例：ukiyo-e [art] 意图=keyword 关键词=ukiyo-e 来源=英文原文
+  - AniList(anilist): 0 条 · 946ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 673ms
+  - Artvee(artvee): 0 条 · 1479ms
+  - 克利夫兰艺术博物馆(cleveland): 12 条 · 1178ms
+  - 大都会博物馆(met): 8 条 · 2010ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 791ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 1179ms
+  - TMDB(tmdb): 7 条 · 8423ms
+  - V&A 博物馆(vam): 12 条 · 943ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 4 条 · 1273ms
+  - WikiArt(wikiart): 5 条 · 3740ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 71 条
+  命中 71 条 · 例：Art of the Game: Ukiyo-e Heroes · 剧照@TMDB | Ukiyo-e, Images Du Monde Flottant · 剧照@TMDB | Ukiyo-e - images d’un monde flottant（2022）@TMDB
+
+用例：art nouveau poster [art] 意图=keyword 关键词=art nouveau poster 来源=英文原文
+  - AniList(anilist): 0 条 · 720ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 695ms
+  - Artvee(artvee): 0 条 · 4189ms
+  - 克利夫兰艺术博物馆(cleveland): 0 条 · 1099ms
+  - 大都会博物馆(met): 0 条 · 1431ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 969ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 1128ms
+  - TMDB(tmdb): 0 条 · 3047ms
+  - V&A 博物馆(vam): 12 条 · 896ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 2 条 · 1028ms
+  - WikiArt(wikiart): 1 条 · 1871ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：网络错误（commons.wikimedia.org）：HttpException: Proxy failed to establish tunnel (502 Bad Gateway), uri = //commons.wikimedia.org:443
+  尝试：第 1 次：13 源可用 / 37 条
+  命中 37 条 · 例：一组充满活力的复古意大利海报，展示怀旧的设计和排版艺术。@Pexels | 巴黎撒玛利亚酒店的装饰艺术风格外立面，展现了精巧的设计和永恒的建筑风格。@Pexels | 一扇色彩鲜艳的彩色玻璃门，以艺术风格描绘了一位女性和花卉图案。@Pexels
+
+用例：Claude Monet Water Lilies [art] 意图=keyword 关键词=Claude Monet Water Lilies 来源=英文原文
+  - AniList(anilist): 0 条 · 965ms
+  - 芝加哥艺术博物馆(artic): 12 条 · 1165ms
+  - Artvee(artvee): 0 条 · 1694ms
+  - 克利夫兰艺术博物馆(cleveland): 1 条 · 1325ms
+  - 大都会博物馆(met): 0 条 · 2163ms
+  - 美国国家美术馆(nga): 0 条 · 0ms
+  - Pexels(pexels): 12 条 · 1888ms
+  - SMK 丹麦国立美术馆(smk): 0 条 · 1483ms
+  - TMDB(tmdb): 0 条 · 4069ms
+  - V&A 博物馆(vam): 0 条 · 1050ms
+  - 沃尔特斯艺术博物馆(walters): 0 条 · 0ms
+  - Wellcome Collection(wellcome): 0 条 · 978ms
+  - WikiArt(wikiart): 12 条 · 1578ms
+  - 美国国会图书馆(loc): 失败：鉴权失败（www.loc.gov，检查 Key）
+  - Openverse（CC 聚合）(openverse): 失败：网络错误（api.openverse.org）：HandshakeException: Connection terminated during handshake
+  - 维基共享资源(wikimedia): 失败：连接超时（commons.wikimedia.org 不可达，可在设置页配置代理）
+  尝试：第 1 次：13 源可用 / 33 条
+  命中 33 条 · 例：Water Lilies@芝加哥艺术博物馆 | Water Lilies (Agapanthus)@克利夫兰艺术博物馆 | Irises and Water-Lilies@WikiArt
+
+新增源 openverse: 失败 448ms · DioException [unknown]: null
+Error: HandshakeException: Connection terminated during handshake
+新增源 wikimedia: 失败 46465ms · DioException [connection timeout]: The request connection took longer than 0:00:15.000000 and it was aborted. To get rid of this exception, try raising the RequestOptions.connectTimeout above the duration of 0:00:15.000000 or improve the response time of the server.
+新增源 wellcome: 6 条 · 1049ms · 例：Jean Baptiste Pierre Antoine de Monet Lamarck. Etching by P. F. Gachet. / Public Domain Mark
+新增源 smk: 10 条 · 6995ms · 例：Møns Klint / CC0 / Public Domain
+新增源 loc: 失败 1363ms · DioException [bad response]: This exception was thrown because the response has a status code of 403 and RequestOptions.validateStatus was configured to throw for this status code.
+The status code of 403 has the following meaning: "Client error - the request contains bad syntax or cannot be fulfilled"
+Read more about status codes at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+In order to resolve this exception you typically have either to verify and fix your request code or you have to fix the server code.
+
+内置索引 nga: 5 条
+内置索引 walters: 6 条
+

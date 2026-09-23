@@ -111,10 +111,19 @@ class QueryPlanner {
       keywords = raw;
       note = '英文原文';
     } else {
-      final String mapped = translateToEnglish(raw);
-      if (legacy.hasAsciiQuery(mapped)) {
-        keywords = mapped;
-        note = '内置词表/人名表';
+      // D133：关键词自动匹配主题包（中文主题词优先于逐字翻译）。
+      final ThemePack? matched = matchThemePack(raw);
+      if (matched != null) {
+        intent = SearchIntent.keyword;
+        keywords = matched.enQuery;
+        note = '主题匹配：${matched.name}';
+      }
+      if (!legacy.hasAsciiQuery(keywords)) {
+        final String mapped = translateToEnglish(raw);
+        if (legacy.hasAsciiQuery(mapped)) {
+          keywords = mapped;
+          note = '内置词表/人名表';
+        }
       }
       if (_allowAi && !legacy.hasAsciiQuery(keywords)) {
         final String ai = await _translator.translate(raw);
