@@ -148,6 +148,9 @@ class _StillExportDialogState extends State<StillExportDialog> {
   int _samples = 128;
   bool _useCameraRig = true;
 
+  List<int> get _sampleOptions =>
+      _mode == 'path' ? const <int>[64, 128, 256, 512] : const <int>[2, 3];
+
   @override
   Widget build(BuildContext context) {
     final StillExportSession session = widget.session;
@@ -239,8 +242,13 @@ class _StillExportDialogState extends State<StillExportDialog> {
                 selected: <String>{_mode},
                 onSelectionChanged: session.running
                     ? null
-                    : (Set<String> value) =>
-                          setState(() => _mode = value.first),
+                    : (Set<String> value) => setState(() {
+                        _mode = value.first;
+                        // 模式切换后采样数必须落在该模式可选值内（否则 DropdownButton 断言崩溃）。
+                        if (!_sampleOptions.contains(_samples)) {
+                          _samples = _mode == 'path' ? 128 : 2;
+                        }
+                      }),
               ),
             ),
           ],
@@ -279,17 +287,14 @@ class _StillExportDialogState extends State<StillExportDialog> {
             const SizedBox(width: 8),
             DropdownButton<int>(
               value: _samples,
-              items:
-                  (_mode == 'path'
-                          ? const <int>[64, 128, 256, 512]
-                          : const <int>[2, 3])
-                      .map(
-                        (int v) => DropdownMenuItem<int>(
-                          value: v,
-                          child: Text(_mode == 'path' ? '$v' : '$v×'),
-                        ),
-                      )
-                      .toList(),
+              items: _sampleOptions
+                  .map(
+                    (int v) => DropdownMenuItem<int>(
+                      value: v,
+                      child: Text(_mode == 'path' ? '$v' : '$v×'),
+                    ),
+                  )
+                  .toList(),
               onChanged: session.running
                   ? null
                   : (int? value) =>

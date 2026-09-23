@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:path/path.dart' as p;
+import 'package:shoot_studio/core/theme/app_theme.dart';
 import 'package:shoot_studio/core/workspace/workspace.dart';
 import 'package:shoot_studio/features/lighting/ab_compare.dart';
 import 'package:shoot_studio/features/lighting/still_export.dart';
@@ -214,6 +216,80 @@ void main() {
       expect(session.statusLabel, contains('失败'));
       await dir.delete(recursive: true);
       session.dispose();
+    });
+  });
+
+  group('效果预览对话框（V7/D138 widget）', () {
+    testWidgets('模式切换时采样数收敛到合法值，且无桥接时给出未就绪提示', (WidgetTester tester) async {
+      // testWidgets 运行在 FakeAsync 中，真实 IO 的 Future 需用 runAsync 推进（见 test/app_boot_test.dart）。
+      late Directory dir;
+      late Workspace ws;
+      await tester.runAsync(() async {
+        dir = await Directory.systemTemp.createTemp('ss_still_w1_');
+        ws = await Workspace.initAt(dir.path);
+      });
+      final StillExportSession session = StillExportSession(workspace: ws);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: Scaffold(body: StillExportDialog(session: session)),
+        ),
+      );
+      expect(find.text('效果预览（静帧导出）'), findsOneWidget);
+      expect(find.text('128'), findsOneWidget);
+
+      // 路径追踪 128 → 超采样模式：128 不在 [2,3] 内，必须自动收敛（否则 DropdownButton 断言崩溃）。
+      await tester.tap(find.text('快速（超采样）'));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(tester.takeException(), isNull);
+      expect(find.text('2×'), findsOneWidget);
+
+      // 无引擎桥接：点「渲染并保存」给出未就绪提示，不进入运行态。
+      await tester.tap(find.text('渲染并保存'));
+      await tester.pump();
+      expect(session.running, isFalse);
+      expect(session.error, isNotNull);
+      expect(find.textContaining('引擎未就绪'), findsWidgets);
+
+      session.dispose();
+      await tester.runAsync(() => dir.delete(recursive: true));
+    });
+
+    testWidgets('渲染完成后展示结果预览与保存路径', (WidgetTester tester) async {
+      late Directory dir;
+      late Workspace ws;
+      await tester.runAsync(() async {
+        dir = await Directory.systemTemp.createTemp('ss_still_w2_');
+        ws = await Workspace.initAt(dir.path);
+      });
+      final StillExportSession session = StillExportSession(workspace: ws);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: Scaffold(body: StillExportDialog(session: session)),
+        ),
+      );
+      final Uint8List png = _png(96, 112, 128);
+      await tester.runAsync(
+        () => session.onRendered(
+          EngineStillRendered(
+            ok: true,
+            mode: 'supersample',
+            dataUrl: 'data:image/png;base64,${base64Encode(png)}',
+            width: 960,
+            height: 720,
+            samples: 2,
+            ms: 84,
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(session.hasResult, isTrue);
+      expect(find.byType(Image), findsOneWidget);
+      expect(find.textContaining('960×720'), findsOneWidget);
+      expect(find.textContaining('已存'), findsOneWidget);
+      session.dispose();
+      await tester.runAsync(() => dir.delete(recursive: true));
     });
   });
 }
