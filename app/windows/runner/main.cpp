@@ -2,6 +2,8 @@
 #include <flutter/flutter_view_controller.h>
 #include <windows.h>
 
+#include <string>
+
 #include "flutter_window.h"
 #include "utils.h"
 
@@ -14,9 +16,42 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   }
 
   // Allow WebView2 to XHR/fetch engine assets (GLB/manifest) from file:// URLs.
-  // Keep this ASCII-only (MSVC C4819 with /WX on non-UTF8 code pages).
-  _wputenv_s(L"WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
-             L"--allow-file-access-from-files");
+  // V7/D135: append GPU flags from %LOCALAPPDATA%\ShootStudio\gpu_mode.txt
+  // (written by the app's GPU settings card: auto/discrete/integrated/software).
+  // Keep comments ASCII-only (MSVC C4819 with /WX on non-UTF8 code pages).
+  std::wstring browser_args = L"--allow-file-access-from-files";
+  {
+    wchar_t local_appdata[MAX_PATH] = {0};
+    const DWORD len =
+        ::GetEnvironmentVariableW(L"LOCALAPPDATA", local_appdata, MAX_PATH);
+    if (len > 0 && len < MAX_PATH) {
+      const std::wstring path = std::wstring(local_appdata) +
+                                L"\\ShootStudio\\gpu_mode.txt";
+      HANDLE file = ::CreateFileW(path.c_str(), GENERIC_READ, FILE_SHARE_READ,
+                                  nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL,
+                                  nullptr);
+      if (file != INVALID_HANDLE_VALUE) {
+        char buffer[32] = {0};
+        DWORD read = 0;
+        if (::ReadFile(file, buffer, sizeof(buffer) - 1, &read, nullptr) &&
+            read > 0) {
+          std::string mode(buffer, read);
+          while (!mode.empty() && (mode.back() == '\n' ||
+                                   mode.back() == '\r' || mode.back() == ' ')) {
+            mode.pop_back();
+          }
+          if (mode == "discrete") {
+            browser_args += L" --force_high_performance_gpu";
+          } else if (mode == "software") {
+            browser_args += L" --disable-gpu --use-angle=swiftshader"
+                            L" --enable-unsafe-swiftshader";
+          }
+        }
+        ::CloseHandle(file);
+      }
+    }
+  }
+  _wputenv_s(L"WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", browser_args.c_str());
 
   // Initialize COM, so that it is available for use in the library and/or
   // plugins.

@@ -290,12 +290,15 @@ let performanceProfile = 'auto';
 let shadowMapSize = 2048;
 let maxPixelRatio = 2;
 let desiredSubdivision = 1;
+// V7/D135：GPU 渲染器字符串（供设置页校验独显/软渲切换是否生效）。
+let gpuRendererName = '';
 
 function detectPerformanceProfile() {
   try {
     const gl = renderer.getContext();
     const info = gl.getExtension('WEBGL_debug_renderer_info');
     const name = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL) || '') : '';
+    gpuRendererName = name;
     if (/swiftshader|software|basic render/i.test(name)) return 'low';
     const mem = Number(navigator.deviceMemory || 0);
     if (mem > 0 && mem <= 4) return 'low';
@@ -889,6 +892,8 @@ window.ss = {
     ambientEnabled,
     contactShadow: contactShadowEnabled && contactShadowSupported,
     performance: { requested: performanceProfile, effective: effectiveProfile() },
+    // V7/D135：GPU 渲染器（设置页显卡卡片校验切换结果）。
+    gpu: { renderer: gpuRendererName, profile: effectiveProfile(), api: 'gpu-info-v7' },
   }),
   evictCharacterCache: () => {
     if (typeof character.evictAll === 'function') character.evictAll();

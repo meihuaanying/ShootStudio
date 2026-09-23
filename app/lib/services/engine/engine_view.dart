@@ -8,6 +8,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../../core/design/widgets.dart';
 import '../app_logger.dart';
 import 'engine_bridge.dart';
+import 'engine_reload.dart';
 
 /// 3D 引擎视图：打包 three.js 单页经 WebView 加载（Windows WebView2 / Android WebView）。
 /// 未就绪或加载失败时给出可重试的降级面板，不影响其它功能（本地优先原则）。
@@ -54,6 +55,7 @@ class _EngineViewState extends State<EngineView> {
   @override
   void initState() {
     super.initState();
+    engineReloadTick.addListener(_onExternalReload);
     _sub = _bridge.events.listen((EngineEvent e) {
       if (e is EngineReady) {
         _timeout?.cancel();
@@ -63,6 +65,7 @@ class _EngineViewState extends State<EngineView> {
         // 应用当前可见性（隐藏页暂停渲染）。
         _bridge.setPaused(!_lastActive);
         AppLogger.I.info('引擎就绪', tag: 'engine');
+        _captureGpuRenderer();
       }
       if (e is EngineHeartbeat) {
         _lastHeartbeatAt = DateTime.now();
@@ -96,11 +99,37 @@ class _EngineViewState extends State<EngineView> {
 
   @override
   void dispose() {
+    engineReloadTick.removeListener(_onExternalReload);
     _timeout?.cancel();
     _healthTimer?.cancel();
     _sub?.cancel();
     _bridge.dispose();
     super.dispose();
+  }
+
+  /// V7/D135：外部请求重载（显卡设置切换）→ 重建 WebView。
+  void _onExternalReload() {
+    if (mounted) {
+      _restartWebView(logMessage: '外部请求重载（显卡设置变更）');
+    }
+  }
+
+  /// V7/D135：引擎就绪后读取 GPU 渲染器字符串，供设置页校验切换是否生效。
+  Future<void> _captureGpuRenderer() async {
+    try {
+      final Object? stats = await _bridge.evaluate(
+        'window.ss && window.ss.getEngineStats ? window.ss.getEngineStats() : null',
+      );
+      if (stats is Map) {
+        final Object? gpu = stats['gpu'];
+        if (gpu is Map) {
+          final String renderer = '${gpu['renderer'] ?? ''}'.trim();
+          if (renderer.isNotEmpty) engineGpuRenderer.value = renderer;
+        }
+      }
+    } catch (_) {
+      // 引擎未暴露统计信息时忽略（不影响渲染）。
+    }
   }
 
   /// V6/R43/D102：心跳超时（引擎假死/进程崩溃）→ 自动重建 WebView 并重放场景；

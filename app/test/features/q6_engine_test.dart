@@ -7,6 +7,8 @@ import 'package:shoot_studio/core/db/database.dart';
 import 'package:shoot_studio/core/providers.dart';
 import 'package:shoot_studio/features/lighting/lighting_controller.dart';
 import 'package:shoot_studio/services/engine/engine_bridge.dart';
+import 'package:shoot_studio/services/engine/engine_reload.dart';
+import 'package:shoot_studio/services/gpu/gpu_info.dart';
 
 /// V6 阶段 A 门禁：错误分级 / 心跳 / 缓存 LRU / 性能档（D100–D104、R41–R43）。
 void main() {
@@ -102,6 +104,76 @@ void main() {
       expect(js.contains('boot'), isTrue);
       // LRU 上限常量存在（实例 2 / GLB 3）。
       expect(RegExp(r'MAX_INSTANCES|maxInstances').hasMatch(js), isTrue);
+    });
+
+    test('bundle 暴露 GPU 渲染器信息（V7/D135）', () {
+      final String js = File(
+        'assets/engine/js/engine.bundle.js',
+      ).readAsStringSync();
+      // minify 会重命名局部变量，用保留的字符串字面量做门禁。
+      expect(js.contains('gpu-info-v7'), isTrue, reason: '缺少 GPU 信息标记');
+      expect(js.contains('UNMASKED_RENDERER_WEBGL'), isTrue);
+      final String view = File(
+        'lib/services/engine/engine_view.dart',
+      ).readAsStringSync();
+      expect(view.contains('_captureGpuRenderer'), isTrue);
+      expect(view.contains('engineReloadTick'), isTrue);
+    });
+  });
+
+  group('显卡设置（V7/D135）', () {
+    test('GPU 模式文件读写 + 非法值回退 auto', () async {
+      final Directory dir = await Directory.systemTemp.createTemp('ss_gpu');
+      addTearDown(() async {
+        GpuService.debugModePathOverride = null;
+        if (await dir.exists()) await dir.delete(recursive: true);
+      });
+      GpuService.debugModePathOverride = '${dir.path}/gpu_mode.txt';
+      expect(GpuService.readModeSync(), 'auto', reason: '缺文件回退 auto');
+      await GpuService.writeMode('discrete');
+      expect(GpuService.readModeSync(), 'discrete');
+      await GpuService.writeMode('bogus');
+      expect(GpuService.readModeSync(), 'auto', reason: '非法值回退 auto');
+      await GpuService.writeMode('software');
+      expect(GpuService.readModeSync(), 'software');
+    });
+
+    test('DXGI 适配器解析：独显/核显/厂商标签', () {
+      final GpuAdapter nvidia = GpuAdapter.fromMap(<String, Object?>{
+        'index': 1,
+        'name': 'NVIDIA GeForce RTX 4060 Laptop GPU',
+        'vendorId': 0x10DE,
+        'deviceId': 0x28E0,
+        'dedicatedVideoMb': 8188,
+        'discrete': true,
+      });
+      expect(nvidia.discrete, isTrue);
+      expect(nvidia.vendorLabel, 'NVIDIA');
+      expect(nvidia.memoryLabel, contains('8188'));
+      final GpuAdapter intel = GpuAdapter.fromMap(<String, Object?>{
+        'index': 0,
+        'name': 'Intel(R) Iris(R) Xe Graphics',
+        'vendorId': 0x8086,
+        'dedicatedVideoMb': 0,
+        'discrete': false,
+      });
+      expect(intel.kindLabel, '核显/集成');
+      expect(intel.memoryLabel, '共享显存');
+    });
+
+    test('引擎重载信号可触发（V7/D135）', () {
+      final int before = engineReloadTick.value;
+      requestEngineReload();
+      expect(engineReloadTick.value, before + 1);
+    });
+
+    test('显卡设置持久化（gpu_mode / gpu_recognize_backend）', () async {
+      final AppDatabase db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+      await db.setSetting('gpu_mode', 'discrete');
+      await db.setSetting('gpu_recognize_backend', 'gpu');
+      expect(await db.getSetting('gpu_mode'), 'discrete');
+      expect(await db.getSetting('gpu_recognize_backend'), 'gpu');
     });
   });
 
