@@ -248,6 +248,11 @@ class EngineBridge {
     'window.ss && window.ss.setPerformanceProfile && window.ss.setPerformanceProfile("$profile");',
   );
 
+  /// V7/D137：软阴影（VSM）开关。
+  Future<void> setSoftShadows(bool on) => _js(
+    'window.ss && window.ss.setSoftShadows && window.ss.setSoftShadows(${on ? 'true' : 'false'});',
+  );
+
   /// V6/D111：光锥可视化开关。
   Future<void> setLightCones(bool on) => _js(
     'window.ss && window.ss.setLightCones && window.ss.setLightCones(${on ? 'true' : 'false'});',

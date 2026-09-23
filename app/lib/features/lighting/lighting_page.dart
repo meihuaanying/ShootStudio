@@ -125,6 +125,10 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       if (prev?.lightCones != next.lightCones) {
         _bridge?.setLightCones(next.lightCones);
       }
+      // V7/D137 软阴影。
+      if (prev?.softShadows != next.softShadows) {
+        _bridge?.setSoftShadows(next.softShadows);
+      }
       // V6/D105 相机 POV。
       if (prev?.cameraView != next.cameraView) {
         _bridge?.setCameraView(next.cameraView);
@@ -415,6 +419,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               _bridge?.setContactShadow(fresh.contactShadow);
               _lastPerformance = fresh.performanceProfile;
               _bridge?.setPerformanceProfile(fresh.performanceProfile);
+              _bridge?.setSoftShadows(fresh.softShadows);
               _bridge?.setCameraView(fresh.cameraView);
               _bridge?.setLightCones(fresh.lightCones);
               _lastCameraSeq = fresh.cameraSeq;
@@ -2064,6 +2069,32 @@ class _QualityPanel extends StatelessWidget {
                 onTap: () => controller.setLightCones(!state.lightCones),
               ),
             ],
+          ),
+          const SizedBox(height: 10),
+          // V7/D137：软阴影（VSM）。
+          Row(
+            children: <Widget>[
+              const Text(
+                '软阴影（VSM）',
+                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+              ),
+              const Spacer(),
+              SsChip(
+                label: state.softShadows ? '开' : '关',
+                selected: state.softShadows,
+                onTap: () => controller.setSoftShadows(!state.softShadows),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Text(
+              '软阴影随附件/灯距变化；性能优先档自动回退 PCF 硬边。',
+              style: TextStyle(
+                fontSize: 10.5,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
           ),
           const SizedBox(height: 10),
           const Text(

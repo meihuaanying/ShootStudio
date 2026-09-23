@@ -270,6 +270,20 @@ export function buildModifierVisual(modifierId, size = { w: 0.38, h: 0.32 }) {
       add(ring, honey);
       return { visual: group, emissiveHidden: false };
     }
+    case 'gobo-blinds':
+    case 'gobo': {
+      // V7/D137：图案片夹（上下导轨 + 插片），实际投光由 SpotLight.map 完成。
+      const frame = mesh(new THREE.BoxGeometry(w * 0.72, h * 0.16, 0.05), MAT.dark, { cast: false });
+      frame.position.set(0, h * 0.42, 0.2);
+      const frame2 = mesh(new THREE.BoxGeometry(w * 0.72, h * 0.16, 0.05), MAT.dark, { cast: false });
+      frame2.position.set(0, -h * 0.42, 0.2);
+      const holder = mesh(new THREE.BoxGeometry(w * 0.6, h * 0.72, 0.015), new THREE.MeshStandardMaterial({
+        color: 0x14161a, roughness: 0.85, metalness: 0.2,
+      }), { cast: false });
+      holder.position.z = 0.24;
+      add(frame, frame2, holder);
+      return { visual: group, emissiveHidden: false };
+    }
     case 'standard-reflector':
     case 'reflector': {
       const cone = mesh(new THREE.ConeGeometry(w * 0.5, 0.24, 24, 1, true), MAT.silver, { cast: false });

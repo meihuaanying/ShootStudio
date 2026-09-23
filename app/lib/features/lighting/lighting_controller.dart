@@ -33,6 +33,7 @@ class LightingState {
     this.performanceProfile = 'auto',
     this.cameraView = false,
     this.lightCones = false,
+    this.softShadows = true,
     this.cameraSeq = 0,
     this.handL = const HandPoseState(),
     this.handR = const HandPoseState(),
@@ -85,6 +86,9 @@ class LightingState {
   /// V6/D111：光锥可视化开关（持久化）。
   final bool lightCones;
 
+  /// V7/D137：软阴影（VSM）开关（持久化；低配档引擎自动回退 PCF）。
+  final bool softShadows;
+
   /// V6/D105：机位变更序号（触发引擎即时同步）。
   final int cameraSeq;
 
@@ -121,6 +125,7 @@ class LightingState {
     String? performanceProfile,
     bool? cameraView,
     bool? lightCones,
+    bool? softShadows,
     int? cameraSeq,
     HandPoseState? handL,
     HandPoseState? handR,
@@ -151,6 +156,7 @@ class LightingState {
       performanceProfile: performanceProfile ?? this.performanceProfile,
       cameraView: cameraView ?? this.cameraView,
       lightCones: lightCones ?? this.lightCones,
+      softShadows: softShadows ?? this.softShadows,
       cameraSeq: cameraSeq ?? this.cameraSeq,
       handL: handL ?? this.handL,
       handR: handR ?? this.handR,
@@ -532,6 +538,8 @@ class LightingController extends Notifier<LightingState> {
         await _db.getSetting('quality_performance_profile') ?? 'auto';
     final bool cones =
         (await _db.getSetting('quality_light_cones') ?? '0') == '1';
+    final bool softShadows =
+        (await _db.getSetting('quality_soft_shadows') ?? '1') != '0';
     state = state.copyWith(
       subdivisionLevel: subdivision.clamp(0, 2),
       materialPreset: preset,
@@ -543,6 +551,7 @@ class LightingController extends Notifier<LightingState> {
           ? performance
           : 'auto',
       lightCones: cones,
+      softShadows: softShadows,
     );
   }
 
@@ -649,6 +658,17 @@ class LightingController extends Notifier<LightingState> {
       status: on ? '接触阴影已开启（写实预设）' : '接触阴影已关闭',
     );
     await _db.setSetting('quality_contact_shadow', on ? '1' : '0');
+  }
+
+  // ---------------- V7/D137 软阴影 ----------------
+
+  /// 软阴影（VSM）开关；低配档引擎自动回退 PCF。
+  Future<void> setSoftShadows(bool on) async {
+    state = state.copyWith(
+      softShadows: on,
+      status: on ? '软阴影已开启（VSM，低配档自动回退）' : '软阴影已关闭（PCF 硬边）',
+    );
+    await _db.setSetting('quality_soft_shadows', on ? '1' : '0');
   }
 
   // ---------------- V5/D86–D88 手部动作 ----------------

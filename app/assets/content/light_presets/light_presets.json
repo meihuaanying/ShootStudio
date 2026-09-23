@@ -1311,6 +1311,52 @@
         }
       ],
       "note": "暖冷对撞 + 背景染光，适合夜景/舞台氛围。"
+    },
+    {
+      "id": "blinds-window",
+      "name": "百叶窗光影",
+      "category": "氛围",
+      "devices": [
+        {
+          "name": "百叶窗主光",
+          "x": -2.1,
+          "y": -1.4,
+          "height": 2.2,
+          "type": "hard",
+          "fixture": "cob-600d",
+          "modifier": "gobo-blinds",
+          "intensity": 72,
+          "kelvin": 5200,
+          "beamAngle": 46,
+          "softness": 0.2,
+          "color": "#fff2e0",
+          "rotationY": 0,
+          "offsetYaw": 0,
+          "offsetPitch": 0,
+          "stand": "normal",
+          "note": ""
+        },
+        {
+          "name": "暗部补光",
+          "x": 1.9,
+          "y": -1.2,
+          "height": 1.9,
+          "type": "soft",
+          "fixture": "cob-600d",
+          "modifier": "softbox-medium",
+          "intensity": 22,
+          "kelvin": 5500,
+          "beamAngle": 70,
+          "softness": 0.5,
+          "color": "#ffffff",
+          "rotationY": 0,
+          "offsetYaw": 0,
+          "offsetPitch": 0,
+          "stand": "normal",
+          "note": ""
+        }
+      ],
+      "note": "图案片投光：百叶窗条纹落在面部/墙面，叙事氛围（V7/D137）。"
     }
   ]
 }

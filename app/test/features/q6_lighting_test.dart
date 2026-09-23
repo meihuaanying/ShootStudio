@@ -28,8 +28,8 @@ void main() {
       bundle = File('assets/engine/js/engine.bundle.js').readAsStringSync();
     });
 
-    test('27 套预设；全部设备带 stand/offsetYaw/offsetPitch 且 rotationY=0', () {
-      expect(presets.length, 27);
+    test('28 套预设；全部设备带 stand/offsetYaw/offsetPitch 且 rotationY=0', () {
+      expect(presets.length, 28);
       for (final Map<String, Object?> preset in presets) {
         final List<Map<String, Object?>> devices =
             ((preset['devices'] as List<Object?>?) ?? <Object?>[])
@@ -184,6 +184,10 @@ void main() {
         'gel-cto',
         'gel-ctb',
         'performance-profile',
+        // V7/D137：软阴影 + 图案片投光
+        'setSoftShadows',
+        'getSoftShadows',
+        'gobo-blinds',
       ]) {
         expect(js.contains(token), isTrue, reason: '引擎缺少 $token');
       }

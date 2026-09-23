@@ -23,7 +23,7 @@ export const LIGHT_FIXTURES = [
   { id: 'fresnel', label: '菲涅尔聚光灯', kind: 'hard', beam: 30, softness: 0.08, cct: [3200, 5600] },
 ];
 
-// 控光件（V6 扩充：八角/长条/伞/旗板/色片/柔光箱格栅）。
+// 控光件（V6 扩充：八角/长条/伞/旗板/色片/柔光箱格栅；V7/D137：图案片投光）。
 export const LIGHT_MODIFIERS = [
   { id: 'bare', label: '裸灯', intensity: 1, beamDelta: 0, softnessDelta: 0, shadowRadius: 2, visual: 'bare' },
   { id: 'standard-reflector', label: '标准反光罩', intensity: 1.12, beamDelta: -8, softnessDelta: -0.04, shadowRadius: 3, visual: 'reflector' },
@@ -33,15 +33,57 @@ export const LIGHT_MODIFIERS = [
   { id: 'strip-softbox', label: '长条柔光箱', intensity: 0.74, beamDelta: 22, softnessDelta: 0.34, shadowRadius: 9, visual: 'strip' },
   { id: 'umbrella-silver', label: '反光伞', intensity: 0.9, beamDelta: 26, softnessDelta: 0.3, shadowRadius: 10, visual: 'umbrella' },
   { id: 'umbrella-translucent', label: '透光伞', intensity: 0.7, beamDelta: 30, softnessDelta: 0.4, shadowRadius: 12, visual: 'umbrella' },
-  { id: 'honeycomb-grid', label: '蜂巢', intensity: 0.82, beamDelta: -18, softnessDelta: -0.08, shadowRadius: 3, visual: 'grid' },
+  { id: 'honeycomb-grid', label: '蜂巢', intensity: 0.82, beamDelta: -18, softnessDelta: -0.08, shadowRadius: 3, visual: 'grid', pattern: 'grid' },
   { id: 'diffusion-cloth', label: '柔光布', intensity: 0.72, beamDelta: 18, softnessDelta: 0.3, shadowRadius: 10, visual: 'diffusion' },
   { id: 'beauty-dish', label: '雷达罩', intensity: 1.05, beamDelta: 6, softnessDelta: 0.08, shadowRadius: 6, visual: 'beauty' },
   { id: 'snoot', label: '束光筒', intensity: 0.9, beamDelta: -26, softnessDelta: -0.06, shadowRadius: 2, visual: 'snoot' },
-  { id: 'softbox-grid', label: '柔光箱格栅', intensity: 0.7, beamDelta: 18, softnessDelta: 0.28, shadowRadius: 8, visual: 'softbox-grid' },
+  { id: 'softbox-grid', label: '柔光箱格栅', intensity: 0.7, beamDelta: 18, softnessDelta: 0.28, shadowRadius: 8, visual: 'softbox-grid', pattern: 'grid' },
+  { id: 'gobo-blinds', label: '百叶窗光影（图案片）', intensity: 0.88, beamDelta: 4, softnessDelta: 0.08, shadowRadius: 5, visual: 'gobo', pattern: 'blinds' },
   { id: 'flag', label: '旗板/黑旗', intensity: 0.85, beamDelta: -6, softnessDelta: -0.02, shadowRadius: 3, visual: 'flag' },
   { id: 'gel-cto', label: '色片 CTO', intensity: 0.86, beamDelta: -2, softnessDelta: 0, shadowRadius: 3, visual: 'gel-cto', tint: 0xffa04d },
   { id: 'gel-ctb', label: '色片 CTB', intensity: 0.86, beamDelta: -2, softnessDelta: 0, shadowRadius: 3, visual: 'gel-ctb', tint: 0x6db4ff },
 ];
+
+// V7/D137：图案片纹理（程序生成，避免额外资产；SpotLight.map 投光）。
+let gridPatternTexture = null;
+let blindsPatternTexture = null;
+function patternTexture(kind) {
+  if (kind === 'grid') {
+    if (gridPatternTexture) return gridPatternTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 256, 256);
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.lineWidth = 12;
+    for (let i = 0; i <= 256; i += 64) {
+      ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 256); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(256, i); ctx.stroke();
+    }
+    gridPatternTexture = new THREE.CanvasTexture(canvas);
+    gridPatternTexture.wrapS = gridPatternTexture.wrapT = THREE.RepeatWrapping;
+    return gridPatternTexture;
+  }
+  if (kind === 'blinds') {
+    if (blindsPatternTexture) return blindsPatternTexture;
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 256, 256);
+    // 百叶窗横条：亮缝 + 暗叶（与投影条纹对应）。
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.72)';
+    for (let y = 0; y < 256; y += 42) {
+      ctx.fillRect(0, y, 256, 18);
+    }
+    blindsPatternTexture = new THREE.CanvasTexture(canvas);
+    blindsPatternTexture.wrapS = blindsPatternTexture.wrapT = THREE.RepeatWrapping;
+    return blindsPatternTexture;
+  }
+  return null;
+}
 
 export function fixtureById(id) { return LIGHT_FIXTURES.find((f) => f.id === id) || LIGHT_FIXTURES[0]; }
 export function modifierById(id) { return LIGHT_MODIFIERS.find((m) => m.id === id) || LIGHT_MODIFIERS[0]; }
@@ -234,17 +276,24 @@ export function updateLight(group, cfg) {
   const isPanel = cfg.type === 'panel';
   const on = cfg.on !== false;
   const intensityScale = isPanel ? 6.5 : 55;
+  const lightDistance = Math.max(0.4, origin.distanceTo(target));
 
   spot.intensity = on && !isPanel ? intensity * intensityScale : 0;
   spot.angle = clamp((beam / 2) * DEG, 3 * DEG, 75 * DEG);
   spot.penumbra = clamp(softness * (cfg.type === 'soft' ? 0.95 : 0.6), 0.05, 1);
   spot.color = c;
-  spot.castShadow = group.userData.castShadow === true && on && !isPanel;
+  // V7/D137：图案片投光（格栅/百叶窗）——SpotLight.map 投影纹理。
+  spot.map = mod.pattern ? patternTexture(mod.pattern) : null;
+  // V7/D137：面板灯以同位置 SpotLight 作「阴影代理」（intensity=0，仅投影），
+  // 近似区域光软阴影；阴影预算由 engine 统一控制。
+  spot.castShadow = on && group.userData.castShadow === true;
   spot.shadow.mapSize.set(shadowMapSize, shadowMapSize);
   spot.shadow.bias = -0.0005;
   spot.shadow.normalBias = 0.025;
-  // V6/D111：软硬阴影由附件/柔度决定。
-  spot.shadow.radius = clamp((mod.shadowRadius || 3) * (0.5 + softness), 1, 16);
+  // V7/D137：软硬阴影由附件/柔度/灯距决定（VSM 支持 radius 软阴影）。
+  spot.shadow.radius = clamp(
+    (mod.shadowRadius || 3) * (0.5 + softness) * (0.7 + lightDistance * 0.35), 1, 24);
+  spot.shadow.blurSamples = 8;
   spot.shadow.camera.near = 0.2;
   spot.shadow.camera.far = 15;
 

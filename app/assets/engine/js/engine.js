@@ -89,7 +89,9 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// V7/D137：r186 移除了 PCFSoftShadowMap；软阴影改用 VSM（支持 shadow.radius），
+// 低配档/关闭软阴影时回退 PCF。
+renderer.shadowMap.type = THREE.VSMShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.06;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -290,6 +292,8 @@ let performanceProfile = 'auto';
 let shadowMapSize = 2048;
 let maxPixelRatio = 2;
 let desiredSubdivision = 1;
+// V7/D137：软阴影（VSM）开关；低配档强制 PCF。
+let softShadows = true;
 // V7/D135：GPU 渲染器字符串（供设置页校验独显/软渲切换是否生效）。
 let gpuRendererName = '';
 
@@ -310,6 +314,20 @@ function effectiveProfile() {
   return performanceProfile === 'auto' ? detectPerformanceProfile() : performanceProfile;
 }
 
+// V7/D137：阴影类型切换（VSM 支持 radius 软阴影；低配/关闭时 PCF）。
+function applyShadowType() {
+  const wantVsm = softShadows && effectiveProfile() !== 'low';
+  const type = wantVsm ? THREE.VSMShadowMap : THREE.PCFShadowMap;
+  if (renderer.shadowMap.type === type) return;
+  renderer.shadowMap.type = type;
+  renderer.shadowMap.needsUpdate = true;
+  scene.traverse((obj) => {
+    if (!obj.material) return;
+    const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+    for (const m of mats) m.needsUpdate = true;
+  });
+}
+
 function applyPerformanceProfile() {
   const profile = effectiveProfile();
   const low = profile === 'low';
@@ -318,6 +336,7 @@ function applyPerformanceProfile() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxPixelRatio));
   setShadowMapSize(shadowMapSize);
   applyContactShadow();
+  applyShadowType();
   const subdivision = low ? Math.min(desiredSubdivision, 1) : desiredSubdivision;
   Promise.resolve(character.setSubdivision(subdivision)).catch(() => {});
   for (const obj of lightObjs.values()) {
@@ -475,11 +494,11 @@ function applyScene(json) {
     }
   }
 
-  // 阴影预算：仅最亮的两盏硬/柔光投影。
+  // 阴影预算：最亮的三盏（含面板灯阴影代理）投影。
   const casters = (data.lights || [])
-    .filter((l) => l.on !== false && l.type !== 'panel')
+    .filter((l) => l.on !== false)
     .sort((a, b) => (b.intensity || 0) - (a.intensity || 0))
-    .slice(0, 2)
+    .slice(0, 3)
     .map((l) => l.id);
   for (const [id, obj] of lightObjs) {
     obj.userData.castShadow = casters.includes(id);
@@ -734,7 +753,7 @@ function qaAllowDistance(distance) {
 // ---------------- 对外 API（Flutter / 调试） ----------------
 let paused = false;
 window.ss = {
-  features: 'GLTFLoader GLTF gltf-parser SkeletonUtils retarget AnimationMixer BufferGeometryUtils LoopSubdivision skin-preserving-loop setSubdivision setMaterialPreset PMREM RoomEnvironment setAmbientEnabled setHandPose setHandCurls getHandState listHandPresets hand-bones HDRLoader HDRI setContactShadow getContactShadow contact-shadow getEnvironmentSource engineHeartbeat getEngineStats evictCharacterCache cache-lru setPerformanceProfile performance-profile gpu-info-v7',
+  features: 'GLTFLoader GLTF gltf-parser SkeletonUtils retarget AnimationMixer BufferGeometryUtils LoopSubdivision skin-preserving-loop setSubdivision setMaterialPreset PMREM RoomEnvironment setAmbientEnabled setHandPose setHandCurls getHandState listHandPresets hand-bones HDRLoader HDRI setContactShadow getContactShadow contact-shadow getEnvironmentSource engineHeartbeat getEngineStats evictCharacterCache cache-lru setPerformanceProfile performance-profile gpu-info-v7 setSoftShadows getSoftShadows gobo-blinds blinds',
   ping: () => send('ready', { version: 1 }),
   setPaused: (p) => {
     paused = !!p;
@@ -806,6 +825,16 @@ window.ss = {
     return { requested: performanceProfile, effective: effectiveProfile() };
   },
   getPerformanceProfile: () => ({ requested: performanceProfile, effective: effectiveProfile() }),
+  // V7/D137：软阴影（VSM）开关；低配档自动回退 PCF。
+  setSoftShadows: (on) => {
+    softShadows = !!on;
+    applyShadowType();
+    return { soft: softShadows, type: renderer.shadowMap.type === THREE.VSMShadowMap ? 'vsm' : 'pcf' };
+  },
+  getSoftShadows: () => ({
+    soft: softShadows,
+    type: renderer.shadowMap.type === THREE.VSMShadowMap ? 'vsm' : 'pcf',
+  }),
   setMaterialPreset: (name) => {
     const promise = character.setMaterialPreset(name == null ? null : String(name));
     Promise.resolve(promise).then(() => syncContactShadowPreset()).catch(() => {});

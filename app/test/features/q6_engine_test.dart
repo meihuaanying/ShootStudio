@@ -224,5 +224,22 @@ void main() {
         'auto',
       );
     });
+
+    test('软阴影开关持久化（V7/D137）', () async {
+      final LightingController controller = container.read(
+        lightingControllerProvider.notifier,
+      );
+      expect(container.read(lightingControllerProvider).softShadows, isTrue);
+      await controller.setSoftShadows(false);
+      expect(container.read(lightingControllerProvider).softShadows, isFalse);
+      expect(await db.getSetting('quality_soft_shadows'), '0');
+
+      final ProviderContainer container2 = ProviderContainer(
+        overrides: <Override>[databaseProvider.overrideWithValue(db)],
+      );
+      addTearDown(container2.dispose);
+      await container2.read(lightingControllerProvider.notifier).init();
+      expect(container2.read(lightingControllerProvider).softShadows, isFalse);
+    });
   });
 }
