@@ -144,6 +144,7 @@
 | 日期 | 步骤 | 变更 | 证据 |
 |---|---|---|---|
 | 2026-09-22 | S0 | V7 合同建立：D132–D144 两轮确认（含 Getty 移除、Step 3 顺序修正、许可门控、NGA/Walters 索引方案、硬件适配）；基线门禁记录 | 本文件；基线：format 0 changed、analyze 0 问题、全量 **249 passed + 25 skipped**；硬件侦察：RTX 4060 Laptop 8GB + Iris Xe + MuMu 虚拟适配器，WebView2/Edge 153.0.4234.48 |
+| 2026-09-23 | S1 | **画面参考极简 + 主题驱动 + 搜索扩展（D132–D134）**：① `refs_page.dart` 重写为极简页（搜索框 + 8 常用主题标签行 + 结果网格 + 详情弹窗 + 我的画板 + 免责声明 + 粘贴截图/本地导入/以图搜图），删除搜图工作台 `search_page.dart`（PD 别名索引拆为 `services/pd_film_index.dart`，q5 门禁改 import）；② 主题包 24→**48**（新增影视感剧照/杂志大片/画作风格/港风/新中式等），新增 `matchThemePack`（具体性规则：≥3 字或占比过半，避免短词劫持组合查询）、`commonThemePacks`（8 常用）、策划案主题联动（refs 页读最新策划案 theme 模块预填并自动检索）；③ 新增 **7 个开放源**：Openverse/Wikimedia/Wellcome/SMK/LoC（keyless）+ NGA/Walters（内置精选 CC0 索引各 300 条 + 热链 + SearchCache）；许可门控（全收但逐图标注，NC/ND 不计可商用；LoC Rights Advisory、SMK public_domain、NGA openaccess=1、Walters pre-1928+排除出借/涉版权）；`SearchEngine.allDomains` 全混合；NetRouter 白名单 + 修复 3 处隧道异步错误泄漏（zone 保护/done future/DoH try-catch，R43）；④ 构建工具 `tool/build_open_index.py`（NGA objects+published_images / Walters art+media+creators，CSV 缓存 gitignore） | `q6_search_test` **41/41**（新增：Openverse 许可/NC-ND、Wikimedia extmetadata、Wellcome、SMK 门控、LoC 门控、NGA/Walters 索引解析与资产加载、主题自动匹配、48 主题包+8 常用、allDomains）；全量 **259 passed + 26 skipped**；live **23/23** → `docs/qa/search-live-2026-09-23T12-49-14.txt`（Wellcome 6 条 PDM、SMK 10 条 CC0 可达；Openverse 握手失败/Wikimedia 超时/LoC 403 本机不可达，代码就绪待网络恢复，已在证据登记）；索引资产 `assets/content/search/open_index/{nga,walters}.json`（300+300，CC0）；format 0 changed、analyze 0 问题 |
 |  |  |  |  |
 
 ---
