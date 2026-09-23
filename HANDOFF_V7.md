@@ -10,14 +10,14 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能**（本次提交） |
-| CI | S3.2 已绿（run 35824614111）；S3.3 推送后运行中（R60：**全绿才算完成**，下一步先复核） |
-| 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **278 passed + 26 skipped** ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ live 搜索 23/23 ｜ 引擎包 1.1MB + pathtracer 220.4KB（<2.2MB） |
-| 剩余 | **S3.4 相机辅助 ｜ S4 姿势参考图 12×10 ｜ S5 RTMPose/RTMW3D 识别 ｜ S6 资源库 100% ｜ S7 v1.3.0 发布** |
+| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助**（本次提交） |
+| CI | S3.3 全绿（run 35839154345 = c474cda、run 35842252891 = 1978a91 均 success）；S3.4 推送后运行中（R60：**全绿才算完成**，下一步先复核） |
+| 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **290 passed + 26 skipped** ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ `q6_camera_test` 10 ｜ live 搜索 23/23 ｜ 引擎包 1.16MB + pathtracer 220.4KB（<2.2MB） |
+| 剩余 | **S4 姿势参考图 12×10 ｜ S5 RTMPose/RTMW3D 识别 ｜ S6 资源库 100% ｜ S7 v1.3.0 发布** |
 
 ---
 
-## 1. 已完成（S0–S3.3，含证据路径）
+## 1. 已完成（S0–S3.4，含证据路径）
 
 ### S0 合同（`be2c264`）
 `FIX_CONTRACT_V7.0.md`：D132–D144 + R61–R70（含 Getty 移除、Step 3 顺序修正、许可门控、NGA/Walters 索引方案、硬件适配）。
@@ -56,12 +56,15 @@
 - **偏差/限制登记**：路径追踪 16 samples 噪声大（128 可用）；灯具发光面在路径追踪中偏暗（无自发光语义）；首次编译 40–80s；预设 QA 走 SwiftShader 低配档 → PCF（VSM 证据用 headed 专项）。
 - 证据：`q6_lighting_test` 32 预设 + 新 token；新增 `q6_still_test`；全量 **278+26**；`light_preset_qa` **32/32、0 失败**（`*-r186s33.png`）；`light_still_qa` → `docs/qa/light-still-ab-s33.json`（超采样 63–103ms；路径 480×360×128 首次 73.6s/二次 19.2s；A/B mean 1.62/255、2.4%）；`vsm_regression_qa` PASS → `docs/qa/vsm-regression-r186s33.json`（VSM 54.3 vs PCF 54.6，ratio 0.995；灯光增益 24）；spike 报告 `docs/qa/pathtracer-spike-report.md`。
 
+### S3.4 相机辅助（D139）
+- **路径追踪景深（预览）**：`engine.js` 新增 `getCameraAssist()`（焦段 → 垂直/水平视野角、主体距离、主体处画幅高/宽、`dofAvailable`）与 DOF 相机同步（`PhysicalCamera`，仅该类型才会被 `PathTracingRenderer` 采信 bokehSize/focusDistance；`bokehSize = 焦距/fStop`）；`renderStill` 新增 `dof:{enabled,fStop,focusMode:'auto'|'manual',focusDistance}`，自动对焦 = 相机到主体（`activeSubject` + 1.35m 高度）距离；`stillRendered` 回传 `dof/fStop/focusDistance/focusMode`，回退超采样时带 `dofFallback`（R69）。
+- **构图线/安全框**：`camera_helpers.dart`（`CameraGuideSettings`：三分线/安全框/中心十字/画幅裁切 none/16:9/9:16/1:1/2.35:1 + `CompositionGuidePainter` 画布叠加：裁切外压暗 + 三分线 + 5%/10% 安全框 + 中心十字 + 左上角 `焦段·类别·视野角·画幅高` 信息）；页面「构图辅助」chip 与机位面板开关，仅相机视角（看构图）时叠加。
+- **焦段与视野可视化增强**：机位面板显示 `垂直视野 x° · 水平 x° · 主体距离 x.xxm · 画幅高 x.xxm`（与 `rig.js focalToFov` 同口径：全画幅 24mm 传感器高），景深不可用时提示；效果预览对话框新增「景深」开关（光圈 1.4–16、对焦自动/手动 0.3–12m），结果摘要带景深参数与回退提示。
+- 证据：`q6_camera_test` 10 项（FOV/画幅换算、焦段分类、构图设置、Painter、bundle token、对话框景深 UI）；`q6_lighting_test` 新增 `camera-assist/getCameraAssist/fStop/focusDistance/PhysicalCamera/dofFallback` token；全量 **290 passed + 26 skipped**；format 0 changed、analyze 0 问题；`camera_assist_qa`（headed RTX 4060，480×360×48 samples）**PASS**：assist fov 16.07°（=期望）/主体距离 5.5m/画幅高 1.55m，主体框 p95 边缘锐度 无景深 136.0 → 自动对焦 121.0（0.89）→ 手动对焦 1m 50.1（0.369 ≤ 0.6，景深生效），payload dof=true / f1.4 / 自动 5.5m / 手动 1.0m → `docs/qa/camera-assist-r186s34.json` + 三张静帧 PNG。
+
 ---
 
 ## 2. 剩余待办（按合同 §3 顺序）
-
-### S3.4 相机辅助（D139）
-景深预览（光圈/对焦距离 → CoC 近似或后期模糊）、构图线/安全框、焦段与视野可视化增强。证据：截图 + 测试。
 
 ### S4 姿势参考图 12 类 × 10（D140）
 - 新增「杂志大片」「影视感」两类，替换手部/表情；内置 Pexels 可商用杂志风；运行时「影视感参考」按需抓 TMDB（只存工作区，不入包）。
@@ -94,12 +97,14 @@
 8. **路径追踪产物**：改 `engine.js` 后重打 `node tool/engine_build/bundle.mjs`；改 pathtracer 依赖/打包配置后重打 `node tool/engine_build/pathtracer_build.mjs`（生成 `tool/engine_build/.gen/three_global_shim.js`，已 gitignore）；首次路径追踪需 40–80s 编译（就绪后 3s 自动预热，二次亚秒级）。
 9. **flutter/dart 不在 PATH**：用 `C:\dev\flutter\bin\flutter.bat` / `dart.bat`（Flutter 3.47.2 stable），命令在 `app/` 下执行。
 10. 沿用 V6 坑表：format tall-style、改引擎 JS 必重打 bundle、QA 前杀 headless Edge、推送重试、Android 构建需 NDK 环境变量。
+11. **路径追踪景深（D139）**：`three-gpu-pathtracer` 只在传入的相机是 `SSPathTracer.PhysicalCamera` 实例时才应用景深（`PhysicalCameraUniform.updateFrom` 对其他相机把 bokehSize 归零）→ 引擎用 `syncDofCamera()` 单例同步位置/朝向/fov；`bokehSize = 焦距/fStop`（mm），`focusDistance` 为米。**坑（已修复）**：`FEATURE_DOF` 是编译期定义——若「无景深静帧用普通相机、景深静帧改用 PhysicalCamera」，定义翻转会触发材质 `recompilation` → `compileAsync` 挂起（`isCompiling=true` 期间 `renderSample()` 完全不推进）→ samples 永远为 0 的死锁（实测 868s 零采样）。修复：`syncDofCamera()` **恒返回 PhysicalCamera**（filmGauge=36），无景深时 `fStop=1000` 把散景压到亚毫米级（≈0.08mm），保证定义恒为 1；`getPathTracerState().debug` 可查 `dofDefine/isCompiling/compilePending/bokehSize`。
+12. **相机辅助 QA**：`node tool/camera_assist_qa.mjs --suffix r186s34`（headed + 独显，port 9988）验证 `getCameraAssist()` 数值 + 三张静帧（无景深/自动对焦/手动 1m）清晰度比值；报告 `docs/qa/camera-assist-*.json`。`testWidgets` 里做真实 IO 必须 `tester.runAsync` 包裹、避免 `pumpAndSettle`（FakeAsync 会挂）。**坑：Edge headed 窗口被遮挡/后台化后 `document.visibilityState='hidden'`，rAF 与定时器被冻结**（引擎主循环停摆、路径追踪永不推进，但 CDP `Runtime.evaluate` 仍可用，故不是死锁）→ 启动参数必须带 `--disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling` 并 `Page.bringToFront`；`renderStill` 返回 Promise，CDP 求值需 `awaitPromise:false` + 轮询 `__ssOutbox`（否则 awaitPromise 永久挂起）。
 
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V7：先读 `HANDOFF_V7.md`（本文件）与 `FIX_CONTRACT_V7.0.md`（D132–D144/R61–R70）。
-> 已完成 S0–S3.3 并推送（S3.3 的 CI 需先复核全绿）；基线 278 passed + 26 skipped。
-> 请按 §2 顺序继续：**S3.4 相机辅助 → S4 姿势参考图 12×10 → S5 RTMPose/RTMW3D（先 spike HF 镜像/ORT-DirectML）→ S6 资源库 100% → S7 v1.3.0 发布**。
+> 已完成 S0–S3.4 并推送（S3.4 的 CI 需先复核全绿）；基线 290 passed + 26 skipped。
+> 请按 §2 顺序继续：**S4 姿势参考图 12×10 → S5 RTMPose/RTMW3D（先 spike HF 镜像/ORT-DirectML）→ S6 资源库 100% → S7 v1.3.0 发布**。
 > 纪律：每步 format/analyze/全量 test + 专项证据 + `git push` 后 CI 绿（R60/R61）才进下一步；spike 先行（R67）；数据变更重跑全量证据（R68）。

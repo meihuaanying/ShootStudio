@@ -252,6 +252,13 @@ void main() {
         'stillRendered',
         'capture-token',
         'getLightDebug',
+        // V7/D139：相机辅助（景深物理相机 + 焦段/视野信息）
+        'camera-assist',
+        'getCameraAssist',
+        'fStop',
+        'focusDistance',
+        'PhysicalCamera',
+        'dofFallback',
       ]) {
         expect(js.contains(token), isTrue, reason: '引擎缺少 $token');
       }

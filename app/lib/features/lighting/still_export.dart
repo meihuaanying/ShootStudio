@@ -45,6 +45,7 @@ class StillExportSession extends ChangeNotifier {
     required int samples,
     required int factor,
     required bool useCameraRig,
+    Map<String, Object?>? dof,
   }) {
     if (running) return;
     final EngineBridge? b = bridge;
@@ -70,6 +71,7 @@ class StillExportSession extends ChangeNotifier {
       samples: samples,
       factor: factor,
       useCameraRig: useCameraRig,
+      dof: dof,
     );
   }
 
@@ -147,6 +149,11 @@ class _StillExportDialogState extends State<StillExportDialog> {
   String _resolution = '960x720';
   int _samples = 128;
   bool _useCameraRig = true;
+  // V7/D139：景深（仅路径追踪生效）。
+  bool _dofEnabled = false;
+  double _fStop = 2.8;
+  bool _focusAuto = true;
+  double _focusDistance = 2.0;
 
   List<int> get _sampleOptions =>
       _mode == 'path' ? const <int>[64, 128, 256, 512] : const <int>[2, 3];
@@ -203,6 +210,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
                                       ? 2
                                       : _samples.clamp(1, 3),
                                   useCameraRig: _useCameraRig,
+                                  dof: _dofSpec,
                                 ),
                         ),
                       ],
@@ -220,6 +228,16 @@ class _StillExportDialogState extends State<StillExportDialog> {
   int get _resolutionWidth => int.parse(_resolution.split('x').first);
 
   int get _resolutionHeight => int.parse(_resolution.split('x').last);
+
+  /// V7/D139：景深参数（仅路径追踪模式发送；超采样模式不发送）。
+  Map<String, Object?>? get _dofSpec => _mode != 'path'
+      ? null
+      : <String, Object?>{
+          'enabled': _dofEnabled,
+          'fStop': _fStop,
+          'focusMode': _focusAuto ? 'auto' : 'manual',
+          'focusDistance': double.parse(_focusDistance.toStringAsFixed(2)),
+        };
 
   Widget _options(BuildContext context, StillExportSession session) {
     return Column(
@@ -320,6 +338,99 @@ class _StillExportDialogState extends State<StillExportDialog> {
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
+        // V7/D139：景深（物理相机，仅路径追踪生效）。
+        if (_mode == 'path') ...<Widget>[
+          const SizedBox(height: AppTokens.s8),
+          Wrap(
+            spacing: AppTokens.s12,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Switch(
+                    value: _dofEnabled,
+                    onChanged: session.running
+                        ? null
+                        : (bool value) => setState(() => _dofEnabled = value),
+                  ),
+                  const Text('景深', style: TextStyle(fontSize: 12.5)),
+                ],
+              ),
+              if (_dofEnabled) ...<Widget>[
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const Text('光圈', style: TextStyle(fontSize: 12.5)),
+                    const SizedBox(width: 6),
+                    DropdownButton<double>(
+                      value: _fStop,
+                      items:
+                          const <double>[
+                                1.4,
+                                2.0,
+                                2.8,
+                                4.0,
+                                5.6,
+                                8.0,
+                                11.0,
+                                16.0,
+                              ]
+                              .map(
+                                (double v) => DropdownMenuItem<double>(
+                                  value: v,
+                                  child: Text('f/$v'),
+                                ),
+                              )
+                              .toList(),
+                      onChanged: session.running
+                          ? null
+                          : (double? value) =>
+                                setState(() => _fStop = value ?? _fStop),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const Text('对焦', style: TextStyle(fontSize: 12.5)),
+                    const SizedBox(width: 6),
+                    SegmentedButton<bool>(
+                      segments: const <ButtonSegment<bool>>[
+                        ButtonSegment<bool>(value: true, label: Text('自动')),
+                        ButtonSegment<bool>(value: false, label: Text('手动')),
+                      ],
+                      selected: <bool>{_focusAuto},
+                      onSelectionChanged: session.running
+                          ? null
+                          : (Set<bool> value) =>
+                                setState(() => _focusAuto = value.first),
+                    ),
+                    if (!_focusAuto) ...<Widget>[
+                      SizedBox(
+                        width: 150,
+                        child: Slider(
+                          value: _focusDistance.clamp(0.3, 12),
+                          min: 0.3,
+                          max: 12,
+                          onChanged: session.running
+                              ? null
+                              : (double value) =>
+                                    setState(() => _focusDistance = value),
+                        ),
+                      ),
+                      Text(
+                        '${_focusDistance.toStringAsFixed(1)}m',
+                        style: AppTokens.mono(context, size: 11),
+                      ),
+                    ],
+                  ],
+                ),
+              ],
+            ],
+          ),
+        ],
       ],
     );
   }
@@ -393,6 +504,8 @@ class _StillExportDialogState extends State<StillExportDialog> {
           '${(result.ms / 1000).toStringAsFixed(1)}s'
           '${result.msPerSample == null ? '' : '（${result.msPerSample!.toStringAsFixed(0)}ms/sample）'}'
           '${result.reason == 'timeout' ? ' · 超时提前结束' : ''}'
+          '${result.dof ? ' · 景深 f/${result.fStop} · 对焦 ${result.focusDistance}m（${result.focusMode == 'manual' ? '手动' : '自动'}）' : ''}'
+          '${result.dofFallback ? ' · 景深不可用，已回退超采样' : ''}'
           '${session.savedRelative.isEmpty ? '' : ' · 已存 ${session.savedRelative}'}',
           style: AppTokens.mono(context, size: 11.5),
         ),

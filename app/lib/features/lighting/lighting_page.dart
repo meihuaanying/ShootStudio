@@ -20,6 +20,7 @@ import '../../services/image_store.dart';
 import '../../services/engine/engine_bridge.dart';
 import '../../services/engine/engine_view.dart';
 import 'ab_compare.dart';
+import 'camera_helpers.dart';
 import 'light_meter.dart';
 import '../poses/character_picker.dart';
 import '../poses/poses_controller.dart';
@@ -60,6 +61,11 @@ class _LightingPageState extends ConsumerState<LightingPage> {
   );
   AbDiffStats? _abStats;
   bool _warmQueued = false;
+  // V7/D139：构图辅助（叠加显示，不进导出图）与相机辅助信息。
+  CameraGuideSettings _guides = const CameraGuideSettings();
+  double _assistDistance = 3.2;
+  double _assistFocalDeg = 0;
+  bool _assistDofAvailable = true;
 
   @override
   void initState() {
@@ -149,11 +155,13 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       // V6/D105 相机 POV。
       if (prev?.cameraView != next.cameraView) {
         _bridge?.setCameraView(next.cameraView);
+        _refreshCameraAssist();
       }
       // V6/D105 机位变更（拖动/滑杆）→ 引擎即时同步。
       if (next.cameraSeq != _lastCameraSeq) {
         _lastCameraSeq = next.cameraSeq;
         _bridge?.setCameraRig(next.scene.camera.toJson());
+        _refreshCameraAssist();
       }
     });
 
@@ -377,6 +385,21 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             },
           ),
         ),
+        // V7/D139：构图辅助（三分线 + 安全框，仅相机视角时叠加显示）。
+        Padding(
+          padding: const EdgeInsets.only(right: 6),
+          child: SsChip(
+            label: _guides.enabled ? '构图辅助开' : '构图辅助',
+            selected: _guides.enabled,
+            onTap: () => setState(
+              () => _guides = _guides.copyWith(
+                thirds: !_guides.enabled,
+                safeArea: !_guides.enabled,
+                crop: 'none',
+              ),
+            ),
+          ),
+        ),
         // V7/D138：照片级静帧导出与 A/B 布光对比。
         Padding(
           padding: const EdgeInsets.only(right: 6),
@@ -430,97 +453,119 @@ class _LightingPageState extends ConsumerState<LightingPage> {
     );
     final engine = ClipRRect(
       borderRadius: BorderRadius.circular(AppTokens.rMd),
-      child: EngineView(
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        onExportDiagnostics: _exportDiagnostics,
-        onBridgeReady: (EngineBridge bridge) {
-          _bridge = bridge;
-          _queueApplyScene();
-        },
-        onEvent: (EngineEvent event) {
-          switch (event) {
-            case EngineReady():
-              _bridge?.setLinkage(state.linkage);
-              _bridge?.setTheme(
-                Theme.of(context).brightness == Brightness.dark,
-              );
-              _bridge?.setSkeletonMode(_skeleton);
-              final LightingState fresh = ref.read(lightingControllerProvider);
-              _lastSubdivision = fresh.subdivisionLevel;
-              _lastPreset = fresh.materialPreset;
-              _lastEnv = fresh.envIntensity;
-              _bridge?.setSubdivision(fresh.subdivisionLevel);
-              _bridge?.setMaterialPreset(fresh.materialPreset);
-              _bridge?.setEnvIntensity(fresh.envIntensity);
-              _bridge?.setAmbientEnabled(fresh.ambientEnabled);
-              _bridge?.setContactShadow(fresh.contactShadow);
-              _lastPerformance = fresh.performanceProfile;
-              _bridge?.setPerformanceProfile(fresh.performanceProfile);
-              _bridge?.setSoftShadows(fresh.softShadows);
-              _bridge?.setCameraView(fresh.cameraView);
-              _bridge?.setLightCones(fresh.lightCones);
-              _lastCameraSeq = fresh.cameraSeq;
-              if (_character.characterId.isNotEmpty) {
-                applyCharacterSelection(_bridge, _character);
-              }
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          EngineView(
+            backgroundColor: Theme.of(
+              context,
+            ).colorScheme.surfaceContainerHighest,
+            onExportDiagnostics: _exportDiagnostics,
+            onBridgeReady: (EngineBridge bridge) {
+              _bridge = bridge;
               _queueApplyScene();
-              _scheduleWarmPathTracer();
-            case EngineCharacterChanged(
-              character: final String id,
-              name: final String name,
-            ):
-              if (id != 'legacy') {
-                setState(
-                  () => _character = _character.copyWith(
-                    characterId: id,
-                    characterName: name,
-                  ),
-                );
+            },
+            onEvent: (EngineEvent event) {
+              switch (event) {
+                case EngineReady():
+                  _bridge?.setLinkage(state.linkage);
+                  _bridge?.setTheme(
+                    Theme.of(context).brightness == Brightness.dark,
+                  );
+                  _bridge?.setSkeletonMode(_skeleton);
+                  final LightingState fresh = ref.read(
+                    lightingControllerProvider,
+                  );
+                  _lastSubdivision = fresh.subdivisionLevel;
+                  _lastPreset = fresh.materialPreset;
+                  _lastEnv = fresh.envIntensity;
+                  _bridge?.setSubdivision(fresh.subdivisionLevel);
+                  _bridge?.setMaterialPreset(fresh.materialPreset);
+                  _bridge?.setEnvIntensity(fresh.envIntensity);
+                  _bridge?.setAmbientEnabled(fresh.ambientEnabled);
+                  _bridge?.setContactShadow(fresh.contactShadow);
+                  _lastPerformance = fresh.performanceProfile;
+                  _bridge?.setPerformanceProfile(fresh.performanceProfile);
+                  _bridge?.setSoftShadows(fresh.softShadows);
+                  _bridge?.setCameraView(fresh.cameraView);
+                  _bridge?.setLightCones(fresh.lightCones);
+                  _lastCameraSeq = fresh.cameraSeq;
+                  if (_character.characterId.isNotEmpty) {
+                    applyCharacterSelection(_bridge, _character);
+                  }
+                  _queueApplyScene();
+                  _scheduleWarmPathTracer();
+                  _refreshCameraAssist();
+                case EngineCharacterChanged(
+                  character: final String id,
+                  name: final String name,
+                ):
+                  if (id != 'legacy') {
+                    setState(
+                      () => _character = _character.copyWith(
+                        characterId: id,
+                        characterName: name,
+                      ),
+                    );
+                  }
+                case EngineSelection(
+                  kind: final String? kind,
+                  id: final String? id,
+                ):
+                  if (kind == 'light' || kind == 'prop') {
+                    controller.select(id);
+                  }
+                case EngineSceneChanged(
+                  lights: final List<Map<String, Object?>>? lights,
+                  props: final List<Map<String, Object?>>? props,
+                ):
+                  controller.applyEngineMove(lights: lights, props: props);
+                case EngineCaptured(
+                  dataUrl: final String dataUrl,
+                  token: final String token,
+                ):
+                  // V7/D138：带 token 的取图走 A/B 冻结槽，其余仍是「效果预览」保存。
+                  if (token == 'ab-a' || token == 'ab-b') {
+                    _setAbSlot(token == 'ab-b' ? 'b' : 'a', dataUrl);
+                  } else {
+                    _saveCapture(dataUrl);
+                  }
+                case EngineStillProgress():
+                  _stillSession?.onProgress(event);
+                case EngineStillRendered():
+                  _stillSession?.onRendered(event);
+                case EngineJointClicked():
+                  break;
+                case EngineHeartbeat():
+                case EngineConsole():
+                  break;
+                case EngineErrorEvent(
+                  message: final String message,
+                  fatal: final bool fatal,
+                  source: final String source,
+                ):
+                  // V6/R41：致命错误才降级提示；角色局部失败给可读状态，JS 噪声只落盘。
+                  if (fatal) {
+                    controller.setStatus('3D 引擎异常，已降级到俯视图');
+                  } else if (source == 'character') {
+                    controller.setStatus(message);
+                  }
               }
-            case EngineSelection(
-              kind: final String? kind,
-              id: final String? id,
-            ):
-              if (kind == 'light' || kind == 'prop') {
-                controller.select(id);
-              }
-            case EngineSceneChanged(
-              lights: final List<Map<String, Object?>>? lights,
-              props: final List<Map<String, Object?>>? props,
-            ):
-              controller.applyEngineMove(lights: lights, props: props);
-            case EngineCaptured(
-              dataUrl: final String dataUrl,
-              token: final String token,
-            ):
-              // V7/D138：带 token 的取图走 A/B 冻结槽，其余仍是「效果预览」保存。
-              if (token == 'ab-a' || token == 'ab-b') {
-                _setAbSlot(token == 'ab-b' ? 'b' : 'a', dataUrl);
-              } else {
-                _saveCapture(dataUrl);
-              }
-            case EngineStillProgress():
-              _stillSession?.onProgress(event);
-            case EngineStillRendered():
-              _stillSession?.onRendered(event);
-            case EngineJointClicked():
-              break;
-            case EngineHeartbeat():
-            case EngineConsole():
-              break;
-            case EngineErrorEvent(
-              message: final String message,
-              fatal: final bool fatal,
-              source: final String source,
-            ):
-              // V6/R41：致命错误才降级提示；角色局部失败给可读状态，JS 噪声只落盘。
-              if (fatal) {
-                controller.setStatus('3D 引擎异常，已降级到俯视图');
-              } else if (source == 'character') {
-                controller.setStatus(message);
-              }
-          }
-        },
+            },
+          ),
+          // V7/D139：构图线/安全框/裁切预览（仅 POV 显示；叠加层不进导出图）。
+          if (state.cameraView && _guides.enabled)
+            IgnorePointer(
+              child: CustomPaint(
+                painter: CompositionGuidePainter(
+                  settings: _guides,
+                  focalMm: state.scene.camera.focal,
+                  distanceM: _assistDistance,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+        ],
       ),
     );
 
@@ -675,6 +720,26 @@ class _LightingPageState extends ConsumerState<LightingPage> {
     Future<void>.delayed(const Duration(seconds: 3), () {
       _warmQueued = false;
       _bridge?.warmPathTracer();
+    });
+  }
+
+  /// V7/D139：读取引擎相机辅助信息（视场角/主体距离/景深可用性），失败保留上次值。
+  Future<void> _refreshCameraAssist() async {
+    final Map<String, Object?>? info = await _bridge?.getCameraAssist();
+    if (info == null || !mounted) return;
+    final double distance = (info['subjectDistance'] as num?)?.toDouble() ?? 0;
+    final double fovDeg = (info['fovDeg'] as num?)?.toDouble() ?? 0;
+    final bool dof = info['dofAvailable'] != false;
+    if (distance <= 0 ||
+        (distance == _assistDistance &&
+            fovDeg == _assistFocalDeg &&
+            dof == _assistDofAvailable)) {
+      return;
+    }
+    setState(() {
+      _assistDistance = distance;
+      _assistFocalDeg = fovDeg;
+      _assistDofAvailable = dof;
     });
   }
 
@@ -833,6 +898,11 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             _CameraRigPanel(
               state: state,
               controller: ref.read(lightingControllerProvider.notifier),
+              guides: _guides,
+              onGuides: (CameraGuideSettings next) =>
+                  setState(() => _guides = next),
+              assistDistance: _assistDistance,
+              assistDofAvailable: _assistDofAvailable,
             ),
             const SizedBox(height: AppTokens.s12),
             _LightMeterCard(scene: state.scene),
@@ -1926,10 +1996,27 @@ class _HandPosePanelState extends State<_HandPosePanel> {
 
 /// V6/D105：机位面板（俯视图拖动 + 高度/俯仰/偏航/焦段 + POV 预览）。
 class _CameraRigPanel extends StatelessWidget {
-  const _CameraRigPanel({required this.state, required this.controller});
+  const _CameraRigPanel({
+    required this.state,
+    required this.controller,
+    required this.guides,
+    required this.onGuides,
+    this.assistDistance = 3.2,
+    this.assistDofAvailable = true,
+  });
 
   final LightingState state;
   final LightingController controller;
+
+  /// V7/D139：构图辅助设置与回调。
+  final CameraGuideSettings guides;
+  final ValueChanged<CameraGuideSettings> onGuides;
+
+  /// 相机到主体的距离（引擎实测；用于画幅尺寸提示）。
+  final double assistDistance;
+
+  /// 景深是否可用（低配档/路径追踪不可用时为 false，R69）。
+  final bool assistDofAvailable;
 
   @override
   Widget build(BuildContext context) {
@@ -2015,6 +2102,65 @@ class _CameraRigPanel extends StatelessWidget {
                 controller.updateCamera((CameraRigData c) => c.yaw = v),
             suffix: '°',
           ),
+          // V7/D139：构图辅助（仅相机视角时叠加显示）。
+          if (state.cameraView) ...<Widget>[
+            const SizedBox(height: 4),
+            Row(
+              children: <Widget>[
+                const Text(
+                  '构图辅助',
+                  style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+                ),
+                const Spacer(),
+                SsChip(
+                  label: '三分线',
+                  selected: guides.thirds,
+                  onTap: () =>
+                      onGuides(guides.copyWith(thirds: !guides.thirds)),
+                ),
+                const SizedBox(width: 6),
+                SsChip(
+                  label: '安全框',
+                  selected: guides.safeArea,
+                  onTap: () =>
+                      onGuides(guides.copyWith(safeArea: !guides.safeArea)),
+                ),
+                const SizedBox(width: 6),
+                SsChip(
+                  label: '中心',
+                  selected: guides.centerCross,
+                  onTap: () => onGuides(
+                    guides.copyWith(centerCross: !guides.centerCross),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: <Widget>[
+                for (final String crop in CameraGuideSettings.cropOptions)
+                  SsChip(
+                    label: crop == 'none' ? '原画幅' : crop,
+                    selected: guides.crop == crop,
+                    onTap: () => onGuides(guides.copyWith(crop: crop)),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '垂直视野 ${verticalFovDeg(cam.focal.toDouble()).toStringAsFixed(1)}° · '
+              '水平 ${horizontalFovDeg(cam.focal.toDouble()).toStringAsFixed(1)}° · '
+              '主体距离 ${assistDistance.toStringAsFixed(2)}m · '
+              '画幅高 ${frameHeightAt(cam.focal.toDouble(), assistDistance).toStringAsFixed(2)}m'
+              '${assistDofAvailable ? '' : ' · 景深不可用（低配档）'}',
+              style: TextStyle(
+                fontSize: 10.5,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
           Text(
             '机位可在俯视图上拖动；焦段决定视野扇形与 POV 构图。',
             style: TextStyle(

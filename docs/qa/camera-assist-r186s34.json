@@ -1,0 +1,196 @@
+{
+  "at": "2026-09-23T11:09:47.268Z",
+  "suffix": "r186s34",
+  "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4060 Laptop GPU (0x000028E0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "page": "http://127.0.0.1:4155/assets/engine/qa.html?char=qs-women-casual&view=0&duration=0&clean=1&lights=1",
+  "settings": {
+    "performanceProfile": "high",
+    "envIntensity": 0,
+    "ambient": false,
+    "samples": 48,
+    "width": 480,
+    "height": 360,
+    "bounces": 3
+  },
+  "rig": {
+    "x": 0,
+    "y": 5.5,
+    "height": 1.35,
+    "yaw": 0,
+    "pitch": 0,
+    "focal": 85
+  },
+  "assist": {
+    "focal": 85,
+    "fovDeg": 16.07,
+    "fovDegHorizontal": 24.75,
+    "aspect": 1.5543,
+    "subjectDistance": 5.5,
+    "frameHeightAtSubject": 1.55,
+    "frameWidthAtSubject": 2.41,
+    "cameraView": true,
+    "dofAvailable": true,
+    "dofLoaded": false
+  },
+  "expected": {
+    "fovDeg": 16.07,
+    "subjectDistance": 5.5,
+    "frameHeightAtSubject": 1.55
+  },
+  "stills": {
+    "nodof": {
+      "type": "stillRendered",
+      "seq": 1,
+      "ok": true,
+      "mode": "path",
+      "reason": "done",
+      "width": 480,
+      "height": 360,
+      "samples": 48,
+      "target": 48,
+      "ms": 46017,
+      "msPerSample": 958.7,
+      "dof": false,
+      "fStop": 0,
+      "focusDistance": 5.5,
+      "focusMode": "",
+      "error": "",
+      "sharpness": {
+        "all": 4.904,
+        "subject": 10.524,
+        "region": {
+          "x0": 48,
+          "y0": 12,
+          "x1": 125,
+          "y1": 96
+        }
+      }
+    },
+    "dofAuto": {
+      "type": "stillRendered",
+      "seq": 2,
+      "ok": true,
+      "mode": "path",
+      "reason": "done",
+      "width": 480,
+      "height": 360,
+      "samples": 48,
+      "target": 48,
+      "ms": 7223,
+      "msPerSample": 150.5,
+      "dof": true,
+      "fStop": 1.4,
+      "focusDistance": 5.5,
+      "focusMode": "auto",
+      "error": "",
+      "sharpness": {
+        "all": 5.86,
+        "subject": 11.646,
+        "region": {
+          "x0": 48,
+          "y0": 12,
+          "x1": 125,
+          "y1": 96
+        }
+      }
+    },
+    "dofNear": {
+      "type": "stillRendered",
+      "seq": 3,
+      "ok": true,
+      "mode": "path",
+      "reason": "done",
+      "width": 480,
+      "height": 360,
+      "samples": 48,
+      "target": 48,
+      "ms": 7217,
+      "msPerSample": 150.4,
+      "dof": true,
+      "fStop": 1.4,
+      "focusDistance": 1,
+      "focusMode": "manual",
+      "error": "",
+      "sharpness": {
+        "all": 4.383,
+        "subject": 7.208,
+        "region": {
+          "x0": 48,
+          "y0": 12,
+          "x1": 125,
+          "y1": 96
+        }
+      }
+    }
+  },
+  "sharpness": {
+    "nodof": {
+      "all": 4.904,
+      "subject": 10.524,
+      "region": {
+        "x0": 48,
+        "y0": 12,
+        "x1": 125,
+        "y1": 96
+      }
+    },
+    "dofAuto": {
+      "all": 5.86,
+      "subject": 11.646,
+      "region": {
+        "x0": 48,
+        "y0": 12,
+        "x1": 125,
+        "y1": 96
+      }
+    },
+    "dofNear": {
+      "all": 4.383,
+      "subject": 7.208,
+      "region": {
+        "x0": 48,
+        "y0": 12,
+        "x1": 125,
+        "y1": 96
+      }
+    },
+    "nearRatio": 0.894,
+    "autoRatio": 1.195,
+    "subjectNearRatio": 0.685,
+    "subjectAutoRatio": 1.107
+  },
+  "edges": {
+    "nodof": {
+      "p95": 136.004,
+      "p90": 24.787,
+      "mean": 15.237,
+      "n": 3960
+    },
+    "dofAuto": {
+      "p95": 121.004,
+      "p90": 61.879,
+      "mean": 17.05,
+      "n": 3960
+    },
+    "dofNear": {
+      "p95": 50.145,
+      "p90": 38.683,
+      "mean": 11.313,
+      "n": 3960
+    },
+    "peakAutoRatio": 0.89,
+    "peakNearRatio": 0.369
+  },
+  "criteria": {
+    "assist": "fovDeg ±0.5 / subjectDistance ±0.15 / frameHeightAtSubject ±0.08 / dofAvailable",
+    "dofPayload": "dof=true, fStop=1.4, auto 对焦距离 4.5–6.5m, 手动=1.0m",
+    "blur": "peakNearRatio <= 0.6（主体框 p95 边缘锐度：手动对焦 1m 相对无景深下降 = 景深生效）",
+    "autoFocus": "peakAutoRatio >= 0.75（自动对焦保持主体框 p95 边缘锐度）"
+  },
+  "shots": {
+    "nodof": "D:\\trae\\6aa175d7786dd07d04fe3d2e\\ShootStudio\\docs\\qa\\camera-assist-r186s34-nodof.png",
+    "dof-auto": "D:\\trae\\6aa175d7786dd07d04fe3d2e\\ShootStudio\\docs\\qa\\camera-assist-r186s34-dof-auto.png",
+    "dof-near": "D:\\trae\\6aa175d7786dd07d04fe3d2e\\ShootStudio\\docs\\qa\\camera-assist-r186s34-dof-near.png"
+  },
+  "pass": true
+}

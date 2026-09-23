@@ -86,6 +86,11 @@ class EngineStillRendered extends EngineEvent {
     this.samples = 0,
     this.ms = 0,
     this.msPerSample,
+    this.dof = false,
+    this.fStop = 0,
+    this.focusDistance = 0,
+    this.focusMode = '',
+    this.dofFallback = false,
   });
   final bool ok;
   final String mode; // path | supersample
@@ -97,6 +102,15 @@ class EngineStillRendered extends EngineEvent {
   final int samples;
   final int ms;
   final double? msPerSample;
+
+  /// V7/D139：景深是否生效（仅路径追踪），以及对焦参数。
+  final bool dof;
+  final double fStop;
+  final double focusDistance;
+  final String focusMode;
+
+  /// R69：请求了景深但回退到超采样（景深不可用）。
+  final bool dofFallback;
 }
 
 class EngineErrorEvent extends EngineEvent {
@@ -208,6 +222,11 @@ class EngineBridge {
               samples: asInt(data['samples']),
               ms: asInt(data['ms']),
               msPerSample: (data['msPerSample'] as num?)?.toDouble(),
+              dof: data['dof'] == true,
+              fStop: (data['fStop'] as num?)?.toDouble() ?? 0,
+              focusDistance: (data['focusDistance'] as num?)?.toDouble() ?? 0,
+              focusMode: data['focusMode'] as String? ?? '',
+              dofFallback: data['dofFallback'] == true,
             ),
           );
         case 'engineHeartbeat':
@@ -388,6 +407,7 @@ class EngineBridge {
   );
 
   /// V7/D138：渲染静帧（path 路径追踪 / supersample 超采样）。
+  /// [dof]（V7/D139）：`{enabled, fStop, focusMode('auto'|'manual'), focusDistance}`，仅路径追踪生效。
   /// 进度与结果分别通过 [EngineStillProgress] / [EngineStillRendered] 事件回传。
   Future<void> renderStill({
     String mode = 'path',
@@ -397,9 +417,24 @@ class EngineBridge {
     int bounces = 4,
     int factor = 2,
     bool useCameraRig = true,
+    Map<String, Object?>? dof,
   }) => _js(
-    'window.ss && window.ss.renderStill && window.ss.renderStill(${jsonEncode(<String, Object?>{'mode': mode, 'width': width, 'height': height, 'samples': samples, 'bounces': bounces, 'factor': factor, 'useCameraRig': useCameraRig})});',
+    'window.ss && window.ss.renderStill && window.ss.renderStill(${jsonEncode(<String, Object?>{'mode': mode, 'width': width, 'height': height, 'samples': samples, 'bounces': bounces, 'factor': factor, 'useCameraRig': useCameraRig, if (dof != null) 'dof': dof})});',
   );
+
+  /// V7/D139：焦段/视野/对焦距离辅助信息（含景深可用性）。
+  Future<Map<String, Object?>?> getCameraAssist() async {
+    final Object? raw = await evaluate(
+      'window.ss && window.ss.getCameraAssist ? JSON.stringify(window.ss.getCameraAssist()) : ""',
+    );
+    if (raw is! String || raw.isEmpty) return null;
+    try {
+      final Object? decoded = jsonDecode(raw);
+      return decoded is Map ? decoded.cast<String, Object?>() : null;
+    } catch (_) {
+      return null;
+    }
+  }
 
   /// V7/D138：后台预热路径追踪器（提前付掉着色器编译成本；失败不影响导出）。
   Future<void> warmPathTracer() => _js(

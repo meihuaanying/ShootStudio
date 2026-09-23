@@ -851,6 +851,79 @@ function restoreStillHelpers(hidden) {
   for (const obj of hidden) obj.visible = true;
 }
 
+// V7/D139：相机辅助 —— 主体对焦距离 + 景深物理相机（路径追踪专用）+ 焦段/视野信息。
+const FOCUS_HEIGHT = 1.35; // 对焦参考高度（人像取景以面部/胸口为中心）
+function subjectFocusPoint(target = new THREE.Vector3()) {
+  const root = activeSubject()?.root;
+  if (root) {
+    root.updateWorldMatrix(true, false);
+    root.getWorldPosition(target);
+  } else {
+    target.set(0, 0, 0);
+  }
+  target.y += FOCUS_HEIGHT;
+  return target;
+}
+function subjectFocusDistance() {
+  camera.updateWorldMatrix(true, false);
+  return camera.position.distanceTo(subjectFocusPoint());
+}
+let dofCamera = null;
+function ensureDofCamera() {
+  const PT = window.SSPathTracer;
+  if (!PT || !PT.PhysicalCamera) return null;
+  if (!dofCamera) dofCamera = new PT.PhysicalCamera();
+  return dofCamera;
+}
+// 物理相机与场景相机同步位置/朝向/投影，仅额外携带 fStop 与对焦距离（路径追踪景深）。
+// 关键：**始终**用 PhysicalCamera 渲染路径静帧（即使不开景深），让材质 FEATURE_DOF 定义恒为 1，
+// 避免「非景深 ↔ 景深」切换触发 r186 的材质重编译死锁（compileAsync 轮询 isReady 与
+// PathTracingRenderer.isCompiling 互等 → samples 永远 0）。无景深时用极大 f 值把散景压到亚毫米。
+const NO_DOF_FSTOP = 1000;
+function syncDofCamera(spec) {
+  const pc = ensureDofCamera();
+  if (!pc) return null;
+  camera.updateWorldMatrix(true, false);
+  pc.position.copy(camera.position);
+  pc.quaternion.copy(camera.quaternion);
+  pc.fov = camera.fov;
+  pc.aspect = camera.aspect;
+  pc.near = camera.near;
+  pc.far = camera.far;
+  pc.filmGauge = 36; // 全画幅 36×24，与 rig.js focalToFov 的 24mm 传感器高一致
+  const dof = (spec && spec.dof) || {};
+  const dofOn = dof.enabled === true;
+  pc.fStop = dofOn ? clamp(Number(dof.fStop) || 2.8, 1, 22) : NO_DOF_FSTOP;
+  pc.focusDistance = dofOn && dof.focusMode === 'manual'
+    ? clamp(Number(dof.focusDistance) || 2, 0.3, 30)
+    : clamp(subjectFocusDistance(), 0.3, 30);
+  pc.updateProjectionMatrix();
+  pc.updateMatrixWorld(true);
+  return pc;
+}
+// 焦段/视野辅助信息（Flutter 侧「机位」面板与构图辅助使用）。
+function getCameraAssist() {
+  const focal = clamp(Number(cameraRigState.focal) || 50, 14, 200);
+  const vFov = focalToFov(focal);
+  const aspect = camera.aspect || 1.5;
+  const hFov = 2 * Math.atan(Math.tan((vFov * Math.PI / 180) / 2) * aspect) * 180 / Math.PI;
+  const distance = subjectFocusDistance();
+  const frameHeight = 2 * distance * Math.tan((vFov * Math.PI / 180) / 2);
+  return {
+    focal,
+    fovDeg: Number(vFov.toFixed(2)),
+    fovDegHorizontal: Number(hFov.toFixed(2)),
+    aspect: Number(aspect.toFixed(4)),
+    subjectDistance: Number(distance.toFixed(2)),
+    frameHeightAtSubject: Number(frameHeight.toFixed(2)),
+    frameWidthAtSubject: Number((frameHeight * aspect).toFixed(2)),
+    cameraView: cameraPov,
+    // R69：低配档（软件渲染）与路径追踪不可用时景深不可用（导出会回退超采样）。
+    dofAvailable: effectiveProfile() !== 'low' && !pathTracerModule.error,
+    dofLoaded: !!(window.SSPathTracer && window.SSPathTracer.PhysicalCamera),
+  };
+}
+
 function downscaleToDataUrl(source, width, height) {
   const dst = document.createElement('canvas');
   dst.width = width;
@@ -888,6 +961,8 @@ async function supersampleStill(spec) {
       factor,
       samples: factor,
       ms,
+      // R69：超采样无法做真实景深；请求了景深时明确回报回退标记。
+      dofFallback: spec.dof?.enabled === true,
       dataUrl,
     };
   } finally {
@@ -909,7 +984,11 @@ function startPathStill(spec) {
     scene.environment = studioEquirectEnv || null;
     pt.renderScale = 1;
     pt.bounces = spec.bounces;
-    pt.setScene(scene, camera);
+    // V7/D139：始终用 PhysicalCamera 渲染（FEATURE_DOF 定义恒为 1，避免材质重编译死锁）；
+    // 景深参数（fStop/对焦距离）仅在 spec.dof.enabled 时生效。
+    const stillCam = syncDofCamera(spec) || camera;
+    const dofOn = !!spec.dof && spec.dof.enabled === true && stillCam !== camera;
+    pt.setScene(scene, stillCam);
     pt.reset();
     stillSeq += 1;
     stillRun = {
@@ -919,6 +998,12 @@ function startPathStill(spec) {
       hidden,
       size,
       prevEnvironment,
+      dof: {
+        enabled: dofOn,
+        fStop: dofOn ? Number(stillCam.fStop.toFixed(1)) : 0,
+        focusDistance: Number(stillCam.focusDistance.toFixed(2)),
+        focusMode: dofOn ? (spec.dof.focusMode || 'auto') : '',
+      },
       startedAt: nowMs(),
       lastProgressAt: 0,
       resolved: false,
@@ -969,6 +1054,10 @@ function finishPathStill(run, reason) {
     target: run.spec.samples,
     ms,
     msPerSample: samples > 0 ? Number((ms / samples).toFixed(1)) : null,
+    dof: !!(run.dof && run.dof.enabled),
+    fStop: run.dof ? run.dof.fStop : 0,
+    focusDistance: run.dof ? run.dof.focusDistance : 0,
+    focusMode: run.dof ? run.dof.focusMode : '',
     error,
   };
   send('stillRendered', { seq: run.seq, ...payload, dataUrl });
@@ -1055,6 +1144,19 @@ function renderStill(opts = {}) {
       factor: Math.round(clamp(Number(opts.factor) || 2, 1, 3)),
       timeoutMs: clamp(Number(opts.timeoutMs) || 240000, 5000, 600000),
       useCameraRig: opts.useCameraRig === true,
+      // V7/D139：景深参数（仅路径追踪生效；超采样回退时以 dofFallback 标记，R69）。
+      dof: (() => {
+        const raw = opts.dof && typeof opts.dof === 'object' ? opts.dof : null;
+        if (!raw || raw.enabled !== true) {
+          return { enabled: false, fStop: 2.8, focusMode: 'auto', focusDistance: 2 };
+        }
+        return {
+          enabled: true,
+          fStop: Number(clamp(Number(raw.fStop) || 2.8, 1, 22).toFixed(1)),
+          focusMode: raw.focusMode === 'manual' ? 'manual' : 'auto',
+          focusDistance: Number(clamp(Number(raw.focusDistance) || 2, 0.3, 30).toFixed(2)),
+        };
+      })(),
       resolve,
     };
     spec.cameraState = snapshotCameraState();
@@ -1093,7 +1195,8 @@ function warmPathTracer() {
       camera.updateMatrixWorld(true);
       const prevEnvironment = scene.environment;
       scene.environment = studioEquirectEnv || null;
-      pt.setScene(scene, camera);
+      // V7/D139：预热同样用 PhysicalCamera（FEATURE_DOF 恒为 1），避免预热后再切景深触发重编译。
+      pt.setScene(scene, syncDofCamera(null) || camera);
       scene.environment = prevEnvironment;
       pt.reset();
       pathTracerWarmRun = { pt, startedAt: nowMs() };
@@ -1107,7 +1210,7 @@ function warmPathTracer() {
 window.__ssQA = { renderer, scene, camera, controls };
 let paused = false;
 window.ss = {
-  features: 'GLTFLoader GLTF gltf-parser SkeletonUtils retarget AnimationMixer BufferGeometryUtils LoopSubdivision skin-preserving-loop setSubdivision setMaterialPreset PMREM RoomEnvironment setAmbientEnabled setHandPose setHandCurls getHandState listHandPresets hand-bones HDRLoader HDRI setContactShadow getContactShadow contact-shadow getEnvironmentSource engineHeartbeat getEngineStats evictCharacterCache cache-lru setPerformanceProfile performance-profile gpu-info-v7 setSoftShadows getSoftShadows gobo-blinds blinds renderStill warmPathTracer path-tracer still-export supersample stillProgress stillRendered capture-token',
+  features: 'GLTFLoader GLTF gltf-parser SkeletonUtils retarget AnimationMixer BufferGeometryUtils LoopSubdivision skin-preserving-loop setSubdivision setMaterialPreset PMREM RoomEnvironment setAmbientEnabled setHandPose setHandCurls getHandState listHandPresets hand-bones HDRLoader HDRI setContactShadow getContactShadow contact-shadow getEnvironmentSource engineHeartbeat getEngineStats evictCharacterCache cache-lru setPerformanceProfile performance-profile gpu-info-v7 setSoftShadows getSoftShadows gobo-blinds blinds renderStill warmPathTracer path-tracer still-export supersample stillProgress stillRendered capture-token camera-assist getCameraAssist dof fStop focusDistance PhysicalCamera',
   ping: () => send('ready', { version: 1 }),
   setPaused: (p) => {
     paused = !!p;
@@ -1135,6 +1238,8 @@ window.ss = {
     return { ...cameraRigState };
   },
   getCameraRig: () => ({ ...cameraRigState }),
+  // V7/D139：焦段/视野/对焦距离辅助信息（含景深可用性，R69）。
+  getCameraAssist: () => getCameraAssist(),
   setCameraView: (on) => setCameraPov(on),
   getCameraView: () => cameraPov,
   // V6/D111：光锥可视化开关。
@@ -1286,16 +1391,45 @@ window.ss = {
       groupVisible: obj ? obj.visible : null,
     };
   }),
-  getPathTracerState: () => ({
-    moduleLoaded: pathTracerModule.loaded,
-    moduleError: pathTracerModule.error,
-    instance: !!pathTracer,
-    warmDone: pathTracerWarmDone,
-    warming: !!pathTracerWarmRun,
-    rendering: !!stillRun,
-    seq: stillSeq,
-    profile: effectiveProfile(),
-  }),
+  getPathTracerState: () => {
+    // V7/D139：诊断字段（QA 排查景深重编译等路径追踪状态用；防御式读取内部对象）。
+    const dbg = {};
+    try {
+      if (pathTracer) {
+        const ptr = pathTracer._pathTracer;
+        const mat = ptr ? ptr.material : null;
+        dbg.samples = pathTracer.samples;
+        dbg.isCompiling = pathTracer.isCompiling;
+        dbg.compilePending = ptr ? !!ptr._compilePromise : null;
+        dbg.enablePathTracing = pathTracer.enablePathTracing;
+        dbg.pausePathTracing = pathTracer.pausePathTracing;
+        dbg.renderDelay = pathTracer.renderDelay;
+        if (mat) {
+          dbg.dofDefine = mat.defines ? mat.defines.FEATURE_DOF : null;
+          dbg.cameraType = mat.defines ? mat.defines.CAMERA_TYPE : null;
+          const pc = mat.physicalCamera;
+          if (pc) {
+            dbg.bokehSize = Number(pc.bokehSize);
+            dbg.focusDistance = Number(pc.focusDistance);
+            dbg.fStop = Number(pc.fStop);
+          }
+        }
+      }
+    } catch (e) {
+      dbg.error = String((e && e.message) || e);
+    }
+    return {
+      moduleLoaded: pathTracerModule.loaded,
+      moduleError: pathTracerModule.error,
+      instance: !!pathTracer,
+      warmDone: pathTracerWarmDone,
+      warming: !!pathTracerWarmRun,
+      rendering: !!stillRun,
+      seq: stillSeq,
+      profile: effectiveProfile(),
+      debug: dbg,
+    };
+  },
   getOutbox: () => window.__ssOutbox || [],
   // V6/R43：心跳/内存/缓存统计（QA 与诊断包用）。
   heartbeat: () => ({ frames: frameCount, fps: lastFps, at: Math.round(performance.now()) }),
