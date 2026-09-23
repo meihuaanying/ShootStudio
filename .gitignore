@@ -8,6 +8,7 @@ web/.astro/
 **/node_modules/
 app/.dart_tool/
 app/tool/engine_build/node_modules/
+app/tool/engine_build/.gen/
 
 # 运行期数据（如误落在仓库内）
 **/logs/

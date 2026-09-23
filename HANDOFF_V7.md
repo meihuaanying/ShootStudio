@@ -10,14 +10,14 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` |
-| CI | S2 已绿；S3.1/S3.2 推送后运行中（R60：**全绿才算完成**，下一步先复核） |
-| 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **265 passed + 26 skipped** ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 28 预设 ｜ live 搜索 23/23 |
-| 剩余 | **S3.3 布光功能（路径追踪静帧/A-B/预设）｜ S3.4 相机辅助 ｜ S4 姿势参考图 12×10 ｜ S5 RTMPose/RTMW3D 识别 ｜ S6 资源库 100% ｜ S7 v1.3.0 发布** |
+| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能**（本次提交） |
+| CI | S3.2 已绿（run 35824614111）；S3.3 推送后运行中（R60：**全绿才算完成**，下一步先复核） |
+| 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **278 passed + 26 skipped** ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ live 搜索 23/23 ｜ 引擎包 1.1MB + pathtracer 220.4KB（<2.2MB） |
+| 剩余 | **S3.4 相机辅助 ｜ S4 姿势参考图 12×10 ｜ S5 RTMPose/RTMW3D 识别 ｜ S6 资源库 100% ｜ S7 v1.3.0 发布** |
 
 ---
 
-## 1. 已完成（S0–S3.2，含证据路径）
+## 1. 已完成（S0–S3.3，含证据路径）
 
 ### S0 合同（`be2c264`）
 `FIX_CONTRACT_V7.0.md`：D132–D144 + R61–R70（含 Getty 移除、Step 3 顺序修正、许可门控、NGA/Walters 索引方案、硬件适配）。
@@ -47,15 +47,18 @@
 - **偏差登记**：IES 光型未实现（r186 核心无 `iesMap`），继续用测光表近似。
 - 证据：`q6_lighting_test` 28 预设 + 新 token 全绿；`q6_engine_test` 软阴影持久化；全量 265+26；QA 28/28（`docs/screenshots/lighting-v6/*-r186s32.png`）。
 
+### S3.3 布光功能（D138）
+- **路径追踪静帧**（spike 先行）：`three-gpu-pathtracer@0.0.24` + `three-mesh-bvh@0.9.15`（r186 兼容）→ `tool/engine_build/pathtracer_build.mjs` 打 IIFE **`assets/engine/js/pathtracer.bundle.js`（220.4KB）**，复用引擎同一份 three（`window.__ssThree` shim），许可 `vendor/{PATHTRACER,MESHBVH}_LICENSE` 随包（R64）。
+- **引擎 API**：`renderStill({mode:'path'|'supersample',width,height,samples,bounces,factor,useCameraRig})`、`warmPathTracer()`、事件 `stillProgress`/`stillRendered`、`capturePhoto(token)`；软件渲染/加载失败自动回退超采样（R69）；PMREM 环境贴图修复（路径静帧改用原始等距柱状 HDR）。
+- **UI**：`still_export.dart`「效果预览」对话框（模式/分辨率/采样数/相机机位/进度/预览/自动存 `images/plans/静帧_*.png`，就绪 3s 后台预热）；`ab_compare.dart` + 「A/B 对比」对话框（冻结 A→调光→冻结 B→差异摘要/合成图）。
+- **预设 28→32**：`blinds-window-hard`/`clamshell-hard`/`neon-tube`/`office-window`。
+- **VSM 回归修复**（S3.2 引入）：r186 VSM 把 `receiveShadow` 物体也渲染进阴影贴图 → 灯具自身位于光锥内把场景压黑（修复前 VSM 32.6 vs PCF 109.8；0 灯≈3 灯）→ `lights.js excludeFromShadows()`。
+- **偏差/限制登记**：路径追踪 16 samples 噪声大（128 可用）；灯具发光面在路径追踪中偏暗（无自发光语义）；首次编译 40–80s；预设 QA 走 SwiftShader 低配档 → PCF（VSM 证据用 headed 专项）。
+- 证据：`q6_lighting_test` 32 预设 + 新 token；新增 `q6_still_test`；全量 **278+26**；`light_preset_qa` **32/32、0 失败**（`*-r186s33.png`）；`light_still_qa` → `docs/qa/light-still-ab-s33.json`（超采样 63–103ms；路径 480×360×128 首次 73.6s/二次 19.2s；A/B mean 1.62/255、2.4%）；`vsm_regression_qa` PASS → `docs/qa/vsm-regression-r186s33.json`（VSM 54.3 vs PCF 54.6，ratio 0.995；灯光增益 24）；spike 报告 `docs/qa/pathtracer-spike-report.md`。
+
 ---
 
 ## 2. 剩余待办（按合同 §3 顺序）
-
-### S3.3 布光功能（D138）
-1. **路径追踪静帧导出**（「效果预览」一键照片级静帧）：先 spike `three-gpu-pathtracer` 与 r186 兼容性（npm 安装 → `tool/engine_build` 别名 → 最小渲染）；不可行则退化为「超采样静帧」（2–3× pixelRatio + 降采样）并**登记偏差**。
-2. A/B 对比（保存/冻结当前布光，左右对比 + 差异摘要）。
-3. 预设扩充（28 → 32+，如 `blinds` 变体/`clamshell-hard`/`neon-tube`/`office-window`）。
-4. 证据：静帧导出样例 + 耗时；A/B 截图；`light_preset_qa` 全量。
 
 ### S3.4 相机辅助（D139）
 景深预览（光圈/对焦距离 → CoC 近似或后期模糊）、构图线/安全框、焦段与视野可视化增强。证据：截图 + 测试。
@@ -86,14 +89,17 @@
 3. **HuggingFace 本机不可达**（S5 spike 第一风险）：需 `hf-mirror.com` 或 DoH 隧道。
 4. **开放源可达性**：Openverse 握手失败 / Wikimedia 超时 / LoC 403（本机）；Wellcome/SMK 正常。许可门控：Getty 等 Rights-Managed 一律排除。
 5. **`set VAR=1 &&` 陷阱**：cmd 下会带尾随空格，导致 env 比较失败；用 `$env:VAR='1'`（PowerShell）后再 `cmd /c`。
-6. **测试计数会变**：新增测试后同步更新合同/HANDOFF 基线（当前 265+26）。
-7. 沿用 V6 坑表：format tall-style、改引擎 JS 必重打 bundle、QA 前杀 headless Edge、推送重试、Android 构建需 NDK 环境变量。
+6. **测试计数会变**：新增测试后同步更新合同/HANDOFF 基线（当前 **278+26**）。
+7. **QA 阴影类型**：`light_preset_qa` 用 headless Edge（SwiftShader）→ `effectiveProfile()='low'` 强制 PCF，预设截图**不覆盖 VSM 路径**；VSM 证据走 headed 独显专项 `node tool/vsm_regression_qa.mjs`（`--force_high_performance_gpu`）。
+8. **路径追踪产物**：改 `engine.js` 后重打 `node tool/engine_build/bundle.mjs`；改 pathtracer 依赖/打包配置后重打 `node tool/engine_build/pathtracer_build.mjs`（生成 `tool/engine_build/.gen/three_global_shim.js`，已 gitignore）；首次路径追踪需 40–80s 编译（就绪后 3s 自动预热，二次亚秒级）。
+9. **flutter/dart 不在 PATH**：用 `C:\dev\flutter\bin\flutter.bat` / `dart.bat`（Flutter 3.47.2 stable），命令在 `app/` 下执行。
+10. 沿用 V6 坑表：format tall-style、改引擎 JS 必重打 bundle、QA 前杀 headless Edge、推送重试、Android 构建需 NDK 环境变量。
 
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V7：先读 `HANDOFF_V7.md`（本文件）与 `FIX_CONTRACT_V7.0.md`（D132–D144/R61–R70）。
-> 已完成 S0–S3.2 并推送（S3.1/S3.2 的 CI 需先复核全绿）；基线 265 passed + 26 skipped。
-> 请按 §2 顺序继续：**S3.3 布光功能（路径追踪静帧 spike → A/B → 预设）→ S3.4 相机辅助 → S4 姿势参考图 12×10 → S5 RTMPose/RTMW3D（先 spike HF 镜像/ORT-DirectML）→ S6 资源库 100% → S7 v1.3.0 发布**。
+> 已完成 S0–S3.3 并推送（S3.3 的 CI 需先复核全绿）；基线 278 passed + 26 skipped。
+> 请按 §2 顺序继续：**S3.4 相机辅助 → S4 姿势参考图 12×10 → S5 RTMPose/RTMW3D（先 spike HF 镜像/ORT-DirectML）→ S6 资源库 100% → S7 v1.3.0 发布**。
 > 纪律：每步 format/analyze/全量 test + 专项证据 + `git push` 后 CI 绿（R60/R61）才进下一步；spike 先行（R67）；数据变更重跑全量证据（R68）。

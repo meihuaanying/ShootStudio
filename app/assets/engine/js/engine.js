@@ -19,7 +19,7 @@ import {
 } from './lights.js';
 import { buildCameraRig, applyAim, focalToFov } from './rig.js';
 import { buildProp, placeProp, applyPropTexture } from './props.js';
-import { nowMs } from './util.js';
+import { nowMs, clamp } from './util.js';
 
 const $ = (id) => document.getElementById(id);
 const boot = (text, isError = false) => {
@@ -182,7 +182,9 @@ function applyAmbient() {
 applyAmbient();
 
 // V5/D90：影棚 HDRI（Poly Haven CC0 1K）→ PMREM 环境反射；失败回退 studio 的 RoomEnvironment。
+// V7/D138：同时保留原始等距柱状 HDR 纹理——路径追踪器无法消费 PMREM（CubeUV）纹理。
 let environmentSource = 'room'; // room | hdr
+let studioEquirectEnv = null;
 let envPmrem = new THREE.PMREMGenerator(renderer);
 function finishEnvironment(source) {
   environmentSource = source;
@@ -201,11 +203,13 @@ function loadStudioEnvironment() {
         if (previous && previous !== rt.texture && typeof previous.dispose === 'function') {
           previous.dispose();
         }
+        // 保留原始 HDR（不 dispose）：路径追踪静帧需要等距柱状数据（D138）。
+        studioEquirectEnv = hdr;
         source = 'hdr';
       } catch (_) {
         source = 'room';
       } finally {
-        hdr.dispose();
+        if (source !== 'hdr' && typeof hdr.dispose === 'function') hdr.dispose();
         envPmrem.dispose();
         envPmrem = null;
       }
@@ -750,10 +754,360 @@ function qaAllowDistance(distance) {
   return d;
 }
 
+// ---------------- V7/D138：照片级静帧（路径追踪 / 超采样） ----------------
+// three-gpu-pathtracer 以独立 classic 脚本按需加载（file:// 兼容；约 220KB 不进首屏）；
+// pathtracer 通过全局 shim 复用引擎同一份 three（见 tool/engine_build/pathtracer_build.mjs）。
+window.__ssThree = THREE;
+
+const pathTracerModule = { loaded: false, loading: null, error: '' };
+function loadPathTracerBundle() {
+  if (pathTracerModule.loaded) return Promise.resolve(true);
+  if (pathTracerModule.loading) return pathTracerModule.loading;
+  pathTracerModule.loading = new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = new URL('js/pathtracer.bundle.js', document.baseURI).href;
+    script.onload = () => {
+      pathTracerModule.loaded = !!(window.SSPathTracer && window.SSPathTracer.WebGLPathTracer);
+      if (!pathTracerModule.loaded) pathTracerModule.error = '路径追踪器缺少 WebGLPathTracer';
+      resolve(pathTracerModule.loaded);
+    };
+    script.onerror = () => {
+      pathTracerModule.error = '路径追踪器脚本加载失败';
+      resolve(false);
+    };
+    document.head.appendChild(script);
+  });
+  return pathTracerModule.loading;
+}
+
+let pathTracer = null;
+let pathTracerWarmDone = false;
+let pathTracerWarmRun = null;
+function ensurePathTracer() {
+  if (pathTracer) return pathTracer;
+  const PT = window.SSPathTracer;
+  if (!PT || !PT.WebGLPathTracer) throw new Error('路径追踪器未加载');
+  const pt = new PT.WebGLPathTracer(renderer);
+  pt.renderScale = 1;
+  pt.minSamples = 1;
+  pt.renderDelay = 0;
+  pt.fadeDuration = 0;
+  pt.dynamicLowRes = false;
+  pt.rasterizeScene = true;
+  pt.bounces = 4;
+  pathTracer = pt;
+  return pt;
+}
+
+// 静帧渲染任务（必须由主循环驱动：compileAsync 是异步的，同步循环会让 Promise 永不结算）。
+let stillRun = null;
+let stillSeq = 0;
+
+function snapshotRendererSize() {
+  return { pixelRatio: renderer.getPixelRatio() };
+}
+function restoreRendererSize() {
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxPixelRatio));
+  resize();
+}
+function snapshotCameraState() {
+  return {
+    pov: cameraPov,
+    pos: camera.position.clone(),
+    quat: camera.quaternion.clone(),
+    fov: camera.fov,
+    target: controls.target.clone(),
+    controlsEnabled: controls.enabled,
+  };
+}
+function restoreCameraState(state) {
+  cameraPov = state.pov;
+  camera.position.copy(state.pos);
+  camera.quaternion.copy(state.quat);
+  camera.fov = state.fov;
+  camera.updateProjectionMatrix();
+  controls.target.copy(state.target);
+  controls.enabled = state.controlsEnabled;
+  controls.update();
+}
+// 静帧不包含编辑辅助对象（接触阴影贴片/网格/光锥/选中环），出图干净且避免黑方块。
+function hideStillHelpers() {
+  const hidden = [];
+  const remember = (obj) => {
+    if (obj && obj.visible) {
+      hidden.push(obj);
+      obj.visible = false;
+    }
+  };
+  remember(contactShadow);
+  scene.traverse((o) => { if (o.isGridHelper) remember(o); });
+  for (const obj of lightObjs.values()) {
+    remember(obj.getObjectByName?.('lightCone'));
+    remember(obj.userData?.ring);
+  }
+  return hidden;
+}
+function restoreStillHelpers(hidden) {
+  for (const obj of hidden) obj.visible = true;
+}
+
+function downscaleToDataUrl(source, width, height) {
+  const dst = document.createElement('canvas');
+  dst.width = width;
+  dst.height = height;
+  const ctx = dst.getContext('2d');
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(source, 0, 0, source.width, source.height, 0, 0, width, height);
+  return dst.toDataURL('image/png');
+}
+
+// 超采样静帧（快速模式 / 低配回退 / 路径追踪不可用时）：高像素比渲染 + 高质量降采样。
+async function supersampleStill(spec) {
+  const factor = Math.max(1, Math.min(3, Math.round(spec.factor || 2)));
+  const startedAt = nowMs();
+  const size = snapshotRendererSize();
+  const cameraState = spec.cameraState;
+  const hidden = hideStillHelpers();
+  try {
+    renderer.setPixelRatio(1);
+    renderer.setSize(spec.width * factor, spec.height * factor, false);
+    // 两帧渲染，确保贴图/环境/阴影稳定后再抓图。
+    renderer.render(scene, camera);
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    renderer.render(scene, camera);
+    const dataUrl = downscaleToDataUrl(renderer.domElement, spec.width, spec.height);
+    const ms = Math.round(nowMs() - startedAt);
+    return {
+      ok: true,
+      mode: 'supersample',
+      requested: spec.requested || 'supersample',
+      fallbackReason: spec.fallbackReason || '',
+      width: spec.width,
+      height: spec.height,
+      factor,
+      samples: factor,
+      ms,
+      dataUrl,
+    };
+  } finally {
+    restoreStillHelpers(hidden);
+    restoreRendererSize(size);
+    if (cameraState) restoreCameraState(cameraState);
+  }
+}
+
+function startPathStill(spec) {
+  const size = snapshotRendererSize();
+  const hidden = hideStillHelpers();
+  // V7/D138：路径追踪器要求等距柱状环境贴图（PMREM/CubeUV 会崩）；无 HDR 时置空。
+  const prevEnvironment = scene.environment;
+  try {
+    const pt = ensurePathTracer();
+    renderer.setPixelRatio(1);
+    renderer.setSize(spec.width, spec.height, false);
+    scene.environment = studioEquirectEnv || null;
+    pt.renderScale = 1;
+    pt.bounces = spec.bounces;
+    pt.setScene(scene, camera);
+    pt.reset();
+    stillSeq += 1;
+    stillRun = {
+      seq: stillSeq,
+      pt,
+      spec,
+      hidden,
+      size,
+      prevEnvironment,
+      startedAt: nowMs(),
+      lastProgressAt: 0,
+      resolved: false,
+    };
+    send('stillProgress', {
+      seq: stillRun.seq,
+      mode: 'path',
+      phase: 'compile',
+      samples: 0,
+      target: spec.samples,
+      elapsedMs: 0,
+      width: spec.width,
+      height: spec.height,
+    });
+  } catch (err) {
+    scene.environment = prevEnvironment;
+    restoreStillHelpers(hidden);
+    restoreRendererSize(size);
+    if (spec.cameraState) restoreCameraState(spec.cameraState);
+    throw err;
+  }
+}
+
+function finishPathStill(run, reason) {
+  if (run.resolved) return;
+  run.resolved = true;
+  stillRun = null;
+  let dataUrl = '';
+  let error = '';
+  try {
+    dataUrl = renderer.domElement.toDataURL('image/png');
+  } catch (err) {
+    error = String(err?.message || err);
+  }
+  const ms = Math.round(nowMs() - run.startedAt);
+  const samples = Math.round(run.pt.samples);
+  scene.environment = run.prevEnvironment;
+  restoreStillHelpers(run.hidden);
+  restoreRendererSize(run.size);
+  if (run.spec.cameraState) restoreCameraState(run.spec.cameraState);
+  const payload = {
+    ok: !!dataUrl && !error,
+    mode: 'path',
+    reason,
+    width: run.spec.width,
+    height: run.spec.height,
+    samples,
+    target: run.spec.samples,
+    ms,
+    msPerSample: samples > 0 ? Number((ms / samples).toFixed(1)) : null,
+    error,
+  };
+  send('stillRendered', { seq: run.seq, ...payload, dataUrl });
+  run.spec.resolve({ ...payload, dataUrl });
+}
+
+// 主循环调用：推进静帧渲染与后台预热（异常绝不能中断主循环）。
+function pathTracerTick() {
+  try {
+    pathTracerWarmTick();
+    stillTick();
+  } catch (err) {
+    const message = String(err?.message || err);
+    send('error', { message: `静帧渲染失败：${message}`, fatal: false, source: 'still' });
+    pathTracerWarmRun = null;
+    const run = stillRun;
+    if (run) {
+      stillRun = null;
+      run.resolved = true;
+      if (run.prevEnvironment !== undefined) scene.environment = run.prevEnvironment;
+      restoreStillHelpers(run.hidden);
+      restoreRendererSize(run.size);
+      if (run.spec.cameraState) restoreCameraState(run.spec.cameraState);
+      const payload = { ok: false, mode: 'path', error: message, ms: Math.round(nowMs() - run.startedAt) };
+      send('stillRendered', { seq: run.seq, ...payload });
+      run.spec.resolve(payload);
+    }
+  }
+}
+
+function pathTracerWarmTick() {
+  if (!pathTracerWarmRun) return;
+  pathTracerWarmRun.pt.renderSample();
+  if (pathTracerWarmRun.pt.samples >= 2 || nowMs() - pathTracerWarmRun.startedAt > 300000) {
+    pathTracerWarmDone = true;
+    send('stillProgress', {
+      mode: 'warm',
+      phase: 'done',
+      samples: pathTracerWarmRun.pt.samples,
+      target: 2,
+      elapsedMs: Math.round(nowMs() - pathTracerWarmRun.startedAt),
+    });
+    pathTracerWarmRun = null;
+  }
+}
+
+function stillTick() {
+  const run = stillRun;
+  if (!run || run.resolved) return;
+  const elapsed = nowMs() - run.startedAt;
+  if (!run.pt.isCompiling) run.pt.renderSample();
+  const samples = run.pt.samples;
+  if (nowMs() - run.lastProgressAt > 400) {
+    run.lastProgressAt = nowMs();
+    send('stillProgress', {
+      seq: run.seq,
+      mode: 'path',
+      phase: run.pt.isCompiling ? 'compile' : 'render',
+      samples: Math.round(samples),
+      target: run.spec.samples,
+      elapsedMs: Math.round(elapsed),
+      width: run.spec.width,
+      height: run.spec.height,
+    });
+  }
+  if (samples >= run.spec.samples) finishPathStill(run, 'done');
+  else if (elapsed > run.spec.timeoutMs) finishPathStill(run, 'timeout');
+}
+
+// 对外：渲染静帧（返回 Promise；同时用 stillProgress / stillRendered 事件上报）。
+function renderStill(opts = {}) {
+  return new Promise((resolve) => {
+    if (stillRun) {
+      resolve({ ok: false, error: '已有静帧渲染进行中' });
+      return;
+    }
+    const spec = {
+      mode: opts.mode === 'supersample' ? 'supersample' : 'path',
+      requested: opts.mode === 'supersample' ? 'supersample' : 'path',
+      width: Math.round(clamp(Number(opts.width) || 960, 160, 2560)),
+      height: Math.round(clamp(Number(opts.height) || 720, 120, 1600)),
+      samples: Math.round(clamp(Number(opts.samples) || 32, 1, 512)),
+      bounces: Math.round(clamp(Number(opts.bounces) || 4, 1, 8)),
+      factor: Math.round(clamp(Number(opts.factor) || 2, 1, 3)),
+      timeoutMs: clamp(Number(opts.timeoutMs) || 240000, 5000, 600000),
+      useCameraRig: opts.useCameraRig === true,
+      resolve,
+    };
+    spec.cameraState = snapshotCameraState();
+    if (spec.useCameraRig) applyCameraPov();
+    if (spec.mode === 'path') {
+      loadPathTracerBundle().then((ok) => {
+        if (ok && effectiveProfile() !== 'low') {
+          camera.updateMatrixWorld(true);
+          startPathStill(spec);
+        } else {
+          supersampleStill({
+            ...spec,
+            fallbackReason: ok ? '低配档（软件渲染）自动回退超采样' : (pathTracerModule.error || '路径追踪器不可用'),
+          }).then(resolve);
+        }
+      }).catch((err) => {
+        if (spec.cameraState) restoreCameraState(spec.cameraState);
+        resolve({ ok: false, mode: 'path', error: String(err?.stack || err?.message || err).slice(0, 400) });
+      });
+    } else {
+      supersampleStill(spec).then(resolve).catch((err) => {
+        resolve({ ok: false, mode: 'supersample', error: String(err?.message || err) });
+      });
+    }
+  });
+}
+
+// 预热：灯光页就绪后调用，提前付掉着色器编译成本（第二次导出亚秒级，见 spike 报告）。
+function warmPathTracer() {
+  if (pathTracerWarmDone || pathTracerWarmRun) return { ok: true, cached: true };
+  if (effectiveProfile() === 'low') return { ok: false, reason: 'low-profile' };
+  loadPathTracerBundle().then((ok) => {
+    if (!ok) return;
+    try {
+      const pt = ensurePathTracer();
+      camera.updateMatrixWorld(true);
+      const prevEnvironment = scene.environment;
+      scene.environment = studioEquirectEnv || null;
+      pt.setScene(scene, camera);
+      scene.environment = prevEnvironment;
+      pt.reset();
+      pathTracerWarmRun = { pt, startedAt: nowMs() };
+    } catch (_) { /* 预热失败不影响正常导出（导出时重试） */ }
+  });
+  return { ok: true, warming: true };
+}
+
 // ---------------- 对外 API（Flutter / 调试） ----------------
+// QA/诊断：暴露渲染上下文（脚本可注入测试灯、读取相机等；应用 UI 不使用）。
+window.__ssQA = { renderer, scene, camera, controls };
 let paused = false;
 window.ss = {
-  features: 'GLTFLoader GLTF gltf-parser SkeletonUtils retarget AnimationMixer BufferGeometryUtils LoopSubdivision skin-preserving-loop setSubdivision setMaterialPreset PMREM RoomEnvironment setAmbientEnabled setHandPose setHandCurls getHandState listHandPresets hand-bones HDRLoader HDRI setContactShadow getContactShadow contact-shadow getEnvironmentSource engineHeartbeat getEngineStats evictCharacterCache cache-lru setPerformanceProfile performance-profile gpu-info-v7 setSoftShadows getSoftShadows gobo-blinds blinds',
+  features: 'GLTFLoader GLTF gltf-parser SkeletonUtils retarget AnimationMixer BufferGeometryUtils LoopSubdivision skin-preserving-loop setSubdivision setMaterialPreset PMREM RoomEnvironment setAmbientEnabled setHandPose setHandCurls getHandState listHandPresets hand-bones HDRLoader HDRI setContactShadow getContactShadow contact-shadow getEnvironmentSource engineHeartbeat getEngineStats evictCharacterCache cache-lru setPerformanceProfile performance-profile gpu-info-v7 setSoftShadows getSoftShadows gobo-blinds blinds renderStill warmPathTracer path-tracer still-export supersample stillProgress stillRendered capture-token',
   ping: () => send('ready', { version: 1 }),
   setPaused: (p) => {
     paused = !!p;
@@ -902,12 +1256,46 @@ window.ss = {
   getSubjectStatus: () => ({ ...character.getStatus(), mode: subjectMode }),
   getSubjectBounds: () => computeSubjectBounds(),
   getJointMapping: () => character.getJointMapping(),
-  capturePhoto: () => {
+  capturePhoto: (token) => {
     renderer.render(scene, camera);
     const dataUrl = renderer.domElement.toDataURL('image/png');
-    send('captured', { dataUrl });
+    // V7/D138：可选 token 用于 A/B 冻结等定向取图（默认空 = 普通效果预览保存）。
+    send('captured', { dataUrl, token: token == null ? '' : String(token) });
     return true;
   },
+  // V7/D138：照片级静帧（路径追踪；失败/低配自动回退超采样）。
+  renderStill: (opts) => renderStill(opts && typeof opts === 'object' ? opts : {}),
+  warmPathTracer: () => warmPathTracer(),
+  // 诊断：当前场景灯光（QA/测试核对 applyScene 是否生效）。
+  getLightDebug: () => (sceneState.lights || []).map((l) => {
+    const obj = lightObjs.get(l.id);
+    const spot = obj?.getObjectByName?.('spot');
+    const rect = obj?.getObjectByName?.('rect');
+    return {
+      id: l.id,
+      intensity: l.intensity,
+      on: l.on !== false,
+      fixture: l.fixture,
+      modifier: l.modifier,
+      x: l.x,
+      y: l.y,
+      spotIntensity: spot ? Number(spot.intensity.toFixed(2)) : null,
+      spotAngleDeg: spot ? Number(((spot.angle * 180) / Math.PI).toFixed(1)) : null,
+      spotVisible: spot ? spot.visible : null,
+      rectIntensity: rect ? Number(rect.intensity.toFixed(2)) : null,
+      groupVisible: obj ? obj.visible : null,
+    };
+  }),
+  getPathTracerState: () => ({
+    moduleLoaded: pathTracerModule.loaded,
+    moduleError: pathTracerModule.error,
+    instance: !!pathTracer,
+    warmDone: pathTracerWarmDone,
+    warming: !!pathTracerWarmRun,
+    rendering: !!stillRun,
+    seq: stillSeq,
+    profile: effectiveProfile(),
+  }),
   getOutbox: () => window.__ssOutbox || [],
   // V6/R43：心跳/内存/缓存统计（QA 与诊断包用）。
   heartbeat: () => ({ frames: frameCount, fps: lastFps, at: Math.round(performance.now()) }),
@@ -955,6 +1343,8 @@ function frame(t) {
     }
     controls.update(dt);
     renderer.render(scene, camera);
+    // V7/D138：静帧渲染/预热在主循环内推进（blit 在普通渲染之后，避免被覆盖）。
+    pathTracerTick();
   }
   requestAnimationFrame(frame);
 }

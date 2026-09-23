@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
+import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,10 +19,12 @@ import '../../services/content_packs.dart';
 import '../../services/image_store.dart';
 import '../../services/engine/engine_bridge.dart';
 import '../../services/engine/engine_view.dart';
+import 'ab_compare.dart';
 import 'light_meter.dart';
 import '../poses/character_picker.dart';
 import '../poses/poses_controller.dart';
 import 'hand_presets.dart';
+import 'still_export.dart';
 import 'lighting_controller.dart';
 import 'lighting_models.dart';
 import 'widgets/lighting_canvas_view.dart';
@@ -50,6 +53,13 @@ class _LightingPageState extends ConsumerState<LightingPage> {
   double _lastEnv = -1;
   String _lastPerformance = '';
   int _lastCameraSeq = 0;
+  // V7/D138：静帧导出与 A/B 对比。
+  StillExportSession? _stillSession;
+  final ValueNotifier<AbSlots> _abSlots = ValueNotifier<AbSlots>(
+    const AbSlots(),
+  );
+  AbDiffStats? _abStats;
+  bool _warmQueued = false;
 
   @override
   void initState() {
@@ -59,6 +69,13 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       if (mounted) setState(() {});
       await ref.read(lightingControllerProvider.notifier).init();
     });
+  }
+
+  @override
+  void dispose() {
+    _abSlots.dispose();
+    _stillSession?.dispose();
+    super.dispose();
   }
 
   void _queueApplyScene() {
@@ -360,6 +377,26 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             },
           ),
         ),
+        // V7/D138：照片级静帧导出与 A/B 布光对比。
+        Padding(
+          padding: const EdgeInsets.only(right: 6),
+          child: SsChip(
+            label: '效果预览',
+            selected: _stillSession?.running ?? false,
+            onTap: _openStillDialog,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 6),
+          child: ValueListenableBuilder<AbSlots>(
+            valueListenable: _abSlots,
+            builder: (BuildContext context, AbSlots slots, Widget? _) => SsChip(
+              label: slots.hasBoth ? 'A/B 对比 ·已冻结' : 'A/B 对比',
+              selected: slots.hasBoth,
+              onTap: _openAbDialog,
+            ),
+          ),
+        ),
         const Spacer(),
         if (state.status.isNotEmpty)
           Text(
@@ -427,6 +464,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
                 applyCharacterSelection(_bridge, _character);
               }
               _queueApplyScene();
+              _scheduleWarmPathTracer();
             case EngineCharacterChanged(
               character: final String id,
               name: final String name,
@@ -451,8 +489,20 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               props: final List<Map<String, Object?>>? props,
             ):
               controller.applyEngineMove(lights: lights, props: props);
-            case EngineCaptured(dataUrl: final String dataUrl):
-              _saveCapture(dataUrl);
+            case EngineCaptured(
+              dataUrl: final String dataUrl,
+              token: final String token,
+            ):
+              // V7/D138：带 token 的取图走 A/B 冻结槽，其余仍是「效果预览」保存。
+              if (token == 'ab-a' || token == 'ab-b') {
+                _setAbSlot(token == 'ab-b' ? 'b' : 'a', dataUrl);
+              } else {
+                _saveCapture(dataUrl);
+              }
+            case EngineStillProgress():
+              _stillSession?.onProgress(event);
+            case EngineStillRendered():
+              _stillSession?.onRendered(event);
             case EngineJointClicked():
               break;
             case EngineHeartbeat():
@@ -616,6 +666,68 @@ class _LightingPageState extends ConsumerState<LightingPage> {
     } catch (e) {
       ref.read(lightingControllerProvider.notifier).setStatus('预览图保存失败：$e');
     }
+  }
+
+  /// V7/D138：后台预热路径追踪器（提前付着色器编译成本；失败不影响导出）。
+  void _scheduleWarmPathTracer() {
+    if (_warmQueued) return;
+    _warmQueued = true;
+    Future<void>.delayed(const Duration(seconds: 3), () {
+      _warmQueued = false;
+      _bridge?.warmPathTracer();
+    });
+  }
+
+  void _setAbSlot(String slot, String dataUrl) {
+    _abSlots.value = _abSlots.value.withSlot(slot, dataUrl);
+    _abStats = null;
+    ref
+        .read(lightingControllerProvider.notifier)
+        .setStatus(slot == 'b' ? '已冻结 B 画面，可对比差异' : '已冻结 A 画面，请调整灯光后冻结 B');
+  }
+
+  AbDiffStats? _abStatsFor(AbSlots slots) {
+    if (_abStats != null) return _abStats;
+    final String? a = slots.a;
+    final String? b = slots.b;
+    if (a == null || b == null) return null;
+    _abStats = abDiffStats(
+      base64Decode(a.contains(',') ? a.split(',').last : a),
+      base64Decode(b.contains(',') ? b.split(',').last : b),
+    );
+    return _abStats;
+  }
+
+  void _openStillDialog() {
+    if (_bridge == null) {
+      ssToast(context, '3D 引擎未就绪：请先切换到「3D 预览」或「分屏」');
+      return;
+    }
+    final StillExportSession session = _stillSession ??= StillExportSession(
+      workspace: ref.read(workspaceProvider),
+    );
+    session.bridge = _bridge;
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext _) => StillExportDialog(session: session),
+    );
+  }
+
+  void _openAbDialog() {
+    final EngineBridge? bridge = _bridge;
+    if (bridge == null) {
+      ssToast(context, '3D 引擎未就绪：请先切换到「3D 预览」或「分屏」');
+      return;
+    }
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext _) => _AbCompareDialog(
+        bridge: bridge,
+        workspace: ref.read(workspaceProvider),
+        slots: _abSlots,
+        statsOf: _abStatsFor,
+      ),
+    );
   }
 
   Widget _deviceRow(BuildContext context, LightingState state, DeviceSpec d) {
@@ -2178,6 +2290,193 @@ class _QualityPanel extends StatelessWidget {
               fontSize: 10.5,
               color: theme.colorScheme.onSurfaceVariant,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// V7/D138：A/B 布光对比对话框 —— 冻结 A（调整前）→ 调灯 → 冻结 B（调整后），
+/// 并排预览 + 差异摘要（阈值 12/255）+ 合成图保存到工作区。
+class _AbCompareDialog extends StatelessWidget {
+  const _AbCompareDialog({
+    required this.bridge,
+    required this.workspace,
+    required this.slots,
+    required this.statsOf,
+  });
+
+  final EngineBridge bridge;
+  final Workspace workspace;
+  final ValueNotifier<AbSlots> slots;
+  final AbDiffStats? Function(AbSlots) statsOf;
+
+  Future<void> _freeze(String slot) =>
+      bridge.capturePhoto(token: slot == 'b' ? 'ab-b' : 'ab-a');
+
+  Future<void> _saveComposite(BuildContext context, AbSlots s) async {
+    final AbDiffStats? stats = statsOf(s);
+    final String? a = s.a;
+    final String? b = s.b;
+    if (a == null || b == null || stats == null) return;
+    final Uint8List? bytes = abComposeSideBySide(
+      base64Decode(a.contains(',') ? a.split(',').last : a),
+      base64Decode(b.contains(',') ? b.split(',').last : b),
+      stats,
+    );
+    if (bytes == null) {
+      ssToast(context, '合成失败：图片解码错误');
+      return;
+    }
+    try {
+      final Directory dir = Directory(
+        p.join(workspace.root.path, 'images', 'plans'),
+      );
+      await dir.create(recursive: true);
+      final File file = File(
+        p.join(dir.path, 'AB对比_${DateTime.now().millisecondsSinceEpoch}.png'),
+      );
+      await file.writeAsBytes(bytes, flush: true);
+      if (context.mounted) ssToast(context, 'A/B 对比图已保存到工作区 images/plans/');
+    } catch (e) {
+      if (context.mounted) ssToast(context, '保存失败：$e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1060, maxHeight: 660),
+        child: Padding(
+          padding: const EdgeInsets.all(AppTokens.s16),
+          child: ValueListenableBuilder<AbSlots>(
+            valueListenable: slots,
+            builder: (BuildContext context, AbSlots s, Widget? _) {
+              final AbDiffStats? stats = s.hasBoth ? statsOf(s) : null;
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const SsSectionTitle(
+                      'A/B 布光对比',
+                      subtitle: '冻结 A（调整前）→ 调整灯光 → 冻结 B（调整后）→ 查看差异与合成图',
+                    ),
+                    const SizedBox(height: AppTokens.s12),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        _pane(context, s.a, 'A · 调整前', 'ab-a'),
+                        const SizedBox(width: AppTokens.s12),
+                        _pane(context, s.b, 'B · 调整后', 'ab-b'),
+                      ],
+                    ),
+                    const SizedBox(height: AppTokens.s12),
+                    if (stats != null)
+                      Text(
+                        '平均差 ${stats.meanAbs.toStringAsFixed(2)}/255 · '
+                        '变化像素 ${(stats.changedRatio * 100).toStringAsFixed(1)}% · '
+                        '最大差 ${stats.maxDelta.toStringAsFixed(0)} · '
+                        '${stats.verdict}（阈值 $abDiffThreshold/255）',
+                        style: AppTokens.mono(context, size: 12),
+                      )
+                    else
+                      Text(
+                        '两侧都冻结后显示差异摘要（阈值 $abDiffThreshold/255）。',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    const SizedBox(height: AppTokens.s12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        SsButton(
+                          label: '清空',
+                          kind: SsButtonKind.ghost,
+                          onPressed: s.hasBoth || s.a != null || s.b != null
+                              ? () => slots.value = const AbSlots()
+                              : null,
+                        ),
+                        const SizedBox(width: 8),
+                        SsButton(
+                          label: '保存对比图',
+                          icon: Icons.compare_outlined,
+                          onPressed: stats == null
+                              ? null
+                              : () => _saveComposite(context, s),
+                        ),
+                        const SizedBox(width: 8),
+                        SsButton(
+                          label: '关闭',
+                          kind: SsButtonKind.ghost,
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _pane(
+    BuildContext context,
+    String? dataUrl,
+    String label,
+    String slot,
+  ) {
+    final bool frozen = dataUrl != null && dataUrl.isNotEmpty;
+    return SizedBox(
+      width: 500,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppTokens.rSm),
+            child: Container(
+              height: 300,
+              width: double.infinity,
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              alignment: Alignment.center,
+              child: frozen
+                  ? Image.memory(
+                      base64Decode(
+                        dataUrl.contains(',')
+                            ? dataUrl.split(',').last
+                            : dataUrl,
+                      ),
+                      fit: BoxFit.contain,
+                    )
+                  : Text(
+                      '未冻结',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(label, style: const TextStyle(fontSize: 12.5)),
+              ),
+              SsButton(
+                label: frozen ? '重冻' : '冻结',
+                icon: Icons.ac_unit,
+                dense: true,
+                onPressed: () => _freeze(slot),
+              ),
+            ],
           ),
         ],
       ),

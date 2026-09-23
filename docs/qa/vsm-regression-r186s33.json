@@ -1,0 +1,46 @@
+{
+  "at": "2026-09-23T08:41:07.399Z",
+  "suffix": "r186s33",
+  "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4060 Laptop GPU (0x000028E0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "page": "http://127.0.0.1:5059/assets/engine/qa.html?char=qs-women-casual&view=0&duration=0&clean=1&lights=1",
+  "settings": {
+    "performanceProfile": "high",
+    "envIntensity": 0,
+    "ambient": false,
+    "grid": false
+  },
+  "shadowTypes": {
+    "vsm": "{\"soft\":true,\"type\":\"vsm\"}",
+    "pcf": "{\"soft\":false,\"type\":\"pcf\"}"
+  },
+  "stats": {
+    "vsmLightsOn": {
+      "avg": 54.3,
+      "min": 0,
+      "max": 240.7
+    },
+    "pcfLightsOn": {
+      "avg": 54.6,
+      "min": 0,
+      "max": 240.7
+    },
+    "vsmLightsOff": {
+      "avg": 30.3,
+      "min": 0,
+      "max": 240.7
+    }
+  },
+  "ratioVsmOverPcf": 0.995,
+  "lightGainVsm": 24,
+  "criteria": {
+    "ratioVsmOverPcf": ">= 0.6",
+    "lightGainVsm": ">= 15"
+  },
+  "lights": [],
+  "shots": {
+    "vsm-lights-on": "D:\\trae\\6aa175d7786dd07d04fe3d2e\\ShootStudio\\docs\\qa\\vsm-regression-r186s33-vsm-on.png",
+    "pcf-lights-on": "D:\\trae\\6aa175d7786dd07d04fe3d2e\\ShootStudio\\docs\\qa\\vsm-regression-r186s33-pcf-on.png",
+    "vsm-lights-off": "D:\\trae\\6aa175d7786dd07d04fe3d2e\\ShootStudio\\docs\\qa\\vsm-regression-r186s33-vsm-off.png"
+  },
+  "pass": true
+}

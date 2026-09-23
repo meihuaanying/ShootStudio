@@ -121,6 +121,18 @@ export function getLightCones() { return lightConesVisible; }
 
 const lightObjs = new Set();
 
+// V7/S3.3 修复（VSM 回归）：r186 的 WebGLShadowMap 在 VSM 下把 receiveShadow 的物体
+// 也渲染进阴影贴图；灯具自身（柔光箱箱体/前脸等）位于灯前 0.1–0.6m 且在光锥内，
+// 会把整个场景压进阴影（实测画面亮度 32→115）。灯具硬件一律不参与阴影。
+function excludeFromShadows(root) {
+  root?.traverse?.((o) => {
+    if (o.isMesh) {
+      o.castShadow = false;
+      o.receiveShadow = false;
+    }
+  });
+}
+
 // 阴影贴图尺寸随性能档联动（默认 2048，低配 1024）。
 let shadowMapSize = 2048;
 export function setShadowMapSize(size) {
@@ -183,6 +195,10 @@ export function createLight(cfg) {
   head.add(cone);
 
   rebuildModifierVisual(modVisual, cfg);
+  excludeFromShadows(stand);
+  excludeFromShadows(headBody);
+  excludeFromShadows(modVisual);
+  excludeFromShadows(cone);
   updateLight(group, cfg);
 
   // 选中环。
@@ -194,6 +210,7 @@ export function createLight(cfg) {
   ring.position.y = 0.06;
   ring.visible = false;
   group.add(ring);
+  excludeFromShadows(ring);
   group.userData.ring = ring;
 
   return group;
@@ -217,6 +234,7 @@ function rebuildModifierVisual(modVisual, cfg) {
   const result = buildModifierVisual(cfg.modifier, dims(cfg));
   result.visual.userData.emissiveHidden = result.emissiveHidden;
   modVisual.add(result.visual);
+  excludeFromShadows(result.visual);
   modVisual.userData.key = `${cfg.modifier}|${cfg.type}|${cfg.fixture}`;
 }
 

@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>ShootStudio PathTracer Spike</title>
+<style>
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
+  #stage { width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<script type="module">
+// V7/D138 spike锛氶獙璇?three-gpu-pathtracer@0.0.24 + three r186 + three-mesh-bvh@0.9.15 鍏煎鎬с€?// 澶嶇敤寮曟搸鍚屼竴浠?three锛坵indow.__ssThree锛夛紝鎸夐渶鍔犺浇 pathtracer.bundle.js锛堜笌姝ｅ紡闆嗘垚鍚岃矾寰勶級銆?import * as THREE from '/assets/engine/js/vendor/three.module.min.js';
+
+window.__ssThree = THREE;
+window.__spikeResult = null;
+window.__spikeError = null;
+
+const q = new URLSearchParams(location.search);
+const W = Number(q.get('w') || 320);
+const H = Number(q.get('h') || 240);
+const SAMPLES = Number(q.get('samples') || 8);
+const BOUNCES = Number(q.get('bounces') || 3);
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error(`鑴氭湰鍔犺浇澶辫触锛?{src}`));
+    document.head.appendChild(s);
+  });
+}
+
+function pixelStats(canvas) {
+  const c = document.createElement('canvas');
+  c.width = canvas.width;
+  c.height = canvas.height;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(canvas, 0, 0);
+  const data = ctx.getImageData(0, 0, c.width, c.height).data;
+  let sum = 0;
+  let max = 0;
+  let min = 255;
+  let bright = 0;
+  const samples = data.length / 4;
+  for (let i = 0; i < data.length; i += 4) {
+    const lum = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+    sum += lum;
+    max = Math.max(max, lum);
+    min = Math.min(min, lum);
+    if (lum > 24) bright++;
+  }
+  return {
+    avg: Number((sum / samples).toFixed(1)),
+    min: Number(min.toFixed(1)),
+    max: Number(max.toFixed(1)),
+    litRatio: Number((bright / samples).toFixed(3)),
+  };
+}
+
+try {
+  await loadScript('/assets/engine/js/pathtracer.bundle.js');
+  const PT = window.SSPathTracer;
+  if (!PT || !PT.WebGLPathTracer) throw new Error('pathtracer 鍏ㄥ眬瀵硅薄缂哄け');
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas: document.getElementById('stage'),
+    antialias: false,
+    preserveDrawingBuffer: true,
+  });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H, false);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x141a20);
+  const camera = new THREE.PerspectiveCamera(40, W / H, 0.05, 60);
+  camera.position.set(1.7, 1.25, 2.3);
+  camera.lookAt(0, 0.55, 0);
+
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(10, 10),
+    new THREE.MeshStandardMaterial({ color: 0x9a9a9a, roughness: 0.85, metalness: 0.0 }),
+  );
+  floor.rotation.x = -Math.PI / 2;
+  scene.add(floor);
+
+  const ball = new THREE.Mesh(
+    new THREE.SphereGeometry(0.5, 32, 24),
+    new THREE.MeshStandardMaterial({ color: 0xcc5533, roughness: 0.32, metalness: 0.15 }),
+  );
+  ball.position.set(0, 0.5, 0);
+  scene.add(ball);
+
+  const box = new THREE.Mesh(
+    new THREE.BoxGeometry(0.5, 0.9, 0.5),
+    new THREE.MeshStandardMaterial({ color: 0x3a6ea8, roughness: 0.5, metalness: 0.05 }),
+  );
+  box.position.set(-1.05, 0.45, -0.35);
+  scene.add(box);
+
+  const spot = new THREE.SpotLight(0xffffff, 40, 0, Math.PI / 6, 0.35, 1.6);
+  spot.position.set(2.0, 3.0, 2.0);
+  spot.target.position.set(0, 0.5, 0);
+  scene.add(spot);
+  scene.add(spot.target);
+
+  const tBuild0 = performance.now();
+  const pt = new PT.WebGLPathTracer(renderer);  pt.renderScale = 1;
+  pt.minSamples = 1;
+  pt.renderDelay = 0;
+  pt.fadeDuration = 0;
+  pt.bounces = BOUNCES;
+  pt.rasterizeScene = true;
+  const result = pt.setScene(scene, camera);
+  const buildMs = Number((performance.now() - tBuild0).toFixed(1));
+
+  // 璇婃柇锛氱粺璁￠噸缂栬瘧娆℃暟/鑰楁椂涓庢瘡涓?sample 鐨勫閽燂紙鍒ゆ柇 compileAsync 鏄惁鏄摱棰堬級銆?  const ptr = pt._pathTracer;
+  let recompiles = 0;
+  let compileMs = 0;
+  const origCompile = ptr.compileMaterial.bind(ptr);
+  const compileLog = [];
+  ptr.compileMaterial = (...cargs) => {
+    recompiles++;
+    const t = performance.now();
+    const defines = Object.assign({}, ptr.material.defines);
+    const p = origCompile(...cargs);
+    p.then(() => {
+      compileMs += performance.now() - t;
+      compileLog.push({
+        at: Number((performance.now() - tBuild0).toFixed(0)),
+        ms: Number((performance.now() - t).toFixed(0)),
+        defines: JSON.stringify(defines).slice(0, 300),
+      });
+    });
+    return p;
+  };
+  const sampleMarks = [];
+  let lastSamples = ptr.samples;
+
+  // 棰勭疆 defines锛歳enderer.compile() 浼氬洖璋?material.onBeforeRender()锛岃嫢鍏跺唴閮?setDefine
+  // 鍙樺寲浼氬啀娆¤Е鍙?compileAsync锛坰pike 瑙傚療鍒?3 涓彉浣撳苟鍙戠紪璇戯級銆傚厛鎵嬪姩 onBeforeRender
+  // 璁?defines 绋冲畾锛屽彧缂栬瘧 1 娆°€?  ptr.material.onBeforeRender();
+
+  // 鍏抽敭锛氬繀椤昏鍑轰簨浠跺惊鐜?鈥斺€?PathTracingRenderer 棣栨鏇存柊璧?renderer.compileAsync锛堝紓姝ョ紪璇戯級锛?  // 鍚屾姝诲惊鐜細璁?Promise 姘镐笉缁撶畻銆乻amples 鍋滃湪 0锛堟埅鍒板厜鏍呭寲鍥為€€鐢婚潰锛夈€?  // 鐢?rAF 椹卞姩锛堜笌姝ｅ紡闆嗘垚涓€鑷达紱setTimeout(0) 绌鸿浆浼氭氮璐瑰湪缂栬瘧绛夊緟涓婏級銆?  const tRender0 = performance.now();
+  let frames = 0;
+  let compileWaits = 0;
+  await new Promise((resolve) => {
+    const tick = () => {
+      if (pt.samples >= SAMPLES || performance.now() - tRender0 > 180000 || frames > 200000) {
+        resolve();
+        return;
+      }
+      if (pt.isCompiling) compileWaits++;
+      pt.renderSample();
+      frames++;
+      if (ptr.samples !== lastSamples) {
+        lastSamples = ptr.samples;
+        sampleMarks.push(Number((performance.now() - tRender0).toFixed(0)));
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+  const renderMs = Number((performance.now() - tRender0).toFixed(1));
+  const png = renderer.domElement.toDataURL('image/png');
+  const stats = pixelStats(renderer.domElement);
+
+  // 浜屾瀵煎嚭锛氶獙璇佺▼搴忕紦瀛樺懡涓紙鍚屼竴 renderer + 鐩稿悓 defines 涓嶅簲閲嶆柊缂栬瘧锛夈€?  const recompilesAfterFirst = recompiles;
+  const tSecond0 = performance.now();
+  pt.setScene(scene, camera);
+  pt.reset();
+  await new Promise((resolve) => {
+    const tick = () => {
+      if (pt.samples >= SAMPLES) { resolve(); return; }
+      pt.renderSample();
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+  const secondMs = Number((performance.now() - tSecond0).toFixed(1));
+  const secondRecompiles = recompiles - recompilesAfterFirst;
+
+  window.__spikeResult = {
+    ok: true,
+    three: THREE.REVISION,
+    pathtracer: '0.0.24',
+    gpuRenderer: (() => {
+      try {
+        const gl = renderer.getContext();
+        const info = gl.getExtension('WEBGL_debug_renderer_info');
+        return info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL) || '') : '';
+      } catch (_) { return ''; }
+    })(),
+    width: W,
+    height: H,
+    samples: pt.samples,
+    frames,
+    compileWaits,
+    recompiles,
+    compileMs: Number(compileMs.toFixed(1)),
+    compileLog,
+    sampleMarks,
+    buildMs,
+    renderMs,
+    msPerSample: pt.samples > 0 ? Number((renderMs / pt.samples).toFixed(1)) : null,
+    pngBytes: png.length,
+    stats,
+    secondMs,
+    secondRecompiles,
+    bvh: result && result.bvh ? 'built' : 'missing',
+  };
+} catch (err) {
+  window.__spikeError = String((err && err.stack) || (err && err.message) || err);
+}
+</script>
+</body>
+</html>

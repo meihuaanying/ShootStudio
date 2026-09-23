@@ -1,0 +1,54 @@
+{
+  "at": "2026-09-23T08:13:41.764Z",
+  "edge": "Edg/153.0.4234.48",
+  "gpu": true,
+  "headed": true,
+  "stills": {
+    "supersample": {
+      "ok": true,
+      "mode": "supersample",
+      "ms": 85,
+      "width": 640,
+      "height": 480,
+      "factor": 2,
+      "bytes": 120775
+    },
+    "path": {
+      "ok": true,
+      "mode": "path",
+      "reason": "done",
+      "ms": 73557,
+      "samples": 128,
+      "width": 480,
+      "height": 360,
+      "msPerSample": 574.7,
+      "bytes": 403516,
+      "sha1": "add1b34f89f9",
+      "error": ""
+    },
+    "pathSecond": {
+      "ms": 19192,
+      "samples": 128,
+      "msPerSample": 149.9,
+      "sha1": "37230e5a0cc2"
+    }
+  },
+  "ab": {
+    "meanAbs": 1.62,
+    "changedRatio": 0.0241,
+    "verdict": "差异中等",
+    "maxDelta": 40.3,
+    "bytes": 143521,
+    "width": 960,
+    "height": 416,
+    "aBytes": 202528,
+    "bBytes": 185400,
+    "aSha1": "cf53d0a1bfff",
+    "bSha1": "c401593ee746",
+    "change": "主光 intensity 75 → 25（其余不变）"
+  },
+  "profile": {
+    "requested": "auto",
+    "effective": "high"
+  }
+}

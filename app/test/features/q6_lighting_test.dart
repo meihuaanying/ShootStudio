@@ -28,8 +28,8 @@ void main() {
       bundle = File('assets/engine/js/engine.bundle.js').readAsStringSync();
     });
 
-    test('28 套预设；全部设备带 stand/offsetYaw/offsetPitch 且 rotationY=0', () {
-      expect(presets.length, 28);
+    test('32 套预设；全部设备带 stand/offsetYaw/offsetPitch 且 rotationY=0', () {
+      expect(presets.length, 32);
       for (final Map<String, Object?> preset in presets) {
         final List<Map<String, Object?>> devices =
             ((preset['devices'] as List<Object?>?) ?? <Object?>[])
@@ -97,6 +97,61 @@ void main() {
       final Iterable<String> modifiers = (clamshell['devices'] as List<Object?>)
           .map((Object? e) => '${(e as Map)['modifier']}');
       expect(modifiers, everyElement('octa-softbox'));
+    });
+
+    test('V7/D138 扩充预设（28→32）：百叶硬光/硬光夹光/霓虹灯管/办公室窗光', () {
+      final Set<String> ids = presets
+          .map((Map<String, Object?> p) => '${p['id']}')
+          .toSet();
+      expect(
+        ids,
+        containsAll(<String>[
+          'blinds-window-hard',
+          'clamshell-hard',
+          'neon-tube',
+          'office-window',
+        ]),
+      );
+      // 百叶变体仍用 gobo-blinds（与 blinds-window 同附件、更强对比）。
+      final Map<String, Object?> blindsHard = presets.firstWhere(
+        (Map<String, Object?> p) => p['id'] == 'blinds-window-hard',
+      );
+      final List<Map<String, Object?>> blindsDevices =
+          (blindsHard['devices'] as List<Object?>)
+              .map((Object? e) => (e as Map).cast<String, Object?>())
+              .toList();
+      expect(blindsDevices.first['modifier'], 'gobo-blinds');
+      expect(
+        (blindsDevices.first['intensity'] as num).toInt() >
+            (blindsDevices.last['intensity'] as num).toInt(),
+        isTrue,
+        reason: '硬光变体应保持高对比（主光 > 补光）',
+      );
+      // 霓虹灯管使用此前未用的 rgb-tube 灯型。
+      final Map<String, Object?> neon = presets.firstWhere(
+        (Map<String, Object?> p) => p['id'] == 'neon-tube',
+      );
+      expect(
+        (neon['devices'] as List<Object?>).map(
+          (Object? e) => '${(e as Map)['fixture']}',
+        ),
+        everyElement('rgb-tube'),
+      );
+      // 硬光夹光：上雷达罩 + 下标准罩，且下灯强度约为上灯一半以内。
+      final Map<String, Object?> hard = presets.firstWhere(
+        (Map<String, Object?> p) => p['id'] == 'clamshell-hard',
+      );
+      final List<Map<String, Object?>> hardDevices =
+          (hard['devices'] as List<Object?>)
+              .map((Object? e) => (e as Map).cast<String, Object?>())
+              .toList();
+      expect(hardDevices.first['modifier'], 'beauty-dish');
+      expect(hardDevices.last['modifier'], 'standard-reflector');
+      expect(
+        (hardDevices.last['intensity'] as num) <=
+            (hardDevices.first['intensity'] as num) * 0.5,
+        isTrue,
+      );
     });
   });
 
@@ -188,9 +243,40 @@ void main() {
         'setSoftShadows',
         'getSoftShadows',
         'gobo-blinds',
+        // V7/D138：路径追踪静帧导出 + A/B 冻结 + 诊断
+        'renderStill',
+        'warmPathTracer',
+        'path-tracer',
+        'supersample',
+        'stillProgress',
+        'stillRendered',
+        'capture-token',
+        'getLightDebug',
       ]) {
         expect(js.contains(token), isTrue, reason: '引擎缺少 $token');
       }
+    });
+
+    test('V7/D138 路径追踪包随包且导出 SSPathTracer（R64/R69）', () {
+      final File bundle = File('assets/engine/js/pathtracer.bundle.js');
+      expect(bundle.existsSync(), isTrue, reason: '缺少 pathtracer.bundle.js');
+      final String js = bundle.readAsStringSync();
+      expect(js.contains('SSPathTracer'), isTrue);
+      expect(js.contains('PathTracingRenderer'), isTrue);
+      // 许可文件随包（R63）。
+      expect(
+        File('assets/engine/js/vendor/PATHTRACER_LICENSE').existsSync(),
+        isTrue,
+      );
+      expect(
+        File('assets/engine/js/vendor/MESHBVH_LICENSE').existsSync(),
+        isTrue,
+      );
+      // 低配/加载失败回退路径必须有实现（R69）。
+      final String engine = File(
+        'assets/engine/js/engine.js',
+      ).readAsStringSync();
+      expect(engine.contains('fallbackReason'), isTrue);
     });
 
     test('瞄准数学单测脚本存在（Node 纯函数门禁）', () {

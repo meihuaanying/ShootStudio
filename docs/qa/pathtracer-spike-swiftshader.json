@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-23T07:05:21.248Z",
+  "gpu": false,
+  "edge": "Edg/153.0.4234.48",
+  "ok": true,
+  "three": "186",
+  "pathtracer": "0.0.24",
+  "width": 320,
+  "height": 240,
+  "samples": 8,
+  "frames": 78,
+  "compileWaits": 5,
+  "buildMs": 105.9,
+  "renderMs": 96718.1,
+  "msPerSample": 12089.8,
+  "pngBytes": 148150,
+  "stats": {
+    "avg": 84.8,
+    "min": 0,
+    "max": 249.2,
+    "litRatio": 0.613
+  },
+  "bvh": "built",
+  "screenshot": "docs/qa/pathtracer-spike-swiftshader.png"
+}

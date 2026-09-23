@@ -46,8 +46,57 @@ class EngineCharacterChanged extends EngineEvent {
 }
 
 class EngineCaptured extends EngineEvent {
-  const EngineCaptured(this.dataUrl);
+  const EngineCaptured(this.dataUrl, {this.token = ''});
   final String dataUrl;
+
+  /// V7/D138：定向取图标记（A/B 冻结等）；空 = 普通效果预览保存。
+  final String token;
+}
+
+/// V7/D138：静帧渲染进度（路径追踪编译/采样阶段）。
+class EngineStillProgress extends EngineEvent {
+  const EngineStillProgress({
+    required this.mode,
+    required this.phase,
+    required this.samples,
+    required this.target,
+    required this.elapsedMs,
+    this.width = 0,
+    this.height = 0,
+  });
+  final String mode; // path | warm
+  final String phase; // compile | render | done
+  final int samples;
+  final int target;
+  final int elapsedMs;
+  final int width;
+  final int height;
+}
+
+/// V7/D138：静帧渲染完成（dataUrl 为 PNG；失败时 ok=false + error）。
+class EngineStillRendered extends EngineEvent {
+  const EngineStillRendered({
+    required this.ok,
+    required this.mode,
+    required this.dataUrl,
+    this.reason = '',
+    this.error = '',
+    this.width = 0,
+    this.height = 0,
+    this.samples = 0,
+    this.ms = 0,
+    this.msPerSample,
+  });
+  final bool ok;
+  final String mode; // path | supersample
+  final String dataUrl;
+  final String reason;
+  final String error;
+  final int width;
+  final int height;
+  final int samples;
+  final int ms;
+  final double? msPerSample;
 }
 
 class EngineErrorEvent extends EngineEvent {
@@ -129,7 +178,38 @@ class EngineBridge {
           break;
         case 'captured':
           final dataUrl = data['dataUrl'] as String? ?? '';
-          if (dataUrl.isNotEmpty) _events.add(EngineCaptured(dataUrl));
+          if (dataUrl.isNotEmpty) {
+            _events.add(
+              EngineCaptured(dataUrl, token: data['token'] as String? ?? ''),
+            );
+          }
+        case 'stillProgress':
+          _events.add(
+            EngineStillProgress(
+              mode: data['mode'] as String? ?? 'path',
+              phase: data['phase'] as String? ?? '',
+              samples: asInt(data['samples']),
+              target: asInt(data['target']),
+              elapsedMs: asInt(data['elapsedMs']),
+              width: asInt(data['width']),
+              height: asInt(data['height']),
+            ),
+          );
+        case 'stillRendered':
+          _events.add(
+            EngineStillRendered(
+              ok: data['ok'] == true,
+              mode: data['mode'] as String? ?? 'path',
+              dataUrl: data['dataUrl'] as String? ?? '',
+              reason: data['reason'] as String? ?? '',
+              error: data['error'] as String? ?? '',
+              width: asInt(data['width']),
+              height: asInt(data['height']),
+              samples: asInt(data['samples']),
+              ms: asInt(data['ms']),
+              msPerSample: (data['msPerSample'] as num?)?.toDouble(),
+            ),
+          );
         case 'engineHeartbeat':
           _events.add(
             EngineHeartbeat(
@@ -303,7 +383,28 @@ class EngineBridge {
     'window.ss && window.ss.setSubjectVisible(${on ? 'true' : 'false'});',
   );
 
-  Future<void> capturePhoto() => _js('window.ss && window.ss.capturePhoto();');
+  Future<void> capturePhoto({String token = ''}) => _js(
+    'window.ss && window.ss.capturePhoto(${token.isEmpty ? '' : '"$token"'});',
+  );
+
+  /// V7/D138：渲染静帧（path 路径追踪 / supersample 超采样）。
+  /// 进度与结果分别通过 [EngineStillProgress] / [EngineStillRendered] 事件回传。
+  Future<void> renderStill({
+    String mode = 'path',
+    int width = 960,
+    int height = 720,
+    int samples = 128,
+    int bounces = 4,
+    int factor = 2,
+    bool useCameraRig = true,
+  }) => _js(
+    'window.ss && window.ss.renderStill && window.ss.renderStill(${jsonEncode(<String, Object?>{'mode': mode, 'width': width, 'height': height, 'samples': samples, 'bounces': bounces, 'factor': factor, 'useCameraRig': useCameraRig})});',
+  );
+
+  /// V7/D138：后台预热路径追踪器（提前付掉着色器编译成本；失败不影响导出）。
+  Future<void> warmPathTracer() => _js(
+    'window.ss && window.ss.warmPathTracer && window.ss.warmPathTracer();',
+  );
 
   void dispose() {
     _events.close();

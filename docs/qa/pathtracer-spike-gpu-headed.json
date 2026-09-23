@@ -1,0 +1,68 @@
+{
+  "at": "2026-09-23T07:19:26.364Z",
+  "gpu": true,
+  "headed": true,
+  "edge": "Edg/153.0.4234.48",
+  "ok": true,
+  "three": "186",
+  "pathtracer": "0.0.24",
+  "gpuRenderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4060 Laptop GPU (0x000028E0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "width": 320,
+  "height": 240,
+  "samples": 2,
+  "frames": 1377,
+  "compileWaits": 1359,
+  "recompiles": 3,
+  "compileMs": 67983.3,
+  "compileLog": [
+    {
+      "at": 22833,
+      "ms": 22663,
+      "defines": "{\"FEATURE_MIS\":1,\"FEATURE_RUSSIAN_ROULETTE\":1,\"FEATURE_DOF\":0,\"FEATURE_BACKGROUND_MAP\":0,\"FEATURE_FOG\":1,\"RANDOM_TYPE\":2,\"CAMERA_TYPE\":0,\"DEBUG_MODE\":0,\"ATTR_NORMAL\":0,\"ATTR_TANGENT\":1,\"ATTR_UV\":2,\"ATTR_COLOR\":3,\"MATERIAL_PIXELS\":47}"
+    },
+    {
+      "at": 22833,
+      "ms": 22661,
+      "defines": "{\"FEATURE_MIS\":1,\"FEATURE_RUSSIAN_ROULETTE\":1,\"FEATURE_DOF\":0,\"FEATURE_BACKGROUND_MAP\":1,\"FEATURE_FOG\":1,\"RANDOM_TYPE\":2,\"CAMERA_TYPE\":0,\"DEBUG_MODE\":0,\"ATTR_NORMAL\":0,\"ATTR_TANGENT\":1,\"ATTR_UV\":2,\"ATTR_COLOR\":3,\"MATERIAL_PIXELS\":47}"
+    },
+    {
+      "at": 22833,
+      "ms": 22660,
+      "defines": "{\"FEATURE_MIS\":1,\"FEATURE_RUSSIAN_ROULETTE\":1,\"FEATURE_DOF\":0,\"FEATURE_BACKGROUND_MAP\":1,\"FEATURE_FOG\":0,\"RANDOM_TYPE\":2,\"CAMERA_TYPE\":0,\"DEBUG_MODE\":0,\"ATTR_NORMAL\":0,\"ATTR_TANGENT\":1,\"ATTR_UV\":2,\"ATTR_COLOR\":3,\"MATERIAL_PIXELS\":47}"
+    }
+  ],
+  "sampleMarks": [
+    42553,
+    42554,
+    42560,
+    42575,
+    42592,
+    42608,
+    42625,
+    42642,
+    42689,
+    42690,
+    42692,
+    42708,
+    42725,
+    42742,
+    42758,
+    42775,
+    42792,
+    42808
+  ],
+  "buildMs": 169.5,
+  "renderMs": 42824.8,
+  "msPerSample": 21412.4,
+  "pngBytes": 113122,
+  "stats": {
+    "avg": 88.2,
+    "min": 0,
+    "max": 254.2,
+    "litRatio": 0.612
+  },
+  "secondMs": 294.7,
+  "secondRecompiles": 0,
+  "bvh": "built",
+  "screenshot": "docs/qa/pathtracer-spike-gpu-headed.png"
+}
