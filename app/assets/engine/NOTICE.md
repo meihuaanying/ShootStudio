@@ -4,8 +4,8 @@
 
 | 组件 | 版本/来源 | 许可 | 使用方式 |
 | --- | --- | --- | --- |
-| three.js | r169（npm `three`，经 npmmirror 获取） | MIT | 运行时 3D 渲染（`js/vendor/three.module.min.js`） |
-| OrbitControls / RectAreaLightUniformsLib / RoomEnvironment | three.js examples（r169） | MIT | 相机轨道控制、面光源、环境反射 |
+| three.js | r186（npm `three`，经 npmmirror 获取；`build/three.module.js` 经 esbuild 打成自包含 ESM） | MIT | 运行时 3D 渲染（`js/vendor/three.module.min.js`） |
+| OrbitControls / RectAreaLightUniformsLib / RoomEnvironment / HDRLoader / GLTFLoader / SkeletonUtils / BufferGeometryUtils | three.js examples（r186） | MIT | 相机轨道控制、面光源、环境反射、HDR 环境、模型加载、骨骼克隆、几何合并 |
 | direct-light | https://github.com/oukeming64-tech/direct-light | MIT（Copyright (c) 2026 Keming Ou） | **领域语义改编**：灯具预设、控光件乘数、白棚沟通级渲染理念、姿势参数语义；代码由 React/R3F 重写为无框架 three.js 单页 |
 
 - three.js 许可全文见 `js/vendor/THREE_LICENSE`。

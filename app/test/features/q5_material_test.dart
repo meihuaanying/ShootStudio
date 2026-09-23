@@ -103,7 +103,7 @@ void main() {
         'ss-cloth-sheen-',
         'ssSkinLut',
         'studio_small_03_1k.hdr',
-        'RGBELoader',
+        'HDRLoader',
         'setContactShadow',
         'getContactShadow',
         'contact-shadow',

@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
-import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 
 import { buildStudio } from './studio.js';
 import { buildPerson, JOINT_NAMES } from './person.js';
@@ -188,7 +188,7 @@ function finishEnvironment(source) {
   send('environmentChanged', { source });
 }
 function loadStudioEnvironment() {
-  new RGBELoader().load(
+  new HDRLoader().load(
     new URL('env/studio_small_03_1k.hdr', document.baseURI).href,
     (hdr) => {
       let source = 'room';
@@ -734,7 +734,7 @@ function qaAllowDistance(distance) {
 // ---------------- 对外 API（Flutter / 调试） ----------------
 let paused = false;
 window.ss = {
-  features: 'GLTFLoader GLTF gltf-parser SkeletonUtils retarget AnimationMixer BufferGeometryUtils LoopSubdivision skin-preserving-loop setSubdivision setMaterialPreset PMREM RoomEnvironment setAmbientEnabled setHandPose setHandCurls getHandState listHandPresets hand-bones RGBELoader HDRI setContactShadow getContactShadow contact-shadow getEnvironmentSource engineHeartbeat getEngineStats evictCharacterCache cache-lru setPerformanceProfile performance-profile',
+  features: 'GLTFLoader GLTF gltf-parser SkeletonUtils retarget AnimationMixer BufferGeometryUtils LoopSubdivision skin-preserving-loop setSubdivision setMaterialPreset PMREM RoomEnvironment setAmbientEnabled setHandPose setHandCurls getHandState listHandPresets hand-bones HDRLoader HDRI setContactShadow getContactShadow contact-shadow getEnvironmentSource engineHeartbeat getEngineStats evictCharacterCache cache-lru setPerformanceProfile performance-profile gpu-info-v7',
   ping: () => send('ready', { version: 1 }),
   setPaused: (p) => {
     paused = !!p;
