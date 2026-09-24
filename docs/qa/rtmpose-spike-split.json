@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-24T06:25:53Z",
+  "purpose": "GitHub blocks files >100 MiB; fp16 model is chunked for bundling (R64)",
+  "src_bytes": 184789026,
+  "src_sha256": "2ca95a4ab47b9711c4900ec7f746122aa9e741b5b6caf8b487940856b1187bec",
+  "limit_bytes": 104857600,
+  "parts": [
+    {
+      "name": "rtmw3d-x-fp16.onnx.part0",
+      "bytes": 92394513,
+      "sha256": "beac21ffb9cbef97f9ac24dbdb00f62fe01ebd2eb8dea05e138f26471e7308be"
+    },
+    {
+      "name": "rtmw3d-x-fp16.onnx.part1",
+      "bytes": 92394513,
+      "sha256": "e989b85595f06d3de4a1e5b56fabb70c3814e484ec7f54941a066032e4a82df5"
+    }
+  ],
+  "rejoined_sha256": "2ca95a4ab47b9711c4900ec7f746122aa9e741b5b6caf8b487940856b1187bec",
+  "sha_match": true,
+  "max_abs_diff": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "identical": true
+}

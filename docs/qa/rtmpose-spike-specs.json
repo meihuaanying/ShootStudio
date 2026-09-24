@@ -1,0 +1,149 @@
+{
+  "at": "2026-09-24T06:05:07Z",
+  "models": [
+    {
+      "file": "rtmw3d-x.onnx",
+      "repo": "Soykaf/RTMW3D-x",
+      "license": "apache-2.0",
+      "source_url": "https://hf-mirror.com/Soykaf/RTMW3D-x/resolve/main/onnx/rtmw3d-x_8xb64_cocktail14-384x288-b0a0eab7_20240626.onnx",
+      "bytes": 369330857,
+      "present": true,
+      "ir_version": 8,
+      "inputs": [
+        {
+          "name": "input",
+          "dtype": "1",
+          "shape": [
+            1,
+            3,
+            384,
+            288
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "shape": [
+            1,
+            133,
+            576
+          ]
+        },
+        {
+          "name": "1554",
+          "shape": [
+            1,
+            133,
+            768
+          ]
+        },
+        {
+          "name": "1556",
+          "shape": [
+            1,
+            133,
+            576
+          ]
+        }
+      ],
+      "actual_bytes": 369330857
+    },
+    {
+      "file": "yolox_m.onnx",
+      "repo": "hr16/yolox-onnx",
+      "license": "apache-2.0",
+      "source_url": "https://hf-mirror.com/hr16/yolox-onnx/resolve/main/yolox_m.onnx",
+      "bytes": 101259744,
+      "present": true,
+      "ir_version": 6,
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "1",
+          "shape": [
+            1,
+            3,
+            640,
+            640
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "shape": [
+            1,
+            8400,
+            85
+          ]
+        }
+      ],
+      "actual_bytes": 101259744
+    },
+    {
+      "file": "yolox_tiny.onnx",
+      "repo": "hr16/yolox-onnx",
+      "license": "apache-2.0",
+      "source_url": "https://hf-mirror.com/hr16/yolox-onnx/resolve/main/yolox_tiny.onnx",
+      "bytes": 20219662,
+      "present": true,
+      "ir_version": 6,
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "1",
+          "shape": [
+            1,
+            3,
+            416,
+            416
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "shape": [
+            1,
+            3549,
+            85
+          ]
+        }
+      ],
+      "actual_bytes": 20219662
+    },
+    {
+      "file": "yolox_nano.onnx",
+      "repo": "hr16/yolox-onnx",
+      "license": "apache-2.0",
+      "source_url": "https://hf-mirror.com/hr16/yolox-onnx/resolve/main/yolox_nano.onnx",
+      "bytes": 3659407,
+      "present": true,
+      "ir_version": 6,
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "1",
+          "shape": [
+            1,
+            3,
+            416,
+            416
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "shape": [
+            1,
+            3549,
+            85
+          ]
+        }
+      ],
+      "actual_bytes": 3659407
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "at": "2026-09-24T06:05:26Z",
+  "note": "RTMW3D-x (ONNX) vs shipped poses3.json (MediaPipe world landmarks); not the D141 gate metric, which is porting fidelity (on-device vs Python).",
+  "rows": [
+    {
+      "id": "p001",
+      "category": "站姿",
+      "mean_deg": 8.36,
+      "within5_pct": 47.2,
+      "within10_pct": 63.9,
+      "max_deg": 51.6
+    },
+    {
+      "id": "p013",
+      "category": "坐姿",
+      "mean_deg": 20.08,
+      "within5_pct": 33.3,
+      "within10_pct": 41.7,
+      "max_deg": 67.55
+    },
+    {
+      "id": "p025",
+      "category": "蹲姿",
+      "mean_deg": 28.93,
+      "within5_pct": 27.8,
+      "within10_pct": 30.6,
+      "max_deg": 110.03
+    },
+    {
+      "id": "p037",
+      "category": "跪姿",
+      "mean_deg": 23.17,
+      "within5_pct": 33.3,
+      "within10_pct": 38.9,
+      "max_deg": 71.72
+    }
+  ],
+  "summary": {
+    "mean_deg": 20.13,
+    "within5_pct": 35.4,
+    "within10_pct": 43.8,
+    "angles": 144
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-24T06:08:24Z",
+  "variants": [
+    {
+      "name": "dynamic-int8",
+      "file": "rtmw3d-x-int8.onnx",
+      "size_mb": 92.9,
+      "joint_deg_mean": 48.73,
+      "joint_deg_max": 220.84,
+      "kpt_xy_px_mean": 154.83,
+      "kpt_z_m_mean": 0.0932,
+      "pose_ms_median": 9357.2
+    },
+    {
+      "name": "static-int8",
+      "file": "rtmw3d-x-static-int8.onnx",
+      "size_mb": 93.9,
+      "joint_deg_mean": 22.66,
+      "joint_deg_max": 175.58,
+      "kpt_xy_px_mean": 11.65,
+      "kpt_z_m_mean": 0.0612,
+      "pose_ms_median": 2054.1
+    },
+    {
+      "name": "fp16",
+      "file": "rtmw3d-x-fp16.onnx",
+      "size_mb": 184.8,
+      "joint_deg_mean": 0.16,
+      "joint_deg_max": 8.88,
+      "kpt_xy_px_mean": 0.02,
+      "kpt_z_m_mean": 0.0003,
+      "pose_ms_median": 2050.3
+    }
+  ],
+  "base": {
+    "file": "rtmw3d-x.onnx",
+    "size_mb": 369.3
+  }
+}

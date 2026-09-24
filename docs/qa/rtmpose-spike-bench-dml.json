@@ -1,0 +1,50 @@
+{
+  "at": "2026-09-24T06:13:38Z",
+  "ort": "1.24.4",
+  "providers": [
+    "DmlExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "rows": [
+    {
+      "file": "rtmw3d-x.onnx",
+      "ep": "CPUExecutionProvider",
+      "median_ms": 264.4
+    },
+    {
+      "file": "rtmw3d-x.onnx",
+      "ep": "DmlExecutionProvider",
+      "median_ms": 26.3
+    },
+    {
+      "file": "rtmw3d-x-fp16.onnx",
+      "ep": "CPUExecutionProvider",
+      "median_ms": 385.5
+    },
+    {
+      "file": "rtmw3d-x-fp16.onnx",
+      "ep": "DmlExecutionProvider",
+      "median_ms": 8.7
+    },
+    {
+      "file": "rtmw3d-x-static-int8.onnx",
+      "ep": "CPUExecutionProvider",
+      "median_ms": 93.9
+    },
+    {
+      "file": "rtmw3d-x-static-int8.onnx",
+      "ep": "DmlExecutionProvider",
+      "median_ms": 44.5
+    },
+    {
+      "file": "rtmw3d-x-int8.onnx",
+      "ep": "CPUExecutionProvider",
+      "median_ms": 3923.6
+    },
+    {
+      "file": "rtmw3d-x-int8.onnx",
+      "ep": "DmlExecutionProvider",
+      "median_ms": 39.7
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-24T06:13:00Z",
+  "ort": "1.30.0",
+  "providers": [
+    "AzureExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "rows": [
+    {
+      "file": "rtmw3d-x.onnx",
+      "ep": "CPUExecutionProvider",
+      "median_ms": 600.9
+    },
+    {
+      "file": "rtmw3d-x-fp16.onnx",
+      "ep": "CPUExecutionProvider",
+      "median_ms": 609.7
+    },
+    {
+      "file": "rtmw3d-x-static-int8.onnx",
+      "ep": "CPUExecutionProvider",
+      "median_ms": 400.4
+    },
+    {
+      "file": "rtmw3d-x-int8.onnx",
+      "ep": "CPUExecutionProvider",
+      "median_ms": 3307.4
+    }
+  ]
+}

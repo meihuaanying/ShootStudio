@@ -10,14 +10,14 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助** `d235451` ｜ **S4 姿势参考图**（本次提交） |
-| CI | S4 推送后运行中（R60：**全绿才算完成**，下一步先复核）；S3.4 全绿（run 35855722478 = d235451 success）；S3.3 的 35839154345/35842252891 亦 success |
+| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助** `d235451` ｜ **S4 姿势参考图** `4157bb7` ｜ **S5-spike 识别路线**（本次提交） |
+| CI | S4 **全绿**（run 35953854563 = 4157bb7 success）；S5-spike 推送后运行中（R60：全绿才算完成，下一步先复核）；S3.4 的 35855722478、S3.3 的 35839154345/35842252891 亦 success |
 | 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **290 passed + 26 skipped** ｜ `q2_pose_photos_test` 8 用例 ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ `q6_camera_test` 10 ｜ `pose_qa photo` 120/120（缺 0）｜ 引擎包 1.16MB + pathtracer 220.4KB（<2.2MB） |
-| 剩余 | **S5 RTMPose/RTMW3D 识别 ｜ S6 资源库 100% ｜ S7 v1.3.0 发布** |
+| 剩余 | **S5 主体（识别集成：随包/新服务/回退/fixture/精度门禁）｜ S6 资源库 100% ｜ S7 v1.3.0 发布** |
 
 ---
 
-## 1. 已完成（S0–S4，含证据路径）
+## 1. 已完成（S0–S5 spike，含证据路径）
 
 ### S0 合同（`be2c264`）
 `FIX_CONTRACT_V7.0.md`：D132–D144 + R61–R70（含 Getty 移除、Step 3 顺序修正、许可门控、NGA/Walters 索引方案、硬件适配）。
@@ -69,14 +69,26 @@
 - **UI**：`poseCategories` 改 10 类；新「影视感参考」入口 `cinematic_refs.dart`（TMDB 按需检索 → 只存工作区 `images/refs/` + 来源/许可标注，**不入包**，R63）。
 - 证据：`node tool/pose_qa.mjs photo` 120/120 渲染 + 拼接（缺 0）、接地校准 120 条 rootY、重试 23/23；`q2_pose_photos_test` 8 用例全绿（含 p050 接地 `minY=0.0002`）；全量 **290 passed + 26 skipped**；format 0 changed、analyze 0；photos 120 jpg + 120 skeleton（10.45MB）、manifest 10 类 × 12、attribution 654 条；截图 `docs/pose-qa3/compare-*.png` / `overlay-*.png` / `qa_photo_state.json`。
 
+### S5 spike：识别 RTMPose/RTMW3D 路线（D141 / R67，结论「可行」）
+- **通道**：`huggingface.co` 本机不可达（超时）→ **`hf-mirror.com` 可达**（整包下载字节数与 API 声明一致）。
+- **模型与许可**：RTMW3D-x ONNX（`Soykaf/RTMW3D-x`，apache-2.0，369,330,857 B）+ YOLOX ONNX（`hr16/yolox-onnx`，apache-2.0；nano 3.66MB / tiny 20.2MB / s 35.9MB / m 101.3MB / l 216.7MB）→ 均可随包（R63/R64）。
+- **移植口径**（Dart 端须逐字对齐 rtmlib）：输入 `[1,3,384,288]` fp32；预处理 = bbox padding 1.25 → 3:4 等比扩展 → 288×384 仿射（黑边）→ ImageNet 归一化（**BGR**）；后处理 = `locs/2`（crop 像素）+ `z_m=(z/192-1)*2.1744869` + score=min(max_x,max_y)；133 关键点 → BlazePose 33 子集 + **骨长先验米制尺度**（中位数，10 条骨）→ 复用 `derive()` 12 关节/接地。
+- **量化**：dynamic int8 92.9MB（关节角均差 **48.7°** ❌）/ static int8（30 张真图校准 QDQ）93.9MB（**22.7°** ❌）/ **fp16（keep_io_types）184.8MB（0.16° ✅ 推荐随包）**。
+- **EP**：ORT 1.30 CPU fp32 600.9ms / fp16 609.7ms；DML（ORT 1.24.4）fp16 **8.7ms**（≈57×）——但 **flutter_onnxruntime 1.8.5 Windows 无 DML**（CMake 固定 CPU 包、插件只接受 CPU/CUDA）→ 端上 CPU EP。
+- **随包方案（GitHub 100 MiB 单文件限制）**：fp16 拆 **2 片**（各 92,394,513 B）+ 首次使用本地拼装（无网络；实测 0.23s、SHA256 一致、ORT 输出逐元素相同）。
+- **精度对比（参考）**：RTMW3D-x vs 现有 MediaPipe 参考（4 图 144 角）均差 20.13°、≤5° 35.4%（非门禁口径）。
+- 证据：`docs/qa/rtmpose-spike-report.md` + `rtmpose-spike-{specs,infer,angle,detectors,quant,bench,bench-dml,split}.json`；脚本 `app/tool/rtmpose_spike.py`（fetch/specs/infer/compare/detcompare/quantize/bench/split）；检测器 IoU vs yolox_m：s 0.882 / tiny 0.881 / nano 0.875 → 建议随包 **yolox_tiny**。
+
 ---
 
 ## 2. 剩余待办（按合同 §3 顺序）
 
-### S5 识别 RTMPose/RTMW3D（D141）
-1. **spike 先行**：HuggingFace 本机不可达 → `hf-mirror.com` 或 DoH 隧道下载 `Soykaf/RTMW3D-x` ONNX（rtmlib 配套，~369MB）；核验许可（预期 Apache-2.0）与量化/体积；`flutter_onnxruntime` Windows EP 验证（DirectML 是否内置；不可用则 CPU EP 或自编译）。
-2. 新服务：检测（YOLOX/RTMDet 或复用 pose_detection）+ RTMW3D 3D → 12 关节映射 + 接地校准；旧 MediaPipe 路径保留回退直至 D128 门禁达标。
-3. 模型随包（R53/R64）；离线一致性测试；`q6_pose_accuracy` 冲 均值 ≤5°/90% ≤10°。
+### S5 识别 RTMPose/RTMW3D（D141）— spike 已完成，剩主体集成
+1. **随包（R64）**：fp16 模型分 2 片 + `yolox_tiny.onnx` 入 `app/assets/models/pose3d/`（+ 许可文本/attribution）；首次使用本地拼装到应用支持目录（校验字节数，已存在则跳过；失败回退 R69）。
+2. **新服务**：YOLOX 检测（按 ONNX 读输入尺寸；tiny/nano 为 416×416）+ RTMW3D 3D（预处理/后处理严格对齐 rtmlib 口径）→ MAP33 + 骨长先验尺度 → 现有 `deriveJoints()` 12 关节 + 接地校准；`flutter_onnxruntime` CPU EP。
+3. **回退（R69）**：模型缺失/加载失败/低配 → MediaPipe 路径（`pose_detection` 包）保留。
+4. **离线 fixture（R62）**：纯 Dart 单测覆盖预处理/后处理/尺度/映射数学 + 微型 ONNX fixture（验证 ORT 管道）；真实模型一致性用 `SS_POSE_ACCURACY=1` 门控。
+5. `q6_pose_accuracy` 冲 均值 ≤5°/90% ≤10°，或按偏差登记。
 
 ### S6 资源库 100%（D142–D143）
 - `brands.py` 扩展（佳能/尼康/索尼/松下/适马/富士/徕卡/大疆/智云等）；授权零售商 provider（B&H/Adorama/京东）；同系列近似 tier 标注；服装品牌图 + 道具实拍。
@@ -91,7 +103,7 @@
 
 1. **本会话无 shell 工具**（工具集受限）：命令经 `subagent`（general）执行；下一会话若 shell 可用，直接按本文件命令跑即可。
 2. **three r18x**：`build/three.module.min.js` 已移除且 `three.module.js` 依赖 `three.core.js` → 用 `tool/engine_build/vendor_three.mjs` 重建（esbuild，可复现）；`RGBELoader` 弃用改 `HDRLoader`；**`PCFSoftShadowMap` 被移除**（引擎已改 VSM）。
-3. **HuggingFace 本机不可达**（S5 spike 第一风险）：需 `hf-mirror.com` 或 DoH 隧道。
+3. **HuggingFace 本机不可达**（S5 spike 第一风险）：`hf-mirror.com` 可用（实测整包下载字节数与 API 声明一致），模型下载走镜像即可。
 4. **开放源可达性**：Openverse 握手失败 / Wikimedia 超时 / LoC 403（本机）；Wellcome/SMK 正常。许可门控：Getty 等 Rights-Managed 一律排除。
 5. **`set VAR=1 &&` 陷阱**：cmd 下会带尾随空格，导致 env 比较失败；用 `$env:VAR='1'`（PowerShell）后再 `cmd /c`。
 6. **测试计数会变**：新增测试后同步更新合同/HANDOFF 基线（当前 **290+26**）。
@@ -102,12 +114,14 @@
 11. **路径追踪景深（D139）**：`three-gpu-pathtracer` 只在传入的相机是 `SSPathTracer.PhysicalCamera` 实例时才应用景深（`PhysicalCameraUniform.updateFrom` 对其他相机把 bokehSize 归零）→ 引擎用 `syncDofCamera()` 单例同步位置/朝向/fov；`bokehSize = 焦距/fStop`（mm），`focusDistance` 为米。**坑（已修复）**：`FEATURE_DOF` 是编译期定义——若「无景深静帧用普通相机、景深静帧改用 PhysicalCamera」，定义翻转会触发材质 `recompilation` → `compileAsync` 挂起（`isCompiling=true` 期间 `renderSample()` 完全不推进）→ samples 永远为 0 的死锁（实测 868s 零采样）。修复：`syncDofCamera()` **恒返回 PhysicalCamera**（filmGauge=36），无景深时 `fStop=1000` 把散景压到亚毫米级（≈0.08mm），保证定义恒为 1；`getPathTracerState().debug` 可查 `dofDefine/isCompiling/compilePending/bokehSize`。
 12. **相机辅助 QA**：`node tool/camera_assist_qa.mjs --suffix r186s34`（headed + 独显，port 9988）验证 `getCameraAssist()` 数值 + 三张静帧（无景深/自动对焦/手动 1m）清晰度比值；报告 `docs/qa/camera-assist-*.json`。`testWidgets` 里做真实 IO 必须 `tester.runAsync` 包裹、避免 `pumpAndSettle`（FakeAsync 会挂）。**坑：Edge headed 窗口被遮挡/后台化后 `document.visibilityState='hidden'`，rAF 与定时器被冻结**（引擎主循环停摆、路径追踪永不推进，但 CDP `Runtime.evaluate` 仍可用，故不是死锁）→ 启动参数必须带 `--disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling` 并 `Page.bringToFront`；`renderStill` 返回 Promise，CDP 求值需 `awaitPromise:false` + 轮询 `__ssOutbox`（否则 awaitPromise 永久挂起）。
 13. **pose_qa 接地测量滞后**：`node tool/pose_qa.mjs photo` 个别姿势第二遍渲染测量滞后会留下校准前 bounds → 表现为 `q2_pose_photos_test`「p0xx 最终 rootY 未贴地（minY=...）」；自愈：`node tool/pose_qa.mjs photo --ids p0xx`（单条两遍会重测并更新 bounds/calibrations）。本次 p050 即如此（未改 pose_qa.mjs 代码）。
+14. **GitHub 单文件 100 MiB 硬限制**：fp16 RTMW3D（184.8MB）不能单文件入库 → 拆 2 片（`.part0/.part1`，各 92,394,513 B）+ 首次使用本地拼装（SHA256 一致、ORT 输出逐元素相同、本机 0.23s）；备选 Git LFS 因 CI 免费额度（1GB/月，单次 checkout 即耗 185MB）风险高，未采用。
+15. **flutter_onnxruntime（Windows）无 DML**：插件 CMake 固定下载官方 CPU 版、providers 只接受 CPU/CUDA → 端上只能 CPU EP；fp16 权重 + `keep_io_types` 使 IO 仍 fp32（已在 ORT 1.24.4/1.30 验证），但 Windows 插件 FP16 支持矩阵标「计划中」，S5 主体需真机验证（失败回退 fp32/MediaPipe）；DML 仅 Python 侧（`onnxruntime-directml`，RTX 4060 fp16 8.7ms ≈57×），自编译 ORT 登记为后续项；Android 需 proguard `-keep class ai.onnxruntime.** { *; }`。
 
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V7：先读 `HANDOFF_V7.md`（本文件）与 `FIX_CONTRACT_V7.0.md`（D132–D144/R61–R70）。
-> 已完成 S0–S4 并推送（S4 的 CI 需先复核全绿）；基线 290 passed + 26 skipped。
-> 请按 §2 顺序继续：**S5 RTMPose/RTMW3D（先 spike HF 镜像/ORT-DirectML）→ S6 资源库 100% → S7 v1.3.0 发布**。
+> 已完成 S0–S4 与 S5 spike 并推送（S5-spike 的 CI 需先复核全绿）；基线 290 passed + 26 skipped。
+> 请按 §2 顺序继续：**S5 主体（随包 fp16 分片 + YOLOX tiny → 新服务/回退/离线 fixture/精度门禁）→ S6 资源库 100% → S7 v1.3.0 发布**。
 > 纪律：每步 format/analyze/全量 test + 专项证据 + `git push` 后 CI 绿（R60/R61）才进下一步；spike 先行（R67）；数据变更重跑全量证据（R68）。

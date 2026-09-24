@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-24T06:15:27Z",
+  "reference": "yolox_m.onnx (640x640)",
+  "rows": [
+    {
+      "file": "yolox_s.onnx",
+      "iou_vs_ref_mean": 0.882,
+      "iou_vs_ref_min": 0.629,
+      "median_ms": 533.0,
+      "bytes": 35858002
+    },
+    {
+      "file": "yolox_tiny.onnx",
+      "iou_vs_ref_mean": 0.881,
+      "iou_vs_ref_min": 0.637,
+      "median_ms": 231.6,
+      "bytes": 20219662
+    },
+    {
+      "file": "yolox_nano.onnx",
+      "iou_vs_ref_mean": 0.875,
+      "iou_vs_ref_min": 0.646,
+      "median_ms": 32.7,
+      "bytes": 3659407
+    }
+  ]
+}
