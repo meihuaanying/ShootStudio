@@ -8,6 +8,7 @@ import '../../services/content_packs.dart';
 import '../lighting/lighting_controller.dart';
 import '../planner/planner_pending.dart';
 import '../shell/app_shell.dart';
+import 'cinematic_refs.dart';
 import 'pose_import_page.dart';
 import 'pose_skeleton.dart';
 import 'poses_controller.dart';
@@ -46,6 +47,14 @@ class _PosesPageState extends ConsumerState<PosesPage> {
           icon: Icons.auto_awesome_outlined,
           dense: true,
           onPressed: () => controller.today(),
+        ),
+        const SizedBox(width: 8),
+        SsButton(
+          label: '影视感参考',
+          icon: Icons.movie_filter_outlined,
+          kind: SsButtonKind.ghost,
+          dense: true,
+          onPressed: () => showCinematicRefsDialog(context),
         ),
         const SizedBox(width: 8),
         SsButton(

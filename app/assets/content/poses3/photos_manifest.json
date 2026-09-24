@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "姿势照片（V6/D122）：全部亚洲人；Pexels 主 + Wikimedia Commons 备（严格许可）；photo 为 app 根相对路径。",
+  "note": "姿势照片（V6/D122 全部亚洲人；V7/D140 将「手部」「神态」替换为「杂志大片」「影视感」）：Pexels 主 + Wikimedia Commons 备（严格许可）；photo 为 app 根相对路径。",
   "candidatePool": {
     "standing": [
       {
@@ -92,6 +92,604 @@
         "imageUrl": "https://images.pexels.com/photos/36215331/pexels-photo-36215331.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
         "sourceId": "36215331",
         "alt": "Stylish portrait of a young adult woman posing confidently in a studio with soft lighting."
+      }
+    ],
+    "editorial": [
+      {
+        "sourceId": "8547016",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "East Asian woman enjoying leisure time reading a book indoors, wearing a stylish blazer.",
+        "imageUrl": "https://images.pexels.com/photos/8547016/pexels-photo-8547016.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8764434",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "A stylish Asian woman in a white suit holding an umbrella stands against a red backdrop.",
+        "imageUrl": "https://images.pexels.com/photos/8764434/pexels-photo-8764434.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8465283",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Elegant portrait of an Asian businesswoman in a beige suit, seated in an office setting.",
+        "imageUrl": "https://images.pexels.com/photos/8465283/pexels-photo-8465283.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8465279",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Portrait of a serious Asian woman sitting in business attire against a blue curtain backdrop.",
+        "imageUrl": "https://images.pexels.com/photos/8465279/pexels-photo-8465279.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8763889",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Creative portrait of an Asian woman posing in a vibrant studio with orange lighting.",
+        "imageUrl": "https://images.pexels.com/photos/8763889/pexels-photo-8763889.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8004390",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Fashion portrait of an Asian woman in a pink coat posing in a studio with a bold blue background.",
+        "imageUrl": "https://images.pexels.com/photos/8004390/pexels-photo-8004390.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "20381271",
+        "query": "asian man fashion editorial studio",
+        "alt": "Asian male model posing topless against black background in a studio setting.",
+        "imageUrl": "https://images.pexels.com/photos/20381271/pexels-photo-20381271.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8764427",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Portrait of an Asian woman in white, posing with a red umbrella, exuding elegance and style.",
+        "imageUrl": "https://images.pexels.com/photos/8764427/pexels-photo-8764427.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "7515728",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Fashionable Asian woman with unique makeup pose in colorful studio setting.",
+        "imageUrl": "https://images.pexels.com/photos/7515728/pexels-photo-7515728.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "11834293",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Studio portrait of a stylish young Asian woman with a thoughtful expression, showcasing fashion and elegance.",
+        "imageUrl": "https://images.pexels.com/photos/11834293/pexels-photo-11834293.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "27300317",
+        "query": "asian man fashion editorial studio",
+        "alt": "Monochromatic portrait of a shirtless Asian male model posing in a studio setting.",
+        "imageUrl": "https://images.pexels.com/photos/27300317/pexels-photo-27300317.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "31630005",
+        "query": "asian man fashion editorial studio",
+        "alt": "Asian male model posing confidently in a studio with dark background, showcasing fashion style.",
+        "imageUrl": "https://images.pexels.com/photos/31630005/pexels-photo-31630005.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8683439",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Portrait of an Asian woman wearing sunglasses, conveying a modern, conceptual style with a serious expression.",
+        "imageUrl": "https://images.pexels.com/photos/8683439/pexels-photo-8683439.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "20381283",
+        "query": "asian man fashion editorial studio",
+        "alt": "Fashionable Asian man posing with a yellow umbrella in a modern studio setting.",
+        "imageUrl": "https://images.pexels.com/photos/20381283/pexels-photo-20381283.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "20230564",
+        "query": "asian man fashion editorial studio",
+        "alt": "Stylish Asian man in a studio photo shoot seated on a chair. Fashion photography in Berlin.",
+        "imageUrl": "https://images.pexels.com/photos/20230564/pexels-photo-20230564.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8207753",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Artistic portrait of an Asian woman with black lipstick in a studio setting.",
+        "imageUrl": "https://images.pexels.com/photos/8207753/pexels-photo-8207753.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8717366",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Portrait of an attractive Asian woman wearing trendy sunglasses, capturing a futuristic style and elegance.",
+        "imageUrl": "https://images.pexels.com/photos/8717366/pexels-photo-8717366.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "15262960",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Stylish portrait of an Asian woman in a checkered blouse, posing in a studio setting.",
+        "imageUrl": "https://images.pexels.com/photos/15262960/pexels-photo-15262960.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "26524784",
+        "query": "asian man fashion editorial studio",
+        "alt": "Asian man in a white suit posing in a studio with brown background.",
+        "imageUrl": "https://images.pexels.com/photos/26524784/pexels-photo-26524784.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "26524788",
+        "query": "asian man fashion editorial studio",
+        "alt": "Stylish portrait of an Asian man in a black suit, exuding elegance and modern fashion.",
+        "imageUrl": "https://images.pexels.com/photos/26524788/pexels-photo-26524788.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "25884447",
+        "query": "asian man fashion editorial studio",
+        "alt": "Elegant portrait of a young Asian man in a suit against a dark background, captured in Thành phố Hồ Chí Minh.",
+        "imageUrl": "https://images.pexels.com/photos/25884447/pexels-photo-25884447.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "6539033",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "An elegant Asian woman in a stylish outfit sitting indoors, exuding a sophisticated and modern vibe.",
+        "imageUrl": "https://images.pexels.com/photos/6539033/pexels-photo-6539033.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8360777",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Portrait of an Asian woman wearing a dark coat, looking away in a modern fashion pose.",
+        "imageUrl": "https://images.pexels.com/photos/8360777/pexels-photo-8360777.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8360932",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Elegant side profile of an Asian woman in a coat, surrounded by winter elements.",
+        "imageUrl": "https://images.pexels.com/photos/8360932/pexels-photo-8360932.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "17528335",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Elegant Asian woman posing with menu at a cozy Bangkok restaurant.",
+        "imageUrl": "https://images.pexels.com/photos/17528335/pexels-photo-17528335.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "20788945",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Fashion portrait of a stylish Asian woman posing confidently in warm sunlight with hands in hair.",
+        "imageUrl": "https://images.pexels.com/photos/20788945/pexels-photo-20788945.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "20788949",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Stylish portrait of an Asian woman in a beige jacket, illuminated by dramatic red light.",
+        "imageUrl": "https://images.pexels.com/photos/20788949/pexels-photo-20788949.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "25267253",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Stylish Asian woman posing in monochrome fashion, exuding elegance and confidence.",
+        "imageUrl": "https://images.pexels.com/photos/25267253/pexels-photo-25267253.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "20425624",
+        "query": "asian man fashion editorial studio",
+        "alt": "Fashion portrait of an Asian man holding a yellow umbrella in a studio with a neutral background.",
+        "imageUrl": "https://images.pexels.com/photos/20425624/pexels-photo-20425624.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "32239850",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Captivating portrait of a woman in red dress surrounded by flowing pink fabric, artistic and modern.",
+        "imageUrl": "https://images.pexels.com/photos/32239850/pexels-photo-32239850.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "32466303",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Elegant portrait of a woman in a black dress and thoughtful pose, studio shot",
+        "imageUrl": "https://images.pexels.com/photos/32466303/pexels-photo-32466303.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "38290951",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Black and white photo of a fashionable woman posing with a magazine in an urban setting.",
+        "imageUrl": "https://images.pexels.com/photos/38290951/pexels-photo-38290951.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "38247970",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "Person in a stylish outfit in a warm, brick-walled room with a magazine and soft lighting.",
+        "imageUrl": "https://images.pexels.com/photos/38247970/pexels-photo-38247970.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "30120557",
+        "query": "asian man fashion editorial studio",
+        "alt": "Moody portrait of a young man in black, sitting on the floor with a dramatic lighting effect.",
+        "imageUrl": "https://images.pexels.com/photos/30120557/pexels-photo-30120557.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "38044260",
+        "query": "asian man fashion editorial studio",
+        "alt": "Studio portrait of a man sitting in a leather jacket and boots, exuding modern style.",
+        "imageUrl": "https://images.pexels.com/photos/38044260/pexels-photo-38044260.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "16791412",
+        "query": "asian man fashion editorial studio",
+        "alt": "Artistic studio portrait of a fashionable young man with curly hair, exuding confidence.",
+        "imageUrl": "https://images.pexels.com/photos/16791412/pexels-photo-16791412.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "20369210",
+        "query": "asian man fashion editorial studio",
+        "alt": "Moody portrait of a topless model emphasizing fashion and tattoos in a studio setting.",
+        "imageUrl": "https://images.pexels.com/photos/20369210/pexels-photo-20369210.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "20380578",
+        "query": "asian man fashion editorial studio",
+        "alt": "Energetic studio shot of a shirtless man with closed eyes, posing dramatically with one leg up.",
+        "imageUrl": "https://images.pexels.com/photos/20380578/pexels-photo-20380578.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "30765814",
+        "query": "asian man fashion editorial studio",
+        "alt": "Striking male fashion portrait in denim jacket and underwear, showcasing modern style.",
+        "imageUrl": "https://images.pexels.com/photos/30765814/pexels-photo-30765814.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8763884",
+        "query": "asian woman editorial fashion magazine portrait",
+        "alt": "A stylish studio portrait of a woman posing with an orange filter, conveying elegance and modernity.",
+        "imageUrl": "https://images.pexels.com/photos/8763884/pexels-photo-8763884.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      }
+    ],
+    "cinematic": [
+      {
+        "sourceId": "10686007",
+        "query": "asian man cinematic film still portrait",
+        "alt": "Black and white portrait of an east Asian man wearing a hooded sweatshirt with a dark and moody tone.",
+        "imageUrl": "https://images.pexels.com/photos/10686007/pexels-photo-10686007.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "22661922",
+        "query": "asian man cinematic film still portrait",
+        "alt": "Asian man sitting on a bench indoors, holding camera equipment, thoughtful expression in São Paulo.",
+        "imageUrl": "https://images.pexels.com/photos/22661922/pexels-photo-22661922.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "7792260",
+        "query": "asian man cinematic film still portrait",
+        "alt": "Man in an Asian warrior costume with a triangular hat in a studio setting.",
+        "imageUrl": "https://images.pexels.com/photos/7792260/pexels-photo-7792260.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8271458",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A fashionable Asian woman in a dark theater illuminated by neon lights.",
+        "imageUrl": "https://images.pexels.com/photos/8271458/pexels-photo-8271458.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "39165203",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A candid portrait of a smiling East Asian woman enjoying an evening in Ho Chi Minh City.",
+        "imageUrl": "https://images.pexels.com/photos/39165203/pexels-photo-39165203.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8108530",
+        "query": "asian man cinematic film still portrait",
+        "alt": "Futuristic cyberpunk portrait featuring an Asian man sitting in neon lighting, showcasing modern fashion.",
+        "imageUrl": "https://images.pexels.com/photos/8108530/pexels-photo-8108530.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "3891294",
+        "query": "asian man cinematic film still portrait",
+        "alt": "A close-up portrait of a young Asian man with a serious expression in a dark background.",
+        "imageUrl": "https://images.pexels.com/photos/3891294/pexels-photo-3891294.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "7991577",
+        "query": "asian man cinematic film still portrait",
+        "alt": "An Asian man in a cinema captures film footage with a video camera.",
+        "imageUrl": "https://images.pexels.com/photos/7991577/pexels-photo-7991577.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8717366",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Portrait of an attractive Asian woman wearing trendy sunglasses, capturing a futuristic style and elegance.",
+        "imageUrl": "https://images.pexels.com/photos/8717366/pexels-photo-8717366.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "9596595",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Asian woman in a black dress poses by a car door with colored lights creating a dramatic effect.",
+        "imageUrl": "https://images.pexels.com/photos/9596595/pexels-photo-9596595.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8564655",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic portrait of an Asian woman in a black blazer with dramatic shadows.",
+        "imageUrl": "https://images.pexels.com/photos/8564655/pexels-photo-8564655.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "7453274",
+        "query": "asian man cinematic film still portrait",
+        "alt": "Asian man in a vintage-style room holding a videotape thoughtfully.",
+        "imageUrl": "https://images.pexels.com/photos/7453274/pexels-photo-7453274.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8683443",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Futuristic portrait of an Asian woman in cyberpunk style with sleek sunglasses.",
+        "imageUrl": "https://images.pexels.com/photos/8683443/pexels-photo-8683443.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "3404485",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Portrait of a fashionable young Asian woman illuminated by blue light, indoors, with a stylish pose.",
+        "imageUrl": "https://images.pexels.com/photos/3404485/pexels-photo-3404485.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "2406579",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A contemplative portrait of a young Asian woman leaning against a bookshelf in dim lighting.",
+        "imageUrl": "https://images.pexels.com/photos/2406579/pexels-photo-2406579.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "9040784",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Asian woman with earphones in sunlight, wearing headscarf outdoors.",
+        "imageUrl": "https://images.pexels.com/photos/9040784/pexels-photo-9040784.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "29823377",
+        "query": "asian man cinematic film still portrait",
+        "alt": "Intense portrait of a man with neon lighting in a moody atmosphere, Baghdad, Iraq.",
+        "imageUrl": "https://images.pexels.com/photos/29823377/pexels-photo-29823377.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "34096898",
+        "query": "asian man cinematic film still portrait",
+        "alt": "Artistic portrait of a young man with striking lighting, conveying a dramatic mood.",
+        "imageUrl": "https://images.pexels.com/photos/34096898/pexels-photo-34096898.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "14611864",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A fashionable woman poses with crossed arms under dramatic lighting, showcasing elegance and style.",
+        "imageUrl": "https://images.pexels.com/photos/14611864/pexels-photo-14611864.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "15474478",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Portrait of a woman bathed in red neon light, creating a moody and artistic ambiance.",
+        "imageUrl": "https://images.pexels.com/photos/15474478/pexels-photo-15474478.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "38178735",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic black and white portrait of a woman with contemplative expression.",
+        "imageUrl": "https://images.pexels.com/photos/38178735/pexels-photo-38178735.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "30852680",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A woman holding smoke in a dramatic blue-lit scene, evoking mystery.",
+        "imageUrl": "https://images.pexels.com/photos/30852680/pexels-photo-30852680.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "11464447",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Close-up portrait of a thoughtful woman resting her chin on her hand.",
+        "imageUrl": "https://images.pexels.com/photos/11464447/pexels-photo-11464447.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "36835479",
+        "query": "asian man cinematic film still portrait",
+        "alt": "An Indonesian man in glasses daydreaming on a Jakarta balcony, captured in natural daylight.",
+        "imageUrl": "https://images.pexels.com/photos/36835479/pexels-photo-36835479.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "39129686",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic portrait of a woman with dramatic lighting and shadows, creating an intimate and moody atmosphere.",
+        "imageUrl": "https://images.pexels.com/photos/39129686/pexels-photo-39129686.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "24601564",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic portrait of a woman in low-key lighting, highlighting a moody atmosphere.",
+        "imageUrl": "https://images.pexels.com/photos/24601564/pexels-photo-24601564.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "19055835",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Young woman stands under neon lights, creating an urban and moody atmosphere at night.",
+        "imageUrl": "https://images.pexels.com/photos/19055835/pexels-photo-19055835.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "30063885",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Profile portrait of a woman with dramatic lighting and soft tones, evoking a moody atmosphere.",
+        "imageUrl": "https://images.pexels.com/photos/30063885/pexels-photo-30063885.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "30504720",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic portrait of a woman with green lighting and text projection on her face.",
+        "imageUrl": "https://images.pexels.com/photos/30504720/pexels-photo-30504720.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "33646874",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "An atmospheric night portrait with dramatic light and colors, capturing a person's silhouette in a city setting.",
+        "imageUrl": "https://images.pexels.com/photos/33646874/pexels-photo-33646874.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "34107333",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic portrait of a person in red and blue lighting, showcasing dramatic expression in Lima, Peru.",
+        "imageUrl": "https://images.pexels.com/photos/34107333/pexels-photo-34107333.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "35144353",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Atmospheric portrait of a woman in a red glow, evoking mystery and elegance.",
+        "imageUrl": "https://images.pexels.com/photos/35144353/pexels-photo-35144353.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "10212104",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Portrait of woman in black posing by lamp with soft light at night.",
+        "imageUrl": "https://images.pexels.com/photos/10212104/pexels-photo-10212104.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "19058449",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A dramatic portrait of a woman with neon reflections and a moody atmosphere.",
+        "imageUrl": "https://images.pexels.com/photos/19058449/pexels-photo-19058449.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "19061725",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Portrait of a fashionable young woman in a brown crop top with long hair, posing confidently indoors.",
+        "imageUrl": "https://images.pexels.com/photos/19061725/pexels-photo-19061725.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "13518647",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A woman with eyeglasses gazes over her shoulder in a moody, urban night setting, creating a mysterious ambiance.",
+        "imageUrl": "https://images.pexels.com/photos/13518647/pexels-photo-13518647.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "16099179",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Silhouette of a woman standing by a sunlit window, creating a mystical atmosphere indoors.",
+        "imageUrl": "https://images.pexels.com/photos/16099179/pexels-photo-16099179.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "14708211",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A young woman stands by a chain-link fence at night, illuminated by moody lighting.",
+        "imageUrl": "https://images.pexels.com/photos/14708211/pexels-photo-14708211.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "33134281",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Intense portrait of woman in blue and red lighting, artistic mood.",
+        "imageUrl": "https://images.pexels.com/photos/33134281/pexels-photo-33134281.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "30681572",
+        "query": "asian man cinematic film still portrait",
+        "alt": "Artistic silhouette of a photographer holding a camera with striking backlight, creating a moody atmosphere.",
+        "imageUrl": "https://images.pexels.com/photos/30681572/pexels-photo-30681572.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "36842162",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Portrait of an adult woman with soft lighting creating a moody atmosphere.",
+        "imageUrl": "https://images.pexels.com/photos/36842162/pexels-photo-36842162.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "12809817",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Close-up portrait of a woman with vibrant lighting, creating a moody atmosphere.",
+        "imageUrl": "https://images.pexels.com/photos/12809817/pexels-photo-12809817.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "12810006",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Moody portrait of a woman in sunglasses, enhanced by dramatic lighting and shadows.",
+        "imageUrl": "https://images.pexels.com/photos/12810006/pexels-photo-12810006.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "11105209",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A contemplative woman posing elegantly at night in a soft-lit outdoor setting.",
+        "imageUrl": "https://images.pexels.com/photos/11105209/pexels-photo-11105209.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "12810003",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A captivating black and white portrait of a woman adjusting her hair under moody lighting.",
+        "imageUrl": "https://images.pexels.com/photos/12810003/pexels-photo-12810003.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "36210988",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Close-up artistic portrait of a woman with colorful light patterns on her face.",
+        "imageUrl": "https://images.pexels.com/photos/36210988/pexels-photo-36210988.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "29736376",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Stylish woman with pearls in warm, dramatic lighting creates elegance and mystery.",
+        "imageUrl": "https://images.pexels.com/photos/29736376/pexels-photo-29736376.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "32260694",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A stylish woman in sunglasses poses under a red neon glow in an urban alleyway.",
+        "imageUrl": "https://images.pexels.com/photos/32260694/pexels-photo-32260694.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "32414127",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic portrait of a woman in dramatic lighting, creating a moody and introspective atmosphere.",
+        "imageUrl": "https://images.pexels.com/photos/32414127/pexels-photo-32414127.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "36211005",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Moody portrait of a woman with dramatic green lighting, evoking mystery.",
+        "imageUrl": "https://images.pexels.com/photos/36211005/pexels-photo-36211005.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "35295844",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic black and white portrait of a woman wearing a hood, conveying mystery.",
+        "imageUrl": "https://images.pexels.com/photos/35295844/pexels-photo-35295844.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "8683441",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Stylish portrait of a woman in a studio setting with cyberpunk aesthetics.",
+        "imageUrl": "https://images.pexels.com/photos/8683441/pexels-photo-8683441.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "29859280",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "A woman poses stylishly under neon lights in a dark, moody environment.",
+        "imageUrl": "https://images.pexels.com/photos/29859280/pexels-photo-29859280.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "31583974",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic image of a woman shrouded in blurred colorful neon lights, creating a moody and vibrant effect.",
+        "imageUrl": "https://images.pexels.com/photos/31583974/pexels-photo-31583974.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "2505324",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Close-up of a young woman posing indoors with soft lighting and a reflective expression.",
+        "imageUrl": "https://images.pexels.com/photos/2505324/pexels-photo-2505324.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "5655513",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic black and white portrait of a woman in a contemplative pose.",
+        "imageUrl": "https://images.pexels.com/photos/5655513/pexels-photo-5655513.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "20788958",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic portrait of a contemplative woman under dramatic red lighting.",
+        "imageUrl": "https://images.pexels.com/photos/20788958/pexels-photo-20788958.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "17767684",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Close-up portrait of a woman with red lighting evokes mystery and intensity.",
+        "imageUrl": "https://images.pexels.com/photos/17767684/pexels-photo-17767684.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+      },
+      {
+        "sourceId": "34175280",
+        "query": "asian woman cinematic portrait moody light",
+        "alt": "Artistic portrait of a woman in white dress under neon lighting, creating a moody atmosphere.",
+        "imageUrl": "https://images.pexels.com/photos/34175280/pexels-photo-34175280.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
       }
     ]
   },
@@ -1694,18 +2292,18 @@
     },
     {
       "id": "p085",
-      "name": "手部样张01",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考01",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p085.jpg",
-      "source": "https://www.pexels.com/photo/woman-with-long-black-hair-26791396/",
+      "source": "https://www.pexels.com/photo/a-woman-wearing-a-blazer-reading-a-magazine-8547016/",
       "license": "Pexels License",
-      "author": "Anh Nguyen",
+      "author": "https://kaboompics.com/",
       "origin": "pexels",
-      "sourceId": "26791396",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Artistic portrait of an Asian woman with long hair and a reaching gesture.",
-      "fetchedAt": "2026-09-21T02:44:17Z",
+      "sourceId": "8547016",
+      "query": "asian woman editorial fashion magazine portrait",
+      "alt": "East Asian woman enjoying leisure time reading a book indoors, wearing a stylish blazer.",
+      "fetchedAt": "2026-09-23T12:21:58Z",
       "imageSize": [
         720,
         1080
@@ -1713,18 +2311,18 @@
     },
     {
       "id": "p086",
-      "name": "手部样张02",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考02",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p086.jpg",
-      "source": "https://www.pexels.com/photo/a-woman-holding-on-metal-bar-7716860/",
+      "source": "https://www.pexels.com/photo/woman-in-brown-coat-sitting-on-blue-chair-8465283/",
       "license": "Pexels License",
       "author": "cottonbro studio",
       "origin": "pexels",
-      "sourceId": "7716860",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Asian woman in green shirt, focusing on hands holding a chair.",
-      "fetchedAt": "2026-09-21T02:44:18Z",
+      "sourceId": "8465283",
+      "query": "asian woman editorial fashion magazine portrait",
+      "alt": "Elegant portrait of an Asian businesswoman in a beige suit, seated in an office setting.",
+      "fetchedAt": "2026-09-23T12:21:59Z",
       "imageSize": [
         720,
         1080
@@ -1732,18 +2330,18 @@
     },
     {
       "id": "p087",
-      "name": "手部样张03",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考03",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p087.jpg",
-      "source": "https://www.pexels.com/photo/woman-in-black-top-clenching-fists-9017016/",
+      "source": "https://www.pexels.com/photo/woman-in-brown-coat-sitting-on-blue-chair-8465279/",
       "license": "Pexels License",
-      "author": "Kevin  Malik",
+      "author": "cottonbro studio",
       "origin": "pexels",
-      "sourceId": "9017016",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Asian woman in black top making hand gestures, seated against a plain background.",
-      "fetchedAt": "2026-09-21T02:44:18Z",
+      "sourceId": "8465279",
+      "query": "asian woman editorial fashion magazine portrait",
+      "alt": "Portrait of a serious Asian woman sitting in business attire against a blue curtain backdrop.",
+      "fetchedAt": "2026-09-23T12:22:00Z",
       "imageSize": [
         720,
         1080
@@ -1751,18 +2349,18 @@
     },
     {
       "id": "p088",
-      "name": "手部样张04",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考04",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p088.jpg",
-      "source": "https://www.pexels.com/photo/a-woman-in-black-shirt-pointing-on-her-head-9017023/",
+      "source": "https://www.pexels.com/photo/a-woman-behind-an-orange-glass-panel-8763889/",
       "license": "Pexels License",
-      "author": "Kevin  Malik",
+      "author": "cottonbro studio",
       "origin": "pexels",
-      "sourceId": "9017023",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Asian woman in black shirt pointing to head, illustrating a thoughtful expression in a conceptual portrait.",
-      "fetchedAt": "2026-09-21T02:44:19Z",
+      "sourceId": "8763889",
+      "query": "asian woman editorial fashion magazine portrait",
+      "alt": "Creative portrait of an Asian woman posing in a vibrant studio with orange lighting.",
+      "fetchedAt": "2026-09-23T12:22:01Z",
       "imageSize": [
         720,
         1080
@@ -1770,18 +2368,18 @@
     },
     {
       "id": "p089",
-      "name": "手部样张05",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考05",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p089.jpg",
-      "source": "https://www.pexels.com/photo/woman-in-black-dress-doing-hand-gestures-9017029/",
+      "source": "https://www.pexels.com/photo/woman-in-a-pink-coat-reaching-out-with-her-hand-8004390/",
       "license": "Pexels License",
-      "author": "Kevin  Malik",
+      "author": "SHVETS production",
       "origin": "pexels",
-      "sourceId": "9017029",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Portrait of an Asian woman posing with hand gestures in front of a white background, wearing a black dress.",
-      "fetchedAt": "2026-09-21T02:44:20Z",
+      "sourceId": "8004390",
+      "query": "asian woman editorial fashion magazine portrait",
+      "alt": "Fashion portrait of an Asian woman in a pink coat posing in a studio with a bold blue background.",
+      "fetchedAt": "2026-09-23T12:22:03Z",
       "imageSize": [
         720,
         1080
@@ -1789,18 +2387,18 @@
     },
     {
       "id": "p090",
-      "name": "手部样张06",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考06",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p090.jpg",
-      "source": "https://www.pexels.com/photo/a-woman-wearing-a-black-dress-doing-hand-gestures-9017035/",
+      "source": "https://www.pexels.com/photo/topless-man-in-black-pants-20381271/",
       "license": "Pexels License",
-      "author": "Kevin  Malik",
+      "author": "Elisbeth K.",
       "origin": "pexels",
-      "sourceId": "9017035",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Portrait of an Asian woman posing with hand gestures, sitting against a white background.",
-      "fetchedAt": "2026-09-21T02:44:21Z",
+      "sourceId": "20381271",
+      "query": "asian man fashion editorial studio",
+      "alt": "Asian male model posing topless against black background in a studio setting.",
+      "fetchedAt": "2026-09-23T12:22:05Z",
       "imageSize": [
         720,
         1080
@@ -1808,18 +2406,18 @@
     },
     {
       "id": "p091",
-      "name": "手部样张07",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考07",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p091.jpg",
-      "source": "https://www.pexels.com/photo/a-woman-doing-sign-language-9017378/",
+      "source": "https://www.pexels.com/photo/a-portrait-of-a-woman-7515728/",
       "license": "Pexels License",
-      "author": "Kevin  Malik",
+      "author": "cottonbro studio",
       "origin": "pexels",
-      "sourceId": "9017378",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Portrait of an Asian woman using sign language against a plain background.",
-      "fetchedAt": "2026-09-21T02:44:22Z",
+      "sourceId": "7515728",
+      "query": "asian woman editorial fashion magazine portrait",
+      "alt": "Fashionable Asian woman with unique makeup pose in colorful studio setting.",
+      "fetchedAt": "2026-09-23T12:22:06Z",
       "imageSize": [
         720,
         1080
@@ -1827,18 +2425,18 @@
     },
     {
       "id": "p092",
-      "name": "手部样张08",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考08",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p092.jpg",
-      "source": "https://www.pexels.com/photo/a-woman-in-black-shirt-with-her-hands-together-9017019/",
+      "source": "https://www.pexels.com/photo/a-woman-posing-at-the-camera-11834293/",
       "license": "Pexels License",
-      "author": "Kevin  Malik",
+      "author": "Michael John  Pedrajas",
       "origin": "pexels",
-      "sourceId": "9017019",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Asian woman in a black shirt making a hand gesture against a white backdrop. Perfect for communication themes.",
-      "fetchedAt": "2026-09-21T02:44:24Z",
+      "sourceId": "11834293",
+      "query": "asian woman editorial fashion magazine portrait",
+      "alt": "Studio portrait of a stylish young Asian woman with a thoughtful expression, showcasing fashion and elegance.",
+      "fetchedAt": "2026-09-23T12:22:06Z",
       "imageSize": [
         720,
         1080
@@ -1846,18 +2444,18 @@
     },
     {
       "id": "p093",
-      "name": "手部样张09",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考09",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p093.jpg",
-      "source": "https://www.pexels.com/photo/woman-in-black-crew-neck-t-shirt-doing-hand-gestures-9017022/",
+      "source": "https://www.pexels.com/photo/a-shirtless-man-sitting-on-a-chair-with-his-hands-on-his-lap-27300317/",
       "license": "Pexels License",
-      "author": "Kevin  Malik",
+      "author": "Nguyễn Hoàng Văn",
       "origin": "pexels",
-      "sourceId": "9017022",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Asian woman in black dress demonstrating sign language, smiling warmly with hand gestures.",
-      "fetchedAt": "2026-09-21T02:44:25Z",
+      "sourceId": "27300317",
+      "query": "asian man fashion editorial studio",
+      "alt": "Monochromatic portrait of a shirtless Asian male model posing in a studio setting.",
+      "fetchedAt": "2026-09-23T12:22:08Z",
       "imageSize": [
         720,
         1080
@@ -1865,18 +2463,18 @@
     },
     {
       "id": "p094",
-      "name": "手部样张10",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考10",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p094.jpg",
-      "source": "https://www.pexels.com/photo/a-woman-in-black-crew-neck-t-shirt-9017015/",
+      "source": "https://www.pexels.com/photo/stylish-male-model-in-studio-portrait-31630005/",
       "license": "Pexels License",
-      "author": "Kevin  Malik",
+      "author": "Shima Nia",
       "origin": "pexels",
-      "sourceId": "9017015",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Portrait of an Asian woman making hand gestures, wearing a black shirt indoors.",
-      "fetchedAt": "2026-09-21T02:44:26Z",
+      "sourceId": "31630005",
+      "query": "asian man fashion editorial studio",
+      "alt": "Asian male model posing confidently in a studio with dark background, showcasing fashion style.",
+      "fetchedAt": "2026-09-23T12:22:09Z",
       "imageSize": [
         720,
         1080
@@ -1884,18 +2482,18 @@
     },
     {
       "id": "p095",
-      "name": "手部样张11",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考11",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p095.jpg",
-      "source": "https://www.pexels.com/photo/woman-in-black-long-sleeve-shirt-looking-at-hand-palm-9017030/",
+      "source": "https://www.pexels.com/photo/a-woman-in-black-sunglasses-seriously-looking-at-the-camera-8683439/",
       "license": "Pexels License",
-      "author": "Kevin  Malik",
+      "author": "cottonbro studio",
       "origin": "pexels",
-      "sourceId": "9017030",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Portrait of an Asian woman gesturing upwards with a hand sign, wearing a black jacket and smiling.",
-      "fetchedAt": "2026-09-21T02:44:27Z",
+      "sourceId": "8683439",
+      "query": "asian woman editorial fashion magazine portrait",
+      "alt": "Portrait of an Asian woman wearing sunglasses, conveying a modern, conceptual style with a serious expression.",
+      "fetchedAt": "2026-09-23T12:22:10Z",
       "imageSize": [
         720,
         1080
@@ -1903,37 +2501,37 @@
     },
     {
       "id": "p096",
-      "name": "手部样张12",
-      "category": "手部",
-      "categoryId": "hand",
+      "name": "杂志大片参考12",
+      "category": "杂志大片",
+      "categoryId": "editorial",
       "photo": "assets/content/poses3/photos/p096.jpg",
-      "source": "https://www.pexels.com/photo/a-woman-pointing-her-finger-8727459/",
+      "source": "https://www.pexels.com/photo/man-posing-with-yellow-umbrella-20381283/",
       "license": "Pexels License",
-      "author": "Tima Miroshnichenko",
+      "author": "Elisbeth K.",
       "origin": "pexels",
-      "sourceId": "8727459",
-      "query": "asian woman hand gesture portrait",
-      "alt": "Asian woman in a red shirt pointing, conveying emotion against a dark background.",
-      "fetchedAt": "2026-09-21T02:44:28Z",
+      "sourceId": "20381283",
+      "query": "asian man fashion editorial studio",
+      "alt": "Fashionable Asian man posing with a yellow umbrella in a modern studio setting.",
+      "fetchedAt": "2026-09-23T12:22:11Z",
       "imageSize": [
-        720,
+        675,
         1080
       ]
     },
     {
       "id": "p097",
-      "name": "神态样张01",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考01",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p097.jpg",
-      "source": "https://www.pexels.com/photo/a-woman-looking-at-the-camera-10209466/",
+      "source": "https://www.pexels.com/photo/man-in-hoodie-on-black-background-10686007/",
       "license": "Pexels License",
-      "author": "cottonbro studio",
+      "author": "Tokuo Nobuhiro",
       "origin": "pexels",
-      "sourceId": "10209466",
-      "query": "asian woman portrait expression studio",
-      "alt": "Studio portrait of a young East Asian woman with long hair against a brown background.",
-      "fetchedAt": "2026-09-21T02:44:33Z",
+      "sourceId": "10686007",
+      "query": "asian man cinematic film still portrait",
+      "alt": "Black and white portrait of an east Asian man wearing a hooded sweatshirt with a dark and moody tone.",
+      "fetchedAt": "2026-09-23T12:22:20Z",
       "imageSize": [
         720,
         1080
@@ -1941,18 +2539,18 @@
     },
     {
       "id": "p098",
-      "name": "神态样张02",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考02",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p098.jpg",
-      "source": "https://www.pexels.com/photo/a-man-in-white-long-sleeve-shirt-8586782/",
+      "source": "https://www.pexels.com/photo/man-sitting-on-a-bench-in-a-modern-building-with-a-camera-in-his-hand-22661922/",
       "license": "Pexels License",
-      "author": "Joon Tae Kim",
+      "author": "Rafael Nicida",
       "origin": "pexels",
-      "sourceId": "8586782",
-      "query": "asian man portrait studio",
-      "alt": "Portrait of an Asian man looking over shoulder, wearing white long sleeves against teal background.",
-      "fetchedAt": "2026-09-21T02:44:34Z",
+      "sourceId": "22661922",
+      "query": "asian man cinematic film still portrait",
+      "alt": "Asian man sitting on a bench indoors, holding camera equipment, thoughtful expression in São Paulo.",
+      "fetchedAt": "2026-09-23T12:22:21Z",
       "imageSize": [
         720,
         1080
@@ -1960,18 +2558,18 @@
     },
     {
       "id": "p099",
-      "name": "神态样张03",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考03",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p099.jpg",
-      "source": "https://www.pexels.com/photo/woman-in-blue-traditional-dress-19887643/",
+      "source": "https://www.pexels.com/photo/a-man-in-black-long-sleeve-robe-7792260/",
       "license": "Pexels License",
-      "author": "Thanh Xuan Nguyen Ly",
+      "author": "cottonbro studio",
       "origin": "pexels",
-      "sourceId": "19887643",
-      "query": "asian woman portrait expression studio",
-      "alt": "An elegant Asian woman in a teal traditional dress gracefully holding a branch against a black background.",
-      "fetchedAt": "2026-09-21T02:44:35Z",
+      "sourceId": "7792260",
+      "query": "asian man cinematic film still portrait",
+      "alt": "Man in an Asian warrior costume with a triangular hat in a studio setting.",
+      "fetchedAt": "2026-09-23T12:22:23Z",
       "imageSize": [
         720,
         1080
@@ -1979,18 +2577,18 @@
     },
     {
       "id": "p100",
-      "name": "神态样张04",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考04",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p100.jpg",
-      "source": "https://www.pexels.com/photo/man-sitting-and-fixing-hair-20279543/",
+      "source": "https://www.pexels.com/photo/woman-in-black-leather-jacket-8271458/",
       "license": "Pexels License",
-      "author": "Burcu Elmas",
+      "author": "cottonbro studio",
       "origin": "pexels",
-      "sourceId": "20279543",
-      "query": "asian man portrait studio",
-      "alt": "Portrait of an Asian man in a grey turtleneck against a dark backdrop, fashion photography.",
-      "fetchedAt": "2026-09-21T02:44:36Z",
+      "sourceId": "8271458",
+      "query": "asian woman cinematic portrait moody light",
+      "alt": "A fashionable Asian woman in a dark theater illuminated by neon lights.",
+      "fetchedAt": "2026-09-23T12:22:25Z",
       "imageSize": [
         720,
         1080
@@ -1998,18 +2596,18 @@
     },
     {
       "id": "p101",
-      "name": "神态样张05",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考05",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p101.jpg",
-      "source": "https://www.pexels.com/photo/man-sitting-on-black-background-20279541/",
+      "source": "https://www.pexels.com/photo/portrait-of-smiling-woman-in-ho-chi-minh-city-39165203/",
       "license": "Pexels License",
-      "author": "Burcu Elmas",
+      "author": "Vuong",
       "origin": "pexels",
-      "sourceId": "20279541",
-      "query": "asian man portrait studio",
-      "alt": "Studio portrait of an Asian man with eyes closed, wearing a gray turtleneck against a black background.",
-      "fetchedAt": "2026-09-21T02:44:37Z",
+      "sourceId": "39165203",
+      "query": "asian woman cinematic portrait moody light",
+      "alt": "A candid portrait of a smiling East Asian woman enjoying an evening in Ho Chi Minh City.",
+      "fetchedAt": "2026-09-23T12:22:27Z",
       "imageSize": [
         720,
         1080
@@ -2017,75 +2615,75 @@
     },
     {
       "id": "p102",
-      "name": "神态样张06",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考06",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p102.jpg",
-      "source": "https://www.pexels.com/photo/man-in-blue-button-up-shirt-astonished-4584162/",
+      "source": "https://www.pexels.com/photo/man-in-black-crew-neck-t-shirt-sitting-on-the-floor-8108530/",
       "license": "Pexels License",
-      "author": "Ketut Subiyanto",
+      "author": "Mikhail Nilov",
       "origin": "pexels",
-      "sourceId": "4584162",
-      "query": "asian man portrait studio",
-      "alt": "Close-up portrait of a surprised Asian man wearing a blue denim shirt, expressing shock.",
-      "fetchedAt": "2026-09-21T02:44:38Z",
+      "sourceId": "8108530",
+      "query": "asian man cinematic film still portrait",
+      "alt": "Futuristic cyberpunk portrait featuring an Asian man sitting in neon lighting, showcasing modern fashion.",
+      "fetchedAt": "2026-09-23T12:22:28Z",
       "imageSize": [
-        718,
+        720,
         1080
       ]
     },
     {
       "id": "p103",
-      "name": "神态样张07",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考07",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p103.jpg",
-      "source": "https://www.pexels.com/photo/man-in-blue-denim-long-sleeves-shirt-covering-ears-4584192/",
+      "source": "https://www.pexels.com/photo/man-in-white-crew-neck-t-shirt-3891294/",
       "license": "Pexels License",
-      "author": "Ketut Subiyanto",
+      "author": "Nam Phong Bùi",
       "origin": "pexels",
-      "sourceId": "4584192",
-      "query": "asian man portrait studio",
-      "alt": "Asian man in denim shirt making a facial expression, hands on head.",
-      "fetchedAt": "2026-09-21T02:44:39Z",
+      "sourceId": "3891294",
+      "query": "asian man cinematic film still portrait",
+      "alt": "A close-up portrait of a young Asian man with a serious expression in a dark background.",
+      "fetchedAt": "2026-09-23T12:22:29Z",
       "imageSize": [
-        718,
+        720,
         1080
       ]
     },
     {
       "id": "p104",
-      "name": "神态样张08",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考08",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p104.jpg",
-      "source": "https://www.pexels.com/photo/portrait-of-a-young-brunette-with-bangs-22042270/",
+      "source": "https://www.pexels.com/photo/a-man-in-beige-jacket-sitting-while-filming-using-a-video-camera-7991577/",
       "license": "Pexels License",
-      "author": "Kenneth Surillo",
+      "author": "Tima Miroshnichenko",
       "origin": "pexels",
-      "sourceId": "22042270",
-      "query": "asian woman portrait expression studio",
-      "alt": "Elegant portrait of an Asian woman with serene expression and floral embroidered top, photographed in a studio.",
-      "fetchedAt": "2026-09-21T02:44:40Z",
+      "sourceId": "7991577",
+      "query": "asian man cinematic film still portrait",
+      "alt": "An Asian man in a cinema captures film footage with a video camera.",
+      "fetchedAt": "2026-09-23T12:22:31Z",
       "imageSize": [
-        719,
+        720,
         1080
       ]
     },
     {
       "id": "p105",
-      "name": "神态样张09",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考09",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p105.jpg",
-      "source": "https://www.pexels.com/photo/woman-in-a-floral-shirt-and-denim-jeans-looking-at-the-camera-7208433/",
+      "source": "https://www.pexels.com/photo/woman-in-black-tank-top-wearing-black-framed-sunglasses-8717366/",
       "license": "Pexels License",
-      "author": "อ้อม ภาณุวัฒน์",
+      "author": "cottonbro studio",
       "origin": "pexels",
-      "sourceId": "7208433",
-      "query": "asian woman portrait expression studio",
-      "alt": "Stylish Asian woman in floral top and ripped jeans, looking serious in a studio setting.",
-      "fetchedAt": "2026-09-21T02:44:41Z",
+      "sourceId": "8717366",
+      "query": "asian woman cinematic portrait moody light",
+      "alt": "Portrait of an attractive Asian woman wearing trendy sunglasses, capturing a futuristic style and elegance.",
+      "fetchedAt": "2026-09-23T12:22:31Z",
       "imageSize": [
         720,
         1080
@@ -2093,18 +2691,18 @@
     },
     {
       "id": "p106",
-      "name": "神态样张10",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考01",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p106.jpg",
-      "source": "https://www.pexels.com/photo/a-woman-in-white-long-sleeves-raising-her-hands-3866557/",
+      "source": "https://www.pexels.com/photo/pretty-woman-wearing-sunglasses-8683443/",
       "license": "Pexels License",
-      "author": "Clara Ngo",
+      "author": "cottonbro studio",
       "origin": "pexels",
-      "sourceId": "3866557",
-      "query": "asian woman portrait expression studio",
-      "alt": "Portrait of an Asian woman in a white blouse, posing elegantly with arms raised, against a neutral background.",
-      "fetchedAt": "2026-09-21T02:44:44Z",
+      "sourceId": "8683443",
+      "query": "asian woman cinematic portrait moody light",
+      "alt": "Futuristic portrait of an Asian woman in cyberpunk style with sleek sunglasses.",
+      "fetchedAt": "2026-09-23T12:25:19Z",
       "imageSize": [
         720,
         1080
@@ -2112,39 +2710,39 @@
     },
     {
       "id": "p107",
-      "name": "神态样张11",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考11",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p107.jpg",
-      "source": "https://www.pexels.com/photo/portrait-of-a-man-holding-a-flower-9775818/",
+      "source": "https://www.pexels.com/photo/woman-wearing-a-black-blazer-8564655/",
       "license": "Pexels License",
-      "author": "SHVETS production",
+      "author": "Tran Duc Hung",
       "origin": "pexels",
-      "sourceId": "9775818",
-      "query": "asian man portrait studio",
-      "alt": "Portrait of an Asian man holding flowers in a bright studio setting.",
-      "fetchedAt": "2026-09-21T02:44:45Z",
+      "sourceId": "8564655",
+      "query": "asian woman cinematic portrait moody light",
+      "alt": "Artistic portrait of an Asian woman in a black blazer with dramatic shadows.",
+      "fetchedAt": "2026-09-23T12:22:33Z",
       "imageSize": [
-        720,
+        631,
         1080
       ]
     },
     {
       "id": "p108",
-      "name": "神态样张12",
-      "category": "神态",
-      "categoryId": "expression",
+      "name": "影视感参考12",
+      "category": "影视感",
+      "categoryId": "cinematic",
       "photo": "assets/content/poses3/photos/p108.jpg",
-      "source": "https://www.pexels.com/photo/a-man-with-his-hands-together-7905823/",
+      "source": "https://www.pexels.com/photo/photo-of-a-man-in-a-white-shirt-holding-a-videotape-7453274/",
       "license": "Pexels License",
-      "author": "Shuseel  Maharjan",
+      "author": "HONG SON",
       "origin": "pexels",
-      "sourceId": "7905823",
-      "query": "asian man portrait studio",
-      "alt": "A thoughtful portrait of a South Asian man with hands together against a dark background.",
-      "fetchedAt": "2026-09-21T02:44:46Z",
+      "sourceId": "7453274",
+      "query": "asian man cinematic film still portrait",
+      "alt": "Asian man in a vintage-style room holding a videotape thoughtfully.",
+      "fetchedAt": "2026-09-23T12:22:35Z",
       "imageSize": [
-        720,
+        709,
         1080
       ]
     },
@@ -2377,6 +2975,6 @@
       ]
     }
   ],
-  "generatedAt": "2026-09-21T08:24:14Z",
+  "generatedAt": "2026-09-23T12:25:19Z",
   "total": 120
 }

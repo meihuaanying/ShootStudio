@@ -17,7 +17,6 @@
       "referenceOnly": false,
       "bodySpan": 0.841,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -105,7 +104,6 @@
       "referenceOnly": false,
       "bodySpan": 0.797,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -193,7 +191,6 @@
       "referenceOnly": false,
       "bodySpan": 0.783,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -281,7 +278,6 @@
       "referenceOnly": false,
       "bodySpan": 0.689,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -369,7 +365,6 @@
       "referenceOnly": false,
       "bodySpan": 0.672,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -457,7 +452,6 @@
       "referenceOnly": false,
       "bodySpan": 0.651,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -545,7 +539,6 @@
       "referenceOnly": false,
       "bodySpan": 0.704,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -633,7 +626,6 @@
       "referenceOnly": false,
       "bodySpan": 0.742,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -721,7 +713,6 @@
       "referenceOnly": false,
       "bodySpan": 0.732,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -809,7 +800,6 @@
       "referenceOnly": false,
       "bodySpan": 0.748,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -897,7 +887,6 @@
       "referenceOnly": false,
       "bodySpan": 0.663,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -985,7 +974,6 @@
       "referenceOnly": false,
       "bodySpan": 0.568,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -1073,7 +1061,6 @@
       "referenceOnly": false,
       "bodySpan": 1.029,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -1161,7 +1148,6 @@
       "referenceOnly": false,
       "bodySpan": 0.746,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -1249,7 +1235,6 @@
       "referenceOnly": false,
       "bodySpan": 0.725,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -1337,7 +1322,6 @@
       "referenceOnly": false,
       "bodySpan": 1.019,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -1425,7 +1409,7 @@
       "referenceOnly": false,
       "bodySpan": 0.436,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.44）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.44），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -1513,7 +1497,6 @@
       "referenceOnly": false,
       "bodySpan": 0.95,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -1601,7 +1584,6 @@
       "referenceOnly": false,
       "bodySpan": 0.823,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -1689,7 +1671,6 @@
       "referenceOnly": false,
       "bodySpan": 0.595,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -1777,7 +1758,6 @@
       "referenceOnly": false,
       "bodySpan": 0.705,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -1865,7 +1845,6 @@
       "referenceOnly": false,
       "bodySpan": 0.559,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -1953,7 +1932,7 @@
       "referenceOnly": false,
       "bodySpan": 0.447,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.45）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.45），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -2041,7 +2020,6 @@
       "referenceOnly": false,
       "bodySpan": 0.568,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -2129,7 +2107,7 @@
       "referenceOnly": false,
       "bodySpan": 0.29,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.29）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.29），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -2217,7 +2195,6 @@
       "referenceOnly": false,
       "bodySpan": 0.705,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -2305,7 +2282,6 @@
       "referenceOnly": false,
       "bodySpan": 0.542,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -2393,7 +2369,6 @@
       "referenceOnly": false,
       "bodySpan": 0.924,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -2481,7 +2456,7 @@
       "referenceOnly": false,
       "bodySpan": 0.384,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.38）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.38），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -2569,7 +2544,6 @@
       "referenceOnly": false,
       "bodySpan": 0.924,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -2657,7 +2631,6 @@
       "referenceOnly": false,
       "bodySpan": 0.803,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -2745,7 +2718,6 @@
       "referenceOnly": false,
       "bodySpan": 0.596,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -2833,7 +2805,6 @@
       "referenceOnly": false,
       "bodySpan": 0.668,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -2921,7 +2892,6 @@
       "referenceOnly": false,
       "bodySpan": 0.519,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3009,7 +2979,6 @@
       "referenceOnly": false,
       "bodySpan": 0.689,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3097,7 +3066,6 @@
       "referenceOnly": false,
       "bodySpan": 0.67,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3185,7 +3153,6 @@
       "referenceOnly": false,
       "bodySpan": 0.634,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3273,7 +3240,6 @@
       "referenceOnly": false,
       "bodySpan": 0.603,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3361,7 +3327,6 @@
       "referenceOnly": false,
       "bodySpan": 0.665,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3424,7 +3389,7 @@
           10.29
         ]
       },
-      "rootY": -0.318,
+      "rootY": -0.317,
       "rootPitch": 13.49,
       "weight": "小腿与脚背贴地，重心稳定",
       "hands": "双手自然下垂或搭在腿上",
@@ -3449,7 +3414,6 @@
       "referenceOnly": false,
       "bodySpan": 0.496,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3537,7 +3501,6 @@
       "referenceOnly": false,
       "bodySpan": 0.53,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3625,7 +3588,6 @@
       "referenceOnly": false,
       "bodySpan": 0.515,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3713,7 +3675,6 @@
       "referenceOnly": false,
       "bodySpan": 0.785,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3801,7 +3762,6 @@
       "referenceOnly": false,
       "bodySpan": 0.627,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3889,7 +3849,6 @@
       "referenceOnly": true,
       "bodySpan": 0.594,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -3977,7 +3936,6 @@
       "referenceOnly": false,
       "bodySpan": 0.872,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4065,7 +4023,6 @@
       "referenceOnly": false,
       "bodySpan": 0.566,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4128,7 +4085,7 @@
           1.93
         ]
       },
-      "rootY": -0.365,
+      "rootY": -0.316,
       "rootPitch": 19.35,
       "weight": "小腿与脚背贴地，重心稳定",
       "hands": "双手自然下垂或搭在腿上",
@@ -4153,7 +4110,6 @@
       "referenceOnly": false,
       "bodySpan": 0.618,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4241,7 +4197,6 @@
       "referenceOnly": false,
       "bodySpan": 0.702,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4329,7 +4284,6 @@
       "referenceOnly": false,
       "bodySpan": 0.883,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4392,7 +4346,7 @@
           5
         ]
       },
-      "rootY": -0.046,
+      "rootY": -0.017,
       "rootPitch": -3.77,
       "weight": "肩背贴合支撑面，单腿微曲承重",
       "hands": "手臂自然垂放，避免僵硬",
@@ -4417,7 +4371,6 @@
       "referenceOnly": false,
       "bodySpan": 0.869,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4505,7 +4458,6 @@
       "referenceOnly": false,
       "bodySpan": 1.164,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4593,7 +4545,6 @@
       "referenceOnly": false,
       "bodySpan": 0.584,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4681,7 +4632,6 @@
       "referenceOnly": false,
       "bodySpan": 0.772,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4769,7 +4719,6 @@
       "referenceOnly": false,
       "bodySpan": 0.927,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4857,7 +4806,6 @@
       "referenceOnly": false,
       "bodySpan": 0.773,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -4945,7 +4893,6 @@
       "referenceOnly": false,
       "bodySpan": 0.916,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -5121,7 +5068,6 @@
       "referenceOnly": false,
       "bodySpan": 1.074,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -5209,7 +5155,6 @@
       "referenceOnly": false,
       "bodySpan": 0.729,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -5297,7 +5242,6 @@
       "referenceOnly": false,
       "bodySpan": 1.042,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -5385,7 +5329,7 @@
       "referenceOnly": false,
       "bodySpan": 0.447,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.45）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.45），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -5473,7 +5417,7 @@
       "referenceOnly": true,
       "bodySpan": 0.358,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.36）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.36），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -5561,7 +5505,6 @@
       "referenceOnly": false,
       "bodySpan": 0.889,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -5649,7 +5592,6 @@
       "referenceOnly": true,
       "bodySpan": 0.451,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -5737,7 +5679,6 @@
       "referenceOnly": false,
       "bodySpan": 0.927,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -5825,7 +5766,6 @@
       "referenceOnly": true,
       "bodySpan": 0.637,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -5913,7 +5853,7 @@
       "referenceOnly": false,
       "bodySpan": 0.334,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.33）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.33），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -6089,7 +6029,6 @@
       "referenceOnly": true,
       "bodySpan": 0.747,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -6177,7 +6116,7 @@
       "referenceOnly": true,
       "bodySpan": 0.237,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.24）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.24），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -6240,7 +6179,7 @@
           -18.26
         ]
       },
-      "rootY": 0.418,
+      "rootY": 0.374,
       "rootPitch": 88,
       "weight": "背部/侧面贴地，脊柱保持自然曲线",
       "hands": "手臂自然摊放，手腕放松",
@@ -6265,7 +6204,6 @@
       "referenceOnly": false,
       "bodySpan": 0.69,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -6441,7 +6379,6 @@
       "referenceOnly": false,
       "bodySpan": 0.697,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -6529,7 +6466,6 @@
       "referenceOnly": false,
       "bodySpan": 0.865,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -6617,7 +6553,6 @@
       "referenceOnly": false,
       "bodySpan": 0.628,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -6705,7 +6640,6 @@
       "referenceOnly": false,
       "bodySpan": 0.676,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -6793,7 +6727,7 @@
       "referenceOnly": false,
       "bodySpan": 0.182,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.18）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.18），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -6881,7 +6815,6 @@
       "referenceOnly": false,
       "bodySpan": 0.459,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -6969,7 +6902,6 @@
       "referenceOnly": false,
       "bodySpan": 0.863,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -7057,7 +6989,6 @@
       "referenceOnly": false,
       "bodySpan": 0.701,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -7145,7 +7076,6 @@
       "referenceOnly": false,
       "bodySpan": 0.656,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -7233,7 +7163,6 @@
       "referenceOnly": false,
       "bodySpan": 0.561,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -7321,7 +7250,7 @@
       "referenceOnly": false,
       "bodySpan": 0.374,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.37）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.37），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -7398,2114 +7327,2102 @@
     },
     {
       "id": "p085",
-      "name": "手部·自然手势",
-      "category": "手部",
+      "name": "杂志大片·重心偏移",
+      "category": "杂志大片",
       "difficulty": "高难度",
       "photo": "assets/content/poses3/photos/p085.jpg",
       "overlay": "assets/content/poses3/photos/p085.overlay.png",
       "overlayRel": "docs/pose-qa3/overlay-p085.png",
       "skeleton": "assets/content/poses3/photos/p085.skeleton.json",
-      "confidence": 0.6615,
+      "confidence": 0.7257,
       "referenceOnly": false,
-      "bodySpan": 2.761,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（2.76），身体外推失真",
+      "bodySpan": 0.722,
+      "partialBody": false,
       "joints": {
         "spine": [
           0,
-          -2.65,
+          -1.94,
           0
         ],
         "neck": [
-          9.66,
-          3.3,
-          5.34
+          -5.79,
+          -0.72,
+          0.96
         ],
         "shoulder_l": [
-          -1.64,
-          -70.43,
-          51.56
+          -47.81,
+          0,
+          -28.36
         ],
         "elbow_l": [
-          -86.93,
+          -38.75,
           0,
-          4.99
+          -62.56
         ],
         "wrist_l": [
-          -23.06,
+          -37.39,
           0,
-          -10.83
+          -20.11
         ],
         "shoulder_r": [
-          -53.37,
-          0.05,
-          0.01
+          -35.23,
+          0.36,
+          -4.12
         ],
         "elbow_r": [
-          -55.02,
+          -54.95,
           0,
-          4.1
+          6.56
         ],
         "wrist_r": [
-          -46.78,
+          -68.69,
           0,
-          21.03
+          1.56
         ],
         "hip_l": [
-          -38.13,
-          -0.02,
-          3.82
+          -106.82,
+          -17.43,
+          28.25
         ],
         "knee_l": [
-          61.69,
-          0,
-          2.64
-        ],
-        "hip_r": [
-          -106.78,
-          -1.14,
-          22.35
-        ],
-        "knee_r": [
-          107.66,
+          140,
           0,
           0
+        ],
+        "hip_r": [
+          -114.31,
+          -27.81,
+          -21.53
+        ],
+        "knee_r": [
+          140,
+          0,
+          1.2
         ]
       },
-      "rootY": -0.014,
-      "rootPitch": 4.6,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/woman-with-long-black-hair-26791396/",
+      "rootY": -0.057,
+      "rootPitch": 50.18,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
+      "lens": "85mm 人像（参考）",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/a-woman-wearing-a-blazer-reading-a-magazine-8547016/",
       "license": "Pexels License",
-      "author": "Anh Nguyen",
+      "author": "https://kaboompics.com/",
       "origin": "pexels"
     },
     {
       "id": "p086",
-      "name": "手部·举手示意",
-      "category": "手部",
+      "name": "杂志大片·侧身回眸",
+      "category": "杂志大片",
       "difficulty": "高难度",
       "photo": "assets/content/poses3/photos/p086.jpg",
       "overlay": "assets/content/poses3/photos/p086.overlay.png",
       "overlayRel": "docs/pose-qa3/overlay-p086.png",
       "skeleton": "assets/content/poses3/photos/p086.skeleton.json",
-      "confidence": 0.7098,
+      "confidence": 0.6989,
       "referenceOnly": false,
-      "bodySpan": 1.131,
+      "bodySpan": 0.969,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
-          -1.21,
+          2.39,
           0
         ],
         "neck": [
-          -7.78,
-          -1.28,
-          2.93
+          12.66,
+          -30.4,
+          2.2
         ],
         "shoulder_l": [
-          -81.87,
-          -18.96,
-          12.37
+          -9.48,
+          -0.23,
+          7.68
         ],
         "elbow_l": [
-          -97.89,
+          -36.23,
           0,
-          0
+          -3.55
         ],
         "wrist_l": [
-          -44.76,
+          -0.3,
           0,
-          13.97
+          -9.39
         ],
         "shoulder_r": [
-          -77.28,
-          14.54,
-          -7.89
+          -21.88,
+          -0.11,
+          3.52
         ],
         "elbow_r": [
-          -80.89,
+          -25.3,
           0,
-          0
+          20.38
         ],
         "wrist_r": [
-          -48.12,
+          -31.86,
           0,
-          23.6
+          -5.3
         ],
         "hip_l": [
-          -93.36,
-          -7.55,
-          3.88
+          -54.23,
+          -2.72,
+          21.29
         ],
         "knee_l": [
-          92.42,
+          60.93,
           0,
           0
         ],
         "hip_r": [
-          -115.85,
-          -12.43,
-          2.25
+          -68.9,
+          -12.07,
+          23.19
         ],
         "knee_r": [
-          93.34,
+          86.04,
           0,
           0
         ]
       },
-      "rootY": 0.157,
-      "rootPitch": 40.61,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/a-woman-holding-on-metal-bar-7716860/",
+      "rootY": -0.105,
+      "rootPitch": 11.66,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
+      "lens": "85mm 人像（参考）",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/woman-in-brown-coat-sitting-on-blue-chair-8465283/",
       "license": "Pexels License",
       "author": "cottonbro studio",
       "origin": "pexels"
     },
     {
       "id": "p087",
-      "name": "手部·自然手势",
-      "category": "手部",
+      "name": "杂志大片·封面定格",
+      "category": "杂志大片",
       "difficulty": "高难度",
       "photo": "assets/content/poses3/photos/p087.jpg",
       "overlay": "assets/content/poses3/photos/p087.overlay.png",
       "overlayRel": "docs/pose-qa3/overlay-p087.png",
       "skeleton": "assets/content/poses3/photos/p087.skeleton.json",
-      "confidence": 0.757,
+      "confidence": 0.7862,
       "referenceOnly": false,
-      "bodySpan": 1.495,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.50），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          -7.03,
-          0
-        ],
-        "neck": [
-          9.08,
-          -1.22,
-          12.82
-        ],
-        "shoulder_l": [
-          -33.77,
-          -0.07,
-          -8.17
-        ],
-        "elbow_l": [
-          -94.07,
-          0,
-          -15.96
-        ],
-        "wrist_l": [
-          -20.58,
-          0,
-          -2.42
-        ],
-        "shoulder_r": [
-          -15.21,
-          43.37,
-          -7.99
-        ],
-        "elbow_r": [
-          -85.73,
-          0,
-          0
-        ],
-        "wrist_r": [
-          -20.13,
-          0,
-          -10.79
-        ],
-        "hip_l": [
-          -22.68,
-          0.22,
-          -16.16
-        ],
-        "knee_l": [
-          46.13,
-          0,
-          8.71
-        ],
-        "hip_r": [
-          -35.6,
-          -0.59,
-          -19.23
-        ],
-        "knee_r": [
-          74.76,
-          0,
-          20.32
-        ]
-      },
-      "rootY": 0.028,
-      "rootPitch": 13.89,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/woman-in-black-top-clenching-fists-9017016/",
-      "license": "Pexels License",
-      "author": "Kevin  Malik",
-      "origin": "pexels"
-    },
-    {
-      "id": "p088",
-      "name": "手部·自然手势",
-      "category": "手部",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p088.jpg",
-      "overlay": "assets/content/poses3/photos/p088.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p088.png",
-      "skeleton": "assets/content/poses3/photos/p088.skeleton.json",
-      "confidence": 0.6384,
-      "referenceOnly": false,
-      "bodySpan": 1.174,
+      "bodySpan": 0.925,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
-          -5.38,
+          -3.66,
           0
         ],
         "neck": [
-          -2.45,
-          -6.05,
-          9.78
+          11.09,
+          9.57,
+          -10.61
         ],
         "shoulder_l": [
-          0.16,
-          -58.54,
-          31.03
+          -7.23,
+          0,
+          3.05
         ],
         "elbow_l": [
-          -36.71,
+          -26.98,
           0,
-          -0.6
+          -25.95
         ],
         "wrist_l": [
-          -22.02,
+          1.72,
           0,
-          -12.59
+          -28.56
         ],
         "shoulder_r": [
-          -59.51,
-          3.33,
-          -33.64
-        ],
-        "elbow_r": [
-          -113.66,
-          0,
-          0
-        ],
-        "wrist_r": [
-          -27.68,
-          0,
-          -4.75
-        ],
-        "hip_l": [
-          -57.05,
-          -0.1,
-          6.07
-        ],
-        "knee_l": [
-          60.73,
-          0,
-          0.87
-        ],
-        "hip_r": [
-          -79.01,
           0.1,
-          10.01
-        ],
-        "knee_r": [
-          55.03,
-          0,
-          -10.71
-        ]
-      },
-      "rootY": 0.214,
-      "rootPitch": 27.45,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/a-woman-in-black-shirt-pointing-on-her-head-9017023/",
-      "license": "Pexels License",
-      "author": "Kevin  Malik",
-      "origin": "pexels"
-    },
-    {
-      "id": "p089",
-      "name": "手部·自然手势",
-      "category": "手部",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p089.jpg",
-      "overlay": "assets/content/poses3/photos/p089.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p089.png",
-      "skeleton": "assets/content/poses3/photos/p089.skeleton.json",
-      "confidence": 0.7885,
-      "referenceOnly": false,
-      "bodySpan": 1.38,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.38），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          -0.13,
-          0
-        ],
-        "neck": [
-          -4.3,
-          -0.75,
-          3.45
-        ],
-        "shoulder_l": [
-          -58.24,
-          -8.91,
-          5.04
-        ],
-        "elbow_l": [
-          -102.08,
-          0,
-          0
-        ],
-        "wrist_l": [
-          -30.71,
-          0,
-          -14.52
-        ],
-        "shoulder_r": [
-          -49.85,
-          0.04,
-          -9.55
+          0.54,
+          -16.35
         ],
         "elbow_r": [
-          -100.66,
+          -45.39,
           0,
-          -2.95
+          41.32
         ],
         "wrist_r": [
-          -28.68,
+          -30.83,
           0,
-          -3.98
+          0.55
         ],
         "hip_l": [
-          -49.93,
-          0.96,
-          1.3
+          -57.57,
+          0.53,
+          9.45
         ],
         "knee_l": [
-          74.1,
+          102.12,
           0,
-          -6.73
+          -9.78
         ],
         "hip_r": [
-          -60.14,
-          0.5,
-          0.79
+          -59.75,
+          -20.18,
+          9.84
         ],
         "knee_r": [
-          73.23,
+          95.69,
           0,
-          -9.58
+          0
         ]
       },
-      "rootY": 0.134,
-      "rootPitch": 29.11,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/woman-in-black-dress-doing-hand-gestures-9017029/",
-      "license": "Pexels License",
-      "author": "Kevin  Malik",
-      "origin": "pexels"
-    },
-    {
-      "id": "p090",
-      "name": "手部·自然手势",
-      "category": "手部",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p090.jpg",
-      "overlay": "assets/content/poses3/photos/p090.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p090.png",
-      "skeleton": "assets/content/poses3/photos/p090.skeleton.json",
-      "confidence": 0.7573,
-      "referenceOnly": false,
-      "bodySpan": 1.492,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.49），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          -4.83,
-          0
-        ],
-        "neck": [
-          8.43,
-          -0.94,
-          11.66
-        ],
-        "shoulder_l": [
-          -22.58,
-          -0.76,
-          -3.51
-        ],
-        "elbow_l": [
-          -55.42,
-          0,
-          -46.5
-        ],
-        "wrist_l": [
-          -21.9,
-          0,
-          -21.48
-        ],
-        "shoulder_r": [
-          -33.54,
-          0.6,
-          4.56
-        ],
-        "elbow_r": [
-          -90.59,
-          0,
-          28
-        ],
-        "wrist_r": [
-          -39.77,
-          0,
-          -5.71
-        ],
-        "hip_l": [
-          -28,
-          -0.04,
-          -2.94
-        ],
-        "knee_l": [
-          46.47,
-          0,
-          -3.63
-        ],
-        "hip_r": [
-          -34.18,
-          -0.22,
-          -5.71
-        ],
-        "knee_r": [
-          42.5,
-          0,
-          2.03
-        ]
-      },
-      "rootY": 0.074,
-      "rootPitch": 16.16,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/a-woman-wearing-a-black-dress-doing-hand-gestures-9017035/",
-      "license": "Pexels License",
-      "author": "Kevin  Malik",
-      "origin": "pexels"
-    },
-    {
-      "id": "p091",
-      "name": "手部·自然手势",
-      "category": "手部",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p091.jpg",
-      "overlay": "assets/content/poses3/photos/p091.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p091.png",
-      "skeleton": "assets/content/poses3/photos/p091.skeleton.json",
-      "confidence": 0.5461,
-      "referenceOnly": true,
-      "bodySpan": 2.104,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（2.10），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          10.59,
-          0
-        ],
-        "neck": [
-          -16.15,
-          4.32,
-          2.12
-        ],
-        "shoulder_l": [
-          -35.35,
-          -0.19,
-          12.95
-        ],
-        "elbow_l": [
-          -9.09,
-          0,
-          -10.3
-        ],
-        "wrist_l": [
-          -5.44,
-          0,
-          -7.55
-        ],
-        "shoulder_r": [
-          -42.97,
-          21.69,
-          -15.73
-        ],
-        "elbow_r": [
-          -110.01,
-          0,
-          0
-        ],
-        "wrist_r": [
-          -34.08,
-          0,
-          5.46
-        ],
-        "hip_l": [
-          -102.59,
-          -25.17,
-          15.33
-        ],
-        "knee_l": [
-          114.76,
-          0,
-          0
-        ],
-        "hip_r": [
-          -118.72,
-          -73.9,
-          54.51
-        ],
-        "knee_r": [
-          140,
-          0,
-          -16.8
-        ]
-      },
-      "rootY": -0.273,
-      "rootPitch": 25.57,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/a-woman-doing-sign-language-9017378/",
-      "license": "Pexels License",
-      "author": "Kevin  Malik",
-      "origin": "pexels"
-    },
-    {
-      "id": "p092",
-      "name": "手部·自然手势",
-      "category": "手部",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p092.jpg",
-      "overlay": "assets/content/poses3/photos/p092.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p092.png",
-      "skeleton": "assets/content/poses3/photos/p092.skeleton.json",
-      "confidence": 0.7401,
-      "referenceOnly": false,
-      "bodySpan": 1.592,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.59），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          -5.83,
-          0
-        ],
-        "neck": [
-          5.51,
-          -1.73,
-          3.29
-        ],
-        "shoulder_l": [
-          -36.68,
-          -0.64,
-          -15.67
-        ],
-        "elbow_l": [
-          -71.43,
-          0,
-          -25.78
-        ],
-        "wrist_l": [
-          -24.13,
-          0,
-          2.76
-        ],
-        "shoulder_r": [
-          -31.44,
-          0.04,
-          2.2
-        ],
-        "elbow_r": [
-          -80.12,
-          0,
-          30.62
-        ],
-        "wrist_r": [
-          -25.53,
-          0,
-          -0.15
-        ],
-        "hip_l": [
-          -27.78,
-          0.34,
-          -11.46
-        ],
-        "knee_l": [
-          37.72,
-          0,
-          -0.61
-        ],
-        "hip_r": [
-          -49.51,
-          0.05,
-          -1.96
-        ],
-        "knee_r": [
-          54.27,
-          0,
-          2.44
-        ]
-      },
-      "rootY": 0.165,
-      "rootPitch": 23.82,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/a-woman-in-black-shirt-with-her-hands-together-9017019/",
-      "license": "Pexels License",
-      "author": "Kevin  Malik",
-      "origin": "pexels"
-    },
-    {
-      "id": "p093",
-      "name": "手部·自然手势",
-      "category": "手部",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p093.jpg",
-      "overlay": "assets/content/poses3/photos/p093.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p093.png",
-      "skeleton": "assets/content/poses3/photos/p093.skeleton.json",
-      "confidence": 0.7806,
-      "referenceOnly": false,
-      "bodySpan": 1.251,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.25），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          -5.36,
-          0
-        ],
-        "neck": [
-          14.83,
-          -1.11,
-          19.75
-        ],
-        "shoulder_l": [
-          -0.08,
-          -64.99,
-          19.47
-        ],
-        "elbow_l": [
-          -71.75,
-          0,
-          -8.55
-        ],
-        "wrist_l": [
-          -26.99,
-          0,
-          -23.42
-        ],
-        "shoulder_r": [
-          -30.41,
-          28.36,
-          -22.12
-        ],
-        "elbow_r": [
-          -92.43,
-          0,
-          0
-        ],
-        "wrist_r": [
-          -41.19,
-          0,
-          0
-        ],
-        "hip_l": [
-          -35.87,
-          -0.72,
-          -0.41
-        ],
-        "knee_l": [
-          52.96,
-          0,
-          6.4
-        ],
-        "hip_r": [
-          -55.5,
-          0,
-          -7.01
-        ],
-        "knee_r": [
-          51.79,
-          0,
-          11.08
-        ]
-      },
-      "rootY": 0.048,
-      "rootPitch": 9.73,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/woman-in-black-crew-neck-t-shirt-doing-hand-gestures-9017022/",
-      "license": "Pexels License",
-      "author": "Kevin  Malik",
-      "origin": "pexels"
-    },
-    {
-      "id": "p094",
-      "name": "手部·自然手势",
-      "category": "手部",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p094.jpg",
-      "overlay": "assets/content/poses3/photos/p094.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p094.png",
-      "skeleton": "assets/content/poses3/photos/p094.skeleton.json",
-      "confidence": 0.7576,
-      "referenceOnly": false,
-      "bodySpan": 1.599,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.60），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          -5.59,
-          0
-        ],
-        "neck": [
-          3.73,
-          -1.12,
-          2.57
-        ],
-        "shoulder_l": [
-          -38,
-          0.08,
-          -12.31
-        ],
-        "elbow_l": [
-          -70.55,
-          0,
-          -23.73
-        ],
-        "wrist_l": [
-          -30.18,
-          0,
-          -12.05
-        ],
-        "shoulder_r": [
-          -30.71,
-          41.82,
-          -1.25
-        ],
-        "elbow_r": [
-          -92.7,
-          0,
-          0
-        ],
-        "wrist_r": [
-          -35.69,
-          0,
-          -4.16
-        ],
-        "hip_l": [
-          -30.67,
-          -0.29,
-          -15.31
-        ],
-        "knee_l": [
-          50.19,
-          0,
-          3.07
-        ],
-        "hip_r": [
-          -52.09,
-          -0.05,
-          -12.68
-        ],
-        "knee_r": [
-          79.83,
-          0,
-          4.92
-        ]
-      },
-      "rootY": 0.048,
-      "rootPitch": 19.45,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/a-woman-in-black-crew-neck-t-shirt-9017015/",
-      "license": "Pexels License",
-      "author": "Kevin  Malik",
-      "origin": "pexels"
-    },
-    {
-      "id": "p095",
-      "name": "手部·自然手势",
-      "category": "手部",
-      "difficulty": "进阶",
-      "photo": "assets/content/poses3/photos/p095.jpg",
-      "overlay": "assets/content/poses3/photos/p095.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p095.png",
-      "skeleton": "assets/content/poses3/photos/p095.skeleton.json",
-      "confidence": 0.7443,
-      "referenceOnly": false,
-      "bodySpan": 1.43,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.43），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          -18.91,
-          0
-        ],
-        "neck": [
-          12.68,
-          -13.5,
-          15.24
-        ],
-        "shoulder_l": [
-          -18.12,
-          -0.79,
-          14.22
-        ],
-        "elbow_l": [
-          -30.27,
-          0,
-          -11.51
-        ],
-        "wrist_l": [
-          -12.73,
-          0,
-          -41.03
-        ],
-        "shoulder_r": [
-          -58.78,
-          27.22,
-          -57.53
-        ],
-        "elbow_r": [
-          -67.48,
-          0,
-          0
-        ],
-        "wrist_r": [
-          0.19,
-          0,
-          -25.26
-        ],
-        "hip_l": [
-          -14.11,
-          0.17,
-          1.83
-        ],
-        "knee_l": [
-          17.41,
-          0,
-          13.16
-        ],
-        "hip_r": [
-          -39.22,
-          0.28,
-          -1.35
-        ],
-        "knee_r": [
-          19.84,
-          0,
-          22.02
-        ]
-      },
-      "rootY": 0.037,
-      "rootPitch": 5.24,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/woman-in-black-long-sleeve-shirt-looking-at-hand-palm-9017030/",
-      "license": "Pexels License",
-      "author": "Kevin  Malik",
-      "origin": "pexels"
-    },
-    {
-      "id": "p096",
-      "name": "手部·自然手势",
-      "category": "手部",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p096.jpg",
-      "overlay": "assets/content/poses3/photos/p096.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p096.png",
-      "skeleton": "assets/content/poses3/photos/p096.skeleton.json",
-      "confidence": 0.7518,
-      "referenceOnly": false,
-      "bodySpan": 1.155,
-      "partialBody": false,
-      "partialReason": "",
-      "joints": {
-        "spine": [
-          0,
-          -0.49,
-          0
-        ],
-        "neck": [
-          7.17,
-          -2.05,
-          4.57
-        ],
-        "shoulder_l": [
-          -20.94,
-          -18.71,
-          -13.22
-        ],
-        "elbow_l": [
-          -149.08,
-          0,
-          -57.69
-        ],
-        "wrist_l": [
-          -45.79,
-          0,
-          28.19
-        ],
-        "shoulder_r": [
-          -23.06,
-          2.7,
-          6.48
-        ],
-        "elbow_r": [
-          3.8,
-          0,
-          62.2
-        ],
-        "wrist_r": [
-          4.88,
-          0,
-          25.74
-        ],
-        "hip_l": [
-          -19.56,
-          -0.3,
-          7.76
-        ],
-        "knee_l": [
-          24.41,
-          0,
-          -7.65
-        ],
-        "hip_r": [
-          -50.57,
-          68.05,
-          29.02
-        ],
-        "knee_r": [
-          0,
-          0,
-          -7.76
-        ]
-      },
-      "rootY": 0.152,
-      "rootPitch": 19.18,
-      "weight": "手腕与前臂保持一条直线",
-      "hands": "五指自然分开，避免过度用力",
-      "commonMistake": "手腕过度反折、手指僵硬",
-      "lens": "85mm（参考）",
-      "cameraPosition": "手部特写，光位柔和",
-      "source": "https://www.pexels.com/photo/a-woman-pointing-her-finger-8727459/",
-      "license": "Pexels License",
-      "author": "Tima Miroshnichenko",
-      "origin": "pexels"
-    },
-    {
-      "id": "p097",
-      "name": "神态·正面肖像",
-      "category": "神态",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p097.jpg",
-      "overlay": "assets/content/poses3/photos/p097.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p097.png",
-      "skeleton": "assets/content/poses3/photos/p097.skeleton.json",
-      "confidence": 0.4598,
-      "referenceOnly": true,
-      "bodySpan": 2.254,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（2.25），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          -32.97,
-          0
-        ],
-        "neck": [
-          5.62,
-          -7.73,
-          -0.88
-        ],
-        "shoulder_l": [
-          -13.64,
-          0.07,
-          8.67
-        ],
-        "elbow_l": [
-          0,
-          0,
-          -36.44
-        ],
-        "wrist_l": [
-          -24.92,
-          0,
-          18.51
-        ],
-        "shoulder_r": [
-          0.3,
-          -0.2,
-          3.18
-        ],
-        "elbow_r": [
-          -30.45,
-          0,
-          7.73
-        ],
-        "wrist_r": [
-          1.84,
-          0,
-          5.63
-        ],
-        "hip_l": [
-          -94.26,
-          -1.35,
-          15.37
-        ],
-        "knee_l": [
-          126.61,
-          0,
-          0
-        ],
-        "hip_r": [
-          -119.14,
-          -63.45,
-          50.47
-        ],
-        "knee_r": [
-          140,
-          0,
-          -4.03
-        ]
-      },
-      "rootY": -0.347,
-      "rootPitch": 9.13,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
+      "rootY": -0.167,
+      "rootPitch": 5.03,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
       "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/a-woman-looking-at-the-camera-10209466/",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/woman-in-brown-coat-sitting-on-blue-chair-8465279/",
       "license": "Pexels License",
       "author": "cottonbro studio",
       "origin": "pexels"
     },
     {
-      "id": "p098",
-      "name": "神态·侧脸回眸",
-      "category": "神态",
-      "difficulty": "进阶",
-      "photo": "assets/content/poses3/photos/p098.jpg",
-      "overlay": "assets/content/poses3/photos/p098.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p098.png",
-      "skeleton": "assets/content/poses3/photos/p098.skeleton.json",
-      "confidence": 0.4982,
-      "referenceOnly": true,
-      "bodySpan": 1.955,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.95），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          23.24,
-          0
-        ],
-        "neck": [
-          -0.69,
-          24.9,
-          24.85
-        ],
-        "shoulder_l": [
-          -10.55,
-          -18.95,
-          26.09
-        ],
-        "elbow_l": [
-          -31.62,
-          0,
-          0
-        ],
-        "wrist_l": [
-          -13.48,
-          0,
-          -52.31
-        ],
-        "shoulder_r": [
-          -7.31,
-          -0.01,
-          -2.98
-        ],
-        "elbow_r": [
-          -48.37,
-          0,
-          21.67
-        ],
-        "wrist_r": [
-          -25.72,
-          0,
-          -16.78
-        ],
-        "hip_l": [
-          0.64,
-          -16,
-          23.98
-        ],
-        "knee_l": [
-          0,
-          0,
-          6.62
-        ],
-        "hip_r": [
-          -8.19,
-          -0.62,
-          18.42
-        ],
-        "knee_r": [
-          4.76,
-          0,
-          4.74
-        ]
-      },
-      "rootY": -0.003,
-      "rootPitch": 10.13,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
-      "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/a-man-in-white-long-sleeve-shirt-8586782/",
-      "license": "Pexels License",
-      "author": "Joon Tae Kim",
-      "origin": "pexels"
-    },
-    {
-      "id": "p099",
-      "name": "神态·侧脸凝视",
-      "category": "神态",
+      "id": "p088",
+      "name": "杂志大片·展臂造型",
+      "category": "杂志大片",
       "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p099.jpg",
-      "overlay": "assets/content/poses3/photos/p099.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p099.png",
-      "skeleton": "assets/content/poses3/photos/p099.skeleton.json",
-      "confidence": 0.8,
+      "photo": "assets/content/poses3/photos/p088.jpg",
+      "overlay": "assets/content/poses3/photos/p088.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p088.png",
+      "skeleton": "assets/content/poses3/photos/p088.skeleton.json",
+      "confidence": 0.6134,
       "referenceOnly": false,
-      "bodySpan": 0.703,
-      "partialBody": false,
-      "partialReason": "",
-      "joints": {
-        "spine": [
-          0,
-          5.34,
-          0
-        ],
-        "neck": [
-          16.14,
-          16.42,
-          11.18
-        ],
-        "shoulder_l": [
-          -37.55,
-          -17.05,
-          4.35
-        ],
-        "elbow_l": [
-          -86.17,
-          0,
-          0
-        ],
-        "wrist_l": [
-          -20.98,
-          0,
-          -7.45
-        ],
-        "shoulder_r": [
-          1.64,
-          -0.31,
-          -6.51
-        ],
-        "elbow_r": [
-          -31.45,
-          0,
-          0
-        ],
-        "wrist_r": [
-          -9.69,
-          0,
-          14.08
-        ],
-        "hip_l": [
-          -17,
-          -0.31,
-          -5.89
-        ],
-        "knee_l": [
-          39.9,
-          0,
-          11.77
-        ],
-        "hip_r": [
-          -8.43,
-          0.54,
-          12.47
-        ],
-        "knee_r": [
-          26.47,
-          0,
-          -7.76
-        ]
-      },
-      "rootY": 0.04,
-      "rootPitch": 9.64,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
-      "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/woman-in-blue-traditional-dress-19887643/",
-      "license": "Pexels License",
-      "author": "Thanh Xuan Nguyen Ly",
-      "origin": "pexels"
-    },
-    {
-      "id": "p100",
-      "name": "神态·正面肖像",
-      "category": "神态",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p100.jpg",
-      "overlay": "assets/content/poses3/photos/p100.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p100.png",
-      "skeleton": "assets/content/poses3/photos/p100.skeleton.json",
-      "confidence": 0.7544,
-      "referenceOnly": false,
-      "bodySpan": 1.332,
+      "bodySpan": 1.631,
       "partialBody": true,
-      "partialReason": "关键点跨度异常（1.33），身体外推失真",
+      "partialReason": "关键点跨度异常（1.63），身体外推失真",
       "joints": {
         "spine": [
           0,
-          3.93,
+          1.34,
           0
         ],
         "neck": [
-          11.51,
-          -2.93,
-          2.18
+          0.26,
+          6.58,
+          -3.49
         ],
         "shoulder_l": [
-          -126.11,
-          -22.7,
-          58.11
+          -11.31,
+          -0.23,
+          16.33
         ],
         "elbow_l": [
-          -98.15,
+          -26.59,
           0,
-          0
-        ],
-        "wrist_l": [
-          -36.48,
-          0,
-          10
-        ],
-        "shoulder_r": [
-          -0.04,
-          15.65,
-          -29.63
-        ],
-        "elbow_r": [
-          -64.44,
-          0,
-          33.24
-        ],
-        "wrist_r": [
-          -29.8,
-          0,
-          8.73
-        ],
-        "hip_l": [
-          -66.1,
-          0.21,
-          3.06
-        ],
-        "knee_l": [
-          73.31,
-          0,
-          -5.75
-        ],
-        "hip_r": [
-          -17.46,
-          -0.34,
-          14.47
-        ],
-        "knee_r": [
-          21.95,
-          0,
-          -4.54
-        ]
-      },
-      "rootY": 0.119,
-      "rootPitch": 15.09,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
-      "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/man-sitting-and-fixing-hair-20279543/",
-      "license": "Pexels License",
-      "author": "Burcu Elmas",
-      "origin": "pexels"
-    },
-    {
-      "id": "p101",
-      "name": "神态·正面肖像",
-      "category": "神态",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p101.jpg",
-      "overlay": "assets/content/poses3/photos/p101.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p101.png",
-      "skeleton": "assets/content/poses3/photos/p101.skeleton.json",
-      "confidence": 0.8485,
-      "referenceOnly": false,
-      "bodySpan": 0.937,
-      "partialBody": false,
-      "partialReason": "",
-      "joints": {
-        "spine": [
-          0,
-          -1.99,
-          0
-        ],
-        "neck": [
-          18.18,
-          -4.63,
-          -10.91
-        ],
-        "shoulder_l": [
-          -65.77,
-          -21.72,
-          24.18
-        ],
-        "elbow_l": [
-          -87.38,
-          0,
-          0
-        ],
-        "wrist_l": [
-          -38.33,
-          0,
-          9.62
-        ],
-        "shoulder_r": [
-          0.16,
-          4.26,
-          -27.01
-        ],
-        "elbow_r": [
-          -63.66,
-          0,
-          39.88
-        ],
-        "wrist_r": [
-          -14.75,
-          0,
-          15.78
-        ],
-        "hip_l": [
-          -94.81,
-          0.38,
-          12.92
-        ],
-        "knee_l": [
-          127.12,
-          0,
-          -16.18
-        ],
-        "hip_r": [
-          -74.81,
-          -33.59,
-          20.9
-        ],
-        "knee_r": [
-          109.85,
-          0,
-          0
-        ]
-      },
-      "rootY": -0.42,
-      "rootPitch": 0.35,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
-      "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/man-sitting-on-black-background-20279541/",
-      "license": "Pexels License",
-      "author": "Burcu Elmas",
-      "origin": "pexels"
-    },
-    {
-      "id": "p102",
-      "name": "神态·侧脸凝视",
-      "category": "神态",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p102.jpg",
-      "overlay": "assets/content/poses3/photos/p102.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p102.png",
-      "skeleton": "assets/content/poses3/photos/p102.skeleton.json",
-      "confidence": 0.4106,
-      "referenceOnly": true,
-      "bodySpan": 2.505,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（2.51），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          7.36,
-          0
-        ],
-        "neck": [
-          -2.29,
-          10.87,
-          9.21
-        ],
-        "shoulder_l": [
-          -2.57,
-          -36.65,
-          26.69
-        ],
-        "elbow_l": [
-          -33.24,
-          0,
-          0
-        ],
-        "wrist_l": [
-          -5.49,
-          0,
-          -4.83
-        ],
-        "shoulder_r": [
-          -3.39,
-          0.33,
-          -15.58
-        ],
-        "elbow_r": [
-          -40.23,
-          0,
-          22.75
-        ],
-        "wrist_r": [
-          -23.72,
-          0,
-          20.88
-        ],
-        "hip_l": [
-          -61.79,
-          38,
-          -78.61
-        ],
-        "knee_l": [
-          139.84,
-          0,
-          18.19
-        ],
-        "hip_r": [
-          -27.85,
-          -71.51,
-          146.44
-        ],
-        "knee_r": [
-          140,
-          0,
-          -2.92
-        ]
-      },
-      "rootY": -0.566,
-      "rootPitch": 18.29,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
-      "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/man-in-blue-button-up-shirt-astonished-4584162/",
-      "license": "Pexels License",
-      "author": "Ketut Subiyanto",
-      "origin": "pexels"
-    },
-    {
-      "id": "p103",
-      "name": "神态·正面肖像",
-      "category": "神态",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p103.jpg",
-      "overlay": "assets/content/poses3/photos/p103.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p103.png",
-      "skeleton": "assets/content/poses3/photos/p103.skeleton.json",
-      "confidence": 0.6902,
-      "referenceOnly": false,
-      "bodySpan": 2.05,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（2.05），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          5,
-          0
-        ],
-        "neck": [
-          0.06,
-          -9.04,
-          6.06
-        ],
-        "shoulder_l": [
-          -67.04,
-          -11.43,
-          37.36
-        ],
-        "elbow_l": [
-          -115.52,
-          0,
-          0
-        ],
-        "wrist_l": [
-          -16.4,
-          0,
-          -5.22
-        ],
-        "shoulder_r": [
-          -92.75,
-          -0.14,
-          -50.54
-        ],
-        "elbow_r": [
-          -103.37,
-          0,
-          -2.92
-        ],
-        "wrist_r": [
-          -14.73,
-          0,
-          19.79
-        ],
-        "hip_l": [
-          -13.38,
-          -0.3,
-          -14.06
-        ],
-        "knee_l": [
-          29.23,
-          0,
-          18.88
-        ],
-        "hip_r": [
-          -7.82,
-          -87.81,
-          154.97
-        ],
-        "knee_r": [
-          140,
-          0,
-          -10.39
-        ]
-      },
-      "rootY": 0.057,
-      "rootPitch": 15.77,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
-      "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/man-in-blue-denim-long-sleeves-shirt-covering-ears-4584192/",
-      "license": "Pexels License",
-      "author": "Ketut Subiyanto",
-      "origin": "pexels"
-    },
-    {
-      "id": "p104",
-      "name": "神态·正面肖像",
-      "category": "神态",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p104.jpg",
-      "overlay": "assets/content/poses3/photos/p104.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p104.png",
-      "skeleton": "assets/content/poses3/photos/p104.skeleton.json",
-      "confidence": 0.5615,
-      "referenceOnly": true,
-      "bodySpan": 2.165,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（2.17），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          8.49,
-          0
-        ],
-        "neck": [
-          -4.82,
-          5.13,
-          10.84
-        ],
-        "shoulder_l": [
-          -28.24,
-          -0.61,
-          19.65
-        ],
-        "elbow_l": [
-          -16.2,
-          0,
-          -17.8
-        ],
-        "wrist_l": [
-          -27.97,
-          0,
-          -13.9
-        ],
-        "shoulder_r": [
-          -46.76,
-          9.05,
-          -4.77
-        ],
-        "elbow_r": [
-          -71.9,
-          0,
-          0
-        ],
-        "wrist_r": [
-          -40.74,
-          0,
-          3.41
-        ],
-        "hip_l": [
-          -22.41,
-          -0.03,
-          14.39
-        ],
-        "knee_l": [
-          40.07,
-          0,
-          7.13
-        ],
-        "hip_r": [
-          -77.41,
-          -74.24,
-          66.82
-        ],
-        "knee_r": [
-          139.44,
-          0,
-          -39.77
-        ]
-      },
-      "rootY": 0.021,
-      "rootPitch": 9.22,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
-      "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/portrait-of-a-young-brunette-with-bangs-22042270/",
-      "license": "Pexels License",
-      "author": "Kenneth Surillo",
-      "origin": "pexels"
-    },
-    {
-      "id": "p105",
-      "name": "神态·正面肖像",
-      "category": "神态",
-      "difficulty": "进阶",
-      "photo": "assets/content/poses3/photos/p105.jpg",
-      "overlay": "assets/content/poses3/photos/p105.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p105.png",
-      "skeleton": "assets/content/poses3/photos/p105.skeleton.json",
-      "confidence": 0.8488,
-      "referenceOnly": false,
-      "bodySpan": 0.967,
-      "partialBody": false,
-      "partialReason": "",
-      "joints": {
-        "spine": [
-          0,
-          -1.87,
-          0
-        ],
-        "neck": [
-          -3.91,
-          -3.88,
-          7.93
-        ],
-        "shoulder_l": [
-          -16.72,
-          -0.09,
-          0.39
-        ],
-        "elbow_l": [
-          -19.94,
-          0,
-          2.74
-        ],
-        "wrist_l": [
-          -16.2,
-          0,
-          -15.89
-        ],
-        "shoulder_r": [
-          -14.54,
-          -0.45,
-          -5.59
-        ],
-        "elbow_r": [
-          -17.92,
-          0,
-          -0.92
-        ],
-        "wrist_r": [
-          -16.66,
-          0,
-          13.16
-        ],
-        "hip_l": [
-          -34.83,
-          -0.52,
-          11.82
-        ],
-        "knee_l": [
-          30.42,
-          0,
-          12.13
-        ],
-        "hip_r": [
-          -24.95,
-          0.2,
-          8.83
-        ],
-        "knee_r": [
-          24.84,
-          0,
-          2.53
-        ]
-      },
-      "rootY": 0.157,
-      "rootPitch": 23.65,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
-      "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/woman-in-a-floral-shirt-and-denim-jeans-looking-at-the-camera-7208433/",
-      "license": "Pexels License",
-      "author": "อ้อม ภาณุวัฒน์",
-      "origin": "pexels"
-    },
-    {
-      "id": "p106",
-      "name": "神态·侧脸凝视",
-      "category": "神态",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p106.jpg",
-      "overlay": "assets/content/poses3/photos/p106.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p106.png",
-      "skeleton": "assets/content/poses3/photos/p106.skeleton.json",
-      "confidence": 0.687,
-      "referenceOnly": false,
-      "bodySpan": 1.516,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.52），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          16.66,
-          0
-        ],
-        "neck": [
-          15.6,
-          17.84,
-          -10.26
-        ],
-        "shoulder_l": [
-          -44.54,
-          -52.14,
-          88.8
-        ],
-        "elbow_l": [
-          -43.95,
-          0,
-          29.33
-        ],
-        "wrist_l": [
-          -22.96,
-          0,
-          -15.45
-        ],
-        "shoulder_r": [
-          -36.52,
-          79.87,
-          -84.58
-        ],
-        "elbow_r": [
-          -53.3,
-          0,
-          -14.6
-        ],
-        "wrist_r": [
-          -52.81,
-          0,
-          25.37
-        ],
-        "hip_l": [
-          2.4,
-          0.21,
-          0.57
-        ],
-        "knee_l": [
-          21.9,
-          0,
-          -1.12
-        ],
-        "hip_r": [
-          -47.14,
-          0.22,
-          20.1
-        ],
-        "knee_r": [
-          56.17,
-          0,
-          -14.25
-        ]
-      },
-      "rootY": 0.056,
-      "rootPitch": 5.33,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
-      "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/a-woman-in-white-long-sleeves-raising-her-hands-3866557/",
-      "license": "Pexels License",
-      "author": "Clara Ngo",
-      "origin": "pexels"
-    },
-    {
-      "id": "p107",
-      "name": "神态·正面肖像",
-      "category": "神态",
-      "difficulty": "高难度",
-      "photo": "assets/content/poses3/photos/p107.jpg",
-      "overlay": "assets/content/poses3/photos/p107.overlay.png",
-      "overlayRel": "docs/pose-qa3/overlay-p107.png",
-      "skeleton": "assets/content/poses3/photos/p107.skeleton.json",
-      "confidence": 0.6695,
-      "referenceOnly": false,
-      "bodySpan": 1.201,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.20），身体外推失真",
-      "joints": {
-        "spine": [
-          0,
-          -4.05,
-          0
-        ],
-        "neck": [
-          20.97,
-          3.59,
           14.49
         ],
-        "shoulder_l": [
-          -9.84,
-          0.33,
-          11.42
-        ],
-        "elbow_l": [
-          -1.87,
-          0,
-          -9.55
-        ],
         "wrist_l": [
-          -22.16,
+          -20.09,
           0,
-          1.52
+          -29.49
         ],
         "shoulder_r": [
-          -88.28,
-          43.34,
-          -89.67
+          -38.93,
+          46.34,
+          -89.69
         ],
         "elbow_r": [
-          -14.49,
+          -79.71,
           0,
-          0.25
+          -26.63
         ],
         "wrist_r": [
-          -38.69,
+          -27.26,
           0,
-          -9.62
+          5.85
         ],
         "hip_l": [
-          -19.14,
-          0.02,
-          0.24
+          -29.27,
+          0.12,
+          -10.41
         ],
         "knee_l": [
-          20.41,
+          41.93,
           0,
-          7.23
+          24.26
         ],
         "hip_r": [
-          -13.46,
-          -0.45,
-          10
+          -106.81,
+          -17.71,
+          5.67
         ],
         "knee_r": [
-          18.75,
+          96.07,
           0,
-          0.97
+          0
         ]
       },
-      "rootY": 0.04,
-      "rootPitch": 8.15,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
+      "rootY": 0.06,
+      "rootPitch": 9.37,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
       "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/portrait-of-a-man-holding-a-flower-9775818/",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/a-woman-behind-an-orange-glass-panel-8763889/",
+      "license": "Pexels License",
+      "author": "cottonbro studio",
+      "origin": "pexels"
+    },
+    {
+      "id": "p089",
+      "name": "杂志大片·展臂造型",
+      "category": "杂志大片",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p089.jpg",
+      "overlay": "assets/content/poses3/photos/p089.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p089.png",
+      "skeleton": "assets/content/poses3/photos/p089.skeleton.json",
+      "confidence": 0.5717,
+      "referenceOnly": true,
+      "bodySpan": 1.756,
+      "partialBody": true,
+      "partialReason": "关键点跨度异常（1.76），身体外推失真",
+      "joints": {
+        "spine": [
+          0,
+          3.13,
+          0
+        ],
+        "neck": [
+          12.74,
+          9.72,
+          5.22
+        ],
+        "shoulder_l": [
+          -12.26,
+          -0.19,
+          13.08
+        ],
+        "elbow_l": [
+          -26.68,
+          0,
+          3.61
+        ],
+        "wrist_l": [
+          -2.16,
+          0,
+          -7.34
+        ],
+        "shoulder_r": [
+          -2.99,
+          45.73,
+          -89.82
+        ],
+        "elbow_r": [
+          -40.12,
+          0,
+          -25.9
+        ],
+        "wrist_r": [
+          -25.2,
+          0,
+          -27.22
+        ],
+        "hip_l": [
+          -43.88,
+          -0.37,
+          8.55
+        ],
+        "knee_l": [
+          47.23,
+          0,
+          19.7
+        ],
+        "hip_r": [
+          -88.04,
+          -20.33,
+          10.04
+        ],
+        "knee_r": [
+          86,
+          0,
+          0
+        ]
+      },
+      "rootY": -0.135,
+      "rootPitch": 1.34,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
+      "lens": "85mm 人像（参考）",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/woman-in-a-pink-coat-reaching-out-with-her-hand-8004390/",
       "license": "Pexels License",
       "author": "SHVETS production",
       "origin": "pexels"
     },
     {
+      "id": "p090",
+      "name": "杂志大片·封面定格",
+      "category": "杂志大片",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p090.jpg",
+      "overlay": "assets/content/poses3/photos/p090.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p090.png",
+      "skeleton": "assets/content/poses3/photos/p090.skeleton.json",
+      "confidence": 0.9174,
+      "referenceOnly": false,
+      "bodySpan": 0.852,
+      "partialBody": false,
+      "joints": {
+        "spine": [
+          0,
+          -3.76,
+          0
+        ],
+        "neck": [
+          17.85,
+          2.06,
+          7.23
+        ],
+        "shoulder_l": [
+          -25.87,
+          0.06,
+          -29.16
+        ],
+        "elbow_l": [
+          -107.19,
+          0,
+          -24.98
+        ],
+        "wrist_l": [
+          -13.91,
+          0,
+          3.44
+        ],
+        "shoulder_r": [
+          -1.05,
+          0.78,
+          -4.26
+        ],
+        "elbow_r": [
+          -56.15,
+          0,
+          70.95
+        ],
+        "wrist_r": [
+          -4.57,
+          0,
+          20.18
+        ],
+        "hip_l": [
+          7.89,
+          0.15,
+          2.93
+        ],
+        "knee_l": [
+          21.29,
+          0,
+          -4.04
+        ],
+        "hip_r": [
+          8.54,
+          0.3,
+          0.57
+        ],
+        "knee_r": [
+          7.9,
+          0,
+          -11.51
+        ]
+      },
+      "rootY": 0.06,
+      "rootPitch": -9.97,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
+      "lens": "85mm 人像（参考）",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/topless-man-in-black-pants-20381271/",
+      "license": "Pexels License",
+      "author": "Elisbeth K.",
+      "origin": "pexels"
+    },
+    {
+      "id": "p091",
+      "name": "杂志大片·侧身回眸",
+      "category": "杂志大片",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p091.jpg",
+      "overlay": "assets/content/poses3/photos/p091.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p091.png",
+      "skeleton": "assets/content/poses3/photos/p091.skeleton.json",
+      "confidence": 0.399,
+      "referenceOnly": true,
+      "bodySpan": 1.844,
+      "partialBody": true,
+      "partialReason": "关键点跨度异常（1.84），身体外推失真",
+      "joints": {
+        "spine": [
+          0,
+          -17.03,
+          0
+        ],
+        "neck": [
+          36.75,
+          -45.48,
+          46.96
+        ],
+        "shoulder_l": [
+          8.4,
+          0.01,
+          28.54
+        ],
+        "elbow_l": [
+          -22.55,
+          0,
+          -27.83
+        ],
+        "wrist_l": [
+          -49.89,
+          0,
+          14.65
+        ],
+        "shoulder_r": [
+          3.43,
+          -0.2,
+          12
+        ],
+        "elbow_r": [
+          -42.02,
+          0,
+          0
+        ],
+        "wrist_r": [
+          -22.83,
+          0,
+          1.88
+        ],
+        "hip_l": [
+          -47.55,
+          -0.3,
+          -36.82
+        ],
+        "knee_l": [
+          74.41,
+          0,
+          13.5
+        ],
+        "hip_r": [
+          -62.01,
+          0.34,
+          -176.68
+        ],
+        "knee_r": [
+          103.37,
+          0,
+          4.87
+        ]
+      },
+      "rootY": -0.022,
+      "rootPitch": 26.17,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
+      "lens": "85mm 人像（参考）",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/a-portrait-of-a-woman-7515728/",
+      "license": "Pexels License",
+      "author": "cottonbro studio",
+      "origin": "pexels"
+    },
+    {
+      "id": "p092",
+      "name": "杂志大片·侧身回眸",
+      "category": "杂志大片",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p092.jpg",
+      "overlay": "assets/content/poses3/photos/p092.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p092.png",
+      "skeleton": "assets/content/poses3/photos/p092.skeleton.json",
+      "confidence": 0.6846,
+      "referenceOnly": false,
+      "bodySpan": 0.343,
+      "partialBody": true,
+      "partialReason": "照片为半身/特写（关键点跨度 0.34），下肢未入画",
+      "joints": {
+        "spine": [
+          0,
+          -1.7,
+          0
+        ],
+        "neck": [
+          -7.39,
+          12.51,
+          10.18
+        ],
+        "shoulder_l": [
+          -58.12,
+          0.04,
+          -4.03
+        ],
+        "elbow_l": [
+          -116.17,
+          0,
+          -64.69
+        ],
+        "wrist_l": [
+          -55.1,
+          0,
+          51.3
+        ],
+        "shoulder_r": [
+          -16.71,
+          -0.11,
+          17.04
+        ],
+        "elbow_r": [
+          -130.39,
+          0,
+          3.05
+        ],
+        "wrist_r": [
+          6.87,
+          0,
+          4.31
+        ],
+        "hip_l": [
+          -69.67,
+          13.66,
+          -54.84
+        ],
+        "knee_l": [
+          56.75,
+          0,
+          0
+        ],
+        "hip_r": [
+          -48.07,
+          -0.14,
+          -50.08
+        ],
+        "knee_r": [
+          37.62,
+          0,
+          1.22
+        ]
+      },
+      "rootY": 0.034,
+      "rootPitch": 38.25,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
+      "lens": "85mm 人像（参考）",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/a-woman-posing-at-the-camera-11834293/",
+      "license": "Pexels License",
+      "author": "Michael John  Pedrajas",
+      "origin": "pexels"
+    },
+    {
+      "id": "p093",
+      "name": "杂志大片·重心偏移",
+      "category": "杂志大片",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p093.jpg",
+      "overlay": "assets/content/poses3/photos/p093.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p093.png",
+      "skeleton": "assets/content/poses3/photos/p093.skeleton.json",
+      "confidence": 0.7441,
+      "referenceOnly": false,
+      "bodySpan": 1.119,
+      "partialBody": false,
+      "joints": {
+        "spine": [
+          0,
+          -7.65,
+          0
+        ],
+        "neck": [
+          -2.93,
+          5.78,
+          -4.97
+        ],
+        "shoulder_l": [
+          -33.84,
+          -0.26,
+          -11.51
+        ],
+        "elbow_l": [
+          -13.6,
+          0,
+          -4.89
+        ],
+        "wrist_l": [
+          -6.61,
+          0,
+          -10.64
+        ],
+        "shoulder_r": [
+          -48.53,
+          35.97,
+          -12.09
+        ],
+        "elbow_r": [
+          -73.28,
+          0,
+          0
+        ],
+        "wrist_r": [
+          -51.47,
+          0,
+          -3.64
+        ],
+        "hip_l": [
+          -119.63,
+          -40.45,
+          29.23
+        ],
+        "knee_l": [
+          140,
+          0,
+          -35.59
+        ],
+        "hip_r": [
+          -119.25,
+          -0.17,
+          -24.72
+        ],
+        "knee_r": [
+          137.58,
+          0,
+          31.28
+        ]
+      },
+      "rootY": -0.506,
+      "rootPitch": 13.25,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
+      "lens": "85mm 人像（参考）",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/a-shirtless-man-sitting-on-a-chair-with-his-hands-on-his-lap-27300317/",
+      "license": "Pexels License",
+      "author": "Nguyễn Hoàng Văn",
+      "origin": "pexels"
+    },
+    {
+      "id": "p094",
+      "name": "杂志大片·侧身回眸",
+      "category": "杂志大片",
+      "difficulty": "进阶",
+      "photo": "assets/content/poses3/photos/p094.jpg",
+      "overlay": "assets/content/poses3/photos/p094.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p094.png",
+      "skeleton": "assets/content/poses3/photos/p094.skeleton.json",
+      "confidence": 0.4908,
+      "referenceOnly": true,
+      "bodySpan": 1.455,
+      "partialBody": true,
+      "partialReason": "关键点跨度异常（1.45），身体外推失真",
+      "joints": {
+        "spine": [
+          0,
+          8.58,
+          0
+        ],
+        "neck": [
+          8.96,
+          24.34,
+          2.98
+        ],
+        "shoulder_l": [
+          -8.75,
+          -0.28,
+          25.28
+        ],
+        "elbow_l": [
+          -17.33,
+          0,
+          -4.56
+        ],
+        "wrist_l": [
+          -5.42,
+          0,
+          14.49
+        ],
+        "shoulder_r": [
+          16.49,
+          -0.21,
+          -11.19
+        ],
+        "elbow_r": [
+          -7.07,
+          0,
+          30.09
+        ],
+        "wrist_r": [
+          -44,
+          0,
+          36.17
+        ],
+        "hip_l": [
+          -0.95,
+          -0.09,
+          -4.3
+        ],
+        "knee_l": [
+          15.72,
+          0,
+          8.54
+        ],
+        "hip_r": [
+          -28.29,
+          -0.11,
+          6.87
+        ],
+        "knee_r": [
+          25.48,
+          0,
+          7.96
+        ]
+      },
+      "rootY": 0.142,
+      "rootPitch": 16.68,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
+      "lens": "85mm 人像（参考）",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/stylish-male-model-in-studio-portrait-31630005/",
+      "license": "Pexels License",
+      "author": "Shima Nia",
+      "origin": "pexels"
+    },
+    {
+      "id": "p095",
+      "name": "杂志大片·重心偏移",
+      "category": "杂志大片",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p095.jpg",
+      "overlay": "assets/content/poses3/photos/p095.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p095.png",
+      "skeleton": "assets/content/poses3/photos/p095.skeleton.json",
+      "confidence": 0.4382,
+      "referenceOnly": true,
+      "bodySpan": 2.406,
+      "partialBody": true,
+      "partialReason": "关键点跨度异常（2.41），身体外推失真",
+      "joints": {
+        "spine": [
+          0,
+          3.29,
+          0
+        ],
+        "neck": [
+          9.07,
+          -1.56,
+          5.71
+        ],
+        "shoulder_l": [
+          -0.59,
+          -44.45,
+          27.01
+        ],
+        "elbow_l": [
+          -38.41,
+          0,
+          0
+        ],
+        "wrist_l": [
+          -7.68,
+          0,
+          8.33
+        ],
+        "shoulder_r": [
+          -5.15,
+          33.35,
+          -28.76
+        ],
+        "elbow_r": [
+          -47.99,
+          0,
+          0
+        ],
+        "wrist_r": [
+          -34.51,
+          0,
+          30.76
+        ],
+        "hip_l": [
+          -80.23,
+          6.62,
+          -71.74
+        ],
+        "knee_l": [
+          113.53,
+          0,
+          0
+        ],
+        "hip_r": [
+          -4.62,
+          -87.16,
+          163.65
+        ],
+        "knee_r": [
+          140,
+          0,
+          -7.41
+        ]
+      },
+      "rootY": -0.35,
+      "rootPitch": 12.2,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
+      "lens": "85mm 人像（参考）",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/a-woman-in-black-sunglasses-seriously-looking-at-the-camera-8683439/",
+      "license": "Pexels License",
+      "author": "cottonbro studio",
+      "origin": "pexels"
+    },
+    {
+      "id": "p096",
+      "name": "杂志大片·侧身回眸",
+      "category": "杂志大片",
+      "difficulty": "进阶",
+      "photo": "assets/content/poses3/photos/p096.jpg",
+      "overlay": "assets/content/poses3/photos/p096.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p096.png",
+      "skeleton": "assets/content/poses3/photos/p096.skeleton.json",
+      "confidence": 0.8243,
+      "referenceOnly": false,
+      "bodySpan": 0.726,
+      "partialBody": false,
+      "joints": {
+        "spine": [
+          0,
+          14.39,
+          0
+        ],
+        "neck": [
+          7.16,
+          34.84,
+          -1.98
+        ],
+        "shoulder_l": [
+          -9.18,
+          -0.68,
+          7.42
+        ],
+        "elbow_l": [
+          -24.76,
+          0,
+          -26.52
+        ],
+        "wrist_l": [
+          -23.58,
+          0,
+          -4.36
+        ],
+        "shoulder_r": [
+          -0.26,
+          30.96,
+          -20.4
+        ],
+        "elbow_r": [
+          -47.72,
+          0,
+          7.43
+        ],
+        "wrist_r": [
+          -21.05,
+          0,
+          28.22
+        ],
+        "hip_l": [
+          -22.8,
+          -0.35,
+          -13.46
+        ],
+        "knee_l": [
+          22.42,
+          0,
+          8.33
+        ],
+        "hip_r": [
+          -6.63,
+          -0.56,
+          16.76
+        ],
+        "knee_r": [
+          11.13,
+          0,
+          4.91
+        ]
+      },
+      "rootY": 0.008,
+      "rootPitch": 7.05,
+      "weight": "重心偏移制造张力，肩线与髋线交错",
+      "hands": "手部放松但指尖有指向，避免僵硬",
+      "commonMistake": "过度扭腰导致体态失真",
+      "lens": "85mm 人像（参考）",
+      "cameraPosition": "与胸口同高，留出造型空间",
+      "source": "https://www.pexels.com/photo/man-posing-with-yellow-umbrella-20381283/",
+      "license": "Pexels License",
+      "author": "Elisbeth K.",
+      "origin": "pexels"
+    },
+    {
+      "id": "p097",
+      "name": "影视感·正面定妆",
+      "category": "影视感",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p097.jpg",
+      "overlay": "assets/content/poses3/photos/p097.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p097.png",
+      "skeleton": "assets/content/poses3/photos/p097.skeleton.json",
+      "confidence": 0.4206,
+      "referenceOnly": true,
+      "bodySpan": 3.116,
+      "partialBody": true,
+      "partialReason": "关键点跨度异常（3.12），身体外推失真",
+      "joints": {
+        "spine": [
+          0,
+          7.72,
+          0
+        ],
+        "neck": [
+          14.79,
+          4.09,
+          3.8
+        ],
+        "shoulder_l": [
+          -2.64,
+          -0.37,
+          11.03
+        ],
+        "elbow_l": [
+          -38.07,
+          0,
+          -10.68
+        ],
+        "wrist_l": [
+          -7.24,
+          0,
+          -8.03
+        ],
+        "shoulder_r": [
+          -5.09,
+          -0.66,
+          0.45
+        ],
+        "elbow_r": [
+          -30.28,
+          0,
+          -3.54
+        ],
+        "wrist_r": [
+          -11.24,
+          0,
+          26.89
+        ],
+        "hip_l": [
+          -87.71,
+          -0.5,
+          -14.8
+        ],
+        "knee_l": [
+          106.51,
+          0,
+          19.24
+        ],
+        "hip_r": [
+          -119.59,
+          -67.02,
+          17.59
+        ],
+        "knee_r": [
+          140,
+          0,
+          -39
+        ]
+      },
+      "rootY": -0.279,
+      "rootPitch": 10.11,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/man-in-hoodie-on-black-background-10686007/",
+      "license": "Pexels License",
+      "author": "Tokuo Nobuhiro",
+      "origin": "pexels"
+    },
+    {
+      "id": "p098",
+      "name": "影视感·侧脸凝视",
+      "category": "影视感",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p098.jpg",
+      "overlay": "assets/content/poses3/photos/p098.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p098.png",
+      "skeleton": "assets/content/poses3/photos/p098.skeleton.json",
+      "confidence": 0.5329,
+      "referenceOnly": true,
+      "bodySpan": 0.627,
+      "partialBody": false,
+      "joints": {
+        "spine": [
+          0,
+          -11.85,
+          0
+        ],
+        "neck": [
+          2.6,
+          -35.06,
+          -2.53
+        ],
+        "shoulder_l": [
+          -21.5,
+          -0.64,
+          7.61
+        ],
+        "elbow_l": [
+          -35.27,
+          0,
+          -10.63
+        ],
+        "wrist_l": [
+          -21.96,
+          0,
+          -33.94
+        ],
+        "shoulder_r": [
+          -21.6,
+          -0.26,
+          9.14
+        ],
+        "elbow_r": [
+          -34.14,
+          0,
+          33.78
+        ],
+        "wrist_r": [
+          -38.54,
+          0,
+          4.59
+        ],
+        "hip_l": [
+          -75.1,
+          0.65,
+          22.68
+        ],
+        "knee_l": [
+          92.73,
+          0,
+          0
+        ],
+        "hip_r": [
+          -56.23,
+          -39.46,
+          32.89
+        ],
+        "knee_r": [
+          93.67,
+          0,
+          0
+        ]
+      },
+      "rootY": -0.227,
+      "rootPitch": 11.19,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/man-sitting-on-a-bench-in-a-modern-building-with-a-camera-in-his-hand-22661922/",
+      "license": "Pexels License",
+      "author": "Rafael Nicida",
+      "origin": "pexels"
+    },
+    {
+      "id": "p099",
+      "name": "影视感·正面定妆",
+      "category": "影视感",
+      "difficulty": "进阶",
+      "photo": "assets/content/poses3/photos/p099.jpg",
+      "overlay": "assets/content/poses3/photos/p099.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p099.png",
+      "skeleton": "assets/content/poses3/photos/p099.skeleton.json",
+      "confidence": 0.7332,
+      "referenceOnly": false,
+      "bodySpan": 0.896,
+      "partialBody": false,
+      "joints": {
+        "spine": [
+          0,
+          -1.11,
+          0
+        ],
+        "neck": [
+          -7.46,
+          2.95,
+          -4.44
+        ],
+        "shoulder_l": [
+          -20.54,
+          0.33,
+          5.36
+        ],
+        "elbow_l": [
+          -14.21,
+          0,
+          -9.4
+        ],
+        "wrist_l": [
+          -3.93,
+          0,
+          -22.33
+        ],
+        "shoulder_r": [
+          -15.78,
+          -0.08,
+          -17.69
+        ],
+        "elbow_r": [
+          -12.36,
+          0,
+          11.29
+        ],
+        "wrist_r": [
+          -20.53,
+          0,
+          17.95
+        ],
+        "hip_l": [
+          15.09,
+          -0.15,
+          -11.03
+        ],
+        "knee_l": [
+          12.23,
+          0,
+          15.17
+        ],
+        "hip_r": [
+          -6.82,
+          -0.12,
+          8.45
+        ],
+        "knee_r": [
+          48.3,
+          0,
+          -3.74
+        ]
+      },
+      "rootY": -0.016,
+      "rootPitch": 17.52,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/a-man-in-black-long-sleeve-robe-7792260/",
+      "license": "Pexels License",
+      "author": "cottonbro studio",
+      "origin": "pexels"
+    },
+    {
+      "id": "p100",
+      "name": "影视感·正面定妆",
+      "category": "影视感",
+      "difficulty": "进阶",
+      "photo": "assets/content/poses3/photos/p100.jpg",
+      "overlay": "assets/content/poses3/photos/p100.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p100.png",
+      "skeleton": "assets/content/poses3/photos/p100.skeleton.json",
+      "confidence": 0.6405,
+      "referenceOnly": false,
+      "bodySpan": 0.266,
+      "partialBody": true,
+      "partialReason": "照片为半身/特写（关键点跨度 0.27），下肢未入画",
+      "joints": {
+        "spine": [
+          0,
+          2.69,
+          0
+        ],
+        "neck": [
+          6.95,
+          17.25,
+          -3.24
+        ],
+        "shoulder_l": [
+          4.59,
+          0.78,
+          10.18
+        ],
+        "elbow_l": [
+          -26.63,
+          0,
+          19.95
+        ],
+        "wrist_l": [
+          -33.15,
+          0,
+          9.75
+        ],
+        "shoulder_r": [
+          21.75,
+          25.95,
+          6.86
+        ],
+        "elbow_r": [
+          4.88,
+          0,
+          13.15
+        ],
+        "wrist_r": [
+          18.45,
+          0,
+          -5.67
+        ],
+        "hip_l": [
+          -31.4,
+          0.05,
+          -0.23
+        ],
+        "knee_l": [
+          39.46,
+          0,
+          -5.75
+        ],
+        "hip_r": [
+          -21.53,
+          0.54,
+          9.91
+        ],
+        "knee_r": [
+          29.33,
+          0,
+          -6.96
+        ]
+      },
+      "rootY": 0.317,
+      "rootPitch": 57.57,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/woman-in-black-leather-jacket-8271458/",
+      "license": "Pexels License",
+      "author": "cottonbro studio",
+      "origin": "pexels"
+    },
+    {
+      "id": "p101",
+      "name": "影视感·侧脸凝视",
+      "category": "影视感",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p101.jpg",
+      "overlay": "assets/content/poses3/photos/p101.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p101.png",
+      "skeleton": "assets/content/poses3/photos/p101.skeleton.json",
+      "confidence": 0.5475,
+      "referenceOnly": true,
+      "bodySpan": 2.801,
+      "partialBody": true,
+      "partialReason": "关键点跨度异常（2.80），身体外推失真",
+      "joints": {
+        "spine": [
+          0,
+          -10.18,
+          0
+        ],
+        "neck": [
+          19.19,
+          -19.43,
+          11.5
+        ],
+        "shoulder_l": [
+          -5.92,
+          -33.57,
+          56.45
+        ],
+        "elbow_l": [
+          -108.06,
+          0,
+          0
+        ],
+        "wrist_l": [
+          -25.15,
+          0,
+          -22.12
+        ],
+        "shoulder_r": [
+          -25.36,
+          0.32,
+          2.75
+        ],
+        "elbow_r": [
+          -33.6,
+          0,
+          11.99
+        ],
+        "wrist_r": [
+          5.79,
+          0,
+          37.11
+        ],
+        "hip_l": [
+          -51.41,
+          -10.09,
+          14.67
+        ],
+        "knee_l": [
+          77.81,
+          0,
+          0
+        ],
+        "hip_r": [
+          -21.3,
+          -51.22,
+          104.4
+        ],
+        "knee_r": [
+          139.83,
+          0,
+          -52.91
+        ]
+      },
+      "rootY": -0.134,
+      "rootPitch": 5.38,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/portrait-of-smiling-woman-in-ho-chi-minh-city-39165203/",
+      "license": "Pexels License",
+      "author": "Vuong",
+      "origin": "pexels"
+    },
+    {
+      "id": "p102",
+      "name": "影视感·正面定妆",
+      "category": "影视感",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p102.jpg",
+      "overlay": "assets/content/poses3/photos/p102.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p102.png",
+      "skeleton": "assets/content/poses3/photos/p102.skeleton.json",
+      "confidence": 0.8838,
+      "referenceOnly": false,
+      "bodySpan": 0.599,
+      "partialBody": false,
+      "joints": {
+        "spine": [
+          0,
+          -0.44,
+          0
+        ],
+        "neck": [
+          -6.39,
+          10.09,
+          -4.6
+        ],
+        "shoulder_l": [
+          -22.84,
+          -18.15,
+          38.34
+        ],
+        "elbow_l": [
+          -22.9,
+          0,
+          0
+        ],
+        "wrist_l": [
+          -7.67,
+          0,
+          -16.82
+        ],
+        "shoulder_r": [
+          -0.06,
+          30.92,
+          -53.46
+        ],
+        "elbow_r": [
+          -56.79,
+          0,
+          5.87
+        ],
+        "wrist_r": [
+          -21.08,
+          0,
+          31.37
+        ],
+        "hip_l": [
+          -119.79,
+          18.41,
+          34.74
+        ],
+        "knee_l": [
+          140,
+          0,
+          -28.09
+        ],
+        "hip_r": [
+          -116.38,
+          -9.55,
+          -29.96
+        ],
+        "knee_r": [
+          139.62,
+          0,
+          40.69
+        ]
+      },
+      "rootY": -0.515,
+      "rootPitch": 21.2,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/man-in-black-crew-neck-t-shirt-sitting-on-the-floor-8108530/",
+      "license": "Pexels License",
+      "author": "Mikhail Nilov",
+      "origin": "pexels"
+    },
+    {
+      "id": "p103",
+      "name": "影视感·正面定妆",
+      "category": "影视感",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p103.jpg",
+      "overlay": "assets/content/poses3/photos/p103.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p103.png",
+      "skeleton": "assets/content/poses3/photos/p103.skeleton.json",
+      "confidence": 0.4137,
+      "referenceOnly": true,
+      "bodySpan": 3.497,
+      "partialBody": true,
+      "partialReason": "关键点跨度异常（3.50），身体外推失真",
+      "joints": {
+        "spine": [
+          0,
+          1.86,
+          0
+        ],
+        "neck": [
+          11.16,
+          5.64,
+          -1.26
+        ],
+        "shoulder_l": [
+          -7.71,
+          0.01,
+          19.6
+        ],
+        "elbow_l": [
+          -19.99,
+          0,
+          -26.02
+        ],
+        "wrist_l": [
+          -27.28,
+          0,
+          -7.2
+        ],
+        "shoulder_r": [
+          -10.11,
+          0.02,
+          -7.33
+        ],
+        "elbow_r": [
+          -43.31,
+          0,
+          3.43
+        ],
+        "wrist_r": [
+          -8.39,
+          0,
+          28.75
+        ],
+        "hip_l": [
+          -69.68,
+          -0.07,
+          -33.72
+        ],
+        "knee_l": [
+          100.06,
+          0,
+          9.85
+        ],
+        "hip_r": [
+          -117.04,
+          -83.67,
+          38.48
+        ],
+        "knee_r": [
+          140,
+          0,
+          -17.61
+        ]
+      },
+      "rootY": -0.175,
+      "rootPitch": 12.68,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/man-in-white-crew-neck-t-shirt-3891294/",
+      "license": "Pexels License",
+      "author": "Nam Phong Bùi",
+      "origin": "pexels"
+    },
+    {
+      "id": "p104",
+      "name": "影视感·倚坐沉思",
+      "category": "影视感",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p104.jpg",
+      "overlay": "assets/content/poses3/photos/p104.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p104.png",
+      "skeleton": "assets/content/poses3/photos/p104.skeleton.json",
+      "confidence": 0.6702,
+      "referenceOnly": false,
+      "bodySpan": 0.613,
+      "partialBody": false,
+      "joints": {
+        "spine": [
+          0,
+          -2.8,
+          0
+        ],
+        "neck": [
+          2.21,
+          -6.9,
+          -17.46
+        ],
+        "shoulder_l": [
+          -42.31,
+          -27.02,
+          11.42
+        ],
+        "elbow_l": [
+          -56.15,
+          0,
+          0
+        ],
+        "wrist_l": [
+          -19.64,
+          0,
+          -18.49
+        ],
+        "shoulder_r": [
+          -45.98,
+          0.65,
+          -0.06
+        ],
+        "elbow_r": [
+          -37.38,
+          0,
+          48.79
+        ],
+        "wrist_r": [
+          -47.26,
+          0,
+          -6.59
+        ],
+        "hip_l": [
+          -112.1,
+          -6.49,
+          51.54
+        ],
+        "knee_l": [
+          117.95,
+          0,
+          0
+        ],
+        "hip_r": [
+          -90.51,
+          -23.53,
+          43.54
+        ],
+        "knee_r": [
+          104.45,
+          0,
+          0
+        ]
+      },
+      "rootY": -0.469,
+      "rootPitch": 12.34,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/a-man-in-beige-jacket-sitting-while-filming-using-a-video-camera-7991577/",
+      "license": "Pexels License",
+      "author": "Tima Miroshnichenko",
+      "origin": "pexels"
+    },
+    {
+      "id": "p105",
+      "name": "影视感·正面定妆",
+      "category": "影视感",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p105.jpg",
+      "overlay": "assets/content/poses3/photos/p105.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p105.png",
+      "skeleton": "assets/content/poses3/photos/p105.skeleton.json",
+      "confidence": 0.5273,
+      "referenceOnly": true,
+      "bodySpan": 1.151,
+      "partialBody": false,
+      "joints": {
+        "spine": [
+          0,
+          -24.08,
+          0
+        ],
+        "neck": [
+          13,
+          -12.18,
+          6.14
+        ],
+        "shoulder_l": [
+          -15.14,
+          -0.2,
+          12.06
+        ],
+        "elbow_l": [
+          -28.04,
+          0,
+          -27.57
+        ],
+        "wrist_l": [
+          -20.41,
+          0,
+          26.43
+        ],
+        "shoulder_r": [
+          0.12,
+          0.42,
+          -0.62
+        ],
+        "elbow_r": [
+          -39.89,
+          0,
+          21.07
+        ],
+        "wrist_r": [
+          -6.13,
+          0,
+          -6.51
+        ],
+        "hip_l": [
+          -119.67,
+          78.91,
+          -26.35
+        ],
+        "knee_l": [
+          140,
+          0,
+          6.23
+        ],
+        "hip_r": [
+          -51.63,
+          77.23,
+          -121.82
+        ],
+        "knee_r": [
+          140,
+          0,
+          4.91
+        ]
+      },
+      "rootY": -0.794,
+      "rootPitch": -0.14,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/woman-in-black-tank-top-wearing-black-framed-sunglasses-8717366/",
+      "license": "Pexels License",
+      "author": "cottonbro studio",
+      "origin": "pexels"
+    },
+    {
+      "id": "p106",
+      "name": "影视感·侧脸凝视",
+      "category": "影视感",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p106.jpg",
+      "overlay": "assets/content/poses3/photos/p106.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p106.png",
+      "skeleton": "assets/content/poses3/photos/p106.skeleton.json",
+      "confidence": 0.6632,
+      "referenceOnly": false,
+      "bodySpan": 0.229,
+      "partialBody": true,
+      "partialReason": "照片为半身/特写（关键点跨度 0.23），下肢未入画",
+      "joints": {
+        "spine": [
+          0,
+          9.98,
+          0
+        ],
+        "neck": [
+          0.81,
+          33.9,
+          -5.82
+        ],
+        "shoulder_l": [
+          -49.46,
+          0.16,
+          -35.8
+        ],
+        "elbow_l": [
+          -116.16,
+          0,
+          -36.01
+        ],
+        "wrist_l": [
+          -41.72,
+          0,
+          17.98
+        ],
+        "shoulder_r": [
+          -43.73,
+          8.26,
+          25.02
+        ],
+        "elbow_r": [
+          -148.17,
+          0,
+          69.77
+        ],
+        "wrist_r": [
+          -27.37,
+          0,
+          -26.91
+        ],
+        "hip_l": [
+          -81.41,
+          -9.69,
+          30.9
+        ],
+        "knee_l": [
+          140,
+          0,
+          0
+        ],
+        "hip_r": [
+          0.57,
+          64.62,
+          -92.69
+        ],
+        "knee_r": [
+          136.7,
+          0,
+          32.6
+        ]
+      },
+      "rootY": -0.105,
+      "rootPitch": 49.54,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/pretty-woman-wearing-sunglasses-8683443/",
+      "license": "Pexels License",
+      "author": "cottonbro studio",
+      "origin": "pexels"
+    },
+    {
+      "id": "p107",
+      "name": "影视感·正面定妆",
+      "category": "影视感",
+      "difficulty": "高难度",
+      "photo": "assets/content/poses3/photos/p107.jpg",
+      "overlay": "assets/content/poses3/photos/p107.overlay.png",
+      "overlayRel": "docs/pose-qa3/overlay-p107.png",
+      "skeleton": "assets/content/poses3/photos/p107.skeleton.json",
+      "confidence": 0.6377,
+      "referenceOnly": false,
+      "bodySpan": 1.622,
+      "partialBody": true,
+      "partialReason": "关键点跨度异常（1.62），身体外推失真",
+      "joints": {
+        "spine": [
+          0,
+          5.63,
+          0
+        ],
+        "neck": [
+          -0.87,
+          0.7,
+          12.99
+        ],
+        "shoulder_l": [
+          -22.76,
+          -0.65,
+          3.42
+        ],
+        "elbow_l": [
+          -30.41,
+          0,
+          -60.47
+        ],
+        "wrist_l": [
+          -2.77,
+          0,
+          -21.37
+        ],
+        "shoulder_r": [
+          -40.18,
+          30.65,
+          -2.69
+        ],
+        "elbow_r": [
+          -89.29,
+          0,
+          0
+        ],
+        "wrist_r": [
+          -29.67,
+          0,
+          10.75
+        ],
+        "hip_l": [
+          -23.67,
+          0.09,
+          -4.24
+        ],
+        "knee_l": [
+          36.48,
+          0,
+          4.17
+        ],
+        "hip_r": [
+          -29.28,
+          0.37,
+          15.57
+        ],
+        "knee_r": [
+          27.66,
+          0,
+          -6.12
+        ]
+      },
+      "rootY": 0.197,
+      "rootPitch": 28.25,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/woman-wearing-a-black-blazer-8564655/",
+      "license": "Pexels License",
+      "author": "Tran Duc Hung",
+      "origin": "pexels"
+    },
+    {
       "id": "p108",
-      "name": "神态·侧脸回眸",
-      "category": "神态",
+      "name": "影视感·侧脸凝视",
+      "category": "影视感",
       "difficulty": "高难度",
       "photo": "assets/content/poses3/photos/p108.jpg",
       "overlay": "assets/content/poses3/photos/p108.overlay.png",
       "overlayRel": "docs/pose-qa3/overlay-p108.png",
       "skeleton": "assets/content/poses3/photos/p108.skeleton.json",
-      "confidence": 0.6641,
+      "confidence": 0.7078,
       "referenceOnly": false,
-      "bodySpan": 1.825,
-      "partialBody": true,
-      "partialReason": "关键点跨度异常（1.82），身体外推失真",
+      "bodySpan": 1.137,
+      "partialBody": false,
       "joints": {
         "spine": [
           0,
-          -6.7,
+          4.92,
           0
         ],
         "neck": [
-          -1.41,
-          -30.13,
-          18.42
+          5.33,
+          26.06,
+          1.98
         ],
         "shoulder_l": [
-          -62.86,
-          -0.01,
-          -4.67
+          -0.11,
+          0.21,
+          24.23
         ],
         "elbow_l": [
-          -96.52,
+          -109.73,
           0,
-          -54.83
+          36.33
         ],
         "wrist_l": [
-          -34.74,
+          -10.41,
           0,
-          2.95
+          -29.06
         ],
         "shoulder_r": [
-          -60.68,
-          0.13,
-          8.23
+          -23.99,
+          0.92,
+          0.29
         ],
         "elbow_r": [
-          -78.88,
+          -113.04,
           0,
-          12.76
+          42.62
         ],
         "wrist_r": [
-          -52.73,
+          -37.15,
           0,
-          15.65
+          -18.03
         ],
         "hip_l": [
-          -75.13,
-          2.62,
-          -6.98
+          -19.46,
+          -0.28,
+          19.1
         ],
         "knee_l": [
-          77.33,
+          23.29,
           0,
-          0
+          -4.39
         ],
         "hip_r": [
-          -119.06,
-          -70.45,
-          43.6
+          -56.5,
+          0.3,
+          26.42
         ],
         "knee_r": [
-          140,
+          65.93,
           0,
-          -46.21
+          0
         ]
       },
-      "rootY": 0.073,
-      "rootPitch": 33.42,
-      "weight": "下巴微收，视线与镜头方向一致",
-      "hands": "面部放松，避免用力眯眼",
-      "commonMistake": "颈部前伸、下巴上扬",
-      "lens": "85mm 人像（参考）",
-      "cameraPosition": "与眼睛同高",
-      "source": "https://www.pexels.com/photo/a-man-with-his-hands-together-7905823/",
+      "rootY": 0.074,
+      "rootPitch": 16.32,
+      "weight": "情绪先于动作，肩颈放松、重心下沉",
+      "hands": "手部自然入戏，避免摆拍感",
+      "commonMistake": "表情与姿态脱节、眼神涣散",
+      "lens": "50mm 电影感（参考）",
+      "cameraPosition": "与眼睛同高，略带侧光位",
+      "source": "https://www.pexels.com/photo/photo-of-a-man-in-a-white-shirt-holding-a-videotape-7453274/",
       "license": "Pexels License",
-      "author": "Shuseel  Maharjan",
+      "author": "HONG SON",
       "origin": "pexels"
     },
     {
@@ -9521,7 +9438,6 @@
       "referenceOnly": false,
       "bodySpan": 0.789,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -9609,7 +9525,6 @@
       "referenceOnly": false,
       "bodySpan": 0.72,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -9697,7 +9612,6 @@
       "referenceOnly": false,
       "bodySpan": 0.913,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -9785,7 +9699,6 @@
       "referenceOnly": false,
       "bodySpan": 0.686,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -9848,7 +9761,7 @@
           9.35
         ]
       },
-      "rootY": 0.009,
+      "rootY": 0.01,
       "rootPitch": 4.42,
       "weight": "身体与道具保持自然距离，重心稳",
       "hands": "持物手放松，腕部顺道具方向",
@@ -9873,7 +9786,6 @@
       "referenceOnly": false,
       "bodySpan": 0.616,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -9961,7 +9873,6 @@
       "referenceOnly": false,
       "bodySpan": 0.637,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -10049,7 +9960,7 @@
       "referenceOnly": false,
       "bodySpan": 0.292,
       "partialBody": true,
-      "partialReason": "照片为半身/特写（关键点跨度 0.29）",
+      "partialReason": "照片为半身/特写（关键点跨度 0.29），下肢未入画",
       "joints": {
         "spine": [
           0,
@@ -10137,7 +10048,6 @@
       "referenceOnly": false,
       "bodySpan": 0.635,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -10225,7 +10135,6 @@
       "referenceOnly": false,
       "bodySpan": 0.708,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -10313,7 +10222,6 @@
       "referenceOnly": false,
       "bodySpan": 0.765,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -10401,7 +10309,6 @@
       "referenceOnly": false,
       "bodySpan": 0.479,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -10489,7 +10396,6 @@
       "referenceOnly": false,
       "bodySpan": 0.726,
       "partialBody": false,
-      "partialReason": "",
       "joints": {
         "spine": [
           0,
@@ -10721,6 +10627,13 @@
       "to": 140
     },
     {
+      "id": "p047",
+      "joint": "knee_r",
+      "axis": "rx",
+      "from": 140,
+      "to": 140
+    },
+    {
       "id": "p058",
       "joint": "knee_l",
       "axis": "rx",
@@ -10763,48 +10676,6 @@
       "to": 0
     },
     {
-      "id": "p091",
-      "joint": "knee_r",
-      "axis": "rx",
-      "from": 149.85,
-      "to": 140
-    },
-    {
-      "id": "p097",
-      "joint": "knee_r",
-      "axis": "rx",
-      "from": 156.46,
-      "to": 140
-    },
-    {
-      "id": "p102",
-      "joint": "knee_r",
-      "axis": "rx",
-      "from": 161.23,
-      "to": 140
-    },
-    {
-      "id": "p103",
-      "joint": "knee_r",
-      "axis": "rx",
-      "from": 165.38,
-      "to": 140
-    },
-    {
-      "id": "p108",
-      "joint": "knee_r",
-      "axis": "rx",
-      "from": 158.95,
-      "to": 140
-    },
-    {
-      "id": "p047",
-      "joint": "knee_r",
-      "axis": "rx",
-      "from": 140,
-      "to": 140
-    },
-    {
       "id": "p083",
       "joint": "knee_l",
       "axis": "rx",
@@ -10824,6 +10695,84 @@
       "axis": "rx",
       "from": 142.12,
       "to": 140
+    },
+    {
+      "id": "p085",
+      "joint": "knee_l",
+      "axis": "rx",
+      "from": 145.3,
+      "to": 140
+    },
+    {
+      "id": "p085",
+      "joint": "knee_r",
+      "axis": "rx",
+      "from": 143.25,
+      "to": 140
+    },
+    {
+      "id": "p093",
+      "joint": "knee_l",
+      "axis": "rx",
+      "from": 156.63,
+      "to": 140
+    },
+    {
+      "id": "p095",
+      "joint": "knee_r",
+      "axis": "rx",
+      "from": 167.99,
+      "to": 140
+    },
+    {
+      "id": "p097",
+      "joint": "knee_r",
+      "axis": "rx",
+      "from": 140.76,
+      "to": 140
+    },
+    {
+      "id": "p102",
+      "joint": "knee_l",
+      "axis": "rx",
+      "from": 150.15,
+      "to": 140
+    },
+    {
+      "id": "p103",
+      "joint": "knee_r",
+      "axis": "rx",
+      "from": 168.56,
+      "to": 140
+    },
+    {
+      "id": "p105",
+      "joint": "knee_l",
+      "axis": "rx",
+      "from": 154.05,
+      "to": 140
+    },
+    {
+      "id": "p105",
+      "joint": "knee_r",
+      "axis": "rx",
+      "from": 161.29,
+      "to": 140
+    },
+    {
+      "id": "p106",
+      "joint": "knee_l",
+      "axis": "rx",
+      "from": 141.07,
+      "to": 140
     }
-  ]
+  ],
+  "visibility": {
+    "spanRange": [
+      0.45,
+      1.2
+    ],
+    "partialCount": 26,
+    "note": "partialBody 表示照片为半身/特写或关键点外推失真，3D 关节复现仅供构图参考。"
+  }
 }

@@ -9,7 +9,7 @@ import '../../core/providers.dart';
 import '../../core/utils/json_utils.dart';
 import '../../services/content_packs.dart';
 
-/// 姿势库分类（V3.0 排序：常用在前）。
+/// 姿势库分类（V7/D140：10 类 —— 去掉「手部」「神态」，加入「杂志大片」「影视感」，总量维持 120）。
 const List<String> poseCategories = <String>[
   '全部',
   '站姿',
@@ -19,8 +19,8 @@ const List<String> poseCategories = <String>[
   '靠姿',
   '躺姿',
   '动态',
-  '手部',
-  '神态',
+  '杂志大片',
+  '影视感',
   '道具互动',
 ];
 

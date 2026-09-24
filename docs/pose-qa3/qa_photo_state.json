@@ -1,8 +1,9 @@
 {
   "photo": {
-    "at": "2026-09-21T08:53:40.998Z",
+    "at": "2026-09-24T03:30:26.795Z",
     "poses": "D:\\trae\\6aa175d7786dd07d04fe3d2e\\ShootStudio\\app\\assets\\content\\poses3\\poses3.json",
     "chars": [
+      "qs-men-casual",
       "qs-women-casual"
     ],
     "count": 120,
@@ -13,41 +14,33 @@
       {
         "id": "p057",
         "category": "靠姿",
-        "before": 0.019,
-        "minY": 0.001,
-        "after": 0.018,
+        "before": -0.203,
+        "minY": -0.22,
+        "after": 0.017,
         "airborne": false
       },
       {
         "id": "p039",
         "category": "跪姿",
-        "before": -0.317,
-        "minY": 0.001,
-        "after": -0.318,
+        "before": -0.567,
+        "minY": -0.249,
+        "after": -0.317,
         "airborne": false
       },
       {
         "id": "p108",
-        "category": "神态",
-        "before": 0.074,
-        "minY": 0.001,
-        "after": 0.073,
+        "category": "影视感",
+        "before": -0.39,
+        "minY": -0.464,
+        "after": 0.074,
         "airborne": false
       },
       {
         "id": "p112",
         "category": "道具互动",
-        "before": 0.01,
-        "minY": 0.001,
-        "after": 0.009,
-        "airborne": false
-      },
-      {
-        "id": "p071",
-        "category": "躺姿",
-        "before": -0.775,
-        "minY": -1.193,
-        "after": 0.418,
+        "before": -0.045,
+        "minY": -0.054,
+        "after": 0.01,
         "airborne": false
       },
       {
@@ -59,20 +52,924 @@
         "airborne": true
       },
       {
-        "id": "p047",
-        "category": "跪姿",
-        "before": -0.682,
-        "minY": -0.317,
-        "after": -0.365,
-        "airborne": false
-      },
-      {
         "id": "p083",
         "category": "动态",
         "before": -0.26,
-        "minY": 0.116,
+        "minY": 0.086,
         "after": 0.2,
         "airborne": true
+      },
+      {
+        "id": "p001",
+        "category": "站姿",
+        "before": -0.099,
+        "minY": -0.133,
+        "after": 0.034,
+        "airborne": false
+      },
+      {
+        "id": "p002",
+        "category": "站姿",
+        "before": -0.084,
+        "minY": -0.117,
+        "after": 0.033,
+        "airborne": false
+      },
+      {
+        "id": "p003",
+        "category": "站姿",
+        "before": -0.066,
+        "minY": -0.052,
+        "after": -0.014,
+        "airborne": false
+      },
+      {
+        "id": "p004",
+        "category": "站姿",
+        "before": -0.113,
+        "minY": -0.122,
+        "after": 0.009,
+        "airborne": false
+      },
+      {
+        "id": "p005",
+        "category": "站姿",
+        "before": -0.056,
+        "minY": -0.127,
+        "after": 0.071,
+        "airborne": false
+      },
+      {
+        "id": "p006",
+        "category": "站姿",
+        "before": -0.048,
+        "minY": -0.097,
+        "after": 0.049,
+        "airborne": false
+      },
+      {
+        "id": "p007",
+        "category": "站姿",
+        "before": -0.04,
+        "minY": -0.098,
+        "after": 0.058,
+        "airborne": false
+      },
+      {
+        "id": "p008",
+        "category": "站姿",
+        "before": -0.063,
+        "minY": -0.138,
+        "after": 0.075,
+        "airborne": false
+      },
+      {
+        "id": "p009",
+        "category": "站姿",
+        "before": -0.057,
+        "minY": -0.062,
+        "after": 0.005,
+        "airborne": false
+      },
+      {
+        "id": "p010",
+        "category": "站姿",
+        "before": -0.09,
+        "minY": -0.102,
+        "after": 0.012,
+        "airborne": false
+      },
+      {
+        "id": "p011",
+        "category": "站姿",
+        "before": -0.091,
+        "minY": -0.121,
+        "after": 0.03,
+        "airborne": false
+      },
+      {
+        "id": "p012",
+        "category": "站姿",
+        "before": -0.074,
+        "minY": -0.111,
+        "after": 0.037,
+        "airborne": false
+      },
+      {
+        "id": "p013",
+        "category": "坐姿",
+        "before": -0.425,
+        "minY": -0.323,
+        "after": -0.102,
+        "airborne": false
+      },
+      {
+        "id": "p014",
+        "category": "坐姿",
+        "before": -0.085,
+        "minY": -0.104,
+        "after": 0.019,
+        "airborne": false
+      },
+      {
+        "id": "p015",
+        "category": "坐姿",
+        "before": -0.324,
+        "minY": -0.223,
+        "after": -0.101,
+        "airborne": false
+      },
+      {
+        "id": "p016",
+        "category": "坐姿",
+        "before": -0.391,
+        "minY": -0.285,
+        "after": -0.106,
+        "airborne": false
+      },
+      {
+        "id": "p017",
+        "category": "坐姿",
+        "before": -0.564,
+        "minY": -0.357,
+        "after": -0.206,
+        "airborne": false
+      },
+      {
+        "id": "p018",
+        "category": "坐姿",
+        "before": -0.421,
+        "minY": -0.196,
+        "after": -0.225,
+        "airborne": false
+      },
+      {
+        "id": "p019",
+        "category": "坐姿",
+        "before": -0.385,
+        "minY": -0.089,
+        "after": -0.296,
+        "airborne": false
+      },
+      {
+        "id": "p020",
+        "category": "坐姿",
+        "before": -0.256,
+        "minY": -0.496,
+        "after": 0.24,
+        "airborne": false
+      },
+      {
+        "id": "p021",
+        "category": "坐姿",
+        "before": -0.395,
+        "minY": -0.075,
+        "after": -0.32,
+        "airborne": false
+      },
+      {
+        "id": "p022",
+        "category": "坐姿",
+        "before": -0.089,
+        "minY": -0.111,
+        "after": 0.022,
+        "airborne": false
+      },
+      {
+        "id": "p023",
+        "category": "坐姿",
+        "before": -0.884,
+        "minY": -0.281,
+        "after": -0.603,
+        "airborne": false
+      },
+      {
+        "id": "p024",
+        "category": "坐姿",
+        "before": -0.828,
+        "minY": -0.262,
+        "after": -0.566,
+        "airborne": false
+      },
+      {
+        "id": "p025",
+        "category": "蹲姿",
+        "before": -0.704,
+        "minY": -0.371,
+        "after": -0.333,
+        "airborne": false
+      },
+      {
+        "id": "p026",
+        "category": "蹲姿",
+        "before": -0.605,
+        "minY": -0.166,
+        "after": -0.439,
+        "airborne": false
+      },
+      {
+        "id": "p027",
+        "category": "蹲姿",
+        "before": -0.491,
+        "minY": -0.412,
+        "after": -0.079,
+        "airborne": false
+      },
+      {
+        "id": "p028",
+        "category": "蹲姿",
+        "before": -0.427,
+        "minY": -0.498,
+        "after": 0.071,
+        "airborne": false
+      },
+      {
+        "id": "p029",
+        "category": "蹲姿",
+        "before": -0.771,
+        "minY": -0.281,
+        "after": -0.49,
+        "airborne": false
+      },
+      {
+        "id": "p030",
+        "category": "蹲姿",
+        "before": -0.323,
+        "minY": -0.251,
+        "after": -0.072,
+        "airborne": false
+      },
+      {
+        "id": "p031",
+        "category": "蹲姿",
+        "before": -0.49,
+        "minY": -0.302,
+        "after": -0.188,
+        "airborne": false
+      },
+      {
+        "id": "p032",
+        "category": "蹲姿",
+        "before": -0.567,
+        "minY": -0.207,
+        "after": -0.36,
+        "airborne": false
+      },
+      {
+        "id": "p033",
+        "category": "蹲姿",
+        "before": -0.744,
+        "minY": -0.166,
+        "after": -0.578,
+        "airborne": false
+      },
+      {
+        "id": "p034",
+        "category": "蹲姿",
+        "before": -0.641,
+        "minY": -0.373,
+        "after": -0.268,
+        "airborne": false
+      },
+      {
+        "id": "p035",
+        "category": "蹲姿",
+        "before": -0.597,
+        "minY": -0.224,
+        "after": -0.373,
+        "airborne": false
+      },
+      {
+        "id": "p036",
+        "category": "蹲姿",
+        "before": -0.618,
+        "minY": -0.537,
+        "after": -0.081,
+        "airborne": false
+      },
+      {
+        "id": "p037",
+        "category": "跪姿",
+        "before": -0.66,
+        "minY": -0.343,
+        "after": -0.317,
+        "airborne": false
+      },
+      {
+        "id": "p038",
+        "category": "跪姿",
+        "before": -0.723,
+        "minY": -0.229,
+        "after": -0.494,
+        "airborne": false
+      },
+      {
+        "id": "p040",
+        "category": "跪姿",
+        "before": -0.614,
+        "minY": -0.454,
+        "after": -0.16,
+        "airborne": false
+      },
+      {
+        "id": "p041",
+        "category": "跪姿",
+        "before": -0.661,
+        "minY": -0.458,
+        "after": -0.203,
+        "airborne": false
+      },
+      {
+        "id": "p042",
+        "category": "跪姿",
+        "before": -0.62,
+        "minY": -0.102,
+        "after": -0.518,
+        "airborne": false
+      },
+      {
+        "id": "p043",
+        "category": "跪姿",
+        "before": -0.402,
+        "minY": -0.473,
+        "after": 0.071,
+        "airborne": false
+      },
+      {
+        "id": "p044",
+        "category": "跪姿",
+        "before": -0.676,
+        "minY": -0.189,
+        "after": -0.487,
+        "airborne": false
+      },
+      {
+        "id": "p045",
+        "category": "跪姿",
+        "before": -0.756,
+        "minY": -0.365,
+        "after": -0.391,
+        "airborne": false
+      },
+      {
+        "id": "p046",
+        "category": "跪姿",
+        "before": -0.517,
+        "minY": -0.35,
+        "after": -0.167,
+        "airborne": false
+      },
+      {
+        "id": "p047",
+        "category": "跪姿",
+        "before": -0.682,
+        "minY": -0.366,
+        "after": -0.316,
+        "airborne": false
+      },
+      {
+        "id": "p048",
+        "category": "跪姿",
+        "before": -0.457,
+        "minY": -0.295,
+        "after": -0.162,
+        "airborne": false
+      },
+      {
+        "id": "p049",
+        "category": "靠姿",
+        "before": -0.267,
+        "minY": -0.231,
+        "after": -0.036,
+        "airborne": false
+      },
+      {
+        "id": "p051",
+        "category": "靠姿",
+        "before": -0.172,
+        "minY": -0.202,
+        "after": 0.03,
+        "airborne": false
+      },
+      {
+        "id": "p052",
+        "category": "靠姿",
+        "before": -0.693,
+        "minY": -0.335,
+        "after": -0.358,
+        "airborne": false
+      },
+      {
+        "id": "p053",
+        "category": "靠姿",
+        "before": -0.081,
+        "minY": -0.155,
+        "after": 0.074,
+        "airborne": false
+      },
+      {
+        "id": "p054",
+        "category": "靠姿",
+        "before": -0.137,
+        "minY": -0.214,
+        "after": 0.077,
+        "airborne": false
+      },
+      {
+        "id": "p055",
+        "category": "靠姿",
+        "before": -0.244,
+        "minY": -0.241,
+        "after": -0.003,
+        "airborne": false
+      },
+      {
+        "id": "p056",
+        "category": "靠姿",
+        "before": -0.525,
+        "minY": -0.267,
+        "after": -0.259,
+        "airborne": false
+      },
+      {
+        "id": "p058",
+        "category": "靠姿",
+        "before": -0.731,
+        "minY": 0.031,
+        "after": -0.762,
+        "airborne": false
+      },
+      {
+        "id": "p059",
+        "category": "靠姿",
+        "before": -0.296,
+        "minY": -0.355,
+        "after": 0.059,
+        "airborne": false
+      },
+      {
+        "id": "p060",
+        "category": "靠姿",
+        "before": -0.599,
+        "minY": -0.127,
+        "after": -0.472,
+        "airborne": false
+      },
+      {
+        "id": "p061",
+        "category": "躺姿",
+        "before": -0.55,
+        "minY": -0.734,
+        "after": 0.184,
+        "airborne": false
+      },
+      {
+        "id": "p062",
+        "category": "躺姿",
+        "before": -0.775,
+        "minY": -1.19,
+        "after": 0.415,
+        "airborne": false
+      },
+      {
+        "id": "p063",
+        "category": "躺姿",
+        "before": -0.872,
+        "minY": -0.938,
+        "after": 0.066,
+        "airborne": false
+      },
+      {
+        "id": "p064",
+        "category": "躺姿",
+        "before": -0.467,
+        "minY": -0.893,
+        "after": 0.426,
+        "airborne": false
+      },
+      {
+        "id": "p065",
+        "category": "躺姿",
+        "before": -0.893,
+        "minY": -0.963,
+        "after": 0.07,
+        "airborne": false
+      },
+      {
+        "id": "p066",
+        "category": "躺姿",
+        "before": -0.356,
+        "minY": -0.632,
+        "after": 0.276,
+        "airborne": false
+      },
+      {
+        "id": "p067",
+        "category": "躺姿",
+        "before": -0.547,
+        "minY": -0.917,
+        "after": 0.37,
+        "airborne": false
+      },
+      {
+        "id": "p068",
+        "category": "躺姿",
+        "before": -0.349,
+        "minY": -0.592,
+        "after": 0.243,
+        "airborne": false
+      },
+      {
+        "id": "p069",
+        "category": "躺姿",
+        "before": -0.32,
+        "minY": -0.987,
+        "after": 0.6,
+        "airborne": false
+      },
+      {
+        "id": "p070",
+        "category": "躺姿",
+        "before": -0.803,
+        "minY": -0.844,
+        "after": 0.041,
+        "airborne": false
+      },
+      {
+        "id": "p071",
+        "category": "躺姿",
+        "before": -0.775,
+        "minY": -1.149,
+        "after": 0.374,
+        "airborne": false
+      },
+      {
+        "id": "p072",
+        "category": "躺姿",
+        "before": -0.661,
+        "minY": -1.074,
+        "after": 0.413,
+        "airborne": false
+      },
+      {
+        "id": "p073",
+        "category": "动态",
+        "before": -0.199,
+        "minY": -0.216,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p074",
+        "category": "动态",
+        "before": -0.168,
+        "minY": -0.171,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p075",
+        "category": "动态",
+        "before": -0.082,
+        "minY": -0.083,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p076",
+        "category": "动态",
+        "before": -0.85,
+        "minY": -0.173,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p077",
+        "category": "动态",
+        "before": -0.029,
+        "minY": -0.087,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p078",
+        "category": "动态",
+        "before": -0.764,
+        "minY": -0.276,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p079",
+        "category": "动态",
+        "before": -0.695,
+        "minY": -0.143,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p080",
+        "category": "动态",
+        "before": -0.06,
+        "minY": -0.061,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p081",
+        "category": "动态",
+        "before": -0.179,
+        "minY": -0.204,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p082",
+        "category": "动态",
+        "before": -0.067,
+        "minY": -0.042,
+        "after": 0.2,
+        "airborne": true
+      },
+      {
+        "id": "p085",
+        "category": "杂志大片",
+        "before": -0.715,
+        "minY": -0.658,
+        "after": -0.057,
+        "airborne": false
+      },
+      {
+        "id": "p086",
+        "category": "杂志大片",
+        "before": -0.363,
+        "minY": -0.258,
+        "after": -0.105,
+        "airborne": false
+      },
+      {
+        "id": "p087",
+        "category": "杂志大片",
+        "before": -0.451,
+        "minY": -0.284,
+        "after": -0.167,
+        "airborne": false
+      },
+      {
+        "id": "p088",
+        "category": "杂志大片",
+        "before": -0.392,
+        "minY": -0.452,
+        "after": 0.06,
+        "airborne": false
+      },
+      {
+        "id": "p089",
+        "category": "杂志大片",
+        "before": -0.429,
+        "minY": -0.294,
+        "after": -0.135,
+        "airborne": false
+      },
+      {
+        "id": "p090",
+        "category": "杂志大片",
+        "before": -0.113,
+        "minY": -0.173,
+        "after": 0.06,
+        "airborne": false
+      },
+      {
+        "id": "p091",
+        "category": "杂志大片",
+        "before": -0.598,
+        "minY": -0.576,
+        "after": -0.022,
+        "airborne": false
+      },
+      {
+        "id": "p092",
+        "category": "杂志大片",
+        "before": -0.907,
+        "minY": -0.941,
+        "after": 0.034,
+        "airborne": false
+      },
+      {
+        "id": "p093",
+        "category": "杂志大片",
+        "before": -0.744,
+        "minY": -0.238,
+        "after": -0.506,
+        "airborne": false
+      },
+      {
+        "id": "p094",
+        "category": "杂志大片",
+        "before": -0.335,
+        "minY": -0.477,
+        "after": 0.142,
+        "airborne": false
+      },
+      {
+        "id": "p095",
+        "category": "杂志大片",
+        "before": -0.584,
+        "minY": -0.234,
+        "after": -0.35,
+        "airborne": false
+      },
+      {
+        "id": "p096",
+        "category": "杂志大片",
+        "before": -0.107,
+        "minY": -0.115,
+        "after": 0.008,
+        "airborne": false
+      },
+      {
+        "id": "p097",
+        "category": "影视感",
+        "before": -0.573,
+        "minY": -0.294,
+        "after": -0.279,
+        "airborne": false
+      },
+      {
+        "id": "p098",
+        "category": "影视感",
+        "before": -0.618,
+        "minY": -0.391,
+        "after": -0.227,
+        "airborne": false
+      },
+      {
+        "id": "p099",
+        "category": "影视感",
+        "before": -0.477,
+        "minY": -0.461,
+        "after": -0.016,
+        "airborne": false
+      },
+      {
+        "id": "p100",
+        "category": "影视感",
+        "before": -0.448,
+        "minY": -0.765,
+        "after": 0.317,
+        "airborne": false
+      },
+      {
+        "id": "p101",
+        "category": "影视感",
+        "before": -0.507,
+        "minY": -0.373,
+        "after": -0.134,
+        "airborne": false
+      },
+      {
+        "id": "p102",
+        "category": "影视感",
+        "before": -0.754,
+        "minY": -0.239,
+        "after": -0.515,
+        "airborne": false
+      },
+      {
+        "id": "p103",
+        "category": "影视感",
+        "before": -0.575,
+        "minY": -0.4,
+        "after": -0.175,
+        "airborne": false
+      },
+      {
+        "id": "p104",
+        "category": "影视感",
+        "before": -0.795,
+        "minY": -0.326,
+        "after": -0.469,
+        "airborne": false
+      },
+      {
+        "id": "p105",
+        "category": "影视感",
+        "before": -0.773,
+        "minY": 0.021,
+        "after": -0.794,
+        "airborne": false
+      },
+      {
+        "id": "p106",
+        "category": "影视感",
+        "before": -0.688,
+        "minY": -0.583,
+        "after": -0.105,
+        "airborne": false
+      },
+      {
+        "id": "p107",
+        "category": "影视感",
+        "before": -0.39,
+        "minY": -0.587,
+        "after": 0.197,
+        "airborne": false
+      },
+      {
+        "id": "p109",
+        "category": "道具互动",
+        "before": -0.167,
+        "minY": -0.189,
+        "after": 0.022,
+        "airborne": false
+      },
+      {
+        "id": "p110",
+        "category": "道具互动",
+        "before": -0.231,
+        "minY": -0.26,
+        "after": 0.029,
+        "airborne": false
+      },
+      {
+        "id": "p111",
+        "category": "道具互动",
+        "before": -0.196,
+        "minY": -0.246,
+        "after": 0.05,
+        "airborne": false
+      },
+      {
+        "id": "p113",
+        "category": "道具互动",
+        "before": -0.083,
+        "minY": -0.099,
+        "after": 0.016,
+        "airborne": false
+      },
+      {
+        "id": "p114",
+        "category": "道具互动",
+        "before": -0.078,
+        "minY": -0.075,
+        "after": -0.003,
+        "airborne": false
+      },
+      {
+        "id": "p115",
+        "category": "道具互动",
+        "before": -0.951,
+        "minY": -0.144,
+        "after": -0.807,
+        "airborne": false
+      },
+      {
+        "id": "p116",
+        "category": "道具互动",
+        "before": -0.086,
+        "minY": -0.083,
+        "after": -0.003,
+        "airborne": false
+      },
+      {
+        "id": "p117",
+        "category": "道具互动",
+        "before": -0.103,
+        "minY": -0.155,
+        "after": 0.052,
+        "airborne": false
+      },
+      {
+        "id": "p118",
+        "category": "道具互动",
+        "before": -0.307,
+        "minY": -0.324,
+        "after": 0.017,
+        "airborne": false
+      },
+      {
+        "id": "p119",
+        "category": "道具互动",
+        "before": -0.119,
+        "minY": -0.184,
+        "after": 0.065,
+        "airborne": false
+      },
+      {
+        "id": "p120",
+        "category": "道具互动",
+        "before": -0.153,
+        "minY": -0.192,
+        "after": 0.039,
+        "airborne": false
+      },
+      {
+        "id": "p050",
+        "category": "靠姿",
+        "before": -0.046,
+        "minY": -0.029,
+        "after": -0.017,
+        "airborne": false
       }
     ],
     "grounding": [
@@ -306,8 +1203,8 @@
       },
       {
         "id": "p039",
-        "rootY": -0.318,
-        "minY": -0.001,
+        "rootY": -0.317,
+        "minY": 0.001,
         "airborne": false
       },
       {
@@ -354,7 +1251,7 @@
       },
       {
         "id": "p047",
-        "rootY": -0.365,
+        "rootY": -0.316,
         "minY": 0,
         "airborne": false
       },
@@ -372,7 +1269,7 @@
       },
       {
         "id": "p050",
-        "rootY": -0.046,
+        "rootY": -0.017,
         "minY": 0,
         "airborne": false
       },
@@ -498,7 +1395,7 @@
       },
       {
         "id": "p071",
-        "rootY": 0.418,
+        "rootY": 0.374,
         "minY": 0,
         "airborne": false
       },
@@ -571,7 +1468,7 @@
       {
         "id": "p083",
         "rootY": 0.2,
-        "minY": 0.576,
+        "minY": 0.546,
         "airborne": true
       },
       {
@@ -582,146 +1479,146 @@
       },
       {
         "id": "p085",
-        "rootY": -0.014,
+        "rootY": -0.057,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p086",
-        "rootY": 0.157,
+        "rootY": -0.105,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p087",
-        "rootY": 0.028,
+        "rootY": -0.167,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p088",
-        "rootY": 0.214,
+        "rootY": 0.06,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p089",
-        "rootY": 0.134,
-        "minY": 0,
+        "rootY": -0.135,
+        "minY": -0.001,
         "airborne": false
       },
       {
         "id": "p090",
-        "rootY": 0.074,
+        "rootY": 0.06,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p091",
-        "rootY": -0.273,
+        "rootY": -0.022,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p092",
-        "rootY": 0.165,
+        "rootY": 0.034,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p093",
-        "rootY": 0.048,
-        "minY": 0,
+        "rootY": -0.506,
+        "minY": -0.001,
         "airborne": false
       },
       {
         "id": "p094",
-        "rootY": 0.048,
-        "minY": 0.001,
+        "rootY": 0.142,
+        "minY": 0,
         "airborne": false
       },
       {
         "id": "p095",
-        "rootY": 0.037,
+        "rootY": -0.35,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p096",
-        "rootY": 0.152,
+        "rootY": 0.008,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p097",
-        "rootY": -0.347,
+        "rootY": -0.279,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p098",
-        "rootY": -0.003,
+        "rootY": -0.227,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p099",
-        "rootY": 0.04,
+        "rootY": -0.016,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p100",
-        "rootY": 0.119,
+        "rootY": 0.317,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p101",
-        "rootY": -0.42,
+        "rootY": -0.134,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p102",
-        "rootY": -0.566,
+        "rootY": -0.515,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p103",
-        "rootY": 0.057,
-        "minY": 0,
+        "rootY": -0.175,
+        "minY": 0.001,
         "airborne": false
       },
       {
         "id": "p104",
-        "rootY": 0.021,
+        "rootY": -0.469,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p105",
-        "rootY": 0.157,
-        "minY": 0.001,
+        "rootY": -0.794,
+        "minY": 0,
         "airborne": false
       },
       {
         "id": "p106",
-        "rootY": 0.056,
+        "rootY": -0.105,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p107",
-        "rootY": 0.04,
+        "rootY": 0.197,
         "minY": 0,
         "airborne": false
       },
       {
         "id": "p108",
-        "rootY": 0.073,
-        "minY": -0.001,
+        "rootY": 0.074,
+        "minY": 0,
         "airborne": false
       },
       {
@@ -744,8 +1641,8 @@
       },
       {
         "id": "p112",
-        "rootY": 0.009,
-        "minY": -0.001,
+        "rootY": 0.01,
+        "minY": 0.001,
         "airborne": false
       },
       {
@@ -1168,8 +2065,8 @@
         "char": "qs-women-casual"
       },
       "p039": {
-        "minY": -0.0005,
-        "maxY": 1.3195,
+        "minY": 0.0005,
+        "maxY": 1.3205,
         "minX": -0.3371,
         "maxX": 0.4159,
         "minZ": -0.1597,
@@ -1195,13 +2092,13 @@
         "char": "qs-women-casual"
       },
       "p047": {
-        "minY": 0.0002,
-        "maxY": 1.253,
-        "minX": -0.2033,
-        "maxX": 0.4337,
-        "minZ": -0.0289,
-        "maxZ": 0.8913,
-        "char": "qs-women-casual"
+        "minY": 0.0003,
+        "maxY": 1.3041,
+        "minX": -0.2286,
+        "maxX": 0.4603,
+        "minZ": -0.0555,
+        "maxZ": 0.7634,
+        "char": "qs-men-casual"
       },
       "p044": {
         "minY": 0,
@@ -1249,13 +2146,13 @@
         "char": "qs-women-casual"
       },
       "p050": {
-        "minY": 0.0003,
-        "maxY": 1.6478,
-        "minX": -0.1708,
-        "maxX": 0.4357,
-        "minZ": -0.3487,
-        "maxZ": 0.3383,
-        "char": "qs-women-casual"
+        "minY": 0.0002,
+        "maxY": 1.6694,
+        "minX": -0.1911,
+        "maxX": 0.4558,
+        "minZ": -0.3295,
+        "maxZ": 0.3024,
+        "char": "qs-men-casual"
       },
       "p049": {
         "minY": 0,
@@ -1393,13 +2290,13 @@
         "char": "qs-men-casual"
       },
       "p071": {
-        "minY": 0.0002,
-        "maxY": 0.5534,
-        "minX": -0.1982,
-        "maxX": 0.3175,
-        "minZ": 0.016,
-        "maxZ": 1.7019,
-        "char": "qs-women-casual"
+        "minY": -0.0004,
+        "maxY": 0.5046,
+        "minX": -0.2287,
+        "maxX": 0.2647,
+        "minZ": 0.0098,
+        "maxZ": 1.7,
+        "char": "qs-men-casual"
       },
       "p072": {
         "minY": -0.0003,
@@ -1501,13 +2398,13 @@
         "char": "qs-women-casual"
       },
       "p083": {
-        "minY": 0.5759,
-        "maxY": 1.8447,
-        "minX": -0.9027,
-        "maxX": 0.8322,
-        "minZ": -0.4464,
-        "maxZ": 0.6215,
-        "char": "qs-women-casual"
+        "minY": 0.5458,
+        "maxY": 1.808,
+        "minX": -0.8847,
+        "maxX": 0.8089,
+        "minZ": -0.3981,
+        "maxZ": 0.5801,
+        "char": "qs-men-casual"
       },
       "p082": {
         "minY": 0.2255,
@@ -1519,12 +2416,12 @@
         "char": "qs-women-casual"
       },
       "p085": {
-        "minY": 0.0002,
-        "maxY": 1.6772,
-        "minX": -0.231,
-        "maxX": 0.2459,
-        "minZ": -0.009,
-        "maxZ": 0.6469,
+        "minY": 0.0004,
+        "maxY": 1.1035,
+        "minX": -0.3132,
+        "maxX": 0.3586,
+        "minZ": 0.4729,
+        "maxZ": 1.4421,
         "char": "qs-men-casual"
       },
       "p084": {
@@ -1538,209 +2435,209 @@
       },
       "p087": {
         "minY": -0.0001,
-        "maxY": 1.6779,
-        "minX": -0.2726,
-        "maxX": 0.1932,
-        "minZ": -0.0409,
-        "maxZ": 0.8168,
+        "maxY": 1.5202,
+        "minX": -0.2267,
+        "maxX": 0.2127,
+        "minZ": 0.0016,
+        "maxZ": 0.4808,
         "char": "qs-men-casual"
       },
       "p086": {
-        "minY": 0.0004,
-        "maxY": 1.5092,
-        "minX": -0.1662,
-        "maxX": 0.2339,
-        "minZ": 0.3839,
-        "maxZ": 1.4109,
+        "minY": 0.0003,
+        "maxY": 1.5595,
+        "minX": -0.1502,
+        "maxX": 0.4368,
+        "minZ": 0.0356,
+        "maxZ": 0.7712,
         "char": "qs-women-casual"
       },
       "p089": {
-        "minY": 0.0004,
-        "maxY": 1.6622,
-        "minX": -0.2446,
-        "maxX": 0.207,
-        "minZ": 0.1444,
-        "maxZ": 1.1459,
+        "minY": -0.0005,
+        "maxY": 1.5555,
+        "minX": -0.2991,
+        "maxX": 0.4441,
+        "minZ": -0.0568,
+        "maxZ": 0.6662,
         "char": "qs-men-casual"
       },
       "p088": {
-        "minY": 0.0004,
-        "maxY": 1.7569,
-        "minX": -0.2554,
-        "maxX": 0.2229,
-        "minZ": 0.1313,
-        "maxZ": 1.1913,
+        "minY": -0.0001,
+        "maxY": 1.78,
+        "minX": -0.2701,
+        "maxX": 0.3723,
+        "minZ": -0.0097,
+        "maxZ": 0.8342,
         "char": "qs-women-casual"
       },
       "p091": {
-        "minY": -0.0004,
-        "maxY": 1.31,
-        "minX": -0.2026,
-        "maxX": 0.4562,
-        "minZ": 0.2919,
-        "maxZ": 1.0491,
+        "minY": 0.0002,
+        "maxY": 1.5112,
+        "minX": -0.239,
+        "maxX": 0.2592,
+        "minZ": -0.4872,
+        "maxZ": 0.8364,
         "char": "qs-men-casual"
       },
       "p090": {
-        "minY": -0.0004,
-        "maxY": 1.7101,
-        "minX": -0.2488,
-        "maxX": 0.1508,
-        "minZ": 0.0159,
-        "maxZ": 0.8624,
+        "minY": 0,
+        "maxY": 1.768,
+        "minX": -0.2222,
+        "maxX": 0.2916,
+        "minZ": -0.4247,
+        "maxZ": 0.2521,
         "char": "qs-women-casual"
       },
       "p093": {
-        "minY": -0.0002,
-        "maxY": 1.7038,
-        "minX": -0.265,
-        "maxX": 0.2234,
-        "minZ": 0.0413,
-        "maxZ": 0.669,
+        "minY": -0.0005,
+        "maxY": 1.1667,
+        "minX": -0.3036,
+        "maxX": 0.3019,
+        "minZ": 0.116,
+        "maxZ": 0.7978,
         "char": "qs-men-casual"
       },
       "p092": {
         "minY": 0.0004,
-        "maxY": 1.7374,
-        "minX": -0.1686,
-        "maxX": 0.1407,
-        "minZ": 0.0417,
-        "maxZ": 1.0588,
+        "maxY": 1.42,
+        "minX": -0.8206,
+        "maxX": 0.1512,
+        "minZ": 0.234,
+        "maxZ": 1.2751,
         "char": "qs-women-casual"
       },
       "p095": {
-        "minY": -0.0003,
-        "maxY": 1.7214,
-        "minX": -0.433,
-        "maxX": 0.3054,
-        "minZ": -0.0092,
-        "maxZ": 0.6534,
+        "minY": 0.0002,
+        "maxY": 1.3145,
+        "minX": -0.3242,
+        "maxX": 0.3493,
+        "minZ": 0.0764,
+        "maxZ": 0.679,
         "char": "qs-men-casual"
       },
       "p094": {
-        "minY": 0.0005,
-        "maxY": 1.6679,
-        "minX": -0.235,
-        "maxX": 0.1501,
-        "minZ": 0.0338,
-        "maxZ": 0.9727,
+        "minY": 0.0001,
+        "maxY": 1.7714,
+        "minX": -0.1781,
+        "maxX": 0.4663,
+        "minZ": -0.139,
+        "maxZ": 0.7164,
         "char": "qs-women-casual"
       },
       "p097": {
-        "minY": -0.0003,
-        "maxY": 1.3366,
-        "minX": -0.1832,
-        "maxX": 0.3441,
-        "minZ": 0.0497,
-        "maxZ": 0.6337,
+        "minY": 0.0003,
+        "maxY": 1.3876,
+        "minX": -0.2004,
+        "maxX": 0.2496,
+        "minZ": 0.0751,
+        "maxZ": 0.6578,
         "char": "qs-men-casual"
       },
       "p096": {
-        "minY": -0.0003,
-        "maxY": 1.7679,
-        "minX": -0.1756,
-        "maxX": 0.3256,
-        "minZ": 0.0089,
-        "maxZ": 0.7635,
+        "minY": 0.0002,
+        "maxY": 1.6946,
+        "minX": -0.1785,
+        "maxX": 0.2789,
+        "minZ": -0.0293,
+        "maxZ": 0.5342,
         "char": "qs-women-casual"
       },
       "p099": {
-        "minY": 0.0002,
-        "maxY": 1.6954,
-        "minX": -0.2102,
-        "maxX": 0.2093,
-        "minZ": -0.102,
-        "maxZ": 0.7247,
+        "minY": 0,
+        "maxY": 1.6336,
+        "minX": -0.251,
+        "maxX": 0.2065,
+        "minZ": -0.3105,
+        "maxZ": 0.6929,
         "char": "qs-men-casual"
       },
       "p098": {
         "minY": 0,
-        "maxY": 1.6519,
-        "minX": -0.1642,
-        "maxX": 0.5435,
-        "minZ": -0.027,
-        "maxZ": 0.7009,
+        "maxY": 1.4462,
+        "minX": -0.1535,
+        "maxX": 0.5048,
+        "minZ": 0.0611,
+        "maxZ": 0.7949,
         "char": "qs-women-casual"
       },
       "p101": {
-        "minY": -0.0001,
-        "maxY": 1.2599,
-        "minX": -0.2516,
-        "maxX": 0.3082,
-        "minZ": -0.0706,
-        "maxZ": 0.4505,
+        "minY": 0.0001,
+        "maxY": 1.5471,
+        "minX": -0.2045,
+        "maxX": 0.406,
+        "minZ": -0.019,
+        "maxZ": 0.5275,
         "char": "qs-men-casual"
       },
       "p100": {
-        "minY": -0.0002,
-        "maxY": 1.7947,
-        "minX": -0.2229,
-        "maxX": 0.291,
-        "minZ": -0.0014,
-        "maxZ": 0.8061,
+        "minY": -0.0001,
+        "maxY": 1.3607,
+        "minX": -0.1452,
+        "maxX": 0.4324,
+        "minZ": 0.0614,
+        "maxZ": 1.5526,
         "char": "qs-women-casual"
       },
       "p103": {
-        "minY": 0.0003,
-        "maxY": 1.7115,
-        "minX": -0.2958,
-        "maxX": 0.3466,
-        "minZ": -0.0391,
-        "maxZ": 0.6786,
+        "minY": 0.0005,
+        "maxY": 1.4852,
+        "minX": -0.2075,
+        "maxX": 0.3282,
+        "minZ": 0.087,
+        "maxZ": 0.6372,
         "char": "qs-men-casual"
       },
       "p102": {
-        "minY": 0,
-        "maxY": 1.0663,
-        "minX": -0.3272,
-        "maxX": 0.3868,
-        "minZ": 0.1118,
-        "maxZ": 0.858,
+        "minY": 0.0002,
+        "maxY": 1.1035,
+        "minX": -0.3404,
+        "maxX": 0.4389,
+        "minZ": 0.3142,
+        "maxZ": 0.9994,
         "char": "qs-women-casual"
       },
       "p105": {
-        "minY": 0.0005,
-        "maxY": 1.7475,
-        "minX": -0.2195,
-        "maxX": 0.4426,
-        "minZ": 0.1422,
-        "maxZ": 0.8231,
+        "minY": 0.0001,
+        "maxY": 0.8987,
+        "minX": -0.5899,
+        "maxX": 0.1896,
+        "minZ": -0.0852,
+        "maxZ": 0.4597,
         "char": "qs-men-casual"
       },
       "p104": {
-        "minY": 0,
-        "maxY": 1.7084,
-        "minX": -0.1494,
-        "maxX": 0.4149,
-        "minZ": -0.0088,
-        "maxZ": 0.7986,
+        "minY": 0.0003,
+        "maxY": 1.193,
+        "minX": -0.1559,
+        "maxX": 0.4639,
+        "minZ": 0.1218,
+        "maxZ": 0.9083,
         "char": "qs-women-casual"
       },
       "p107": {
-        "minY": -0.0003,
-        "maxY": 1.8532,
-        "minX": -0.4598,
-        "maxX": 0.2627,
-        "minZ": 0.0185,
-        "maxZ": 0.5292,
+        "minY": 0,
+        "maxY": 1.7211,
+        "minX": -0.2036,
+        "maxX": 0.2077,
+        "minZ": 0.0424,
+        "maxZ": 1.0471,
         "char": "qs-men-casual"
       },
       "p106": {
-        "minY": 0.0003,
-        "maxY": 1.8994,
-        "minX": -0.1397,
-        "maxX": 0.2968,
-        "minZ": -0.2435,
-        "maxZ": 0.5645,
+        "minY": -0.0002,
+        "maxY": 1.0409,
+        "minX": -0.5912,
+        "maxX": 0.3547,
+        "minZ": 0.3839,
+        "maxZ": 1.4249,
         "char": "qs-women-casual"
       },
       "p108": {
-        "minY": -0.0005,
-        "maxY": 1.5332,
-        "minX": -0.2242,
-        "maxX": 0.2498,
-        "minZ": 0.2322,
-        "maxZ": 1.2562,
+        "minY": -0.0004,
+        "maxY": 1.7129,
+        "minX": -0.1497,
+        "maxX": 0.4066,
+        "minZ": 0.0106,
+        "maxZ": 0.7661,
         "char": "qs-women-casual"
       },
       "p109": {
@@ -1753,8 +2650,8 @@
         "char": "qs-men-casual"
       },
       "p112": {
-        "minY": -0.0005,
-        "maxY": 1.8825,
+        "minY": 0.0005,
+        "maxY": 1.8835,
         "minX": -0.4792,
         "maxX": 0.8303,
         "minZ": -0.0446,

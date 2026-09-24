@@ -46,58 +46,61 @@ void main() {
   });
 
   group('Q2 照片姿势库', () {
-    test('120 条、10 类目 × 12、每张照片/骨架/叠加图存在（D65/D66/R19）', () {
-      expect(poses.length, 120);
-      final Map<String, int> byCategory = <String, int>{};
-      for (final PoseEntry pose in poses) {
-        byCategory[pose.category] = (byCategory[pose.category] ?? 0) + 1;
-        expect(
-          pose.photo,
-          startsWith('assets/content/poses3/photos/'),
-          reason: '${pose.id} 照片路径',
-        );
-        expect(
-          pose.skeleton,
-          startsWith('assets/content/poses3/photos/'),
-          reason: '${pose.id} 骨架路径',
-        );
-        expect(pose.overlay, isNotEmpty, reason: '${pose.id} 缺叠加图路径');
-        final File photo = File(pose.photo);
-        expect(photo.existsSync(), isTrue, reason: '${pose.id} 缺照片文件');
-        expect(
-          photo.lengthSync(),
-          greaterThan(20 * 1024),
-          reason: '${pose.id} 照片过小',
-        );
-        expect(
-          File(pose.skeleton).existsSync(),
-          isTrue,
-          reason: '${pose.id} 缺骨架 JSON',
-        );
-        // D122 后叠加图只作 QA 证据：旧位 assets 或 docs/pose-qa3 任一存在即可（D66）。
-        expect(
-          File(pose.overlay).existsSync() ||
-              File('../docs/pose-qa3/overlay-${pose.id}.png').existsSync(),
-          isTrue,
-          reason: '${pose.id} 缺骨架叠加图（D66 证据）',
-        );
-      }
-      expect(byCategory.keys.toSet(), <String>{
-        '站姿',
-        '坐姿',
-        '蹲姿',
-        '跪姿',
-        '靠姿',
-        '躺姿',
-        '动态',
-        '手部',
-        '神态',
-        '道具互动',
-      });
-      for (final MapEntry<String, int> entry in byCategory.entries) {
-        expect(entry.value, 12, reason: '${entry.key} 应为 12 条');
-      }
-    });
+    test(
+      '120 条、10 类目 × 12（V7/D140：杂志大片/影视感替换手部/神态）、照片/骨架/叠加图存在（D65/D66/R19）',
+      () {
+        expect(poses.length, 120);
+        final Map<String, int> byCategory = <String, int>{};
+        for (final PoseEntry pose in poses) {
+          byCategory[pose.category] = (byCategory[pose.category] ?? 0) + 1;
+          expect(
+            pose.photo,
+            startsWith('assets/content/poses3/photos/'),
+            reason: '${pose.id} 照片路径',
+          );
+          expect(
+            pose.skeleton,
+            startsWith('assets/content/poses3/photos/'),
+            reason: '${pose.id} 骨架路径',
+          );
+          expect(pose.overlay, isNotEmpty, reason: '${pose.id} 缺叠加图路径');
+          final File photo = File(pose.photo);
+          expect(photo.existsSync(), isTrue, reason: '${pose.id} 缺照片文件');
+          expect(
+            photo.lengthSync(),
+            greaterThan(20 * 1024),
+            reason: '${pose.id} 照片过小',
+          );
+          expect(
+            File(pose.skeleton).existsSync(),
+            isTrue,
+            reason: '${pose.id} 缺骨架 JSON',
+          );
+          // D122 后叠加图只作 QA 证据：旧位 assets 或 docs/pose-qa3 任一存在即可（D66）。
+          expect(
+            File(pose.overlay).existsSync() ||
+                File('../docs/pose-qa3/overlay-${pose.id}.png').existsSync(),
+            isTrue,
+            reason: '${pose.id} 缺骨架叠加图（D66 证据）',
+          );
+        }
+        expect(byCategory.keys.toSet(), <String>{
+          '站姿',
+          '坐姿',
+          '蹲姿',
+          '跪姿',
+          '靠姿',
+          '躺姿',
+          '动态',
+          '杂志大片',
+          '影视感',
+          '道具互动',
+        });
+        for (final MapEntry<String, int> entry in byCategory.entries) {
+          expect(entry.value, 12, reason: '${entry.key} 应为 12 条');
+        }
+      },
+    );
 
     test('许可与署名覆盖（D65/D71/R24）：逐图可查、禁 NC', () {
       const Set<String> allowed = <String>{

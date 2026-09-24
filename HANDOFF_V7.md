@@ -1,6 +1,6 @@
 # ShootStudio V7 交接文档 · 进行中（画面参考/显卡/布光/姿势识别/资源库）
 
-> 更新：2026-09-23 ｜ 配套合同：`FIX_CONTRACT_V7.0.md`（D132–D144、R61–R70，**开工前必读**）
+> 更新：2026-09-24 ｜ 配套合同：`FIX_CONTRACT_V7.0.md`（D132–D144、R61–R70，**开工前必读**）
 > 仓库：`D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）
 > 基线：v1.2.0 已发布（tag `v1.2.0`）；V7 目标 v1.3.0
 
@@ -10,14 +10,14 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助**（本次提交） |
-| CI | S3.3 全绿（run 35839154345 = c474cda、run 35842252891 = 1978a91 均 success）；S3.4 推送后运行中（R60：**全绿才算完成**，下一步先复核） |
-| 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **290 passed + 26 skipped** ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ `q6_camera_test` 10 ｜ live 搜索 23/23 ｜ 引擎包 1.16MB + pathtracer 220.4KB（<2.2MB） |
-| 剩余 | **S4 姿势参考图 12×10 ｜ S5 RTMPose/RTMW3D 识别 ｜ S6 资源库 100% ｜ S7 v1.3.0 发布** |
+| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助** `d235451` ｜ **S4 姿势参考图**（本次提交） |
+| CI | S4 推送后运行中（R60：**全绿才算完成**，下一步先复核）；S3.4 全绿（run 35855722478 = d235451 success）；S3.3 的 35839154345/35842252891 亦 success |
+| 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **290 passed + 26 skipped** ｜ `q2_pose_photos_test` 8 用例 ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ `q6_camera_test` 10 ｜ `pose_qa photo` 120/120（缺 0）｜ 引擎包 1.16MB + pathtracer 220.4KB（<2.2MB） |
+| 剩余 | **S5 RTMPose/RTMW3D 识别 ｜ S6 资源库 100% ｜ S7 v1.3.0 发布** |
 
 ---
 
-## 1. 已完成（S0–S3.4，含证据路径）
+## 1. 已完成（S0–S4，含证据路径）
 
 ### S0 合同（`be2c264`）
 `FIX_CONTRACT_V7.0.md`：D132–D144 + R61–R70（含 Getty 移除、Step 3 顺序修正、许可门控、NGA/Walters 索引方案、硬件适配）。
@@ -62,14 +62,16 @@
 - **焦段与视野可视化增强**：机位面板显示 `垂直视野 x° · 水平 x° · 主体距离 x.xxm · 画幅高 x.xxm`（与 `rig.js focalToFov` 同口径：全画幅 24mm 传感器高），景深不可用时提示；效果预览对话框新增「景深」开关（光圈 1.4–16、对焦自动/手动 0.3–12m），结果摘要带景深参数与回退提示。
 - 证据：`q6_camera_test` 10 项（FOV/画幅换算、焦段分类、构图设置、Painter、bundle token、对话框景深 UI）；`q6_lighting_test` 新增 `camera-assist/getCameraAssist/fStop/focusDistance/PhysicalCamera/dofFallback` token；全量 **290 passed + 26 skipped**；format 0 changed、analyze 0 问题；`camera_assist_qa`（headed RTX 4060，480×360×48 samples）**PASS**：assist fov 16.07°（=期望）/主体距离 5.5m/画幅高 1.55m，主体框 p95 边缘锐度 无景深 136.0 → 自动对焦 121.0（0.89）→ 手动对焦 1m 50.1（0.369 ≤ 0.6，景深生效），payload dof=true / f1.4 / 自动 5.5m / 手动 1.0m → `docs/qa/camera-assist-r186s34.json` + 三张静帧 PNG。
 
+### S4 姿势参考图（D140，10 类 × 12）
+- **分类替换**（用户确认口径「10 类 × 12 张（字面替换手部/神态）」）：去掉「手部」「神态」，新增「杂志大片」（editorial，p085–p096）与「影视感」（cinematic，p097–p108），总量维持 120；合同 D140 原文「12 类 × 10」按偏差登记。
+- **抓取器** `tool/gen_pose_photos_v7.py`：Pexels 主源 + 亚洲人过滤（`asian_score>=1`）+ 可商用许可 + 竖幅全身门控；原地替换 24 张并更新 `photos_manifest.json`（含 candidatePool）与 `attribution.json`（逐图登记，R63）；p106 首图 MediaPipe 未检出人体 → 重取（pexels 8683443）并重提骨架。
+- **数据重建**：`extract_pose_skeletons.py extract --force` → `skeleton_to_joints.py build --force`（新类目补 `pose_name`/`CATEGORY_TIPS`/`CATEGORY_LENS`；120 条、限位 42、referenceOnly 17）→ `annotate_pose_visibility.py`（partialBody 26/120）。
+- **UI**：`poseCategories` 改 10 类；新「影视感参考」入口 `cinematic_refs.dart`（TMDB 按需检索 → 只存工作区 `images/refs/` + 来源/许可标注，**不入包**，R63）。
+- 证据：`node tool/pose_qa.mjs photo` 120/120 渲染 + 拼接（缺 0）、接地校准 120 条 rootY、重试 23/23；`q2_pose_photos_test` 8 用例全绿（含 p050 接地 `minY=0.0002`）；全量 **290 passed + 26 skipped**；format 0 changed、analyze 0；photos 120 jpg + 120 skeleton（10.45MB）、manifest 10 类 × 12、attribution 654 条；截图 `docs/pose-qa3/compare-*.png` / `overlay-*.png` / `qa_photo_state.json`。
+
 ---
 
 ## 2. 剩余待办（按合同 §3 顺序）
-
-### S4 姿势参考图 12 类 × 10（D140）
-- 新增「杂志大片」「影视感」两类，替换手部/表情；内置 Pexels 可商用杂志风；运行时「影视感参考」按需抓 TMDB（只存工作区，不入包）。
-- 管线：`tool/gen_pose_photos_v7.py`（或改造 `gen_pose_photos_asian.py`）→ `extract_pose_skeletons.py extract --force` → `skeleton_to_joints.py build --force` → `node tool/pose_qa.mjs photo`；`q2_pose_photos_test` 更新为 12×10；attribution 更新。
-- **注意**：分类数量/ID 变化会影响 `poses3.json`、UI 分类 chips 与 q2/f4 测试，需一并更新（R66：改测试不删测试）。
 
 ### S5 识别 RTMPose/RTMW3D（D141）
 1. **spike 先行**：HuggingFace 本机不可达 → `hf-mirror.com` 或 DoH 隧道下载 `Soykaf/RTMW3D-x` ONNX（rtmlib 配套，~369MB）；核验许可（预期 Apache-2.0）与量化/体积；`flutter_onnxruntime` Windows EP 验证（DirectML 是否内置；不可用则 CPU EP 或自编译）。
@@ -92,19 +94,20 @@
 3. **HuggingFace 本机不可达**（S5 spike 第一风险）：需 `hf-mirror.com` 或 DoH 隧道。
 4. **开放源可达性**：Openverse 握手失败 / Wikimedia 超时 / LoC 403（本机）；Wellcome/SMK 正常。许可门控：Getty 等 Rights-Managed 一律排除。
 5. **`set VAR=1 &&` 陷阱**：cmd 下会带尾随空格，导致 env 比较失败；用 `$env:VAR='1'`（PowerShell）后再 `cmd /c`。
-6. **测试计数会变**：新增测试后同步更新合同/HANDOFF 基线（当前 **278+26**）。
+6. **测试计数会变**：新增测试后同步更新合同/HANDOFF 基线（当前 **290+26**）。
 7. **QA 阴影类型**：`light_preset_qa` 用 headless Edge（SwiftShader）→ `effectiveProfile()='low'` 强制 PCF，预设截图**不覆盖 VSM 路径**；VSM 证据走 headed 独显专项 `node tool/vsm_regression_qa.mjs`（`--force_high_performance_gpu`）。
 8. **路径追踪产物**：改 `engine.js` 后重打 `node tool/engine_build/bundle.mjs`；改 pathtracer 依赖/打包配置后重打 `node tool/engine_build/pathtracer_build.mjs`（生成 `tool/engine_build/.gen/three_global_shim.js`，已 gitignore）；首次路径追踪需 40–80s 编译（就绪后 3s 自动预热，二次亚秒级）。
 9. **flutter/dart 不在 PATH**：用 `C:\dev\flutter\bin\flutter.bat` / `dart.bat`（Flutter 3.47.2 stable），命令在 `app/` 下执行。
 10. 沿用 V6 坑表：format tall-style、改引擎 JS 必重打 bundle、QA 前杀 headless Edge、推送重试、Android 构建需 NDK 环境变量。
 11. **路径追踪景深（D139）**：`three-gpu-pathtracer` 只在传入的相机是 `SSPathTracer.PhysicalCamera` 实例时才应用景深（`PhysicalCameraUniform.updateFrom` 对其他相机把 bokehSize 归零）→ 引擎用 `syncDofCamera()` 单例同步位置/朝向/fov；`bokehSize = 焦距/fStop`（mm），`focusDistance` 为米。**坑（已修复）**：`FEATURE_DOF` 是编译期定义——若「无景深静帧用普通相机、景深静帧改用 PhysicalCamera」，定义翻转会触发材质 `recompilation` → `compileAsync` 挂起（`isCompiling=true` 期间 `renderSample()` 完全不推进）→ samples 永远为 0 的死锁（实测 868s 零采样）。修复：`syncDofCamera()` **恒返回 PhysicalCamera**（filmGauge=36），无景深时 `fStop=1000` 把散景压到亚毫米级（≈0.08mm），保证定义恒为 1；`getPathTracerState().debug` 可查 `dofDefine/isCompiling/compilePending/bokehSize`。
 12. **相机辅助 QA**：`node tool/camera_assist_qa.mjs --suffix r186s34`（headed + 独显，port 9988）验证 `getCameraAssist()` 数值 + 三张静帧（无景深/自动对焦/手动 1m）清晰度比值；报告 `docs/qa/camera-assist-*.json`。`testWidgets` 里做真实 IO 必须 `tester.runAsync` 包裹、避免 `pumpAndSettle`（FakeAsync 会挂）。**坑：Edge headed 窗口被遮挡/后台化后 `document.visibilityState='hidden'`，rAF 与定时器被冻结**（引擎主循环停摆、路径追踪永不推进，但 CDP `Runtime.evaluate` 仍可用，故不是死锁）→ 启动参数必须带 `--disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling` 并 `Page.bringToFront`；`renderStill` 返回 Promise，CDP 求值需 `awaitPromise:false` + 轮询 `__ssOutbox`（否则 awaitPromise 永久挂起）。
+13. **pose_qa 接地测量滞后**：`node tool/pose_qa.mjs photo` 个别姿势第二遍渲染测量滞后会留下校准前 bounds → 表现为 `q2_pose_photos_test`「p0xx 最终 rootY 未贴地（minY=...）」；自愈：`node tool/pose_qa.mjs photo --ids p0xx`（单条两遍会重测并更新 bounds/calibrations）。本次 p050 即如此（未改 pose_qa.mjs 代码）。
 
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V7：先读 `HANDOFF_V7.md`（本文件）与 `FIX_CONTRACT_V7.0.md`（D132–D144/R61–R70）。
-> 已完成 S0–S3.4 并推送（S3.4 的 CI 需先复核全绿）；基线 290 passed + 26 skipped。
-> 请按 §2 顺序继续：**S4 姿势参考图 12×10 → S5 RTMPose/RTMW3D（先 spike HF 镜像/ORT-DirectML）→ S6 资源库 100% → S7 v1.3.0 发布**。
+> 已完成 S0–S4 并推送（S4 的 CI 需先复核全绿）；基线 290 passed + 26 skipped。
+> 请按 §2 顺序继续：**S5 RTMPose/RTMW3D（先 spike HF 镜像/ORT-DirectML）→ S6 资源库 100% → S7 v1.3.0 发布**。
 > 纪律：每步 format/analyze/全量 test + 专项证据 + `git push` 后 CI 绿（R60/R61）才进下一步；spike 先行（R67）；数据变更重跑全量证据（R68）。

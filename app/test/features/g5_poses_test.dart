@@ -11,7 +11,7 @@ import 'package:shoot_studio/services/content_packs.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('V4：120 条、10 类目 × 12、照片与骨架齐备、建议字段齐全', () async {
+  test('V4/V7：120 条、10 类目 × 12（杂志大片/影视感替换手部/神态）、照片与骨架齐备、建议字段齐全', () async {
     final List<PoseEntry> poses = await ContentPacks.poses();
     expect(poses.length, 120);
     final Map<String, int> byCategory = <String, int>{};
@@ -33,8 +33,8 @@ void main() {
       '靠姿',
       '躺姿',
       '动态',
-      '手部',
-      '神态',
+      '杂志大片',
+      '影视感',
       '道具互动',
     });
     for (final MapEntry<String, int> entry in byCategory.entries) {
