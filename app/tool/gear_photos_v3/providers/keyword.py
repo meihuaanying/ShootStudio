@@ -35,6 +35,16 @@ PROP_QUERIES = {
     'prop-14': 'sheer curtain light',
 }
 
+# V7/D142：无同品牌 donor 条目的「氛围实拍」检索词（Pexels，标注非该型号）。
+ATMOSPHERE_QUERIES = {
+    'light': ('studio lighting softbox', 'led light panel studio',
+              'photography softbox light'),
+    'camera': ('mirrorless camera body', 'dslr camera studio',
+               'professional camera body'),
+    'lens': ('camera lens closeup', 'prime lens photography',
+             'telephoto lens'),
+}
+
 ACCESSORY_TERMS = (
     ('柔光箱', 'softbox'),
     ('八角', 'octabox softbox'),
@@ -122,7 +132,8 @@ def _pexels(query: str, key: str, limit: int = 3) -> list:
             page_url=str(p.get('url') or ''),
             title=str(p.get('alt') or '')[:120],
             license='Pexels License（氛围实拍，非官方产品图）',
-            extra={'photographer': str(p.get('photographer') or 'Pexels')},
+            extra={'photographer': str(p.get('photographer') or 'Pexels'),
+                   'tier': 'atmosphere', 'layer': 'keyword'},
         ))
     return out
 
@@ -166,8 +177,13 @@ class KeywordProvider(Provider):
             out.extend(_openverse(query))
             if len(out) >= 4:
                 break
-        if not out and str(item.get('kind')) in ('props', 'accessory') and self.pexels_key:
-            for query in queries_for(item):
+        if not out and self.pexels_key:
+            kind = str(item.get('kind') or '')
+            # V7/D142：light/camera/lens 等无同品牌 donor 的条目走「氛围实拍」
+            # 兜底（tier=atmosphere，UI 标注「氛围实拍·非该型号」）。
+            queries = queries_for(item) if kind in ('props', 'accessory') \
+                else list(ATMOSPHERE_QUERIES.get(kind) or ())
+            for query in queries:
                 out.extend(_pexels(query, self.pexels_key))
                 if out:
                     break

@@ -7,9 +7,10 @@ from .base import Candidate, Provider
 from .jd import JdProvider
 from .keyword import KeywordProvider
 from .official import OfficialProvider
+from .retail import RetailProvider
 from .taobao import TaobaoProvider
 
-PROVIDER_ORDER = ('official', 'jd', 'amazon', 'taobao', 'keyword')
+PROVIDER_ORDER = ('official', 'retail', 'jd', 'amazon', 'taobao', 'keyword')
 
 
 def build_providers(names=None, pexels_key: str = '') -> list:
@@ -17,6 +18,8 @@ def build_providers(names=None, pexels_key: str = '') -> list:
     out = []
     if 'official' in wanted:
         out.append(OfficialProvider())
+    if 'retail' in wanted:
+        out.append(RetailProvider())
     if 'jd' in wanted:
         out.append(JdProvider())
     if 'amazon' in wanted:

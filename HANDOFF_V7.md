@@ -10,14 +10,14 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助** `d235451` ｜ **S4 姿势参考图** `4157bb7` ｜ **S5-spike 识别路线** `bf9cb12` ｜ **S5 主体 端上识别集成**（本次提交） |
-| CI | S5-spike **全绿**（run 35964914460 = bf9cb12 success）；S5 主体推送后运行中（R60：全绿才算完成，下一步先复核）；S4 的 35953854563、S3.4 的 35855722478、S3.3 的 35839154345/35842252891 亦 success |
+| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助** `d235451` ｜ **S4 姿势参考图** `4157bb7` ｜ **S5-spike 识别路线** `bf9cb12` ｜ **S5 主体 端上识别集成** `1a5150c` ｜ **S6 资源库 100%**（本次提交） |
+| CI | S6 推送后运行中（R60：全绿才算完成，下一步先复核）；S5 全绿（run 35993053989 = 1a5150c success；S5-spike 35964914460 = bf9cb12）；S4 的 35953854563、S3.4 的 35855722478、S3.3 的 35839154345/35842252891 亦 success |
 | 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **303 passed + 27 skipped** ｜ `q2_pose_photos_test` 8 用例 ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ `q6_camera_test` 10 ｜ `q6_pose3d_test` 11 ｜ `q6_pose_recognition_test` 2 ｜ `q6_pose3d_consistency`（`SS_POSE_ACCURACY=1` 门控，本机 PASS）｜ `pose_qa photo` 120/120（缺 0）｜ 引擎包 1.16MB + pathtracer 220.4KB（<2.2MB）｜ 识别模型 205MB（fp16 分片 184.8MB + yolox_tiny 20.2MB，R64） |
-| 剩余 | **S6 资源库 100% ｜ S7 v1.3.0 发布** |
+| 剩余 | **S7 v1.3.0 发布** |
 
 ---
 
-## 1. 已完成（S0–S5，含证据路径）
+## 1. 已完成（S0–S6，含证据路径）
 
 ### S0 合同（`be2c264`）
 `FIX_CONTRACT_V7.0.md`：D132–D144 + R61–R70（含 Getty 移除、Step 3 顺序修正、许可门控、NGA/Walters 索引方案、硬件适配）。
@@ -89,13 +89,20 @@
 - **一致性证据**（`docs/qa/pose3d-consistency-report.json`，参考 `docs/qa/pose3d-consistency-reference.json` 由 `tool/rtmpose_spike.py reference` 生成、含 clamp 同口径）：worstIou **0.9942**、kpXY 1.15px、kpZ 0.0179m、scaleRel 2.82%、rootYΔ 0.0055、rootPitchΔ 2.33°、**关节均值 2.8° / p90 6.81° / 中位数 0.32°**（D141 口径 均值 ≤5°、p90 ≤10° 达标）。
 - **偏差/坑登记**：① `solve_limb` 离散扫描 + 限位罚项存在多个近等价值（输入方向差 0.4° 即可切换最小值，Python 自对自复现 shoulder_r.ry Δ43.3°）→ 关节以中位数/均值+p90 断言，最大 90.5° 仅记录；② 门控测试曾 1 次瞬时失败（随后连续 4 次通过，记为本机风险）；③ 尺度容差 5%（cv2 与 Dart `image` 的 JPEG 解码差异 → 短骨 dxy 敏感）。
 
+### S6 资源库 100%（D142–D143）
+- **品牌配置扩展**：`brands.py` 25 家（新增佳能/尼康/索尼/松下/适马/富士/徕卡/大疆 8 家官网 sitemap 配置）。
+- **授权零售商（第②层）**：新 `providers/retail.py`（B&H/Adorama best-effort + 离线 fixtures，PROVIDER_ORDER official→retail→jd→amazon→taobao→keyword）；本轮数据 0 条（网络/反爬，登记偏差）。
+- **同系列近似（第③层）**：新 `series_fallback.py` → 44 条 `tier=series`（`extra.refId` 可追溯、禁链式借用、donor 必须带本地池文件）。
+- **氛围实拍兜底**：`keyword.py` 扩展 light/camera/lens（`tier=atmosphere` 标注）；`normalize_tiers.py` 补齐 37 条历史开放图源 tier/layer。
+- **覆盖率 100% 口径（R68）**：`gear_coverage.py` TARGETS 全 1.0 + byTier/byLayer/fallbackLayers 四层来源 → `docs/qa/gear-coverage-v7.json`（camera 111/111、lens 197/197、light 157/157、accessory 28/28、clothing 9/9、props 14/14，pass=true、missingTotal=0）。
+- **来源抽检门禁（R63/R70）**：新 `gear_sources_spotcheck.py`（确定性抽样 12 条，校验许可/尺寸/tier/layer/refId）→ `docs/qa/gear-sources-spotcheck.json`（12/12 通过）。
+- **CI**：`ci.yml` 新增 3 个 Linux-only 步骤（selftest / coverage / spotcheck）。
+- **偏差登记**：服装维持 Pexels 可商用模特图（品牌官网/电商图反爬 + 版权风险，D143 未逐字执行）；零售商层本轮 0 条。
+- 证据：`gear-coverage-v7.json`（六类 100%、byTier {product 366/atmosphere 76/series 74}、byLayer {builtin 289/official 98/keyword 76/series 44/open 9}）；`gear-sources-spotcheck.json` 12/12；`selftest.py` PASS（3 品牌/零售商/端到端/断点续跑/失败重试）；`q6_gear_test` 7/7；全量 303 passed + 27 skipped；format 0 changed、analyze 0。
+
 ---
 
 ## 2. 剩余待办（按合同 §3 顺序）
-
-### S6 资源库 100%（D142–D143）
-- `brands.py` 扩展（佳能/尼康/索尼/松下/适马/富士/徕卡/大疆/智云等）；授权零售商 provider（B&H/Adorama/京东）；同系列近似 tier 标注；服装品牌图 + 道具实拍。
-- 四层兜底口径与覆盖率报告更新（六类 100%）；`gear_coverage.py` + `gear_photo_sources.json` 重生成；fixture/selftest 保持绿。
 
 ### S7 v1.3.0 交付（D144）
 门禁 → 双端构建 + LAUNCH-OK + APK 体积 → 版本/公告/dist/合同 §5/HANDOFF/下载页 → tag `v1.3.0` → CI 绿。
@@ -122,12 +129,14 @@
 16. **onnxruntime FFI（gtbluesky 1.4.1）坑**：`OrtSession.fromFile` 在 Windows 传 `char*` 而 ORT 要 `wchar_t*` → 报 “File doesn't exist”，**必须 `OrtSession.fromBuffer(bytes, options)`**；`flutter test` 里需先用绝对路径 `DynamicLibrary.open('...\Pub\Cache\hosted\pub.dev\onnxruntime-1.4.1\windows\onnxruntime.dll')` 预加载（应用构建时插件会把 DLL 拷到 exe 旁）；pub.dev 直连下载 tarball 会反复 reset → 用 `pub.flutter-io.cn` 镜像（`https://pub.flutter-io.cn/api/archives/onnxruntime-1.4.1.tar.gz`，SHA256 与 pub.dev 官方一致）。
 17. **本机 Developer Mode 未开启（非管理员）**：`flutter pub get` 结尾报 “Building with plugins requires symlink support…”，`windows/flutter/ephemeral/.plugin_symlinks` 为空 → **本机无法 `flutter build windows`（含插件）**；`package_config.json` 仍会写入，所以 `flutter test --no-pub` / `flutter analyze --no-pub` 照常可用（本机所有门禁均加 `--no-pub`）；CI（管理员）不受影响。
 18. **一致性门控测试（S5）**：`SS_POSE_ACCURACY=1 flutter test --no-pub test/features/q6_pose3d_consistency_test.dart`（本机 ~13–15s；首跑曾瞬时失败 1 次，随后连续 4 次通过）；关节角断言用 中位数 ≤5° + 均值 ≤5° + p90 ≤10°（`solve_limb` 离散翻转可致单点最大 90.5°，仅记录）；参考 JSON 重生成：`python tool/rtmpose_spike.py reference`（改动管线口径时必须重跑）。
+19. **S6 资源库借图与标注**：`series_fallback.py` 的 donor 必须来自 `gear_photo_sources.json` 且带本地池文件（sha1/rawPath 非空）；`gear_photos2.json` 条目无池文件 → 借图会留下空 sha1（与 D130/R47 冲突），已改为转氛围实拍。开放图源（pexels/openverse）历史条目缺 `extra.tier` 用 `normalize_tiers.py` 补齐；`gear_coverage.py` / `gear_sources_spotcheck.py` 在 `app/` 下运行。
+20. **CI 已接 Python 门禁（Linux-only）**：`tool/gear_photos_v3/selftest.py`（`GEAR_V3_OFFLINE=1`，先 `pip install pillow`）、`tool/gear_coverage.py`（六类 100% 否则 exit 1）、`tool/gear_sources_spotcheck.py`（12 条抽样）三步在 `flutter test` 之前；本地复跑同命令即可。
 
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V7：先读 `HANDOFF_V7.md`（本文件）与 `FIX_CONTRACT_V7.0.md`（D132–D144/R61–R70）。
-> 已完成 S0–S5 并推送（S5 主体的 CI 需先复核全绿）；基线 303 passed + 27 skipped。
-> 请按 §2 顺序继续：**S6 资源库 100% → S7 v1.3.0 发布**。
+> 已完成 S0–S6 并推送（S6 的 CI 需先复核全绿）；基线 303 passed + 27 skipped（另：覆盖率六类 100%、来源抽检 12/12、selftest PASS）。
+> 请按 §2 顺序继续：**S7 v1.3.0 发布**。
 > 纪律：每步 format/analyze/全量 test + 专项证据 + `git push` 后 CI 绿（R60/R61）才进下一步；spike 先行（R67）；数据变更重跑全量证据（R68）。

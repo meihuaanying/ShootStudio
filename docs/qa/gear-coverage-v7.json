@@ -1,0 +1,183 @@
+{
+  "version": 2,
+  "generatedAt": "2026-09-24T14:33:07Z",
+  "note": "V7/D142：六类 100% 口径 = 内置产品图（photo2）∪ 已核验图源（官网/授权零售商/同系列近似/补图/开放图源，图片仅存工作区/工具池，不入 git）；四层兜底见 layers 字段（official/retail/series/manual）。",
+  "targets": {
+    "camera": 1.0,
+    "lens": 1.0,
+    "light": 1.0,
+    "accessory": 1.0,
+    "clothing": 1.0,
+    "props": 1.0
+  },
+  "layers": [
+    "official",
+    "retail",
+    "series",
+    "manual",
+    "open",
+    "builtin"
+  ],
+  "categories": {
+    "camera": {
+      "total": 111,
+      "covered": 111,
+      "ratio": 1.0,
+      "target": 1.0,
+      "pass": true,
+      "bySource": {
+        "builtin": 106,
+        "pexels": 5
+      },
+      "byTier": {
+        "product": 106,
+        "atmosphere": 5
+      },
+      "byLayer": {
+        "builtin": 106,
+        "keyword": 5
+      },
+      "missing": [],
+      "missingCount": 0
+    },
+    "lens": {
+      "total": 197,
+      "covered": 197,
+      "ratio": 1.0,
+      "target": 1.0,
+      "pass": true,
+      "bySource": {
+        "builtin": 180,
+        "official": 5,
+        "series-fallback": 3,
+        "pexels": 9
+      },
+      "byTier": {
+        "product": 184,
+        "series": 4,
+        "atmosphere": 9
+      },
+      "byLayer": {
+        "builtin": 180,
+        "official": 5,
+        "series": 3,
+        "keyword": 9
+      },
+      "missing": [],
+      "missingCount": 0
+    },
+    "light": {
+      "total": 157,
+      "covered": 157,
+      "ratio": 1.0,
+      "target": 1.0,
+      "pass": true,
+      "bySource": {
+        "official": 88,
+        "series-fallback": 41,
+        "pexels": 25,
+        "builtin": 3
+      },
+      "byTier": {
+        "series": 68,
+        "product": 64,
+        "atmosphere": 25
+      },
+      "byLayer": {
+        "official": 88,
+        "series": 41,
+        "keyword": 25,
+        "builtin": 3
+      },
+      "missing": [],
+      "missingCount": 0
+    },
+    "accessory": {
+      "total": 28,
+      "covered": 28,
+      "ratio": 1.0,
+      "target": 1.0,
+      "pass": true,
+      "bySource": {
+        "pexels": 23,
+        "official": 5
+      },
+      "byTier": {
+        "atmosphere": 23,
+        "product": 3,
+        "series": 2
+      },
+      "byLayer": {
+        "keyword": 23,
+        "official": 5
+      },
+      "missing": [],
+      "missingCount": 0
+    },
+    "clothing": {
+      "total": 9,
+      "covered": 9,
+      "ratio": 1.0,
+      "target": 1.0,
+      "pass": true,
+      "bySource": {
+        "pexels": 9
+      },
+      "byTier": {
+        "product": 9
+      },
+      "byLayer": {
+        "open": 9
+      },
+      "missing": [],
+      "missingCount": 0
+    },
+    "props": {
+      "total": 14,
+      "covered": 14,
+      "ratio": 1.0,
+      "target": 1.0,
+      "pass": true,
+      "bySource": {
+        "pexels": 14
+      },
+      "byTier": {
+        "atmosphere": 14
+      },
+      "byLayer": {
+        "keyword": 14
+      },
+      "missing": [],
+      "missingCount": 0
+    }
+  },
+  "byLayer": {
+    "builtin": 289,
+    "keyword": 76,
+    "official": 98,
+    "series": 44,
+    "open": 9
+  },
+  "byTier": {
+    "product": 366,
+    "atmosphere": 76,
+    "series": 74
+  },
+  "fallbackLayers": {
+    "official": 98,
+    "retail": 0,
+    "series": 44,
+    "manual": 0,
+    "note": "D142 四层兜底计数：①官网 ②授权零售商（B&H/Adorama/JD）③同系列近似（tier=series）④补图（工作区 images/gear/sources.json，资产侧计 0；入口保留）"
+  },
+  "passByKind": {
+    "camera": true,
+    "lens": true,
+    "light": true,
+    "accessory": true,
+    "clothing": true,
+    "props": true
+  },
+  "pass": true,
+  "missingTotal": 0
+}

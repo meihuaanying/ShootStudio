@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "note": "V6/E（D129–D131）：器材/道具参考图元数据（来源/许可/时间）。图片仅存工作区与 tool/gear_photo_pool（不入 git、不入安装包）。",
-  "generatedAt": "2026-09-21T20:11:36Z",
-  "count": 135,
+  "note": "V6/E（D129–D131）：器材/道具参考图元数据（来源/许可/时间）。图片仅存工作区与 tool/gear_photo_pool（不入 git、不入安装包）。；V7/D142：开放图源 tier/layer 标注补齐（幂等）",
+  "generatedAt": "2026-09-24T14:33:07Z",
+  "count": 218,
   "items": {
     "light-205": {
       "gearId": "light-205",
@@ -1840,7 +1840,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-237.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-237.jpg",
       "extra": {
-        "photographer": "Ilyasick Photo"
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-238": {
@@ -1862,7 +1865,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-238.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-238.jpg",
       "extra": {
-        "photographer": "Airam Dato-on"
+        "photographer": "Airam Dato-on",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-239": {
@@ -1884,7 +1890,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-239.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-239.jpg",
       "extra": {
-        "photographer": "Karlee Heck"
+        "photographer": "Karlee Heck",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-240": {
@@ -1952,7 +1961,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-242.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-242.jpg",
       "extra": {
-        "photographer": "William Xin"
+        "photographer": "William Xin",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-243": {
@@ -1974,7 +1986,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-243.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-243.jpg",
       "extra": {
-        "photographer": "Julien"
+        "photographer": "Julien",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-244": {
@@ -1996,7 +2011,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-244.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-244.jpg",
       "extra": {
-        "photographer": "Maria M."
+        "photographer": "Maria M.",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-245": {
@@ -2018,7 +2036,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-245.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-245.jpg",
       "extra": {
-        "photographer": "정규송 Nui MALAMA"
+        "photographer": "정규송 Nui MALAMA",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-246": {
@@ -2040,7 +2061,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-246.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-246.jpg",
       "extra": {
-        "photographer": "Trần Chính"
+        "photographer": "Trần Chính",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-247": {
@@ -2062,7 +2086,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-247.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-247.jpg",
       "extra": {
-        "photographer": "Trần Chính"
+        "photographer": "Trần Chính",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-248": {
@@ -2084,7 +2111,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-248.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-248.jpg",
       "extra": {
-        "photographer": "Trần Chính"
+        "photographer": "Trần Chính",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-249": {
@@ -2106,7 +2136,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-249.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-249.jpg",
       "extra": {
-        "photographer": "Alpha En"
+        "photographer": "Alpha En",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-250": {
@@ -2128,7 +2161,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-250.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-250.jpg",
       "extra": {
-        "photographer": "dogadakisakal"
+        "photographer": "dogadakisakal",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-251": {
@@ -2150,7 +2186,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-251.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-251.jpg",
       "extra": {
-        "photographer": "Thái Trường Giang"
+        "photographer": "Thái Trường Giang",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-252": {
@@ -2172,7 +2211,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-252.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-252.jpg",
       "extra": {
-        "photographer": "Christian Naccarato"
+        "photographer": "Christian Naccarato",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-253": {
@@ -2194,7 +2236,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-253.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-253.jpg",
       "extra": {
-        "photographer": "Daigoro Folz"
+        "photographer": "Daigoro Folz",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-254": {
@@ -2216,7 +2261,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-254.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-254.jpg",
       "extra": {
-        "photographer": "Letícia Alvares"
+        "photographer": "Letícia Alvares",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-255": {
@@ -2238,7 +2286,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-255.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-255.jpg",
       "extra": {
-        "photographer": "Trần Chính"
+        "photographer": "Trần Chính",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-256": {
@@ -2260,7 +2311,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-256.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-256.jpg",
       "extra": {
-        "photographer": "Sóc Năng Động"
+        "photographer": "Sóc Năng Động",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-257": {
@@ -2305,7 +2359,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-258.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-258.jpg",
       "extra": {
-        "photographer": "Sóc Năng Động"
+        "photographer": "Sóc Năng Động",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-259": {
@@ -2327,7 +2384,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-259.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-259.jpg",
       "extra": {
-        "photographer": "Ilyasick Photo"
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-260": {
@@ -2349,7 +2409,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-260.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-260.jpg",
       "extra": {
-        "photographer": "Alpha En"
+        "photographer": "Alpha En",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-261": {
@@ -2371,7 +2434,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-261.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-261.jpg",
       "extra": {
-        "photographer": "Ilyasick Photo"
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-262": {
@@ -2416,7 +2482,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-263.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-263.jpg",
       "extra": {
-        "photographer": "Amar  Preciado"
+        "photographer": "Amar  Preciado",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "acc-g6-264": {
@@ -2461,7 +2530,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-1.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-1.jpg",
       "extra": {
-        "photographer": "cottonbro studio"
+        "photographer": "cottonbro studio",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-2": {
@@ -2483,7 +2555,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-2.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-2.jpg",
       "extra": {
-        "photographer": "Beyza Yalçın"
+        "photographer": "Beyza Yalçın",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-3": {
@@ -2505,7 +2580,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-3.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-3.jpg",
       "extra": {
-        "photographer": "Suzy Hazelwood"
+        "photographer": "Suzy Hazelwood",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-4": {
@@ -2527,7 +2605,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-4.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-4.jpg",
       "extra": {
-        "photographer": "Eden FC"
+        "photographer": "Eden FC",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-5": {
@@ -2549,7 +2630,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-5.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-5.jpg",
       "extra": {
-        "photographer": "Sergey  Meshkov"
+        "photographer": "Sergey  Meshkov",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-6": {
@@ -2571,7 +2655,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-6.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-6.jpg",
       "extra": {
-        "photographer": "Lisett Kruusimäe"
+        "photographer": "Lisett Kruusimäe",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-7": {
@@ -2593,7 +2680,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-7.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-7.jpg",
       "extra": {
-        "photographer": "cottonbro studio"
+        "photographer": "cottonbro studio",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-8": {
@@ -2615,7 +2705,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-8.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-8.jpg",
       "extra": {
-        "photographer": "Ligia Camargo"
+        "photographer": "Ligia Camargo",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-9": {
@@ -2637,7 +2730,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-9.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-9.jpg",
       "extra": {
-        "photographer": "Alexey Demidov"
+        "photographer": "Alexey Demidov",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-10": {
@@ -2659,7 +2755,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-10.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-10.jpg",
       "extra": {
-        "photographer": "Inga Seliverstova"
+        "photographer": "Inga Seliverstova",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-11": {
@@ -2681,7 +2780,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-11.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-11.jpg",
       "extra": {
-        "photographer": "Suzy Hazelwood"
+        "photographer": "Suzy Hazelwood",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-12": {
@@ -2703,7 +2805,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-12.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-12.jpg",
       "extra": {
-        "photographer": "Ksenia Chernaya"
+        "photographer": "Ksenia Chernaya",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-13": {
@@ -2725,7 +2830,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-13.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-13.jpg",
       "extra": {
-        "photographer": "Nothing Ahead"
+        "photographer": "Nothing Ahead",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "prop-14": {
@@ -2747,7 +2855,10 @@
       "rawPath": "app/tool/gear_photo_pool/v3/raw/prop-14.jpg",
       "normPath": "app/tool/gear_photo_pool/v3/norm/prop-14.jpg",
       "extra": {
-        "photographer": "Lyes Lagab"
+        "photographer": "Lyes Lagab",
+        "tier": "atmosphere",
+        "layer": "keyword",
+        "tierNote": "V7/D142 标注补齐：开放图源按氛围实拍登记"
       }
     },
     "lens-171": {
@@ -3070,6 +3181,2130 @@
       "extra": {
         "brandLabel": "zhiyun",
         "tier": "product"
+      }
+    },
+    "lens-176": {
+      "gearId": "lens-176",
+      "kind": "lens",
+      "brand": "腾龙",
+      "model": "50-400mm F4.5-6.3 VC",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.tamron.com/jp/consumer/pc_file/file/a063_ogp.webp",
+      "pageUrl": "https://www.tamron.com/jp/consumer/lenses/a063/",
+      "title": "腾龙 28-75mm F2.8 G2 A063（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "1c1b9a61223dfa73765133cc47026613bace8013",
+      "width": 1200,
+      "height": 630,
+      "bytes": 18974,
+      "format": "WEBP",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-171.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-171.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "lens-171",
+        "refOrigin": "sources",
+        "refModel": "28-75mm F2.8 G2 A063",
+        "borrowed": true
+      }
+    },
+    "lens-178": {
+      "gearId": "lens-178",
+      "kind": "lens",
+      "brand": "腾龙",
+      "model": "150-500mm F5-6.7 VC",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.tamron.com/jp/consumer/pc_file/file/a063_ogp.webp",
+      "pageUrl": "https://www.tamron.com/jp/consumer/lenses/a063/",
+      "title": "腾龙 28-75mm F2.8 G2 A063（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "1c1b9a61223dfa73765133cc47026613bace8013",
+      "width": 1200,
+      "height": 630,
+      "bytes": 18974,
+      "format": "WEBP",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-171.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-171.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "lens-171",
+        "refOrigin": "sources",
+        "refModel": "28-75mm F2.8 G2 A063",
+        "borrowed": true
+      }
+    },
+    "lens-180": {
+      "gearId": "lens-180",
+      "kind": "lens",
+      "brand": "腾龙",
+      "model": "24mm F1.4 Di III VXD",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.tamron.com/jp/consumer/pc_file/file/a063_ogp.webp",
+      "pageUrl": "https://www.tamron.com/jp/consumer/lenses/a063/",
+      "title": "腾龙 28-75mm F2.8 G2 A063（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "1c1b9a61223dfa73765133cc47026613bace8013",
+      "width": 1200,
+      "height": 630,
+      "bytes": 18974,
+      "format": "WEBP",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-171.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-171.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "lens-171",
+        "refOrigin": "sources",
+        "refModel": "28-75mm F2.8 G2 A063",
+        "borrowed": true
+      }
+    },
+    "light-213": {
+      "gearId": "light-213",
+      "kind": "light",
+      "brand": "神牛 Godox",
+      "model": "R200 环形闪光灯",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 Godox SL60W（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-205.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-205.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-205",
+        "refOrigin": "sources",
+        "refModel": "SL60W",
+        "borrowed": true
+      }
+    },
+    "light-220": {
+      "gearId": "light-220",
+      "kind": "light",
+      "brand": "爱图仕 Aputure",
+      "model": "LC 120",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/LS1200dPro-_2.png?v=1708329090",
+      "pageUrl": "https://aputure.com/products/ls-1200d-pro",
+      "title": "爱图仕 Aputure LS 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "60ad4a6a2a77b42349983df0e8a62ee4e1b2c797",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 289061,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-214.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-214.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-214",
+        "refOrigin": "sources",
+        "refModel": "LS 120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-18": {
+      "gearId": "light-g6-18",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "SL100W",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-20": {
+      "gearId": "light-g6-20",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "V1S",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-27": {
+      "gearId": "light-g6-27",
+      "kind": "light",
+      "brand": "金贝",
+      "model": "EF-200",
+      "provider": "series-fallback",
+      "imageUrl": "https://images.pexels.com/photos/32250708/pexels-photo-32250708.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/silhouette-of-person-with-umbrella-in-kyoto-street-32250708/",
+      "title": "金贝 反光伞 105cm（同品牌近似示意，非该型号）",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "1905d3d807dd5e68ad1bc25b8e3d84fe2518f6c0",
+      "width": 1880,
+      "height": 1175,
+      "bytes": 237349,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-243.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-243.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "acc-g6-243",
+        "refOrigin": "sources",
+        "refModel": "反光伞 105cm",
+        "borrowed": true
+      }
+    },
+    "light-g6-28": {
+      "gearId": "light-g6-28",
+      "kind": "light",
+      "brand": "保荣",
+      "model": "Gemini 500",
+      "provider": "series-fallback",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "保荣 柔光箱 100cm（同品牌近似示意，非该型号）",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-237.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-237.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "acc-g6-237",
+        "refOrigin": "sources",
+        "refModel": "柔光箱 100cm",
+        "borrowed": true
+      }
+    },
+    "light-g6-137": {
+      "gearId": "light-g6-137",
+      "kind": "light",
+      "brand": "金贝",
+      "model": "HD-400",
+      "provider": "series-fallback",
+      "imageUrl": "https://images.pexels.com/photos/32250708/pexels-photo-32250708.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/silhouette-of-person-with-umbrella-in-kyoto-street-32250708/",
+      "title": "金贝 反光伞 105cm（同品牌近似示意，非该型号）",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "1905d3d807dd5e68ad1bc25b8e3d84fe2518f6c0",
+      "width": 1880,
+      "height": 1175,
+      "bytes": 237349,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-243.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-243.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "acc-g6-243",
+        "refOrigin": "sources",
+        "refModel": "反光伞 105cm",
+        "borrowed": true
+      }
+    },
+    "light-g6-138": {
+      "gearId": "light-g6-138",
+      "kind": "light",
+      "brand": "金贝",
+      "model": "DP-600",
+      "provider": "series-fallback",
+      "imageUrl": "https://images.pexels.com/photos/32250708/pexels-photo-32250708.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/silhouette-of-person-with-umbrella-in-kyoto-street-32250708/",
+      "title": "金贝 反光伞 105cm（同品牌近似示意，非该型号）",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "1905d3d807dd5e68ad1bc25b8e3d84fe2518f6c0",
+      "width": 1880,
+      "height": 1175,
+      "bytes": 237349,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-243.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-243.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "acc-g6-243",
+        "refOrigin": "sources",
+        "refModel": "反光伞 105cm",
+        "borrowed": true
+      }
+    },
+    "light-g6-139": {
+      "gearId": "light-g6-139",
+      "kind": "light",
+      "brand": "保荣",
+      "model": "Siros 800L",
+      "provider": "series-fallback",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "保荣 柔光箱 100cm（同品牌近似示意，非该型号）",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-237.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-237.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "acc-g6-237",
+        "refOrigin": "sources",
+        "refModel": "柔光箱 100cm",
+        "borrowed": true
+      }
+    },
+    "light-g6-140": {
+      "gearId": "light-g6-140",
+      "kind": "light",
+      "brand": "保荣",
+      "model": "D2 500",
+      "provider": "series-fallback",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "保荣 柔光箱 100cm（同品牌近似示意，非该型号）",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-237.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-237.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "acc-g6-237",
+        "refOrigin": "sources",
+        "refModel": "柔光箱 100cm",
+        "borrowed": true
+      }
+    },
+    "light-g6-141": {
+      "gearId": "light-g6-141",
+      "kind": "light",
+      "brand": "保荣",
+      "model": "RFS 2.2",
+      "provider": "series-fallback",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "保荣 柔光箱 100cm（同品牌近似示意，非该型号）",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-237.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-237.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "acc-g6-237",
+        "refOrigin": "sources",
+        "refModel": "柔光箱 100cm",
+        "borrowed": true
+      }
+    },
+    "light-g6-162": {
+      "gearId": "light-g6-162",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "V860 III",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-165": {
+      "gearId": "light-g6-165",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "MF12 微距闪",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-166": {
+      "gearId": "light-g6-166",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "R200 环形闪",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-169": {
+      "gearId": "light-g6-169",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran 60d",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-170": {
+      "gearId": "light-g6-170",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran 60x S",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-171": {
+      "gearId": "light-g6-171",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran 100d",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-172": {
+      "gearId": "light-g6-172",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran 100x S",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-173": {
+      "gearId": "light-g6-173",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran 200d S",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-174": {
+      "gearId": "light-g6-174",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran 200x S",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-175": {
+      "gearId": "light-g6-175",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran 300c",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-176": {
+      "gearId": "light-g6-176",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran F22c",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-177": {
+      "gearId": "light-g6-177",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran F21c",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-178": {
+      "gearId": "light-g6-178",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran P60c",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-179": {
+      "gearId": "light-g6-179",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran P60x",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-180": {
+      "gearId": "light-g6-180",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran T2c",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-181": {
+      "gearId": "light-g6-181",
+      "kind": "light",
+      "brand": "爱图仕",
+      "model": "Amaran T4c",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/1343/1935/files/Frame_17.png?v=1773828899",
+      "pageUrl": "https://aputure.com/products/ls-c-120d-ii",
+      "title": "爱图仕 120D II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "c2f8a137eea411edf59c7b3928cdda5c1cb3a04c",
+      "width": 1000,
+      "height": 1000,
+      "bytes": 608567,
+      "format": "PNG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-21.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-21.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-21",
+        "refOrigin": "sources",
+        "refModel": "120D II",
+        "borrowed": true
+      }
+    },
+    "light-g6-186": {
+      "gearId": "light-g6-186",
+      "kind": "light",
+      "brand": "南冠",
+      "model": "FS-200B",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0764/8722/9669/files/forza-60b-projection-kit-main.jpg?v=1757266836",
+      "pageUrl": "https://www.nanliteus.com/products/forza-60b-ii-spotlight-and-projection-attachment-kit",
+      "title": "南冠 Forza 60B（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "65dec4c1de8a8a196e2e8121a89ebc4ab8cbfe40",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 93527,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-25.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-25.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-25",
+        "refOrigin": "sources",
+        "refModel": "Forza 60B",
+        "borrowed": true
+      }
+    },
+    "light-g6-189": {
+      "gearId": "light-g6-189",
+      "kind": "light",
+      "brand": "南冠",
+      "model": "FS-500B",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0764/8722/9669/files/forza-60b-projection-kit-main.jpg?v=1757266836",
+      "pageUrl": "https://www.nanliteus.com/products/forza-60b-ii-spotlight-and-projection-attachment-kit",
+      "title": "南冠 Forza 60B（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "65dec4c1de8a8a196e2e8121a89ebc4ab8cbfe40",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 93527,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-25.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-25.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-25",
+        "refOrigin": "sources",
+        "refModel": "Forza 60B",
+        "borrowed": true
+      }
+    },
+    "light-g6-196": {
+      "gearId": "light-g6-196",
+      "kind": "light",
+      "brand": "智云",
+      "model": "FIVERAY F100",
+      "provider": "series-fallback",
+      "imageUrl": "https://cdn.shopify.com/s/files/1/0049/0101/1502/files/m40-se-light_3.jpg?v=1772074382",
+      "pageUrl": "https://store.zhiyun-tech.com/products/fiveray-m40",
+      "title": "智云 FIVERAY M40（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "4c4917654ae960038ab2dad8fd301af1857426e6",
+      "width": 2000,
+      "height": 2000,
+      "bytes": 175939,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-150.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-150.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-150",
+        "refOrigin": "sources",
+        "refModel": "FIVERAY M40",
+        "borrowed": true
+      }
+    },
+    "light-g6-208": {
+      "gearId": "light-g6-208",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "S30 Bi",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-212": {
+      "gearId": "light-g6-212",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "LDX100Bi",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-216": {
+      "gearId": "light-g6-216",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "UL120",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-217": {
+      "gearId": "light-g6-217",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "UL300",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-218": {
+      "gearId": "light-g6-218",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "SL100D",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-222": {
+      "gearId": "light-g6-222",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "LDX100Bi II",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-223": {
+      "gearId": "light-g6-223",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "ES45",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-224": {
+      "gearId": "light-g6-224",
+      "kind": "light",
+      "brand": "神牛",
+      "model": "ES60",
+      "provider": "series-fallback",
+      "imageUrl": "https://www.godox.com/static/upload/image/20220617/1655454795145867.jpg",
+      "pageUrl": "https://www.godox.com/product-d/SL60.html",
+      "title": "神牛 SL60W II（同品牌近似示意，非该型号）",
+      "license": "官网产品图（版权归品牌，仅供选型参考）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "fb690c947f5a0562656cf083f62e8424bf19bc70",
+      "width": 1080,
+      "height": 699,
+      "bytes": 97715,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-17.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-17.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "light-g6-17",
+        "refOrigin": "sources",
+        "refModel": "SL60W II",
+        "borrowed": true
+      }
+    },
+    "light-g6-234": {
+      "gearId": "light-g6-234",
+      "kind": "light",
+      "brand": "思锐",
+      "model": "SC-60",
+      "provider": "series-fallback",
+      "imageUrl": "https://images.pexels.com/photos/20382217/pexels-photo-20382217.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/tripods-on-floor-in-room-20382217/",
+      "title": "思锐 SH-15 三脚架（同品牌近似示意，非该型号）",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "1bc5ebb0aaeb1ba5e02d9befe162763a2b4b69ad",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 183137,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-248.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-248.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "acc-g6-248",
+        "refOrigin": "sources",
+        "refModel": "SH-15 三脚架",
+        "borrowed": true
+      }
+    },
+    "light-g6-235": {
+      "gearId": "light-g6-235",
+      "kind": "light",
+      "brand": "思锐",
+      "model": "SC-120",
+      "provider": "series-fallback",
+      "imageUrl": "https://images.pexels.com/photos/20382217/pexels-photo-20382217.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/tripods-on-floor-in-room-20382217/",
+      "title": "思锐 SH-15 三脚架（同品牌近似示意，非该型号）",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "1bc5ebb0aaeb1ba5e02d9befe162763a2b4b69ad",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 183137,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-248.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-248.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "acc-g6-248",
+        "refOrigin": "sources",
+        "refModel": "SH-15 三脚架",
+        "borrowed": true
+      }
+    },
+    "light-g6-236": {
+      "gearId": "light-g6-236",
+      "kind": "light",
+      "brand": "思锐",
+      "model": "SC-200",
+      "provider": "series-fallback",
+      "imageUrl": "https://images.pexels.com/photos/20382217/pexels-photo-20382217.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/tripods-on-floor-in-room-20382217/",
+      "title": "思锐 SH-15 三脚架（同品牌近似示意，非该型号）",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:04Z",
+      "sha1": "1bc5ebb0aaeb1ba5e02d9befe162763a2b4b69ad",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 183137,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/acc-g6-248.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/acc-g6-248.jpg",
+      "extra": {
+        "tier": "series",
+        "layer": "series",
+        "refId": "acc-g6-248",
+        "refOrigin": "sources",
+        "refModel": "SH-15 三脚架",
+        "borrowed": true
+      }
+    },
+    "cam-72": {
+      "gearId": "cam-72",
+      "kind": "camera",
+      "brand": "哈苏",
+      "model": "X2D 100C",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/32885764/pexels-photo-32885764.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/compact-mirrorless-camera-on-display-32885764/",
+      "title": "A compact mirrorless camera with lens cap, perfect for photography enthusiasts.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:26:39Z",
+      "sha1": "f5d9e91fa742ea3ce791b9f7028177715a9cb87f",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 216584,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/cam-72.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/cam-72.jpg",
+      "extra": {
+        "photographer": "Richard L",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "cam-73": {
+      "gearId": "cam-73",
+      "kind": "camera",
+      "brand": "哈苏",
+      "model": "907X & CFV 100C",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/32885764/pexels-photo-32885764.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/compact-mirrorless-camera-on-display-32885764/",
+      "title": "A compact mirrorless camera with lens cap, perfect for photography enthusiasts.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:27:00Z",
+      "sha1": "f5d9e91fa742ea3ce791b9f7028177715a9cb87f",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 216584,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/cam-73.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/cam-73.jpg",
+      "extra": {
+        "photographer": "Richard L",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-228": {
+      "gearId": "light-228",
+      "kind": "light",
+      "brand": "永诺 YONGNUO",
+      "model": "YN360 III",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:27:20Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-228.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-228.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-229": {
+      "gearId": "light-229",
+      "kind": "light",
+      "brand": "永诺 YONGNUO",
+      "model": "LUX200",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:27:40Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-229.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-229.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "cam-g6-55": {
+      "gearId": "cam-g6-55",
+      "kind": "camera",
+      "brand": "哈苏",
+      "model": "X2D 100C",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/32885764/pexels-photo-32885764.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/compact-mirrorless-camera-on-display-32885764/",
+      "title": "A compact mirrorless camera with lens cap, perfect for photography enthusiasts.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:28:02Z",
+      "sha1": "f5d9e91fa742ea3ce791b9f7028177715a9cb87f",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 216584,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/cam-g6-55.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/cam-g6-55.jpg",
+      "extra": {
+        "photographer": "Richard L",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "cam-g6-58": {
+      "gearId": "cam-g6-58",
+      "kind": "camera",
+      "brand": "宾得",
+      "model": "K-3 Mark III",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/32885764/pexels-photo-32885764.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/compact-mirrorless-camera-on-display-32885764/",
+      "title": "A compact mirrorless camera with lens cap, perfect for photography enthusiasts.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:28:23Z",
+      "sha1": "f5d9e91fa742ea3ce791b9f7028177715a9cb87f",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 216584,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/cam-g6-58.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/cam-g6-58.jpg",
+      "extra": {
+        "photographer": "Richard L",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "lens-g6-112": {
+      "gearId": "lens-g6-112",
+      "kind": "lens",
+      "brand": "老蛙",
+      "model": "24mm F14 微距",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/12058988/pexels-photo-12058988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/",
+      "title": "Artistic closeup of a vintage Canon camera in low light, showcasing detail and shadow.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:28:43Z",
+      "sha1": "485b3a6c17c9ea9a22c14dc86291358a9ac75485",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 70975,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-g6-112.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-g6-112.jpg",
+      "extra": {
+        "photographer": "dlxmedia.hu",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "lens-g6-113": {
+      "gearId": "lens-g6-113",
+      "kind": "lens",
+      "brand": "老蛙",
+      "model": "10mm F4 饼干",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/12058988/pexels-photo-12058988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/",
+      "title": "Artistic closeup of a vintage Canon camera in low light, showcasing detail and shadow.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:29:03Z",
+      "sha1": "485b3a6c17c9ea9a22c14dc86291358a9ac75485",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 70975,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-g6-113.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-g6-113.jpg",
+      "extra": {
+        "photographer": "dlxmedia.hu",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "lens-g6-115": {
+      "gearId": "lens-g6-115",
+      "kind": "lens",
+      "brand": "七工匠",
+      "model": "35mm F1.4",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/12058988/pexels-photo-12058988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/",
+      "title": "Artistic closeup of a vintage Canon camera in low light, showcasing detail and shadow.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:29:23Z",
+      "sha1": "485b3a6c17c9ea9a22c14dc86291358a9ac75485",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 70975,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-g6-115.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-g6-115.jpg",
+      "extra": {
+        "photographer": "dlxmedia.hu",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "lens-g6-116": {
+      "gearId": "lens-g6-116",
+      "kind": "lens",
+      "brand": "铭匠",
+      "model": "50mm F1.4",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/12058988/pexels-photo-12058988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/",
+      "title": "Artistic closeup of a vintage Canon camera in low light, showcasing detail and shadow.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:29:43Z",
+      "sha1": "485b3a6c17c9ea9a22c14dc86291358a9ac75485",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 70975,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-g6-116.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-g6-116.jpg",
+      "extra": {
+        "photographer": "dlxmedia.hu",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-146": {
+      "gearId": "light-g6-146",
+      "kind": "light",
+      "brand": "影聚",
+      "model": "Pika 200",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:30:03Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-146.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-146.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-147": {
+      "gearId": "light-g6-147",
+      "kind": "light",
+      "brand": "影聚",
+      "model": "Pika 400",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:30:24Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-147.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-147.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-151": {
+      "gearId": "light-g6-151",
+      "kind": "light",
+      "brand": "永诺",
+      "model": "YN360 III",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:30:45Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-151.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-151.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-152": {
+      "gearId": "light-g6-152",
+      "kind": "light",
+      "brand": "永诺",
+      "model": "YN600 Air",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:31:04Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-152.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-152.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-198": {
+      "gearId": "light-g6-198",
+      "kind": "light",
+      "brand": "永诺",
+      "model": "YN360 IV",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:31:24Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-198.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-198.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-199": {
+      "gearId": "light-g6-199",
+      "kind": "light",
+      "brand": "永诺",
+      "model": "YN300 Air II",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:31:45Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-199.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-199.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-200": {
+      "gearId": "light-g6-200",
+      "kind": "light",
+      "brand": "永诺",
+      "model": "YN600 II",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:32:04Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-200.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-200.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-201": {
+      "gearId": "light-g6-201",
+      "kind": "light",
+      "brand": "永诺",
+      "model": "YN900",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:32:24Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-201.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-201.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-202": {
+      "gearId": "light-g6-202",
+      "kind": "light",
+      "brand": "永诺",
+      "model": "YN968EX",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:32:44Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-202.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-202.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-203": {
+      "gearId": "light-g6-203",
+      "kind": "light",
+      "brand": "永诺",
+      "model": "YN685",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:33:04Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-203.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-203.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-204": {
+      "gearId": "light-g6-204",
+      "kind": "light",
+      "brand": "奈特科尔",
+      "model": "PavoTube 30C",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:33:24Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-204.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-204.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-205": {
+      "gearId": "light-g6-205",
+      "kind": "light",
+      "brand": "奈特科尔",
+      "model": "PavoTube 15C",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:33:45Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-205.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-205.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-206": {
+      "gearId": "light-g6-206",
+      "kind": "light",
+      "brand": "锐玛",
+      "model": "RL-18",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:34:08Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-206.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-206.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-207": {
+      "gearId": "light-g6-207",
+      "kind": "light",
+      "brand": "锐玛",
+      "model": "RL-12",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:34:28Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-207.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-207.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-226": {
+      "gearId": "light-g6-226",
+      "kind": "light",
+      "brand": "锋影",
+      "model": "FL-60",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:34:49Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-226.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-226.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-227": {
+      "gearId": "light-g6-227",
+      "kind": "light",
+      "brand": "锋影",
+      "model": "FL-120",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:35:09Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-227.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-227.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-228": {
+      "gearId": "light-g6-228",
+      "kind": "light",
+      "brand": "锋影",
+      "model": "FL-200",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:35:29Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-228.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-228.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-229": {
+      "gearId": "light-g6-229",
+      "kind": "light",
+      "brand": "世光",
+      "model": "C-700R",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:35:50Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-229.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-229.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-230": {
+      "gearId": "light-g6-230",
+      "kind": "light",
+      "brand": "世光",
+      "model": "M-30",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:36:10Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-230.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-230.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-231": {
+      "gearId": "light-g6-231",
+      "kind": "light",
+      "brand": "世光",
+      "model": "M-60",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:36:30Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-231.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-231.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-232": {
+      "gearId": "light-g6-232",
+      "kind": "light",
+      "brand": "莱斯",
+      "model": "Aladdin Bi-Flex2",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:36:50Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-232.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-232.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-233": {
+      "gearId": "light-g6-233",
+      "kind": "light",
+      "brand": "莱斯",
+      "model": "Bi-Flex M2",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:37:10Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-233.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-233.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "cam-78": {
+      "gearId": "cam-78",
+      "kind": "camera",
+      "brand": "索尼",
+      "model": "A6100",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/32885764/pexels-photo-32885764.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/compact-mirrorless-camera-on-display-32885764/",
+      "title": "A compact mirrorless camera with lens cap, perfect for photography enthusiasts.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:41:29Z",
+      "sha1": "f5d9e91fa742ea3ce791b9f7028177715a9cb87f",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 216584,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/cam-78.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/cam-78.jpg",
+      "extra": {
+        "photographer": "Richard L",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "lens-189": {
+      "gearId": "lens-189",
+      "kind": "lens",
+      "brand": "松下",
+      "model": "Lumix G 12-35mm F2.8 II",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/12058988/pexels-photo-12058988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/",
+      "title": "Artistic closeup of a vintage Canon camera in low light, showcasing detail and shadow.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:41:50Z",
+      "sha1": "485b3a6c17c9ea9a22c14dc86291358a9ac75485",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 70975,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-189.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-189.jpg",
+      "extra": {
+        "photographer": "dlxmedia.hu",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "lens-190": {
+      "gearId": "lens-190",
+      "kind": "lens",
+      "brand": "松下",
+      "model": "Lumix G 35-100mm F2.8 II",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/12058988/pexels-photo-12058988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/",
+      "title": "Artistic closeup of a vintage Canon camera in low light, showcasing detail and shadow.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:42:10Z",
+      "sha1": "485b3a6c17c9ea9a22c14dc86291358a9ac75485",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 70975,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-190.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-190.jpg",
+      "extra": {
+        "photographer": "dlxmedia.hu",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "lens-195": {
+      "gearId": "lens-195",
+      "kind": "lens",
+      "brand": "蔡司",
+      "model": "Batis 40mm F2 CF",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/12058988/pexels-photo-12058988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/",
+      "title": "Artistic closeup of a vintage Canon camera in low light, showcasing detail and shadow.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:42:30Z",
+      "sha1": "485b3a6c17c9ea9a22c14dc86291358a9ac75485",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 70975,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-195.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-195.jpg",
+      "extra": {
+        "photographer": "dlxmedia.hu",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "lens-197": {
+      "gearId": "lens-197",
+      "kind": "lens",
+      "brand": "佳能",
+      "model": "RF 200-800mm F6.3-9 IS",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/12058988/pexels-photo-12058988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/",
+      "title": "Artistic closeup of a vintage Canon camera in low light, showcasing detail and shadow.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:42:51Z",
+      "sha1": "485b3a6c17c9ea9a22c14dc86291358a9ac75485",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 70975,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-197.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-197.jpg",
+      "extra": {
+        "photographer": "dlxmedia.hu",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "lens-g6-67": {
+      "gearId": "lens-g6-67",
+      "kind": "lens",
+      "brand": "佳能",
+      "model": "RF 600mm F11 IS STM",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/12058988/pexels-photo-12058988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/canon-camera-in-macro-shot-photography-12058988/",
+      "title": "Artistic closeup of a vintage Canon camera in low light, showcasing detail and shadow.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:43:13Z",
+      "sha1": "485b3a6c17c9ea9a22c14dc86291358a9ac75485",
+      "width": 1880,
+      "height": 1253,
+      "bytes": 70975,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/lens-g6-67.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/lens-g6-67.jpg",
+      "extra": {
+        "photographer": "dlxmedia.hu",
+        "tier": "atmosphere",
+        "layer": "keyword"
+      }
+    },
+    "light-g6-145": {
+      "gearId": "light-g6-145",
+      "kind": "light",
+      "brand": "易领",
+      "model": "ELC 500",
+      "provider": "pexels",
+      "imageUrl": "https://images.pexels.com/photos/10811922/pexels-photo-10811922.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "pageUrl": "https://www.pexels.com/photo/a-woman-sitting-in-a-studio-10811922/",
+      "title": "Woman posing in a professional photography studio setting surrounded by lighting.",
+      "license": "Pexels License（氛围实拍，非官方产品图）",
+      "fetchedAt": "2026-09-24T12:43:34Z",
+      "sha1": "d4ff3db546dbbe349970cb61cbcc476f030528aa",
+      "width": 867,
+      "height": 1300,
+      "bytes": 100161,
+      "format": "JPEG",
+      "rawPath": "app/tool/gear_photo_pool/v3/raw/light-g6-145.jpg",
+      "normPath": "app/tool/gear_photo_pool/v3/norm/light-g6-145.jpg",
+      "extra": {
+        "photographer": "Ilyasick Photo",
+        "tier": "atmosphere",
+        "layer": "keyword"
       }
     }
   }

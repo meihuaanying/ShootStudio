@@ -53,6 +53,19 @@ jobs:
       - run: flutter analyze --fatal-infos
       - name: Engine aim math test (Node)
         run: node tool/test_aim.mjs
+      - name: Gear pipeline offline selftest (R62)
+        if: runner.os == 'Linux'
+        env:
+          GEAR_V3_OFFLINE: '1'
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 tool/gear_photos_v3/selftest.py
+      - name: Gear coverage gate (six kinds 100%, R68)
+        if: runner.os == 'Linux'
+        run: python3 tool/gear_coverage.py
+      - name: Gear sources spot-check (R63/R70)
+        if: runner.os == 'Linux'
+        run: python3 tool/gear_sources_spotcheck.py
       - run: flutter test
 
   build-windows:

@@ -10,6 +10,7 @@
      - godox：index.json + 产品页主图（product 命中）；
      - aputure：Shopify suggest.json；
      - viltrox：sitemapindex → urlset → 产品页主图（series 命中）；
+  2b. 授权零售商 provider（V7/D142 第②层）：B&H/Adorama fixture 抽图 + logo 过滤；
   3. run.fetch 端到端（临时池在 app/build/ 内，结束后清理，不写入真实
      tool/gear_photo_pool 与 assets 元数据）：
      - 成功项写元数据 + 原图/规范图 + 指纹（1100×825/4:3）；
@@ -88,6 +89,27 @@ def test_providers() -> None:
               '%s fixture 图片 %dx%d' % (gear_id, fp['width'], fp['height']))
 
 
+def test_retail_provider() -> None:
+    print('[selftest] 2b/4 授权零售商 provider（B&H/Adorama fixture，V7/D142）')
+    items = {it['id']: it for it in run.load_items()}
+    providers = {p.name: p for p in build_providers(names=['retail'], pexels_key='')}
+    retail = providers['retail']
+    for gear_id in (CASES[0][0], CASES[1][0]):
+        item = items[gear_id]
+        cands = retail.search(item)
+        check(bool(cands), '%s retail 命中候选 %d 条' % (gear_id, len(cands)))
+        cand = cands[0]
+        check(cand.provider == 'retail' and cand.image_url.startswith('http'),
+              '%s retail imageUrl=%s' % (gear_id, cand.image_url[:64]))
+        check(cand.extra.get('site') in ('bh', 'adorama'),
+              '%s 来源站点=%s' % (gear_id, cand.extra.get('site')))
+        check(cand.extra.get('layer') == 'retail',
+              '%s layer=retail（第②层统计用）' % gear_id)
+        check('logo' not in cand.image_url.lower() and 'sprite' not in cand.image_url.lower(),
+              '%s logo/sprite 已被过滤' % gear_id)
+        check(bool(cand.license), '%s 许可字段齐全' % gear_id)
+
+
 def _read_state(pool_dir):
     return common.read_json(os.path.join(pool_dir, 'state.json'), {})
 
@@ -163,8 +185,9 @@ def main() -> int:
     try:
         test_offline_guard()
         test_providers()
+        test_retail_provider()
         test_fetch_pipeline(tmp)
-        print('[selftest] PASS：R48 离线 fixture（3 品牌 / 端到端 / 断点续跑 / 失败重试）')
+        print('[selftest] PASS：R48 离线 fixture（3 品牌 / 零售商 / 端到端 / 断点续跑 / 失败重试）')
         return 0
     except Exception:  # noqa: BLE001
         traceback.print_exc()

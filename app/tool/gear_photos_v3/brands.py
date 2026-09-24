@@ -128,6 +128,87 @@ BRAND_CONFIG = [
         'sitemaps': ['https://www.smallrig.com/sitemap.xml'],
         'product_re': r'/products?/',
     },
+    # ---- V7/D142：品牌配置扩展（相机/镜头/无人机九家）----
+    {
+        'names': ('佳能', 'canon'),
+        'label': 'canon',
+        'sitemaps': [
+            'https://www.usa.canon.com/sitemap.xml',
+            'https://www.canon.com.cn/sitemap.xml',
+        ],
+        'product_re': r'/products?/|/cameras/|/lenses/',
+        'note': 'V7/D142：官网 sitemap 优先，反爬时降级授权零售商/系列兜底',
+    },
+    {
+        'names': ('尼康', 'nikon'),
+        'label': 'nikon',
+        'sitemaps': [
+            'https://www.nikon.com/sitemap.xml',
+            'https://www.nikonusa.com/sitemap.xml',
+        ],
+        'product_re': r'/products?/|/cameras/|/lenses/',
+        'note': 'V7/D142：官网 sitemap 优先',
+    },
+    {
+        'names': ('索尼', 'sony'),
+        'label': 'sony',
+        'sitemaps': [
+            'https://www.sony.com/sitemap.xml',
+            'https://www.sony.com.cn/sitemap.xml',
+        ],
+        'product_re': r'/products?/|/electronics/|/cameras/',
+        'note': 'V7/D142：官网 sitemap 优先',
+    },
+    {
+        'names': ('松下', 'panasonic'),
+        'label': 'panasonic',
+        'sitemaps': [
+            'https://www.panasonic.com/sitemap.xml',
+            'https://www.panasonic.com.cn/sitemap.xml',
+        ],
+        'product_re': r'/products?/|/cameras/|/lenses/',
+        'note': 'V7/D142：官网 sitemap 优先',
+    },
+    {
+        'names': ('适马', 'sigma'),
+        'label': 'sigma',
+        'sitemaps': [
+            'https://www.sigma-global.com/sitemap.xml',
+            'https://www.sigma-global.com/en/sitemap.xml',
+        ],
+        'product_re': r'/products?/|/lenses/',
+        'note': 'V7/D142：官网 sitemap 优先',
+    },
+    {
+        'names': ('富士', 'fujifilm'),
+        'label': 'fujifilm',
+        'sitemaps': [
+            'https://www.fujifilm.com/sitemap.xml',
+            'https://fujifilm-x.com/sitemap.xml',
+        ],
+        'product_re': r'/products?/|/cameras/|/lenses/',
+        'note': 'V7/D142：官网 + X 系列子站 sitemap',
+    },
+    {
+        'names': ('徕卡', 'leica'),
+        'label': 'leica',
+        'sitemaps': [
+            'https://leica-camera.com/sitemap.xml',
+            'https://leica-camera.com/en-US/sitemap.xml',
+        ],
+        'product_re': r'/products?/|/photography/',
+        'note': 'V7/D142：官网 sitemap 优先',
+    },
+    {
+        'names': ('大疆', 'dji'),
+        'label': 'dji',
+        'sitemaps': [
+            'https://www.dji.com/sitemap.xml',
+            'https://www.dji.com/cn/sitemap.xml',
+        ],
+        'product_re': r'/products?/|/cameras/|/gimbals/',
+        'note': 'V7/D142：官网 sitemap 优先',
+    },
 ]
 
 

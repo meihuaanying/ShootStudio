@@ -19,12 +19,12 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('Q6 资源库参考图', () {
-    test('覆盖率报告存在且口径完整（D129）', () {
-      final File report = File('../docs/qa/gear-coverage-v6.json');
+    test('覆盖率报告六类 100% 且含 tier/四层来源（V7/D142）', () {
+      final File report = File('../docs/qa/gear-coverage-v7.json');
       expect(
         report.existsSync(),
         isTrue,
-        reason: '缺覆盖率报告 docs/qa/gear-coverage-v6.json（D129）',
+        reason: '缺覆盖率报告 docs/qa/gear-coverage-v7.json（V7/D142）',
       );
       final Map<String, Object?> json =
           (jsonDecode(report.readAsStringSync()) as Map)
@@ -59,40 +59,54 @@ void main() {
           c['missingCount'],
           reason: '${entry.key} missingCount 不一致',
         );
+        // V7/D142：六类 100%（四层兜底后无缺口；R66：口径由 95/90 更新为 100）。
+        expect(
+          (c['ratio'] as num),
+          greaterThanOrEqualTo(1.0),
+          reason: '${entry.key} 未达 100%',
+        );
+        expect(
+          c['missing'] as List<Object?>,
+          isEmpty,
+          reason: '${entry.key} 仍有缺口（应由四层兜底覆盖）',
+        );
+        expect(
+          c['byTier'],
+          isA<Map<Object?, Object?>>(),
+          reason: '${entry.key} 缺 tier 分布（D142）',
+        );
+        expect(
+          c['byLayer'],
+          isA<Map<Object?, Object?>>(),
+          reason: '${entry.key} 缺四层来源统计（D142）',
+        );
       }
-      // D129 达标线：相机/镜头 ≥95%，其余 ≥90%。
-      // 现状（2026-09-21）：camera 95.5% / accessory 100% / clothing 100% /
-      // props 100% 达标；lens/light 受图源可达性限制未达标，已按 R54 式偏差
-      // 登记（缺口清单在报告内，由「补图」入口兜底）。
-      expect(
-        categories['camera']! as Map,
-        containsPair('ratio', greaterThanOrEqualTo(0.95)),
+      expect(json['pass'], isTrue, reason: '六类未全部达标');
+      expect(json['missingTotal'], 0, reason: '仍有缺口总数');
+      // 四层来源统计（D142）：official / retail / series / open（开放图源）等层。
+      final Map<String, Object?> byLayer = (json['byLayer'] as Map)
+          .cast<String, Object?>();
+      final int layerSum = byLayer.values.fold<int>(
+        0,
+        (int a, Object? b) => a + (b! as int),
       );
+      expect(layerSum, greaterThan(0), reason: '四层来源统计为空');
       expect(
-        (categories['accessory']! as Map)['ratio'] as num,
-        greaterThanOrEqualTo(0.9),
+        byLayer.keys.any(
+          (String k) => k == 'official' || k == 'series' || k == 'open',
+        ),
+        isTrue,
+        reason: '四层来源统计缺关键层：$byLayer',
       );
+      // tier 分布（D142）：同系列示意（series）与氛围实拍（atmosphere）必须可追溯。
+      final Map<String, Object?> byTier = (json['byTier'] as Map)
+          .cast<String, Object?>();
+      expect(byTier.keys, contains('product'), reason: 'tier 分布缺 product');
       expect(
-        (categories['clothing']! as Map)['ratio'] as num,
-        greaterThanOrEqualTo(0.9),
+        byTier.keys.any((String k) => k == 'series' || k == 'atmosphere'),
+        isTrue,
+        reason: 'tier 分布缺 series/atmosphere（近似图必须标注）',
       );
-      expect(
-        (categories['props']! as Map)['ratio'] as num,
-        greaterThanOrEqualTo(0.9),
-      );
-      expect(
-        (categories['lens']! as Map)['ratio'] as num,
-        greaterThanOrEqualTo(0.9),
-      );
-      // 缺口项必须可追溯（id+brand+model），供补图 UI 使用。
-      final List<Object?> lightMissing =
-          ((categories['light']! as Map)['missing'] as List<Object?>);
-      expect(lightMissing, isNotEmpty, reason: 'light 缺口清单不能为空');
-      for (final Object? item in lightMissing.take(5)) {
-        final Map<String, Object?> m = (item as Map).cast<String, Object?>();
-        expect('${m['id']}'.isNotEmpty, isTrue);
-        expect('${m['model']}'.isNotEmpty, isTrue);
-      }
     });
 
     test('R48 离线 fixture 完整且可自测', () {
