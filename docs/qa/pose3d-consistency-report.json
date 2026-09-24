@@ -1,0 +1,128 @@
+{
+  "at": "2026-09-24T09:29:16.008274Z",
+  "reference": "docs/qa/pose3d-consistency-reference.json",
+  "model": "rtmw3d-x-fp16.onnx + yolox_tiny.onnx",
+  "images": 8,
+  "results": [
+    {
+      "id": "p001",
+      "iou": 0.9986,
+      "kpXyMeanPx": 0.047,
+      "kpZMeanM": 0.005,
+      "scaleRel": 0.00069,
+      "rootYDelta": 0.0007,
+      "rootPitchDeltaDeg": 0.26,
+      "jointMedianDeg": 0.27,
+      "jointMeanDeg": 1.45,
+      "jointMaxDeg": 24.13
+    },
+    {
+      "id": "p013",
+      "iou": 0.999,
+      "kpXyMeanPx": 0.085,
+      "kpZMeanM": 0.0014,
+      "scaleRel": 0.00362,
+      "rootYDelta": 0.0013,
+      "rootPitchDeltaDeg": 0.01,
+      "jointMedianDeg": 0.02,
+      "jointMeanDeg": 0.36,
+      "jointMaxDeg": 3.5
+    },
+    {
+      "id": "p025",
+      "iou": 0.9983,
+      "kpXyMeanPx": 0.19,
+      "kpZMeanM": 0.006,
+      "scaleRel": 0.00724,
+      "rootYDelta": 0.0016,
+      "rootPitchDeltaDeg": 2.33,
+      "jointMedianDeg": 4.15,
+      "jointMeanDeg": 9.69,
+      "jointMaxDeg": 49.86
+    },
+    {
+      "id": "p037",
+      "iou": 0.9994,
+      "kpXyMeanPx": 0.109,
+      "kpZMeanM": 0.0057,
+      "scaleRel": 0.01263,
+      "rootYDelta": 0.0027,
+      "rootPitchDeltaDeg": 0.09,
+      "jointMedianDeg": 0.12,
+      "jointMeanDeg": 3.64,
+      "jointMaxDeg": 90.5
+    },
+    {
+      "id": "p050",
+      "iou": 0.9942,
+      "kpXyMeanPx": 0.63,
+      "kpZMeanM": 0.0179,
+      "scaleRel": 0.01027,
+      "rootYDelta": 0.0055,
+      "rootPitchDeltaDeg": 1.17,
+      "jointMedianDeg": 0.94,
+      "jointMeanDeg": 2.44,
+      "jointMaxDeg": 10.39
+    },
+    {
+      "id": "p085",
+      "iou": 0.9986,
+      "kpXyMeanPx": 1.15,
+      "kpZMeanM": 0.0159,
+      "scaleRel": 0.02819,
+      "rootYDelta": 0.0046,
+      "rootPitchDeltaDeg": 0.13,
+      "jointMedianDeg": 0.59,
+      "jointMeanDeg": 1.81,
+      "jointMaxDeg": 24.47
+    },
+    {
+      "id": "p099",
+      "iou": 0.9991,
+      "kpXyMeanPx": 0.083,
+      "kpZMeanM": 0.001,
+      "scaleRel": 0.0007,
+      "rootYDelta": 0.0012,
+      "rootPitchDeltaDeg": 0.25,
+      "jointMedianDeg": 0.31,
+      "jointMeanDeg": 1.23,
+      "jointMaxDeg": 13.66
+    },
+    {
+      "id": "p108",
+      "iou": 0.9972,
+      "kpXyMeanPx": 0.235,
+      "kpZMeanM": 0.0025,
+      "scaleRel": 0.00277,
+      "rootYDelta": 0.0009,
+      "rootPitchDeltaDeg": 0.27,
+      "jointMedianDeg": 0.5,
+      "jointMeanDeg": 1.77,
+      "jointMaxDeg": 24.66
+    }
+  ],
+  "aggregate": {
+    "worstIou": 0.9942,
+    "worstKpXyMeanPx": 1.15,
+    "worstKpZMeanM": 0.0179,
+    "worstScaleRel": 0.02819,
+    "worstRootYDelta": 0.0055,
+    "worstRootPitchDeltaDeg": 2.33,
+    "jointMedianDeg": 0.32,
+    "jointMeanDeg": 2.8,
+    "jointMaxDeg": 90.5,
+    "jointP90Deg": 6.81
+  },
+  "criteria": {
+    "iouMin": 0.98,
+    "kpXyMeanPxMax": 1.5,
+    "kpZMeanMMax": 0.02,
+    "scaleRelMax": 0.05,
+    "rootYDeltaMax": 0.01,
+    "rootPitchDeltaDegMax": 3.0,
+    "jointMedianDegMax": 5.0,
+    "jointMeanDegMax": 5.0,
+    "jointP90DegMax": 10.0
+  },
+  "instability": "solve_limb 的离散扫描 + 限位罚项存在多个近等价值：输入方向差 0.4° 即可切换最小值（Python 自对自复现 shoulder_r.ry Δ43.3°），故关节以中位数断言，均值/最大值仅记录（D141 偏差登记）。"
+}

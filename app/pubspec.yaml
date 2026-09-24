@@ -38,6 +38,7 @@ dependencies:
   pose_detection: ^3.7.0
   flutter_litert: ^3.8.0
   opencv_dart: ^2.2.1+4
+  onnxruntime: ^1.4.1
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +62,7 @@ flutter:
     - assets/config/
     - assets/engine/
     - assets/models/
+    - assets/models/pose3d/
     - assets/models/characters/realistic/
     - assets/content/gear/photo2/
     - assets/models/characters/

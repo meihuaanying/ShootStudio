@@ -10,14 +10,14 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助** `d235451` ｜ **S4 姿势参考图** `4157bb7` ｜ **S5-spike 识别路线**（本次提交） |
-| CI | S4 **全绿**（run 35953854563 = 4157bb7 success）；S5-spike 推送后运行中（R60：全绿才算完成，下一步先复核）；S3.4 的 35855722478、S3.3 的 35839154345/35842252891 亦 success |
-| 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **290 passed + 26 skipped** ｜ `q2_pose_photos_test` 8 用例 ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ `q6_camera_test` 10 ｜ `pose_qa photo` 120/120（缺 0）｜ 引擎包 1.16MB + pathtracer 220.4KB（<2.2MB） |
-| 剩余 | **S5 主体（识别集成：随包/新服务/回退/fixture/精度门禁）｜ S6 资源库 100% ｜ S7 v1.3.0 发布** |
+| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助** `d235451` ｜ **S4 姿势参考图** `4157bb7` ｜ **S5-spike 识别路线** `bf9cb12` ｜ **S5 主体 端上识别集成**（本次提交） |
+| CI | S5-spike **全绿**（run 35964914460 = bf9cb12 success）；S5 主体推送后运行中（R60：全绿才算完成，下一步先复核）；S4 的 35953854563、S3.4 的 35855722478、S3.3 的 35839154345/35842252891 亦 success |
+| 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **303 passed + 27 skipped** ｜ `q2_pose_photos_test` 8 用例 ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ `q6_camera_test` 10 ｜ `q6_pose3d_test` 11 ｜ `q6_pose_recognition_test` 2 ｜ `q6_pose3d_consistency`（`SS_POSE_ACCURACY=1` 门控，本机 PASS）｜ `pose_qa photo` 120/120（缺 0）｜ 引擎包 1.16MB + pathtracer 220.4KB（<2.2MB）｜ 识别模型 205MB（fp16 分片 184.8MB + yolox_tiny 20.2MB，R64） |
+| 剩余 | **S6 资源库 100% ｜ S7 v1.3.0 发布** |
 
 ---
 
-## 1. 已完成（S0–S5 spike，含证据路径）
+## 1. 已完成（S0–S5，含证据路径）
 
 ### S0 合同（`be2c264`）
 `FIX_CONTRACT_V7.0.md`：D132–D144 + R61–R70（含 Getty 移除、Step 3 顺序修正、许可门控、NGA/Walters 索引方案、硬件适配）。
@@ -79,16 +79,19 @@
 - **精度对比（参考）**：RTMW3D-x vs 现有 MediaPipe 参考（4 图 144 角）均差 20.13°、≤5° 35.4%（非门禁口径）。
 - 证据：`docs/qa/rtmpose-spike-report.md` + `rtmpose-spike-{specs,infer,angle,detectors,quant,bench,bench-dml,split}.json`；脚本 `app/tool/rtmpose_spike.py`（fetch/specs/infer/compare/detcompare/quantize/bench/split）；检测器 IoU vs yolox_m：s 0.882 / tiny 0.881 / nano 0.875 → 建议随包 **yolox_tiny**。
 
+### S5 主体：端上识别集成（D141）
+- **运行时**：`onnxruntime`（gtbluesky FFI 1.4.1，内置 ORT 1.15.1；Android/Windows/Linux/macOS 二进制随插件）——可在 `flutter test`（Dart VM/FFI）内跑真实模型，一致性门禁可执行；弃用 `flutter_onnxruntime`（MethodChannel 测试内不可用 + Windows 无 DML）。
+- **纯 Dart 数学层** `lib/services/pose3d/`：`pose3d_geometry.dart`（bbox→1.25 padding + 3:4 扩展、288×384 双线性 warp 黑边、BGR + ImageNet 归一化、NCHW；YOLOX letterbox pad=114/半像素中心）、`pose3d_decode.dart`（simcc argmax/2 + `z=(z/192-1)*2.1744869` + 2D 重投影；YOLOX anchor-free 解码 strides 8/16/32 + 逐类 NMS）、`pose3d_mapping.dart`（133→BlazePose 33 + 骨长先验中位数尺度 + 髋中心 world）、`pose3d_assembly.dart`（fp16 分片流式拼装 + SHA256/字节校验 + 复用与失败清理）。
+- **引擎/门面**：`pose3d_engine.dart`（`Pose3dDetector` 抽象 + `Pose3dEngine.load(detBytes:,poseBytes:)`（`fromBuffer`，绕开 Windows `fromFile` wchar bug）+ detect→`Pose3dPerson`）、`pose_recognition_service.dart`（RTMPose 优先；模型缺失/拼装/加载失败自动回退 MediaPipe，R69；`backendLabel`/`backendNote`）。
+- **UI 接入**：`pose_import_page.dart` `_service` 换门面、状态文案显示后端、骨架 JSON `model` 字段按后端区分（RTMPose/RTMW3D-x(fp16)+YOLOX-tiny / MediaPipe 回退）。
+- **随包（R64）**：`app/assets/models/pose3d/`（`rtmw3d-x-fp16.onnx.part0/.part1` 各 92,394,513 B + `yolox_tiny.onnx` 20,219,662 B + `NOTICE.md`，Apache-2.0 署名；pubspec assets 登记）。
+- **测试**：`q6_pose3d_test`（11 项：几何/解码/映射/拼装，纯 Dart fixture）；`q6_pose_recognition_test`（2 项：后端映射 + R69 回退）；`q6_pose3d_consistency_test`（`SS_POSE_ACCURACY=1` 门控，8 图 Dart 引擎 vs Python 参考）。
+- **一致性证据**（`docs/qa/pose3d-consistency-report.json`，参考 `docs/qa/pose3d-consistency-reference.json` 由 `tool/rtmpose_spike.py reference` 生成、含 clamp 同口径）：worstIou **0.9942**、kpXY 1.15px、kpZ 0.0179m、scaleRel 2.82%、rootYΔ 0.0055、rootPitchΔ 2.33°、**关节均值 2.8° / p90 6.81° / 中位数 0.32°**（D141 口径 均值 ≤5°、p90 ≤10° 达标）。
+- **偏差/坑登记**：① `solve_limb` 离散扫描 + 限位罚项存在多个近等价值（输入方向差 0.4° 即可切换最小值，Python 自对自复现 shoulder_r.ry Δ43.3°）→ 关节以中位数/均值+p90 断言，最大 90.5° 仅记录；② 门控测试曾 1 次瞬时失败（随后连续 4 次通过，记为本机风险）；③ 尺度容差 5%（cv2 与 Dart `image` 的 JPEG 解码差异 → 短骨 dxy 敏感）。
+
 ---
 
 ## 2. 剩余待办（按合同 §3 顺序）
-
-### S5 识别 RTMPose/RTMW3D（D141）— spike 已完成，剩主体集成
-1. **随包（R64）**：fp16 模型分 2 片 + `yolox_tiny.onnx` 入 `app/assets/models/pose3d/`（+ 许可文本/attribution）；首次使用本地拼装到应用支持目录（校验字节数，已存在则跳过；失败回退 R69）。
-2. **新服务**：YOLOX 检测（按 ONNX 读输入尺寸；tiny/nano 为 416×416）+ RTMW3D 3D（预处理/后处理严格对齐 rtmlib 口径）→ MAP33 + 骨长先验尺度 → 现有 `deriveJoints()` 12 关节 + 接地校准；`flutter_onnxruntime` CPU EP。
-3. **回退（R69）**：模型缺失/加载失败/低配 → MediaPipe 路径（`pose_detection` 包）保留。
-4. **离线 fixture（R62）**：纯 Dart 单测覆盖预处理/后处理/尺度/映射数学 + 微型 ONNX fixture（验证 ORT 管道）；真实模型一致性用 `SS_POSE_ACCURACY=1` 门控。
-5. `q6_pose_accuracy` 冲 均值 ≤5°/90% ≤10°，或按偏差登记。
 
 ### S6 资源库 100%（D142–D143）
 - `brands.py` 扩展（佳能/尼康/索尼/松下/适马/富士/徕卡/大疆/智云等）；授权零售商 provider（B&H/Adorama/京东）；同系列近似 tier 标注；服装品牌图 + 道具实拍。
@@ -106,7 +109,7 @@
 3. **HuggingFace 本机不可达**（S5 spike 第一风险）：`hf-mirror.com` 可用（实测整包下载字节数与 API 声明一致），模型下载走镜像即可。
 4. **开放源可达性**：Openverse 握手失败 / Wikimedia 超时 / LoC 403（本机）；Wellcome/SMK 正常。许可门控：Getty 等 Rights-Managed 一律排除。
 5. **`set VAR=1 &&` 陷阱**：cmd 下会带尾随空格，导致 env 比较失败；用 `$env:VAR='1'`（PowerShell）后再 `cmd /c`。
-6. **测试计数会变**：新增测试后同步更新合同/HANDOFF 基线（当前 **290+26**）。
+6. **测试计数会变**：新增测试后同步更新合同/HANDOFF 基线（当前 **303+27**）。
 7. **QA 阴影类型**：`light_preset_qa` 用 headless Edge（SwiftShader）→ `effectiveProfile()='low'` 强制 PCF，预设截图**不覆盖 VSM 路径**；VSM 证据走 headed 独显专项 `node tool/vsm_regression_qa.mjs`（`--force_high_performance_gpu`）。
 8. **路径追踪产物**：改 `engine.js` 后重打 `node tool/engine_build/bundle.mjs`；改 pathtracer 依赖/打包配置后重打 `node tool/engine_build/pathtracer_build.mjs`（生成 `tool/engine_build/.gen/three_global_shim.js`，已 gitignore）；首次路径追踪需 40–80s 编译（就绪后 3s 自动预热，二次亚秒级）。
 9. **flutter/dart 不在 PATH**：用 `C:\dev\flutter\bin\flutter.bat` / `dart.bat`（Flutter 3.47.2 stable），命令在 `app/` 下执行。
@@ -116,12 +119,15 @@
 13. **pose_qa 接地测量滞后**：`node tool/pose_qa.mjs photo` 个别姿势第二遍渲染测量滞后会留下校准前 bounds → 表现为 `q2_pose_photos_test`「p0xx 最终 rootY 未贴地（minY=...）」；自愈：`node tool/pose_qa.mjs photo --ids p0xx`（单条两遍会重测并更新 bounds/calibrations）。本次 p050 即如此（未改 pose_qa.mjs 代码）。
 14. **GitHub 单文件 100 MiB 硬限制**：fp16 RTMW3D（184.8MB）不能单文件入库 → 拆 2 片（`.part0/.part1`，各 92,394,513 B）+ 首次使用本地拼装（SHA256 一致、ORT 输出逐元素相同、本机 0.23s）；备选 Git LFS 因 CI 免费额度（1GB/月，单次 checkout 即耗 185MB）风险高，未采用。
 15. **flutter_onnxruntime（Windows）无 DML**：插件 CMake 固定下载官方 CPU 版、providers 只接受 CPU/CUDA → 端上只能 CPU EP；fp16 权重 + `keep_io_types` 使 IO 仍 fp32（已在 ORT 1.24.4/1.30 验证），但 Windows 插件 FP16 支持矩阵标「计划中」，S5 主体需真机验证（失败回退 fp32/MediaPipe）；DML 仅 Python 侧（`onnxruntime-directml`，RTX 4060 fp16 8.7ms ≈57×），自编译 ORT 登记为后续项；Android 需 proguard `-keep class ai.onnxruntime.** { *; }`。
+16. **onnxruntime FFI（gtbluesky 1.4.1）坑**：`OrtSession.fromFile` 在 Windows 传 `char*` 而 ORT 要 `wchar_t*` → 报 “File doesn't exist”，**必须 `OrtSession.fromBuffer(bytes, options)`**；`flutter test` 里需先用绝对路径 `DynamicLibrary.open('...\Pub\Cache\hosted\pub.dev\onnxruntime-1.4.1\windows\onnxruntime.dll')` 预加载（应用构建时插件会把 DLL 拷到 exe 旁）；pub.dev 直连下载 tarball 会反复 reset → 用 `pub.flutter-io.cn` 镜像（`https://pub.flutter-io.cn/api/archives/onnxruntime-1.4.1.tar.gz`，SHA256 与 pub.dev 官方一致）。
+17. **本机 Developer Mode 未开启（非管理员）**：`flutter pub get` 结尾报 “Building with plugins requires symlink support…”，`windows/flutter/ephemeral/.plugin_symlinks` 为空 → **本机无法 `flutter build windows`（含插件）**；`package_config.json` 仍会写入，所以 `flutter test --no-pub` / `flutter analyze --no-pub` 照常可用（本机所有门禁均加 `--no-pub`）；CI（管理员）不受影响。
+18. **一致性门控测试（S5）**：`SS_POSE_ACCURACY=1 flutter test --no-pub test/features/q6_pose3d_consistency_test.dart`（本机 ~13–15s；首跑曾瞬时失败 1 次，随后连续 4 次通过）；关节角断言用 中位数 ≤5° + 均值 ≤5° + p90 ≤10°（`solve_limb` 离散翻转可致单点最大 90.5°，仅记录）；参考 JSON 重生成：`python tool/rtmpose_spike.py reference`（改动管线口径时必须重跑）。
 
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V7：先读 `HANDOFF_V7.md`（本文件）与 `FIX_CONTRACT_V7.0.md`（D132–D144/R61–R70）。
-> 已完成 S0–S4 与 S5 spike 并推送（S5-spike 的 CI 需先复核全绿）；基线 290 passed + 26 skipped。
-> 请按 §2 顺序继续：**S5 主体（随包 fp16 分片 + YOLOX tiny → 新服务/回退/离线 fixture/精度门禁）→ S6 资源库 100% → S7 v1.3.0 发布**。
+> 已完成 S0–S5 并推送（S5 主体的 CI 需先复核全绿）；基线 303 passed + 27 skipped。
+> 请按 §2 顺序继续：**S6 资源库 100% → S7 v1.3.0 发布**。
 > 纪律：每步 format/analyze/全量 test + 专项证据 + `git push` 后 CI 绿（R60/R61）才进下一步；spike 先行（R67）；数据变更重跑全量证据（R68）。

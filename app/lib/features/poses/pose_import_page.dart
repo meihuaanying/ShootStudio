@@ -15,6 +15,7 @@ import '../../services/content_packs.dart';
 import '../../services/image_store.dart';
 import '../../services/pose/pose_detector_service.dart';
 import '../../services/pose/pose_grounding.dart';
+import '../../services/pose/pose_recognition_service.dart';
 import '../../services/pose/pose_joint_mapper.dart';
 import '../lighting/lighting_controller.dart';
 import '../planner/planner_pending.dart';
@@ -37,7 +38,7 @@ class PoseImportPage extends ConsumerStatefulWidget {
 }
 
 class _PoseImportPageState extends ConsumerState<PoseImportPage> {
-  PoseDetectorService? _service;
+  PoseRecognitionService? _service;
   bool _serviceReady = false;
   bool _busy = false;
   String _status = '选择一张照片开始识别（照片与结果仅存本地）';
@@ -57,7 +58,8 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
 
   Future<void> _ensureService() async {
     if (_serviceReady) return;
-    final PoseDetectorService service = PoseDetectorService();
+    // V7/D141：RTMPose/RTMW3D 优先，模型缺失/加载失败自动回退 MediaPipe（R69）。
+    final PoseRecognitionService service = PoseRecognitionService();
     await service.initialize();
     _service = service;
     _serviceReady = true;
@@ -154,6 +156,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
       _grounded = grounded;
       _status =
           '识别完成：${_persons.length} 人 · 检测分 ${(person.score * 100).toStringAsFixed(0)}%'
+          ' · ${_service?.backendLabel ?? '端上识别'}'
           '${mapped.lowConfidence ? ' · 存在低置信关节（仅供参考）' : ''}';
     });
   }
@@ -191,7 +194,9 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
         ],
         'imageSize': <double>[_imageSize.width, _imageSize.height],
         'confidence': person.score,
-        'model': 'pose_detection-3.7 BlazePose(full) · 端上识别',
+        'model': _service?.backend == PoseRecognitionBackend.rtmpose
+            ? 'RTMPose/RTMW3D-x(fp16)+YOLOX-tiny · 端上识别（ONNX CPU）'
+            : 'pose_detection-3.7 BlazePose(full) · 端上识别（MediaPipe 回退）',
         'source': '用户导入',
       }),
     );

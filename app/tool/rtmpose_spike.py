@@ -66,6 +66,7 @@ JOINTS = ['spine', 'neck', 'shoulder_l', 'elbow_l', 'wrist_l', 'shoulder_r',
           'elbow_r', 'wrist_r', 'hip_l', 'knee_l', 'hip_r', 'knee_r']
 DETECT_IMAGES = ['p001', 'p013', 'p025', 'p050', 'p085', 'p099']
 COMPARE_IMAGES = ['p001', 'p013', 'p025', 'p037']
+CONSISTENCY_IMAGES = ['p001', 'p013', 'p025', 'p037', 'p050', 'p085', 'p099', 'p108']
 
 
 def fetch_one(url, path, expect_bytes=None):
@@ -229,6 +230,69 @@ def cmd_compare(args):
         report['summary']['mean_deg'], report['summary']['within5_pct'],
         report['summary']['within10_pct'], report['summary']['angles']))
     write_json(args, 'rtmpose-spike-angle.json', report)
+
+
+def cmd_reference(args):
+    """D141 porting-fidelity reference: shipped models (yolox_tiny + rtmw3d fp16)."""
+    det, pose = load_models(args, det='yolox_tiny.onnx', pose='rtmw3d-x-fp16.onnx')
+    with open(POSES3, 'r', encoding='utf-8') as fh:
+        poses = {p['id']: p for p in json.load(fh)['poses']}
+    ids = (args.ids or ','.join(CONSISTENCY_IMAGES)).split(',')
+    report = {'at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+              'note': 'D141 porting fidelity: Python (rtmlib + MAP33 + derive + clamp_joint, '
+                      'same as the poses3 build pipeline) on the shipped '
+                      'models (yolox_tiny + rtmw3d-x fp16); the on-device Dart engine must match '
+                      'within tolerance. Regenerate: python tool/rtmpose_spike.py reference',
+              'det': 'yolox_tiny.onnx', 'pose': 'rtmw3d-x-fp16.onnx',
+              'pipeline': {'padding': 1.25, 'outW': 288, 'outH': 384, 'zRange': 2.1744869},
+              'rows': []}
+    for pid in ids:
+        img = cv2.imread(os.path.join(PHOTOS, pid + '.jpg'))
+        if img is None:
+            print('[%s] missing photo' % pid)
+            continue
+        h, w = img.shape[:2]
+        box = biggest_box(det, img)
+        if box is None:
+            print('[%s] no detection' % pid)
+            continue
+        box = [round(float(v), 3) for v in box.tolist()]
+        kp = pose(img, [box])[0][0]
+        sc = pose(img, [box])[1][0]
+        s, bones = scale_from_bones(kp)
+        world, conf = to_world33(kp, sc, s)
+        cat = poses[pid]['category']
+        joints, root_pitch, root_y, _dbg = s2j.derive(world, conf, cat)
+        # 与生产管线（build()）一致：12 关节限位夹取（Dart deriveJoints 同口径）。
+        clamps = []
+        joints = {name: s2j.clamp_joint(name, joints[name], clamps, pid)
+                  for name in joints}
+        bw = (box[2] - box[0]) * 1.25
+        bh = (box[3] - box[1]) * 1.25
+        aspect = 288.0 / 384.0
+        scale_w = bw if bw > bh * aspect else bh * aspect
+        row = {
+            'id': pid,
+            'category': cat,
+            'imageSize': [int(w), int(h)],
+            'box': box,
+            'spec': {'centerX': round((box[0] + box[2]) / 2, 3),
+                     'centerY': round((box[1] + box[3]) / 2, 3),
+                     'scaleW': round(scale_w, 3)},
+            'scale': round(float(s), 6),
+            'bonesUsed': int(bones),
+            'keypoints': [[round(float(kp[i][0]), 4), round(float(kp[i][1]), 4),
+                           round(float(kp[i][2]), 4), round(float(sc[i]), 4)]
+                          for i in range(133)],
+            'world33': [[round(float(v), 5) for v in pt] for pt in world.tolist()],
+            'joints': {name: [round(float(v), 3) for v in joints[name]] for name in JOINTS},
+            'rootPitch': round(float(root_pitch), 3),
+            'rootY': round(float(root_y), 4),
+        }
+        report['rows'].append(row)
+        print('[%s] %-6s box %s scale %.5f (bones %d) rootY %.4f rootPitch %.2f' % (
+            pid, cat, box, s, bones, root_y, root_pitch))
+    write_json(args, 'pose3d-consistency-reference.json', report)
 
 
 def cmd_detcompare(args):
@@ -463,7 +527,7 @@ def write_json(args, name, payload):
 
 def main():
     parser = argparse.ArgumentParser(description='V7/S5 RTMPose/RTMW3D spike (R67)')
-    parser.add_argument('command', choices=['fetch', 'specs', 'infer', 'compare', 'detcompare', 'quantize', 'bench', 'split'])
+    parser.add_argument('command', choices=['fetch', 'specs', 'infer', 'compare', 'detcompare', 'quantize', 'bench', 'split', 'reference'])
     parser.add_argument('--stage', default=DEFAULT_STAGE)
     parser.add_argument('--out', default=DEFAULT_OUT)
     parser.add_argument('--ids', default='')
@@ -471,7 +535,7 @@ def main():
     args = parser.parse_args()
     return {'fetch': cmd_fetch, 'specs': cmd_specs, 'infer': cmd_infer, 'compare': cmd_compare,
             'detcompare': cmd_detcompare, 'quantize': cmd_quantize, 'bench': cmd_bench,
-            'split': cmd_split}[args.command](args) or 0
+            'split': cmd_split, 'reference': cmd_reference}[args.command](args) or 0
 
 
 if __name__ == '__main__':
