@@ -1,6 +1,6 @@
 # ShootStudio V7 交接文档 · 进行中（画面参考/显卡/布光/姿势识别/资源库）
 
-> 更新：2026-09-24 ｜ 配套合同：`FIX_CONTRACT_V7.0.md`（D132–D144、R61–R70，**开工前必读**）
+> 更新：2026-09-25 ｜ 配套合同：`FIX_CONTRACT_V7.0.md`（D132–D144、R61–R70，**开工前必读**）
 > 仓库：`D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）
 > 基线：v1.2.0 已发布（tag `v1.2.0`）；V7 目标 v1.3.0
 
@@ -10,14 +10,14 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助** `d235451` ｜ **S4 姿势参考图** `4157bb7` ｜ **S5-spike 识别路线** `bf9cb12` ｜ **S5 主体 端上识别集成** `1a5150c` ｜ **S6 资源库 100%**（本次提交） |
-| CI | S6 推送后运行中（R60：全绿才算完成，下一步先复核）；S5 全绿（run 35993053989 = 1a5150c success；S5-spike 35964914460 = bf9cb12）；S4 的 35953854563、S3.4 的 35855722478、S3.3 的 35839154345/35842252891 亦 success |
-| 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **303 passed + 27 skipped** ｜ `q2_pose_photos_test` 8 用例 ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ `q6_camera_test` 10 ｜ `q6_pose3d_test` 11 ｜ `q6_pose_recognition_test` 2 ｜ `q6_pose3d_consistency`（`SS_POSE_ACCURACY=1` 门控，本机 PASS）｜ `pose_qa photo` 120/120（缺 0）｜ 引擎包 1.16MB + pathtracer 220.4KB（<2.2MB）｜ 识别模型 205MB（fp16 分片 184.8MB + yolox_tiny 20.2MB，R64） |
-| 剩余 | **S7 v1.3.0 发布** |
+| 已完成并推送 | **S0 合同** `be2c264` ｜ **S1 画面参考** `182ea8b`/`c6dd66e`/`44efb72`/`9ae31aa` ｜ **S2 显卡** `a90a202`/`b7ad285` ｜ **S3.1 three.js 升级** `2b57c7c`/`a0e836b` ｜ **S3.2 真实感** `9b2c729`/`1805425` ｜ **S3.3 布光功能** `c474cda`/`1978a91` ｜ **S3.4 相机辅助** `d235451` ｜ **S4 姿势参考图** `4157bb7` ｜ **S5-spike 识别路线** `bf9cb12` ｜ **S5 主体 端上识别集成** `1a5150c` ｜ **S6 资源库 100%** `b31ed9b` ｜ **S7 v1.3.0 发布**（本次提交） |
+| CI | **S6 全绿**（run 36014439005 = `b31ed9b`：Analyze ubuntu/windows + Build APK + Build Windows 4/4）；S7 推送与 tag `v1.3.0` 后运行中（R60：release.yml 全绿才算完成）；S5 全绿（35993053989 = 1a5150c；S5-spike 35964914460 = bf9cb12）；S4 的 35953854563、S3.4 的 35855722478、S3.3 的 35839154345/35842252891 亦 success |
+| 门禁基线 | format 0 changed ｜ analyze 0 问题 ｜ 全量 **303 passed + 27 skipped** ｜ `q2_pose_photos_test` 8 用例 ｜ `q6_search_test` 41/41 ｜ `q6_lighting_test` 32 预设 ｜ `q6_camera_test` 10 ｜ `q6_pose3d_test` 11 ｜ `q6_pose_recognition_test` 2 ｜ `q6_pose3d_consistency`（`SS_POSE_ACCURACY=1` 门控，本机 PASS）｜ `pose_qa photo` 120/120（缺 0）｜ 引擎包 1.16MB + pathtracer 220.4KB（<2.2MB）｜ 识别模型 205MB（fp16 分片 184.8MB + yolox_tiny 20.2MB，R64）｜ **APK 412.0MB**（v1.2.0 209.0MB）｜ **Windows release LAUNCH-OK**（1602 文件 / 437.6MB 未压缩） |
+| 剩余 | 无（V7 全部步骤完成；`v1.3.0` tag 已发布） |
 
 ---
 
-## 1. 已完成（S0–S6，含证据路径）
+## 1. 已完成（S0–S7，含证据路径）
 
 ### S0 合同（`be2c264`）
 `FIX_CONTRACT_V7.0.md`：D132–D144 + R61–R70（含 Getty 移除、Step 3 顺序修正、许可门控、NGA/Walters 索引方案、硬件适配）。
@@ -100,12 +100,18 @@
 - **偏差登记**：服装维持 Pexels 可商用模特图（品牌官网/电商图反爬 + 版权风险，D143 未逐字执行）；零售商层本轮 0 条。
 - 证据：`gear-coverage-v7.json`（六类 100%、byTier {product 366/atmosphere 76/series 74}、byLayer {builtin 289/official 98/keyword 76/series 44/open 9}）；`gear-sources-spotcheck.json` 12/12；`selftest.py` PASS（3 品牌/零售商/端到端/断点续跑/失败重试）；`q6_gear_test` 7/7；全量 303 passed + 27 skipped；format 0 changed、analyze 0。
 
+### S7 v1.3.0 发布（D144）
+- **版本同步**：`app/pubspec.yaml` 1.2.0+7 → **1.3.0+8**；`updater.dart` `kAppVersion = '1.3.0'`；`web/public/announcements.json`（version 1.3.0 + 9 条 note + downloads 直链 v1.3.0）；`web/src/pages/{index,downloads,changelog}.astro`（`PUBLIC_APP_VERSION` 注入，`web/dist/` 为 gitignore，由 CI/release.yml 重建）。
+- **双端构建（本机）**：Windows `flutter build windows --no-pub --release` 成功（88.9s；1602 文件 / 437.6MB 未压缩）+ `tool/smoke_launch.ps1` **LAUNCH-OK**；Android `flutter build apk --release` → `app/build/app/outputs/flutter-apk/app-release.apk` **412.0MB**（v1.2.0 209.0MB；+203MB ≈ RTMW3D-x fp16 184.8MB + YOLOX-tiny 20.2MB，R64 随包）。
+- **门禁**：format 0 changed（167 files）、analyze 0 问题、全量 **303 passed + 27 skipped**。
+- **发布**：commit + push → tag `v1.3.0` → `release.yml`（Windows/Android 打包 + sha256 + GitHub Release + announcements patch + Astro dist + Pages）。
+- **偏差/坑登记**：本机 Android 构建时 dartcv4 的 CMake FetchContent 需从 github.com 下载 OpenCV 4.13.0 源码（本机不可达）→ 用本地已有 tarball（95,420,275 B）配 `file://` 补丁构建（仅本机 pub cache，不入仓）；本机 Windows 构建需为 17 个插件建 junction（`mklink /J`）绕过 Developer Mode 符号链接限制（见 §3 坑 21/22）。
+
 ---
 
 ## 2. 剩余待办（按合同 §3 顺序）
 
-### S7 v1.3.0 交付（D144）
-门禁 → 双端构建 + LAUNCH-OK + APK 体积 → 版本/公告/dist/合同 §5/HANDOFF/下载页 → tag `v1.3.0` → CI 绿。
+无（S0–S7 全部完成；后续迭代请新开合同，从 v1.3.0 基线起）。
 
 ---
 
@@ -131,12 +137,14 @@
 18. **一致性门控测试（S5）**：`SS_POSE_ACCURACY=1 flutter test --no-pub test/features/q6_pose3d_consistency_test.dart`（本机 ~13–15s；首跑曾瞬时失败 1 次，随后连续 4 次通过）；关节角断言用 中位数 ≤5° + 均值 ≤5° + p90 ≤10°（`solve_limb` 离散翻转可致单点最大 90.5°，仅记录）；参考 JSON 重生成：`python tool/rtmpose_spike.py reference`（改动管线口径时必须重跑）。
 19. **S6 资源库借图与标注**：`series_fallback.py` 的 donor 必须来自 `gear_photo_sources.json` 且带本地池文件（sha1/rawPath 非空）；`gear_photos2.json` 条目无池文件 → 借图会留下空 sha1（与 D130/R47 冲突），已改为转氛围实拍。开放图源（pexels/openverse）历史条目缺 `extra.tier` 用 `normalize_tiers.py` 补齐；`gear_coverage.py` / `gear_sources_spotcheck.py` 在 `app/` 下运行。
 20. **CI 已接 Python 门禁（Linux-only）**：`tool/gear_photos_v3/selftest.py`（`GEAR_V3_OFFLINE=1`，先 `pip install pillow`）、`tool/gear_coverage.py`（六类 100% 否则 exit 1）、`tool/gear_sources_spotcheck.py`（12 条抽样）三步在 `flutter test` 之前；本地复跑同命令即可。
+21. **本机 Android 构建（S7）**：`dartcv4`（OpenCV 2.3.1）的 Android hook 用 CMake FetchContent 从 `github.com/opencv/opencv` 下载 4.13.0 源码构建（github.com 不可达时 `Failed to generate CMake project` → `Building native assets failed`）；绕过：把已缓存 tarball（`app/.dart_tool/hooks_runner/shared/dartcv4/build/*/_deps/opencv-subbuild/opencv-populate-prefix/src/4.13.0.tar.gz`，95,420,275 B）拷到本地并把 pub cache 里 `dartcv4-2.3.0/src/CMakeLists.txt` 的 `FetchContent_Declare(opencv URL …)` 改为 `file:///…`（仅本机环境，不入仓；备份 `.v7bak`）；同时必须设 `ANDROID_HOME`/`ANDROID_SDK_ROOT=C:\dev\android-sdk` 且 PATH 含 `platform-tools`、`build-tools\36.0.0`、`ndk\28.2.13676358`、`cmake\3.22.1\bin`（native_toolchain_cmake 发现链：UserConfig → ANDROID_HOME → 默认路径 → PATH 上 aapt/adb）。CI（ubuntu-latest，github.com 可达）不受影响。
+22. **本机 Windows 构建（S7）**：Developer Mode 未开（非管理员）→ 用 `cmd /c mklink /J` 为 17 个插件在 `app/windows/flutter/ephemeral/.plugin_symlinks\` 建 junction（junction 无需管理员权限），随后 `flutter build windows --no-pub --release` 即可；构建会重新生成 `app/windows/flutter/generated_plugins.cmake`（新增 `onnxruntime` 到 FFI 插件列表，属正常，应一并提交）。
 
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V7：先读 `HANDOFF_V7.md`（本文件）与 `FIX_CONTRACT_V7.0.md`（D132–D144/R61–R70）。
-> 已完成 S0–S6 并推送（S6 的 CI 需先复核全绿）；基线 303 passed + 27 skipped（另：覆盖率六类 100%、来源抽检 12/12、selftest PASS）。
-> 请按 §2 顺序继续：**S7 v1.3.0 发布**。
+> 已完成 S0–S7：v1.3.0 已发布（tag `v1.3.0`）；基线 303 passed + 27 skipped；APK 412.0MB、Windows release LAUNCH-OK；覆盖率六类 100%、来源抽检 12/12、selftest PASS。
+> §2 剩余待办为空（V7 完工）；后续迭代请新开合同，从 v1.3.0 基线起。
 > 纪律：每步 format/analyze/全量 test + 专项证据 + `git push` 后 CI 绿（R60/R61）才进下一步；spike 先行（R67）；数据变更重跑全量证据（R68）。
