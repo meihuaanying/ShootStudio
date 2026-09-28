@@ -1,5 +1,5 @@
 {
-  "at": "2026-09-24T09:29:16.008274Z",
+  "at": "2026-09-28T03:41:58.259986Z",
   "reference": "docs/qa/pose3d-consistency-reference.json",
   "model": "rtmw3d-x-fp16.onnx + yolox_tiny.onnx",
   "images": 8,
