@@ -10,15 +10,26 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地**（本次提交：令牌唯一来源 + 组件库 16 项 + R73 行数门禁；报告 `docs/qa/v8-s3-design-system.md`） |
-| CI | S3 推送后运行中（R61：全绿才算完成，下一步先复核）；S2 全绿（run 36684962779 = `7dcfabf` 4/4）；S0 全绿（36673666121）；S1 run 36679632640 的 Build Android APK 曾因阿里云 502 失败，已由 `d93fe3a` 修复 |
-| 门禁基线 | format 0 changed（187 files）｜ analyze 0 问题 ｜ 全量 **333 passed + 37 skipped** ｜ 设计系统单测 20 ｜ 组件库 demo 视觉 4 ｜ S1 视觉专项 9/9 ｜ perf_probe 单测 6 ｜ 引擎帧率 p95 ≤18.4ms（独显/核显）｜ Flutter 宿主 +WebView 增量 +0.44ms p95 ｜ `lib/features/**` >600 行 12 个（R73 白名单，只降不升）｜ 官网 6 页可构建 |
-| 当前步 | S3 收尾（提交 + CI 复核） |
-| 剩余 | **S4 外壳/首页** → S5 画面参考 → S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
+| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页**（本次提交：三段式导航 · 公告式更新横幅 · 衬线首屏开案页；报告 `docs/qa/v8-s4-shell-home.md`） |
+| CI | S4 推送后运行中（R61：全绿才算完成，下一步先复核）；S3 全绿（run 36691238788 = `5031db8`）；S2 全绿（36684962779 = `7dcfabf`）；S0 全绿（36673666121） |
+| 门禁基线 | format 0 changed（193 files）｜ analyze 0 问题 ｜ 全量 **354 passed + 38 skipped** ｜ S4 专项 13 ｜ 视觉专项 S4 8 张 / S3 4 张 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 引擎帧率 p95 ≤18.4ms（独显/核显）｜ `lib/features/**` >600 行 12 个（R73 白名单，只降不升）｜ 官网 6 页可构建 |
+| 当前步 | S4 收尾（提交 + CI 复核） |
+| 剩余 | **S5 画面参考** → S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
 
 ---
 
 ## 1. 已完成（含证据路径）
+
+### S4 App 外壳 + 首页重构（D151 · R71–R74 / R82）
+- **报告**：`docs/qa/v8-s4-shell-home.md`（文件行数 / 信息架构 / 横幅 / 首页 / 视觉证据 / 13 专项 / 门禁 / 6 条复盘）。
+- **信息架构**：三段式 `工作流 WORKFLOW(0,4) / 成案 DELIVERY / 系统 SYSTEM(6)` 共 7 入口（开案/画面参考/布光预演/动作摆姿/资源库/策划案/设置，各带 mono 小标 IDEA·REF·LIGHT·POSE·GEAR·PLAN·SET）；`shellTabProvider` 下标语义在 `app_shell.dart` 与 `shell_nav.dart` 双处注释（R76）。
+- **文件拆分（R73）**：`shell_nav.dart` 321 / `app_shell.dart` 134 / `shell_update_banner.dart` 94 / `home_page.dart` 171 / `home_hero.dart` 178 / `home_recent.dart` 119（重构前 343 + 365 两文件 → 6 文件，最大 321 行）。
+- **去渐变紫蓝（R82）**：品牌方章由 `LinearGradient([accent, 0xFF7B5CFF])` 改为 `accent` 实色 + 衬线「正」；选中态 = `accentSoft` 底 + 1px `accent` 左边框。
+- **更新横幅**：公告式（眉题 + `SsMonoBadge` 版本 + 前 2 条要点 + 「下次再说」/「立即更新」）；`downloadFor(platform)` mirror 优先、否则 github、都空则 toast；显隐逻辑与 V7 一致。
+- **首页**：Display 衬线「说说你想拍什么」（既有测试依赖文案，R79 保留）+ lede + 生成按钮 + 本地说明行 + 6 张灵感横滑 + 最近策划案（loading/error/空态/列表）。
+- **视觉证据（R72）**：8 张 → `docs/screenshots/v8/s4-{shell-home,shell-banner}-{paper,darkroom}-{1280x800,1920x1080}.png`（76,845–97,480 B）+ 索引 `docs/qa/v8-s4-shell-home-screenshots.json`；目视无豆腐块/无溢出。
+- **测试**：`app/test/features/s4_shell_home_test.dart` 13 用例（分组/下标/点击/横幅前 2 条要点/空态/灵感回调 + R74 设计系统引用 + R71·R82 源码门禁 + R73 行数）；既有 `home_flow`/`golden_flow`/`golden_screens` 10 passed（开案页 golden 用 `--update-goldens` 重生成，未删测试）。
+- **门禁**：format 0 changed（193 files）｜ analyze 0（12.0s）｜ 全量 **354 passed + 38 skipped**。
 
 ### S3 设计系统落地（D147 · R71–R74）
 - **报告**：`docs/qa/v8-s3-design-system.md`（令牌锁定表 / 组件清单 / 迁移结果 / 残留字面量登记 / R73 门禁 / 视觉证据 / 10 条缺陷复盘）。
@@ -65,15 +76,14 @@
 
 ## 2. 剩余待办（按合同 §1 顺序，含门禁）
 
-1. **S4 App 外壳 + 首页**：导航/信息架构/更新横幅；页面文件 ≤600 行；widget 测试 + 截图门禁。
-2. **S5 画面参考搜索（D154）**：首屏主题画报入口、瀑布流结果、画册式画板、以图搜图收口；`q6_search_test` 41/41 不回归。
-3. **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。
-4. **S7 动作摆姿与识别（D153）**：大图瀑布流 + 详情抽屉、识别链路 ≤4 步、关节点拖拽校正；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归。
-5. **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归。
-6. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
-7. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
-8. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
-9. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
+1. **S5 画面参考搜索（D154）**：首屏主题画报入口、瀑布流结果、画册式画板、以图搜图收口；`q6_search_test` 41/41 不回归。
+2. **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。
+3. **S7 动作摆姿与识别（D153）**：大图瀑布流 + 详情抽屉、识别链路 ≤4 步、关节点拖拽校正；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归。
+4. **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归。
+5. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
+6. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
+7. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
+8. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
 
 ---
 
@@ -105,11 +115,15 @@
 
 20. **workflow YAML 的 `name`/`run` 值不能带未加引号的冒号**：`- name: File size gate (R73: features <= 600)` 会让 YAML 解析失败 → GitHub 拒绝整个 workflow → run **1 秒失败、0 个 job、无任何日志**，且 rerun 返回 “cannot be retried”。S3 实测踩过（run 36690853795，症状：`run_started_at == created_at` 且 `jobs.total_count = 0`）。推 CI 前本地解析：`python -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yml', encoding='utf-8')); print('YAML OK')"`。
 
+21. **workflow YAML 里步骤名的冒号必须加引号**（S3 踩坑）：`- name: File size gate (R73: features <= 600)` 会让 GitHub 在 1 秒内拒绝整个 workflow（run 立刻 completed/failure、`jobs.total_count = 0`、`rerun` 返回 403、日志不可读）。提交前本机校验：`python -c "import yaml,io; yaml.safe_load(io.open('.github/workflows/ci.yml',encoding='utf-8'))"`。
+22. **CI jobs 查询走 API，别用 `gh run view --json jobs`**（本环境返回空 jobs）：用 `%TEMP%\opencode\gh_jobs.py <run_id>`（`gh api .../actions/runs/<id>/jobs` + 失败 step 日志尾部）。
+23. **drift 生成的行类要从 `core/db/database.dart` 导入**（不是 `planner_models.dart`）：`Plan` 等表数据类由 `database.dart` re-export；且该库不再导出 `Column`，写 `hide Column` 会触发 analyzer 警告。
+
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
-> 基线：v1.3.0；已完成 S0（合同 + `docs/qa/v8-s0-baseline.md`）、S1（设计 spike）、S2（引擎架构 spike → **保留 WebView2 + three r186**）、S3（设计系统落地：`docs/qa/v8-s3-design-system.md`）；全量 **333 passed + 37 skipped**。
-> 下一步 **S4 App 外壳 + 首页**（导航/信息架构/更新横幅，页面文件 ≤600 行，widget 测试 + 截图门禁），之后 S5 画面参考 → S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付。
+> 基线：v1.3.0；已完成 S0–S4（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页）；全量 **354 passed + 38 skipped**。
+> 下一步 **S5 画面参考搜索（D154）**：首屏主题画报入口、瀑布流结果、画册式画板、以图搜图收口；`q6_search_test` 41/41 不回归；页面 ≤600 行 + 明暗 × 2 分辨率截图。之后 S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。

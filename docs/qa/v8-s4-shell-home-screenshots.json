@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "note": "V8/S4 App 外壳 + 首页截图（R72：明暗双主题 × 1280×800 / 1920×1080；含更新横幅场景）",
+  "pages": [
+    "shell-home",
+    "shell-banner"
+  ],
+  "themes": [
+    "paper",
+    "darkroom"
+  ],
+  "viewports": [
+    "1280x800",
+    "1920x1080"
+  ],
+  "count": 8,
+  "shots": [
+    {
+      "name": "s4-shell-home-paper-1280x800",
+      "page": "shell-home",
+      "theme": "paper",
+      "size": "1280x800",
+      "banner": false,
+      "bytes": 77394
+    },
+    {
+      "name": "s4-shell-banner-paper-1280x800",
+      "page": "shell-banner",
+      "theme": "paper",
+      "size": "1280x800",
+      "banner": true,
+      "bytes": 90216
+    },
+    {
+      "name": "s4-shell-home-paper-1920x1080",
+      "page": "shell-home",
+      "theme": "paper",
+      "size": "1920x1080",
+      "banner": false,
+      "bytes": 84846
+    },
+    {
+      "name": "s4-shell-banner-paper-1920x1080",
+      "page": "shell-banner",
+      "theme": "paper",
+      "size": "1920x1080",
+      "banner": true,
+      "bytes": 97480
+    },
+    {
+      "name": "s4-shell-home-darkroom-1280x800",
+      "page": "shell-home",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "banner": false,
+      "bytes": 76845
+    },
+    {
+      "name": "s4-shell-banner-darkroom-1280x800",
+      "page": "shell-banner",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "banner": true,
+      "bytes": 89805
+    },
+    {
+      "name": "s4-shell-home-darkroom-1920x1080",
+      "page": "shell-home",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "banner": false,
+      "bytes": 84319
+    },
+    {
+      "name": "s4-shell-banner-darkroom-1920x1080",
+      "page": "shell-banner",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "banner": true,
+      "bytes": 96828
+    }
+  ]
+}
