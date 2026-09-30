@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
 import '../planner/planner_models.dart';
 import 'exporter.dart';
 
@@ -129,12 +128,13 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
     return Dialog(
       insetPadding: const EdgeInsets.all(24),
       child: SizedBox(
         width: 720,
         child: Padding(
-          padding: const EdgeInsets.all(AppTokens.s16),
+          padding: const EdgeInsets.all(AppSpace.s4),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,7 +165,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                               ? Icons.radio_button_checked_rounded
                               : Icons.radio_button_off_rounded,
                           size: 16,
-                          color: _format == format ? AppTokens.accent : null,
+                          color: _format == format ? p.accent : null,
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -198,7 +198,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(AppTokens.rSm),
+                  borderRadius: BorderRadius.circular(AppRadius.chip),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,16 +255,16 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
               for (final String file in _done)
                 Row(
                   children: <Widget>[
-                    const Icon(
+                    Icon(
                       Icons.check_circle_outline_rounded,
                       size: 14,
-                      color: AppTokens.success,
+                      color: p.film,
                     ),
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(
                         file,
-                        style: AppTokens.mono(context, size: 10.5),
+                        style: appMono(p.inkSoft),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -282,7 +282,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                   if (_done.isNotEmpty)
                     SsButton(
                       label: '打开所在目录',
-                      kind: SsButtonKind.ghost,
+                      kind: SsButtonKind.text,
                       dense: true,
                       onPressed: () {
                         final dir = ref.read(workspaceProvider).exportsPath;

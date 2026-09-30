@@ -208,7 +208,7 @@ class _EngineViewState extends State<EngineView> {
               SsButton(
                 label: '重新加载引擎',
                 icon: Icons.refresh_rounded,
-                kind: SsButtonKind.ghost,
+                kind: SsButtonKind.text,
                 onPressed: _retry,
               ),
               if (widget.onExportDiagnostics != null) ...<Widget>[
@@ -216,7 +216,7 @@ class _EngineViewState extends State<EngineView> {
                 SsButton(
                   label: '导出诊断包',
                   icon: Icons.bug_report_outlined,
-                  kind: SsButtonKind.ghost,
+                  kind: SsButtonKind.text,
                   onPressed: () => widget.onExportDiagnostics?.call(),
                 ),
               ],

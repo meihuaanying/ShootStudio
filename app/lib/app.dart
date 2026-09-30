@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/design/widgets.dart';
 import 'core/providers.dart';
-import 'core/theme/app_theme.dart';
-import 'core/theme/tokens.dart';
 import 'features/onboarding/onboarding_page.dart';
 import 'features/shell/app_shell.dart';
 
@@ -63,7 +61,7 @@ class _Splash extends StatelessWidget {
               height: 26,
               child: CircularProgressIndicator(strokeWidth: 2.4),
             ),
-            SizedBox(height: AppTokens.s16),
+            SizedBox(height: AppSpace.s4),
             Text('正在准备工作区…', style: TextStyle(fontSize: 13)),
           ],
         ),
@@ -79,28 +77,25 @@ class _InitError extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AppPalette p = context.palette;
     return Scaffold(
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 480),
           child: Padding(
-            padding: const EdgeInsets.all(AppTokens.s24),
+            padding: const EdgeInsets.all(AppSpace.s5),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Icon(
-                  Icons.error_outline_rounded,
-                  size: 40,
-                  color: AppTokens.danger,
-                ),
-                const SizedBox(height: AppTokens.s12),
+                Icon(Icons.error_outline_rounded, size: 40, color: p.danger),
+                const SizedBox(height: AppSpace.s3),
                 const Text(
                   '工作区初始化失败',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
-                const SizedBox(height: AppTokens.s8),
+                const SizedBox(height: AppSpace.s2),
                 SsBanner(text: '$error', kind: SsBannerKind.danger),
-                const SizedBox(height: AppTokens.s16),
+                const SizedBox(height: AppSpace.s4),
                 SsButton(
                   label: '重试',
                   icon: Icons.refresh_rounded,

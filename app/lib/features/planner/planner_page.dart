@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 
 import '../../core/db/database.dart';
 import '../ai/ai_panel.dart';
@@ -14,7 +14,6 @@ import '../export/export_panel.dart';
 import '../export/exporter.dart';
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
 import '../../services/content_packs.dart';
 import '../../services/geocoding.dart';
 import '../../services/image_store.dart';
@@ -130,7 +129,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
           label: 'AI 补全',
           icon: Icons.auto_awesome_rounded,
           dense: true,
-          kind: SsButtonKind.soft,
+          kind: SsButtonKind.outline,
           onPressed: () => showDialog<void>(
             context: context,
             builder: (BuildContext ctx) => AiPanel(
@@ -148,7 +147,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
         SsButton(
           label: '导入 .sspak',
           icon: Icons.file_open_outlined,
-          kind: SsButtonKind.ghost,
+          kind: SsButtonKind.text,
           dense: true,
           onPressed: () async {
             final result = await FilePicker.platform.pickFiles(
@@ -198,7 +197,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
         SsButton(
           label: '历史版本',
           icon: Icons.history_rounded,
-          kind: SsButtonKind.ghost,
+          kind: SsButtonKind.text,
           dense: true,
           onPressed: () => _showHistory(state),
         ),
@@ -218,26 +217,31 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
           : Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                _buildLeftPanel(state, controller),
-                const SizedBox(width: AppTokens.s12),
+                _buildLeftPanel(context, state, controller),
+                const SizedBox(width: AppSpace.s3),
                 Expanded(child: _buildCanvas(state, controller)),
-                const SizedBox(width: AppTokens.s12),
+                const SizedBox(width: AppSpace.s3),
                 SizedBox(width: 348, child: _buildEditor(state, controller)),
               ],
             ),
     );
   }
 
-  Widget _buildLeftPanel(PlannerState state, PlannerController controller) {
+  Widget _buildLeftPanel(
+    BuildContext context,
+    PlannerState state,
+    PlannerController controller,
+  ) {
+    final AppPalette p = context.palette;
     return SizedBox(
       width: 196,
       child: SsCard(
-        padding: const EdgeInsets.all(AppTokens.s12),
+        padding: const EdgeInsets.all(AppSpace.s3),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const SsSectionTitle('开始', subtitle: '从模板或空白'),
-            const SizedBox(height: AppTokens.s8),
+            const SizedBox(height: AppSpace.s2),
             SsButton(
               label: '模板库',
               icon: Icons.dashboard_customize_outlined,
@@ -247,13 +251,13 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
             const SizedBox(height: 6),
             SsButton(
               label: '空白策划案',
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               dense: true,
               onPressed: () => controller.newBlank(),
             ),
-            const SizedBox(height: AppTokens.s12),
+            const SizedBox(height: AppSpace.s3),
             const SsSectionTitle('添加模块'),
-            const SizedBox(height: AppTokens.s8),
+            const SizedBox(height: AppSpace.s2),
             Expanded(
               child: ListView(
                 children: <Widget>[
@@ -277,12 +281,9 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                               ),
                             ),
                             if (type.category == '绑定')
-                              const Text(
+                              Text(
                                 '绑',
-                                style: TextStyle(
-                                  fontSize: 9,
-                                  color: AppTokens.accent,
-                                ),
+                                style: TextStyle(fontSize: 9, color: p.accent),
                               ),
                           ],
                         ),
@@ -331,7 +332,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                 onChanged: controller.setTitle,
               ),
             ),
-            const SizedBox(width: AppTokens.s8),
+            const SizedBox(width: AppSpace.s2),
             for (final PlanDocStatus s in PlanDocStatus.values)
               Padding(
                 padding: const EdgeInsets.only(left: 4),
@@ -350,11 +351,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
             state.statusText.isEmpty
                 ? '模块 ${state.moduleCount} 个'
                 : state.statusText,
-            style: AppTokens.mono(
-              context,
-              size: 11.5,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
+            style: appMono(context.palette.inkSoft, size: 11.5),
           ),
         ),
         const SizedBox(height: 6),
@@ -363,6 +360,8 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
             itemCount: state.modules.length,
             onReorderItem: controller.reorder,
             itemBuilder: (BuildContext context, int index) {
+              final AppPalette p = context.palette;
+
               final module = state.modules[index];
               final selected = _selectedModuleId == module.id;
               return Padding(
@@ -378,7 +377,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                       const SizedBox(width: 6),
                       Text(
                         '${index + 1}'.padLeft(2, '0'),
-                        style: AppTokens.mono(context, size: 10.5),
+                        style: appMono(p.inkSoft),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
@@ -419,7 +418,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                                     context,
                                   ).colorScheme.surfaceContainerHighest,
                                   borderRadius: BorderRadius.circular(
-                                    AppTokens.rSm,
+                                    AppRadius.chip,
                                   ),
                                 ),
                                 child: SingleChildScrollView(
@@ -521,7 +520,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
             ),
           ],
         ),
-        const SizedBox(height: AppTokens.s8),
+        const SizedBox(height: AppSpace.s2),
         Expanded(
           child: _rightTab == 1
               ? AiSidePanel(
@@ -631,7 +630,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                   const Spacer(),
                   SsButton(
                     label: '创建里程碑',
-                    kind: SsButtonKind.ghost,
+                    kind: SsButtonKind.text,
                     dense: true,
                     onPressed: () async {
                       final label = await _askLabel(ctx);
@@ -654,6 +653,8 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                   shrinkWrap: true,
                   itemCount: latest.snapshots.length,
                   itemBuilder: (BuildContext context, int i) {
+                    final AppPalette p = context.palette;
+
                     final PlanSnapshotInfo snap = latest.snapshots[i];
                     return ListTile(
                       dense: true,
@@ -662,7 +663,7 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                             ? Icons.bookmark_rounded
                             : Icons.history_rounded,
                         size: 18,
-                        color: snap.label != null ? AppTokens.warning : null,
+                        color: snap.label != null ? p.gold : null,
                       ),
                       title: Text(
                         snap.label ?? '自动快照',
@@ -708,6 +709,8 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
   }
 
   Future<void> _showDiff(BuildContext context, String snapshotId) async {
+    final AppPalette p = context.palette;
+
     final controller = ref.read(plannerControllerProvider.notifier);
     final snapshots = ref.read(plannerControllerProvider).snapshots;
     PlanSnapshotInfo? snap;
@@ -739,19 +742,19 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
                     for (final PlanModuleData m in diff.added)
                       _diffLine(
                         Icons.add_circle_outline_rounded,
-                        AppTokens.success,
+                        p.film,
                         '新增：${m.title}（${m.type.label}）',
                       ),
                     for (final PlanModuleData m in diff.removed)
                       _diffLine(
                         Icons.remove_circle_outline_rounded,
-                        AppTokens.danger,
+                        p.danger,
                         '删除：${m.title}（${m.type.label}）',
                       ),
                     for (final ModuleChange c in diff.changed)
                       _diffLine(
                         Icons.change_circle_outlined,
-                        AppTokens.warning,
+                        p.gold,
                         '修改：${c.after.title} · ${c.changedKeys.join('、')}',
                       ),
                   ],
@@ -818,7 +821,7 @@ class _ModuleEditor extends ConsumerWidget {
       child: ListView(
         children: <Widget>[
           SsSectionTitle('编辑 · ${module.type.label}'),
-          const SizedBox(height: AppTokens.s8),
+          const SizedBox(height: AppSpace.s2),
           TextField(
             controller: TextEditingController(text: module.title),
             decoration: const InputDecoration(hintText: '模块标题', isDense: true),
@@ -827,7 +830,7 @@ class _ModuleEditor extends ConsumerWidget {
               (PlanModuleData m) => m.title = v,
             ),
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           ..._body(context, ref),
         ],
       ),
@@ -865,6 +868,8 @@ class _ModuleEditor extends ConsumerWidget {
   }
 
   List<Widget> _sunEditor(BuildContext context, WidgetRef ref) {
+    final AppPalette p = context.palette;
+
     final place = module.data['place'] as String? ?? '';
     final date = module.data['date'] as String? ?? '';
     final lat = (module.data['lat'] as num?)?.toDouble() ?? 31.23;
@@ -937,7 +942,7 @@ class _ModuleEditor extends ConsumerWidget {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(AppTokens.rSm),
+            borderRadius: BorderRadius.circular(AppRadius.chip),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -958,10 +963,7 @@ class _ModuleEditor extends ConsumerWidget {
                 if (w != null)
                   Text(
                     '${w.label} ${SolarCalculator.fmt(w.startMin)} – ${SolarCalculator.fmt(w.endMin)}',
-                    style: const TextStyle(
-                      fontSize: 11.5,
-                      color: AppTokens.success,
-                    ),
+                    style: TextStyle(fontSize: 11.5, color: p.film),
                   ),
             ],
           ),
@@ -979,17 +981,17 @@ class _ModuleEditor extends ConsumerWidget {
 
     Future<void> upload() async {
       final result = await FilePicker.platform.pickFiles(type: FileType.image);
-      final String? path = result?.files.single.path;
-      if (path == null) return;
+      final String? filePath = result?.files.single.path;
+      if (filePath == null) return;
       final store = ImageStore(workspace.root.path);
       final (String fileName, PaletteResult palette) = await store.importFile(
-        path,
+        filePath,
         category: 'refs',
       );
       controller.updateModule(module.id, (PlanModuleData m) {
         final list = <Object?>[...(m.data['refs'] as List? ?? <Object?>[])];
         list.add(<String, Object?>{
-          'name': p.basenameWithoutExtension(path),
+          'name': path.basenameWithoutExtension(filePath),
           'palette': palette.colors,
           'gradient': palette.colors.take(2).toList(),
           'sourceUrl': '',
@@ -1007,14 +1009,14 @@ class _ModuleEditor extends ConsumerWidget {
           SsButton(
             label: '上传图片',
             dense: true,
-            kind: SsButtonKind.ghost,
+            kind: SsButtonKind.text,
             onPressed: upload,
           ),
           const SizedBox(width: 6),
           SsButton(
             label: '插入待选（${pending.length}）',
             dense: true,
-            kind: SsButtonKind.soft,
+            kind: SsButtonKind.outline,
             onPressed: pending.isEmpty
                 ? null
                 : () {
@@ -1044,7 +1046,7 @@ class _ModuleEditor extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           decoration: BoxDecoration(
             border: Border.all(color: Theme.of(context).colorScheme.outline),
-            borderRadius: BorderRadius.circular(AppTokens.rSm),
+            borderRadius: BorderRadius.circular(AppRadius.chip),
           ),
           child: Row(
             children: <Widget>[
@@ -1117,7 +1119,7 @@ class _ModuleEditor extends ConsumerWidget {
       ),
     );
     if (imageRef.isEmpty) return fallback;
-    final file = File(p.join(workspaceRoot, 'images', 'refs', imageRef));
+    final file = File(path.join(workspaceRoot, 'images', 'refs', imageRef));
     if (!file.existsSync()) return fallback;
     return ClipRRect(
       borderRadius: BorderRadius.circular(6),
@@ -1204,7 +1206,7 @@ class _ModuleEditor extends ConsumerWidget {
         children: <Widget>[
           SsButton(
             label: '添加颜色',
-            kind: SsButtonKind.ghost,
+            kind: SsButtonKind.text,
             dense: true,
             onPressed: () async {
               final String? hex = await showDialog<String>(
@@ -1217,7 +1219,7 @@ class _ModuleEditor extends ConsumerWidget {
           ),
           SsButton(
             label: '从图片提取',
-            kind: SsButtonKind.ghost,
+            kind: SsButtonKind.text,
             dense: true,
             onPressed: () async {
               final result = await FilePicker.platform.pickFiles(
@@ -1233,7 +1235,7 @@ class _ModuleEditor extends ConsumerWidget {
           ),
           SsButton(
             label: '从待插入样片取色',
-            kind: SsButtonKind.ghost,
+            kind: SsButtonKind.text,
             dense: true,
             onPressed: () {
               final pending = ref.read(pendingFramesProvider);
@@ -1248,7 +1250,7 @@ class _ModuleEditor extends ConsumerWidget {
           ),
           SsButton(
             label: '取画板最近一帧',
-            kind: SsButtonKind.ghost,
+            kind: SsButtonKind.text,
             dense: true,
             onPressed: () {
               final board = ref.read(refsControllerProvider).board;
@@ -1273,6 +1275,8 @@ class _ModuleEditor extends ConsumerWidget {
   }
 
   List<Widget> _lightingEditor(BuildContext context, WidgetRef ref) {
+    final AppPalette p = context.palette;
+
     final scenes = ref.watch(lightingScenesProvider);
     final currentId = module.data['sceneId'] as String? ?? '';
     return <Widget>[
@@ -1288,7 +1292,7 @@ class _ModuleEditor extends ConsumerWidget {
                   ),
                   SsButton(
                     label: '刷新',
-                    kind: SsButtonKind.ghost,
+                    kind: SsButtonKind.text,
                     dense: true,
                     onPressed: () => ref.invalidate(lightingScenesProvider),
                   ),
@@ -1313,9 +1317,7 @@ class _ModuleEditor extends ConsumerWidget {
                                   ? Icons.radio_button_checked_rounded
                                   : Icons.radio_button_off_rounded,
                               size: 16,
-                              color: currentId == scene.id
-                                  ? AppTokens.accent
-                                  : null,
+                              color: currentId == scene.id ? p.accent : null,
                             ),
                             const SizedBox(width: 8),
                             Text(
@@ -1332,7 +1334,7 @@ class _ModuleEditor extends ConsumerWidget {
                       children: <Widget>[
                         SsButton(
                           label: '刷新方案列表',
-                          kind: SsButtonKind.ghost,
+                          kind: SsButtonKind.text,
                           dense: true,
                           onPressed: () =>
                               ref.invalidate(lightingScenesProvider),
@@ -1342,7 +1344,7 @@ class _ModuleEditor extends ConsumerWidget {
                           SsButton(
                             label: '打开预演',
                             dense: true,
-                            kind: SsButtonKind.soft,
+                            kind: SsButtonKind.outline,
                             onPressed: () async {
                               await ref
                                   .read(lightingControllerProvider.notifier)
@@ -1387,7 +1389,7 @@ class _ModuleEditor extends ConsumerWidget {
           SsButton(
             label: '插入待选（${pending.length}）',
             dense: true,
-            kind: SsButtonKind.soft,
+            kind: SsButtonKind.outline,
             onPressed: pending.isEmpty
                 ? null
                 : () => setPoses(<Object?>[
@@ -1430,7 +1432,8 @@ class _ModuleEditor extends ConsumerWidget {
             ),
           ),
           if (poses.any(
-            (Map<String, Object?> p) => (p['photo'] as String? ?? '').isEmpty,
+            (Map<String, Object?> row) =>
+                (row['photo'] as String? ?? '').isEmpty,
           ))
             Text(
               '部分姿势无照片，导出回退骨架示意',
@@ -1528,6 +1531,8 @@ class _ModuleEditor extends ConsumerWidget {
   }
 
   List<Widget> _storyboardEditor(BuildContext context, WidgetRef ref) {
+    final AppPalette p = context.palette;
+
     final List<Map<String, Object?>> shots =
         (module.data['shots'] as List? ?? <Object?>[])
             .cast<Map<String, Object?>>();
@@ -1554,7 +1559,7 @@ class _ModuleEditor extends ConsumerWidget {
           SsButton(
             label: '添加镜头',
             dense: true,
-            kind: SsButtonKind.ghost,
+            kind: SsButtonKind.text,
             onPressed: () => setShots(<Object?>[
               ...shots,
               <String, Object?>{
@@ -1579,20 +1584,17 @@ class _ModuleEditor extends ConsumerWidget {
           decoration: BoxDecoration(
             border: Border.all(
               color: shots[i]['key'] == true
-                  ? AppTokens.accent
+                  ? p.accent
                   : Theme.of(context).colorScheme.outline,
             ),
-            borderRadius: BorderRadius.circular(AppTokens.rSm),
+            borderRadius: BorderRadius.circular(AppRadius.chip),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Text(
-                    '${i + 1}'.padLeft(2, '0'),
-                    style: AppTokens.mono(context, size: 11),
-                  ),
+                  Text('${i + 1}'.padLeft(2, '0'), style: appMono(p.inkSoft)),
                   const SizedBox(width: 6),
                   DropdownButton<String>(
                     value:
@@ -1647,7 +1649,7 @@ class _ModuleEditor extends ConsumerWidget {
                           ? Icons.star_rounded
                           : Icons.star_border_rounded,
                       size: 16,
-                      color: shots[i]['key'] == true ? AppTokens.warning : null,
+                      color: shots[i]['key'] == true ? p.gold : null,
                     ),
                     onPressed: () => patch(i, 'key', shots[i]['key'] != true),
                   ),
@@ -1761,7 +1763,7 @@ class _ModuleEditor extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(AppTokens.rSm),
+          borderRadius: BorderRadius.circular(AppRadius.chip),
         ),
         child: Row(
           children: <Widget>[
@@ -1775,7 +1777,7 @@ class _ModuleEditor extends ConsumerWidget {
             SsButton(
               label: 'AI 估算',
               dense: true,
-              kind: SsButtonKind.soft,
+              kind: SsButtonKind.outline,
               onPressed: () async {
                 final result =
                     await showDialog<
@@ -1888,7 +1890,7 @@ class _ModuleEditor extends ConsumerWidget {
         ),
       SsButton(
         label: '添加一行',
-        kind: SsButtonKind.ghost,
+        kind: SsButtonKind.text,
         dense: true,
         onPressed: () => setRows(<Object?>[
           ...rows,
@@ -1950,7 +1952,7 @@ class _ModuleEditor extends ConsumerWidget {
         ),
       SsButton(
         label: '添加一行',
-        kind: SsButtonKind.ghost,
+        kind: SsButtonKind.text,
         dense: true,
         onPressed: () => controller.updateModule(module.id, (PlanModuleData m) {
           final list = <Object?>[...(m.data['rows'] as List? ?? <Object?>[])];
@@ -2212,7 +2214,7 @@ class _CitySearchFieldState extends State<_CitySearchField> {
             const SizedBox(width: 6),
             SsButton(
               label: _searching ? '搜索中…' : '在线搜索',
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               dense: true,
               onPressed: _searching ? null : _onlineSearch,
             ),
@@ -2469,7 +2471,7 @@ class _PoseReplaceDialogState extends State<_PoseReplaceDialog> {
     final List<PoseEntry> matches = _query.trim().isEmpty
         ? _all.take(30).toList()
         : _all
-              .where((PoseEntry p) => p.name.contains(_query.trim()))
+              .where((PoseEntry pose) => pose.name.contains(_query.trim()))
               .take(30)
               .toList();
     return AlertDialog(

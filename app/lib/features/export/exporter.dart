@@ -10,7 +10,7 @@ import 'package:drift/drift.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:pdf/pdf.dart' as pdfx;
 import 'package:pdf/widgets.dart' as pw;
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 
 import '../../core/db/database.dart';
 import '../../core/utils/json_utils.dart';
@@ -71,7 +71,7 @@ class ExportService {
     if (ref.isEmpty) return null;
     final Future<Uint8List?> Function(String)? hook = refBytesLoader;
     if (hook != null) return hook(ref);
-    final file = File(p.join(workspace.root.path, 'images', 'refs', ref));
+    final file = File(path.join(workspace.root.path, 'images', 'refs', ref));
     if (!await file.exists()) return null;
     return file.readAsBytes();
   }
@@ -153,7 +153,7 @@ class ExportService {
           final name = images.length > 1
               ? '${base}_long_${++index}.png'
               : '${base}_long.png';
-          final file = File(p.join(workspace.exportsPath, name));
+          final file = File(path.join(workspace.exportsPath, name));
           await file.writeAsBytes(png);
           files.add(file.path);
           hashes[file.path] = sha256.convert(png).toString();
@@ -166,13 +166,13 @@ class ExportService {
         }
       case ExportFormat.pdf:
         onProgress(const ExportProgress('正在生成 PDF…', 0.2));
-        final file = File(p.join(workspace.exportsPath, '$base.pdf'));
+        final file = File(path.join(workspace.exportsPath, '$base.pdf'));
         await _exportPdf(file, planTitle, status, modules, onProgress);
         files.add(file.path);
         hashes[file.path] = sha256.convert(await file.readAsBytes()).toString();
       case ExportFormat.sspak:
         onProgress(const ExportProgress('正在打包 .sspak…', 0.1));
-        final file = File(p.join(workspace.exportsPath, '$base.sspak'));
+        final file = File(path.join(workspace.exportsPath, '$base.sspak'));
         await _exportSspak(
           file,
           planTitle,
@@ -1506,7 +1506,7 @@ class ExportService {
       final cover = resource.coverImage;
       if (cover == null || cover.isEmpty) continue;
       final file = File(
-        p.join(workspace.root.path, 'images', resource.type, cover),
+        path.join(workspace.root.path, 'images', resource.type, cover),
       );
       if (await file.exists()) {
         addBytes('images/${resource.type}/$cover', await file.readAsBytes());
@@ -1516,7 +1516,7 @@ class ExportService {
     for (final FilmFrame frame in frames) {
       if (frame.imageRef.isEmpty) continue;
       final file = File(
-        p.join(workspace.root.path, 'images', 'refs', frame.imageRef),
+        path.join(workspace.root.path, 'images', 'refs', frame.imageRef),
       );
       if (await file.exists()) {
         addBytes('images/refs/${frame.imageRef}', await file.readAsBytes());
@@ -1562,7 +1562,7 @@ class SspakImporter {
     for (final ArchiveFile file in archive) {
       if (!file.name.startsWith('images/')) continue;
       final relative = file.name.substring('images/'.length);
-      final target = File(p.join(workspace.root.path, 'images', relative));
+      final target = File(path.join(workspace.root.path, 'images', relative));
       await target.parent.create(recursive: true);
       await target.writeAsBytes(file.content!);
     }

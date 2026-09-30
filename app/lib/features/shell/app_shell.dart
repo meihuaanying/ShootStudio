@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/design/widgets.dart';
-import '../../core/theme/tokens.dart';
 import '../home/home_page.dart';
 import '../libraries/libraries_page.dart';
 import '../lighting/lighting_page.dart';
@@ -142,9 +141,11 @@ class _UpdateBanner extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AppPalette p = context.palette;
+
     final announcement = updater.announcement!;
     return Material(
-      color: AppTokens.accent,
+      color: p.accent,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         child: Row(
@@ -192,7 +193,7 @@ class _UpdateBanner extends ConsumerWidget {
               },
               style: FilledButton.styleFrom(
                 backgroundColor: Colors.white,
-                foregroundColor: AppTokens.accent,
+                foregroundColor: p.accent,
               ),
               child: const Text('立即更新', style: TextStyle(fontSize: 12)),
             ),
@@ -223,6 +224,8 @@ class _SideNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
+
     final theme = Theme.of(context);
     final muted = theme.colorScheme.onSurfaceVariant;
     return Container(
@@ -239,8 +242,8 @@ class _SideNav extends StatelessWidget {
                   width: 30,
                   height: 30,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: <Color>[AppTokens.accent, Color(0xFF7B5CFF)],
+                    gradient: LinearGradient(
+                      colors: <Color>[p.accent, Color(0xFF7B5CFF)],
                     ),
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -291,7 +294,7 @@ class _SideNav extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           for (int i = 0; i < 4; i++) _navTile(context, i),
-          const SizedBox(height: AppTokens.s16),
+          const SizedBox(height: AppSpace.s4),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Text(
@@ -324,37 +327,35 @@ class _SideNav extends StatelessWidget {
   }
 
   Widget _navTile(BuildContext context, int i) {
+    final AppPalette p = context.palette;
+
     final theme = Theme.of(context);
     final selected = i == index;
     final item = items[i];
     return InkWell(
       onTap: () => onSelect(i),
       child: AnimatedContainer(
-        duration: AppTokens.dFast,
-        curve: AppTokens.cEmphasis,
+        duration: AppMotion.fast,
+        curve: AppMotion.curve,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: selected ? AppTokens.accentSoft : Colors.transparent,
-          borderRadius: BorderRadius.circular(AppTokens.rSm),
+          color: selected ? p.accentSoft : Colors.transparent,
+          borderRadius: BorderRadius.circular(AppRadius.chip),
         ),
         child: Row(
           children: <Widget>[
             Icon(
               selected ? item.activeIcon : item.icon,
               size: 17,
-              color: selected
-                  ? AppTokens.accent
-                  : theme.colorScheme.onSurfaceVariant,
+              color: selected ? p.accent : theme.colorScheme.onSurfaceVariant,
             ),
             const SizedBox(width: 10),
             Text(
               item.label,
               style: TextStyle(
                 fontSize: 13,
-                color: selected
-                    ? AppTokens.accent
-                    : theme.colorScheme.onSurface,
+                color: selected ? p.accent : theme.colorScheme.onSurface,
                 fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
               ),
             ),

@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
 import '../../services/search/search_cache.dart';
 import '../../services/search/search_keys.dart';
 import '../../services/search/search_models.dart';
@@ -124,7 +123,7 @@ class _CinematicRefsDialogState extends ConsumerState<_CinematicRefsDialog> {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 760, maxHeight: 640),
         child: Padding(
-          padding: const EdgeInsets.all(AppTokens.s16),
+          padding: const EdgeInsets.all(AppSpace.s4),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +133,7 @@ class _CinematicRefsDialogState extends ConsumerState<_CinematicRefsDialog> {
                 subtitle:
                     '按需抓取剧照/海报/静帧 · 只存工作区 images/refs/ 并标注来源与许可 · 不入包（R63）',
               ),
-              const SizedBox(height: AppTokens.s12),
+              const SizedBox(height: AppSpace.s3),
               Row(
                 children: <Widget>[
                   Expanded(
@@ -164,7 +163,7 @@ class _CinematicRefsDialogState extends ConsumerState<_CinematicRefsDialog> {
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
-              const SizedBox(height: AppTokens.s8),
+              const SizedBox(height: AppSpace.s2),
               Flexible(
                 child: _hits.isEmpty
                     ? const SizedBox(height: 80)
@@ -179,16 +178,16 @@ class _CinematicRefsDialogState extends ConsumerState<_CinematicRefsDialog> {
                             ),
                         itemCount: _hits.length,
                         itemBuilder: (BuildContext context, int i) =>
-                            _tile(_hits[i]),
+                            _tile(context, _hits[i]),
                       ),
               ),
-              const SizedBox(height: AppTokens.s8),
+              const SizedBox(height: AppSpace.s2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   SsButton(
                     label: '关闭',
-                    kind: SsButtonKind.ghost,
+                    kind: SsButtonKind.text,
                     dense: true,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
@@ -201,23 +200,24 @@ class _CinematicRefsDialogState extends ConsumerState<_CinematicRefsDialog> {
     );
   }
 
-  Widget _tile(SearchHit hit) {
+  Widget _tile(BuildContext context, SearchHit hit) {
+    final AppPalette p = context.palette;
     return InkWell(
       onTap: () => _add(hit),
-      borderRadius: BorderRadius.circular(AppTokens.rSm),
+      borderRadius: BorderRadius.circular(AppRadius.chip),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(AppTokens.rSm),
+              borderRadius: BorderRadius.circular(AppRadius.chip),
               child: Image.network(
                 hit.thumbUrl.isEmpty ? hit.fullUrl : hit.thumbUrl,
                 fit: BoxFit.cover,
                 width: double.infinity,
                 errorBuilder: (_, _, _) => Container(
                   alignment: Alignment.center,
-                  color: AppTokens.accentSoft,
+                  color: p.accentSoft,
                   child: const Icon(Icons.broken_image_outlined, size: 18),
                 ),
               ),

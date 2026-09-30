@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 
 import '../../core/design/widgets.dart';
-import '../../core/theme/tokens.dart';
 import '../../core/workspace/workspace.dart';
 import '../../services/engine/engine_bridge.dart';
 
@@ -107,12 +106,12 @@ class StillExportSession extends ChangeNotifier {
           : event.dataUrl;
       final List<int> bytes = base64Decode(base64Part);
       final Directory dir = Directory(
-        p.join(workspace.root.path, 'images', 'plans'),
+        path.join(workspace.root.path, 'images', 'plans'),
       );
       await dir.create(recursive: true);
       final String tag = event.mode == 'path' ? '路径追踪' : '超采样';
       final File file = File(
-        p.join(
+        path.join(
           dir.path,
           '静帧_${tag}_${DateTime.now().millisecondsSinceEpoch}.png',
         ),
@@ -165,7 +164,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 720, maxHeight: 640),
         child: Padding(
-          padding: const EdgeInsets.all(AppTokens.s16),
+          padding: const EdgeInsets.all(AppSpace.s4),
           child: AnimatedBuilder(
             animation: session,
             builder: (BuildContext context, Widget? _) {
@@ -178,21 +177,21 @@ class _StillExportDialogState extends State<StillExportDialog> {
                       '效果预览（静帧导出）',
                       subtitle: '路径追踪 = 照片级（首次编译较慢）；超采样 = 秒级快速预览',
                     ),
-                    const SizedBox(height: AppTokens.s12),
+                    const SizedBox(height: AppSpace.s3),
                     _options(context, session),
-                    const SizedBox(height: AppTokens.s12),
+                    const SizedBox(height: AppSpace.s3),
                     _progress(context, session),
                     if (session.hasResult) ...<Widget>[
-                      const SizedBox(height: AppTokens.s12),
+                      const SizedBox(height: AppSpace.s3),
                       _preview(context, session),
                     ],
-                    const SizedBox(height: AppTokens.s12),
+                    const SizedBox(height: AppSpace.s3),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         SsButton(
                           label: '关闭',
-                          kind: SsButtonKind.ghost,
+                          kind: SsButtonKind.text,
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                         const SizedBox(width: 8),
@@ -240,6 +239,8 @@ class _StillExportDialogState extends State<StillExportDialog> {
         };
 
   Widget _options(BuildContext context, StillExportSession session) {
+    final AppPalette p = context.palette;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -271,7 +272,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
             ),
           ],
         ),
-        const SizedBox(height: AppTokens.s8),
+        const SizedBox(height: AppSpace.s2),
         Row(
           children: <Widget>[
             const Text('分辨率', style: TextStyle(fontSize: 12.5)),
@@ -297,7 +298,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
                   : (String? value) =>
                         setState(() => _resolution = value ?? _resolution),
             ),
-            const SizedBox(width: AppTokens.s16),
+            const SizedBox(width: AppSpace.s4),
             Text(
               _mode == 'path' ? '采样数' : '超采样倍数',
               style: const TextStyle(fontSize: 12.5),
@@ -318,7 +319,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
                   : (int? value) =>
                         setState(() => _samples = value ?? _samples),
             ),
-            const SizedBox(width: AppTokens.s16),
+            const SizedBox(width: AppSpace.s4),
             Checkbox(
               value: _useCameraRig,
               onChanged: session.running
@@ -340,9 +341,9 @@ class _StillExportDialogState extends State<StillExportDialog> {
         ),
         // V7/D139：景深（物理相机，仅路径追踪生效）。
         if (_mode == 'path') ...<Widget>[
-          const SizedBox(height: AppTokens.s8),
+          const SizedBox(height: AppSpace.s2),
           Wrap(
-            spacing: AppTokens.s12,
+            spacing: AppSpace.s3,
             runSpacing: 6,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: <Widget>[
@@ -422,7 +423,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
                       ),
                       Text(
                         '${_focusDistance.toStringAsFixed(1)}m',
-                        style: AppTokens.mono(context, size: 11),
+                        style: appMono(p.inkSoft),
                       ),
                     ],
                   ],
@@ -436,6 +437,8 @@ class _StillExportDialogState extends State<StillExportDialog> {
   }
 
   Widget _progress(BuildContext context, StillExportSession session) {
+    final AppPalette p = context.palette;
+
     final double value = session.target <= 0
         ? 0
         : (session.samples / session.target).clamp(0.0, 1.0);
@@ -465,7 +468,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
             if (session.elapsedMs > 0)
               Text(
                 '${(session.elapsedMs / 1000).toStringAsFixed(1)}s',
-                style: AppTokens.mono(context, size: 11.5),
+                style: appMono(p.inkSoft),
               ),
           ],
         ),
@@ -481,12 +484,14 @@ class _StillExportDialogState extends State<StillExportDialog> {
   }
 
   Widget _preview(BuildContext context, StillExportSession session) {
+    final AppPalette p = context.palette;
+
     final EngineStillRendered result = session.result!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ClipRRect(
-          borderRadius: BorderRadius.circular(AppTokens.rSm),
+          borderRadius: BorderRadius.circular(AppRadius.chip),
           child: Image.memory(
             base64Decode(
               result.dataUrl.contains(',')
@@ -507,7 +512,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
           '${result.dof ? ' · 景深 f/${result.fStop} · 对焦 ${result.focusDistance}m（${result.focusMode == 'manual' ? '手动' : '自动'}）' : ''}'
           '${result.dofFallback ? ' · 景深不可用，已回退超采样' : ''}'
           '${session.savedRelative.isEmpty ? '' : ' · 已存 ${session.savedRelative}'}',
-          style: AppTokens.mono(context, size: 11.5),
+          style: appMono(p.inkSoft),
         ),
       ],
     );

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
 /// 工作区：本地优先存储的根目录（D2）。
@@ -18,7 +18,7 @@ final class Workspace {
     if (_instance != null) return _instance!;
     final base = await getApplicationDocumentsDirectory();
     final root = Directory(
-      p.join(base.path, Platform.isWindows ? 'ShootStudio' : 'workspace'),
+      path.join(base.path, Platform.isWindows ? 'ShootStudio' : 'workspace'),
     );
     return _open(root);
   }
@@ -33,7 +33,7 @@ final class Workspace {
     await root.create(recursive: true);
     final ws = Workspace._(root);
     for (final dir in Workspace.imageDirs.values) {
-      await Directory(p.join(root.path, dir)).create(recursive: true);
+      await Directory(path.join(root.path, dir)).create(recursive: true);
     }
     await Directory(ws.exportsPath).create(recursive: true);
     _instance = ws;
@@ -41,13 +41,13 @@ final class Workspace {
   }
 
   /// 目录可写校验（PRD 边界：无写入权限时引导重新选择）。
-  static Future<bool> isWritable(String path) async {
+  static Future<bool> isWritable(String dirPath) async {
     try {
-      final dir = Directory(path);
+      final dir = Directory(dirPath);
       if (!await dir.exists()) {
         await dir.create(recursive: true);
       }
-      final probe = File(p.join(path, '.write_probe'));
+      final probe = File(path.join(dirPath, '.write_probe'));
       await probe.writeAsString('ok');
       await probe.delete();
       return true;
@@ -56,9 +56,9 @@ final class Workspace {
     }
   }
 
-  String get dbPath => p.join(root.path, 'database.sqlite');
-  String get exportsPath => p.join(root.path, 'exports');
-  String get configPath => p.join(root.path, 'config.json');
+  String get dbPath => path.join(root.path, 'database.sqlite');
+  String get exportsPath => path.join(root.path, 'exports');
+  String get configPath => path.join(root.path, 'config.json');
 
   /// 五大资源库 + 参考画板 + 策划案素材的图片目录
   static const Map<String, String> imageDirs = {
@@ -73,6 +73,6 @@ final class Workspace {
 
   String imagePathOf(String category, String fileName) {
     final dir = imageDirs[category] ?? 'images/misc';
-    return p.joinAll(<String>[root.path, ...dir.split('/'), fileName]);
+    return path.joinAll(<String>[root.path, ...dir.split('/'), fileName]);
   }
 }

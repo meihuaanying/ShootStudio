@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 import 'dart:io';
 
 import 'package:drift/drift.dart' hide Column;
@@ -10,7 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/db/database.dart';
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
 import '../../core/utils/json_utils.dart';
 import '../../services/content_packs.dart';
 import '../../services/gear_photo_sync.dart';
@@ -76,7 +75,7 @@ final gearPhotosProvider = FutureProvider.autoDispose<Map<String, Object?>>((
           recursive: true,
         )) {
           if (entity is! File) continue;
-          final String name = p.basenameWithoutExtension(entity.path);
+          final String name = path.basenameWithoutExtension(entity.path);
           byModel[name] = <Object?>[
             <String, Object?>{
               'file': entity.path,
@@ -236,7 +235,7 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
                 SsButton(
                   label: _syncing ? '同步中…' : '同步器材图',
                   dense: true,
-                  kind: SsButtonKind.ghost,
+                  kind: SsButtonKind.text,
                   icon: Icons.sync_rounded,
                   onPressed: _syncing ? null : () => _syncPhotos(context, ref),
                 ),
@@ -244,7 +243,7 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
                 SsButton(
                   label: '添加设备',
                   dense: true,
-                  kind: SsButtonKind.ghost,
+                  kind: SsButtonKind.text,
                   onPressed: () => _showAddDialog(context, ref),
                 ),
                 const SizedBox(width: 6),
@@ -274,7 +273,7 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
                 ),
               ],
             ),
-            const SizedBox(height: AppTokens.s8),
+            const SizedBox(height: AppSpace.s2),
             Expanded(
               child: filtered.isEmpty
                   ? const SsEmpty(
@@ -601,6 +600,8 @@ class _GearCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AppPalette p = context.palette;
+
     final Map<String, Object?>? photos = ref
         .watch(gearPhotosProvider)
         .valueOrNull;
@@ -628,7 +629,7 @@ class _GearCard extends ConsumerWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
-                _thumb(entry, photo2, userPhoto),
+                _thumb(context, entry, photo2, userPhoto),
                 const SizedBox(width: 6),
                 Expanded(
                   child: Column(
@@ -660,12 +661,12 @@ class _GearCard extends ConsumerWidget {
               entry.specSummary,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTokens.mono(context, size: 10),
+              style: appMono(p.inkSoft),
             ),
             Text(
               '参考 ¥${entry.priceRef.toStringAsFixed(0)}'
               '${entry.imageSource == 'custom' ? ' · 自定义' : ''}',
-              style: const TextStyle(fontSize: 11, color: AppTokens.accent),
+              style: TextStyle(fontSize: 11, color: p.accent),
             ),
           ],
         ),
@@ -675,6 +676,7 @@ class _GearCard extends ConsumerWidget {
 
   /// 显示优先级（V4）：内置 photo2 → 用户目录 → 运行时缓存 → 插画。
   Widget _thumb(
+    BuildContext context,
     GearEntry entry,
     Map<String, Object?>? photo2,
     Map<String, Object?>? user,
@@ -699,7 +701,7 @@ class _GearCard extends ConsumerWidget {
         height: 54,
         child: Column(
           children: <Widget>[
-            Expanded(child: _illustration(entry)),
+            Expanded(child: _illustration(context, entry)),
             Text(
               label,
               maxLines: 1,
@@ -718,7 +720,11 @@ class _GearCard extends ConsumerWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: _firstAvailable(chain, fallback: _illustration(entry)),
+              child: _firstAvailable(
+                context,
+                chain,
+                fallback: _illustration(context, entry),
+              ),
             ),
           ),
           Text(
@@ -786,30 +792,31 @@ class _GearCard extends ConsumerWidget {
   }
 
   Widget _firstAvailable(
+    BuildContext context,
     List<Widget Function(Widget Function())> chain, {
     Widget? fallback,
   }) {
     Widget build(int i) {
-      if (i >= chain.length) return fallback ?? _fallbackBox();
+      if (i >= chain.length) return fallback ?? _fallbackBox(context);
       return chain[i](() => build(i + 1));
     }
 
     return build(0);
   }
 
-  Widget _illustration(GearEntry entry) {
+  Widget _illustration(BuildContext context, GearEntry entry) {
     if (entry.imageSource == 'custom' || entry.image.isEmpty) {
       return Container(
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: AppTokens.accentSoft,
+          color: context.palette.accentSoft,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.camera_alt_outlined,
           size: 20,
-          color: AppTokens.accent,
+          color: context.palette.accent,
         ),
       );
     }
@@ -821,12 +828,14 @@ class _GearCard extends ConsumerWidget {
         height: 44,
         fit: BoxFit.cover,
         errorBuilder: (BuildContext c, Object e, StackTrace? s) =>
-            _fallbackBox(),
+            _fallbackBox(context),
       ),
     );
   }
 
   void _showDetail(BuildContext context, WidgetRef ref) {
+    final AppPalette p = context.palette;
+
     final Map<String, Object?>? photos = ref
         .read(gearPhotosProvider)
         .valueOrNull;
@@ -863,6 +872,7 @@ class _GearCard extends ConsumerWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: _firstAvailable(
+                            context,
                             _photoChain(
                               entry,
                               photo2,
@@ -896,10 +906,7 @@ class _GearCard extends ConsumerWidget {
                           '${photo2['note'] ?? ''}'.isNotEmpty)
                         Text(
                           '${photo2['note']}',
-                          style: const TextStyle(
-                            fontSize: 10,
-                            color: AppTokens.accent,
-                          ),
+                          style: TextStyle(fontSize: 10, color: p.accent),
                         ),
                     ],
                   ),
@@ -931,15 +938,12 @@ class _GearCard extends ConsumerWidget {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: AppTokens.accentSoft,
+                          color: context.palette.accentSoft,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
                           tag,
-                          style: const TextStyle(
-                            fontSize: 11,
-                            color: AppTokens.accent,
-                          ),
+                          style: TextStyle(fontSize: 11, color: p.accent),
                         ),
                       ),
                   ],
@@ -1030,9 +1034,9 @@ class _GearCard extends ConsumerWidget {
     );
   }
 
-  Widget _fallbackBox() => Container(
+  Widget _fallbackBox(BuildContext context) => Container(
     width: 54,
-    color: AppTokens.accentSoft,
+    color: context.palette.accentSoft,
     child: const Icon(Icons.camera_alt_outlined, size: 20),
   );
 
@@ -1214,14 +1218,16 @@ class PropsPresetBrowser extends ConsumerWidget {
               ),
               itemCount: items.length,
               itemBuilder: (BuildContext context, int i) {
-                final PropPresetEntry p = items[i];
+                final AppPalette p = context.palette;
+
+                final PropPresetEntry prop = items[i];
                 return SsCard(
                   padding: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        p.name,
+                        prop.name,
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
@@ -1229,7 +1235,7 @@ class PropsPresetBrowser extends ConsumerWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        p.note,
+                        prop.note,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -1239,11 +1245,8 @@ class PropsPresetBrowser extends ConsumerWidget {
                       ),
                       const Spacer(),
                       Text(
-                        '¥${p.price} · ${p.owner}',
-                        style: const TextStyle(
-                          fontSize: 11,
-                          color: AppTokens.accent,
-                        ),
+                        '¥${prop.price} · ${prop.owner}',
+                        style: TextStyle(fontSize: 11, color: p.accent),
                       ),
                     ],
                   ),

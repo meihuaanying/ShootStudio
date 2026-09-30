@@ -50,6 +50,8 @@ jobs:
 
       - run: flutter pub get
       - run: dart format --output=none --set-exit-if-changed lib test
+      - name: File size gate (R73: features <= 600, design <= 300)
+        run: node tool/check_file_size.mjs
       - run: flutter analyze --fatal-infos
       - name: Engine aim math test (Node)
         run: node tool/test_aim.mjs

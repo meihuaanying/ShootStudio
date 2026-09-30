@@ -8,11 +8,10 @@ import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
 import '../../core/workspace/workspace.dart';
 import '../../services/app_logger.dart';
 import '../../services/content_packs.dart';
@@ -195,19 +194,19 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 _buildPresetPanel(state),
-                const SizedBox(width: AppTokens.s12),
+                const SizedBox(width: AppSpace.s3),
                 Expanded(
                   child: Column(
                     children: <Widget>[
                       _buildViewSwitch(state),
-                      const SizedBox(height: AppTokens.s8),
+                      const SizedBox(height: AppSpace.s2),
                       Expanded(child: _buildStageArea(state)),
-                      const SizedBox(height: AppTokens.s8),
+                      const SizedBox(height: AppSpace.s2),
                       SizedBox(height: 132, child: _buildPositionList(state)),
                     ],
                   ),
                 ),
-                const SizedBox(width: AppTokens.s12),
+                const SizedBox(width: AppSpace.s3),
                 SizedBox(width: 264, child: _buildParamPanel(state)),
               ],
             ),
@@ -224,12 +223,12 @@ class _LightingPageState extends ConsumerState<LightingPage> {
     return SizedBox(
       width: 208,
       child: SsCard(
-        padding: const EdgeInsets.all(AppTokens.s12),
+        padding: const EdgeInsets.all(AppSpace.s3),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SsSectionTitle('布光预设', subtitle: '内置 ${_presets.length} 套'),
-            const SizedBox(height: AppTokens.s8),
+            const SizedBox(height: AppSpace.s2),
             Expanded(
               child: ListView(
                 children: <Widget>[
@@ -286,7 +285,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
                 Expanded(
                   child: SsButton(
                     label: '加道具',
-                    kind: SsButtonKind.ghost,
+                    kind: SsButtonKind.text,
                     dense: true,
                     onPressed: () => _addWithLimitCheck(() {
                       ref.read(lightingControllerProvider.notifier).addProp();
@@ -301,7 +300,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
                 Expanded(
                   child: SsButton(
                     label: '清空影棚',
-                    kind: SsButtonKind.ghost,
+                    kind: SsButtonKind.text,
                     dense: true,
                     onPressed: () {
                       ref.read(lightingControllerProvider.notifier).clearAll();
@@ -424,11 +423,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
         if (state.status.isNotEmpty)
           Text(
             state.status,
-            style: AppTokens.mono(
-              context,
-              size: 11.5,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
+            style: appMono(context.palette.inkSoft, size: 11.5),
           ),
       ],
     );
@@ -439,7 +434,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
     final canvas = SsCard(
       padding: EdgeInsets.zero,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppTokens.rMd),
+        borderRadius: BorderRadius.circular(AppRadius.control),
         child: LightingCanvasView(
           scene: state.scene,
           selectedId: state.selectedId,
@@ -452,7 +447,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       ),
     );
     final engine = ClipRRect(
-      borderRadius: BorderRadius.circular(AppTokens.rMd),
+      borderRadius: BorderRadius.circular(AppRadius.control),
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -578,7 +573,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
         return Row(
           children: <Widget>[
             Expanded(child: canvas),
-            const SizedBox(width: AppTokens.s8),
+            const SizedBox(width: AppSpace.s2),
             Expanded(child: engine),
           ],
         );
@@ -620,14 +615,14 @@ class _LightingPageState extends ConsumerState<LightingPage> {
           '${now.minute.toString().padLeft(2, '0')}'
           '${now.second.toString().padLeft(2, '0')}';
       final Directory dir = Directory(
-        p.join(workspace.root.path, 'diagnostics', 'diag-$stamp'),
+        path.join(workspace.root.path, 'diagnostics', 'diag-$stamp'),
       );
       await dir.create(recursive: true);
 
       // 1) 应用日志（引擎控制台 / JS 错误均已写入）。
-      final File log = File(p.join(AppLogger.I.logDir, 'app.log'));
+      final File log = File(path.join(AppLogger.I.logDir, 'app.log'));
       if (await log.exists()) {
-        await log.copy(p.join(dir.path, 'app.log'));
+        await log.copy(path.join(dir.path, 'app.log'));
       }
 
       // 2) 引擎统计（缓存/内存/FPS）。
@@ -635,11 +630,11 @@ class _LightingPageState extends ConsumerState<LightingPage> {
         'JSON.stringify(window.ss && window.ss.getEngineStats ? window.ss.getEngineStats() : null)',
       );
       await File(
-        p.join(dir.path, 'engine-stats.json'),
+        path.join(dir.path, 'engine-stats.json'),
       ).writeAsString('${engineStats ?? 'null'}');
 
       // 3) 当前布光场景。
-      await File(p.join(dir.path, 'scene.json')).writeAsString(
+      await File(path.join(dir.path, 'scene.json')).writeAsString(
         const JsonEncoder.withIndent('  ').convert(
           state.scene.toEngineJson(
             poseJoints: state.pendingPose,
@@ -649,7 +644,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
       );
 
       // 4) 环境信息。
-      await File(p.join(dir.path, 'env.json')).writeAsString(
+      await File(path.join(dir.path, 'env.json')).writeAsString(
         const JsonEncoder.withIndent('  ').convert(<String, Object?>{
           'os': Platform.operatingSystem,
           'osVersion': Platform.operatingSystemVersion,
@@ -670,7 +665,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
         if (entity is File) {
           archive.addFile(
             ArchiveFile(
-              p.basename(entity.path),
+              path.basename(entity.path),
               entity.lengthSync(),
               entity.readAsBytesSync(),
             ),
@@ -678,7 +673,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
         }
       }
       final File zip = File(
-        p.join(workspace.root.path, 'diagnostics', 'diag-$stamp.zip'),
+        path.join(workspace.root.path, 'diagnostics', 'diag-$stamp.zip'),
       );
       await zip.writeAsBytes(ZipEncoder().encode(archive)!, flush: true);
       controller.setStatus('诊断包已导出：${zip.path}');
@@ -696,10 +691,13 @@ class _LightingPageState extends ConsumerState<LightingPage> {
           : dataUrl;
       final bytes = base64Decode(base64Part);
       final workspace = ref.read(workspaceProvider);
-      final dir = Directory(p.join(workspace.root.path, 'images', 'plans'));
+      final dir = Directory(path.join(workspace.root.path, 'images', 'plans'));
       await dir.create(recursive: true);
       final file = File(
-        p.join(dir.path, '布光预览_${DateTime.now().millisecondsSinceEpoch}.png'),
+        path.join(
+          dir.path,
+          '布光预览_${DateTime.now().millisecondsSinceEpoch}.png',
+        ),
       );
       await file.writeAsBytes(bytes);
       ref
@@ -796,6 +794,8 @@ class _LightingPageState extends ConsumerState<LightingPage> {
   }
 
   Widget _deviceRow(BuildContext context, LightingState state, DeviceSpec d) {
+    final AppPalette p = context.palette;
+
     final g = geometryOf(d.x, d.y);
     return InkWell(
       onTap: () => ref.read(lightingControllerProvider.notifier).select(d.id),
@@ -810,7 +810,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 12,
-                  color: d.id == state.selectedId ? AppTokens.accent : null,
+                  color: d.id == state.selectedId ? p.accent : null,
                   fontWeight: d.id == state.selectedId
                       ? FontWeight.w700
                       : FontWeight.w400,
@@ -823,7 +823,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
                     ? '${_typeLabel(d.type)} · 方位 ${g.azimuthLabel} · 距离 ${g.distanceLabel} · '
                           '${d.intensity}% · ${d.kelvin}K · ${d.height.toStringAsFixed(1)}m'
                     : '道具 · 坐标 (${d.x.toStringAsFixed(1)}, ${d.y.toStringAsFixed(1)})',
-                style: AppTokens.mono(context, size: 10.5),
+                style: appMono(context.palette.inkSoft),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -845,7 +845,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             subtitle: '共 ${rows.length} 个对象',
             trailing: SsButton(
               label: '保存预览图',
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               dense: true,
               onPressed: () => ref
                   .read(lightingControllerProvider.notifier)
@@ -887,14 +887,14 @@ class _LightingPageState extends ConsumerState<LightingPage> {
         child: ListView(
           children: <Widget>[
             const SsSectionTitle('参数面板'),
-            const SizedBox(height: AppTokens.s12),
+            const SizedBox(height: AppSpace.s3),
             const SsEmpty(
               icon: Icons.touch_app_outlined,
               art: SsArt.light,
               title: '未选中对象',
               hint: '在画布或 3D 视图中点选灯光 / 道具',
             ),
-            const SizedBox(height: AppTokens.s12),
+            const SizedBox(height: AppSpace.s3),
             _CameraRigPanel(
               state: state,
               controller: ref.read(lightingControllerProvider.notifier),
@@ -904,9 +904,9 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               assistDistance: _assistDistance,
               assistDofAvailable: _assistDofAvailable,
             ),
-            const SizedBox(height: AppTokens.s12),
+            const SizedBox(height: AppSpace.s3),
             _LightMeterCard(scene: state.scene),
-            const SizedBox(height: AppTokens.s12),
+            const SizedBox(height: AppSpace.s3),
             _JointTunePanel(
               pose: state.pendingPose,
               controller: ref.read(lightingControllerProvider.notifier),
@@ -938,19 +938,19 @@ class _LightingPageState extends ConsumerState<LightingPage> {
                 }
               },
             ),
-            const SizedBox(height: AppTokens.s12),
+            const SizedBox(height: AppSpace.s3),
             _HandPosePanel(
               state: state,
               controller: ref.read(lightingControllerProvider.notifier),
               bridge: _bridge,
               legacy: _character.characterId == 'legacy',
             ),
-            const SizedBox(height: AppTokens.s12),
+            const SizedBox(height: AppSpace.s3),
             _QualityPanel(
               state: state,
               controller: ref.read(lightingControllerProvider.notifier),
             ),
-            const SizedBox(height: AppTokens.s12),
+            const SizedBox(height: AppSpace.s3),
             _EffectPreview(scene: state.scene),
           ],
         ),
@@ -967,7 +967,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
                 ? '方位 ${g.azimuthLabel} · 距离 ${g.distanceLabel}'
                 : '道具 · (${selected.x.toStringAsFixed(2)}, ${selected.y.toStringAsFixed(2)})',
           ),
-          const SizedBox(height: AppTokens.s8),
+          const SizedBox(height: AppSpace.s2),
           if (selected.isLight) ...<Widget>[
             _dropdown<String>(
               label: '光型',
@@ -1099,7 +1099,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             onChanged: (String v) =>
                 controller.updateSelected((DeviceSpec d) => d.note = v),
           ),
-          const SizedBox(height: AppTokens.s8),
+          const SizedBox(height: AppSpace.s2),
           const Text(
             '自定义贴图（上传图将作为贴图占位出现在 3D 场景，D23）',
             style: TextStyle(fontSize: 11.5),
@@ -1110,7 +1110,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               SsButton(
                 label: '上传贴图',
                 icon: Icons.image_outlined,
-                kind: SsButtonKind.ghost,
+                kind: SsButtonKind.text,
                 dense: true,
                 onPressed: _uploadTexture,
               ),
@@ -1118,20 +1118,20 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               if (selected.texture.isNotEmpty)
                 SsButton(
                   label: '移除贴图',
-                  kind: SsButtonKind.ghost,
+                  kind: SsButtonKind.text,
                   dense: true,
                   onPressed: () => controller.setSelectedTexture(''),
                 ),
             ],
           ),
-          const SizedBox(height: AppTokens.s8),
+          const SizedBox(height: AppSpace.s2),
           Row(
             children: <Widget>[
               Expanded(
                 child: SsButton(
                   label: '删除该对象',
                   icon: Icons.delete_outline_rounded,
-                  kind: SsButtonKind.ghost,
+                  kind: SsButtonKind.text,
                   dense: true,
                   onPressed: () {
                     controller.removeSelected();
@@ -1141,7 +1141,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               ),
             ],
           ),
-          const SizedBox(height: AppTokens.s16),
+          const SizedBox(height: AppSpace.s4),
           _JointTunePanel(
             pose: state.pendingPose,
             controller: controller,
@@ -1173,16 +1173,16 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               }
             },
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           _HandPosePanel(
             state: state,
             controller: controller,
             bridge: _bridge,
             legacy: _character.characterId == 'legacy',
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           _QualityPanel(state: state, controller: controller),
-          const SizedBox(height: AppTokens.s16),
+          const SizedBox(height: AppSpace.s4),
           _EffectPreview(scene: state.scene),
         ],
       ),
@@ -1196,7 +1196,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
     required ValueChanged<T> onChanged,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: AppTokens.s8),
+      padding: const EdgeInsets.only(bottom: AppSpace.s2),
       child: Row(
         children: <Widget>[
           SizedBox(
@@ -1255,7 +1255,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
               ),
             ),
             const Spacer(),
-            Text(display, style: AppTokens.mono(context, size: 11)),
+            Text(display, style: appMono(context.palette.inkSoft)),
           ],
         ),
         SliderTheme(
@@ -1288,12 +1288,12 @@ class _EffectPreview extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const SsSectionTitle('效果预览', subtitle: '主视角度明暗示意'),
-        const SizedBox(height: AppTokens.s8),
+        const SizedBox(height: AppSpace.s2),
         Container(
           height: 132,
           decoration: BoxDecoration(
             color: const Color(0xFF17130F),
-            borderRadius: BorderRadius.circular(AppTokens.rSm),
+            borderRadius: BorderRadius.circular(AppRadius.chip),
             border: Border.all(color: Theme.of(context).colorScheme.outline),
           ),
           child: CustomPaint(
@@ -1426,24 +1426,21 @@ class _LightMeterCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
     final LightMeterReading r = LightMeter.compute(scene);
     final ThemeData theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(AppTokens.rSm),
+        borderRadius: BorderRadius.circular(AppRadius.chip),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
-              const Icon(
-                Icons.exposure_rounded,
-                size: 16,
-                color: AppTokens.accent,
-              ),
+              Icon(Icons.exposure_rounded, size: 16, color: p.accent),
               const SizedBox(width: 6),
               const Text(
                 '虚拟测光表',
@@ -1499,7 +1496,7 @@ class _LightMeterCard extends StatelessWidget {
         children: <TextSpan>[
           TextSpan(
             text: '$label ',
-            style: const TextStyle(color: AppTokens.lightMuted),
+            style: TextStyle(color: context.palette.inkSoft),
           ),
           TextSpan(
             text: value,
@@ -1538,7 +1535,7 @@ class _CollapsibleCardState extends State<_CollapsibleCard> {
         color: theme.colorScheme.surfaceContainerHighest.withValues(
           alpha: 0.45,
         ),
-        borderRadius: BorderRadius.circular(AppTokens.rSm),
+        borderRadius: BorderRadius.circular(AppRadius.chip),
         border: Border.all(color: theme.colorScheme.outline),
       ),
       child: Column(
@@ -1546,7 +1543,7 @@ class _CollapsibleCardState extends State<_CollapsibleCard> {
         children: <Widget>[
           InkWell(
             onTap: () => setState(() => _open = !_open),
-            borderRadius: BorderRadius.circular(AppTokens.rSm),
+            borderRadius: BorderRadius.circular(AppRadius.chip),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: Row(
@@ -1706,13 +1703,13 @@ class _JointTunePanelState extends State<_JointTunePanel> {
                 ),
                 const SizedBox(height: 8),
                 for (final (String label, String axis, int index) in _axes)
-                  _axisSlider(pose, label, axis, index),
+                  _axisSlider(context, pose, label, axis, index),
                 const SizedBox(height: 4),
                 Row(
                   children: <Widget>[
                     SsButton(
                       label: '恢复注入姿势',
-                      kind: SsButtonKind.ghost,
+                      kind: SsButtonKind.text,
                       dense: true,
                       onPressed: widget.onReset,
                     ),
@@ -1735,7 +1732,7 @@ class _JointTunePanelState extends State<_JointTunePanel> {
                     SsButton(
                       label: '另存为姿势',
                       dense: true,
-                      kind: SsButtonKind.soft,
+                      kind: SsButtonKind.outline,
                       onPressed: () {
                         final String name = _saveCtl.text.trim();
                         if (name.isEmpty) return;
@@ -1751,6 +1748,7 @@ class _JointTunePanelState extends State<_JointTunePanel> {
   }
 
   Widget _axisSlider(
+    BuildContext context,
     Map<String, Object?> pose,
     String label,
     String axis,
@@ -1768,7 +1766,7 @@ class _JointTunePanelState extends State<_JointTunePanel> {
             const Spacer(),
             Text(
               value.toStringAsFixed(0),
-              style: AppTokens.mono(context, size: 11),
+              style: appMono(context.palette.inkSoft),
             ),
           ],
         ),
@@ -1866,7 +1864,7 @@ class _HandPosePanelState extends State<_HandPosePanel> {
                     const SizedBox(width: 6),
                     SsButton(
                       label: '恢复默认',
-                      kind: SsButtonKind.ghost,
+                      kind: SsButtonKind.text,
                       dense: true,
                       onPressed: () {
                         widget.controller.resetHands();
@@ -1880,13 +1878,13 @@ class _HandPosePanelState extends State<_HandPosePanel> {
                   spacing: 4,
                   runSpacing: 4,
                   children: <Widget>[
-                    for (final HandPresetInfo p in kHandPresetList.where(
-                      (HandPresetInfo p) => !p.dual,
+                    for (final HandPresetInfo preset in kHandPresetList.where(
+                      (HandPresetInfo preset) => !preset.dual,
                     ))
                       SsChip(
-                        label: '${p.emoji} ${p.label}',
-                        selected: _current.preset == p.id,
-                        onTap: () => _applyPreset(p.id),
+                        label: '${preset.emoji} ${preset.label}',
+                        selected: _current.preset == preset.id,
+                        onTap: () => _applyPreset(preset.id),
                       ),
                   ],
                 ),
@@ -1902,19 +1900,19 @@ class _HandPosePanelState extends State<_HandPosePanel> {
                       ),
                     ),
                     const SizedBox(width: 6),
-                    for (final HandPresetInfo p in kHandPresetList.where(
-                      (HandPresetInfo p) => p.dual,
+                    for (final HandPresetInfo preset in kHandPresetList.where(
+                      (HandPresetInfo preset) => preset.dual,
                     ))
                       Padding(
                         padding: const EdgeInsets.only(right: 4),
                         child: SsChip(
-                          label: '${p.emoji} ${p.label}',
+                          label: '${preset.emoji} ${preset.label}',
                           selected:
-                              widget.state.handL.preset == p.id &&
-                              widget.state.handR.preset == p.id,
+                              widget.state.handL.preset == preset.id &&
+                              widget.state.handR.preset == preset.id,
                           onTap: () {
-                            widget.controller.setHandPreset('both', p.id);
-                            widget.bridge?.setHandPose('l', p.id);
+                            widget.controller.setHandPreset('both', preset.id);
+                            widget.bridge?.setHandPose('l', preset.id);
                           },
                         ),
                       ),
@@ -1985,7 +1983,7 @@ class _HandPosePanelState extends State<_HandPosePanel> {
           width: 30,
           child: Text(
             '${(value * 100).round()}',
-            style: AppTokens.mono(context, size: 10.5),
+            style: appMono(context.palette.inkSoft),
             textAlign: TextAlign.right,
           ),
         ),
@@ -2209,7 +2207,7 @@ class _CameraRigPanel extends StatelessWidget {
           width: 46,
           child: Text(
             '${isInt ? value.round() : value.toStringAsFixed(1)}$suffix',
-            style: AppTokens.mono(context, size: 10.5),
+            style: appMono(context.palette.inkSoft),
             textAlign: TextAlign.right,
           ),
         ),
@@ -2408,7 +2406,7 @@ class _QualityPanel extends StatelessWidget {
               const Spacer(),
               Text(
                 '${state.envIntensity.toStringAsFixed(1)}×',
-                style: AppTokens.mono(context, size: 11),
+                style: appMono(context.palette.inkSoft),
               ),
             ],
           ),
@@ -2477,11 +2475,14 @@ class _AbCompareDialog extends StatelessWidget {
     }
     try {
       final Directory dir = Directory(
-        p.join(workspace.root.path, 'images', 'plans'),
+        path.join(workspace.root.path, 'images', 'plans'),
       );
       await dir.create(recursive: true);
       final File file = File(
-        p.join(dir.path, 'AB对比_${DateTime.now().millisecondsSinceEpoch}.png'),
+        path.join(
+          dir.path,
+          'AB对比_${DateTime.now().millisecondsSinceEpoch}.png',
+        ),
       );
       await file.writeAsBytes(bytes, flush: true);
       if (context.mounted) ssToast(context, 'A/B 对比图已保存到工作区 images/plans/');
@@ -2496,7 +2497,7 @@ class _AbCompareDialog extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1060, maxHeight: 660),
         child: Padding(
-          padding: const EdgeInsets.all(AppTokens.s16),
+          padding: const EdgeInsets.all(AppSpace.s4),
           child: ValueListenableBuilder<AbSlots>(
             valueListenable: slots,
             builder: (BuildContext context, AbSlots s, Widget? _) {
@@ -2510,23 +2511,23 @@ class _AbCompareDialog extends StatelessWidget {
                       'A/B 布光对比',
                       subtitle: '冻结 A（调整前）→ 调整灯光 → 冻结 B（调整后）→ 查看差异与合成图',
                     ),
-                    const SizedBox(height: AppTokens.s12),
+                    const SizedBox(height: AppSpace.s3),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         _pane(context, s.a, 'A · 调整前', 'ab-a'),
-                        const SizedBox(width: AppTokens.s12),
+                        const SizedBox(width: AppSpace.s3),
                         _pane(context, s.b, 'B · 调整后', 'ab-b'),
                       ],
                     ),
-                    const SizedBox(height: AppTokens.s12),
+                    const SizedBox(height: AppSpace.s3),
                     if (stats != null)
                       Text(
                         '平均差 ${stats.meanAbs.toStringAsFixed(2)}/255 · '
                         '变化像素 ${(stats.changedRatio * 100).toStringAsFixed(1)}% · '
                         '最大差 ${stats.maxDelta.toStringAsFixed(0)} · '
                         '${stats.verdict}（阈值 $abDiffThreshold/255）',
-                        style: AppTokens.mono(context, size: 12),
+                        style: appMono(context.palette.inkSoft),
                       )
                     else
                       Text(
@@ -2536,13 +2537,13 @@ class _AbCompareDialog extends StatelessWidget {
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
-                    const SizedBox(height: AppTokens.s12),
+                    const SizedBox(height: AppSpace.s3),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         SsButton(
                           label: '清空',
-                          kind: SsButtonKind.ghost,
+                          kind: SsButtonKind.text,
                           onPressed: s.hasBoth || s.a != null || s.b != null
                               ? () => slots.value = const AbSlots()
                               : null,
@@ -2558,7 +2559,7 @@ class _AbCompareDialog extends StatelessWidget {
                         const SizedBox(width: 8),
                         SsButton(
                           label: '关闭',
-                          kind: SsButtonKind.ghost,
+                          kind: SsButtonKind.text,
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                       ],
@@ -2586,7 +2587,7 @@ class _AbCompareDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ClipRRect(
-            borderRadius: BorderRadius.circular(AppTokens.rSm),
+            borderRadius: BorderRadius.circular(AppRadius.chip),
             child: Container(
               height: 300,
               width: double.infinity,

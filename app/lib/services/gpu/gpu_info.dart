@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart'
     show MethodChannel, MissingPluginException;
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 
 /// V7/D135：本机显卡信息与 GPU 模式（DXGI 枚举 + WebView2 参数）。
 ///
@@ -92,7 +92,7 @@ class GpuService {
         Platform.environment['LOCALAPPDATA'] ??
         Platform.environment['APPDATA'] ??
         Directory.systemTemp.path;
-    return p.join(base, 'ShootStudio', 'gpu_mode.txt');
+    return path.join(base, 'ShootStudio', 'gpu_mode.txt');
   }
 
   /// DXGI 适配器列表（非 Windows / 通道不可用时返回空表，UI 显示降级提示）。

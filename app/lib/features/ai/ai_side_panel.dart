@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/design/widgets.dart';
-import '../../core/theme/tokens.dart';
 import '../planner/planner_diff.dart';
 import '../planner/planner_models.dart';
 import 'ai_controller.dart';
@@ -83,6 +82,8 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
+
     final ThemeData theme = Theme.of(context);
     final PlanDiff? diff = _draft?.diff is PlanDiff
         ? _draft!.diff as PlanDiff
@@ -91,7 +92,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         SsSectionTitle('AI 助手', subtitle: '目标：$_targetTitle'),
-        const SizedBox(height: AppTokens.s8),
+        const SizedBox(height: AppSpace.s2),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -108,7 +109,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
             ],
           ),
         ),
-        const SizedBox(height: AppTokens.s8),
+        const SizedBox(height: AppSpace.s2),
         Expanded(
           child: ListView(
             children: <Widget>[
@@ -126,9 +127,9 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
                     constraints: const BoxConstraints(maxWidth: 260),
                     decoration: BoxDecoration(
                       color: line.user
-                          ? AppTokens.accentSoft
+                          ? p.accentSoft
                           : theme.colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(AppTokens.rSm),
+                      borderRadius: BorderRadius.circular(AppRadius.chip),
                     ),
                     child: Text(
                       line.text,
@@ -136,7 +137,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
                     ),
                   ),
                 ),
-              if (_draft != null && diff != null) _buildDiffCard(diff),
+              if (_draft != null && diff != null) _buildDiffCard(context, diff),
               if (_busy)
                 const Padding(
                   padding: EdgeInsets.all(8),
@@ -145,7 +146,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
             ],
           ),
         ),
-        const SizedBox(height: AppTokens.s8),
+        const SizedBox(height: AppSpace.s2),
         Row(
           children: <Widget>[
             Expanded(
@@ -172,7 +173,8 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
     );
   }
 
-  Widget _buildDiffCard(PlanDiff diff) {
+  Widget _buildDiffCard(BuildContext context, PlanDiff diff) {
+    final AppPalette p = context.palette;
     final AiRevisionDraft draft = _draft!;
     return SsCard(
       padding: const EdgeInsets.all(10),
@@ -186,21 +188,17 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
           ),
           const SizedBox(height: 6),
           for (final PlanModuleData m in diff.added)
-            _line(
-              Icons.add_circle_outline_rounded,
-              AppTokens.success,
-              '新增：${m.title}',
-            ),
+            _line(Icons.add_circle_outline_rounded, p.film, '新增：${m.title}'),
           for (final PlanModuleData m in diff.removed)
             _line(
               Icons.remove_circle_outline_rounded,
-              AppTokens.danger,
+              p.danger,
               '删除：${m.title}',
             ),
           for (final ModuleChange c in diff.changed)
             _line(
               Icons.change_circle_outlined,
-              AppTokens.warning,
+              p.gold,
               '修改：${c.after.title} · ${c.changedKeys.join('、')}',
             ),
           const SizedBox(height: 8),
@@ -222,7 +220,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
               const SizedBox(width: 8),
               SsButton(
                 label: '放弃',
-                kind: SsButtonKind.ghost,
+                kind: SsButtonKind.text,
                 dense: true,
                 onPressed: () {
                   ref.read(aiControllerProvider.notifier).clearRevision();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/tokens.dart';
+import '../../core/design/tokens.dart';
 import '../../services/richtext_lite.dart';
 import 'planner_models.dart';
 
@@ -49,8 +49,10 @@ class ModuleContentView extends StatelessWidget {
   }
 
   Widget _richText(BuildContext context, String text) {
+    final AppPalette p = context.palette;
+
     if (text.trim().isEmpty) {
-      return const Text('（空）', style: TextStyle(color: AppTokens.lightMuted));
+      return Text('（空）', style: TextStyle(color: p.inkSoft));
     }
     final List<RichLine> lines = RichTextLite.parse(text);
     return Column(
@@ -63,9 +65,9 @@ class ModuleContentView extends StatelessWidget {
               TextSpan(
                 children: <InlineSpan>[
                   if (line.bullet)
-                    const TextSpan(
+                    TextSpan(
                       text: '• ',
-                      style: TextStyle(color: AppTokens.accent),
+                      style: TextStyle(color: p.accent),
                     ),
                   for (final RichSpan span in line.spans)
                     TextSpan(
@@ -100,7 +102,7 @@ class ModuleContentView extends StatelessWidget {
                 height: 40,
                 decoration: BoxDecoration(
                   color: _hex(hex),
-                  borderRadius: BorderRadius.circular(AppTokens.rSm),
+                  borderRadius: BorderRadius.circular(AppRadius.chip),
                   border: Border.all(
                     color: Theme.of(context).colorScheme.outline,
                   ),
@@ -142,13 +144,13 @@ class ModuleContentView extends StatelessWidget {
                   final double y = (m['y'] as num?)?.toDouble() ?? 0;
                   final double h = (m['height'] as num?)?.toDouble() ?? 2;
                   final int k = (m['kelvin'] as num?)?.toInt() ?? 5600;
-                  final int p = (m['intensity'] as num?)?.toInt() ?? 60;
+                  final int intensity = (m['intensity'] as num?)?.toInt() ?? 60;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 2),
                     child: Text(
                       '${i + 1}. ${m['name'] ?? '灯'} · '
                       '位置(${x.toStringAsFixed(1)}, ${y.toStringAsFixed(1)})m · '
-                      '高 ${h.toStringAsFixed(1)}m · $p% · ${k}K',
+                      '高 ${h.toStringAsFixed(1)}m · $intensity% · ${k}K',
                     ),
                   );
                 },
@@ -168,14 +170,14 @@ class ModuleContentView extends StatelessWidget {
           if (poses[i] is Map)
             Builder(
               builder: (_) {
-                final Map<Object?, Object?> p =
+                final Map<Object?, Object?> props =
                     poses[i] as Map<Object?, Object?>;
-                final String lens = p['lens'] as String? ?? '';
-                final String camera = p['cameraPosition'] as String? ?? '';
+                final String lens = props['lens'] as String? ?? '';
+                final String camera = props['cameraPosition'] as String? ?? '';
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 2),
                   child: Text(
-                    '${i + 1}. ${p['name'] ?? '姿势'}'
+                    '${i + 1}. ${props['name'] ?? '姿势'}'
                     '${lens.isEmpty ? '' : ' · $lens'}'
                     '${camera.isEmpty ? '' : ' · $camera'}',
                   ),

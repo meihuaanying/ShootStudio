@@ -6,6 +6,7 @@ import '../../services/net.dart';
 import '../../services/net_router.dart';
 import 'package:file_picker/file_picker.dart';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,7 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../app.dart';
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
+import '../../dev/design_demo_page.dart';
 import '../../services/gear_photo_sync.dart';
 import '../../services/engine/engine_reload.dart';
 import '../../services/gpu/gpu_info.dart';
@@ -49,6 +50,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
+
     final theme = Theme.of(context);
     final mode = ref.watch(themeModeProvider);
     final workspace = ref.watch(workspaceProvider);
@@ -64,7 +67,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SsSectionTitle('外观', subtitle: 'D12：统一设计令牌，明暗双主题跟随系统'),
-                const SizedBox(height: AppTokens.s12),
+                const SizedBox(height: AppSpace.s3),
                 Row(
                   children: <Widget>[
                     for (final entry in <(String, ThemeMode)>[
@@ -87,25 +90,21 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               ],
             ),
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           SsCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SsSectionTitle('工作区', subtitle: '本地优先：数据随目录整体迁移'),
-                const SizedBox(height: AppTokens.s12),
+                const SizedBox(height: AppSpace.s3),
                 Text(
                   workspace.root.path,
-                  style: AppTokens.mono(
-                    context,
-                    size: 12,
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
+                  style: appMono(theme.colorScheme.onSurfaceVariant, size: 12),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? _) {
               final AsyncValue<bool> seeded = ref.watch(demoSeededProvider);
@@ -120,11 +119,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                               subtitle:
                                   '首次引导载入的演示数据（策划案 / 参考帧 / 布光方案 / 资源 / 姿势）',
                             ),
-                            const SizedBox(height: AppTokens.s8),
+                            const SizedBox(height: AppSpace.s2),
                             SsButton(
                               label: '移除示例内容',
                               icon: Icons.delete_sweep_outlined,
-                              kind: SsButtonKind.ghost,
+                              kind: SsButtonKind.text,
                               dense: true,
                               onPressed: () async {
                                 await DemoContentService.remove(
@@ -144,13 +143,42 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               );
             },
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           const _AiChannelsCard(),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           const _AssetSourcesCard(),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           const _GpuCard(),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
+          // V8/D147 · S3：设计组件预览入口（合同 §6 L203：仅 debug 构建可见）。
+          if (kDebugMode)
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpace.s3),
+              child: SsCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const SsSectionTitle(
+                      '设计系统',
+                      subtitle: 'V8/D147 · 组件库预览（仅 debug 构建可见）',
+                    ),
+                    const SizedBox(height: AppSpace.s3),
+                    SsButton(
+                      label: '设计组件预览',
+                      icon: Icons.palette_outlined,
+                      kind: SsButtonKind.outline,
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext _) => DesignDemoPage(
+                            variant: AppTokensV2.of(context).variant,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           SsCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +187,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   '关于与更新',
                   subtitle: 'GitHub Release 为唯一事实源 · 版本与内容包双通道',
                 ),
-                const SizedBox(height: AppTokens.s12),
+                const SizedBox(height: AppSpace.s3),
                 Row(
                   children: <Widget>[
                     Text(
@@ -169,7 +197,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     const Spacer(),
                     SsButton(
                       label: updater.checking ? '检查中…' : '检查更新',
-                      kind: SsButtonKind.ghost,
+                      kind: SsButtonKind.text,
                       dense: true,
                       onPressed: updater.checking ? null : _manualCheck,
                     ),
@@ -222,7 +250,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       const SizedBox(width: 8),
                       SsButton(
                         label: '稍后再说',
-                        kind: SsButtonKind.ghost,
+                        kind: SsButtonKind.text,
                         dense: true,
                         onPressed: () =>
                             ref.read(updaterProvider.notifier).dismissBanner(),
@@ -237,10 +265,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       '公告：${op.title}${op.date.isEmpty ? '' : '（${op.date}）'}',
-                      style: const TextStyle(
-                        fontSize: 11.5,
-                        color: AppTokens.accent,
-                      ),
+                      style: TextStyle(fontSize: 11.5, color: p.accent),
                     ),
                   ),
                 const SizedBox(height: 10),
@@ -320,7 +345,7 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
     final AiProviderView? view = ref
         .read(aiControllerProvider)
         .providers
-        .where((AiProviderView p) => p.preset.id == id)
+        .where((AiProviderView view) => view.preset.id == id)
         .firstOrNull;
     ssToast(
       context,
@@ -347,7 +372,7 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
             'AI 通道',
             subtitle: 'D40：自动拉取模型列表 · 自动选可用模型 · 失败自动换模型/换商',
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           for (final AiProviderView view in providers.take(8)) ...<Widget>[
             _row(context, theme, view),
             const Divider(height: 14),
@@ -365,6 +390,8 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
   }
 
   Widget _row(BuildContext context, ThemeData theme, AiProviderView view) {
+    final AppPalette p = context.palette;
+
     final bool expanded = _expanded.contains(view.preset.id);
     final TextEditingController key = _keys.putIfAbsent(
       view.preset.id,
@@ -381,7 +408,7 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: view.hasKey
-                    ? (view.enabled ? AppTokens.success : AppTokens.warning)
+                    ? (view.enabled ? p.film : p.gold)
                     : theme.colorScheme.outline,
               ),
             ),
@@ -429,7 +456,7 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
             SsButton(
               label: _fetching.contains(view.preset.id) ? '拉取中…' : '拉模型',
               dense: true,
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               onPressed: view.hasKey && !_fetching.contains(view.preset.id)
                   ? () => _fetch(view.preset.id)
                   : null,
@@ -438,7 +465,7 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
             SsButton(
               label: expanded ? '收起' : '配置',
               dense: true,
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               onPressed: () => setState(() {
                 if (!_expanded.remove(view.preset.id)) {
                   _expanded.add(view.preset.id);
@@ -525,7 +552,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((Duration _) async {
       final AppDatabase db = ref.read(databaseProvider);
-      final String? p = await db.getSetting('image_pexels_key');
+      final String? saved = await db.getSetting('image_pexels_key');
       final String? t = await db.getSetting('image_tmdb_key');
       final String eu = await db.getSetting('search_key_europeana') ?? '';
       final String si = await db.getSetting('search_key_smithsonian') ?? '';
@@ -549,7 +576,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
       final int files = await cache.fileCount();
       if (!mounted) return;
       setState(() {
-        _pexels.text = (p ?? '').isNotEmpty ? p! : defaults.pexelsKey;
+        _pexels.text = (saved ?? '').isNotEmpty ? saved! : defaults.pexelsKey;
         _tmdb.text = (t ?? '').isNotEmpty ? t! : defaults.tmdbKey;
         _europeana.text = eu;
         _smithsonian.text = si;
@@ -657,6 +684,8 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
+
     final ThemeData theme = Theme.of(context);
     return SsCard(
       child: Column(
@@ -667,7 +696,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
             subtitle:
                 'V6：搜图工作台 Key（Pexels/TMDB）+ 免 Key 博物馆（Met/芝加哥/克利夫兰/V&A/WikiArt/Artvee/AniList）+ Key 预留源',
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           Row(
             children: <Widget>[
               Expanded(
@@ -821,7 +850,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
               const Spacer(),
               SsButton(
                 label: '清空搜图缓存',
-                kind: SsButtonKind.ghost,
+                kind: SsButtonKind.text,
                 dense: true,
                 onPressed: () async {
                   final AppDatabase db = ref.read(databaseProvider);
@@ -873,7 +902,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                 ),
               SsButton(
                 label: _probing ? '测速中…' : '通道测速',
-                kind: SsButtonKind.ghost,
+                kind: SsButtonKind.text,
                 dense: true,
                 onPressed: _probing ? null : _probeNetwork,
               ),
@@ -882,10 +911,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           if (_probeResults.isNotEmpty) ...<Widget>[
             const SizedBox(height: 6),
             for (final String line in _probeResults)
-              Text(
-                line,
-                style: TextStyle(fontSize: 11, color: AppTokens.lightMuted),
-              ),
+              Text(line, style: TextStyle(fontSize: 11, color: p.inkSoft)),
           ],
           const SizedBox(height: 8),
           Row(
@@ -903,7 +929,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
               SsButton(
                 label: '选择',
                 dense: true,
-                kind: SsButtonKind.ghost,
+                kind: SsButtonKind.text,
                 onPressed: () async {
                   final String? dir = await FilePicker.platform
                       .getDirectoryPath(dialogTitle: '选择我的素材包目录');
@@ -929,7 +955,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
               SsButton(
                 label: '选择',
                 dense: true,
-                kind: SsButtonKind.ghost,
+                kind: SsButtonKind.text,
                 onPressed: () async {
                   final String? dir = await FilePicker.platform
                       .getDirectoryPath(dialogTitle: '选择器材图目录');
@@ -987,7 +1013,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                 label: _showLicense
                     ? '收起许可清单'
                     : '开源与素材许可（${_attribution.length}）',
-                kind: SsButtonKind.ghost,
+                kind: SsButtonKind.text,
                 dense: true,
                 onPressed: () => setState(() => _showLicense = !_showLicense),
               ),
@@ -1087,7 +1113,7 @@ class _GpuCardState extends ConsumerState<_GpuCard> {
             '显卡',
             subtitle: 'V7/D135：DXGI 枚举 · 3D 引擎独显优先 · 端上识别后端',
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           if (_loading)
             const LinearProgressIndicator(minHeight: 2)
           else ...<Widget>[

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 
 import '../../core/db/database.dart';
 import '../../core/providers.dart';
@@ -136,7 +136,7 @@ class PosesController extends Notifier<PosesState> {
   PosesState build() => const PosesState();
 
   String get _posesDir =>
-      p.join(ref.read(workspaceProvider).root.path, 'images', 'poses');
+      path.join(ref.read(workspaceProvider).root.path, 'images', 'poses');
 
   Future<void> init() async {
     if (state.initialized) return;
@@ -213,8 +213,10 @@ class PosesController extends Notifier<PosesState> {
         hands: '',
         mistake: '',
         lens: row.lensAdvice,
-        photo: photoFile.isEmpty ? '' : p.join(_posesDir, photoFile),
-        skeleton: skeletonFile.isEmpty ? '' : p.join(_posesDir, skeletonFile),
+        photo: photoFile.isEmpty ? '' : path.join(_posesDir, photoFile),
+        skeleton: skeletonFile.isEmpty
+            ? ''
+            : path.join(_posesDir, skeletonFile),
         handsL: hands.$1,
         handsR: hands.$2,
       );
@@ -267,8 +269,8 @@ class PosesController extends Notifier<PosesState> {
       mistake: target.mistake,
       lens: target.lens,
       cameraPosition: target.cameraPosition,
-      photo: photoFile.isEmpty ? target.photo : p.join(_posesDir, photoFile),
-      skeleton: skeletonFile.isEmpty ? '' : p.join(_posesDir, skeletonFile),
+      photo: photoFile.isEmpty ? target.photo : path.join(_posesDir, photoFile),
+      skeleton: skeletonFile.isEmpty ? '' : path.join(_posesDir, skeletonFile),
       confidence: target.confidence,
       referenceOnly: target.referenceOnly,
       handsL: target.handsL,
@@ -530,8 +532,8 @@ class PosesController extends Notifier<PosesState> {
       hands: '',
       mistake: '',
       lens: lens,
-      photo: photoFile.isEmpty ? '' : p.join(_posesDir, photoFile),
-      skeleton: skeletonFile.isEmpty ? '' : p.join(_posesDir, skeletonFile),
+      photo: photoFile.isEmpty ? '' : path.join(_posesDir, photoFile),
+      skeleton: skeletonFile.isEmpty ? '' : path.join(_posesDir, skeletonFile),
       handsL: handsL,
       handsR: handsR,
     );

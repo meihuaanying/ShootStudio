@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
 /// 应用日志（F5）：写入应用支持目录 logs/app.log，供错误页与设置页定位问题。
@@ -23,9 +23,9 @@ class AppLogger {
     if (_initialized) return _instance!;
     try {
       final support = await getApplicationSupportDirectory();
-      final dir = Directory(p.join(support.path, 'logs'));
+      final dir = Directory(path.join(support.path, 'logs'));
       await dir.create(recursive: true);
-      final file = File(p.join(dir.path, 'app.log'));
+      final file = File(path.join(dir.path, 'app.log'));
       final logger = AppLogger._(file, dir.path);
       _instance = logger;
       _initialized = true;

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:drift/drift.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -335,10 +335,10 @@ class RefsController extends Notifier<RefsState> {
         recursive: true,
       )) {
         if (entity is! File) continue;
-        if (!imageExts.contains(p.extension(entity.path).toLowerCase())) {
+        if (!imageExts.contains(path.extension(entity.path).toLowerCase())) {
           continue;
         }
-        final String title = p.basenameWithoutExtension(entity.path);
+        final String title = path.basenameWithoutExtension(entity.path);
         final List<FilmFrame> existing = await (_db.select(
           _db.filmFrames,
         )..where((t) => t.name.equals(title))).get();

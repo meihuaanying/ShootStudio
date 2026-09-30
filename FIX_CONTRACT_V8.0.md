@@ -208,9 +208,9 @@
 
 ## 7. 交付清单勾选表（S12 时逐项打勾并附证据路径）
 
-- [ ] S1 设计 spike 截图 ×6 + 令牌锁定记录
-- [ ] S2 引擎架构 spike 报告 + 结论
-- [ ] S3 组件库 demo 截图（明暗）+ 旧令牌清零 grep 证据
+- [x] S1 设计 spike 截图 ×6 + 令牌锁定记录 —— 实际 12 张（App 8 + 官网 4）`docs/screenshots/v8/s1-*.png`；令牌锁定报告 `docs/qa/v8-s1-design-spike.md`（§3 全表已锁定，S3 逐字搬运未改值）
+- [x] S2 引擎架构 spike 报告 + 结论 —— `docs/qa/v8-s2-engine-arch-spike.md`（结论：保留 WebView2 + three r186，不迁 Flutter 原生渲染）+ 6 份实测 `docs/qa/v8-s2-engine-perf-*.json`
+- [x] S3 组件库 demo 截图（明暗）+ 旧令牌清零 grep 证据 —— `docs/screenshots/v8/s3-design-demo-{paper,darkroom}-{1280x800,1920x1080}.png`（4 张）+ 索引 `docs/qa/v8-s3-demo-screenshots.json`；清零：`lib/**` 中 `AppTokens.` 引用 345 处 → 0（断言见 `app/test/features/s3_design_system_test.dart`）；报告 `docs/qa/v8-s3-design-system.md`；R73 门禁 `docs/qa/v8-s3-file-size.json`（PASS，12 条白名单只降不升）
 - [ ] S4–S9 各页截图（明暗 × 2 分辨率）+ 专项测试输出
 - [ ] S6 交互帧率实测表
 - [ ] S8 导出三格式校验 + 新版长图/PDF 样张

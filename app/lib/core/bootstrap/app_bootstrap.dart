@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
 /// 应用引导配置：记录用户选择的工作区路径（PRD M4「首次启动指定本地目录」）。
@@ -17,7 +17,7 @@ final class AppBootstrap {
     if (!await dir.exists()) {
       await dir.create(recursive: true);
     }
-    return File(p.join(dir.path, _fileName));
+    return File(path.join(dir.path, _fileName));
   }
 
   /// 读取已保存的工作区路径；未设置或损坏时返回 null。
@@ -51,12 +51,12 @@ final class AppBootstrap {
   static Future<String> defaultWorkspacePath() async {
     try {
       final docs = await getApplicationDocumentsDirectory();
-      return p.join(
+      return path.join(
         docs.path,
         Platform.isWindows ? 'ShootStudio' : 'workspace',
       );
     } catch (_) {
-      return p.join(Directory.systemTemp.path, 'ShootStudio');
+      return path.join(Directory.systemTemp.path, 'ShootStudio');
     }
   }
 }

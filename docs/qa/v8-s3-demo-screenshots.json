@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "note": "V8/S3 设计系统组件库 demo 截图（R72：明暗双主题 × 1280×800 / 1920×1080）",
+  "page": "design-demo",
+  "themes": [
+    "paper",
+    "darkroom"
+  ],
+  "viewports": [
+    "1280x800",
+    "1920x1080"
+  ],
+  "count": 4,
+  "shots": [
+    {
+      "name": "s3-design-demo-paper-1280x800",
+      "page": "design-demo",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 104715
+    },
+    {
+      "name": "s3-design-demo-paper-1920x1080",
+      "page": "design-demo",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 129117
+    },
+    {
+      "name": "s3-design-demo-darkroom-1280x800",
+      "page": "design-demo",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 101470
+    },
+    {
+      "name": "s3-design-demo-darkroom-1920x1080",
+      "page": "design-demo",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 125573
+    }
+  ]
+}

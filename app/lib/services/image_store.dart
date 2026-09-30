@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:image/image.dart' as img;
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
 
 import 'palette_extractor.dart';
@@ -62,9 +62,9 @@ class ImageStore {
     );
     final name =
         '${DateTime.now().millisecondsSinceEpoch}_${_uuid.v4().substring(0, 6)}_$safeTitle.jpg';
-    final dir = Directory(p.join(workspaceRoot, 'images', category));
+    final dir = Directory(path.join(workspaceRoot, 'images', category));
     await dir.create(recursive: true);
-    await File(p.join(dir.path, name)).writeAsBytes(compressed);
+    await File(path.join(dir.path, name)).writeAsBytes(compressed);
     return (name, palette);
   }
 
@@ -76,12 +76,12 @@ class ImageStore {
     return importBytes(
       raw,
       category: category,
-      title: p.basenameWithoutExtension(sourcePath),
+      title: path.basenameWithoutExtension(sourcePath),
     );
   }
 
   String pathOf(String category, String fileName) =>
-      p.join(workspaceRoot, 'images', category, fileName);
+      path.join(workspaceRoot, 'images', category, fileName);
 
   Future<void> delete(String category, String fileName) async {
     final f = File(pathOf(category, fileName));

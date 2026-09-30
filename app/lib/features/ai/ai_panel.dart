@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/design/widgets.dart';
-import '../../core/theme/tokens.dart';
 import '../planner/planner_models.dart';
 import 'ai_controller.dart';
 
@@ -45,6 +44,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
     final state = ref.watch(aiControllerProvider);
     return Dialog(
       insetPadding: const EdgeInsets.all(24),
@@ -57,11 +57,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
               padding: const EdgeInsets.fromLTRB(16, 12, 10, 8),
               child: Row(
                 children: <Widget>[
-                  const Icon(
-                    Icons.auto_awesome_rounded,
-                    size: 18,
-                    color: AppTokens.accent,
-                  ),
+                  Icon(Icons.auto_awesome_rounded, size: 18, color: p.accent),
                   const SizedBox(width: 8),
                   const Text(
                     'AI 策划助手',
@@ -100,7 +96,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
             Expanded(
               child: switch (_tab) {
                 0 => _buildGenerate(state),
-                1 => _buildProviders(state),
+                1 => _buildProviders(context, state),
                 _ => _buildObservatory(state),
               },
             ),
@@ -116,21 +112,29 @@ class _AiPanelState extends ConsumerState<AiPanel> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        SizedBox(width: 300, child: _buildGenerateControls(state, controller)),
+        SizedBox(
+          width: 300,
+          child: _buildGenerateControls(context, state, controller),
+        ),
         const VerticalDivider(width: 1),
         Expanded(child: _buildGenerateResult(state)),
       ],
     );
   }
 
-  Widget _buildGenerateControls(AiState state, AiController controller) {
+  Widget _buildGenerateControls(
+    BuildContext context,
+    AiState state,
+    AiController controller,
+  ) {
+    final AppPalette p = context.palette;
     return Padding(
-      padding: const EdgeInsets.all(AppTokens.s16),
+      padding: const EdgeInsets.all(AppSpace.s4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           const SsSectionTitle('一句话开案', subtitle: '支持中文，可粘贴角色设定'),
-          const SizedBox(height: AppTokens.s8),
+          const SizedBox(height: AppSpace.s2),
           TextField(
             controller: _theme,
             maxLines: 3,
@@ -152,15 +156,12 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppTokens.accentSoft,
+                      color: p.accentSoft,
                       borderRadius: BorderRadius.circular(99),
                     ),
                     child: Text(
                       cmd.length > 14 ? '${cmd.substring(0, 14)}…' : cmd,
-                      style: const TextStyle(
-                        fontSize: 11,
-                        color: AppTokens.accent,
-                      ),
+                      style: TextStyle(fontSize: 11, color: p.accent),
                     ),
                   ),
                 ),
@@ -211,7 +212,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
   Widget _buildGenerateResult(AiState state) {
     if (state.generating) {
       return Padding(
-        padding: const EdgeInsets.all(AppTokens.s16),
+        padding: const EdgeInsets.all(AppSpace.s4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -223,12 +224,12 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(AppTokens.rSm),
+                  borderRadius: BorderRadius.circular(AppRadius.chip),
                 ),
                 child: SingleChildScrollView(
                   child: Text(
                     state.streamText.isEmpty ? '…' : state.streamText,
-                    style: AppTokens.mono(context, size: 11, color: null),
+                    style: appMono(context.palette.muted, size: 11),
                   ),
                 ),
               ),
@@ -246,7 +247,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
       );
     }
     return Padding(
-      padding: const EdgeInsets.all(AppTokens.s16),
+      padding: const EdgeInsets.all(AppSpace.s4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -319,7 +320,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                         ),
                         SsButton(
                           label: '插入',
-                          kind: SsButtonKind.ghost,
+                          kind: SsButtonKind.text,
                           dense: true,
                           onPressed: () {
                             widget.onInsertModule(module);
@@ -339,11 +340,12 @@ class _AiPanelState extends ConsumerState<AiPanel> {
   }
 
   // ---------------- 提供方 ----------------
-  Widget _buildProviders(AiState state) {
+  Widget _buildProviders(BuildContext context, AiState state) {
+    final AppPalette p = context.palette;
     final selectedId = _selectedProvider ?? state.providers.first.preset.id;
     AiProviderView selected = state.providers.first;
-    for (final AiProviderView p in state.providers) {
-      if (p.preset.id == selectedId) selected = p;
+    for (final AiProviderView view in state.providers) {
+      if (view.preset.id == selectedId) selected = view;
     }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -351,21 +353,21 @@ class _AiPanelState extends ConsumerState<AiPanel> {
         SizedBox(
           width: 300,
           child: ListView(
-            padding: const EdgeInsets.all(AppTokens.s12),
+            padding: const EdgeInsets.all(AppSpace.s3),
             children: <Widget>[
               const SsSectionTitle('提供方（13 家预设）', subtitle: '选中填 Key 即用'),
-              const SizedBox(height: AppTokens.s8),
-              for (final AiProviderView p in state.providers)
+              const SizedBox(height: AppSpace.s2),
+              for (final AiProviderView view in state.providers)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 4),
                   child: SsCard(
-                    selected: p.preset.id == selectedId,
+                    selected: view.preset.id == selectedId,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 8,
                     ),
                     onTap: () =>
-                        setState(() => _selectedProvider = p.preset.id),
+                        setState(() => _selectedProvider = view.preset.id),
                     child: Row(
                       children: <Widget>[
                         Container(
@@ -373,27 +375,24 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                           height: 7,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: p.hasKey
-                                ? AppTokens.success
-                                : (p.enabled
-                                      ? AppTokens.warning
+                            color: view.hasKey
+                                ? p.film
+                                : (view.enabled
+                                      ? p.gold
                                       : Theme.of(context).colorScheme.outline),
                           ),
                         ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            p.preset.name,
+                            view.preset.name,
                             style: const TextStyle(fontSize: 12.5),
                           ),
                         ),
-                        if (p.enabled)
-                          const Text(
+                        if (view.enabled)
+                          Text(
                             '已启用',
-                            style: TextStyle(
-                              fontSize: 9.5,
-                              color: AppTokens.accent,
-                            ),
+                            style: TextStyle(fontSize: 9.5, color: p.accent),
                           ),
                       ],
                     ),
@@ -412,7 +411,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
   Widget _buildObservatory(AiState state) {
     final summary = ref.read(aiControllerProvider.notifier).logSummary();
     return Padding(
-      padding: const EdgeInsets.all(AppTokens.s16),
+      padding: const EdgeInsets.all(AppSpace.s4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -420,27 +419,29 @@ class _AiPanelState extends ConsumerState<AiPanel> {
             '调用观测台',
             subtitle: '提供方 / 模型 / 延迟 / token / 成败（本地记录）',
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           Row(
             children: <Widget>[
-              _stat('调用次数', '${summary.calls}'),
+              _stat(context, '调用次数', '${summary.calls}'),
               _stat(
+                context,
                 '成功率',
                 summary.calls == 0
                     ? '—'
                     : '${(summary.success * 100 / summary.calls).toStringAsFixed(0)}%',
               ),
               _stat(
+                context,
                 '平均延迟',
                 summary.calls == 0
                     ? '—'
                     : '${summary.avgLatency.toStringAsFixed(0)}ms',
               ),
-              _stat('输入 tokens', '${summary.tokensIn}'),
-              _stat('输出 tokens', '${summary.tokensOut}'),
+              _stat(context, '输入 tokens', '${summary.tokensIn}'),
+              _stat(context, '输出 tokens', '${summary.tokensOut}'),
             ],
           ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           Expanded(
             child: state.logs.isEmpty
                 ? const SsEmpty(
@@ -450,6 +451,8 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                 : ListView.builder(
                     itemCount: state.logs.length,
                     itemBuilder: (BuildContext context, int i) {
+                      final AppPalette p = context.palette;
+
                       final log = state.logs[i];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 4),
@@ -460,16 +463,14 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                                   ? Icons.check_circle_outline_rounded
                                   : Icons.error_outline_rounded,
                               size: 14,
-                              color: log.success
-                                  ? AppTokens.success
-                                  : AppTokens.danger,
+                              color: log.success ? p.film : p.danger,
                             ),
                             const SizedBox(width: 8),
                             SizedBox(
                               width: 130,
                               child: Text(
                                 '${log.providerId} · ${log.model}',
-                                style: AppTokens.mono(context, size: 10.5),
+                                style: appMono(p.inkSoft),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -477,22 +478,22 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                               width: 70,
                               child: Text(
                                 '${log.latencyMs}ms',
-                                style: AppTokens.mono(context, size: 10.5),
+                                style: appMono(p.inkSoft),
                               ),
                             ),
                             SizedBox(
                               width: 100,
                               child: Text(
                                 '↓${log.promptTokens} ↑${log.completionTokens}',
-                                style: AppTokens.mono(context, size: 10.5),
+                                style: appMono(p.inkSoft),
                               ),
                             ),
                             Expanded(
                               child: Text(
                                 log.error ?? '',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 10.5,
-                                  color: AppTokens.danger,
+                                  color: p.danger,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -508,7 +509,8 @@ class _AiPanelState extends ConsumerState<AiPanel> {
     );
   }
 
-  Widget _stat(String label, String value) {
+  Widget _stat(BuildContext context, String label, String value) {
+    final AppPalette p = context.palette;
     return Expanded(
       child: SsCard(
         padding: const EdgeInsets.all(10),
@@ -523,7 +525,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
-            Text(value, style: AppTokens.mono(context, size: 14)),
+            Text(value, style: appMono(p.inkSoft)),
           ],
         ),
       ),
@@ -580,7 +582,7 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
     final controller = ref.read(aiControllerProvider.notifier);
     final provider = view.preset;
     return ListView(
-      padding: const EdgeInsets.all(AppTokens.s16),
+      padding: const EdgeInsets.all(AppSpace.s4),
       children: <Widget>[
         SsSectionTitle(
           provider.name,
@@ -596,7 +598,7 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
             },
           ),
         ),
-        const SizedBox(height: AppTokens.s12),
+        const SizedBox(height: AppSpace.s3),
         if (provider.note.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
@@ -665,7 +667,7 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
             ),
           ],
         ),
-        const SizedBox(height: AppTokens.s12),
+        const SizedBox(height: AppSpace.s3),
         Row(
           children: <Widget>[
             SsButton(
@@ -691,7 +693,7 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
             SsButton(
               label: _testing ? '测试中…' : '连通性测试',
               icon: Icons.network_check_rounded,
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               dense: true,
               onPressed: _testing
                   ? null
@@ -712,7 +714,7 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
             SsButton(
               label: _discovering ? '拉取中…' : '拉取模型列表',
               icon: Icons.download_for_offline_outlined,
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               dense: true,
               onPressed: _discovering
                   ? null
@@ -742,21 +744,21 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
               ),
           ],
         ),
-        const SizedBox(height: AppTokens.s16),
+        const SizedBox(height: AppSpace.s4),
         const SsSectionTitle('智能路由优先级', subtitle: '失败自动按此顺序切换'),
-        const SizedBox(height: AppTokens.s8),
+        const SizedBox(height: AppSpace.s2),
         Row(
           children: <Widget>[
             SsButton(
               label: '上移',
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               dense: true,
               onPressed: () => controller.movePriority(provider.id, -1),
             ),
             const SizedBox(width: 6),
             SsButton(
               label: '下移',
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               dense: true,
               onPressed: () => controller.movePriority(provider.id, 1),
             ),

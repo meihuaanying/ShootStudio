@@ -10,7 +10,6 @@ import 'package:uuid/uuid.dart';
 import '../../core/db/database.dart';
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
 import '../../core/utils/json_utils.dart';
 import '../../services/image_store.dart';
 import 'gear_browser.dart';
@@ -241,6 +240,8 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
+
     final state = ref.watch(libraryControllerProvider);
     final controller = ref.read(libraryControllerProvider.notifier);
     return SsPage(
@@ -302,7 +303,7 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                 SizedBox(
                   width: 150,
                   child: SsCard(
-                    padding: const EdgeInsets.all(AppTokens.s8),
+                    padding: const EdgeInsets.all(AppSpace.s2),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -325,7 +326,7 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                                       ? FontWeight.w700
                                       : FontWeight.w400,
                                   color: state.type == kind.type
-                                      ? AppTokens.accent
+                                      ? p.accent
                                       : null,
                                 ),
                               ),
@@ -345,7 +346,7 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                     ),
                   ),
                 ),
-                const SizedBox(width: AppTokens.s12),
+                const SizedBox(width: AppSpace.s3),
                 Expanded(
                   child: !state.loaded
                       ? const Center(
@@ -530,6 +531,8 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
+
     final isModel = widget.type == 'models';
     return AlertDialog(
       title: Text(
@@ -609,7 +612,7 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
                   const SizedBox(width: 8),
                   SsButton(
                     label: '加标签',
-                    kind: SsButtonKind.ghost,
+                    kind: SsButtonKind.text,
                     dense: true,
                     onPressed: () {
                       if (_tagCtl.text.trim().isNotEmpty && _tags.length < 10) {
@@ -644,7 +647,7 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
                   SsButton(
                     label: '上传封面',
                     icon: Icons.photo_camera_back_outlined,
-                    kind: SsButtonKind.ghost,
+                    kind: SsButtonKind.text,
                     dense: true,
                     onPressed: () => _pickImages(asCover: true),
                   ),
@@ -652,7 +655,7 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
                   SsButton(
                     label: '添加图集',
                     icon: Icons.collections_outlined,
-                    kind: SsButtonKind.ghost,
+                    kind: SsButtonKind.text,
                     dense: true,
                     onPressed: _pickImages,
                   ),
@@ -726,7 +729,7 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
                       if (context.mounted) Navigator.pop(context);
                     }
                   },
-            child: const Text('删除', style: TextStyle(color: AppTokens.danger)),
+            child: Text('删除', style: TextStyle(color: p.danger)),
           ),
         TextButton(
           onPressed: () => Navigator.pop(context),

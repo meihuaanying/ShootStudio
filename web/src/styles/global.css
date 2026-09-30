@@ -1,9 +1,18 @@
+/* V8/D147 · S3：官网设计令牌（与 App core/design/tokens.dart 逐字一致，§3 唯一来源）。
+   明暗双主题通过 <html data-theme="paper|darkroom"> 切换；S10 重做页面时只允许引用这里的变量。 */
+@import './tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   color-scheme: light dark;
+}
+
+/* V8 主题桥接：旧页面用 dark: 变体，V8 页面用 data-theme；两者共用同一套令牌。 */
+html[data-theme='darkroom'] body {
+  color-scheme: dark;
 }
 
 html {

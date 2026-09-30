@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/tokens.dart';
+import '../../../core/design/tokens.dart';
 import '../lighting_models.dart';
 
 /// 俯视灯位画布（拖动设备、选中高亮、方位角/距离实时读数）。
@@ -45,6 +45,8 @@ class _LightingCanvasViewState extends State<LightingCanvasView> {
     final theme = Theme.of(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
+        final AppPalette p = context.palette;
+
         final size = Size(constraints.maxWidth, constraints.maxHeight);
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -70,7 +72,7 @@ class _LightingCanvasViewState extends State<LightingCanvasView> {
               gridColor: theme.colorScheme.outline.withValues(alpha: 0.55),
               inkColor: theme.colorScheme.onSurface,
               mutedColor: theme.colorScheme.onSurfaceVariant,
-              accent: AppTokens.accent,
+              accent: p.accent,
             ),
           ),
         );

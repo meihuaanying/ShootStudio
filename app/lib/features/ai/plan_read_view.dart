@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/design/widgets.dart';
-import '../../core/theme/tokens.dart';
 import '../planner/module_content_view.dart';
 import '../planner/planner_models.dart';
 import 'ai_controller.dart';
@@ -51,6 +50,8 @@ class PlanReadView extends StatelessWidget {
   }
 
   Widget _header(BuildContext context, ThemeData theme, bool local) {
+    final AppPalette p = context.palette;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
       child: Column(
@@ -58,7 +59,7 @@ class PlanReadView extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              const Icon(Icons.menu_book_rounded, color: AppTokens.accent),
+              Icon(Icons.menu_book_rounded, color: p.accent),
               const SizedBox(width: 8),
               const Text(
                 '全案阅读',
@@ -72,12 +73,12 @@ class PlanReadView extends StatelessWidget {
                     vertical: 2,
                   ),
                   decoration: BoxDecoration(
-                    color: AppTokens.warning.withValues(alpha: 0.12),
+                    color: p.gold.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Text(
+                  child: Text(
                     '本地引擎兜底',
-                    style: TextStyle(fontSize: 11, color: AppTokens.warning),
+                    style: TextStyle(fontSize: 11, color: p.gold),
                   ),
                 ),
             ],
@@ -96,15 +97,19 @@ class PlanReadView extends StatelessWidget {
             runSpacing: 6,
             children: <Widget>[
               _chip(
+                context,
                 '质量分 ${draft.totalScore.toStringAsFixed(0)}',
                 good: draft.totalScore >= 90,
               ),
-              _chip('细节 ${draft.detailScore.toStringAsFixed(0)}'),
-              _chip('一致性 ${draft.consistencyScore.toStringAsFixed(0)}'),
-              _chip(draft.providerName),
-              if (draft.latencyMs > 0) _chip('${draft.latencyMs}ms'),
+              _chip(context, '细节 ${draft.detailScore.toStringAsFixed(0)}'),
+              _chip(
+                context,
+                '一致性 ${draft.consistencyScore.toStringAsFixed(0)}',
+              ),
+              _chip(context, draft.providerName),
+              if (draft.latencyMs > 0) _chip(context, '${draft.latencyMs}ms'),
               if (draft.tokensIn + draft.tokensOut > 0)
-                _chip('tokens ${draft.tokensIn}+${draft.tokensOut}'),
+                _chip(context, 'tokens ${draft.tokensIn}+${draft.tokensOut}'),
             ],
           ),
           if (draft.attempts.isNotEmpty) ...<Widget>[
@@ -139,23 +144,24 @@ class PlanReadView extends StatelessWidget {
     );
   }
 
-  Widget _chip(String label, {bool good = false}) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-    decoration: BoxDecoration(
-      color: good
-          ? AppTokens.success.withValues(alpha: 0.12)
-          : AppTokens.accentSoft,
-      borderRadius: BorderRadius.circular(20),
-    ),
-    child: Text(
-      label,
-      style: TextStyle(
-        fontSize: 11.5,
-        color: good ? AppTokens.success : AppTokens.accent,
-        fontWeight: FontWeight.w600,
-      ),
-    ),
-  );
+  Widget _chip(BuildContext context, String label, {bool good = false}) =>
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+        decoration: BoxDecoration(
+          color: good
+              ? context.palette.film.withValues(alpha: 0.12)
+              : context.palette.accentSoft,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 11.5,
+            color: good ? context.palette.film : context.palette.accent,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      );
 
   Widget _shortcomings(BuildContext context) {
     return SsCard(
@@ -238,13 +244,13 @@ class PlanReadView extends StatelessWidget {
         children: <Widget>[
           SsButton(
             label: '重新生成',
-            kind: SsButtonKind.ghost,
+            kind: SsButtonKind.text,
             onPressed: () => Navigator.pop(context, 'retry'),
           ),
           const Spacer(),
           SsButton(
             label: '稍后（关闭）',
-            kind: SsButtonKind.ghost,
+            kind: SsButtonKind.text,
             onPressed: () => Navigator.pop(context),
           ),
           const SizedBox(width: 8),

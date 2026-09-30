@@ -10,15 +10,27 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad`（3 样板页 + 12 张明暗双主题截图 + 令牌锁定；报告 `docs/qa/v8-s1-design-spike.md`）｜ **CI 修复** `d93fe3a`（pluginManagement 尊重 `SS_MAVEN_MIRROR`，修阿里云 502 导致的 APK job 失败）｜ **S2 引擎架构 spike**（本次提交，报告 `docs/qa/v8-s2-engine-arch-spike.md`） |
-| CI | S2 推送后运行中（R61：全绿才算完成，下一步先复核）；S0 全绿（36673666121）；S1 run 36679632640 的 Analyze/Test/Build Windows ✅、**Build Android APK ❌（阿里云 502，已由 `d93fe3a` 修复，待新 run 验证）** |
-| 门禁基线 | format 0 changed（172 files）｜ analyze 0 问题 ｜ 全量 **309 passed + 36 skipped** ｜ 视觉专项 9/9 + golden 回归 8 passed ｜ perf_probe 单测 6 ｜ 引擎帧率 p95 ≤18.4ms（独显/核显）｜ Flutter 宿主 +WebView 增量 +0.44ms p95 ｜ `lib/features/**` >600 行 **12 个**（R73 待拆）｜ 引擎包 1.11MB + pathtracer 0.22MB ｜ 识别模型 195.50MB ｜ 衬线字体子集 0.54MB ｜ assets 263.58MB ｜ APK 412.0MB ｜ Windows 437.6MB |
-| 当前步 | S2 收尾（提交 + CI 复核） |
-| 剩余 | **S3 设计系统落地** → S4 外壳/首页 → S5 画面参考 → S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
+| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地**（本次提交：令牌唯一来源 + 组件库 16 项 + R73 行数门禁；报告 `docs/qa/v8-s3-design-system.md`） |
+| CI | S3 推送后运行中（R61：全绿才算完成，下一步先复核）；S2 全绿（run 36684962779 = `7dcfabf` 4/4）；S0 全绿（36673666121）；S1 run 36679632640 的 Build Android APK 曾因阿里云 502 失败，已由 `d93fe3a` 修复 |
+| 门禁基线 | format 0 changed（187 files）｜ analyze 0 问题 ｜ 全量 **333 passed + 37 skipped** ｜ 设计系统单测 20 ｜ 组件库 demo 视觉 4 ｜ S1 视觉专项 9/9 ｜ perf_probe 单测 6 ｜ 引擎帧率 p95 ≤18.4ms（独显/核显）｜ Flutter 宿主 +WebView 增量 +0.44ms p95 ｜ `lib/features/**` >600 行 12 个（R73 白名单，只降不升）｜ 官网 6 页可构建 |
+| 当前步 | S3 收尾（提交 + CI 复核） |
+| 剩余 | **S4 外壳/首页** → S5 画面参考 → S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
 
 ---
 
 ## 1. 已完成（含证据路径）
+
+### S3 设计系统落地（D147 · R71–R74）
+- **报告**：`docs/qa/v8-s3-design-system.md`（令牌锁定表 / 组件清单 / 迁移结果 / 残留字面量登记 / R73 门禁 / 视觉证据 / 10 条缺陷复盘）。
+- **令牌唯一来源（R71）**：`app/lib/core/design/tokens.dart`（292 行）—— 12 色 × 双主题、字号 7 档、8pt 间距、圆角 2/4/8、栅格 1280/12 列/列距 24/页边距 24(≥1600 为 32)、两级阴影、动效 160/280/420 + 页面 200ms、字体（display `NotoSerifSC` / body `Microsoft YaHei` / mono `JetBrainsMono` + CJK 回退）；入口 `AppTokensV2.of(context)` / `context.palette`。`theme.dart`（252 行）全量 ColorScheme/组件主题。
+- **组件库（R74，§3.5 16 项 → 21 条断言）**：`ss_button` / `ss_input` / `ss_card` / `ss_chip` / `ss_text` / `ss_feedback` / `ss_dialog` / `ss_empty` / `ss_image_frame` / `ss_transitions` + `widgets.dart` barrel（13 文件、最大 292 行 ≤ R73 300）。
+- **迁移（R71/R76/R79）**：`AppTokens.*` 引用 **23 文件 345 处 → 0**；旧 `core/theme/{tokens,app_theme}.dart` 改为 `@Deprecated` 迁移壳；`SsButtonKind.soft/ghost → outline/text`（75 处）；`AppTokens.mono → appMono`。
+- **R73 行数门禁入 CI**：`app/tool/check_file_size.mjs` + `app/tool/file_size_baseline.json`（12 条白名单 = 当前行数 + 40，**只降不升**）；`.github/workflows/ci.yml` 新增 `File size gate (R73: features <= 600, design <= 300)`（位于 format 之后、analyze 之前，双平台）；本机 `--json=../docs/qa/v8-s3-file-size.json` → PASS（57 文件）。
+- **demo 页与入口（R72）**：`app/lib/dev/design_demo_page.dart`（547 行，16 格全量组件板）+ 设置页 `kDebugMode` 下「设计系统 / 设计组件预览」入口；视觉用例 `app/test/visual/s3_design_demo_capture_test.dart`（明暗 × 1280×800 / 1920×1080，4 张 `docs/screenshots/v8/s3-design-demo-*.png` + 索引 `docs/qa/v8-s3-demo-screenshots.json`；CI 默认跑渲染冒烟 + 溢出断言，比对用 `SS_V8_VISUAL=1`）。
+- **官网同源令牌**：`web/src/styles/tokens.css`（由 `spike_tokens.css` 提升）+ `global.css` 首行 `@import` + `tailwind.config.mjs` 新增 `v8-*`（全部指向 CSS 变量）；`npm run build` 6 页；4 张官网截图重出。
+- **字体与许可（R80）**：`app/assets/fonts/NotoSerifSC-ShootStudio.otf`（566,132 B 子集）+ `NotoSerifSC-OFL.txt` + `README.md`（来源/许可/子集命令）；`pubspec.yaml` 登记 `fonts:` 与 `assets/fonts/`；官网同款字体入 `web/public/fonts/`。
+- **门禁**：format 0 changed（187 files）｜ analyze 0（10.6s）｜ 全量 **333 passed + 37 skipped** ｜ 专项：设计系统单测 20/20、demo 视觉 4+1、`check_file_size` PASS。
+- **偏差登记（诚实）**：`lib/**` 残留硬编码 `0x` 107 处 / `fontSize:` 280 处 / `BorderRadius.circular` 26 处（集中在页面局部排版，非令牌层），随 S4–S9 逐页重写归零，每步附字面量扫描数据。
 
 ### S2 3D 引擎架构 spike（D156 · R77 先报告）
 - **报告**：`docs/qa/v8-s2-engine-arch-spike.md` —— **结论：保留 WebView2 + three.js r186，不迁 Flutter 原生渲染**；报告后未改架构。
@@ -53,16 +65,15 @@
 
 ## 2. 剩余待办（按合同 §1 顺序，含门禁）
 
-1. **S3 设计系统落地**：`AppTokensV2`/`app_theme.dart` 全量替换 + `lib/core/design/` 组件库 ≥15（单文件 ≤300 行）+ 官网 `tokens.css`/tailwind 同步 + 字体资产（Noto Serif SC，OFL，随包子集化 ≤2MB，登记 attribution R80）；demo 页明暗截图；旧令牌 grep 清零。
-2. **S4 App 外壳 + 首页**：导航/信息架构/更新横幅；页面文件 ≤600 行；widget 测试 + 截图门禁。
-3. **S5 画面参考搜索（D154）**：首屏主题画报入口、瀑布流结果、画册式画板、以图搜图收口；`q6_search_test` 41/41 不回归。
-4. **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。
-5. **S7 动作摆姿与识别（D153）**：大图瀑布流 + 详情抽屉、识别链路 ≤4 步、关节点拖拽校正；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归。
-6. **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归。
-7. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
-8. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
-9. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
-10. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
+1. **S4 App 外壳 + 首页**：导航/信息架构/更新横幅；页面文件 ≤600 行；widget 测试 + 截图门禁。
+2. **S5 画面参考搜索（D154）**：首屏主题画报入口、瀑布流结果、画册式画板、以图搜图收口；`q6_search_test` 41/41 不回归。
+3. **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。
+4. **S7 动作摆姿与识别（D153）**：大图瀑布流 + 详情抽屉、识别链路 ≤4 步、关节点拖拽校正；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归。
+5. **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归。
+6. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
+7. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
+8. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
+9. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
 
 ---
 
@@ -87,11 +98,16 @@
 14. **headed + `--force_high_performance_gpu` 会强制独显**：测核显用 `--gpumode=default`（本机实测落到 Intel Iris Xe）；`--headless=new` 仍会用真实 GPU，要真软件渲染得显式 `--use-angle=swiftshader`。报告里必须标注 devicePixelRatio（headed 默认 DPR=2）。
 15. **CI 阿里云镜像会 502**：`app/android/settings.gradle.kts` 的 pluginManagement 现已尊重 `SS_MAVEN_MIRROR=0`（与 `build.gradle.kts` 一致）；若再出现 “Repository maven is disabled due to earlier error” + aliyun 502，先查这个，再考虑重跑 job。
 
+16. **迁移到局部调色板 `p` 的三个必踩点**（S3 实测 98 个错误清零）：① `const TextStyle(color: p.accent)` 依赖运行时值 → 必须删 `const`（要按括号配平往上找 `const` 起点整段删）；② 私有辅助方法若没有 `BuildContext` 作用域，`p.accent` 会 undefined → 给方法补 `BuildContext context` 首参并改调用点；③ 本仓库多处 `import 'package:path/path.dart' as p;` → 调色板 `p` 与前缀 `p` 冲突，改前缀为 `path`（注意形参 `String path` 又会遮蔽它），或把遮蔽的局部变量改名。判定调色板引用用「`p.` + 12 个色字段」白名单。
+17. **不要用 PowerShell 改含中文的文件**：Set-Content / heredoc 会破坏 UTF-8（写 astro/YAML 时出现乱码）→ 一律用 `write` 工具或 Python（`io.open(..., encoding='utf-8')`）改；Python 脚本本身也用 `write` 工具落盘再 `python` 执行。
+18. **`check_file_size` 白名单只降不升**：R73 基线 JSON 里每条 = 当前行数 + 40 余量；文件变短后必须同步下调，脚本会校验「白名单值 > 实际行数 + 40」即失败，防止把超限文件固化下来。
+19. **golden 视觉测试的三个细节**：① 测试 `pumpWidget` 的 `home` 必须包 `Scaffold`，否则 `No Material widget found`；② 设计系统换代后旧页面 golden 会像素不一致 → 用 `--update-goldens` 重生成（不删测试，R79 合规）；③ CI 默认只跑渲染冒烟 + `tester.takeException()` 溢出断言，像素比对要显式 `SS_V8_VISUAL=1`（字体光栅化差异会误报）。
+
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
-> 基线：v1.3.0；已完成 S0（合同 + `docs/qa/v8-s0-baseline.md`）、S1（设计 spike：`docs/qa/v8-s1-design-spike.md`）、S2（引擎架构 spike：`docs/qa/v8-s2-engine-arch-spike.md` → **保留 WebView2 + three r186**）；全量 **309 passed + 36 skipped**。
-> 下一步 **S3 设计系统落地**（把 S1 锁定的 §3 令牌搬进 `lib/core/design/`，组件 ≥15、单文件 ≤300 行、`core/design/` 目录 ≤300 行，CI 加 `tool/check_file_size.mjs`；官网 `tokens.css` 同步；旧令牌 grep 清零），之后 S4–S9 模块重做 → S10 官网 → S11 全量回归+视觉验收 → S12 v2.0.0 交付。
+> 基线：v1.3.0；已完成 S0（合同 + `docs/qa/v8-s0-baseline.md`）、S1（设计 spike）、S2（引擎架构 spike → **保留 WebView2 + three r186**）、S3（设计系统落地：`docs/qa/v8-s3-design-system.md`）；全量 **333 passed + 37 skipped**。
+> 下一步 **S4 App 外壳 + 首页**（导航/信息架构/更新横幅，页面文件 ≤600 行，widget 测试 + 截图门禁），之后 S5 画面参考 → S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。

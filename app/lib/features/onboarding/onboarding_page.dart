@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/bootstrap/app_bootstrap.dart';
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
 import '../../core/workspace/workspace.dart';
 
 /// 首次启动引导：选择本地工作区目录（PRD M4 / D2 本地优先）。
@@ -59,13 +58,15 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
+
     final theme = Theme.of(context);
     return Scaffold(
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 620),
           child: Padding(
-            padding: const EdgeInsets.all(AppTokens.s32),
+            padding: const EdgeInsets.all(AppSpace.s6),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,10 +75,10 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   width: 52,
                   height: 52,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: <Color>[AppTokens.accent, Color(0xFF7B5CFF)],
+                    gradient: LinearGradient(
+                      colors: <Color>[p.accent, Color(0xFF7B5CFF)],
                     ),
-                    borderRadius: BorderRadius.circular(AppTokens.rMd),
+                    borderRadius: BorderRadius.circular(AppRadius.control),
                   ),
                   alignment: Alignment.center,
                   child: const Text(
@@ -89,12 +90,12 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: AppTokens.s24),
+                const SizedBox(height: AppSpace.s5),
                 const Text(
                   '正片工坊 ShootStudio',
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.w800),
                 ),
-                const SizedBox(height: AppTokens.s8),
+                const SizedBox(height: AppSpace.s2),
                 Text(
                   '画面参考 → 布光预演 → 动作摆姿 → 一键成案\n本地优先，数据全部保存在你选择的目录里，可整体迁移。',
                   style: TextStyle(
@@ -103,7 +104,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
-                const SizedBox(height: AppTokens.s24),
+                const SizedBox(height: AppSpace.s5),
                 Row(
                   children: <Widget>[
                     for (final (int i, String label, IconData icon)
@@ -126,11 +127,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                                       width: 20,
                                       height: 20,
                                       decoration: BoxDecoration(
-                                        gradient: const LinearGradient(
-                                          colors: <Color>[
-                                            AppTokens.accent,
-                                            AppTokens.accent2,
-                                          ],
+                                        gradient: LinearGradient(
+                                          colors: <Color>[p.accent, p.film],
                                         ),
                                         borderRadius: BorderRadius.circular(6),
                                       ),
@@ -145,11 +143,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                                       ),
                                     ),
                                     const SizedBox(width: 6),
-                                    Icon(
-                                      icon,
-                                      size: 15,
-                                      color: AppTokens.accent,
-                                    ),
+                                    Icon(icon, size: 15, color: p.accent),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
@@ -167,9 +161,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       ),
                   ],
                 ),
-                const SizedBox(height: AppTokens.s24),
+                const SizedBox(height: AppSpace.s5),
                 SsCard(
-                  padding: const EdgeInsets.all(AppTokens.s16),
+                  padding: const EdgeInsets.all(AppSpace.s4),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -180,19 +174,18 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(height: AppTokens.s8),
+                      const SizedBox(height: AppSpace.s2),
                       Text(
                         _defaultPath ?? '（正在准备默认目录…）',
-                        style: AppTokens.mono(
-                          context,
+                        style: appMono(
+                          theme.colorScheme.onSurfaceVariant,
                           size: 12,
-                          color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
-                      const SizedBox(height: AppTokens.s16),
+                      const SizedBox(height: AppSpace.s4),
                       Wrap(
-                        spacing: AppTokens.s12,
-                        runSpacing: AppTokens.s8,
+                        spacing: AppSpace.s3,
+                        runSpacing: AppSpace.s2,
                         children: <Widget>[
                           SsButton(
                             label: _busy ? '正在初始化…' : '开始空白工作区',
@@ -204,7 +197,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                           SsButton(
                             label: '载入示例内容',
                             icon: Icons.auto_awesome_rounded,
-                            kind: SsButtonKind.soft,
+                            kind: SsButtonKind.outline,
                             onPressed: _busy || _defaultPath == null
                                 ? null
                                 : () => _confirm(_defaultPath!, withDemo: true),
@@ -212,7 +205,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                           SsButton(
                             label: '选择其他目录…',
                             icon: Icons.folder_open_rounded,
-                            kind: SsButtonKind.ghost,
+                            kind: SsButtonKind.text,
                             onPressed: _busy ? null : _pick,
                           ),
                         ],
@@ -220,7 +213,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: AppTokens.s16),
+                const SizedBox(height: AppSpace.s4),
                 Text(
                   Platform.isWindows
                       ? '提示：目录内会自动创建 database.sqlite、images/ 与 exports/ 子目录。'

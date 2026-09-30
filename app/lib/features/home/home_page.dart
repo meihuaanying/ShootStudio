@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/db/database.dart';
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
 import '../ai/ai_controller.dart';
 import '../ai/plan_read_view.dart';
 import '../planner/planner_controller.dart';
@@ -123,7 +122,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       ],
       body: ListView(
         children: <Widget>[
-          const SizedBox(height: AppTokens.s24),
+          const SizedBox(height: AppSpace.s5),
           Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 720),
@@ -142,7 +141,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
-                  const SizedBox(height: AppTokens.s16),
+                  const SizedBox(height: AppSpace.s4),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -157,7 +156,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: AppTokens.s12),
+                      const SizedBox(width: AppSpace.s3),
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: SsButton(
@@ -169,12 +168,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ],
                   ),
                   if (_generating) ...<Widget>[
-                    const SizedBox(height: AppTokens.s8),
+                    const SizedBox(height: AppSpace.s2),
                     const SsShimmer(label: '正在生成：推理策划思路 → 结构化输出 → 品质自检…'),
                     _LiveReasoning(),
                   ],
                   if (_showInspiration) ...<Widget>[
-                    const SizedBox(height: AppTokens.s12),
+                    const SizedBox(height: AppSpace.s3),
                     SizedBox(
                       height: 84,
                       child: ListView.separated(
@@ -220,7 +219,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                     ),
                   ],
-                  const SizedBox(height: AppTokens.s24),
+                  const SizedBox(height: AppSpace.s5),
                   Row(
                     children: <Widget>[
                       const Expanded(child: SsSectionTitle('最近的策划案')),
@@ -233,7 +232,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: AppTokens.s8),
+                  const SizedBox(height: AppSpace.s2),
                   _RecentPlans(
                     onOpen: (Plan plan) async {
                       await ref
@@ -246,7 +245,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
             ),
           ),
-          const SizedBox(height: AppTokens.s32),
+          const SizedBox(height: AppSpace.s6),
         ],
       ),
     );
@@ -280,7 +279,7 @@ class _RecentPlans extends ConsumerWidget {
       data: (List<Plan> list) {
         if (list.isEmpty) {
           return SsCard(
-            padding: const EdgeInsets.all(AppTokens.s16),
+            padding: const EdgeInsets.all(AppSpace.s4),
             child: Text(
               '还没有策划案 —— 在上面输入想法，或从模板库开始。',
               style: TextStyle(
@@ -366,7 +365,7 @@ class _LiveReasoning extends ConsumerWidget {
             constraints: const BoxConstraints(maxHeight: 180),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(AppTokens.rSm),
+              borderRadius: BorderRadius.circular(AppRadius.chip),
             ),
             child: SingleChildScrollView(
               reverse: true,

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/design/widgets.dart';
-import '../../core/theme/tokens.dart';
 import '../../services/content_packs.dart';
 import '../lighting/lighting_controller.dart';
 import '../planner/planner_pending.dart';
@@ -52,7 +51,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
         SsButton(
           label: '影视感参考',
           icon: Icons.movie_filter_outlined,
-          kind: SsButtonKind.ghost,
+          kind: SsButtonKind.text,
           dense: true,
           onPressed: () => showCinematicRefsDialog(context),
         ),
@@ -60,7 +59,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
         SsButton(
           label: '导入照片识别',
           icon: Icons.add_a_photo_outlined,
-          kind: SsButtonKind.ghost,
+          kind: SsButtonKind.text,
           dense: true,
           onPressed: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
@@ -74,7 +73,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
           : Column(
               children: <Widget>[
                 _buildFilters(state, controller),
-                const SizedBox(height: AppTokens.s8),
+                const SizedBox(height: AppSpace.s2),
                 Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -83,8 +82,8 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                         width: 252,
                         child: _buildGrid(state, controller),
                       ),
-                      const SizedBox(width: AppTokens.s12),
-                      Expanded(child: _buildDetail(state, controller)),
+                      const SizedBox(width: AppSpace.s3),
+                      Expanded(child: _buildDetail(context, state, controller)),
                     ],
                   ),
                 ),
@@ -125,7 +124,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                   onTap: () => controller.setDifficulty(d),
                 ),
               ),
-            const SizedBox(width: AppTokens.s8),
+            const SizedBox(width: AppSpace.s2),
             SizedBox(
               width: 200,
               child: TextField(
@@ -136,7 +135,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                 onChanged: controller.setKeyword,
               ),
             ),
-            const SizedBox(width: AppTokens.s8),
+            const SizedBox(width: AppSpace.s2),
             SsChip(
               label: _showSkeleton ? '骨架叠加开' : '骨架叠加',
               selected: _showSkeleton,
@@ -146,11 +145,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
             if (state.status.isNotEmpty)
               Text(
                 state.status,
-                style: AppTokens.mono(
-                  context,
-                  size: 11.5,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+                style: appMono(context.palette.inkSoft, size: 11.5),
               ),
           ],
         ),
@@ -160,7 +155,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
 
   Widget _buildGrid(PosesState state, PosesController controller) {
     return SsCard(
-      padding: const EdgeInsets.all(AppTokens.s8),
+      padding: const EdgeInsets.all(AppSpace.s2),
       child: state.filtered.isEmpty
           ? const SsEmpty(
               icon: Icons.accessibility_new_outlined,
@@ -176,6 +171,8 @@ class _PosesPageState extends ConsumerState<PosesPage> {
               ),
               itemCount: state.filtered.length,
               itemBuilder: (BuildContext context, int i) {
+                final AppPalette p = context.palette;
+
                 final PoseEntry pose = state.filtered[i];
                 final bool selected = i == state.index;
                 final bool fav = state.favorites.contains(pose.id);
@@ -208,7 +205,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                           fontWeight: selected
                               ? FontWeight.w700
                               : FontWeight.w500,
-                          color: selected ? AppTokens.accent : null,
+                          color: selected ? p.accent : null,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -228,11 +225,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                             ),
                           ),
                           if (fav)
-                            const Icon(
-                              Icons.star_rounded,
-                              size: 12,
-                              color: AppTokens.warning,
-                            ),
+                            Icon(Icons.star_rounded, size: 12, color: p.gold),
                           if (pose.referenceOnly || pose.partialBody)
                             Container(
                               padding: const EdgeInsets.symmetric(
@@ -240,17 +233,12 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                                 vertical: 1,
                               ),
                               decoration: BoxDecoration(
-                                color: AppTokens.warning.withValues(
-                                  alpha: 0.16,
-                                ),
+                                color: p.gold.withValues(alpha: 0.16),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
                                 pose.partialBody ? '半身' : '参考',
-                                style: const TextStyle(
-                                  fontSize: 8.5,
-                                  color: AppTokens.warning,
-                                ),
+                                style: TextStyle(fontSize: 8.5, color: p.gold),
                               ),
                             ),
                         ],
@@ -263,7 +251,12 @@ class _PosesPageState extends ConsumerState<PosesPage> {
     );
   }
 
-  Widget _buildDetail(PosesState state, PosesController controller) {
+  Widget _buildDetail(
+    BuildContext context,
+    PosesState state,
+    PosesController controller,
+  ) {
+    final AppPalette p = context.palette;
     final PoseEntry? pose = state.current;
     if (pose == null) {
       return const SsCard(
@@ -275,12 +268,12 @@ class _PosesPageState extends ConsumerState<PosesPage> {
       children: <Widget>[
         Expanded(
           child: SsCard(
-            padding: const EdgeInsets.all(AppTokens.s8),
+            padding: const EdgeInsets.all(AppSpace.s2),
             child: Column(
               children: <Widget>[
                 Expanded(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(AppTokens.rMd),
+                    borderRadius: BorderRadius.circular(AppRadius.control),
                     child: Stack(
                       fit: StackFit.expand,
                       children: <Widget>[
@@ -330,26 +323,26 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: AppTokens.s8),
+                const SizedBox(height: AppSpace.s2),
                 Row(
                   children: <Widget>[
                     SsButton(
                       label: '← 上一个',
-                      kind: SsButtonKind.ghost,
+                      kind: SsButtonKind.text,
                       dense: true,
                       onPressed: controller.prev,
                     ),
                     const SizedBox(width: 6),
                     SsButton(
                       label: '下一个 →',
-                      kind: SsButtonKind.ghost,
+                      kind: SsButtonKind.text,
                       dense: true,
                       onPressed: controller.next,
                     ),
                     const Spacer(),
                     Text(
                       '${state.index + 1} / ${state.filtered.length}',
-                      style: AppTokens.mono(context, size: 11.5),
+                      style: appMono(p.inkSoft),
                     ),
                   ],
                 ),
@@ -357,13 +350,18 @@ class _PosesPageState extends ConsumerState<PosesPage> {
             ),
           ),
         ),
-        const SizedBox(width: AppTokens.s12),
-        SizedBox(width: 272, child: _buildInfo(state, controller)),
+        const SizedBox(width: AppSpace.s3),
+        SizedBox(width: 272, child: _buildInfo(context, state, controller)),
       ],
     );
   }
 
-  Widget _buildInfo(PosesState state, PosesController controller) {
+  Widget _buildInfo(
+    BuildContext context,
+    PosesState state,
+    PosesController controller,
+  ) {
+    final AppPalette p = context.palette;
     final PoseEntry? pose = state.current;
     if (pose == null) {
       return const SsCard(
@@ -387,16 +385,14 @@ class _PosesPageState extends ConsumerState<PosesPage> {
                     ? ' · 自定义'
                     : ''}',
           ),
-          const SizedBox(height: AppTokens.s8),
+          const SizedBox(height: AppSpace.s2),
           if (pose.referenceOnly)
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTokens.warning.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(AppTokens.rSm),
-                border: Border.all(
-                  color: AppTokens.warning.withValues(alpha: 0.4),
-                ),
+                color: p.gold.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(AppRadius.chip),
+                border: Border.all(color: p.gold.withValues(alpha: 0.4)),
               ),
               child: Text(
                 '骨架置信度 $confidence% · 低置信度，仅供构图参考（不可宣称可复现）',
@@ -416,11 +412,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppTokens.warning.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(AppTokens.rSm),
-                border: Border.all(
-                  color: AppTokens.warning.withValues(alpha: 0.3),
-                ),
+                color: p.gold.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(AppRadius.chip),
+                border: Border.all(color: p.gold.withValues(alpha: 0.3)),
               ),
               child: Text(
                 '照片局限：${pose.partialReason} · 3D 关节复现仅供构图参考',
@@ -428,12 +422,12 @@ class _PosesPageState extends ConsumerState<PosesPage> {
               ),
             ),
           ],
-          const SizedBox(height: AppTokens.s12),
-          _tip('重心落点', pose.weight),
-          _tip('手部摆放', pose.hands),
-          _tip('常见错误', pose.mistake),
-          _tip('镜头建议', pose.lens),
-          _tip('机位建议', pose.cameraPosition),
+          const SizedBox(height: AppSpace.s3),
+          _tip(context, '重心落点', pose.weight),
+          _tip(context, '手部摆放', pose.hands),
+          _tip(context, '常见错误', pose.mistake),
+          _tip(context, '镜头建议', pose.lens),
+          _tip(context, '机位建议', pose.cameraPosition),
           const Divider(height: 18),
           Text(
             '照片出处：${pose.author.isEmpty ? '未署名' : pose.author} · ${pose.license}',
@@ -448,23 +442,23 @@ class _PosesPageState extends ConsumerState<PosesPage> {
               child: SsButton(
                 label: '查看原图出处',
                 icon: Icons.open_in_new_rounded,
-                kind: SsButtonKind.ghost,
+                kind: SsButtonKind.text,
                 dense: true,
                 onPressed: () => _openSource(pose.source),
               ),
             ),
-          const SizedBox(height: AppTokens.s12),
+          const SizedBox(height: AppSpace.s3),
           SsButton(
             label: fav ? '取消收藏' : '收藏到姿势清单',
             icon: fav ? Icons.star_rounded : Icons.star_outline_rounded,
-            kind: SsButtonKind.ghost,
+            kind: SsButtonKind.text,
             onPressed: () => controller.toggleFavorite(),
           ),
           const SizedBox(height: 8),
           SsButton(
             label: '替换参考图（导入照片识别）',
             icon: Icons.swap_horiz_rounded,
-            kind: SsButtonKind.ghost,
+            kind: SsButtonKind.text,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (BuildContext _) => PoseImportPage(overridePose: pose),
@@ -476,7 +470,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
             SsButton(
               label: '恢复默认参考图',
               icon: Icons.settings_backup_restore_rounded,
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               onPressed: () => controller.restoreBuiltin(pose.id),
             ),
           ],
@@ -485,7 +479,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
             SsButton(
               label: '删除该自定义姿势',
               icon: Icons.delete_outline_rounded,
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               onPressed: () async {
                 final bool? confirmed = await showDialog<bool>(
                   context: context,
@@ -534,7 +528,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
           SsButton(
             label: '加入策划案姿势清单',
             icon: Icons.playlist_add_rounded,
-            kind: SsButtonKind.soft,
+            kind: SsButtonKind.outline,
             onPressed: () {
               ref
                   .read(pendingPosesProvider.notifier)
@@ -569,7 +563,8 @@ class _PosesPageState extends ConsumerState<PosesPage> {
     }
   }
 
-  Widget _tip(String label, String text) {
+  Widget _tip(BuildContext context, String label, String text) {
+    final AppPalette p = context.palette;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Column(
@@ -577,9 +572,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
         children: <Widget>[
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 11.5,
-              color: AppTokens.accent,
+              color: p.accent,
               fontWeight: FontWeight.w600,
             ),
           ),

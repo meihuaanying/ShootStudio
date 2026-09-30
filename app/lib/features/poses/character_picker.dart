@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/design/widgets.dart';
-import '../../core/theme/tokens.dart';
 import '../../services/content_packs.dart';
 import '../../services/engine/engine_bridge.dart';
 
@@ -107,6 +106,8 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
+
     final ThemeData theme = Theme.of(context);
     return SafeArea(
       child: Padding(
@@ -119,7 +120,7 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
               '人物与服装',
               subtitle: '写实人物（MakeHuman CC0，74k–85k 面）· 高面数 Quaternius 模型（CC0）',
             ),
-            const SizedBox(height: AppTokens.s12),
+            const SizedBox(height: AppSpace.s3),
             if (!_loaded)
               const Center(child: CircularProgressIndicator(strokeWidth: 2))
             else ...<Widget>[
@@ -134,6 +135,7 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                       final Map<String, Object?> c = _realistic[i];
                       final String id = '${c['id']}';
                       return _tile(
+                        p: context.palette,
                         title: '${c['name']}',
                         subtitle: '写实 · ${c['triCount']} 面',
                         badge: '写实',
@@ -151,6 +153,7 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                     if (ci == _characters.length) {
                       final bool legacy = _selection.characterId == 'legacy';
                       return _tile(
+                        p: context.palette,
                         title: '轻量假人',
                         subtitle: '程序几何',
                         selected: legacy,
@@ -166,6 +169,7 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                     final Map<String, Object?> c = _characters[ci];
                     final String id = '${c['id']}';
                     return _tile(
+                      p: context.palette,
                       title: '${c['name']}',
                       subtitle: '${c['tag']} · ${c['triCount']} 面',
                       selected: _selection.characterId == id,
@@ -226,7 +230,7 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                           border: Border.all(
                             width: _selection.skinTone == hex ? 2.5 : 1,
                             color: _selection.skinTone == hex
-                                ? AppTokens.accent
+                                ? p.accent
                                 : theme.colorScheme.outline,
                           ),
                         ),
@@ -254,6 +258,7 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
   }
 
   Widget _tile({
+    required AppPalette p,
     required String title,
     required String subtitle,
     required bool selected,
@@ -262,17 +267,17 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
     String? badge,
   }) => InkWell(
     onTap: onTap,
-    borderRadius: BorderRadius.circular(AppTokens.rMd),
+    borderRadius: BorderRadius.circular(AppRadius.control),
     child: Container(
       width: 118,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: selected
-            ? AppTokens.accentSoft
+            ? p.accentSoft
             : theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(AppTokens.rMd),
+        borderRadius: BorderRadius.circular(AppRadius.control),
         border: Border.all(
-          color: selected ? AppTokens.accent : theme.colorScheme.outline,
+          color: selected ? p.accent : theme.colorScheme.outline,
         ),
       ),
       child: Column(
@@ -283,9 +288,7 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
               Icon(
                 Icons.person_rounded,
                 size: 30,
-                color: selected
-                    ? AppTokens.accent
-                    : theme.colorScheme.onSurfaceVariant,
+                color: selected ? p.accent : theme.colorScheme.onSurfaceVariant,
               ),
               const Spacer(),
               if (badge != null)
@@ -295,15 +298,12 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                     vertical: 1,
                   ),
                   decoration: BoxDecoration(
-                    color: AppTokens.accent.withValues(alpha: 0.16),
+                    color: p.accent.withValues(alpha: 0.16),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
                     badge,
-                    style: const TextStyle(
-                      fontSize: 9,
-                      color: AppTokens.accent,
-                    ),
+                    style: TextStyle(fontSize: 9, color: p.accent),
                   ),
                 ),
             ],

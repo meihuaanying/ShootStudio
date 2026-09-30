@@ -11,14 +11,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show LogicalKeyboardKey;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pasteboard/pasteboard.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/db/database.dart';
 import '../../core/db/tables.dart';
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
 import '../../services/search/image_to_search.dart';
 import '../../services/search/query_planner.dart';
 import '../../services/search/search_cache.dart';
@@ -219,7 +218,7 @@ class _RefsPageState extends ConsumerState<RefsPage> {
                   errorBuilder: (_, _, _) => Container(
                     height: 120,
                     alignment: Alignment.center,
-                    color: AppTokens.accentSoft,
+                    color: context.palette.accentSoft,
                     child: const Icon(Icons.broken_image_outlined),
                   ),
                 ),
@@ -331,7 +330,7 @@ class _RefsPageState extends ConsumerState<RefsPage> {
   String? _localImagePath(RefFrame frame) {
     if (frame.imagePath.isEmpty) return null;
     final String root = ref.read(workspaceProvider).root.path;
-    final File file = File(p.join(root, 'images', 'refs', frame.imagePath));
+    final File file = File(path.join(root, 'images', 'refs', frame.imagePath));
     return file.existsSync() ? file.path : null;
   }
 
@@ -586,9 +585,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
                   'AI 视觉关键词：$_vision',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 10.5,
-                    color: AppTokens.accent,
+                    color: context.palette.accent,
                   ),
                 ),
               ),
@@ -640,7 +639,7 @@ class _RefsPageState extends ConsumerState<RefsPage> {
             child: SsButton(
               label: '加载更多',
               dense: true,
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               onPressed: () => _runSearch(loadMore: true),
             ),
           ),
@@ -748,7 +747,7 @@ class _HitTile extends StatelessWidget {
                 fit: BoxFit.cover,
                 width: double.infinity,
                 errorBuilder: (_, _, _) => Container(
-                  color: AppTokens.accentSoft,
+                  color: context.palette.accentSoft,
                   alignment: Alignment.center,
                   child: const Icon(Icons.image_outlined, size: 18),
                 ),

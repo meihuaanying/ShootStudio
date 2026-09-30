@@ -6,11 +6,10 @@ import 'dart:ui' as ui;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as path;
 
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
-import '../../core/theme/tokens.dart';
 import '../../services/content_packs.dart';
 import '../../services/image_store.dart';
 import '../../services/pose/pose_detector_service.dart';
@@ -178,10 +177,10 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
     );
     final DetectedPerson person = _persons[_selected];
     final String skeletonName =
-        '${p.basenameWithoutExtension(fileName)}.skeleton.json';
-    final Directory dir = Directory(p.join(workspace, 'images', 'poses'));
+        '${path.basenameWithoutExtension(fileName)}.skeleton.json';
+    final Directory dir = Directory(path.join(workspace, 'images', 'poses'));
     await dir.create(recursive: true);
-    await File(p.join(dir.path, skeletonName)).writeAsString(
+    await File(path.join(dir.path, skeletonName)).writeAsString(
       jsonEncode(<String, Object?>{
         'landmarks2d': <List<double>>[
           for (final l in person.landmarks2d)
@@ -391,10 +390,10 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.fromLTRB(
-              AppTokens.s16,
-              AppTokens.s12,
-              AppTokens.s16,
-              AppTokens.s8,
+              AppSpace.s4,
+              AppSpace.s3,
+              AppSpace.s4,
+              AppSpace.s2,
             ),
             child: Row(
               children: <Widget>[
@@ -439,7 +438,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
                     children: <Widget>[
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(AppTokens.s12),
+                          padding: const EdgeInsets.all(AppSpace.s3),
                           child: _PersonPreview(
                             bytes: _bytes!,
                             imageSize: _imageSize,
@@ -450,7 +449,10 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 340, child: _buildResultPanel(theme)),
+                      SizedBox(
+                        width: 340,
+                        child: _buildResultPanel(context, theme),
+                      ),
                     ],
                   ),
           ),
@@ -459,7 +461,8 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
     );
   }
 
-  Widget _buildResultPanel(ThemeData theme) {
+  Widget _buildResultPanel(BuildContext context, ThemeData theme) {
+    final AppPalette p = context.palette;
     final MappedPose? mapped = _mapped;
     if (mapped == null) {
       return SsCard(
@@ -475,7 +478,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
     final DetectedPerson person = _persons[_selected];
     return SsCard(
       child: ListView(
-        padding: const EdgeInsets.all(AppTokens.s12),
+        padding: const EdgeInsets.all(AppSpace.s3),
         children: <Widget>[
           SsSectionTitle(
             widget.overridePose?.name ?? '识别结果',
@@ -490,11 +493,9 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
                 margin: const EdgeInsets.only(bottom: 6),
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppTokens.warning.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(AppTokens.rSm),
-                  border: Border.all(
-                    color: AppTokens.warning.withValues(alpha: 0.4),
-                  ),
+                  color: p.gold.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(AppRadius.chip),
+                  border: Border.all(color: p.gold.withValues(alpha: 0.4)),
                 ),
                 child: Text(
                   warning,
@@ -512,7 +513,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
             ),
           const SizedBox(height: 8),
           for (final String joint in engineJoints)
-            _jointRow(joint, mapped, person),
+            _jointRow(context, joint, mapped, person),
           const Divider(height: 18),
           SsButton(
             label: '导入到布光预演',
@@ -523,7 +524,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
           SsButton(
             label: '加入策划案姿势清单',
             icon: Icons.playlist_add_rounded,
-            kind: SsButtonKind.soft,
+            kind: SsButtonKind.outline,
             onPressed: _busy ? null : _addToPending,
           ),
           const SizedBox(height: 6),
@@ -531,14 +532,14 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
             SsButton(
               label: '覆盖「${widget.overridePose!.name}」参考图数据',
               icon: Icons.swap_horiz_rounded,
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               onPressed: _busy ? null : _saveOverride,
             )
           else
             SsButton(
               label: '保存为自定义姿势',
               icon: Icons.bookmark_add_outlined,
-              kind: SsButtonKind.ghost,
+              kind: SsButtonKind.text,
               onPressed: _busy ? null : _saveCustom,
             ),
           const SizedBox(height: 8),
@@ -555,7 +556,13 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
     );
   }
 
-  Widget _jointRow(String joint, MappedPose mapped, DetectedPerson person) {
+  Widget _jointRow(
+    BuildContext context,
+    String joint,
+    MappedPose mapped,
+    DetectedPerson person,
+  ) {
+    final AppPalette p = context.palette;
     final List<double> angles = mapped.joints[joint] ?? <double>[0, 0, 0];
     final double confidence = mapped.jointConfidence[joint] ?? 1;
     final bool low = confidence < PoseJointMapper.confidenceThreshold;
@@ -570,14 +577,14 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
           Expanded(
             child: Text(
               angles.map((double v) => v.toStringAsFixed(1)).join(' / '),
-              style: AppTokens.mono(context, size: 11.5),
+              style: appMono(p.inkSoft),
             ),
           ),
           Icon(
             low ? Icons.warning_amber_rounded : Icons.check_circle_outline,
             size: 13,
             color: low
-                ? AppTokens.warning
+                ? p.gold
                 : Theme.of(context).colorScheme.onSurfaceVariant,
           ),
           const SizedBox(width: 4),
@@ -586,7 +593,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
             style: TextStyle(
               fontSize: 10,
               color: low
-                  ? AppTokens.warning
+                  ? p.gold
                   : Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
@@ -677,8 +684,11 @@ class _PersonPreview extends StatelessWidget {
                 ),
               CustomPaint(
                 painter: _PersonBoxPainter(
+                  palette: context.palette,
                   imageSize: imageSize,
-                  boxes: <Rect>[for (final DetectedPerson p in persons) p.bbox],
+                  boxes: <Rect>[
+                    for (final DetectedPerson person in persons) person.bbox,
+                  ],
                   selected: selected,
                 ),
                 child: const SizedBox.expand(),
@@ -703,11 +713,13 @@ class _PersonPreview extends StatelessWidget {
 
 class _PersonBoxPainter extends CustomPainter {
   _PersonBoxPainter({
+    required this.palette,
     required this.imageSize,
     required this.boxes,
     required this.selected,
   });
 
+  final AppPalette palette;
   final Size imageSize;
   final List<Rect> boxes;
   final int selected;
@@ -732,7 +744,7 @@ class _PersonBoxPainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = active ? 2.4 : 1.4
           ..color = active
-              ? AppTokens.accent
+              ? palette.accent
               : Colors.white.withValues(alpha: 0.7),
       );
       if (boxes.length > 1) {
@@ -740,7 +752,7 @@ class _PersonBoxPainter extends CustomPainter {
           text: TextSpan(
             text: '${i + 1}',
             style: TextStyle(
-              color: active ? AppTokens.accent : Colors.white,
+              color: active ? palette.accent : Colors.white,
               fontSize: 12,
               fontWeight: FontWeight.w700,
             ),

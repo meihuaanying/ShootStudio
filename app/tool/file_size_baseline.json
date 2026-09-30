@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "note": "V8/D147 R73 baseline allowlist: records current over-limit files with 40 lines headroom; must be lowered after splitting, never raised (enforced by CI tool/check_file_size.mjs).",
+  "limits": {
+    "lib/features/": 600,
+    "lib/core/design/": 300
+  },
+  "baseline": {
+    "lib/features/planner/planner_page.dart": 2676,
+    "lib/features/lighting/lighting_page.dart": 2672,
+    "lib/features/export/exporter.dart": 1722,
+    "lib/features/libraries/gear_browser.dart": 1312,
+    "lib/features/settings/settings_page.dart": 1234,
+    "lib/features/ai/ai_controller.dart": 1162,
+    "lib/features/refs/refs_page.dart": 889,
+    "lib/features/lighting/lighting_controller.dart": 828,
+    "lib/features/poses/pose_import_page.dart": 812,
+    "lib/features/ai/ai_panel.dart": 810,
+    "lib/features/libraries/libraries_page.dart": 808,
+    "lib/features/ai/ai_client.dart": 779
+  }
+}

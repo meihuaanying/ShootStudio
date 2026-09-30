@@ -2,11 +2,11 @@
 /**
  * V8/D147 · S1 设计 spike：官网首屏样板（报告见 docs/qa/v8-s1-design-spike.md）
  * 纪律：
- *  - R71 本页所有视觉值只来自 src/styles/spike_tokens.css（CSS 变量），不写硬编码色值/字号/间距；
+ *  - R71 本页所有视觉值只来自 src/styles/tokens.css（CSS 变量），不写硬编码色值/字号/间距；
  *  - R72 明暗双主题 × 1280×800 / 1920×1080 截图由 web/tool/shot.mjs 产出到 docs/screenshots/v8/。
  * 主题切换：URL 追加 ?t=darkroom（默认 paper），保证一次构建覆盖两套主题。
  */
-import '../styles/spike_tokens.css';
+import '../styles/tokens.css';
 
 const theme = import.meta.env.PUBLIC_SPIKE_THEME ?? 'paper';
 
@@ -154,7 +154,7 @@ const frames = [
 </html>
 
 <style>
-  /* 本页所有值均引用 spike_tokens.css 变量（R71：令牌是唯一视觉来源） */
+  /* 本页所有值均引用 tokens.css 变量（R71：令牌是唯一视觉来源） */
   * {
     box-sizing: border-box;
   }

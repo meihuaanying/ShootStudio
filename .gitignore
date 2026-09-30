@@ -41,3 +41,6 @@ app/tool/gear_photo_pool/
 
 # V7 开放索引构建缓存（CSV 原始数据不入 git）
 app/tool/open_index_cache/
+
+# V8 golden 失败差分图（临时产物，不入仓）
+app/test/**/failures/
