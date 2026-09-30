@@ -211,7 +211,7 @@
 - [x] S1 设计 spike 截图 ×6 + 令牌锁定记录 —— 实际 12 张（App 8 + 官网 4）`docs/screenshots/v8/s1-*.png`；令牌锁定报告 `docs/qa/v8-s1-design-spike.md`（§3 全表已锁定，S3 逐字搬运未改值）
 - [x] S2 引擎架构 spike 报告 + 结论 —— `docs/qa/v8-s2-engine-arch-spike.md`（结论：保留 WebView2 + three r186，不迁 Flutter 原生渲染）+ 6 份实测 `docs/qa/v8-s2-engine-perf-*.json`
 - [x] S3 组件库 demo 截图（明暗）+ 旧令牌清零 grep 证据 —— `docs/screenshots/v8/s3-design-demo-{paper,darkroom}-{1280x800,1920x1080}.png`（4 张）+ 索引 `docs/qa/v8-s3-demo-screenshots.json`；清零：`lib/**` 中 `AppTokens.` 引用 345 处 → 0（断言见 `app/test/features/s3_design_system_test.dart`）；报告 `docs/qa/v8-s3-design-system.md`；R73 门禁 `docs/qa/v8-s3-file-size.json`（PASS，12 条白名单只降不升）
-- [ ] S4–S9 各页截图（明暗 × 2 分辨率）+ 专项测试输出 —— 进行中：**S4 已完成**（8 张 `docs/screenshots/v8/s4-*.png` + 索引 `docs/qa/v8-s4-shell-home-screenshots.json`；专项 13 用例；全量 354 passed + 38 skipped；报告 `docs/qa/v8-s4-shell-home.md`），S5–S9 待做
+- [ ] S4–S9 各页截图（明暗 × 2 分辨率）+ 专项测试输出 —— 进行中：**S4 已完成**（8 张 `docs/screenshots/v8/s4-*.png` + 索引 `docs/qa/v8-s4-shell-home-screenshots.json`；专项 13 用例；报告 `docs/qa/v8-s4-shell-home.md`）、**S5 已完成**（16 张 `docs/screenshots/v8/s5-refs-*.png` + 索引 `docs/qa/v8-s5-refs-screenshots.json`；专项 14 用例 + 视觉 16 张；全量 384 passed + 39 skipped；报告 `docs/qa/v8-s5-refs-search.md`），S6–S9 待做
 - [ ] S6 交互帧率实测表
 - [ ] S8 导出三格式校验 + 新版长图/PDF 样张
 - [ ] S10 官网 5 页截图（桌面+移动）+ `npm run build` 输出

@@ -3,16 +3,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:desktop_drop/desktop_drop.dart';
 import 'package:drift/drift.dart' show OrderingTerm;
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show LogicalKeyboardKey;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pasteboard/pasteboard.dart';
 import 'package:path/path.dart' as path;
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/db/database.dart';
 import '../../core/db/tables.dart';
@@ -25,14 +21,23 @@ import '../../services/search/search_engine.dart';
 import '../../services/search/search_keys.dart';
 import '../../services/search/search_models.dart';
 import '../../services/search/theme_packs.dart';
+import 'refs_board.dart';
 import 'refs_controller.dart';
+import 'refs_hit_card.dart';
+import 'refs_hit_drawer.dart';
+import 'refs_home.dart';
+import 'refs_masonry.dart';
+import 'refs_page_chrome.dart';
 
 /// 参考图免责声明（R47/D130：许可与来源必须可见）。
 const String kRefsDisclaimer = '参考图版权归原来源（影视/画作/摄影平台），仅供创作参考；逐图标注来源与许可，禁止二次分发。';
 
-/// V7 画面参考（D132 极简）：搜索框 + 主题标签行 + 结果网格 + 详情弹窗 +
-/// 我的画板 + 免责声明；保留粘贴截图/本地导入/以图搜图。
-/// 多源检索后端（13+7 源、主题匹配、许可门控）保持不变。
+/// V8/D154 画面参考（杂志画册风重做）：首屏 = 居中检索 + 8 个常用主题画报（图卡）；
+/// 结果 = 保留纵横比的瀑布流 + 悬停浮层（来源/许可/收画板/以图搜图）+ 详情抽屉
+/// （大图 + 五色色卡 + 来源许可 + 相似图）；我的画板 = 图卡编排 + 拖拽排序 + 导出长图。
+///
+/// 检索管线（R75/D154：管线不动）保持原样：QueryPlanner → SearchEngine（13 源）→
+/// SearchCache 落工作区 → RefsController 画板；本步只重做 UI 与展示层。
 class RefsPage extends ConsumerStatefulWidget {
   const RefsPage({super.key});
 
@@ -43,10 +48,12 @@ class RefsPage extends ConsumerStatefulWidget {
 class _RefsPageState extends ConsumerState<RefsPage> {
   final TextEditingController _search = TextEditingController();
   final FocusNode _searchFocus = FocusNode();
+  final GlobalKey _boardKey = GlobalKey();
   List<SearchHit> _hits = <SearchHit>[];
   SearchQuery? _query;
   bool _searching = false;
   bool _hasMore = false;
+  bool _exporting = false;
   int _page = 1;
   int _view = 0; // 0=搜索结果 1=我的画板
   String _status = '';
@@ -198,132 +205,29 @@ class _RefsPageState extends ConsumerState<RefsPage> {
     }
   }
 
+  /// 详情抽屉（D154：大图 + 五色色卡 + 来源许可 + 相似图）。
   void _openHit(SearchHit hit) {
-    showDialog<void>(
-      context: context,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: Text(hit.title, style: const TextStyle(fontSize: 15)),
-        content: SizedBox(
-          width: 420,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  hit.thumbUrl.isEmpty ? hit.fullUrl : hit.thumbUrl,
-                  height: 220,
-                  fit: BoxFit.contain,
-                  errorBuilder: (_, _, _) => Container(
-                    height: 120,
-                    alignment: Alignment.center,
-                    color: context.palette.accentSoft,
-                    child: const Icon(Icons.broken_image_outlined),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(hit.creditLine, style: const TextStyle(fontSize: 11.5)),
-              if (hit.attribution.isNotEmpty)
-                Text(
-                  hit.attribution,
-                  style: TextStyle(
-                    fontSize: 10.5,
-                    color: Theme.of(ctx).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              if (hit.description.isNotEmpty)
-                Text(
-                  hit.description,
-                  style: TextStyle(
-                    fontSize: 10.5,
-                    color: Theme.of(ctx).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          if (hit.sourcePageUrl.isNotEmpty)
-            TextButton(
-              onPressed: () => launchUrl(
-                Uri.parse(hit.sourcePageUrl),
-                mode: LaunchMode.externalApplication,
-              ),
-              child: const Text('打开来源页'),
-            ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              _addToBoard(hit);
-            },
-            child: const Text('加入参考画面'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('关闭'),
-          ),
-        ],
-      ),
-    );
+    showRefsHitDrawer(context, hit: hit, all: _hits, onAdd: _addToBoard);
+  }
+
+  /// 以图搜图的关键词回填入口（D116 视觉关键词 → 检索）。
+  void _searchSimilar(SearchHit hit) {
+    final String text = hit.group.isNotEmpty ? hit.group : hit.title;
+    if (text.trim().isEmpty) return;
+    setState(() {
+      _search.text = text;
+      _hits = <SearchHit>[];
+      _query = null;
+    });
+    _runSearch();
   }
 
   void _openBoardFrame(RefFrame frame) {
-    final String? path = _localImagePath(frame);
-    showDialog<void>(
+    showRefFrameDialog(
       context: context,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: Text(frame.name, style: const TextStyle(fontSize: 15)),
-        content: SizedBox(
-          width: 420,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              if (path != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.file(
-                    File(path),
-                    height: 220,
-                    fit: BoxFit.contain,
-                  ),
-                )
-              else
-                _PaletteBar(colors: frame.gradient, height: 60),
-              const SizedBox(height: 8),
-              Text(
-                '来自：${frame.filmTitle}',
-                style: const TextStyle(fontSize: 11),
-              ),
-              if (frame.sourceUrl.isNotEmpty)
-                Text(
-                  frame.sourceUrl,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Theme.of(ctx).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              ref.read(refsControllerProvider.notifier).removeBoardItem(frame);
-              Navigator.pop(ctx);
-            },
-            child: const Text('移出画板'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('关闭'),
-          ),
-        ],
-      ),
+      frame: frame,
+      onRemove: () =>
+          ref.read(refsControllerProvider.notifier).removeBoardItem(frame),
     );
   }
 
@@ -334,11 +238,42 @@ class _RefsPageState extends ConsumerState<RefsPage> {
     return file.existsSync() ? file.path : null;
   }
 
+  /// 画板拖拽排序 → 持久化（D154；顺序存 setting，不改表结构）。
+  Future<void> _reorderBoard(String dragId, String targetId) async {
+    final RefsState state = ref.read(refsControllerProvider);
+    final List<RefFrame> next = RefsBoardView.applyReorder(
+      state.board,
+      dragId,
+      targetId,
+    );
+    await ref
+        .read(refsControllerProvider.notifier)
+        .setBoardOrder(next.map((RefFrame f) => f.id).toList());
+  }
+
+  /// 导出画板长图（D154：画册编排可交付）。
+  Future<void> _exportBoard() async {
+    setState(() => _exporting = true);
+    try {
+      final String file = await exportBoardLongImage(
+        boundaryKey: _boardKey,
+        workspaceRoot: ref.read(workspaceProvider).root.path,
+      );
+      if (mounted) ssToast(context, '画板长图已保存：$file');
+    } catch (e) {
+      if (mounted) ssToast(context, '导出失败：$e');
+    } finally {
+      if (mounted) setState(() => _exporting = false);
+    }
+  }
+
   Future<void> _pasteImage() async {
     try {
       final Uint8List? bytes = await Pasteboard.image;
       if (bytes == null || bytes.isEmpty) {
-        if (mounted) ssToast(context, '剪贴板没有图片（可先 Win+Shift+S 截图再按 Ctrl+V）');
+        if (mounted) {
+          ssToast(context, '剪贴板没有图片（可先 Win+Shift+S 截图再按 Ctrl+V）');
+        }
         return;
       }
       await ref
@@ -374,9 +309,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
       type: FileType.image,
       dialogTitle: '选择参考图（AI 视觉描述 → 多源检索）',
     );
-    final String? path = picked?.files.single.path;
-    if (path == null || !mounted) return;
-    final Uint8List bytes = await File(path).readAsBytes();
+    final String? pickedPath = picked?.files.single.path;
+    if (pickedPath == null || !mounted) return;
+    final Uint8List bytes = await File(pickedPath).readAsBytes();
     if (!mounted) return;
     setState(() {
       _searching = true;
@@ -449,7 +384,7 @@ class _RefsPageState extends ConsumerState<RefsPage> {
     showDialog<void>(
       context: context,
       builder: (BuildContext ctx) => AlertDialog(
-        title: const Text('全部主题（48）', style: TextStyle(fontSize: 15)),
+        title: Text('全部主题（${kThemePacks.length}）'),
         content: SizedBox(
           width: 520,
           child: SingleChildScrollView(
@@ -480,126 +415,23 @@ class _RefsPageState extends ConsumerState<RefsPage> {
     );
   }
 
-  bool get _isDesktop =>
-      !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
-
   @override
   Widget build(BuildContext context) {
     final RefsState state = ref.watch(refsControllerProvider);
     return _wrapPage(
       SsPage(
         title: '画面参考',
-        subtitle: '中英文搜影视/画作/摄影参考 · 主题标签 · 我的画板',
-        actions: <Widget>[
-          IconButton(
-            tooltip: '以图搜图',
-            onPressed: _searching ? null : _searchByImage,
-            icon: const Icon(Icons.image_search_rounded, size: 20),
-          ),
-          IconButton(
-            tooltip: '粘贴截图（Ctrl+V）',
-            onPressed: _pasteImage,
-            icon: const Icon(Icons.content_paste_rounded, size: 20),
-          ),
-          IconButton(
-            tooltip: '本地导入',
-            onPressed: _importLocal,
-            icon: const Icon(Icons.add_photo_alternate_outlined, size: 20),
-          ),
-        ],
+        subtitle: '中英文搜影视/画作/摄影参考 · 主题画报 · 我的画板',
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller: _search,
-                    focusNode: _searchFocus,
-                    textInputAction: TextInputAction.search,
-                    onSubmitted: (_) => _runSearch(),
-                    decoration: const InputDecoration(
-                      hintText: '搜影片/导演/演员/画作/摄影主题（中英文均可）',
-                      isDense: true,
-                      prefixIcon: Icon(Icons.search_rounded, size: 18),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                SsButton(
-                  label: _searching ? '检索中…' : '搜索',
-                  dense: true,
-                  onPressed: _searching ? null : () => _runSearch(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: <Widget>[
-                  for (final ThemePack pack in commonThemePacks())
-                    Padding(
-                      padding: const EdgeInsets.only(right: 6),
-                      child: SsChip(
-                        label: pack.name,
-                        selected: false,
-                        onTap: () => _runTheme(pack),
-                      ),
-                    ),
-                  SsChip(label: '更多主题', selected: false, onTap: _showAllThemes),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: <Widget>[
-                SsChip(
-                  label: '搜索结果${_hits.isEmpty ? '' : '（${_hits.length}）'}',
-                  selected: _view == 0,
-                  onTap: () => setState(() => _view = 0),
-                ),
-                const SizedBox(width: 6),
-                SsChip(
-                  label: '我的画板（${state.board.length}）',
-                  selected: _view == 1,
-                  onTap: () => setState(() => _view = 1),
-                ),
-                const Spacer(),
-                if (_status.isNotEmpty)
-                  Flexible(
-                    child: Text(
-                      _status,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            if (_vision.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  'AI 视觉关键词：$_vision',
-                  style: TextStyle(
-                    fontSize: 10.5,
-                    color: context.palette.accent,
-                  ),
-                ),
-              ),
-            const SizedBox(height: 8),
-            Expanded(child: _view == 1 ? _buildBoard(state) : _buildResults()),
-            const SizedBox(height: 6),
+            _viewSwitch(state),
+            const SizedBox(height: AppSpace.s3),
+            Expanded(child: _view == 1 ? _boardPane(state) : _searchPane()),
+            const SizedBox(height: AppSpace.s2),
             Text(
               kRefsDisclaimer,
-              style: TextStyle(
-                fontSize: 10.5,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+              style: AppType.caption.style(context.palette.muted),
             ),
           ],
         ),
@@ -607,39 +439,80 @@ class _RefsPageState extends ConsumerState<RefsPage> {
     );
   }
 
-  Widget _buildResults() {
+  Widget _viewSwitch(RefsState state) {
+    return Row(
+      children: <Widget>[
+        SsChip(
+          label: '搜索结果${_hits.isEmpty ? '' : '（${_hits.length}）'}',
+          selected: _view == 0,
+          onTap: () => setState(() => _view = 0),
+        ),
+        const SizedBox(width: AppSpace.s1),
+        SsChip(
+          label: '我的画板（${state.board.length}）',
+          selected: _view == 1,
+          onTap: () => setState(() => _view = 1),
+        ),
+      ],
+    );
+  }
+
+  /// 首屏 + 结果区（D154）。
+  Widget _searchPane() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        RefsHomeHeader(
+          controller: _search,
+          focusNode: _searchFocus,
+          searching: _searching,
+          status: _status,
+          vision: _vision,
+          compact: _hits.isNotEmpty,
+          onSearch: _runSearch,
+          onPickTheme: _runTheme,
+          onAllThemes: _showAllThemes,
+          onSearchByImage: _searchByImage,
+          onPaste: _pasteImage,
+          onImport: _importLocal,
+        ),
+        const SizedBox(height: AppSpace.s4),
+        Expanded(child: _results()),
+      ],
+    );
+  }
+
+  Widget _results() {
     if (_searching && _hits.isEmpty) {
       return const Center(child: CircularProgressIndicator(strokeWidth: 2));
     }
     if (_hits.isEmpty) {
       return const SsEmpty(
         icon: Icons.travel_explore_rounded,
-        title: '输入关键词开始搜索',
-        hint: '支持影片/导演/演员/画作/摄影主题；也可以点上面的主题标签，或用「以图搜图」',
+        title: '选一张画报，或直接搜关键词',
+        hint: '支持影片/导演/演员/画作/摄影主题；也可以用「以图搜图」把一张图变成检索词',
       );
     }
     return Column(
       children: <Widget>[
         Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 220,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              childAspectRatio: 1.15,
-            ),
+          child: RefsMasonryGrid(
             itemCount: _hits.length,
-            itemBuilder: (BuildContext context, int i) =>
-                _HitTile(hit: _hits[i], onTap: () => _openHit(_hits[i])),
+            itemBuilder: (BuildContext context, int i) => RefsHitCard(
+              hit: _hits[i],
+              onOpen: () => _openHit(_hits[i]),
+              onAdd: () => _addToBoard(_hits[i]),
+              onSearchSimilar: () => _searchSimilar(_hits[i]),
+            ),
           ),
         ),
         if (_hasMore)
           Padding(
-            padding: const EdgeInsets.only(top: 6),
+            padding: const EdgeInsets.only(top: AppSpace.s2),
             child: SsButton(
               label: '加载更多',
-              dense: true,
               kind: SsButtonKind.text,
+              dense: true,
               onPressed: () => _runSearch(loadMore: true),
             ),
           ),
@@ -647,203 +520,48 @@ class _RefsPageState extends ConsumerState<RefsPage> {
     );
   }
 
-  Widget _buildBoard(RefsState state) {
-    if (state.board.isEmpty) {
-      return const SsEmpty(
-        icon: Icons.collections_bookmark_outlined,
-        title: '画板还是空的',
-        hint: '搜索结果详情点「加入参考画面」；或粘贴截图 / 本地导入',
-      );
-    }
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 220,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 1.15,
+  Widget _boardPane(RefsState state) {
+    return RepaintBoundary(
+      key: _boardKey,
+      child: RefsBoardView(
+        board: state.board,
+        imagePathOf: _localImagePath,
+        exporting: _exporting,
+        onOpen: _openBoardFrame,
+        onRemove: (RefFrame f) =>
+            ref.read(refsControllerProvider.notifier).removeBoardItem(f),
+        onReorder: (String a, String b) => _reorderBoard(a, b),
+        onExport: _exportBoard,
+        onPaste: _pasteImage,
+        onImport: _importLocal,
       ),
-      itemCount: state.board.length,
-      itemBuilder: (BuildContext context, int i) {
-        final RefFrame frame = state.board[i];
-        return _BoardTile(
-          frame: frame,
-          imagePath: _localImagePath(frame),
-          onTap: () => _openBoardFrame(frame),
-        );
-      },
     );
   }
 
-  /// 桌面拖拽 + Ctrl+V 快捷键（粘贴/导入能力保留）。
+  /// 桌面拖拽 + Ctrl+V 快捷键（粘贴/导入能力保留；实现见 RefsDropZone）。
   Widget _wrapPage(Widget page) {
-    Widget wrapped = page;
-    if (_isDesktop) {
-      wrapped = DropTarget(
-        onDragDone: (DropDoneDetails details) async {
-          var count = 0;
-          for (final DropItem file in details.files) {
-            final String path = file.path;
-            final String ext = path.contains('.')
-                ? path.substring(path.lastIndexOf('.')).toLowerCase()
-                : '';
-            if (!RefsController.imageExts.contains(ext)) continue;
-            try {
-              final Uint8List bytes = await File(path).readAsBytes();
-              await ref
-                  .read(refsControllerProvider.notifier)
-                  .addFetched(
-                    bytes: bytes,
-                    title: path
-                        .split(Platform.pathSeparator)
-                        .last
-                        .split('.')
-                        .first,
-                    sourceUrl: path,
-                    sourceLabel: '拖拽导入',
-                  );
-              count++;
-            } catch (_) {
-              // 单个文件失败不影响其余。
-            }
-          }
-          if (mounted && count > 0) {
-            setState(() => _view = 1);
-            ssToast(context, '已拖入并收入画板：$count 张');
-          }
-        },
-        child: wrapped,
-      );
-    }
-    return CallbackShortcuts(
-      bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.keyV, control: true):
-            _pasteImage,
-        const SingleActivator(LogicalKeyboardKey.keyV, meta: true): _pasteImage,
+    return RefsDropZone(
+      onFilePath: _importDroppedFile,
+      onDone: () {
+        if (!mounted) return;
+        setState(() => _view = 1);
+        ssToast(context, '已拖入并收入画板');
       },
-      child: Focus(autofocus: true, child: wrapped),
-    );
-  }
-}
-
-class _HitTile extends StatelessWidget {
-  const _HitTile({required this.hit, required this.onTap});
-
-  final SearchHit hit;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return SsCard(
-      padding: const EdgeInsets.all(8),
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                hit.thumbUrl.isEmpty ? hit.fullUrl : hit.thumbUrl,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                errorBuilder: (_, _, _) => Container(
-                  color: context.palette.accentSoft,
-                  alignment: Alignment.center,
-                  child: const Icon(Icons.image_outlined, size: 18),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            hit.title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-          ),
-          Text(
-            hit.creditLine,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 9.5,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BoardTile extends StatelessWidget {
-  const _BoardTile({
-    required this.frame,
-    required this.imagePath,
-    required this.onTap,
-  });
-
-  final RefFrame frame;
-  final String? imagePath;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return SsCard(
-      padding: const EdgeInsets.all(8),
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: imagePath == null
-                  ? _PaletteBar(colors: frame.gradient, height: double.infinity)
-                  : Image.file(
-                      File(imagePath!),
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    ),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            frame.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-          ),
-          _PaletteBar(colors: frame.palette, height: 8),
-        ],
-      ),
-    );
-  }
-}
-
-class _PaletteBar extends StatelessWidget {
-  const _PaletteBar({required this.colors, required this.height});
-
-  final List<String> colors;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    if (colors.isEmpty) return SizedBox(height: height);
-    return SizedBox(
-      height: height,
-      child: Row(
-        children: <Widget>[
-          for (final String hex in colors)
-            Expanded(child: Container(color: _color(hex))),
-        ],
-      ),
+      onPasteKey: _pasteImage,
+      child: page,
     );
   }
 
-  static Color _color(String hex) {
-    final int v =
-        int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888;
-    return Color(0xFF000000 | v);
+  /// 拖入的单个文件 → 读字节 → 入库（来源标「拖拽导入」）。
+  Future<void> _importDroppedFile(String filePath) async {
+    final Uint8List bytes = await File(filePath).readAsBytes();
+    await ref
+        .read(refsControllerProvider.notifier)
+        .addFetched(
+          bytes: bytes,
+          title: refsTitleFromPath(filePath),
+          sourceUrl: filePath,
+          sourceLabel: '拖拽导入',
+        );
   }
 }

@@ -189,7 +189,42 @@ class RefsController extends Notifier<RefsState> {
     }).toList();
     // 用户导入的帧排在前面。
     board.sort((RefFrame a, RefFrame b) => a.filmTitle == '我的导入' ? -1 : 1);
-    state = state.copyWith(board: board, status: '画板共 ${board.length} 帧');
+    final List<RefFrame> ordered = await _applyBoardOrder(board);
+    state = state.copyWith(board: ordered, status: '画板共 ${ordered.length} 帧');
+  }
+
+  /// 画板排序 key（存 setting，不改表结构；R75 数据管线不擅动）。
+  static const String boardOrderKey = 'refs_board_order';
+
+  /// 读取持久化排序：命中的按记录顺序在前，其余保持当前相对顺序。
+  Future<List<RefFrame>> _applyBoardOrder(List<RefFrame> board) async {
+    final String? raw = await _db.getSetting(boardOrderKey);
+    if (raw == null || raw.isEmpty) return board;
+    List<String> ids;
+    try {
+      final Object? decoded = jsonDecode(raw);
+      if (decoded is! List) return board;
+      ids = decoded.whereType<String>().toList();
+    } catch (_) {
+      return board;
+    }
+    if (ids.isEmpty) return board;
+    final Map<String, RefFrame> byId = <String, RefFrame>{
+      for (final RefFrame f in board) f.id: f,
+    };
+    final List<RefFrame> ordered = <RefFrame>[];
+    for (final String id in ids) {
+      final RefFrame? f = byId.remove(id);
+      if (f != null) ordered.add(f);
+    }
+    ordered.addAll(byId.values);
+    return ordered;
+  }
+
+  /// 持久化画板拖拽排序（保存 id 顺序并回读刷新）。
+  Future<void> setBoardOrder(List<String> ids) async {
+    await _db.setSetting(boardOrderKey, jsonEncode(ids));
+    await _reloadBoard();
   }
 
   List<String> _decodeList(String raw) {

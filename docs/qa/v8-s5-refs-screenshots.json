@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "note": "V8/S5 画面参考截图（D154：首屏画报 / 瀑布流结果 + 悬停浮层 / 详情抽屉 + 五色色卡 / 我的画板编排；明暗双主题 × 1280×800 与 1920×1080）",
+  "pages": [
+    "home",
+    "results",
+    "detail",
+    "board"
+  ],
+  "themes": [
+    "paper",
+    "darkroom"
+  ],
+  "viewports": [
+    "1280x800",
+    "1920x1080"
+  ],
+  "count": 16,
+  "shots": [
+    {
+      "name": "s5-refs-home-paper-1280x800",
+      "scene": "home",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 93017
+    },
+    {
+      "name": "s5-refs-results-paper-1280x800",
+      "scene": "results",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 74481
+    },
+    {
+      "name": "s5-refs-detail-paper-1280x800",
+      "scene": "detail",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 50535
+    },
+    {
+      "name": "s5-refs-board-paper-1280x800",
+      "scene": "board",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 40329
+    },
+    {
+      "name": "s5-refs-home-paper-1920x1080",
+      "scene": "home",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 104403
+    },
+    {
+      "name": "s5-refs-results-paper-1920x1080",
+      "scene": "results",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 101328
+    },
+    {
+      "name": "s5-refs-detail-paper-1920x1080",
+      "scene": "detail",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 56925
+    },
+    {
+      "name": "s5-refs-board-paper-1920x1080",
+      "scene": "board",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 45835
+    },
+    {
+      "name": "s5-refs-home-darkroom-1280x800",
+      "scene": "home",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 91257
+    },
+    {
+      "name": "s5-refs-results-darkroom-1280x800",
+      "scene": "results",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 73547
+    },
+    {
+      "name": "s5-refs-detail-darkroom-1280x800",
+      "scene": "detail",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 50224
+    },
+    {
+      "name": "s5-refs-board-darkroom-1280x800",
+      "scene": "board",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 39114
+    },
+    {
+      "name": "s5-refs-home-darkroom-1920x1080",
+      "scene": "home",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 103122
+    },
+    {
+      "name": "s5-refs-results-darkroom-1920x1080",
+      "scene": "results",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 99787
+    },
+    {
+      "name": "s5-refs-detail-darkroom-1920x1080",
+      "scene": "detail",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 56668
+    },
+    {
+      "name": "s5-refs-board-darkroom-1920x1080",
+      "scene": "board",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 44617
+    }
+  ]
+}

@@ -12,7 +12,6 @@
     "lib/features/libraries/gear_browser.dart": 1312,
     "lib/features/settings/settings_page.dart": 1234,
     "lib/features/ai/ai_controller.dart": 1162,
-    "lib/features/refs/refs_page.dart": 889,
     "lib/features/lighting/lighting_controller.dart": 828,
     "lib/features/poses/pose_import_page.dart": 812,
     "lib/features/ai/ai_panel.dart": 810,

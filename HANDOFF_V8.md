@@ -10,15 +10,26 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页**（本次提交：三段式导航 · 公告式更新横幅 · 衬线首屏开案页；报告 `docs/qa/v8-s4-shell-home.md`） |
-| CI | S4 推送后运行中（R61：全绿才算完成，下一步先复核）；S3 全绿（run 36691238788 = `5031db8`）；S2 全绿（36684962779 = `7dcfabf`）；S0 全绿（36673666121） |
-| 门禁基线 | format 0 changed（193 files）｜ analyze 0 问题 ｜ 全量 **354 passed + 38 skipped** ｜ S4 专项 13 ｜ 视觉专项 S4 8 张 / S3 4 张 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 引擎帧率 p95 ≤18.4ms（独显/核显）｜ `lib/features/**` >600 行 12 个（R73 白名单，只降不升）｜ 官网 6 页可构建 |
-| 当前步 | S4 收尾（提交 + CI 复核） |
-| 剩余 | **S5 画面参考** → S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
+| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页** `23012bd` ｜ **S5 画面参考搜索**（本次提交：首屏画报 · 瀑布流结果 + 悬停浮层 · 详情抽屉 + 五色色卡 · 画册式画板；报告 `docs/qa/v8-s5-refs-search.md`） |
+| CI | S5 推送后运行中（R61：全绿才算完成，下一步先复核）；S4 全绿（run 36694433172 = `23012bd`）；S3 全绿（36691238788 = `5031db8`）；S2 全绿（36684962779 = `7dcfabf`）；S0 全绿（36673666121） |
+| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **384 passed + 39 skipped** ｜ S5 专项 14 + 视觉 16 张 ｜ S4 专项 13 ｜ 视觉专项 S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 引擎帧率 p95 ≤18.4ms（独显/核显）｜ `lib/features/**` >600 行 **11** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 |
+| 当前步 | S5 收尾（提交 + CI 复核） |
+| 剩余 | **S6 布光预演** → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
 
 ---
 
 ## 1. 已完成（含证据路径）
+
+### S5 画面参考搜索重构（D154 · R71–R74 / R78 / R79）
+- **报告**：`docs/qa/v8-s5-refs-search.md`（文件拆分 / 四个版面 / 色卡与许可 / 视觉证据 / 14 专项 / 门禁 / 复盘）。
+- **版面（§4.3）**：① 首屏 = 居中检索（眉题 REFERENCE · 画面参考 + 衬线大标题 + 搜索框 + 以图搜图/粘贴截图/本地导入）+ 8 张**主题画报**（3:2 版面块 + 衬线首字占位 + mono id，废掉旧的文字 chip 形态）+「全部 48 个主题」入口；② 有结果时首屏自动收成**紧凑模式**（检索条 + 单行画报 chip），把纵向空间让给瀑布流；③ 结果 = 保留纵横比的**瀑布流**（`RefsMasonryGrid` 按列排布，纵向图更高）+ 悬停浮层（来源/许可/可商用 + 详情/收画板/以图搜图，触控端常驻，D149 偏差登记）；④ **详情抽屉** = 大图 + 来源/许可/可商用/尺寸/来源页 + **五色色卡** + 相似参考；⑤ **我的画板** = 4:5 竖幅画册块 + 拖拽排序 + 导出长图。
+- **文件拆分（R73）**：`refs_home.dart` / `refs_masonry.dart` / `refs_hit_card.dart` / `refs_hit_drawer.dart` / `refs_board.dart` / `refs_palette.dart` / `refs_page_chrome.dart`（拖拽落画板 + Ctrl/Cmd+V + 图卡详情弹窗）/ `refs_page.dart` **567 行**（≤600）→ `tool/file_size_baseline.json` 里的 refs_page 白名单**整条删除**（12 → 11 项）。
+- **色卡（R70）**：`RefsPaletteService` 走 `SearchCache` 下载缩略图 → `PaletteExtractor` 提 5 色 + 内存记忆化；新增 `refsPaletteServiceProvider` 注入点（测试/截图可覆盖为固定色，CI 不触网）。
+- **图片占位（R82）**：`RefsMasonryImage` 统一 surfaceSunken + 衬线首字；并给 `Image` 子节点注入兜底 `errorBuilder`，**加载失败也回落占位**（不留空白块）。
+- **管线不动（R79）**：QueryPlanner → SearchEngine（13 源）→ SearchCache → RefsController 全部沿用；`q6_search_test` **41/41 不回归**。
+- **视觉证据（R72）**：16 张 → `docs/screenshots/v8/s5-refs-{home,results,detail,board}-{paper,darkroom}-{1280x800,1920x1080}.png` + 索引 `docs/qa/v8-s5-refs-screenshots.json`；目视无豆腐块/无溢出。
+- **测试**：`app/test/features/s5_refs_ui_test.dart` **14 用例**（首屏 3 / 瀑布流 4 / 详情抽屉 2 / 画板 3 / 色卡 2）+ `app/test/visual/s5_refs_capture_test.dart` 16 截图 + 1 索引用例。
+- **门禁**：format 0 changed（202 files）｜ analyze 0（9.1s）｜ 全量 **384 passed + 39 skipped** ｜ `check_file_size` PASS。
 
 ### S4 App 外壳 + 首页重构（D151 · R71–R74 / R82）
 - **报告**：`docs/qa/v8-s4-shell-home.md`（文件行数 / 信息架构 / 横幅 / 首页 / 视觉证据 / 13 专项 / 门禁 / 6 条复盘）。
@@ -76,14 +87,13 @@
 
 ## 2. 剩余待办（按合同 §1 顺序，含门禁）
 
-1. **S5 画面参考搜索（D154）**：首屏主题画报入口、瀑布流结果、画册式画板、以图搜图收口；`q6_search_test` 41/41 不回归。
-2. **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。
-3. **S7 动作摆姿与识别（D153）**：大图瀑布流 + 详情抽屉、识别链路 ≤4 步、关节点拖拽校正；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归。
-4. **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归。
-5. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
-6. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
-7. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
-8. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
+1. **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。
+2. **S7 动作摆姿与识别（D153）**：大图瀑布流 + 详情抽屉、识别链路 ≤4 步、关节点拖拽校正；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归。
+3. **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归。
+4. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
+5. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
+6. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
+7. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
 
 ---
 
@@ -117,6 +127,9 @@
 
 21. **workflow YAML 里步骤名的冒号必须加引号**（S3 踩坑）：`- name: File size gate (R73: features <= 600)` 会让 GitHub 在 1 秒内拒绝整个 workflow（run 立刻 completed/failure、`jobs.total_count = 0`、`rerun` 返回 403、日志不可读）。提交前本机校验：`python -c "import yaml,io; yaml.safe_load(io.open('.github/workflows/ci.yml',encoding='utf-8'))"`。
 22. **CI jobs 查询走 API，别用 `gh run view --json jobs`**（本环境返回空 jobs）：用 `%TEMP%\opencode\gh_jobs.py <run_id>`（`gh api .../actions/runs/<id>/jobs` + 失败 step 日志尾部）。
+24. **S5 版面竖向预算**：首屏画报墙（132px）与瀑布流同屏时 1280×800 会把结果挤出视口 → `RefsHomeHeader(compact:)` 由「有结果」驱动（`refs_page.dart` 传 `_hits.isNotEmpty`），画报墙换成 30px 单行 chip 行。
+25. **测试里 Dio 会留下 FakeTimer**：`RefsPaletteSlot` 真实路径走 `SearchCache.getOrFetch`（Dio），即使 HTTP 被 flutter_test 打桩，测试收尾仍会触发「A Timer is still pending even after the widget tree was disposed」→ 已加 `refsPaletteServiceProvider` 注入点，截图/单测覆盖为固定色卡（这也是 R62 的常规做法：注入点比改产品默认更可取）。
+26. **`ImageProvider` 自定义桩在 Flutter 3.47 不可行**：`ImageStreamCompleter` 是抽象类、`loadImage(T key, ImageDecoderCallback decode)` 是位置参数 → 想测「加载失败回落」直接用 `Image.network('https://example.invalid/…')`（flutter_test 的 HttpOverrides 会让解码失败），比自写 provider 稳。
 23. **drift 生成的行类要从 `core/db/database.dart` 导入**（不是 `planner_models.dart`）：`Plan` 等表数据类由 `database.dart` re-export；且该库不再导出 `Column`，写 `hide Column` 会触发 analyzer 警告。
 
 ---
@@ -124,6 +137,6 @@
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
-> 基线：v1.3.0；已完成 S0–S4（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页）；全量 **354 passed + 38 skipped**。
-> 下一步 **S5 画面参考搜索（D154）**：首屏主题画报入口、瀑布流结果、画册式画板、以图搜图收口；`q6_search_test` 41/41 不回归；页面 ≤600 行 + 明暗 × 2 分辨率截图。之后 S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付。
+> 基线：v1.3.0；已完成 S0–S5（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索）；全量 **384 passed + 39 skipped**。
+> 下一步 **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。之后 S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。
