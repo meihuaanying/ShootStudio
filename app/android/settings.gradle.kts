@@ -12,9 +12,13 @@ pluginManagement {
 
     repositories {
         // 国内加速镜像优先（maven.google.com 在部分网络不可达），失败回退官方源。
-        maven("https://maven.aliyun.com/repository/google")
-        maven("https://maven.aliyun.com/repository/public")
-        maven("https://maven.aliyun.com/repository/gradle-plugin")
+        // CI 设 SS_MAVEN_MIRROR=0 时直接走官方源：阿里云镜像偶发 502 会让 Gradle
+        // 直接禁用该仓库，classpath（插件/AGP/Kotlin 依赖）在 CI 上会误判构建失败。
+        if (System.getenv("SS_MAVEN_MIRROR") != "0") {
+            maven("https://maven.aliyun.com/repository/google")
+            maven("https://maven.aliyun.com/repository/public")
+            maven("https://maven.aliyun.com/repository/gradle-plugin")
+        }
         google()
         mavenCentral()
         gradlePluginPortal()
