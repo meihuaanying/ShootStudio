@@ -88,3 +88,9 @@ flutter:
     - assets/content/stills/pd/
     - assets/content/gear/photo/
     - assets/content/search/open_index/
+    - assets/fonts/
+  fonts:
+    # V8/D147：Display 字体（Noto Serif SC 子集，OFL；许可见 assets/fonts/NotoSerifSC-OFL.txt）
+    - family: NotoSerifSC
+      fonts:
+        - asset: assets/fonts/NotoSerifSC-ShootStudio.otf

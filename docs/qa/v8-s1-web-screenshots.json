@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "note": "V8/S1 设计 spike · 官网样板页截图（R72：明暗双主题 × 1280×800 / 1920×1080）",
+  "at": "2026-09-30T06:35:02.009Z",
+  "path": "/spike-hero",
+  "themes": [
+    "paper",
+    "darkroom"
+  ],
+  "viewports": [
+    "1280x800",
+    "1920x1080"
+  ],
+  "count": 4,
+  "shots": [
+    {
+      "name": "s1-web-hero-paper-1280x800",
+      "page": "web-hero",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 64049,
+      "domTheme": "paper",
+      "fontsStatus": "loaded",
+      "scrollHeight": 1049
+    },
+    {
+      "name": "s1-web-hero-paper-1920x1080",
+      "page": "web-hero",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 86020,
+      "domTheme": "paper",
+      "fontsStatus": "loaded",
+      "scrollHeight": 1049
+    },
+    {
+      "name": "s1-web-hero-darkroom-1280x800",
+      "page": "web-hero",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 63702,
+      "domTheme": "darkroom",
+      "fontsStatus": "loaded",
+      "scrollHeight": 1049
+    },
+    {
+      "name": "s1-web-hero-darkroom-1920x1080",
+      "page": "web-hero",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 85482,
+      "domTheme": "darkroom",
+      "fontsStatus": "loaded",
+      "scrollHeight": 1049
+    }
+  ]
+}

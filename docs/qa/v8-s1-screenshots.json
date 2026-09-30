@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "note": "V8/S1 设计 spike 样板页截图（R72：明暗双主题 × 1280×800 / 1920×1080）",
+  "pages": [
+    "home",
+    "lighting"
+  ],
+  "themes": [
+    "paper",
+    "darkroom"
+  ],
+  "viewports": [
+    "1280x800",
+    "1920x1080"
+  ],
+  "count": 8,
+  "shots": [
+    {
+      "name": "s1-home-paper-1280x800",
+      "page": "home",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 53410
+    },
+    {
+      "name": "s1-lighting-paper-1280x800",
+      "page": "lighting",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 49103
+    },
+    {
+      "name": "s1-home-paper-1920x1080",
+      "page": "home",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 63500
+    },
+    {
+      "name": "s1-lighting-paper-1920x1080",
+      "page": "lighting",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 54896
+    },
+    {
+      "name": "s1-home-darkroom-1280x800",
+      "page": "home",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 53529
+    },
+    {
+      "name": "s1-lighting-darkroom-1280x800",
+      "page": "lighting",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 48039
+    },
+    {
+      "name": "s1-home-darkroom-1920x1080",
+      "page": "home",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 63380
+    },
+    {
+      "name": "s1-lighting-darkroom-1920x1080",
+      "page": "lighting",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 53795
+    }
+  ]
+}

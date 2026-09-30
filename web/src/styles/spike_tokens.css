@@ -1,0 +1,106 @@
+/* V8/D147 · S1 设计 spike：官网设计令牌（§3 唯一来源，值与 App AppTokensV2 逐字一致） */
+/* 本文件为 spike 版；S3 落地时并入 global.css + tailwind theme，值不变。 */
+
+@font-face {
+  font-family: 'NotoSerifSC';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/NotoSerifSC-ShootStudio.otf') format('opentype');
+}
+
+:root {
+  color-scheme: light;
+
+  /* §3.1 色彩 · 纸面亮（paper） */
+  --bg: #faf7f1;
+  --surface: #ffffff;
+  --surface-sunken: #f3efe7;
+  --ink: #1c1917;
+  --ink-soft: #57534e;
+  --muted: #8a857c;
+  --rule: #e4decf;
+  --accent: #b43a2b;
+  --accent-soft: #b43a2b14;
+  --film: #2f5d50;
+  --gold: #a97e2f;
+  --danger: #b3261e;
+
+  /* §3.2 字体与字号阶梯 */
+  --font-display: 'NotoSerifSC', 'Songti SC', 'SimSun', serif;
+  --font-body: 'Microsoft YaHei UI', 'PingFang SC', 'Noto Sans SC', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', ui-monospace, monospace;
+  --type-display: 40px;
+  --type-h1: 28px;
+  --type-h2: 22px;
+  --type-h3: 17px;
+  --type-body: 14px;
+  --type-small: 12.5px;
+  --type-caption: 11px;
+  --lh-display: 1.2;
+  --lh-h1: 1.3;
+  --lh-h2: 1.35;
+  --lh-h3: 1.4;
+  --lh-body: 1.6;
+  --lh-small: 1.5;
+  --lh-caption: 1.4;
+
+  /* §3.3 8pt 间距 / 圆角 / 栅格 */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --radius-chip: 2px;
+  --radius-control: 4px;
+  --radius-frame: 8px;
+  --content-max: 1280px;
+  --columns: 12;
+  --gutter: 24px;
+  --page-margin: 24px;
+
+  /* §3.3 阴影（仅两级） */
+  --shadow-paper: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --shadow-overlay: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* §3.4 动效 */
+  --motion-fast: 160ms;
+  --motion-normal: 280ms;
+  --motion-slow: 420ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme='darkroom'] {
+  color-scheme: dark;
+
+  /* §3.1 色彩 · 暗房暗（darkroom） */
+  --bg: #131110;
+  --surface: #1b1815;
+  --surface-sunken: #100e0c;
+  --ink: #f0ebe3;
+  --ink-soft: #a8a29a;
+  --muted: #78716b;
+  --rule: #2e2a24;
+  --accent: #d9563f;
+  --accent-soft: #d9563f1f;
+  --film: #4e8a77;
+  --gold: #c9a24b;
+  --danger: #e06c60;
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --page-margin: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 1ms;
+    --motion-normal: 1ms;
+    --motion-slow: 1ms;
+  }
+}

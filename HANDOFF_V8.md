@@ -10,15 +10,24 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同与基线**（本次提交）：`FIX_CONTRACT_V8.0.md` 入库；V1–V7 合同与旧交接归档至 `docs/archive/`；基线数据入档 `docs/qa/v8-s0-baseline.md` |
-| CI | S0 推送后运行中（R61：全绿才算完成，下一步先复核）；V7 收尾提交 `454f460` run 36377508962 success 4/4 |
-| 门禁基线 | format 0 changed（167 files）｜ analyze 0 问题 ｜ 全量 **303 passed + 27 skipped** ｜ `lib/features/**` >600 行 **12 个 / 15,177 行**（R73 待拆）｜ `lib/core/design/widgets.dart` 819 行（R73 上限 300）｜ 引擎包 1.11MB + pathtracer 0.22MB ｜ assets 263.58MB ｜ APK 412.0MB ｜ Windows release 437.6MB（1602 文件） |
-| 当前步 | S0 收尾（提交 + CI 复核） |
-| 剩余 | **S1 设计 spike** → **S2 引擎架构 spike** → **S3 设计系统落地** → S4 外壳/首页 → S5 画面参考 → S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
+| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike**（本次提交）：3 张样板页 + 12 张明暗双主题截图 + 令牌锁定（报告 `docs/qa/v8-s1-design-spike.md`） |
+| CI | S0 全绿（run `36673666121` = `4b4bc1a` success 4/4）；S1 推送后运行中（R61：全绿才算完成，下一步先复核） |
+| 门禁基线 | format 0 changed（170 files）｜ analyze 0 问题 ｜ 全量 **303 passed + 36 skipped**（S1 视觉 9 例默认跳过）｜ 视觉专项 9/9（capture）+ 8 passed（golden 回归）｜ `lib/features/**` >600 行 **12 个 / 15,177 行**（R73 待拆）｜ `lib/core/design/widgets.dart` 819 行（R73 上限 300）｜ 引擎包 1.11MB + pathtracer 0.22MB ｜ 识别模型 195.50MB ｜ 衬线字体子集 0.54MB（OFL）｜ assets 263.58MB ｜ APK 412.0MB ｜ Windows release 437.6MB（1602 文件） |
+| 当前步 | S1 收尾（提交 + CI 复核） |
+| 剩余 | **S2 引擎架构 spike** → **S3 设计系统落地** → S4 外壳/首页 → S5 画面参考 → S6 布光预演 → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
 
 ---
 
 ## 1. 已完成（含证据路径）
+
+### S1 设计 spike（D147 · R77 先行报告）
+- **报告**：`docs/qa/v8-s1-design-spike.md`（先报告后实施；§3 令牌表自此锁定，S3 只搬运不改值）。
+- **3 张样板页**：`app/lib/design_spike/spike_tokens.dart`（App 令牌）+ `spike_pages.dart`（首页 7+5 / 布光三栏）、`web/src/pages/spike-hero.astro` + `web/src/styles/spike_tokens.css`（官网首屏，值与 Dart 逐字同源）。
+- **截图 12 张（R72）**：明暗 × 1280×800 / 1920×1080，合计 738,905 B → `docs/screenshots/v8/`；索引 `docs/qa/v8-s1-screenshots.json`（App 8 张）与 `docs/qa/v8-s1-web-screenshots.json`（官网 4 张）。
+  - 工具：App 用 `SS_V8_CAPTURE=1 flutter test --no-pub --update-goldens test/visual/s1_spike_capture_test.dart`（golden 写盘）；官网用 `web/tool/shot.mjs`（静态伺服 `web/dist` + headless Edge CDP `Emulation.setDeviceMetricsOverride`，主题 `?t=darkroom`）。
+- **字体资产**：`app/assets/fonts/NotoSerifSC-ShootStudio.otf`（566,132 B，pyftsubset 子集 2,074 字符）+ `NotoSerifSC-OFL.txt` + `README.md`；`web/public/fonts/` 同款（官网共用）；`pubspec.yaml` 登记 `fonts:` 与 `assets/fonts/`。
+- **门禁**：format 0 changed（170 files）｜ analyze 0 ｜ 全量 **303 passed + 36 skipped** ｜ 视觉专项 9/9 + golden 回归 8 passed。
+- **复盘**（S3 直接规避）：`TextStyle.height` 必须是多倍数行高（写成 `lineHeight/size` 会让 RenderParagraph 塌成 1–2px）；限高图框要用 `Container(height:)`；mono 只放 ASCII；截图环境要手动加载 MaterialIcons。
 
 ### S0 合同入库 + 基线记录（§1 S0）
 - **合同**：`FIX_CONTRACT_V8.0.md`（D145–D160 用户确认决策、R71–R82 硬规则、§3 设计系统强约束、§1 S0–S12 阶段门禁、§4 四大模块规格、§5 官网、§6 工程、§7 交付勾选表、§8 开场提示词）。
@@ -35,18 +44,17 @@
 
 ## 2. 剩余待办（按合同 §1 顺序，含门禁）
 
-1. **S1 设计方向 spike（R77）**：用 §3 令牌做 3 个样板页（App 首页 / 布光页 / 官网首页首屏）；明暗双主题 × 1280×800 + 1920×1080 截图（共 12 张）存 `docs/screenshots/v8/`；人工评审后**锁定令牌**；CI 绿。
-2. **S2 3D 引擎架构 spike（D156）**：对比 ①WebView2 + three.js r186 现状 ②Flutter 原生渲染（flutter_gpu / Impeller Scene）；报告含交互帧率 p95（拖灯/旋转视角）、内存、集成成本、双端可行性、资产迁移代价 + 明确结论入 git；**报告前不改架构**；若保留 WebView 路线须同时交付交互层重构（桥接批处理/事件节流/骨架屏）。
-3. **S3 设计系统落地**：`AppTokensV2`/`app_theme.dart` 全量替换 + `lib/core/design/` 组件库 ≥15（单文件 ≤300 行）+ 官网 `tokens.css`/tailwind 同步 + 字体资产（Noto Serif SC，OFL，随包子集化 ≤2MB，登记 attribution R80）；demo 页明暗截图；旧令牌 grep 清零。
-4. **S4 App 外壳 + 首页**：导航/信息架构/更新横幅；页面文件 ≤600 行；widget 测试 + 截图门禁。
-5. **S5 画面参考搜索（D154）**：首屏主题画报入口、瀑布流结果、画册式画板、以图搜图收口；`q6_search_test` 41/41 不回归。
-6. **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。
-7. **S7 动作摆姿与识别（D153）**：大图瀑布流 + 详情抽屉、识别链路 ≤4 步、关节点拖拽校正；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归。
-8. **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归。
-9. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
-10. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
-11. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
-12. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
+1. **S2 3D 引擎架构 spike（D156）**：对比 ①WebView2 + three.js r186 现状 ②Flutter 原生渲染（flutter_gpu / Impeller Scene）；报告含交互帧率 p95（拖灯/旋转视角）、内存、集成成本、双端可行性、资产迁移代价 + 明确结论入 git；**报告前不改架构**；若保留 WebView 路线须同时交付交互层重构（桥接批处理/事件节流/骨架屏）。
+2. **S3 设计系统落地**：`AppTokensV2`/`app_theme.dart` 全量替换 + `lib/core/design/` 组件库 ≥15（单文件 ≤300 行）+ 官网 `tokens.css`/tailwind 同步 + 字体资产（Noto Serif SC，OFL，随包子集化 ≤2MB，登记 attribution R80）；demo 页明暗截图；旧令牌 grep 清零。
+3. **S4 App 外壳 + 首页**：导航/信息架构/更新横幅；页面文件 ≤600 行；widget 测试 + 截图门禁。
+4. **S5 画面参考搜索（D154）**：首屏主题画报入口、瀑布流结果、画册式画板、以图搜图收口；`q6_search_test` 41/41 不回归。
+5. **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。
+6. **S7 动作摆姿与识别（D153）**：大图瀑布流 + 详情抽屉、识别链路 ≤4 步、关节点拖拽校正；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归。
+7. **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归。
+8. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
+9. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
+10. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
+11. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
 
 ---
 
@@ -63,11 +71,16 @@
 6. **截图/QA**：Edge headed 需 `--disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling` + `Page.bringToFront`，否则 rAF/定时器被冻结（引擎主循环停摆）。
 7. **gh CLI 已登录**（`C:\Program Files\GitHub CLI\gh.exe`，账号 `meihuaanying`，scopes: repo）→ 仓库/环境/Pages 操作用它；PowerShell 传 `gh api --jq '含空格表达式'` 会被拆参，改用 Python 调 gh。
 8. 沿用 V7 坑表（见 `docs/archive/HANDOFF_V7.md` §3）：three r186 打包（`node tool/engine_build/bundle.mjs`）、QA 前杀 headless Edge、推送需三个 `-c http.https://<host>/.proxy=` 直连参数且可能需重试、Pages 部署需 `v*` tag 策略等。
+9. **widget 测试里截图必须走 `matchesGoldenFile`**：`RenderRepaintBoundary.toImage` + `toByteData` 在 FakeAsync 中会挂起（表现为 10 分钟超时）；用 `--update-goldens` 写文件。**路径基准不同**：`matchesGoldenFile` 相对**测试文件目录**（`app/test/visual/` → 仓库根需 `../../../`），而 `File()` 相对**进程 cwd（`app/`）** → 写索引 JSON 要 `../docs/...`。
+10. **`TextStyle.height` 是多倍数**：写成 `lineHeight / fontSize` 会让 RenderParagraph 高度塌成 1–2px（标题行重叠、标签竖排）。S1 实测排查法：临时测试里自写 `_walk(RenderObject)` 打印 `RenderParagraph.size`（注意本版本 `debugDumpRenderTree()` 无参、`visitChildren` 回调返回 `void`）。
+11. **字体加载要自己管**：截图/测试环境默认只有 MaterialIcons 之外的空字族 → 需 `FontLoader` 加载 repo 字体（`rootBundle`）与系统字体（绝对路径）；**mono 字族（Consolas）没有 CJK**，mono 文本里放中文会出豆腐块。
+12. **官网截图**：`web/tool/shot.mjs` 静态伺服 `web/dist` + headless Edge CDP；`Emulation.setDeviceMetricsOverride` 固定视口；主题用 URL 参数 `?t=darkroom`（页面内联脚本写 `data-theme`），一次构建覆盖双主题；改样式后必须先 `npm run build`（Astro 输出 6 页）再截图。
 
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
-> 基线：v1.3.0（303 passed + 27 skipped）；已完成 S0（合同入库 + 基线 `docs/qa/v8-s0-baseline.md`）；下一步 **S1 设计 spike**（3 样板页 + 明暗双主题 × 两分辨率截图 + 锁定令牌），之后 S2 引擎架构 spike → S3 → S4–S9 → S10 → S11 → S12。
+> 基线：v1.3.0；已完成 S0（合同 + `docs/qa/v8-s0-baseline.md`）与 S1（设计 spike：3 样板页 + 12 张截图 + 令牌锁定，报告 `docs/qa/v8-s1-design-spike.md`）；全量 **303 passed + 36 skipped**。
+> 下一步 **S2 引擎架构 spike**（WebView2+three r186 vs Flutter 原生；帧率 p95/内存/迁移成本对比报告先出再动架构），之后 S3 设计系统落地 → S4–S9 模块重做 → S10 官网 → S11 全量回归+视觉验收 → S12 v2.0.0 交付。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。
