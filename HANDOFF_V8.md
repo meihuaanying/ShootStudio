@@ -103,6 +103,8 @@
 18. **`check_file_size` 白名单只降不升**：R73 基线 JSON 里每条 = 当前行数 + 40 余量；文件变短后必须同步下调，脚本会校验「白名单值 > 实际行数 + 40」即失败，防止把超限文件固化下来。
 19. **golden 视觉测试的三个细节**：① 测试 `pumpWidget` 的 `home` 必须包 `Scaffold`，否则 `No Material widget found`；② 设计系统换代后旧页面 golden 会像素不一致 → 用 `--update-goldens` 重生成（不删测试，R79 合规）；③ CI 默认只跑渲染冒烟 + `tester.takeException()` 溢出断言，像素比对要显式 `SS_V8_VISUAL=1`（字体光栅化差异会误报）。
 
+20. **workflow YAML 的 `name`/`run` 值不能带未加引号的冒号**：`- name: File size gate (R73: features <= 600)` 会让 YAML 解析失败 → GitHub 拒绝整个 workflow → run **1 秒失败、0 个 job、无任何日志**，且 rerun 返回 “cannot be retried”。S3 实测踩过（run 36690853795，症状：`run_started_at == created_at` 且 `jobs.total_count = 0`）。推 CI 前本地解析：`python -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yml', encoding='utf-8')); print('YAML OK')"`。
+
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）

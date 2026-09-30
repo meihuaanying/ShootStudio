@@ -156,3 +156,22 @@ R71 的硬要求是「设计令牌为唯一视觉来源」，本步骤已把**�
 3. 每页重做后运行 §3.1 字面量扫描并把计数写进该步报告，直到 `0x`/`fontSize`/圆角字面量归零。
 4. 视觉证据沿用 `test/visual/` 模式：新增页面截图用例 → `SS_V8_CAPTURE=1 --update-goldens` 出图 → 索引 JSON 落 `docs/qa/`。
 5. 文件拆分目标：把 §4 的 12 个超限文件随页面重做逐步降到 600 行以内，并同步下调 `tool/file_size_baseline.json`。
+
+## 9. CI workflow YAML 陷阱（S3 首次推送后暴露）
+
+- 现象：S3 首次推送的 CI run `36690853795` **1 秒内失败、0 个 job**（`jobs.total_count = 0`，`run_attempt=1`，`POST /actions/runs/<id>/rerun` 返回 “This workflow run cannot be retried”），没有任何日志。
+- 根因：新增步骤的 `name` 里带了**未加引号的冒号** → YAML 解析失败 → GitHub 直接拒绝整个 workflow：
+
+  ```yaml
+  - name: File size gate (R73: features <= 600, design <= 300)    # ✗ mapping values are not allowed here
+  - name: "File size gate (R73 features <= 600, design <= 300)"  # ✓
+  ```
+
+- 本地权威检查（**推 CI 前必做**，CI 自身无法自检，因为 workflow 根本起不来）：
+
+  ```
+  python -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yml', encoding='utf-8')); print('YAML OK')"
+  python -c "import yaml, glob; [yaml.safe_load(open(f, encoding='utf-8')) for f in glob.glob('.github/workflows/*.yml')]"
+  ```
+
+- 修复：仅把 `ci.yml` 该 step 名加引号（见紧随 S3 的修复提交）。诊断手法：`gh api repos/<o>/<r>/actions/runs/<id>` 看 `run_started_at == created_at` 且 jobs 为 0 → 必然是 workflow 级拒绝而非代码问题。
