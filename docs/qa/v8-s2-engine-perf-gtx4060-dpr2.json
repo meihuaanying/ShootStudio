@@ -1,0 +1,117 @@
+{
+  "label": "gtx4060-dpr2",
+  "at": "2026-09-30T06:54:01.817Z",
+  "mode": "headed",
+  "dpr": "2",
+  "swiftshader": false,
+  "phases": {
+    "idle": {
+      "requestedSeconds": 3,
+      "wallSeconds": 3,
+      "engineFrames": 180,
+      "cpuTotalSeconds": 0.501,
+      "cpuMsPerFrame": 2.78,
+      "frames": 180,
+      "p50": 16.7,
+      "p95": 17.7,
+      "p99": 28.8,
+      "max": 31.2,
+      "mean": 16.67,
+      "fpsMean": 60,
+      "long50": 0
+    },
+    "orbit": {
+      "requestedSeconds": 4,
+      "wallSeconds": 4.01,
+      "engineFrames": 241,
+      "cpuTotalSeconds": 0.778,
+      "cpuMsPerFrame": 3.23,
+      "frames": 241,
+      "p50": 16.6,
+      "p95": 17.8,
+      "p99": 33.3,
+      "max": 38.3,
+      "mean": 16.66,
+      "fpsMean": 60,
+      "long50": 0
+    },
+    "lightDrag": {
+      "requestedSeconds": 4,
+      "wallSeconds": 4,
+      "engineFrames": 241,
+      "cpuTotalSeconds": 0.815,
+      "cpuMsPerFrame": 3.38,
+      "frames": 241,
+      "p50": 16.6,
+      "p95": 17.8,
+      "p99": 31.6,
+      "max": 36.1,
+      "mean": 16.66,
+      "fpsMean": 60,
+      "long50": 0
+    },
+    "dolly": {
+      "requestedSeconds": 2,
+      "wallSeconds": 2.01,
+      "engineFrames": 121,
+      "cpuTotalSeconds": 0.357,
+      "cpuMsPerFrame": 2.95,
+      "frames": 121,
+      "p50": 16.7,
+      "p95": 17.7,
+      "p99": 26.9,
+      "max": 34.2,
+      "mean": 16.66,
+      "fpsMean": 60,
+      "long50": 0
+    }
+  },
+  "browser": "Edg/154.0.4258.37",
+  "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4060 Laptop GPU (0x000028E0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "engine": "{\"frames\":32,\"fps\":0,\"paused\":false,\"memory\":{\"usedMB\":23.2,\"totalMB\":35.1,\"limitMB\":4192},\"cache\":{\"instances\":1,\"glbs\":1,\"glbsResolved\":1,\"prepared\":1,\"maxInstances\":2,\"maxGlbs\":3},\"environmentSource\":\"hdr\",\"ambientEnabled\":true,\"contactShadow\":true,\"performance\":{\"requested\":\"high\",\"effective\":\"high\"},\"gpu\":{\"renderer\":\"ANGLE (NVIDIA, NVIDIA GeForce RTX 4060 Laptop GPU (0x000028E0) Direct3D11 vs_5_0 ps_5_0, D3D11)\",\"profile\":\"high\",\"api\":\"gpu-info-v7\"}}",
+  "warmup": {
+    "seconds": 6.1,
+    "frames": 398,
+    "taskDeltaPerSec": 0.186,
+    "settled": true
+  },
+  "canvas": {
+    "x": 0,
+    "y": 0,
+    "w": 1259,
+    "h": 810
+  },
+  "lightPoint": {
+    "ok": true,
+    "id": "qa-key",
+    "x": 298.62885853382704,
+    "y": 469.7719772240193
+  },
+  "heap": {
+    "usedMB": 11.96,
+    "totalMB": 43.01
+  },
+  "jsHeapPrecise": {
+    "usedMB": 21.27,
+    "totalMB": 52.32,
+    "limitMB": 4192
+  },
+  "metrics": {
+    "Documents": 1,
+    "Frames": 1,
+    "LayoutCount": 3,
+    "RecalcStyleCount": 5,
+    "TaskDuration": 11.075048,
+    "JSHeapUsedSize": 12541928,
+    "JSHeapTotalSize": 45096960
+  },
+  "renderer": {
+    "drawCalls": 119,
+    "triangles": 163336,
+    "textures": 28,
+    "geometries": 65,
+    "programs": 21,
+    "pixelRatio": 2
+  },
+  "engineAfter": "{\"frames\":1183,\"fps\":60,\"paused\":false,\"memory\":{\"usedMB\":21.3,\"totalMB\":52.3,\"limitMB\":4192},\"cache\":{\"instances\":1,\"glbs\":1,\"glbsResolved\":1,\"prepared\":1,\"maxInstances\":2,\"maxGlbs\":3},\"environmentSource\":\"hdr\",\"ambientEnabled\":true,\"contactShadow\":true,\"performance\":{\"requested\":\"high\",\"effective\":\"high\"},\"gpu\":{\"renderer\":\"ANGLE (NVIDIA, NVIDIA GeForce RTX 4060 Laptop GPU (0x000028E0) Direct3D11 vs_5_0 ps_5_0, D3D11)\",\"profile\":\"high\",\"api\":\"gpu-info-v7\"}}"
+}

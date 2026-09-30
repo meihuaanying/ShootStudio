@@ -1,0 +1,118 @@
+{
+  "label": "default-adapter-dpr1",
+  "at": "2026-09-30T06:56:42.970Z",
+  "mode": "headed",
+  "dpr": "1",
+  "swiftshader": false,
+  "gpumode": "default",
+  "phases": {
+    "idle": {
+      "requestedSeconds": 3,
+      "wallSeconds": 3.01,
+      "engineFrames": 181,
+      "cpuTotalSeconds": 0.58,
+      "cpuMsPerFrame": 3.21,
+      "frames": 181,
+      "p50": 16.7,
+      "p95": 17.4,
+      "p99": 29.3,
+      "max": 29.8,
+      "mean": 16.65,
+      "fpsMean": 60,
+      "long50": 0
+    },
+    "orbit": {
+      "requestedSeconds": 4,
+      "wallSeconds": 4.01,
+      "engineFrames": 242,
+      "cpuTotalSeconds": 0.95,
+      "cpuMsPerFrame": 3.92,
+      "frames": 241,
+      "p50": 16.6,
+      "p95": 17.7,
+      "p99": 34.3,
+      "max": 34.7,
+      "mean": 16.67,
+      "fpsMean": 60,
+      "long50": 0
+    },
+    "lightDrag": {
+      "requestedSeconds": 4,
+      "wallSeconds": 4.01,
+      "engineFrames": 241,
+      "cpuTotalSeconds": 0.919,
+      "cpuMsPerFrame": 3.81,
+      "frames": 241,
+      "p50": 16.7,
+      "p95": 18.3,
+      "p99": 31.6,
+      "max": 32.2,
+      "mean": 16.69,
+      "fpsMean": 59.9,
+      "long50": 0
+    },
+    "dolly": {
+      "requestedSeconds": 2,
+      "wallSeconds": 2,
+      "engineFrames": 121,
+      "cpuTotalSeconds": 0.443,
+      "cpuMsPerFrame": 3.66,
+      "frames": 121,
+      "p50": 16.7,
+      "p95": 18.4,
+      "p99": 29.8,
+      "max": 30.3,
+      "mean": 16.63,
+      "fpsMean": 60.1,
+      "long50": 0
+    }
+  },
+  "browser": "Edg/154.0.4258.37",
+  "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x0000A7A0) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "engine": "{\"frames\":14,\"fps\":0,\"paused\":false,\"memory\":{\"usedMB\":44.1,\"totalMB\":64.6,\"limitMB\":4192},\"cache\":{\"instances\":1,\"glbs\":1,\"glbsResolved\":1,\"prepared\":1,\"maxInstances\":2,\"maxGlbs\":3},\"environmentSource\":\"hdr\",\"ambientEnabled\":true,\"contactShadow\":true,\"performance\":{\"requested\":\"high\",\"effective\":\"high\"},\"gpu\":{\"renderer\":\"ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x0000A7A0) Direct3D11 vs_5_0 ps_5_0, D3D11)\",\"profile\":\"high\",\"api\":\"gpu-info-v7\"}}",
+  "warmup": {
+    "seconds": 6.1,
+    "frames": 374,
+    "taskDeltaPerSec": 0.199,
+    "settled": true
+  },
+  "canvas": {
+    "x": 0,
+    "y": 0,
+    "w": 1246,
+    "h": 803
+  },
+  "lightPoint": {
+    "ok": true,
+    "id": "qa-key",
+    "x": 294.98823876871995,
+    "y": 465.7122193961574
+  },
+  "heap": {
+    "usedMB": 13.06,
+    "totalMB": 49.26
+  },
+  "jsHeapPrecise": {
+    "usedMB": 22.37,
+    "totalMB": 58.57,
+    "limitMB": 4192
+  },
+  "metrics": {
+    "Documents": 1,
+    "Frames": 1,
+    "LayoutCount": 3,
+    "RecalcStyleCount": 6,
+    "TaskDuration": 10.384093,
+    "JSHeapUsedSize": 13693096,
+    "JSHeapTotalSize": 51650560
+  },
+  "renderer": {
+    "drawCalls": 131,
+    "triangles": 164316,
+    "textures": 28,
+    "geometries": 64,
+    "programs": 21,
+    "pixelRatio": 1
+  },
+  "engineAfter": "{\"frames\":1162,\"fps\":60,\"paused\":false,\"memory\":{\"usedMB\":22.5,\"totalMB\":58.6,\"limitMB\":4192},\"cache\":{\"instances\":1,\"glbs\":1,\"glbsResolved\":1,\"prepared\":1,\"maxInstances\":2,\"maxGlbs\":3},\"environmentSource\":\"hdr\",\"ambientEnabled\":true,\"contactShadow\":true,\"performance\":{\"requested\":\"high\",\"effective\":\"high\"},\"gpu\":{\"renderer\":\"ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x0000A7A0) Direct3D11 vs_5_0 ps_5_0, D3D11)\",\"profile\":\"high\",\"api\":\"gpu-info-v7\"}}"
+}

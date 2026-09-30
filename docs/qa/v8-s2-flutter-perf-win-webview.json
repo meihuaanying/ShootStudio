@@ -1,0 +1,35 @@
+{
+  "label": "win-webview",
+  "at": "2026-09-30T07:26:20.790467Z",
+  "platform": "windows \"Windows 10 Home China\" 10.0 (Build 26200)",
+  "executable": "D:\\trae\\6aa175d7786dd07d04fe3d2e\\ShootStudio\\app\\build\\windows\\x64\\runner\\Release\\shoot_studio.exe",
+  "webViewInPhase1": true,
+  "engineReady": true,
+  "engineNote": "WebView2 引擎已就绪（high）",
+  "warmupMs": 3000,
+  "measureMs": 5000,
+  "phases": [
+    {
+      "phase": "flutterOnly",
+      "frames": 293,
+      "totalMsP50": 10.12,
+      "totalMsP95": 17.34,
+      "totalMsMax": 38.57,
+      "totalMsMean": 10.28,
+      "buildMsP95": 0.69,
+      "rasterMsP95": 1.38,
+      "fpsMean": 97.3
+    },
+    {
+      "phase": "withWebView",
+      "frames": 290,
+      "totalMsP50": 10.73,
+      "totalMsP95": 17.78,
+      "totalMsMax": 32.98,
+      "totalMsMean": 10.8,
+      "buildMsP95": 0.96,
+      "rasterMsP95": 2.17,
+      "fpsMean": 92.6
+    }
+  ]
+}

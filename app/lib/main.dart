@@ -4,10 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'app.dart';
+import 'dev/perf_probe.dart';
 import 'services/app_logger.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // V8/S2（D156）引擎架构 spike：性能探针（仅 --dart-define=SS_PERF_PROBE=1 或环境变量 SS_PERF_PROBE=1 时启用）。
+  // 正常启动路径完全不变（R79）。
+  if (PerfProbeConfig.enabled) {
+    runApp(const PerfProbeApp());
+    return;
+  }
 
   // 全局异常兜底（F5）：先于任何 UI 初始化，保证首帧崩溃也有日志与错误页。
   final logger = await AppLogger.init();
