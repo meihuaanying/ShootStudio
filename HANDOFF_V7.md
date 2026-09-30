@@ -1,6 +1,6 @@
 # ShootStudio V7 交接文档 · 进行中（画面参考/显卡/布光/姿势识别/资源库）
 
-> 更新：2026-09-25 ｜ 配套合同：`FIX_CONTRACT_V7.0.md`（D132–D144、R61–R70，**开工前必读**）
+> 更新：2026-09-25 ｜ 配套合同：`docs/archive/FIX_CONTRACT_V7.0.md`（D132–D144、R61–R70，**开工前必读**）
 > 仓库：`D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）
 > 基线：v1.2.0 已发布（tag `v1.2.0`）；V7 目标 v1.3.0
 
@@ -20,7 +20,7 @@
 ## 1. 已完成（S0–S7，含证据路径）
 
 ### S0 合同（`be2c264`）
-`FIX_CONTRACT_V7.0.md`：D132–D144 + R61–R70（含 Getty 移除、Step 3 顺序修正、许可门控、NGA/Walters 索引方案、硬件适配）。
+`docs/archive/FIX_CONTRACT_V7.0.md`：D132–D144 + R61–R70（含 Getty 移除、Step 3 顺序修正、许可门控、NGA/Walters 索引方案、硬件适配）。
 
 ### S1 画面参考极简 + 主题 + 搜索扩展（D132–D134）
 - **极简 UI**：`lib/features/refs/refs_page.dart` 重写（搜索框 + 8 常用主题标签行 + 结果网格 + 详情弹窗 + 我的画板 + 免责声明 + 粘贴截图/本地导入/以图搜图）；删除 `search_page.dart`；PD 别名索引拆为 `lib/services/pd_film_index.dart`（q5 门禁改 import）。
@@ -145,7 +145,7 @@
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
-> 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V7：先读 `HANDOFF_V7.md`（本文件）与 `FIX_CONTRACT_V7.0.md`（D132–D144/R61–R70）。
+> 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V7：先读 `HANDOFF_V7.md`（本文件）与 `docs/archive/FIX_CONTRACT_V7.0.md`（D132–D144/R61–R70）。
 > 已完成 S0–S7：v1.3.0 已发布（tag `v1.3.0`）；基线 303 passed + 27 skipped；APK 412.0MB、Windows release LAUNCH-OK；覆盖率六类 100%、来源抽检 12/12、selftest PASS。
 > §2 剩余待办为空（V7 完工）；后续迭代请新开合同，从 v1.3.0 基线起。
 > 纪律：每步 format/analyze/全量 test + 专项证据 + `git push` 后 CI 绿（R60/R61）才进下一步；spike 先行（R67）；数据变更重跑全量证据（R68）。

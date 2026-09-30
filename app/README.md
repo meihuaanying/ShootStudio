@@ -1,7 +1,7 @@
 # ShootStudio · Flutter 应用
 
 Windows + Android 单代码库。仓库级说明、环境配置、管线与工具速查见根目录
-[`HANDOFF.md`](../HANDOFF.md)；版本约束与决策见根目录的 `FIX_CONTRACT_*.md` / `BUILD_CONTRACT.md`。
+[`HANDOFF_V7.md`](../HANDOFF_V7.md)（历史交接归档于 `docs/archive/`）；版本约束与决策见根目录的 `FIX_CONTRACT_*.md` / `BUILD_CONTRACT.md`。
 
 ## 常用命令（在本目录执行）
 
@@ -34,6 +34,6 @@ node tool/engine_build/bundle.mjs
 | `assets/engine/` | 3D 引擎（`js/engine.bundle.js` 为打包产物，`qa.html` 为 QA 渲染页） |
 | `assets/models/` | 人形 GLB（Quaternius CC0 ×21 + MakeHuman 写实；细分在运行时执行，原模型为轻量模式） |
 | `test/` | 单元/Widget/黄金测试（156 项 + 1 skipped） |
-| `tool/` | 构建期管线与 QA 脚本（见 HANDOFF §3） |
+| `tool/` | 构建期管线与 QA 脚本（见 HANDOFF_V7 §3） |
 | `third_party/` | 两个工具链兼容加固的插件副本（`dependency_overrides` 指向，见根 README） |
 | `windows/` `android/` | 平台工程（含 WebView2 本地访问开关与 compileSdk 对齐） |

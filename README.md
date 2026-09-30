@@ -2,11 +2,13 @@
 
 把摄影正片策划四步流程——**FILMGRAB 找画面参考 → Set.a.light 布光预演 → posemaniacs 动作摆姿 → 一键成案**——做成本地优先的免费开源工作台（Windows + Android）。
 
-当前版本：**v1.0.4**（V4 摄影真实性升级：高面数 3D / 照片姿势库 / 产品图规范化）
+当前版本：**v1.3.0**（V7：画面参考极简 / 显卡适配 / three.js r186 + 路径追踪 / RTMW3D 端上识别 / 资源库 100%）
+进行中：**V8 全面重做**（杂志画册风设计系统 + 四大模块升级 + 工程重构 + 官网同步，目标 v2.0.0）
 
-- 交接与基线：见 [HANDOFF.md](HANDOFF.md)（环境、管线、工具速查、执行记录）
-- V4 合同与偏差：见 [FIX_CONTRACT_V4.0.md](FIX_CONTRACT_V4.0.md)（D61–D77 / §4.4-1）
+- 当前合同：见 [FIX_CONTRACT_V8.0.md](FIX_CONTRACT_V8.0.md)（D145–D160 / R71–R82）
+- 交接与基线：见 [HANDOFF_V7.md](HANDOFF_V7.md)（环境、管线、工具速查、执行记录）
 - 构建约束：见 [BUILD_CONTRACT.md](BUILD_CONTRACT.md)
+- 历史合同与交接（V1–V7 全部决策 D1–D144 / 规则 R1–R70）：见 [docs/archive/](docs/archive/)
 - 产品需求：见 [docs/prd.html](docs/prd.html)
 - 许可：MIT
 
@@ -60,14 +62,14 @@ Android 构建：安装 Android SDK（platform 36 + build-tools 35+）与 JDK 17
 ## 发版
 
 ```bash
-git tag v1.0.4 && git push origin v1.0.4
+git tag v1.3.0 && git push origin v1.3.0
 ```
 
 流水线自动：analyze + test → Windows 安装包 / Android APK → SHA-256 → GitHub Release →
 更新 `web/public/announcements.json`（版本 / 下载直链）→ 部署官网 Pages。
 模板 / 姿势包 / 布光预设等内容更新不打 Tag，直接更新 CDN 上的 JSON，应用启动时增量拉取。
 
-## 验收状态（S1–S6 + V4）
+## 验收状态（S1–S6 + V4/V7）
 
 | 阶段 | 自校验 | 状态 |
 | --- | --- | --- |
@@ -76,12 +78,13 @@ git tag v1.0.4 && git push origin v1.0.4
 | S3 AI 与导出 | Mock API 全链路单测；三格式落盘校验（PNG 魔数 / PDF 头 / .sspak 往返） | ✓ |
 | S4 版本与资源 | 快照回滚 + 模块级 diff 单测；设备/服装/道具数据完整性校验 | ✓ |
 | S5 官网与更新 | Astro 构建 5 页；更新三态（有新/最新/断网）Mock 单测 | ✓ |
-| S6 双端冒烟 | Windows exe 构建 + 启动冒烟；APK 构建（v1.0.4：**104.1MB** ≤150MB） | ✓ |
-| V4 摄影真实性 | 3D 高面数（40k–60k 面断言）/ 照片姿势库（120 条 + 骨架 + 12 关节推导等价）/ 产品图覆盖率（相机 95.5%、镜头 92.9%） | ✓ |
+| S6 双端冒烟 | Windows exe 构建 + 启动冒烟；APK 构建（v1.3.0：**412.0MB**，含 RTMW3D fp16 185MB + YOLOX-tiny 20MB 随包） | ✓ |
+| V4 摄影真实性 | 3D 高面数（40k–60k 面断言）/ 照片姿势库（120 条 + 骨架 + 12 关节推导等价）/ 产品图覆盖率 | ✓ |
+| V7 升级 | three.js r186 + VSM/路径追踪静帧 + 相机辅助；RTMW3D-x 端上识别（一致性 均值 2.8°/p90 6.81°）；资源库六类覆盖率 100% + 抽检 12/12 | ✓ |
 
-测试总数：**156 项 + 1 skipped**（live provider 默认跳过），全绿。
+测试总数：**303 passed + 27 skipped**（live provider 默认跳过），全绿。
 门禁可重复执行：`dart format --output=none --set-exit-if-changed lib test` 与 `flutter analyze --fatal-infos`。
-端上照片识别按合同 §4.4 降级为「内置骨架 + 可读提示」（原因与验证见 FIX_CONTRACT_V4.0.md §4.4-1）。
+端上照片识别：V7 起为 RTMW3D-x(fp16)+YOLOX-tiny 端上推理（模型随包，Apache-2.0），MediaPipe 自动回退；一致性报告见 `docs/qa/pose3d-consistency-report.json`。历史合同见 `docs/archive/`。
 
 ## 凭据与发布卫生
 
