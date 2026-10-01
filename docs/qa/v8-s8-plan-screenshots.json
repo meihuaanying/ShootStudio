@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "note": "V8/S8 D155 截图（成案阅读视图双栏 / 已取消态 / AI 三态生成中 / AI 三态阅读 / 导出面板；明暗双主题 × 1280×800 与 1920×1080）",
+  "scenes": [
+    "reading",
+    "reading-cancelled",
+    "stage-generating",
+    "stage-reading",
+    "export"
+  ],
+  "themes": [
+    "paper",
+    "darkroom"
+  ],
+  "viewports": [
+    "1280x800",
+    "1920x1080"
+  ],
+  "count": 20,
+  "shots": [
+    {
+      "name": "s8-plan-reading-paper-1280x800",
+      "scene": "reading",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 83808
+    },
+    {
+      "name": "s8-plan-reading-cancelled-paper-1280x800",
+      "scene": "reading-cancelled",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 86287
+    },
+    {
+      "name": "s8-plan-stage-generating-paper-1280x800",
+      "scene": "stage-generating",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 36678
+    },
+    {
+      "name": "s8-plan-stage-reading-paper-1280x800",
+      "scene": "stage-reading",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 45728
+    },
+    {
+      "name": "s8-plan-export-paper-1280x800",
+      "scene": "export",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 38151
+    },
+    {
+      "name": "s8-plan-reading-paper-1920x1080",
+      "scene": "reading",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 104979
+    },
+    {
+      "name": "s8-plan-reading-cancelled-paper-1920x1080",
+      "scene": "reading-cancelled",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 108084
+    },
+    {
+      "name": "s8-plan-stage-generating-paper-1920x1080",
+      "scene": "stage-generating",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 41910
+    },
+    {
+      "name": "s8-plan-stage-reading-paper-1920x1080",
+      "scene": "stage-reading",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 51608
+    },
+    {
+      "name": "s8-plan-export-paper-1920x1080",
+      "scene": "export",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 43497
+    },
+    {
+      "name": "s8-plan-reading-darkroom-1280x800",
+      "scene": "reading",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 82863
+    },
+    {
+      "name": "s8-plan-reading-cancelled-darkroom-1280x800",
+      "scene": "reading-cancelled",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 85387
+    },
+    {
+      "name": "s8-plan-stage-generating-darkroom-1280x800",
+      "scene": "stage-generating",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 36029
+    },
+    {
+      "name": "s8-plan-stage-reading-darkroom-1280x800",
+      "scene": "stage-reading",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 44289
+    },
+    {
+      "name": "s8-plan-export-darkroom-1280x800",
+      "scene": "export",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 38109
+    },
+    {
+      "name": "s8-plan-reading-darkroom-1920x1080",
+      "scene": "reading",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 104065
+    },
+    {
+      "name": "s8-plan-reading-cancelled-darkroom-1920x1080",
+      "scene": "reading-cancelled",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 107183
+    },
+    {
+      "name": "s8-plan-stage-generating-darkroom-1920x1080",
+      "scene": "stage-generating",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 41329
+    },
+    {
+      "name": "s8-plan-stage-reading-darkroom-1920x1080",
+      "scene": "stage-reading",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 49949
+    },
+    {
+      "name": "s8-plan-export-darkroom-1920x1080",
+      "scene": "export",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 43477
+    }
+  ]
+}

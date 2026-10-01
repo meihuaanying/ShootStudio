@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/design/widgets.dart';
 import '../planner/planner_models.dart';
 import 'ai_controller.dart';
+import 'ai_stage.dart';
 
 /// AI 策划助手面板（D8–D11 / PRD 6.6）：生成 / 提供方 / 观测台三视图。
 class AiPanel extends ConsumerStatefulWidget {
@@ -106,18 +107,35 @@ class _AiPanelState extends ConsumerState<AiPanel> {
     );
   }
 
-  // ---------------- 生成 ----------------
+  // ---------------- 生成（三态：描述 → 生成中 → 阅读成案）----------------
   Widget _buildGenerate(AiState state) {
     final controller = ref.read(aiControllerProvider.notifier);
-    return Row(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        SizedBox(
-          width: 300,
-          child: _buildGenerateControls(context, state, controller),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpace.s4,
+            AppSpace.s3,
+            AppSpace.s4,
+            0,
+          ),
+          child: AiStageBar(stage: resolveAiStage(state)),
         ),
-        const VerticalDivider(width: 1),
-        Expanded(child: _buildGenerateResult(state)),
+        const SizedBox(height: AppSpace.s3),
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                width: 300,
+                child: _buildGenerateControls(context, state, controller),
+              ),
+              const VerticalDivider(width: 1),
+              Expanded(child: _buildGenerateResult(state)),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -168,13 +186,28 @@ class _AiPanelState extends ConsumerState<AiPanel> {
             ],
           ),
           const SizedBox(height: 10),
-          SsToggleRow(
-            title: '本地引擎（离线降级）',
-            subtitle: '无 Key / 断网时自动使用；不消耗任何额度',
-            value: _forceLocal,
-            onChanged: (bool v) => setState(() => _forceLocal = v),
+          // D155：输入态收敛为「一句话 + 高级选项折叠」，默认只暴露一句话。
+          Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              key: const Key('ai-advanced'),
+              dense: true,
+              tilePadding: EdgeInsets.zero,
+              childrenPadding: EdgeInsets.zero,
+              collapsedIconColor: p.muted,
+              iconColor: p.accent,
+              title: Text('高级选项', style: AppType.small.style(p.muted)),
+              children: <Widget>[
+                SsToggleRow(
+                  title: '本地引擎（离线降级）',
+                  subtitle: '无 Key / 断网时自动使用；不消耗任何额度',
+                  value: _forceLocal,
+                  onChanged: (bool v) => setState(() => _forceLocal = v),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 6),
           SsButton(
             label: state.generating ? '生成中…' : '生成策划案草稿',
             icon: Icons.bolt_rounded,
@@ -209,134 +242,37 @@ class _AiPanelState extends ConsumerState<AiPanel> {
     );
   }
 
+  /// D155：三态分发。生成中 → 流式 + 可取消；有草稿 → 阅读成案；否则等待生成。
   Widget _buildGenerateResult(AiState state) {
-    if (state.generating) {
-      return Padding(
-        padding: const EdgeInsets.all(AppSpace.s4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Text('流式生成中…', style: TextStyle(fontSize: 12.5)),
-            const SizedBox(height: 8),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(AppRadius.chip),
-                ),
-                child: SingleChildScrollView(
-                  child: Text(
-                    state.streamText.isEmpty ? '…' : state.streamText,
-                    style: appMono(context.palette.muted, size: 11),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
+    switch (resolveAiStage(state)) {
+      case AiStage.generating:
+        return Padding(
+          padding: const EdgeInsets.all(AppSpace.s4),
+          child: AiGeneratingPanel(state: state),
+        );
+      case AiStage.reading:
+        return Padding(
+          padding: const EdgeInsets.all(AppSpace.s4),
+          child: AiReadingPanel(
+            state: state,
+            idea: _theme.text,
+            onInsertAll: (List<PlanModuleData> modules) {
+              widget.onInsertAll(modules);
+              Navigator.pop(context);
+            },
+            onInsertModule: (PlanModuleData m) {
+              widget.onInsertModule(m);
+              ssToast(context, '已插入：${m.title}');
+            },
+          ),
+        );
+      case AiStage.input:
+        return const SsEmpty(
+          icon: Icons.auto_awesome_outlined,
+          title: '等待生成',
+          hint: '输入主题后点击「生成策划案草稿」；也可以直接使用本地引擎离线生成',
+        );
     }
-    final draft = state.draft;
-    if (draft == null) {
-      return const SsEmpty(
-        icon: Icons.auto_awesome_outlined,
-        title: '等待生成',
-        hint: '输入主题后点击「生成策划案草稿」；也可以直接使用本地引擎离线生成',
-      );
-    }
-    return Padding(
-      padding: const EdgeInsets.all(AppSpace.s4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              SsBannerLite(
-                text: draft.viaLocal
-                    ? '来源：${draft.providerName}（离线降级）'
-                    : '来源：${draft.providerName} · ${draft.latencyMs}ms · 入 ${draft.tokensIn} / 出 ${draft.tokensOut} tokens',
-                success: !draft.viaLocal,
-              ),
-              const Spacer(),
-              SsButton(
-                label: '整体插入画布',
-                dense: true,
-                onPressed: () {
-                  widget.onInsertAll(draft.modules);
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '生成 ${draft.modules.length} 个模块（草稿态）',
-            style: TextStyle(
-              fontSize: 12,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Expanded(
-            child: ListView.builder(
-              itemCount: draft.modules.length,
-              itemBuilder: (BuildContext context, int i) {
-                final PlanModuleData module = draft.modules[i];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
-                  child: SsCard(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                '${module.title} · ${module.type.label}',
-                                style: const TextStyle(
-                                  fontSize: 12.5,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                module.summary.isEmpty
-                                    ? module.type.category
-                                    : module.summary,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SsButton(
-                          label: '插入',
-                          kind: SsButtonKind.text,
-                          dense: true,
-                          onPressed: () {
-                            widget.onInsertModule(module);
-                            ssToast(context, '已插入：${module.title}');
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   // ---------------- 提供方 ----------------

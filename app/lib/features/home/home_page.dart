@@ -71,6 +71,11 @@ class _HomePageState extends ConsumerState<HomePage> {
         idea: theme,
       );
       if (!mounted) return;
+      // D155：被取消的草稿只是占位，不可写入画布（阅读视图里按钮已是灰的，这里兜底）。
+      if (draft.cancelled) {
+        ssToast(context, '本次生成已被取消，请调整描述后重试');
+        return;
+      }
       if (action == 'accept') {
         await ref
             .read(plannerControllerProvider.notifier)

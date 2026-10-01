@@ -11,14 +11,22 @@
 | 项 | 状态 |
 |---|---|
 | 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页** `23012bd` ｜ **S5 画面参考搜索** `e4021db` ｜ **S6 布光预演**（本次提交：三栏版面 + 顶部工具条 + 灯位图画中画 + 撤销重做 ≥20 步 + 出片 ≤3 步；报告 `docs/qa/v8-s6-lighting.md`） |
-| CI | **S6 全绿** run 36808608106 = `4b8c25d` success 4/4； S7 推送后运行中（R61：全绿才算完成，下一步先复核）；**S5 全绿**（run 36773666033 = `e4021db`）；S4 全绿（36694433172 = `23012bd`）；S3 全绿（36691238788 = `5031db8`）；S2 全绿（36684962779 = `7dcfabf`）；S0 全绿（36673666121） |
-| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **441 passed + 40 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **10** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 |
+| CI | **S6 全绿** run `36808608106` = `4b8c25d` success 4/4；**S7 全绿** run `36872580514` = `52d69d8` success 4/4；S8 推送后运行中（R61：全绿才算完成） |
+| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **493 passed + 42 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **10** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 |
 | 当前步 | S6 收尾（提交 + CI 复核） |
-| 剩余 | **S8 策划案/AI/导出** → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
+| 剩余 | S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
 
 ---
 
 ## 1. 已完成（含证据路径）
+
+### S8 策划案 + AI 成案 + 导出重构（D155 + D150）
+
+- **AI 面板三态**（`ai_stage.dart`）：描述（高级选项折叠）→ 生成中（流式 mono + 推理链 + 尝试链 + 取消 + 自动换商提示）→ 阅读成案；`AiController.cancelGenerate()` + `AiDraftResult.cancelled`，被取消草稿在三处都不可写入画布。
+- **成案阅读视图**（`plan_read_view.dart` + `plan_read_view_spread.dart`）：Display 衬线刊头 + 眉题分节 + 图卡分镜 + KV 读数预算表 + 桌面双栏目录/正文（<1040 回落单列）；`show()` 返回值契约不变。
+- **导出版式**：PDF 每页页眉/页脚 + 来源许可附录页；长图刊头/页脚 + 分片页码；`kSspakFormatVersion = 2` + `layout` 字段，导入端按档迁移（v1/无版本 → `migratedFrom`）或明示拒绝（更高版本 → `FormatException`），`planner_page` toast 明示迁移。
+- **文件拆分（D158 强制清单）**：`planner_page` 2637→196、`exporter` 1682→202、`ai_controller` 1173→458、`exporter_pdf` 647→506；白名单 9 条 → **6 条**。
+- **证据**：专项 `s8_ai_export_ui_test.dart` **16/16**；不回归 `f4_export`(3)/`ai_and_export`(10)/`ai_pipeline`(4)/`g2_ai_pipeline`(4)/`plan_scorer`(5)/`s7_pose_ui_test`(14)；全量 **493 passed + 42 skipped**；视觉 20 张 `docs/screenshots/v8/s8-plan-*.png` + 索引 `docs/qa/v8-s8-plan-screenshots.json`；报告 `docs/qa/v8-s8-plan-ai-export.md`。
 
 ### S7 动作摆姿与识别重做（D153）
 
@@ -26,7 +34,7 @@
 - **识别链路 ≤4 步**：导入（选文件 / 粘贴截图 / 拖入 jpg|png|webp|bmp）→ 识别中（骨架屏 + 后端标签 chip，RTMPose 或 MediaPipe 回退 R69 不变）→ 校正（`PoseJointTuner` 照片 + 骨架并排，关节点命中半径 14px 可拖拽，拖拽实时重算 12 关节；拖拽时显示 mono 角度读数；`PoseTunerResetBar` 复位单关节 / 复位全部）→ 送入布光 / 存库。
 - **骨架交互基础**：`PoseSkeletonPainter` 新增 `layoutRect` / `offsetOf` / `toNormalized` / `hitTestJoint(radius, prefer)`。
 - **文件拆分（R73）**：`poses_page.dart` 591 → 135 行（+ `poses_page_layout.dart` part+extension）、`pose_import_page.dart` 773 → 413 行（+ `pose_import_page_layout.dart`），白名单条目 812 已删除。
-- **证据**：专项 `s7_pose_ui_test.dart` **14/14**；不回归 `q2_pose_photos`(8)/`q6_pose_test`(11)/`q6_pose3d`(10)/`q6_pose_recognition`(2)/`g5_poses`(5)/`g5b_poses_page`(1)；全量 **441 passed + 40 skipped**；视觉 16 张 `docs/screenshots/v8/s7-pose-*.png` + 索引 `docs/qa/v8-s7-pose-screenshots.json`；报告 `docs/qa/v8-s7-pose.md`。
+- **证据**：专项 `s7_pose_ui_test.dart` **14/14**；不回归 `q2_pose_photos`(8)/`q6_pose_test`(11)/`q6_pose3d`(10)/`q6_pose_recognition`(2)/`g5_poses`(5)/`g5b_poses_page`(1)；全量 **493 passed + 42 skipped**；视觉 16 张 `docs/screenshots/v8/s7-pose-*.png` + 索引 `docs/qa/v8-s7-pose-screenshots.json`；报告 `docs/qa/v8-s7-pose.md`。
 - **偏差登记**：`poses3.json` 难度只有 `进阶` 20 + `高难度` 100（无「新手友好」），但 UI 筛选 chips `poseDifficulties` 仍列「新手友好」→ 点它会得到空列表，暂留待 S8 按数据校正。
 
 ### S6 布光预演重构（D152 · R71–R74 / R79 / R81）
@@ -38,7 +46,7 @@
 - **帧率实测（D152）**：`docs/qa/v8-s6-engine-perf-gtx4060.json` —— lightDrag p50 16.7 / **p95 17.5ms** / p99 23.2 / max 25.0ms，**长帧 >50ms = 0**，CPU/帧 1.93ms；idle/orbit/dolly p95 17.3–17.8ms，长帧均 0。**偏差登记**：合同写 p95 ≤16ms，实测略高是因为 60Hz vsync（帧预算 16.67ms，稳定落在下一帧而非掉帧卡顿），与 S2 基线一致，按「说明不降档」处理。
 - **视觉证据（R72）**：16 张 → `docs/screenshots/v8/s6-lighting-{workspace,stage-pip,inspector-selected,left-list}-{paper,darkroom}-{1280x800,1920x1080}.png` + 索引 `docs/qa/v8-s6-lighting-screenshots.json`。
 - **测试**：`app/test/features/s6_lighting_ui_test.dart` **13 用例**（工具条 3 / 撤销重做 2 / 左栏 3 / 右栏 3 / 中栏 2）+ `app/test/features/s6_lighting_undo_test.dart` **14 用例**（栈逻辑 8 + 接线 6）+ `app/test/visual/s6_lighting_capture_test.dart` 16 截图 + 1 索引。
-- **门禁**：format 0 changed ｜ analyze 0（8.5s）｜ 全量 **441 passed + 40 skipped** ｜ `q6_lighting/q6_engine/q6_still/q6_camera` **44/44 不回归** ｜ `check_file_size` PASS。
+- **门禁**：format 0 changed ｜ analyze 0（8.5s）｜ 全量 **493 passed + 42 skipped** ｜ `q6_lighting/q6_engine/q6_still/q6_camera` **44/44 不回归** ｜ `check_file_size` PASS。
 
 ### S5 画面参考搜索重构（D154 · R71–R74 / R78 / R79）
 - **报告**：`docs/qa/v8-s5-refs-search.md`（文件拆分 / 四个版面 / 色卡与许可 / 视觉证据 / 14 专项 / 门禁 / 复盘）。
@@ -109,7 +117,7 @@
 
 1. ~~**S6 布光预演（D152）**~~ ✅ 已完成（run `36808608106` = `4b8c25d` success 4/4）。
 2. ~~**S7 动作摆姿与识别（D153）**~~ ✅ 已完成（本次提交；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归）。
-3. **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归。
+3. ~~**S8 策划案 + AI + 导出（D155）**~~ ✅ 已完成（本次提交）。
 4. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
 5. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
 6. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
@@ -159,9 +167,26 @@
 
 ---
 
+### S8 踩坑（补进 §3）
+
+- **库文件里 `part` 指令必须在所有声明之前**：常量/类写在 `part` 之后会报 `directive_after_declaration`。
+- **part 文件里不能再写 `part` 指令**（`non_part_of_directive_in_part`）；子 part 的 `part of` 必须直接指向库文件。
+- **extension 内访问 `Notifier.state` 报 protected**：在类里加 `AiState get _state => state;` + `set _state(...)` 访问器当唯一通道（setter 必需，否则 `state = ...` 赋值语句会编译失败）。
+- **extension 名必须公开**：私有 extension 在其它库不可见，外部调用会 `undefined_method` + `unused_element`。
+- **extension 内引用被扩展类型的静态成员必须限定**：`ExportService._width` / `AiController._localEngine` / `_ExporterPdfPress._ellipsis(...)`（extension 的静态成员用 extension 名限定）。
+- **类声明不能放进 extension**（如 `SspakImporter`），必须在 part 顶层。
+- **正则传播改写要先做字面量替换**：`(?<![.\w])state\.` 会漏掉 `...state.attempts`。
+- **文件写入铁律**：`io.open(p,'w')` 一开就清空；「读→改→写」必须先读入变量再开写句柄，否则整文件变 0 字节（已真实踩过一次）。
+- **写含中文的文件后必须扫 U+FFFD**（字节 `ï¿½`）：曾把「写入」的「入」字写成 3 个替换字符。
+- **widget 测试需要 Material 祖先**：直接 `home: child` pump 时 `SsButton` 的 `InkWell` 抛 `No Material widget found`，测试壳要 `Scaffold(body: child)`。
+- **局部变量不能以下划线开头**（`no_leading_underscores_for_local_identifiers`，`--fatal-infos` 下按 error 处理）。
+- **PDF 库只导入了 `pdfx` 别名**：`PdfColors` 必须写 `pdfx.PdfColors.grey900`。
+- **Row 的非 flex 子项会拿到无界主轴约束**：子项内部若含 `Expanded`/`Spacer`（如 `SsSectionTitle`），必须在外层包 `Expanded` 约束，否则 `RenderFlex ... unbounded`。
+- **导出相关 API 事实**：`ExportFormat` 枚举值是 `longPng`/`pdf`/`sspak`（不是 `png`）；`ExportResult.files` 是**文件路径**列表而非字节；`ArchiveFile.content` 是 `List<int>?`；`Archive` 没有 `updateFile`，改写 zip 必须新建 `Archive` 逐条 `addFile`。
+
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
-> 基线：v1.3.0；已完成 S0–S7（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构 + S7 动作摆姿与识别重做）；全量 **441 passed + 40 skipped**。
-> 下一步 **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归；沿用 S5/S6/S7 的模式（先读合同 §4.3 → 拆分文件满足 R73 → 专项测试 → 明暗 ×2 分辨率截图 + 索引 → 报告 `docs/qa/v8-s8-*.md`）。之后 S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付。
+> 基线：v1.3.0；已完成 S0–S8（合同 + S1 设计 spike + S2 引擎架构 spike + S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构 + S7 动作摆姿与识别重做 + S8 策划案/AI/导出重构）；全量 **493 passed + 42 skipped**。
+> 下一步 **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试；沿用 S5–S8 的模式（先读合同 → 拆分文件满足 R73 → 专项测试 → 明暗 ×2 分辨率截图 + 索引 → 报告 `docs/qa/v8-s9-*.md`）。之后 S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。
