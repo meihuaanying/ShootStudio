@@ -6,8 +6,6 @@
     "lib/core/design/": 300
   },
   "baseline": {
-    "lib/features/libraries/gear_browser.dart": 1312,
-    "lib/features/settings/settings_page.dart": 1234,
     "lib/features/lighting/lighting_controller.dart": 760,
     "lib/features/ai/ai_panel.dart": 747,
     "lib/features/libraries/libraries_page.dart": 808,

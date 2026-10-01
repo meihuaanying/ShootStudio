@@ -1,25 +1,13 @@
 {
   "version": 1,
   "note": "V8/S3 R73 file size gate (lib/features <= 600, lib/core/design <= 300, baseline allowlist)",
-  "at": "2026-10-01T17:11:23.980Z",
+  "at": "2026-10-01T17:43:25.745Z",
   "limits": {
     "features": 600,
     "design": 300,
     "headroom": 40
   },
   "files": [
-    {
-      "file": "lib/features/libraries/gear_browser.dart",
-      "lines": 1273,
-      "limit": 600,
-      "allowed": 1312
-    },
-    {
-      "file": "lib/features/settings/settings_page.dart",
-      "lines": 1196,
-      "limit": 600,
-      "allowed": 1234
-    },
     {
       "file": "lib/features/libraries/libraries_page.dart",
       "lines": 769,
@@ -75,6 +63,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/settings/settings_page_sources.dart",
+      "lines": 536,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/lighting/still_export.dart",
       "lines": 521,
       "limit": 600,
@@ -105,6 +99,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/libraries/gear_browser.dart",
+      "lines": 486,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/ai/ai_controller.dart",
       "lines": 480,
       "limit": 600,
@@ -113,6 +113,12 @@
     {
       "file": "lib/features/planner/planner_module_editors_a.dart",
       "lines": 479,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "lines": 471,
       "limit": 600,
       "allowed": 600
     },
@@ -267,6 +273,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/settings/settings_page.dart",
+      "lines": 313,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/refs/refs_board.dart",
       "lines": 312,
       "limit": 600,
@@ -369,7 +381,19 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/libraries/gear_browser_catalogs.dart",
+      "lines": 220,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/planner/planner_models.dart",
+      "lines": 218,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/settings/settings_page_cards.dart",
       "lines": 218,
       "limit": 600,
       "allowed": 600
@@ -483,6 +507,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/settings/settings_page_gpu.dart",
+      "lines": 148,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/core/design/ss_transitions.dart",
       "lines": 140,
       "limit": 300,
@@ -545,6 +575,12 @@
     {
       "file": "lib/features/home/home_recent.dart",
       "lines": 119,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/libraries/gear_browser_add.dart",
+      "lines": 114,
       "limit": 600,
       "allowed": 600
     },

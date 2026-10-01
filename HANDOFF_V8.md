@@ -12,13 +12,23 @@
 |---|---|
 | 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页** `23012bd` ｜ **S5 画面参考搜索** `e4021db` ｜ **S6 布光预演**（本次提交：三栏版面 + 顶部工具条 + 灯位图画中画 + 撤销重做 ≥20 步 + 出片 ≤3 步；报告 `docs/qa/v8-s6-lighting.md`） |
 | CI | **S6 全绿** run `36808608106` = `4b8c25d` success 4/4；**S7 全绿** run `36872580514` = `52d69d8` success 4/4；S8 推送后运行中（R61：全绿才算完成） |
-| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **493 passed + 42 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **10** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 |
+| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **517 passed + 43 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **10** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 ｜ S9 专项 `s9_library_settings_test` 8 ｜ 视觉 S9 16 张 |
 | 当前步 | S6 收尾（提交 + CI 复核） |
-| 剩余 | S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
+| 剩余 | **S10 官网** → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
 
 ---
 
 ## 1. 已完成（含证据路径）
+
+### S9 资源库 + 设置 + 引导页重构
+
+- **拆分（R73/D158）**：`libraries/gear_browser.dart` 1273 → **486**（+ `gear_browser_add.dart` 110 顶层 `_showAddDialog` / `gear_browser_card.dart` 466 `class _GearCard` / `gear_browser_catalogs.dart` 142+73）；`settings/settings_page.dart` 1196 → **313**（+ `settings_page_cards.dart` 213 / `settings_page_sources.dart` 531 / `settings_page_gpu.dart` 144）。白名单 6 条 → **4 条**。
+- **覆盖率六类 100% 守门**：`app/tool/gear_coverage.py` 已由 CI line 67 独立执行（camera/lens/light/accessory/clothing/props 全 100%）；专项测试在 Dart 侧复刻同一算法（不 spawn python，Windows runner 上 `python3` 未必在 PATH），断言「恰好六类」+ 每类 `covered == total`。
+- **设置往返**：`updaterProvider.notifier.setAnnouncementUrl(v)` → `await notifier.announcementUrl()` 读回一致（自动 trim），`state.status == '公告地址已保存'`；覆盖写第二个 URL 再验一次。零网络（只有 `silentCheck`/`manualCheck` 触网）。
+- **设计组件预览**（契约 D158 L203）：经核查 **S3 已落地**（`settings_page.dart` 的 `if (kDebugMode)` 块 → `DesignDemoPage`），本轮补断言守护（`find.text('设计组件预览')` + `find.text('设计系统')`）。
+- **渲染冒烟**：`LibrariesPage`（断言「资源库」）、`GearBrowser`（无异常 + `kGearPhotoDisclaimer` 文案）、`OnboardingPage`。
+- **证据**：专项 `s9_library_settings_test.dart` **8/8**；不回归 `q6_gear_test` **7/7**；全量 **517 passed + 43 skipped**；视觉 16 张 `docs/screenshots/v8/s9-*.png` + 索引 `docs/qa/v8-s9-library-screenshots.json`；报告 `docs/qa/v8-s9-library-settings.md`。
+- **偏差登记**：`GearBrowser` 在测试/截图壳里 `gearListProvider` 不落地 → `s9-gear-*.png` 是空态（真实构建正常）；`docs/qa/gear-coverage-v7.json` 是未入库生成物；「设计组件预览」release 隐藏靠 `if (kDebugMode)` 代码审查（`kDebugMode` 编译期常量，测试无法构造 release）。
 
 ### S8 策划案 + AI 成案 + 导出重构（D155 + D150）
 
@@ -118,7 +128,7 @@
 1. ~~**S6 布光预演（D152）**~~ ✅ 已完成（run `36808608106` = `4b8c25d` success 4/4）。
 2. ~~**S7 动作摆姿与识别（D153）**~~ ✅ 已完成（本次提交；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归）。
 3. ~~**S8 策划案 + AI + 导出（D155）**~~ ✅ 已完成（本次提交）。
-4. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
+4. ~~**S9 资源库 + 设置 + 引导**~~ ✅ 已完成（本次提交；覆盖率六类 100% 不回归 + 设置往返测试）。
 5. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
 6. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
 7. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
@@ -184,9 +194,19 @@
 - **Row 的非 flex 子项会拿到无界主轴约束**：子项内部若含 `Expanded`/`Spacer`（如 `SsSectionTitle`），必须在外层包 `Expanded` 约束，否则 `RenderFlex ... unbounded`。
 - **导出相关 API 事实**：`ExportFormat` 枚举值是 `longPng`/`pdf`/`sspak`（不是 `png`）；`ExportResult.files` 是**文件路径**列表而非字节；`ArchiveFile.content` 是 `List<int>?`；`Archive` 没有 `updateFile`，改写 zip 必须新建 `Archive` 逐条 `addFile`。
 
+### S9 踩坑（补进 §3）
+
+- **复刻内容包覆盖率算法前先 dump 顶层 key**：`gear_photo_sources.json` 的条目在 `items` 子字典里（218 项），直接用顶层 `keys` 会把 `version/note/generatedAt/count/items` 当条目 → camera 106/111；`gear_photos2.json` 另有 `builtinTop100`（100 个 id）也属于内置覆盖集合，必须并入。
+- **Dart 里可空 map 不能用 `?[]`**：`byCategory?[id]` 报 `invalid_null_aware_operator`；正确写法是先 `?? const <String, Object?>{}`。
+- **长 ListView 底部的控件用固定时长 pump 断言不到**：`find.text` 默认 `skipOffstage: true`；用 `tester.scrollUntilVisible(finder, delta, scrollable: find.byType(Scrollable).first)`。
+- **不要断言依赖不落地 provider 的 UI**：测试壳里读磁盘内容包的 `FutureProvider` 可能永不返回（`pumpAndSettle` 不空转），此时树里既没有 Scrollable 也没有数据文案。改断言导出的常量或纯函数。
+- **拆分时 State 类与对应 Widget 类必须同一个 part**：用「从声明行起找第一个列 0 的 `}`」只会切到 widget 外壳（`class X { const X({super.key}); }`），State 留在主文件 → 一堆 `unused_import` + 功能残缺。end 用「下一个顶层声明起始行 − 1」。
+- **`git checkout --` 的 pathspec 用 `os.path.relpath(f, REPO)`**：拼 `app/lib/features/` 前缀会变双前缀 `did not match any file(s)`，脚本在写文件前就退出。
+- **`tool/file_size_baseline.json` 用 2 空格缩进**：`edit` 的 oldString 缩进必须一致（4 空格会失败）。
+
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
-> 基线：v1.3.0；已完成 S0–S8（合同 + S1 设计 spike + S2 引擎架构 spike + S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构 + S7 动作摆姿与识别重做 + S8 策划案/AI/导出重构）；全量 **493 passed + 42 skipped**。
-> 下一步 **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试；沿用 S5–S8 的模式（先读合同 → 拆分文件满足 R73 → 专项测试 → 明暗 ×2 分辨率截图 + 索引 → 报告 `docs/qa/v8-s9-*.md`）。之后 S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付。
+> 基线：v1.3.0；已完成 S0–S9（… + S9 资源库/设置/引导重构）
+> 下一步 **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。

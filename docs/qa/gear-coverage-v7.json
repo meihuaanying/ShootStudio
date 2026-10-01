@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-09-28T03:41:06Z",
+  "generatedAt": "2026-10-01T17:19:31Z",
   "note": "V7/D142：六类 100% 口径 = 内置产品图（photo2）∪ 已核验图源（官网/授权零售商/同系列近似/补图/开放图源，图片仅存工作区/工具池，不入 git）；四层兜底见 layers 字段（official/retail/series/manual）。",
   "targets": {
     "camera": 1.0,

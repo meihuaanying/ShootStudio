@@ -1,0 +1,134 @@
+{
+  "version": 1,
+  "note": "V8/S9 资源库 + 设置 + 引导页截图（明暗双主题 × 1280×800 与 1920×1080；覆盖率六类 100% 由 CI 的 tool/gear_coverage.py 守门）",
+  "scenes": [
+    "libraries",
+    "gear",
+    "settings",
+    "onboarding"
+  ],
+  "themes": [
+    "paper",
+    "darkroom"
+  ],
+  "viewports": [
+    "1280x800",
+    "1920x1080"
+  ],
+  "coverageGate": "app/tool/gear_coverage.py（camera/lens/light/accessory/clothing/props 六类 100%）",
+  "count": 16,
+  "shots": [
+    {
+      "name": "s9-libraries-paper-1280x800",
+      "scene": "libraries",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 43771
+    },
+    {
+      "name": "s9-gear-paper-1280x800",
+      "scene": "gear",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 6349
+    },
+    {
+      "name": "s9-settings-paper-1280x800",
+      "scene": "settings",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 75137
+    },
+    {
+      "name": "s9-onboarding-paper-1280x800",
+      "scene": "onboarding",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 49402
+    },
+    {
+      "name": "s9-libraries-paper-1920x1080",
+      "scene": "libraries",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 49431
+    },
+    {
+      "name": "s9-gear-paper-1920x1080",
+      "scene": "gear",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 123407
+    },
+    {
+      "name": "s9-settings-paper-1920x1080",
+      "scene": "settings",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 116265
+    },
+    {
+      "name": "s9-onboarding-paper-1920x1080",
+      "scene": "onboarding",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 54779
+    },
+    {
+      "name": "s9-libraries-darkroom-1280x800",
+      "scene": "libraries",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 42538
+    },
+    {
+      "name": "s9-gear-darkroom-1280x800",
+      "scene": "gear",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 125556
+    },
+    {
+      "name": "s9-settings-darkroom-1280x800",
+      "scene": "settings",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 72854
+    },
+    {
+      "name": "s9-onboarding-darkroom-1280x800",
+      "scene": "onboarding",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 49112
+    },
+    {
+      "name": "s9-libraries-darkroom-1920x1080",
+      "scene": "libraries",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 48282
+    },
+    {
+      "name": "s9-gear-darkroom-1920x1080",
+      "scene": "gear",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 216174
+    },
+    {
+      "name": "s9-settings-darkroom-1920x1080",
+      "scene": "settings",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 113004
+    },
+    {
+      "name": "s9-onboarding-darkroom-1920x1080",
+      "scene": "onboarding",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 54835
+    }
+  ]
+}
