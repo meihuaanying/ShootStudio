@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/S3 R73 file size gate (lib/features <= 600, lib/core/design <= 300, baseline allowlist)",
-  "at": "2026-10-01T02:58:22.260Z",
+  "at": "2026-10-01T13:36:04.227Z",
   "limits": {
     "features": 600,
     "design": 300,
@@ -39,12 +39,6 @@
       "allowed": 1162
     },
     {
-      "file": "lib/features/poses/pose_import_page.dart",
-      "lines": 773,
-      "limit": 600,
-      "allowed": 812
-    },
-    {
       "file": "lib/features/ai/ai_panel.dart",
       "lines": 771,
       "limit": 600,
@@ -75,8 +69,8 @@
       "allowed": 600
     },
     {
-      "file": "lib/features/poses/poses_page.dart",
-      "lines": 591,
+      "file": "lib/features/poses/pose_import_page.dart",
+      "lines": 575,
       "limit": 600,
       "allowed": 600
     },
@@ -88,7 +82,7 @@
     },
     {
       "file": "lib/features/poses/poses_controller.dart",
-      "lines": 548,
+      "lines": 566,
       "limit": 600,
       "allowed": 600
     },
@@ -123,6 +117,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/poses/poses_page_layout.dart",
+      "lines": 460,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/lighting/widgets/lighting_inspector.dart",
       "lines": 432,
       "limit": 600,
@@ -131,6 +131,12 @@
     {
       "file": "lib/features/planner/planner_controller.dart",
       "lines": 430,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/poses/pose_import_page_layout.dart",
+      "lines": 415,
       "limit": 600,
       "allowed": 600
     },
@@ -171,6 +177,18 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/poses/pose_gallery.dart",
+      "lines": 332,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/poses/pose_joint_tuner.dart",
+      "lines": 325,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/planner/module_content_view.dart",
       "lines": 324,
       "limit": 600,
@@ -179,6 +197,12 @@
     {
       "file": "lib/features/shell/shell_nav.dart",
       "lines": 321,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/poses/pose_skeleton.dart",
+      "lines": 314,
       "limit": 600,
       "allowed": 600
     },
@@ -217,12 +241,6 @@
       "lines": 283,
       "limit": 300,
       "allowed": 300
-    },
-    {
-      "file": "lib/features/poses/pose_skeleton.dart",
-      "lines": 276,
-      "limit": 600,
-      "allowed": 600
     },
     {
       "file": "lib/features/lighting/hand_presets.dart",
@@ -379,6 +397,12 @@
       "lines": 140,
       "limit": 300,
       "allowed": 300
+    },
+    {
+      "file": "lib/features/poses/poses_page.dart",
+      "lines": 138,
+      "limit": 600,
+      "allowed": 600
     },
     {
       "file": "lib/features/refs/refs_masonry.dart",

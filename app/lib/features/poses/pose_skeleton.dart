@@ -123,9 +123,8 @@ class PoseSkeletonPainter extends CustomPainter {
     <int>[32, 28],
   ];
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (data.points.isEmpty || size.isEmpty) return;
+  /// 骨架在给定 widget 尺寸下的落位矩形（命中/拖拽与绘制共用同一套几何）。
+  Rect layoutRect(Size size) {
     final double scale = fit == BoxFit.contain
         ? math.min(
             size.width / data.imageSize.width,
@@ -139,17 +138,56 @@ class PoseSkeletonPainter extends CustomPainter {
       data.imageSize.width * scale,
       data.imageSize.height * scale,
     );
-    final Rect rect = Alignment.center.inscribe(dest, Offset.zero & size);
+    return Alignment.center.inscribe(dest, Offset.zero & size);
+  }
 
-    Offset? map(int index) {
-      if (index < 0 || index >= data.points.length) return null;
-      final PosePoint? p = data.points[index];
-      if (p == null || p.visibility < 0.5) return null;
-      return Offset(
-        rect.left + p.x * data.imageSize.width * scale,
-        rect.top + p.y * data.imageSize.height * scale,
-      );
+  /// 第 [index] 个关键点在 widget 局部坐标里的位置（不可见/越界返回 null）。
+  Offset? offsetOf(int index, Size size) {
+    if (index < 0 || index >= data.points.length) return null;
+    final PosePoint? p = data.points[index];
+    if (p == null || p.visibility < 0.5) return null;
+    final Rect rect = layoutRect(size);
+    return Offset(rect.left + p.x * rect.width, rect.top + p.y * rect.height);
+  }
+
+  /// 命中最近的可见关节点（D153：校正页拖拽用；半径默认 14px ≥ 合同要求的 12px）。
+  /// [prefer] 内的点优先（正在拖拽的关节点不会被邻居抢走）。
+  int? hitTestJoint(
+    Offset local,
+    Size size, {
+    double radius = 14,
+    int? prefer,
+  }) {
+    int? best;
+    double bestDistance = radius;
+    for (int i = 0; i < data.points.length; i++) {
+      final Offset? p = offsetOf(i, size);
+      if (p == null) continue;
+      final double d = (p - local).distance;
+      final bool isPreferred = prefer != null && i == prefer;
+      if (d <= radius && (isPreferred || best == null || d < bestDistance)) {
+        best = i;
+        bestDistance = d;
+      }
     }
+    return best;
+  }
+
+  /// 局部坐标 → 归一化（0..1）坐标，供拖拽写回骨架数据。
+  Offset? toNormalized(Offset local, Size size) {
+    final Rect rect = layoutRect(size);
+    if (rect.width <= 0 || rect.height <= 0) return null;
+    return Offset(
+      ((local.dx - rect.left) / rect.width).clamp(0.0, 1.0),
+      ((local.dy - rect.top) / rect.height).clamp(0.0, 1.0),
+    );
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (data.points.isEmpty || size.isEmpty) return;
+
+    Offset? map(int index) => offsetOf(index, size);
 
     final Paint bonePaint = Paint()
       ..color = color

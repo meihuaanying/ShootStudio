@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "note": "V8/S7 动作摆姿截图（D153：大图瀑布流 + 分类眉题 / 关节点校正器 + 复位条 / 详情半屏抽屉 / 识别首屏；明暗双主题 × 1280×800 与 1920×1080）",
+  "pages": [
+    "gallery",
+    "tuner",
+    "sheet",
+    "import"
+  ],
+  "themes": [
+    "paper",
+    "darkroom"
+  ],
+  "viewports": [
+    "1280x800",
+    "1920x1080"
+  ],
+  "count": 16,
+  "shots": [
+    {
+      "name": "s7-pose-gallery-paper-1280x800",
+      "scene": "gallery",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 61367
+    },
+    {
+      "name": "s7-pose-tuner-paper-1280x800",
+      "scene": "tuner",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 57966
+    },
+    {
+      "name": "s7-pose-sheet-paper-1280x800",
+      "scene": "sheet",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 134935
+    },
+    {
+      "name": "s7-pose-import-paper-1280x800",
+      "scene": "import",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 41132
+    },
+    {
+      "name": "s7-pose-gallery-paper-1920x1080",
+      "scene": "gallery",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 880522
+    },
+    {
+      "name": "s7-pose-tuner-paper-1920x1080",
+      "scene": "tuner",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 76063
+    },
+    {
+      "name": "s7-pose-sheet-paper-1920x1080",
+      "scene": "sheet",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 143169
+    },
+    {
+      "name": "s7-pose-import-paper-1920x1080",
+      "scene": "import",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 46460
+    },
+    {
+      "name": "s7-pose-gallery-darkroom-1280x800",
+      "scene": "gallery",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 333898
+    },
+    {
+      "name": "s7-pose-tuner-darkroom-1280x800",
+      "scene": "tuner",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 58417
+    },
+    {
+      "name": "s7-pose-sheet-darkroom-1280x800",
+      "scene": "sheet",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 134108
+    },
+    {
+      "name": "s7-pose-import-darkroom-1280x800",
+      "scene": "import",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 40093
+    },
+    {
+      "name": "s7-pose-gallery-darkroom-1920x1080",
+      "scene": "gallery",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 879811
+    },
+    {
+      "name": "s7-pose-tuner-darkroom-1920x1080",
+      "scene": "tuner",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 77538
+    },
+    {
+      "name": "s7-pose-sheet-darkroom-1920x1080",
+      "scene": "sheet",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 142644
+    },
+    {
+      "name": "s7-pose-import-darkroom-1920x1080",
+      "scene": "import",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 45563
+    }
+  ]
+}

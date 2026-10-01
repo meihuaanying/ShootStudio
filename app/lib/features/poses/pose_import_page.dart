@@ -3,9 +3,11 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pasteboard/pasteboard.dart';
 import 'package:path/path.dart' as path;
 
 import '../../core/design/widgets.dart';
@@ -19,9 +21,12 @@ import '../../services/pose/pose_joint_mapper.dart';
 import '../lighting/lighting_controller.dart';
 import '../planner/planner_pending.dart';
 import '../shell/app_shell.dart';
+import 'pose_joint_tuner.dart';
 import 'pose_landmark_math.dart';
 import 'pose_skeleton.dart';
 import 'poses_controller.dart';
+
+part 'pose_import_page_layout.dart';
 
 /// D 阶段：导入照片 → 端上识别 → 骨架/12 关节预览 → 手动确认后导入
 /// （D124：只输出骨架+关节数据；D125：多人点选 + 低置信标注；
@@ -48,6 +53,86 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
   int _selected = 0;
   MappedPose? _mapped;
   GroundedPose? _grounded;
+
+  // D153：关节点拖拽校正（可编辑骨架副本 + 复位基准 + 校正后世界坐标）。
+  List<PosePoint?> _points = <PosePoint?>[];
+  List<PosePoint?> _pointsBackup = <PosePoint?>[];
+  List<List<double>>? _tunedWorld;
+  bool _tuned = false;
+
+  /// extension 里不能直接调 protected setState，统一走这层薄封装。
+  void refresh(void Function() fn) => setState(fn);
+
+  /// 把选中人物的 2D 关键点按图片尺寸归一化（校正页编辑副本 + 复位基准）。
+  void _syncPoints(DetectedPerson person) {
+    List<PosePoint?> toPoints() => <PosePoint?>[
+      for (final l in person.landmarks2d)
+        PosePoint(
+          _imageSize.width == 0 ? 0 : l.x / _imageSize.width,
+          _imageSize.height == 0 ? 0 : l.y / _imageSize.height,
+          l.visibility,
+        ),
+    ];
+    _points = toPoints();
+    _pointsBackup = toPoints();
+    _tunedWorld = null;
+    _tuned = false;
+  }
+
+  /// 拖动关键点 → `applyPosePointEdits` 折算世界坐标 → 重算 12 关节（D153：实时更新）。
+  void _onPointMoved(int index, double x, double y) {
+    if (index < 0 || index >= _points.length || _persons.isEmpty) return;
+    final List<PosePoint?> next = <PosePoint?>[
+      for (int i = 0; i < _points.length; i++)
+        i == index ? PosePoint(x, y, _points[i]?.visibility ?? 1) : _points[i],
+    ];
+    _applyPoints(next);
+  }
+
+  /// 复位单个关节链（只回滚该关节涉及的 parent/child 两个点）。
+  void _resetJointChain(String joint) {
+    final (int, int)? chain = poseTunableJoints[joint];
+    if (chain == null) {
+      _resetTuned();
+      return;
+    }
+    _applyPoints(<PosePoint?>[
+      for (int i = 0; i < _points.length; i++)
+        (i == chain.$1 || i == chain.$2) && i < _pointsBackup.length
+            ? _pointsBackup[i]
+            : _points[i],
+    ]);
+  }
+
+  /// 复位全部（回到识别结果）。
+  void _resetTuned() => _applyPoints(<PosePoint?>[
+    for (int i = 0; i < _pointsBackup.length; i++) _pointsBackup[i],
+  ]);
+
+  void _applyPoints(List<PosePoint?> next) {
+    if (_persons.isEmpty) return;
+    final DetectedPerson person = _persons[_selected];
+    final List<List<double>> world = applyPosePointEdits(
+      world: person.world,
+      pointsBefore: _pointsBackup,
+      pointsAfter: next,
+      imageSize: _imageSize,
+    );
+    setState(() {
+      _points = next;
+      _tunedWorld = world;
+      _tuned = true;
+      _mapped = PoseJointMapper.map(
+        world,
+        jointConfidence: person.jointConfidence,
+        category: '',
+      );
+    });
+  }
+
+  /// 推导 12 关节用的世界坐标（校正优先于识别原始值）。
+  List<List<double>> _worldOf(DetectedPerson person) =>
+      _tunedWorld ?? person.world;
 
   @override
   void dispose() {
@@ -140,7 +225,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
       return;
     }
     final MappedPose mapped = PoseJointMapper.map(
-      person.world,
+      _worldOf(person),
       jointConfidence: person.jointConfidence,
       category: '',
     );
@@ -153,6 +238,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
     setState(() {
       _mapped = mapped;
       _grounded = grounded;
+      _syncPoints(person);
       _status =
           '识别完成：${_persons.length} 人 · 检测分 ${(person.score * 100).toStringAsFixed(0)}%'
           ' · ${_service?.backendLabel ?? '端上识别'}'
@@ -314,66 +400,6 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
     ssToast(context, '已加入策划案姿势待插入清单');
   }
 
-  Future<(String?, String?)> _askNameCategory({
-    required String title,
-    required String defaultName,
-    required String defaultCategory,
-  }) async {
-    final TextEditingController name = TextEditingController(text: defaultName);
-    String category = defaultCategory;
-    final (String?, String?)? result = await showDialog<(String?, String?)>(
-      context: context,
-      builder: (BuildContext ctx) => StatefulBuilder(
-        builder: (BuildContext ctx, StateSetter setStateDialog) => AlertDialog(
-          title: Text(title, style: const TextStyle(fontSize: 16)),
-          content: SizedBox(
-            width: 360,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                TextField(
-                  controller: name,
-                  decoration: const InputDecoration(
-                    labelText: '姿势名称',
-                    isDense: true,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 4,
-                  children: <Widget>[
-                    for (final String c in poseCategories)
-                      if (c != '全部')
-                        SsChip(
-                          label: c,
-                          selected: category == c,
-                          onTap: () => setStateDialog(() => category = c),
-                        ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('取消'),
-            ),
-            SsButton(
-              label: '保存',
-              dense: true,
-              onPressed: () => Navigator.pop(ctx, (name.text, category)),
-            ),
-          ],
-        ),
-      ),
-    );
-    name.dispose();
-    return result ?? (null, null);
-  }
-
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -385,388 +411,164 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
               : '替换参考图：${widget.overridePose!.name}',
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpace.s4,
-              AppSpace.s3,
-              AppSpace.s4,
-              AppSpace.s2,
-            ),
-            child: Row(
-              children: <Widget>[
-                SsButton(
-                  label: _bytes == null ? '选择照片' : '重新选择照片',
-                  icon: Icons.add_photo_alternate_outlined,
-                  dense: true,
-                  onPressed: _busy ? null : _pickImage,
-                ),
-                const SizedBox(width: 8),
-                if (_busy)
-                  const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+      body: _wrapDrop(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpace.s4,
+                AppSpace.s3,
+                AppSpace.s4,
+                AppSpace.s2,
+              ),
+              child: Row(
+                children: <Widget>[
+                  SsButton(
+                    label: _bytes == null ? '选择照片' : '重新选择照片',
+                    icon: Icons.add_photo_alternate_outlined,
+                    dense: true,
+                    onPressed: _busy ? null : _pickImage,
                   ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    _status,
-                    style: TextStyle(
-                      fontSize: 11.5,
-                      color: theme.colorScheme.onSurfaceVariant,
+                  const SizedBox(width: 8),
+                  // V8/D153：粘贴截图（Win+Shift+S → Ctrl+V），与拖入、选文件并列。
+                  SsButton(
+                    label: '粘贴截图',
+                    icon: Icons.content_paste_go_outlined,
+                    kind: SsButtonKind.text,
+                    dense: true,
+                    onPressed: _busy ? null : _pasteImage,
+                  ),
+                  const SizedBox(width: 8),
+                  // V8/D153：识别后端标签（点击看回退/降级说明，R69）。
+                  SsChip(
+                    label: _service?.backendLabel ?? '端上识别',
+                    selected: _serviceReady,
+                    onTap: () => ssToast(
+                      context,
+                      _service?.backendNote.isNotEmpty ?? false
+                          ? _service!.backendNote
+                          : '识别后端：${_service?.backendLabel ?? '端上识别'}',
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  if (_busy)
+                    // V8/D153：骨架屏（呼吸微光）替代裸进度圈。
+                    const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SsSkeleton(width: 64, height: 12),
+                        SizedBox(width: 6),
+                        SsSkeleton(width: 40, height: 12),
+                      ],
+                    ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      _status,
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const Divider(height: 1),
-          Expanded(
-            child: _bytes == null
-                ? const SsEmpty(
-                    icon: Icons.add_a_photo_outlined,
-                    title: '还没有照片',
-                    hint:
-                        '选择一张单人全身照（光线充足、人物完整）；'
-                        '识别只输出骨架与 12 关节数据，需你确认后才写入姿势库/布光预演',
-                  )
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(AppSpace.s3),
-                          child: _PersonPreview(
-                            bytes: _bytes!,
-                            imageSize: _imageSize,
-                            persons: _persons,
-                            selected: _selected,
-                            showSkeleton: true,
-                            onSelect: _selectPerson,
+            const Divider(height: 1),
+            Expanded(
+              child: _bytes == null
+                  ? const SsEmpty(
+                      icon: Icons.add_a_photo_outlined,
+                      title: '还没有照片',
+                      hint:
+                          '选择一张单人全身照（光线充足、人物完整）；'
+                          '识别只输出骨架与 12 关节数据，需你确认后才写入姿势库/布光预演',
+                    )
+                  : Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(AppSpace.s3),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                // D125：多人时给人物切换（点框选已由校正器接管）。
+                                if (_persons.length > 1)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 6),
+                                    child: Row(
+                                      children: <Widget>[
+                                        for (
+                                          int i = 0;
+                                          i < _persons.length;
+                                          i++
+                                        )
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 6,
+                                            ),
+                                            child: SsChip(
+                                              label: '人物 ${i + 1}',
+                                              selected: _selected == i,
+                                              onTap: () => _selectPerson(i),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                // D153：关节点拖拽校正（命中半径 ≥12px，拖拽时显示角度读数）。
+                                Expanded(
+                                  child: PoseJointTuner(
+                                    image: Image.memory(
+                                      _bytes!,
+                                      fit: BoxFit.contain,
+                                      gaplessPlayback: true,
+                                    ),
+                                    points: _points,
+                                    imageSize: _imageSize,
+                                    onPointMoved: _onPointMoved,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 340,
-                        child: _buildResultPanel(context, theme),
-                      ),
-                    ],
-                  ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildResultPanel(BuildContext context, ThemeData theme) {
-    final AppPalette p = context.palette;
-    final MappedPose? mapped = _mapped;
-    if (mapped == null) {
-      return SsCard(
-        child: SsEmpty(
-          icon: Icons.accessibility_new_outlined,
-          title: _busy ? '识别中…' : '等待识别结果',
-          hint:
-              '识别完成后这里显示 12 关节角与置信度；'
-              '低置信关节会标注「仅供参考」，可进布光预演手动微调',
-        ),
-      );
-    }
-    final DetectedPerson person = _persons[_selected];
-    return SsCard(
-      child: ListView(
-        padding: const EdgeInsets.all(AppSpace.s3),
-        children: <Widget>[
-          SsSectionTitle(
-            widget.overridePose?.name ?? '识别结果',
-            subtitle:
-                '检测分 ${(person.score * 100).toStringAsFixed(0)}% · '
-                '${_persons.length > 1 ? '多人：点左侧图片选择目标' : '单人'}',
-          ),
-          if (mapped.lowConfidence) ...<Widget>[
-            const SizedBox(height: 6),
-            for (final String warning in mapped.warnings)
-              Container(
-                margin: const EdgeInsets.only(bottom: 6),
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: p.gold.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(AppRadius.chip),
-                  border: Border.all(color: p.gold.withValues(alpha: 0.4)),
-                ),
-                child: Text(
-                  warning,
-                  style: const TextStyle(fontSize: 11, height: 1.5),
-                ),
-              ),
+                        SizedBox(
+                          width: 340,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              if (_persons.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    8,
+                                    8,
+                                    8,
+                                    0,
+                                  ),
+                                  child: PoseTunerResetBar(
+                                    joints: poseTunableJoints.keys.toList(),
+                                    canReset: _tuned,
+                                    onResetJoint: _resetJointChain,
+                                    onResetAll: _resetTuned,
+                                  ),
+                                ),
+                              Expanded(
+                                child: _buildResultPanel(context, theme),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
           ],
-          if (_grounded?.note.isNotEmpty == true)
-            Text(
-              _grounded!.note,
-              style: TextStyle(
-                fontSize: 11,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-          const SizedBox(height: 8),
-          for (final String joint in engineJoints)
-            _jointRow(context, joint, mapped, person),
-          const Divider(height: 18),
-          SsButton(
-            label: '导入到布光预演',
-            icon: Icons.wb_incandescent_outlined,
-            onPressed: _busy ? null : _injectLighting,
-          ),
-          const SizedBox(height: 6),
-          SsButton(
-            label: '加入策划案姿势清单',
-            icon: Icons.playlist_add_rounded,
-            kind: SsButtonKind.outline,
-            onPressed: _busy ? null : _addToPending,
-          ),
-          const SizedBox(height: 6),
-          if (widget.overridePose != null)
-            SsButton(
-              label: '覆盖「${widget.overridePose!.name}」参考图数据',
-              icon: Icons.swap_horiz_rounded,
-              kind: SsButtonKind.text,
-              onPressed: _busy ? null : _saveOverride,
-            )
-          else
-            SsButton(
-              label: '保存为自定义姿势',
-              icon: Icons.bookmark_add_outlined,
-              kind: SsButtonKind.text,
-              onPressed: _busy ? null : _saveCustom,
-            ),
-          const SizedBox(height: 8),
-          Text(
-            '照片仅保存在工作区 images/poses/，随工作区备份/迁移；'
-            '识别数据不联网、不上传。',
-            style: TextStyle(
-              fontSize: 10.5,
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _jointRow(
-    BuildContext context,
-    String joint,
-    MappedPose mapped,
-    DetectedPerson person,
-  ) {
-    final AppPalette p = context.palette;
-    final List<double> angles = mapped.joints[joint] ?? <double>[0, 0, 0];
-    final double confidence = mapped.jointConfidence[joint] ?? 1;
-    final bool low = confidence < PoseJointMapper.confidenceThreshold;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Row(
-        children: <Widget>[
-          SizedBox(
-            width: 92,
-            child: Text(joint, style: const TextStyle(fontSize: 11.5)),
-          ),
-          Expanded(
-            child: Text(
-              angles.map((double v) => v.toStringAsFixed(1)).join(' / '),
-              style: appMono(p.inkSoft),
-            ),
-          ),
-          Icon(
-            low ? Icons.warning_amber_rounded : Icons.check_circle_outline,
-            size: 13,
-            color: low
-                ? p.gold
-                : Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-          const SizedBox(width: 4),
-          Text(
-            '${(confidence * 100).toStringAsFixed(0)}%',
-            style: TextStyle(
-              fontSize: 10,
-              color: low
-                  ? p.gold
-                  : Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
 /// 照片 + 骨架叠加 + 多人框选。
-class _PersonPreview extends StatelessWidget {
-  const _PersonPreview({
-    required this.bytes,
-    required this.imageSize,
-    required this.persons,
-    required this.selected,
-    required this.showSkeleton,
-    required this.onSelect,
-  });
-
-  final Uint8List bytes;
-  final Size imageSize;
-  final List<DetectedPerson> persons;
-  final int selected;
-  final bool showSkeleton;
-  final ValueChanged<int> onSelect;
-
-  @override
-  Widget build(BuildContext context) {
-    final DetectedPerson? person = (selected >= 0 && selected < persons.length)
-        ? persons[selected]
-        : null;
-    final PoseSkeletonData? skeleton = person == null
-        ? null
-        : PoseSkeletonData(
-            points: <PosePoint?>[
-              for (final l in person.landmarks2d)
-                PosePoint(
-                  imageSize.width == 0 ? 0 : l.x / imageSize.width,
-                  imageSize.height == 0 ? 0 : l.y / imageSize.height,
-                  l.visibility,
-                ),
-            ],
-            imageSize: imageSize,
-            confidence: person.score,
-          );
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final Size widgetSize = Size(
-          constraints.maxWidth,
-          constraints.maxHeight,
-        );
-        final Rect rect = _displayRect(widgetSize, imageSize);
-        return GestureDetector(
-          onTapUp: (TapUpDetails details) {
-            if (persons.length < 2) return;
-            final Offset local = details.localPosition - rect.topLeft;
-            final double scale = rect.width / imageSize.width;
-            if (scale <= 0) return;
-            final Offset imagePoint = local / scale;
-            var picked = -1;
-            for (var i = 0; i < persons.length; i++) {
-              if (persons[i].bbox.contains(imagePoint)) {
-                picked = i;
-                break;
-              }
-            }
-            if (picked >= 0) onSelect(picked);
-          },
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Container(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                child: Image.memory(
-                  bytes,
-                  fit: BoxFit.contain,
-                  gaplessPlayback: true,
-                ),
-              ),
-              if (showSkeleton && skeleton != null)
-                CustomPaint(
-                  painter: PoseSkeletonPainter(
-                    data: skeleton,
-                    fit: BoxFit.contain,
-                  ),
-                  child: const SizedBox.expand(),
-                ),
-              CustomPaint(
-                painter: _PersonBoxPainter(
-                  palette: context.palette,
-                  imageSize: imageSize,
-                  boxes: <Rect>[
-                    for (final DetectedPerson person in persons) person.bbox,
-                  ],
-                  selected: selected,
-                ),
-                child: const SizedBox.expand(),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  static Rect _displayRect(Size widget, Size image) {
-    if (image.isEmpty || widget.isEmpty) return Offset.zero & widget;
-    final double scale =
-        (widget.width / image.width) < (widget.height / image.height)
-        ? widget.width / image.width
-        : widget.height / image.height;
-    final Size dest = Size(image.width * scale, image.height * scale);
-    return Alignment.center.inscribe(dest, Offset.zero & widget);
-  }
-}
-
-class _PersonBoxPainter extends CustomPainter {
-  _PersonBoxPainter({
-    required this.palette,
-    required this.imageSize,
-    required this.boxes,
-    required this.selected,
-  });
-
-  final AppPalette palette;
-  final Size imageSize;
-  final List<Rect> boxes;
-  final int selected;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (boxes.isEmpty || imageSize.isEmpty || size.isEmpty) return;
-    final Rect rect = _PersonPreview._displayRect(size, imageSize);
-    final double scale = rect.width / imageSize.width;
-    for (var i = 0; i < boxes.length; i++) {
-      final Rect b = boxes[i];
-      final Rect target = Rect.fromLTRB(
-        rect.left + b.left * scale,
-        rect.top + b.top * scale,
-        rect.left + b.right * scale,
-        rect.top + b.bottom * scale,
-      );
-      final bool active = i == selected;
-      canvas.drawRect(
-        target,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = active ? 2.4 : 1.4
-          ..color = active
-              ? palette.accent
-              : Colors.white.withValues(alpha: 0.7),
-      );
-      if (boxes.length > 1) {
-        final TextPainter label = TextPainter(
-          text: TextSpan(
-            text: '${i + 1}',
-            style: TextStyle(
-              color: active ? palette.accent : Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          textDirection: TextDirection.ltr,
-        )..layout();
-        label.paint(canvas, target.topLeft + const Offset(4, 4));
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_PersonBoxPainter old) =>
-      old.selected != selected ||
-      old.imageSize != imageSize ||
-      old.boxes.length != boxes.length;
-}

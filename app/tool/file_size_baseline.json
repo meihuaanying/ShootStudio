@@ -12,7 +12,6 @@
     "lib/features/settings/settings_page.dart": 1234,
     "lib/features/ai/ai_controller.dart": 1162,
     "lib/features/lighting/lighting_controller.dart": 760,
-    "lib/features/poses/pose_import_page.dart": 812,
     "lib/features/ai/ai_panel.dart": 810,
     "lib/features/libraries/libraries_page.dart": 808,
     "lib/features/ai/ai_client.dart": 779

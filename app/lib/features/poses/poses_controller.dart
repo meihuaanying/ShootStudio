@@ -353,9 +353,7 @@ class PosesController extends Notifier<PosesState> {
     final filtered = state.all.where((PoseEntry p) {
       if (category != '全部' && p.category != category) return false;
       if (difficulty != '全部' && p.difficulty != difficulty) return false;
-      if (lower.isNotEmpty && !p.name.toLowerCase().contains(lower)) {
-        return false;
-      }
+      if (lower.isNotEmpty && !_matchesKeyword(p, lower)) return false;
       return true;
     }).toList();
     state = state.copyWith(
@@ -368,6 +366,26 @@ class PosesController extends Notifier<PosesState> {
           : state.index.clamp(0, filtered.isEmpty ? 0 : filtered.length - 1),
       jointsOverride: null,
     );
+  }
+
+  /// V8/D153：检索命中「名称 / 类别 / 难度 / 重心 / 手部 / 常见错误 / 镜头 / 机位」
+  /// 任一字段即可（小写包含匹配）——原来只按名称搜，找不到「怎么摆手」这类描述。
+  static bool _matchesKeyword(PoseEntry p, String lower) {
+    final Iterable<String> haystack = <String>[
+      p.name,
+      p.category,
+      p.difficulty,
+      p.weight,
+      p.hands,
+      p.mistake,
+      p.lens,
+      p.cameraPosition,
+      p.partialReason,
+    ];
+    for (final String raw in haystack) {
+      if (raw.toLowerCase().contains(lower)) return true;
+    }
+    return false;
   }
 
   void setCategory(String category) =>
