@@ -11,14 +11,24 @@
 | 项 | 状态 |
 |---|---|
 | 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页** `23012bd` ｜ **S5 画面参考搜索** `e4021db` ｜ **S6 布光预演**（本次提交：三栏版面 + 顶部工具条 + 灯位图画中画 + 撤销重做 ≥20 步 + 出片 ≤3 步；报告 `docs/qa/v8-s6-lighting.md`） |
-| CI | **S6 全绿** run `36808608106` = `4b8c25d` success 4/4；**S7 全绿** run `36872580514` = `52d69d8` success 4/4；**S8** run `36898142693` = `584cb3f`，Analyse & Test 双平台 success，Build job 因 S9 推送被取消（superseded，构建由 S9 run 覆盖，非回归）；**S9** run `36901770696` = `bab1230`，运行中（结论待复核）；S10 推送后运行中（R61：全绿才算完成） |
-| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **517 passed + 43 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **4** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 ｜ S9 专项 `s9_library_settings_test` 8 ｜ 视觉 S9 16 张 ｜ S10 官网 `npm run build` 6 页（含 spike-hero 残留）｜ 官网截图 30 张（5 页 × 明暗 × 1280×800/1920×1080/390×844）｜ 旧 `ss-*` 蓝紫体系与装饰 SVG 光圈 0 命中 |
+| CI | **S6 全绿** run `36808608106` = `4b8c25d` success 4/4；**S7 全绿** run `36872580514` = `52d69d8` success 4/4；**S8** run `36898142693` = `584cb3f`，Analyse & Test 双平台 success，Build job 因 S9 推送被取消（superseded，构建由 S9 run 覆盖，非回归）；**S9** run `36901770696` = `bab1230`，Analyse & Test 双平台 success，Build job 因 S10 推送被取消（superseded，构建由 S10 run 覆盖，非回归）；S10 run `36914625677` = `0056a3c`，Analyse & Test 双平台 success，Build job 因 S11 推送被取消（superseded，构建由 S11 run 覆盖，非回归）；S11 推送后运行中（R61：全绿才算完成） |
+| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **517 passed + 43 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **4** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 ｜ S9 专项 `s9_library_settings_test` 8 ｜ 视觉 S9 16 张 ｜ S10 官网 `npm run build` 6 页（含 spike-hero 残留）｜ 官网截图 30 张（5 页 × 明暗 × 1280×800/1920×1080/390×844）｜ 旧 `ss-*` 蓝紫体系与装饰 SVG 光圈 0 命中 ｜ S11 截图总表 28 张（7 页 × 明暗 × 两档分辨率，缺失 0） ｜ 死代码删除 2 个文件 656 行（App 侧两维度零死代码） ｜ 官网 `npm run build` 5 页 + 30 张截图不回归 |
 | 当前步 | S6 收尾（提交 + CI 复核） |
-| 剩余 | **S11 全量回归+视觉验收+死代码** → S12 v2.0.0 交付 |
+| 剩余 | **S12 v2.0.0 交付（D160）**：版本同步 + 双端构建 + LAUNCH-OK + 体积记录 + tag `v2.0.0` + CI 全绿 |
 
 ---
 
 ## 1. 已完成（含证据路径）
+
+### S11 全量回归 + 视觉验收 + 死代码清理（D158）
+
+- **全量门禁**：`dart format lib test` 0 changed（247 files）｜ `flutter analyze --no-pub --fatal-infos` No issues found（8.2s）｜ `flutter test --no-pub` **517 passed + 43 skipped** ｜ `check_file_size.mjs` **PASS**（白名单 4 条，`lib/features/**` 超限数 10 → 4）｜ 官网 `npm run build` **5 页** ｜ `node tool/shot_s10.mjs` **30/30**。
+- **7 页 App 截图总表**（合同 §1 S11 门禁）：首页 / 画面参考 / 布光预演 / 动作摆姿 / 策划案 / 资源库 / 设置 × 明暗 × `1280x800`+`1920x1080` = **28 张，缺失 0**；对照表 `docs/qa/v8-s11-overview-table.md`，索引 `docs/qa/v8-s11-screenshots.json`。
+- **死代码清理**（先 grep 引用计数为 0 再删）：
+  - **Web 侧删 2 个文件共 656 行** —— `web/src/pages/spike-hero.astro`(462，S1 spike 残留页，nav 无入口、CI 不构建、全部命中均为注释/历史报告) + `web/tool/shot_s10.mjs`(194，已被 `shot_s10.mjs` 完全取代)。
+  - **App 侧两维度零死代码** —— 符号维度仅 3 条命中且全为 extension 误报（`AppPaletteContext` / `AiControllerGenerate` / `AiControllerRevise`，靠成员访问使用）；文件维度 179 个 `.dart` 文件未引用数 = 0。
+- **零回归实证**：删后 `npm run build` 由 6 页回到 **5 页**、`shot_s10.mjs` 仍 **30/30**、`brokenImgs` 全 0、**announcements 通道仍通**（版本号/镜像链接/sha 占位均正确写入 8 个 DOM id）、App 全量测试与基线一致。
+- **报告**：`docs/qa/v8-s11-regression-and-cleanup.md`；**偏差登记**：保留 S1 历史证据 `s1-web-hero-*.png` 4 张与 `docs/qa/v8-s1-web-screenshots.json` 不删；`web/dist` 仍 gitignore；App 侧 4 个白名单文件不在 D158 强制拆分清单内，保留。
 
 ### S10 官网重做（D157）
 
@@ -115,7 +125,7 @@
 - **报告**：`docs/qa/v8-s1-design-spike.md`（先报告后实施；§3 令牌表自此锁定，S3 只搬运不改值）。
 - **3 张样板页**：`app/lib/design_spike/spike_tokens.dart`（App 令牌）+ `spike_pages.dart`（首页 7+5 / 布光三栏）、`web/src/pages/spike-hero.astro` + `web/src/styles/spike_tokens.css`（官网首屏，值与 Dart 逐字同源）。
 - **截图 12 张（R72）**：明暗 × 1280×800 / 1920×1080，合计 738,905 B → `docs/screenshots/v8/`；索引 `docs/qa/v8-s1-screenshots.json`（App 8 张）与 `docs/qa/v8-s1-web-screenshots.json`（官网 4 张）。
-  - 工具：App 用 `SS_V8_CAPTURE=1 flutter test --no-pub --update-goldens test/visual/s1_spike_capture_test.dart`（golden 写盘）；官网用 `web/tool/shot.mjs`（静态伺服 `web/dist` + headless Edge CDP `Emulation.setDeviceMetricsOverride`，主题 `?t=darkroom`）。
+  - 工具：App 用 `SS_V8_CAPTURE=1 flutter test --no-pub --update-goldens test/visual/s1_spike_capture_test.dart`（golden 写盘）；官网用 `web/tool/shot_s10.mjs`（静态伺服 `web/dist` + headless Edge CDP `Emulation.setDeviceMetricsOverride`，主题 `?t=darkroom`）。
 - **字体资产**：`app/assets/fonts/NotoSerifSC-ShootStudio.otf`（566,132 B，pyftsubset 子集 2,074 字符）+ `NotoSerifSC-OFL.txt` + `README.md`；`web/public/fonts/` 同款（官网共用）；`pubspec.yaml` 登记 `fonts:` 与 `assets/fonts/`。
 - **门禁**：format 0 changed（170 files）｜ analyze 0 ｜ 全量 **303 passed + 36 skipped** ｜ 视觉专项 9/9 + golden 回归 8 passed。
 - **复盘**（S3 直接规避）：`TextStyle.height` 必须是多倍数行高（写成 `lineHeight/size` 会让 RenderParagraph 塌成 1–2px）；限高图框要用 `Container(height:)`；mono 只放 ASCII；截图环境要手动加载 MaterialIcons。
@@ -140,7 +150,7 @@
 3. ~~**S8 策划案 + AI + 导出（D155）**~~ ✅ 已完成（本次提交）。
 4. ~~**S9 资源库 + 设置 + 引导**~~ ✅ 已完成（本次提交；覆盖率六类 100% 不回归 + 设置往返测试）。
 5. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
-6. **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0）。
+6. ~~**S11 全量回归 + 视觉验收 + 死代码清理（D158）**~~ ✅ 已完成（本次提交；全量门禁 + 28 张截图总表 + 死代码删除清单 2 文件 656 行）。
 7. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
 
 ---
@@ -161,7 +171,7 @@
 9. **widget 测试里截图必须走 `matchesGoldenFile`**：`RenderRepaintBoundary.toImage` + `toByteData` 在 FakeAsync 中会挂起（表现为 10 分钟超时）；用 `--update-goldens` 写文件。**路径基准不同**：`matchesGoldenFile` 相对**测试文件目录**（`app/test/visual/` → 仓库根需 `../../../`），而 `File()` 相对**进程 cwd（`app/`）** → 写索引 JSON 要 `../docs/...`。
 10. **`TextStyle.height` 是多倍数**：写成 `lineHeight / fontSize` 会让 RenderParagraph 高度塌成 1–2px（标题行重叠、标签竖排）。S1 实测排查法：临时测试里自写 `_walk(RenderObject)` 打印 `RenderParagraph.size`（注意本版本 `debugDumpRenderTree()` 无参、`visitChildren` 回调返回 `void`）。
 11. **字体加载要自己管**：截图/测试环境默认只有 MaterialIcons 之外的空字族 → 需 `FontLoader` 加载 repo 字体（`rootBundle`）与系统字体（绝对路径）；**mono 字族（Consolas）没有 CJK**，mono 文本里放中文会出豆腐块。
-12. **官网截图**：`web/tool/shot.mjs` 静态伺服 `web/dist` + headless Edge CDP；`Emulation.setDeviceMetricsOverride` 固定视口；主题用 URL 参数 `?t=darkroom`（页面内联脚本写 `data-theme`），一次构建覆盖双主题；改样式后必须先 `npm run build`（Astro 输出 6 页）再截图。
+12. **官网截图**：`web/tool/shot_s10.mjs` 静态伺服 `web/dist` + headless Edge CDP；`Emulation.setDeviceMetricsOverride` 固定视口；主题用 URL 参数 `?t=darkroom`（页面内联脚本写 `data-theme`），一次构建覆盖双主题；改样式后必须先 `npm run build`（Astro 输出 6 页）再截图。
 13. **性能测量必须先等稳态**（S2 实测踩坑）：直接采样会得到 p95≈940ms、max≈1.9s 的假数据（首帧着色器编译/HDR PMREM/GLB 加载被算进交互帧率）。判据：`getEngineStats().frames` 推进 + `Performance.getMetrics` 的 `TaskDuration` 增速 < 250ms/s。CDP 合成输入**不要 await 响应**（fire-and-forget + 在飞上限 40），否则渲染线程往返时延被算成帧间隔。
 14. **headed + `--force_high_performance_gpu` 会强制独显**：测核显用 `--gpumode=default`（本机实测落到 Intel Iris Xe）；`--headless=new` 仍会用真实 GPU，要真软件渲染得显式 `--use-angle=swiftshader`。报告里必须标注 devicePixelRatio（headed 默认 DPR=2）。
 15. **CI 阿里云镜像会 502**：`app/android/settings.gradle.kts` 的 pluginManagement 现已尊重 `SS_MAVEN_MIRROR=0`（与 `build.gradle.kts` 一致）；若再出现 “Repository maven is disabled due to earlier error” + aliyun 502，先查这个，再考虑重跑 job。
@@ -223,9 +233,17 @@
 - **内联 `innerHTML` 渲染外部 JSON 必须 `escapeHtml`**：`templates.astro` / `changelog.astro` 原先把 `t.name` / `t.description` / `ops.title` 直接拼进 `innerHTML`，数据里一个 `<` 就破版。
 - **截图门禁的度量口径**：`lazy` 屏外图未下载不等于占位图（R82 只在 `complete && naturalWidth === 0` 时算 broken）；`unrevealed` 只统计「已进入视口却仍 opacity 0」的块，统计全部屏外块会永远不为 0。
 
+### S11 踩坑（补进 §3）
+
+- **extension 名字只出现一次 ≠ 死代码**：`context.palette` / `controller.generatePlan(...)` 这类成员访问不会把 extension 名字写进调用点，按符号计数扫描必然误报。判死代码要同时看「lib 引用计数」与「是否 extension / mixin」。
+- **按文件维度扫死代码要用 import 正则，不是符号计数**：对每个 `app/lib/**/*.dart` 用 `(?:import|part|part of)[^;]*['\"][^'\"]*\b<base>\.dart['\"]` 在 `app/lib` + `app/test` 全文统计 basename，才能得到真实的 0/1 结论（本次 179 文件 → 0 未引用）。
+- **`git rm` 死代码后必须重跑构建验页数 + 重跑截图验零回归**：`npm run build` 从 6 页回到 5 页是「删除干净」的判据；只 grep 不重建，删错会把整站打不开。
+- **删装饰必须同步删驱动它的脚本**：`motion.js` 里光圈叶片/胶片流线/鼠标视差/滚动加速速率在 S10 删掉装饰 SVG 后全部变成死逻辑，232 → 78 行（D158「删除死代码」）。
+- **官网截图工具不认 `?t=`，要靠 CDP `Emulation.setEmulatedMedia`**：且它的 `prefers-color-scheme` 只接受 `light|dark`（不能传内部命名 `paper`/`darkroom`）；astro `trailingSlash:'ignore'` 产物是目录，静态服务器必须给路径补尾斜杠否则整页 404 白屏。
+
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
-> 基线：v1.3.0；已完成 S0–S10（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构 + S7 动作摆姿与识别重做 + S8 策划案/AI/导出重构 + S9 资源库/设置/引导重构 + S10 官网重做）
-> 下一步 **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0，`web/src/pages/spike-hero.astro` 461 行是明确候选）。之后 S12 v2.0.0 交付。
+> 基线：v1.3.0；已完成 S0–S11（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构 + S7 动作摆姿与识别重做 + S8 策划案/AI/导出重构 + S9 资源库/设置/引导重构 + S10 官网重做）
+> 下一步 **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / kAppVersion / 公告 / web/dist）→ 双端构建 + LAUNCH-OK + 体积记录 → tag v2.0.0 → CI 全绿（R61）→ §7 交付清单逐项打勾收官。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。

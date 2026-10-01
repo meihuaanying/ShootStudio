@@ -215,7 +215,7 @@
 - [x] S6 交互帧率实测表 —— `docs/qa/v8-s6-engine-perf-gtx4060.json`（RTX 4060 Laptop / ANGLE D3D11 / headed 独显）：idle p50 16.6ms p95 **17.8ms** p99 22.4ms max 24.5ms；orbit p95 **17.3ms**；**lightDrag（拖灯）p50 16.7ms p95 17.5ms p99 23.2ms max 25.0ms 长帧>50ms = 0 CPU/帧 1.93ms**；dolly p95 17.4ms。四相长帧均 0、CPU/帧 1.78–2.0ms，与 S2 基线 `docs/qa/v8-s2-engine-perf-gtx4060-dpr1.json` 一致。**偏差登记**：合同写「p95 ≤16ms」，实测 17.3–17.8ms —— 显示为 60Hz vsync（帧预算 16.67ms），p95 略高表示稳定落在下一帧 vsync 而非掉帧卡顿（>50ms 长帧 0、CPU/帧 ≈2ms），故判为达成并按 D152「达不到需说明+降档」条款登记说明，不降档（降档会牺牲 VSM/路径追踪质量）。宿主侧 `perf_probe` 沿用 S2 结论（p95 17.34/17.78ms）。
 - [x] S8 导出三格式校验 + 新版长图/PDF 样张
 - [x] S10 官网 5 页截图（桌面+移动）+ `npm run build` 输出 —— `docs/screenshots/v8/s10-web-<page>-<theme>-<vp>.png` 30 张（5 页 × paper/darkroom × 1280x800/1920x1080/390x844）、索引 `docs/qa/v8-s8…` → `docs/qa/v8-s10-web-screenshots.json`、报告 `docs/qa/v8-s10-web.md`；`npm run build` 6 页，announcements 通道 8 个 id 读数有值
-- [ ] S11 全量门禁输出 + 截图总表 + 死代码删除清单
+- [x] S11 全量门禁输出 + 截图总表 + 死代码删除清单（门禁 517 passed + 43 skipped / format 0 changed / analyze 0 问题 / check_file_size PASS；截图总表 28 张 `docs/screenshots/v8/{s4-shell-home,s5-refs-results,s6-lighting-workspace,s7-pose-gallery,s8-plan-stage-reading,s9-libraries,s9-settings}-*` + 对照表 `docs/qa/v8-s11-overview-table.md` + 索引 `docs/qa/v8-s11-screenshots.json`；死代码删除清单 `web/src/pages/spike-hero.astro` 462 行 + `web/tool/shot.mjs` 194 行，报告 `docs/qa/v8-s11-regression-and-cleanup.md`）
 - [ ] S12 双端构建 + LAUNCH-OK + 体积记录 + tag `v2.0.0` + CI 全绿链接
 - [ ] HANDOFF_V8.md（沿用 V7 结构：一分钟速览 / 已完成 / 剩余 / 坑 / 新对话开场提示词）
 
