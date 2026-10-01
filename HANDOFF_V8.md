@@ -10,15 +10,26 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页** `23012bd` ｜ **S5 画面参考搜索**（本次提交：首屏画报 · 瀑布流结果 + 悬停浮层 · 详情抽屉 + 五色色卡 · 画册式画板；报告 `docs/qa/v8-s5-refs-search.md`） |
-| CI | S5 推送后运行中（R61：全绿才算完成，下一步先复核）；S4 全绿（run 36694433172 = `23012bd`）；S3 全绿（36691238788 = `5031db8`）；S2 全绿（36684962779 = `7dcfabf`）；S0 全绿（36673666121） |
-| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **384 passed + 39 skipped** ｜ S5 专项 14 + 视觉 16 张 ｜ S4 专项 13 ｜ 视觉专项 S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 引擎帧率 p95 ≤18.4ms（独显/核显）｜ `lib/features/**` >600 行 **11** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 |
-| 当前步 | S5 收尾（提交 + CI 复核） |
-| 剩余 | **S6 布光预演** → S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
+| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页** `23012bd` ｜ **S5 画面参考搜索** `e4021db` ｜ **S6 布光预演**（本次提交：三栏版面 + 顶部工具条 + 灯位图画中画 + 撤销重做 ≥20 步 + 出片 ≤3 步；报告 `docs/qa/v8-s6-lighting.md`） |
+| CI | S6 推送后运行中（R61：全绿才算完成，下一步先复核）；**S5 全绿**（run 36773666033 = `e4021db`）；S4 全绿（36694433172 = `23012bd`）；S3 全绿（36691238788 = `5031db8`）；S2 全绿（36684962779 = `7dcfabf`）；S0 全绿（36673666121） |
+| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **427 passed + 40 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **10** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 |
+| 当前步 | S6 收尾（提交 + CI 复核） |
+| 剩余 | **S7 动作摆姿与识别** → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
 
 ---
 
 ## 1. 已完成（含证据路径）
+
+### S6 布光预演重构（D152 · R71–R74 / R79 / R81）
+- **报告**：`docs/qa/v8-s6-lighting.md`（信息架构 / 撤销重做 / 交互 / 文件拆分 / 帧率实测表 / 16 张视觉证据 / 27 用例 / 门禁 / 6 条复盘）。
+- **信息架构（D152 §4.1）**：左栏 208px（32 套预设卡组 + 设备/道具清单，**可折叠**）+ 中栏 ≥60%（**顶部工具条** + 3D 视口/分屏，俯视灯位图降为**左上角可拖动画中画**，可切全屏）+ 右栏 264px 属性检查器（未选中 = 机位 + 测光表 + 公共面板；选中 = 光型/灯具/控光件/亮度/色温/光束角/柔度/高度/朝向/开关 + 贴图 + 删除 + 同一组公共面板）。
+- **撤销 / 重做（≥20 步）**：新增 `lighting_undo.dart`（`LightingSnapshot` + `LightingUndoStack(capacity 64, 600ms 同标签合并)`）；controller 在 addLight/addProp/removeSelected/clearAll/applyPreset/updateSelected/moveDevice/moveCamera/applyEngineMove 等改动前记点；`beginInteraction`/`endInteraction` + 新引擎事件 `EngineDragEnded` → **一次拖灯 = 一步撤销**；工具条撤销/重做 chip 选中态直接反映 `state.canUndo/canRedo`。实测 24 步可逐步撤到空影棚。
+- **交互**：双击/长按设备行 = 聚焦属性 + 快捷菜单（聚焦属性/复制一个/删除）；`Delete`/`Backspace` 删除；`Ctrl+Z` / `Ctrl+Shift+Z` / `Ctrl+Y` 撤销重做；**空格**切相机漫游 ↔ 对象操作；出片 ≤3 步（工具条「出片」→ 效果预览对话框默认推荐档 → 保存/复制）。
+- **文件拆分（R73）**：`lighting_page.dart` **2633 → 599 行**，白名单整条删除（11 → 10 项）；新增 `widgets/{lighting_workbench,lighting_inspector,lighting_device_list,lighting_left_column,lighting_effect_widgets,lighting_pose_widgets,lighting_rig_widgets,lighting_ab_dialog}.dart` + `lighting_state.dart` + `lighting_files.dart`（诊断包/预览图/贴图选取/统一提示口径）。
+- **帧率实测（D152）**：`docs/qa/v8-s6-engine-perf-gtx4060.json` —— lightDrag p50 16.7 / **p95 17.5ms** / p99 23.2 / max 25.0ms，**长帧 >50ms = 0**，CPU/帧 1.93ms；idle/orbit/dolly p95 17.3–17.8ms，长帧均 0。**偏差登记**：合同写 p95 ≤16ms，实测略高是因为 60Hz vsync（帧预算 16.67ms，稳定落在下一帧而非掉帧卡顿），与 S2 基线一致，按「说明不降档」处理。
+- **视觉证据（R72）**：16 张 → `docs/screenshots/v8/s6-lighting-{workspace,stage-pip,inspector-selected,left-list}-{paper,darkroom}-{1280x800,1920x1080}.png` + 索引 `docs/qa/v8-s6-lighting-screenshots.json`。
+- **测试**：`app/test/features/s6_lighting_ui_test.dart` **13 用例**（工具条 3 / 撤销重做 2 / 左栏 3 / 右栏 3 / 中栏 2）+ `app/test/features/s6_lighting_undo_test.dart` **14 用例**（栈逻辑 8 + 接线 6）+ `app/test/visual/s6_lighting_capture_test.dart` 16 截图 + 1 索引。
+- **门禁**：format 0 changed ｜ analyze 0（8.5s）｜ 全量 **427 passed + 40 skipped** ｜ `q6_lighting/q6_engine/q6_still/q6_camera` **44/44 不回归** ｜ `check_file_size` PASS。
 
 ### S5 画面参考搜索重构（D154 · R71–R74 / R78 / R79）
 - **报告**：`docs/qa/v8-s5-refs-search.md`（文件拆分 / 四个版面 / 色卡与许可 / 视觉证据 / 14 专项 / 门禁 / 复盘）。
@@ -87,7 +98,7 @@
 
 ## 2. 剩余待办（按合同 §1 顺序，含门禁）
 
-1. **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。
+1. ~~**S6 布光预演（D152）**~~ ✅ 已完成（本次提交）。
 2. **S7 动作摆姿与识别（D153）**：大图瀑布流 + 详情抽屉、识别链路 ≤4 步、关节点拖拽校正；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归。
 3. **S8 策划案 + AI + 导出（D155）**：AI 面板三态、成案阅读视图（杂志内页排版）、导出长图/PDF/.sspak 三格式校验不回归。
 4. **S9 资源库 + 设置 + 引导**：覆盖率六类 100% 不回归（`gear_coverage.py`）、设置往返测试。
@@ -132,11 +143,16 @@
 26. **`ImageProvider` 自定义桩在 Flutter 3.47 不可行**：`ImageStreamCompleter` 是抽象类、`loadImage(T key, ImageDecoderCallback decode)` 是位置参数 → 想测「加载失败回落」直接用 `Image.network('https://example.invalid/…')`（flutter_test 的 HttpOverrides 会让解码失败），比自写 provider 稳。
 23. **drift 生成的行类要从 `core/db/database.dart` 导入**（不是 `planner_models.dart`）：`Plan` 等表数据类由 `database.dart` re-export；且该库不再导出 `Column`，写 `hide Column` 会触发 analyzer 警告。
 
+27. **拆类成员不能用 `part` 文件（S6 踩坑）**：`part` 只共享库的顶层命名空间，**不共享类成员** —— 把 `_buildXxx` 方法搬进 `part` 文件后拿不到 `state/ref/context`，直接编译不过。正确做法：抽成公开 widget + 显式参数（本仓库 `refs_page_chrome.dart` 与 S6 的 `widgets/lighting_*.dart` 都是这个形态）。
+28. **撤销栈必须区分「离散」与「连续」**（S6）：`record()` 若对同标签一律按时间窗合并，连续 24 次「新增灯具」会被折成 1 步，达不到契约「≥20 步」。现在 `record(before, {merge})`：离散操作 `merge:false` 每步独立，滑杆/拖拽 `merge:true`；拖拽另用 `beginInteraction`/`endInteraction` 精确圈成一步。
+29. **工具条要防横向溢出**（S6）：`Row + Spacer` 在 800×600 视口会 `RenderFlex overflowed by 281 pixels` → 左半区改 `Expanded(SingleChildScrollView(scrollDirection: horizontal, Row(chips)))`，右半区常驻状态/撤销/A-B/主按钮。
+30. **widget 测试必须给足视口 + 先杀 Edge**（S6）：`ListView` 懒建会让 `QualityPanel`/`JointTunePanel` 在小视口下根本不存在，`tester.tap` 也会落到视口外 → 测试内统一 `useWide(tester)`（1600×1400）；跑帧率/QA 前先 `Stop-Process msedge`。
+
 ---
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
-> 基线：v1.3.0；已完成 S0–S5（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索）；全量 **384 passed + 39 skipped**。
-> 下一步 **S6 布光预演（D152，按 S2 结论）**：左清单/中视口/右属性检查器、灯位拖拽 p95 帧耗时实测、撤销重做 ≥20 步、静帧导出 ≤3 步；`q6_lighting/q6_engine/q6_still/q6_camera` 不回归。之后 S7 动作摆姿与识别 → S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付。
+> 基线：v1.3.0；已完成 S0–S6（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构）；全量 **427 passed + 40 skipped**。
+> 下一步 **S7 动作摆姿与识别（D153）**：大图瀑布流 + 详情抽屉、识别链路 ≤4 步、关节点拖拽校正；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归；沿用 S5/S6 的模式（先读合同 §4.2 → 拆分文件满足 R73 → 专项测试 → 明暗 ×2 分辨率截图 + 索引 → 帧率/性能实测表 → 报告 `docs/qa/v8-s7-*.md`）。之后 S8 策划案/AI/导出 → S9 资源库/设置/引导 → S10 官网 → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。

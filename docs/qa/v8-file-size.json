@@ -1,0 +1,489 @@
+{
+  "version": 1,
+  "note": "V8/S3 R73 file size gate (lib/features <= 600, lib/core/design <= 300, baseline allowlist)",
+  "at": "2026-10-01T02:58:22.260Z",
+  "limits": {
+    "features": 600,
+    "design": 300,
+    "headroom": 40
+  },
+  "files": [
+    {
+      "file": "lib/features/planner/planner_page.dart",
+      "lines": 2637,
+      "limit": 600,
+      "allowed": 2676
+    },
+    {
+      "file": "lib/features/export/exporter.dart",
+      "lines": 1683,
+      "limit": 600,
+      "allowed": 1722
+    },
+    {
+      "file": "lib/features/libraries/gear_browser.dart",
+      "lines": 1273,
+      "limit": 600,
+      "allowed": 1312
+    },
+    {
+      "file": "lib/features/settings/settings_page.dart",
+      "lines": 1196,
+      "limit": 600,
+      "allowed": 1234
+    },
+    {
+      "file": "lib/features/ai/ai_controller.dart",
+      "lines": 1123,
+      "limit": 600,
+      "allowed": 1162
+    },
+    {
+      "file": "lib/features/poses/pose_import_page.dart",
+      "lines": 773,
+      "limit": 600,
+      "allowed": 812
+    },
+    {
+      "file": "lib/features/ai/ai_panel.dart",
+      "lines": 771,
+      "limit": 600,
+      "allowed": 810
+    },
+    {
+      "file": "lib/features/libraries/libraries_page.dart",
+      "lines": 769,
+      "limit": 600,
+      "allowed": 808
+    },
+    {
+      "file": "lib/features/lighting/lighting_controller.dart",
+      "lines": 752,
+      "limit": 600,
+      "allowed": 760
+    },
+    {
+      "file": "lib/features/ai/ai_client.dart",
+      "lines": 740,
+      "limit": 600,
+      "allowed": 779
+    },
+    {
+      "file": "lib/features/lighting/lighting_page.dart",
+      "lines": 600,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/poses/poses_page.dart",
+      "lines": 591,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/refs/refs_page.dart",
+      "lines": 568,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/poses/poses_controller.dart",
+      "lines": 548,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/still_export.dart",
+      "lines": 521,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/refs/refs_controller.dart",
+      "lines": 496,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_pose_widgets.dart",
+      "lines": 488,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_rig_widgets.dart",
+      "lines": 464,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/poses/pose_landmark_math.dart",
+      "lines": 462,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_inspector.dart",
+      "lines": 432,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/planner/planner_controller.dart",
+      "lines": 430,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_canvas_view.dart",
+      "lines": 382,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_workbench.dart",
+      "lines": 351,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/ai/local_engine.dart",
+      "lines": 350,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/lighting_models.dart",
+      "lines": 343,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/onboarding/demo_content.dart",
+      "lines": 342,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/poses/character_picker.dart",
+      "lines": 337,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/planner/module_content_view.dart",
+      "lines": 324,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/shell/shell_nav.dart",
+      "lines": 321,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/export/export_panel.dart",
+      "lines": 313,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/refs/refs_home.dart",
+      "lines": 313,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/refs/refs_board.dart",
+      "lines": 312,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/updater/updater.dart",
+      "lines": 294,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/core/design/tokens.dart",
+      "lines": 293,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/core/design/ss_empty.dart",
+      "lines": 283,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/features/poses/pose_skeleton.dart",
+      "lines": 276,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/hand_presets.dart",
+      "lines": 272,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/ai/plan_read_view.dart",
+      "lines": 266,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_device_list.dart",
+      "lines": 259,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/core/design/ss_card.dart",
+      "lines": 253,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/core/design/theme.dart",
+      "lines": 253,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/features/ai/ai_side_panel.dart",
+      "lines": 250,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/poses/cinematic_refs.dart",
+      "lines": 247,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/onboarding/onboarding_page.dart",
+      "lines": 234,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_effect_widgets.dart",
+      "lines": 231,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/camera_helpers.dart",
+      "lines": 229,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/ai/provider_presets.dart",
+      "lines": 222,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/planner/planner_models.dart",
+      "lines": 218,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/refs/refs_hit_drawer.dart",
+      "lines": 213,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/refs/refs_hit_card.dart",
+      "lines": 209,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/ai/plan_scorer.dart",
+      "lines": 204,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_ab_dialog.dart",
+      "lines": 202,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/core/design/ss_dialog.dart",
+      "lines": 202,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/features/lighting/light_meter.dart",
+      "lines": 198,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/core/design/ss_input.dart",
+      "lines": 192,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/features/lighting/ab_compare.dart",
+      "lines": 183,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/home/home_hero.dart",
+      "lines": 178,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/lighting_state.dart",
+      "lines": 178,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/home/home_page.dart",
+      "lines": 171,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/refs/refs_palette.dart",
+      "lines": 167,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/lighting_files.dart",
+      "lines": 154,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/core/design/ss_transitions.dart",
+      "lines": 140,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/features/refs/refs_masonry.dart",
+      "lines": 135,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/core/design/ss_chip.dart",
+      "lines": 135,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/features/refs/refs_page_chrome.dart",
+      "lines": 134,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/shell/app_shell.dart",
+      "lines": 134,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/core/design/ss_text.dart",
+      "lines": 130,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/core/design/ss_feedback.dart",
+      "lines": 128,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/core/design/ss_button.dart",
+      "lines": 126,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/features/lighting/lighting_undo.dart",
+      "lines": 124,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/home/home_recent.dart",
+      "lines": 119,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_left_column.dart",
+      "lines": 109,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/ai/key_vault.dart",
+      "lines": 107,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/planner/planner_diff.dart",
+      "lines": 106,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/core/design/ss_image_frame.dart",
+      "lines": 105,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
+      "file": "lib/features/shell/shell_update_banner.dart",
+      "lines": 94,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/planner/budget_estimator.dart",
+      "lines": 63,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/planner/planner_pending.dart",
+      "lines": 59,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/core/design/widgets.dart",
+      "lines": 23,
+      "limit": 300,
+      "allowed": 300
+    }
+  ],
+  "violations": [],
+  "inflatedBaseline": [],
+  "pass": true
+}

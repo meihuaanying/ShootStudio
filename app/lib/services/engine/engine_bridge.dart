@@ -33,6 +33,13 @@ class EngineSceneChanged extends EngineEvent {
   final List<Map<String, Object?>>? props;
 }
 
+/// 3D 内拖灯/道具结束（一次拖动 = 一步撤销的边界，D152）。
+class EngineDragEnded extends EngineEvent {
+  const EngineDragEnded({required this.kind, required this.id});
+  final String kind;
+  final String id;
+}
+
 /// V3：人物/服装/发型/肤色切换完成（GLB 骨骼模型）。
 class EngineCharacterChanged extends EngineEvent {
   const EngineCharacterChanged({
@@ -177,6 +184,13 @@ class EngineBridge {
             EngineSceneChanged(
               lights: data['lights'] == null ? null : asMapList(data['lights']),
               props: data['props'] == null ? null : asMapList(data['props']),
+            ),
+          );
+        case 'dragEnded':
+          _events.add(
+            EngineDragEnded(
+              kind: data['kind'] as String? ?? '',
+              id: data['id'] as String? ?? '',
             ),
           );
         case 'characterChanged':

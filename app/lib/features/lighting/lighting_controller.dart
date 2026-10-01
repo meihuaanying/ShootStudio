@@ -10,161 +10,12 @@ import '../../core/utils/json_utils.dart';
 import '../../services/content_packs.dart';
 import 'hand_presets.dart';
 import 'lighting_models.dart';
+import 'lighting_state.dart';
+import 'lighting_undo.dart';
+
+export 'lighting_state.dart';
 
 /// 布光预演室状态。
-class LightingState {
-  const LightingState({
-    required this.scene,
-    this.selectedId,
-    this.linkage = true,
-    this.viewMode = 'split',
-    this.dirty = false,
-    this.status = '',
-    this.pendingPose,
-    this.basePose,
-    this.poseInjectionSeq = 0,
-    this.captureSeq = 0,
-    this.initialized = false,
-    this.subdivisionLevel = 1,
-    this.materialPreset = 'standard',
-    this.envIntensity = 1.0,
-    this.ambientEnabled = true,
-    this.contactShadow = true,
-    this.performanceProfile = 'auto',
-    this.cameraView = false,
-    this.lightCones = false,
-    this.softShadows = true,
-    this.cameraSeq = 0,
-    this.handL = const HandPoseState(),
-    this.handR = const HandPoseState(),
-  });
-
-  final LightingSceneData scene;
-  final String? selectedId;
-
-  /// 俯视图 ↔ 3D 双向联动开关（D5：可解耦）。
-  final bool linkage;
-
-  /// top | scene3d | split。
-  final String viewMode;
-  final bool dirty;
-  final String status;
-
-  /// 从姿势库注入的姿势（关节角 JSON + 名称）。
-  final Map<String, Object?>? pendingPose;
-
-  /// 注入时的原始关节（用于「恢复注入姿势」）。
-  final Map<String, Object?>? basePose;
-  final int poseInjectionSeq;
-
-  /// 请求截图（序号变化触发）。
-  final int captureSeq;
-
-  final bool initialized;
-
-  /// V4/Q1 画质：细分等级（0 轻量 / 1 标准 / 2 高）。
-  final int subdivisionLevel;
-
-  /// V4/Q1 材质预设：standard | realistic | light。
-  final String materialPreset;
-
-  /// V4/Q1 环境反射强度。
-  final double envIntensity;
-
-  /// V5/D85 环境光开关（关 = 半球光 + 环境贴图贡献全部关闭）。
-  final bool ambientEnabled;
-
-  /// V5/D91 接触阴影开关（仅 realistic 预设生效；默认开）。
-  final bool contactShadow;
-
-  /// V6/D104 性能档：auto（自动探测）| high | low。
-  final String performanceProfile;
-
-  /// V6/D105：相机 POV 预览开关（瞬态，不持久化）。
-  final bool cameraView;
-
-  /// V6/D111：光锥可视化开关（持久化）。
-  final bool lightCones;
-
-  /// V7/D137：软阴影（VSM）开关（持久化；低配档引擎自动回退 PCF）。
-  final bool softShadows;
-
-  /// V6/D105：机位变更序号（触发引擎即时同步）。
-  final int cameraSeq;
-
-  /// V5/D86 手部姿态（左右独立）。
-  final HandPoseState handL;
-  final HandPoseState handR;
-
-  DeviceSpec? get selected {
-    final id = selectedId;
-    if (id == null) return null;
-    for (final DeviceSpec d in scene.devices) {
-      if (d.id == id) return d;
-    }
-    return null;
-  }
-
-  LightingState copyWith({
-    LightingSceneData? scene,
-    Object? selectedId = _sentinel,
-    bool? linkage,
-    String? viewMode,
-    bool? dirty,
-    String? status,
-    Object? pendingPose = _sentinel,
-    Object? basePose = _sentinel,
-    int? poseInjectionSeq,
-    int? captureSeq,
-    bool? initialized,
-    int? subdivisionLevel,
-    String? materialPreset,
-    double? envIntensity,
-    bool? ambientEnabled,
-    bool? contactShadow,
-    String? performanceProfile,
-    bool? cameraView,
-    bool? lightCones,
-    bool? softShadows,
-    int? cameraSeq,
-    HandPoseState? handL,
-    HandPoseState? handR,
-  }) {
-    return LightingState(
-      scene: scene ?? this.scene,
-      selectedId: selectedId == _sentinel
-          ? this.selectedId
-          : selectedId as String?,
-      linkage: linkage ?? this.linkage,
-      viewMode: viewMode ?? this.viewMode,
-      dirty: dirty ?? this.dirty,
-      status: status ?? this.status,
-      pendingPose: pendingPose == _sentinel
-          ? this.pendingPose
-          : pendingPose as Map<String, Object?>?,
-      basePose: basePose == _sentinel
-          ? this.basePose
-          : basePose as Map<String, Object?>?,
-      poseInjectionSeq: poseInjectionSeq ?? this.poseInjectionSeq,
-      captureSeq: captureSeq ?? this.captureSeq,
-      initialized: initialized ?? this.initialized,
-      subdivisionLevel: subdivisionLevel ?? this.subdivisionLevel,
-      materialPreset: materialPreset ?? this.materialPreset,
-      envIntensity: envIntensity ?? this.envIntensity,
-      ambientEnabled: ambientEnabled ?? this.ambientEnabled,
-      contactShadow: contactShadow ?? this.contactShadow,
-      performanceProfile: performanceProfile ?? this.performanceProfile,
-      cameraView: cameraView ?? this.cameraView,
-      lightCones: lightCones ?? this.lightCones,
-      softShadows: softShadows ?? this.softShadows,
-      cameraSeq: cameraSeq ?? this.cameraSeq,
-      handL: handL ?? this.handL,
-      handR: handR ?? this.handR,
-    );
-  }
-
-  static const Object _sentinel = Object();
-}
 
 final lightingControllerProvider =
     NotifierProvider<LightingController, LightingState>(LightingController.new);
@@ -172,6 +23,12 @@ final lightingControllerProvider =
 class LightingController extends Notifier<LightingState> {
   static const Uuid _uuid = Uuid();
   late final AppDatabase _db = ref.read(databaseProvider);
+
+  /// V8/D152：撤销/重做栈（64 步；拖拽按交互区间折叠为一步）。
+  final LightingUndoStack undoStack = LightingUndoStack();
+
+  /// 正在进行的连续交互（拖灯/拖机位/滑杆）；非空时不再重复记撤销点。
+  String? _interactionId;
 
   @override
   LightingState build() {
@@ -183,6 +40,97 @@ class LightingController extends Notifier<LightingState> {
       ),
     );
   }
+
+  // ---------------- V8/D152 撤销 / 重做 ----------------
+
+  /// 记一步撤销点（在真正修改之前调用）。
+  ///
+  /// [merge] 语义同 `LightingUndoStack.record`：拖拽/滑杆类连续变更传 true
+  /// （靠合并窗口折叠成一步）；加灯/删除/应用预设等离散操作传 false（每步独立）。
+  void _pushUndo(String label, {bool merge = false}) {
+    if (_interactionId != null) return;
+    undoStack.record(
+      LightingSnapshot.of(state.scene, state.selectedId, label),
+      merge: merge,
+    );
+    _syncUndoFlags();
+  }
+
+  void _syncUndoFlags() {
+    if (state.canUndo == undoStack.canUndo && !state.canRedo) return;
+    state = state.copyWith(canUndo: undoStack.canUndo, canRedo: false);
+  }
+
+  /// 开始一次连续交互（拖拽）：只在起点记一次撤销点。
+  void beginInteraction(String id) {
+    if (_interactionId == id) return;
+    final DeviceSpec? d = _deviceOf(id);
+    final String label = switch (d?.kind) {
+      'light' => '移动灯具 ${d?.name ?? ''}',
+      'prop' => '移动道具 ${d?.name ?? ''}',
+      _ => id.startsWith('camera') ? '调整机位' : '调整 $id',
+    };
+    undoStack.record(LightingSnapshot.of(state.scene, state.selectedId, label));
+    _interactionId = id;
+    _syncUndoFlags();
+  }
+
+  /// 结束连续交互。
+  void endInteraction() {
+    _interactionId = null;
+  }
+
+  DeviceSpec? _deviceOf(String id) {
+    for (final DeviceSpec d in state.scene.devices) {
+      if (d.id == id) return d;
+    }
+    return null;
+  }
+
+  /// 撤销一步（返回 true 表示有可撤销内容）。
+  bool undo() {
+    final LightingSnapshot? next = undoStack.undo(_snapshot());
+    if (next == null) {
+      state = state.copyWith(status: '没有可撤销的操作');
+      return false;
+    }
+    _interactionId = null;
+    state = state.copyWith(
+      scene: next.scene,
+      selectedId: next.selectedId,
+      dirty: true,
+      undoSeq: state.undoSeq + 1,
+      cameraSeq: state.cameraSeq + 1,
+      canUndo: undoStack.canUndo,
+      canRedo: undoStack.canRedo,
+      status: '已撤销：${next.label}',
+    );
+    return true;
+  }
+
+  /// 重做一步。
+  bool redo() {
+    final LightingSnapshot? next = undoStack.redo(_snapshot());
+    if (next == null) {
+      state = state.copyWith(status: '没有可重做的操作');
+      return false;
+    }
+    _interactionId = null;
+    state = state.copyWith(
+      scene: next.scene,
+      selectedId: next.selectedId,
+      dirty: true,
+      undoSeq: state.undoSeq + 1,
+      cameraSeq: state.cameraSeq + 1,
+      canUndo: undoStack.canUndo,
+      canRedo: undoStack.canRedo,
+      status: '已重做：${next.label}',
+    );
+    return true;
+  }
+
+  LightingSnapshot _snapshot() =>
+      LightingSnapshot.of(state.scene, state.selectedId, '当前状态');
 
   /// 初始化：优先载入最近保存的方案；否则用三点布光预设起手。
   Future<void> init() async {
@@ -269,6 +217,7 @@ class LightingController extends Notifier<LightingState> {
   }
 
   Future<void> applyPreset(LightPresetEntry preset) async {
+    _pushUndo('应用预设 ${preset.name}');
     state = state.copyWith(
       scene: LightingSceneData(
         id: state.scene.id,
@@ -289,6 +238,7 @@ class LightingController extends Notifier<LightingState> {
 
   void addLight({String type = 'hard', String name = ''}) {
     if (!_belowLimit()) return;
+    _pushUndo('新增灯具 ${name.isEmpty ? '' : name}');
     final index = state.scene.lights.length + 1;
     final device = DeviceSpec(
       id: _uuid.v4(),
@@ -319,6 +269,7 @@ class LightingController extends Notifier<LightingState> {
     String type = '',
   }) {
     if (!_belowLimit()) return;
+    _pushUndo('放入设备 $name');
     final isFlash = type.contains('闪光') || type.contains('环闪');
     final singleCct = RegExp(r'^(\d{4})K').firstMatch(cct);
     final kelvin = singleCct != null
@@ -362,6 +313,7 @@ class LightingController extends Notifier<LightingState> {
 
   void addProp({String type = 'crate'}) {
     if (!_belowLimit()) return;
+    _pushUndo('新增道具 $type');
     final device = DeviceSpec(
       id: _uuid.v4(),
       kind: 'prop',
@@ -386,25 +338,31 @@ class LightingController extends Notifier<LightingState> {
   void removeSelected() {
     final id = state.selectedId;
     if (id == null) return;
+    _pushUndo('删除 ${state.selected?.name ?? '对象'}');
     state.scene.devices.removeWhere((DeviceSpec d) => d.id == id);
     state = state.copyWith(selectedId: null, dirty: true);
   }
 
   void clearAll() {
+    _pushUndo('清空影棚');
     state.scene.devices.clear();
     state = state.copyWith(selectedId: null, dirty: true, status: '已清空为空影棚');
   }
 
-  /// 修改选中设备的字段并标记脏。
+  /// 修改选中设备的字段并标记脏（连续拖动/滑杆会合并为一步撤销）。
   void updateSelected(void Function(DeviceSpec d) mutate) {
     final d = state.selected;
     if (d == null) return;
+    _pushUndo('调整 ${d.name}', merge: true);
     mutate(d);
     state = state.copyWith(dirty: true);
   }
 
   /// 俯视图拖动（画布坐标，米）。
   void moveDevice(String id, double x, double y) {
+    final DeviceSpec? target = _deviceOf(id);
+    if (target == null) return;
+    _pushUndo('移动 ${target.name}', merge: true);
     for (final DeviceSpec d in state.scene.devices) {
       if (d.id == id) {
         d.x = x;
@@ -421,6 +379,9 @@ class LightingController extends Notifier<LightingState> {
     List<Map<String, Object?>>? props,
   }) {
     if (!state.linkage) return;
+    if ((lights?.isNotEmpty ?? false) || (props?.isNotEmpty ?? false)) {
+      _pushUndo('视口内拖动', merge: true);
+    }
     bool changed = false;
     for (final Map<String, Object?> item
         in lights ?? const <Map<String, Object?>>[]) {
@@ -619,6 +580,7 @@ class LightingController extends Notifier<LightingState> {
 
   /// 俯视图拖动相机机位。
   void moveCamera(double x, double y) {
+    if (_interactionId == null) _pushUndo('移动机位', merge: true);
     state.scene.camera
       ..x = x
       ..y = y;
@@ -627,6 +589,7 @@ class LightingController extends Notifier<LightingState> {
 
   /// 修改机位参数（高度/俯仰/偏航/焦段/启用）。
   void updateCamera(void Function(CameraRigData c) mutate) {
+    if (_interactionId == null) _pushUndo('调整机位', merge: true);
     mutate(state.scene.camera);
     state = state.copyWith(dirty: true, cameraSeq: state.cameraSeq + 1);
   }

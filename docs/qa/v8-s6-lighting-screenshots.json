@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "note": "V8/S6 布光预演截图（D152：左栏清单可折叠 / 顶部工具条 / 3D 视口 + 画中画灯位图 / 右栏属性检查器；明暗双主题 × 1280×800 与 1920×1080）",
+  "pages": [
+    "workspace",
+    "stage-pip",
+    "inspector-selected",
+    "left-list"
+  ],
+  "themes": [
+    "paper",
+    "darkroom"
+  ],
+  "viewports": [
+    "1280x800",
+    "1920x1080"
+  ],
+  "count": 16,
+  "shots": [
+    {
+      "name": "s6-lighting-workspace-paper-1280x800",
+      "scene": "workspace",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 105084
+    },
+    {
+      "name": "s6-lighting-stage-pip-paper-1280x800",
+      "scene": "stage-pip",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 36971
+    },
+    {
+      "name": "s6-lighting-inspector-selected-paper-1280x800",
+      "scene": "inspector-selected",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 89378
+    },
+    {
+      "name": "s6-lighting-left-list-paper-1280x800",
+      "scene": "left-list",
+      "theme": "paper",
+      "size": "1280x800",
+      "bytes": 65075
+    },
+    {
+      "name": "s6-lighting-workspace-paper-1920x1080",
+      "scene": "workspace",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 116450
+    },
+    {
+      "name": "s6-lighting-stage-pip-paper-1920x1080",
+      "scene": "stage-pip",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 42351
+    },
+    {
+      "name": "s6-lighting-inspector-selected-paper-1920x1080",
+      "scene": "inspector-selected",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 110950
+    },
+    {
+      "name": "s6-lighting-left-list-paper-1920x1080",
+      "scene": "left-list",
+      "theme": "paper",
+      "size": "1920x1080",
+      "bytes": 71888
+    },
+    {
+      "name": "s6-lighting-workspace-darkroom-1280x800",
+      "scene": "workspace",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 100587
+    },
+    {
+      "name": "s6-lighting-stage-pip-darkroom-1280x800",
+      "scene": "stage-pip",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 35601
+    },
+    {
+      "name": "s6-lighting-inspector-selected-darkroom-1280x800",
+      "scene": "inspector-selected",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 85584
+    },
+    {
+      "name": "s6-lighting-left-list-darkroom-1280x800",
+      "scene": "left-list",
+      "theme": "darkroom",
+      "size": "1280x800",
+      "bytes": 61724
+    },
+    {
+      "name": "s6-lighting-workspace-darkroom-1920x1080",
+      "scene": "workspace",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 111734
+    },
+    {
+      "name": "s6-lighting-stage-pip-darkroom-1920x1080",
+      "scene": "stage-pip",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 40873
+    },
+    {
+      "name": "s6-lighting-inspector-selected-darkroom-1920x1080",
+      "scene": "inspector-selected",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 107307
+    },
+    {
+      "name": "s6-lighting-left-list-darkroom-1920x1080",
+      "scene": "left-list",
+      "theme": "darkroom",
+      "size": "1920x1080",
+      "bytes": 68487
+    }
+  ]
+}
