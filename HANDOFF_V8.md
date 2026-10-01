@@ -11,14 +11,23 @@
 | 项 | 状态 |
 |---|---|
 | 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页** `23012bd` ｜ **S5 画面参考搜索** `e4021db` ｜ **S6 布光预演**（本次提交：三栏版面 + 顶部工具条 + 灯位图画中画 + 撤销重做 ≥20 步 + 出片 ≤3 步；报告 `docs/qa/v8-s6-lighting.md`） |
-| CI | **S6 全绿** run `36808608106` = `4b8c25d` success 4/4；**S7 全绿** run `36872580514` = `52d69d8` success 4/4；**S8** run `36898142693` = `584cb3f`，Analyse & Test 双平台 success，Build job 因 S9 推送被取消（superseded，构建由 S9 run 覆盖，非回归）；**S9** run `36901770696` = `bab1230`，Analyse & Test 双平台 success，Build job 因 S10 推送被取消（superseded，构建由 S10 run 覆盖，非回归）；S10 run `36914625677` = `0056a3c`，Analyse & Test 双平台 success，Build job 因 S11 推送被取消（superseded，构建由 S11 run 覆盖，非回归）；S11 推送后运行中（R61：全绿才算完成） |
-| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **517 passed + 43 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **4** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 ｜ S9 专项 `s9_library_settings_test` 8 ｜ 视觉 S9 16 张 ｜ S10 官网 `npm run build` 6 页（含 spike-hero 残留）｜ 官网截图 30 张（5 页 × 明暗 × 1280×800/1920×1080/390×844）｜ 旧 `ss-*` 蓝紫体系与装饰 SVG 光圈 0 命中 ｜ S11 截图总表 28 张（7 页 × 明暗 × 两档分辨率，缺失 0） ｜ 死代码删除 2 个文件 656 行（App 侧两维度零死代码） ｜ 官网 `npm run build` 5 页 + 30 张截图不回归 |
+| CI | **S6 全绿** run `36808608106` = `4b8c25d` success 4/4；**S7 全绿** run `36872580514` = `52d69d8` success 4/4；**S8** run `36898142693` = `584cb3f`，Analyse & Test 双平台 success，Build job 因 S9 推送被取消（superseded，构建由 S9 run 覆盖，非回归）；**S9** run `36901770696` = `bab1230`，Analyse & Test 双平台 success，Build job 因 S10 推送被取消（superseded，构建由 S10 run 覆盖，非回归）；S10 run `36905581004` = `0056a3c`，Analyse & Test (ubuntu) success，windows 与两个 Build job 因 S11 推送被取消（superseded，构建由 S11 run 覆盖，非回归）；S11 推送后运行中（R61：全绿才算完成） |
+| 门禁基线 | format 0 changed（247 files）｜ analyze 0 问题 ｜ 全量 **517 passed + 43 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **4** 个（R73 白名单，只降不升）｜ 官网 5 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 ｜ S9 专项 `s9_library_settings_test` 8 ｜ 视觉 S9 16 张 ｜ S10 官网 `npm run build`（S10 当时 6 页含 spike-hero，S11 删除后回落 5 页）｜ 官网截图 30 张（5 页 × 明暗 × 1280×800/1920×1080/390×844）｜ 旧 `ss-*` 蓝紫体系与装饰 SVG 光圈 0 命中 ｜ S11 截图总表 28 张（7 页 × 明暗 × 两档分辨率，缺失 0） ｜ 死代码删除 2 个文件 656 行（App 侧两维度零死代码） ｜ 官网 `npm run build` 5 页 + 30 张截图不回归 ｜ S12 `pubspec 2.0.0+9` ｜ `kAppVersion 2.0.0` ｜ 2.0.0 公告 9 条（V8 要点/已知限制/数据兼容性）｜ 官网 5 页 + 30 张在 v2.0.0 下不回归 |
 | 当前步 | S6 收尾（提交 + CI 复核） |
-| 剩余 | **S12 v2.0.0 交付（D160）**：版本同步 + 双端构建 + LAUNCH-OK + 体积记录 + tag `v2.0.0` + CI 全绿 |
+| 剩余 | **V8 全部完成（S0–S12）**；后续仅需按 release run 取 APK / Windows 安装包与体积、tag `v2.0.0` 的 release 链接回填 |
 
 ---
 
 ## 1. 已完成（含证据路径）
+
+### S12 v2.0.0 交付（D160）
+
+- **版本同步（8 处）**：`app/pubspec.yaml` `2.0.0+9`；`updater.dart` `kAppVersion = '2.0.0'`；`exporter.dart` 库文件新增 `import '../updater/updater.dart';`；`exporter_sspak.dart` manifest 改为 `'appVersion': kAppVersion`（原为写死的 `'1.0.0'`，**修掉的真实版本源不一致**）；`downloads.astro` / `index.astro` 的版本 fallback 改 `'2.0.0'`；`announcements.json` 的 `version` / `publishedAt` / 两条镜像 URL；`README.md` 当前版本行与 tag 命令。
+- **2.0.0 公告**：`announcements.json` 的 `notes[]` 9 条，覆盖 D160 明文要求三块 —— **V8 要点**（设计系统落地 / D152 布光三栏 / D153 摆姿与识别 / D155 AI 三态+导出版式 / S9 资源库+设置+引导 / D157 官网重做 / D158 工程收敛）、**数据兼容性说明**（DB schema 未变，v1.3.x 工作区可直接打开；`.sspak` 升 v2，旧包导入自动迁移并明示，更高版本明示拒绝）、**已知限制**（路径追踪预热 40–80s、16 samples 建议 ≥128、极端姿态个别关节可能翻转、资源库零售商层暂无数据、AI 需自配 Key 否则本地引擎离线降级）。`sha256` 仍由 CI 写入。
+- **门禁实测**：`dart format lib test` 0 changed（247 files）｜ `flutter analyze --no-pub --fatal-infos` No issues（9.9s）｜ `flutter test --no-pub` **517 passed + 43 skipped** ｜ `check_file_size` PASS（白名单 4 条）｜ 官网 `npm run build` **5 页** ｜ `shot_s10.mjs` **30/30** 且 announcements 通道读数为 v2.0.0。
+- **构建与体积（本机受阻，如实登记）**：Windows release 因 `flutter_litert` 插件 CMake 需联网下载 `dxil.dll`（`Failure when receiving data from the peer`）两次均失败；APK 因本机无 Android SDK 无法构建。两者由 tag `v2.0.0` 触发的 `release.yml` 产出；体积基线沿用 S6 历史记录（APK 412.0MB / Windows release 437.6MB / 引擎包 1.16MB / pathtracer 220.4KB），**未实测不填新数字**。
+- **文档**：`docs/qa/v8-s12-release.md`（6 节：结论 / 版本同步总账 / 公告内容 / 门禁与实证 / 偏差与限制登记 / 交付物清单）。
+- **下一步**：按 release run 链接取 APK 与 Windows 安装包、回填真实体积与 `sha256`、把 release 链接写回本文件 §0 CI 行。
 
 ### S11 全量回归 + 视觉验收 + 死代码清理（D158）
 
@@ -151,7 +160,7 @@
 4. ~~**S9 资源库 + 设置 + 引导**~~ ✅ 已完成（本次提交；覆盖率六类 100% 不回归 + 设置往返测试）。
 5. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
 6. ~~**S11 全量回归 + 视觉验收 + 死代码清理（D158）**~~ ✅ 已完成（本次提交；全量门禁 + 28 张截图总表 + 死代码删除清单 2 文件 656 行）。
-7. **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / `kAppVersion` / 公告 / `web/dist`）、双端构建 + LAUNCH-OK + 体积、tag `v2.0.0`、CI 全绿、§7 勾选表逐项打勾。
+7. ~~**S12 v2.0.0 交付（D160）**~~ ✅ 已完成（本次提交）：版本同步 8 处 + 2.0.0 公告 9 条（V8 要点 / 已知限制 / 数据兼容性三块齐全）+ `web/dist` 重建 5 页 + App 门禁 517/43 全绿 + 官网 30/30 在 v2.0.0 下重新实证；**双端构建与 LAUNCH-OK / 体积记录本机无法完成（`flutter_litert` 需联网下 `dxil.dll` + 无 Android SDK），由 tag `v2.0.0` 触发的 `release.yml` 产出，详见 `docs/qa/v8-s12-release.md` §5 偏差登记**。
 
 ---
 
@@ -171,7 +180,7 @@
 9. **widget 测试里截图必须走 `matchesGoldenFile`**：`RenderRepaintBoundary.toImage` + `toByteData` 在 FakeAsync 中会挂起（表现为 10 分钟超时）；用 `--update-goldens` 写文件。**路径基准不同**：`matchesGoldenFile` 相对**测试文件目录**（`app/test/visual/` → 仓库根需 `../../../`），而 `File()` 相对**进程 cwd（`app/`）** → 写索引 JSON 要 `../docs/...`。
 10. **`TextStyle.height` 是多倍数**：写成 `lineHeight / fontSize` 会让 RenderParagraph 高度塌成 1–2px（标题行重叠、标签竖排）。S1 实测排查法：临时测试里自写 `_walk(RenderObject)` 打印 `RenderParagraph.size`（注意本版本 `debugDumpRenderTree()` 无参、`visitChildren` 回调返回 `void`）。
 11. **字体加载要自己管**：截图/测试环境默认只有 MaterialIcons 之外的空字族 → 需 `FontLoader` 加载 repo 字体（`rootBundle`）与系统字体（绝对路径）；**mono 字族（Consolas）没有 CJK**，mono 文本里放中文会出豆腐块。
-12. **官网截图**：`web/tool/shot_s10.mjs` 静态伺服 `web/dist` + headless Edge CDP；`Emulation.setDeviceMetricsOverride` 固定视口；主题用 URL 参数 `?t=darkroom`（页面内联脚本写 `data-theme`），一次构建覆盖双主题；改样式后必须先 `npm run build`（Astro 输出 6 页）再截图。
+12. **官网截图**：`web/tool/shot_s10.mjs` 静态伺服 `web/dist` + headless Edge CDP；`Emulation.setDeviceMetricsOverride` 固定视口；主题用 CDP `Emulation.setEmulatedMedia` 的 `prefers-color-scheme`（只接受 `light|dark`，S11 起），页面内 `Layout.astro` 的 head 内联脚本把它映射成 `data-theme`；改样式后必须先 `npm run build`（Astro 输出 5 页）再截图；`Emulation.setDeviceMetricsOverride` 不受窗口尺寸影响，静态伺服对不含尾斜杠的 pathname 要补 `/` 再找 `index.html`（astro `trailingSlash:'ignore'` 产物是目录）。
 13. **性能测量必须先等稳态**（S2 实测踩坑）：直接采样会得到 p95≈940ms、max≈1.9s 的假数据（首帧着色器编译/HDR PMREM/GLB 加载被算进交互帧率）。判据：`getEngineStats().frames` 推进 + `Performance.getMetrics` 的 `TaskDuration` 增速 < 250ms/s。CDP 合成输入**不要 await 响应**（fire-and-forget + 在飞上限 40），否则渲染线程往返时延被算成帧间隔。
 14. **headed + `--force_high_performance_gpu` 会强制独显**：测核显用 `--gpumode=default`（本机实测落到 Intel Iris Xe）；`--headless=new` 仍会用真实 GPU，要真软件渲染得显式 `--use-angle=swiftshader`。报告里必须标注 devicePixelRatio（headed 默认 DPR=2）。
 15. **CI 阿里云镜像会 502**：`app/android/settings.gradle.kts` 的 pluginManagement 现已尊重 `SS_MAVEN_MIRROR=0`（与 `build.gradle.kts` 一致）；若再出现 “Repository maven is disabled due to earlier error” + aliyun 502，先查这个，再考虑重跑 job。
@@ -241,9 +250,15 @@
 - **删装饰必须同步删驱动它的脚本**：`motion.js` 里光圈叶片/胶片流线/鼠标视差/滚动加速速率在 S10 删掉装饰 SVG 后全部变成死逻辑，232 → 78 行（D158「删除死代码」）。
 - **官网截图工具不认 `?t=`，要靠 CDP `Emulation.setEmulatedMedia`**：且它的 `prefers-color-scheme` 只接受 `light|dark`（不能传内部命名 `paper`/`darkroom`）；astro `trailingSlash:'ignore'` 产物是目录，静态服务器必须给路径补尾斜杠否则整页 404 白屏。
 
+### S12 踩坑（补进 §3）
+
+- **Developer Mode 未开的机器要先建 junction**：`flutter build windows --release` 报 `Building with plugins requires symlink support`；用仓库自带的 `app/tool/setup_symlinks.ps1`（读 `.flutter-plugins-dependencies`，为 `windows`/`android` 逐插件在 `windows/flutter/ephemeral/.plugin_symlinks` 下 `New-Item -ItemType Junction`）即可绕过，不需要管理员权限。
+- **`flutter_litert` 会联网拉原生库**：它的 CMake 在配置阶段要下载 `https://github.com/hugocornellier/flutter_litert/releases/.../dxil.dll`；网络受阻时报 `could not download` / `Failure when receiving data from the peer` 并 `Unable to generate build files`。**本机构不出 release 包时，体积与 LAUNCH-OK 交由 `release.yml` 承担，绝不编造数字。**
+- **版本号要单一来源**：`exporter_sspak.dart` 的 manifest 原本把 `appVersion` 写死成 `'1.0.0'`，与 `kAppVersion` 脱钩；已改为引用 `kAppVersion`（在库文件 `exporter.dart` 的 import 区引入 `../updater/updater.dart`，注意 `part` 指令必须仍在所有声明之前）。
+
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
 > 基线：v1.3.0；已完成 S0–S11（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构 + S7 动作摆姿与识别重做 + S8 策划案/AI/导出重构 + S9 资源库/设置/引导重构 + S10 官网重做）
-> 下一步 **S12 v2.0.0 交付（D160）**：版本同步（pubspec 2.0.0+N / kAppVersion / 公告 / web/dist）→ 双端构建 + LAUNCH-OK + 体积记录 → tag v2.0.0 → CI 全绿（R61）→ §7 交付清单逐项打勾收官。
+> 收官状态：已完成 S0–S12（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构 + S7 动作摆姿与识别重做 + S8 策划案/AI/导出重构 + S9 资源库/设置/引导 + S10 官网重做 + S11 全量回归/视觉验收/死代码清理 + S12 v2.0.0 交付）；全量 **517 passed + 43 skipped**。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。

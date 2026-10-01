@@ -18,6 +18,7 @@ import '../../core/workspace/workspace.dart';
 import '../../services/richtext_lite.dart';
 import '../lighting/lighting_models.dart';
 import '../planner/planner_models.dart';
+import '../updater/updater.dart';
 
 /// 导出格式（PRD 6.7）。
 part 'exporter_render.dart';

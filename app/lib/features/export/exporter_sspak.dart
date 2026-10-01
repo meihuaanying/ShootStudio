@@ -26,7 +26,7 @@ extension _ExporterSspak on ExportService {
           'version': kSspakFormatVersion,
           'layout': kSspakLayoutName,
           'app': 'ShootStudio',
-          'appVersion': '1.0.0',
+          'appVersion': kAppVersion,
           'title': title,
           'exportedAt': DateTime.now().toIso8601String(),
         }),

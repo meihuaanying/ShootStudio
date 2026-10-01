@@ -2,8 +2,8 @@
 
 把摄影正片策划四步流程——**FILMGRAB 找画面参考 → Set.a.light 布光预演 → posemaniacs 动作摆姿 → 一键成案**——做成本地优先的免费开源工作台（Windows + Android）。
 
-当前版本：**v1.3.0**（V7：画面参考极简 / 显卡适配 / three.js r186 + 路径追踪 / RTMW3D 端上识别 / 资源库 100%）
-进行中：**V8 全面重做**（杂志画册风设计系统 + 四大模块升级 + 工程重构 + 官网同步，目标 v2.0.0）
+当前版本：**v2.0.0**（V8：设计系统落地 / 布光·摆姿·AI 成案与导出·资源库四大模块重做 / 官网重做 / 工程收敛）
+上一版：**v1.3.0**（V7：画面参考极简 / 显卡适配 / three.js r186 + 路径追踪 / RTMW3D 端上识别 / 资源库 100%）
 
 - 当前合同：见 [FIX_CONTRACT_V8.0.md](FIX_CONTRACT_V8.0.md)（D145–D160 / R71–R82）
 - 交接与基线：见 [HANDOFF_V7.md](HANDOFF_V7.md)（环境、管线、工具速查、执行记录）
@@ -62,7 +62,7 @@ Android 构建：安装 Android SDK（platform 36 + build-tools 35+）与 JDK 17
 ## 发版
 
 ```bash
-git tag v1.3.0 && git push origin v1.3.0
+git tag v2.0.0 && git push origin v2.0.0
 ```
 
 流水线自动：analyze + test → Windows 安装包 / Android APK → SHA-256 → GitHub Release →

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/S3 R73 file size gate (lib/features <= 600, lib/core/design <= 300, baseline allowlist)",
-  "at": "2026-10-01T18:22:11.404Z",
+  "at": "2026-10-01T18:33:22.479Z",
   "limits": {
     "features": 600,
     "design": 300,
@@ -400,7 +400,7 @@
     },
     {
       "file": "lib/features/export/exporter.dart",
-      "lines": 215,
+      "lines": 216,
       "limit": 600,
       "allowed": 600
     },

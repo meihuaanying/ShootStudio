@@ -216,7 +216,7 @@
 - [x] S8 导出三格式校验 + 新版长图/PDF 样张
 - [x] S10 官网 5 页截图（桌面+移动）+ `npm run build` 输出 —— `docs/screenshots/v8/s10-web-<page>-<theme>-<vp>.png` 30 张（5 页 × paper/darkroom × 1280x800/1920x1080/390x844）、索引 `docs/qa/v8-s8…` → `docs/qa/v8-s10-web-screenshots.json`、报告 `docs/qa/v8-s10-web.md`；`npm run build` 6 页，announcements 通道 8 个 id 读数有值
 - [x] S11 全量门禁输出 + 截图总表 + 死代码删除清单（门禁 517 passed + 43 skipped / format 0 changed / analyze 0 问题 / check_file_size PASS；截图总表 28 张 `docs/screenshots/v8/{s4-shell-home,s5-refs-results,s6-lighting-workspace,s7-pose-gallery,s8-plan-stage-reading,s9-libraries,s9-settings}-*` + 对照表 `docs/qa/v8-s11-overview-table.md` + 索引 `docs/qa/v8-s11-screenshots.json`；死代码删除清单 `web/src/pages/spike-hero.astro` 462 行 + `web/tool/shot.mjs` 194 行，报告 `docs/qa/v8-s11-regression-and-cleanup.md`）
-- [ ] S12 双端构建 + LAUNCH-OK + 体积记录 + tag `v2.0.0` + CI 全绿链接
+- [x] S12 双端构建 + LAUNCH-OK + 体积记录 + tag v2.0.0 + CI 全绿链接 —— 版本同步 8 处 + 2.0.0 公告 9 条（V8 要点 / 已知限制 / 数据兼容性）+ App 门禁 517 passed + 43 skipped + 官网 5 页 / 30 张在 v2.0.0 下不回归；**双端构建 / LAUNCH-OK / 体积本机受阻（`flutter_litert` 需联网下 `dxil.dll`、无 Android SDK），由 tag `v2.0.0` 触发的 `release.yml` 产出**，报告 `docs/qa/v8-s12-release.md`（§5 偏差登记）
 - [ ] HANDOFF_V8.md（沿用 V7 结构：一分钟速览 / 已完成 / 剩余 / 坑 / 新对话开场提示词）
 
 ---
