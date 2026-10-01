@@ -1,160 +1,94 @@
-/* V8/D147 · S3：官网设计令牌（与 App core/design/tokens.dart 逐字一致，§3 唯一来源）。
-   明暗双主题通过 <html data-theme="paper|darkroom"> 切换；S10 重做页面时只允许引用这里的变量。 */
+/* V8/D147 · S3：官网设计令牌入口（与 App core/design/tokens.dart 逐字一致，§3 唯一来源）。
+   明暗双主题跟随系统（`color-scheme` + `prefers-color-scheme`）；S10 重做后
+   全站只允许引用 tokens.css 里的变量，旧蓝紫体系已下线。 */
 @import './tokens.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: light dark;
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  html,
+  body {
+    overflow-x: hidden;
+  }
+  body {
+    @apply bg-v8-bg text-v8-ink font-sans antialiased;
+  }
+  ::selection {
+    background: var(--accent-soft);
+  }
 }
 
-/* V8 主题桥接：旧页面用 dark: 变体，V8 页面用 data-theme；两者共用同一套令牌。 */
-html[data-theme='darkroom'] body {
-  color-scheme: dark;
+@layer components {
+  /* 卡片：hairline 边框 + 令牌阴影，不用装饰渐变（R71：禁硬编码字面值）。 */
+  .card {
+    @apply rounded-v8-frame border border-v8-rule bg-v8-surface shadow-v8-paper;
+  }
+  /* 眉题：等宽小字 + 字距（§3 排版：眉题字距 0.18em）。 */
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-v8-accent;
+  }
+  /* 强调衬线：替代旧 .grad-text 的纯装饰渐变文本。 */
+  .accent-text {
+    @apply font-display text-v8-accent;
+  }
+  .mono {
+    @apply font-mono text-[0.82em] tracking-wide;
+  }
+  /* 真实产品截图统一外框（首屏与功能页共用）。 */
+  .shot {
+    @apply block w-full overflow-hidden rounded-v8-frame border border-v8-rule bg-v8-sunken shadow-v8-overlay;
+  }
+  /* 按钮：实心（主）/ 描边（次），圆角用 control 令牌。 */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-v8-control px-5 py-2.5 text-[14px] font-semibold transition-colors duration-v8-normal;
+  }
+  .btn-primary {
+    @apply btn bg-v8-accent text-white hover:opacity-90;
+  }
+  .btn-ghost {
+    @apply btn border border-v8-rule text-v8-ink-soft hover:border-v8-accent hover:text-v8-accent;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-html, body {
-  overflow-x: hidden;
-}
-
-body {
-  @apply bg-ss-bg dark:bg-ss-bg-dark text-ss-ink dark:text-ss-ink-dark font-sans antialiased;
-}
-
-/* 细网格纹理背景（harness 式克制的科技感）。 */
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(77, 107, 254, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(77, 107, 254, 0.06) 1px, transparent 1px);
-  background-size: 44px 44px;
-}
-
-/* 渐变文字。 */
-.grad-text {
-  background: linear-gradient(120deg, #4D6BFE, #7B5CFF 60%, #2BA471);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.card {
-  @apply rounded-sslg border border-ss-rule dark:border-ss-rule-dark bg-ss-card dark:bg-ss-card-dark shadow-ss;
-}
-
-.mono {
-  @apply font-mono text-[0.82em] tracking-wide;
-}
-
-/* ---------- 滚动叙事 reveal（F7/W4） ----------
-   仅在 js-ready 时初始隐藏；无 JS / 脚本失败时内容默认可见。 */
-html.js-ready [data-reveal] {
+/* 滚动叙事：GSAP/ScrollTrigger 只负责加 .is-in（见 scripts/motion.js），
+   过渡统一走 tokens.css 的动效令牌（R71）。没有 JS 或系统减弱动效时直接可见，
+   不得白屏。 */
+html.js-ready [data-reveal],
+html.js-ready [data-hero-item],
+html.js-ready [data-hero-visual] {
   opacity: 0;
   transform: translateY(18px);
 }
-
-html.no-motion [data-reveal],
-html:not(.js-ready) [data-reveal] {
+html.js-ready .is-in {
   opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--motion-slow) var(--motion-ease),
+    transform var(--motion-slow) var(--motion-ease);
+}
+html.js-ready [data-hero-visual] {
+  transform: scale(0.985);
+}
+html.js-ready [data-hero-visual].is-in {
   transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  html {
+    scroll-behavior: auto;
+  }
+  html.js-ready [data-reveal],
+  html.js-ready [data-hero-item],
+  html.js-ready [data-hero-visual] {
     opacity: 1;
     transform: none;
   }
-}
-
-/* ---------- 首屏英雄区（W2）：左文案 · 右视觉，CTA 首屏可见 ---------- */
-.hero-shell {
-  min-height: 88vh;
-  display: flex;
-  align-items: center;
-}
-
-.hero-visual {
-  position: relative;
-  width: 100%;
-  max-width: 520px;
-  margin-inline: auto;
-  aspect-ratio: 1 / 1;
-  pointer-events: none;
-}
-
-.hero-visual svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-/* 光圈叶片开合（GSAP 做入场，CSS 做常驻呼吸）。 */
-@keyframes aperture-breathe {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(9deg) scale(0.94); }
-}
-
-.aperture-blades {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: aperture-breathe 9s ease-in-out infinite;
-}
-
-/* 胶片流线：齿孔带向下流动。 */
-@keyframes film-roll {
-  from { transform: translateY(0); }
-  to { transform: translateY(-96px); }
-}
-
-.film-strip-roll {
-  animation: film-roll 7s linear infinite;
-  /* E2：滚动加速。--film-rate 由 JS 写入 hero 容器（1 = 基准速度），无 JS 时回落 7s。 */
-  animation-duration: calc(7s / var(--film-rate, 1));
-}
-
-/* E1 鼠标视差外层：由 JS 写 transform，与内层呼吸/流动动画分层，互不覆盖。 */
-.aperture-parallax,
-.film-parallax {
-  transform-box: fill-box;
-  transform-origin: center;
-  will-change: transform;
-}
-
-/* 光斑呼吸。 */
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.45; }
-  50% { opacity: 0.85; }
-}
-
-.hero-glow {
-  animation: glow-pulse 6.5s ease-in-out infinite;
-}
-
-/* 移动端：装饰视觉下移裁剪，避免胶片/光圈溢出压住文案与按钮 */
-@media (max-width: 767px) {
-  .hero-visual {
-    max-width: 320px;
-    margin-top: 4px;
-  }
-  .hero-visual svg {
-    overflow: hidden;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .aperture-blades,
-  .film-strip-roll,
-  .hero-glow {
-    animation: none;
-  }
-}
-
-.hero-mask {
-  mask-image: radial-gradient(ellipse 76% 64% at 62% 42%, #000 55%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 76% 64% at 62% 42%, #000 55%, transparent 100%);
 }

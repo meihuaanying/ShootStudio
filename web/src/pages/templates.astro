@@ -1,35 +1,52 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
+
 <Layout title="模板库 · 正片工坊 ShootStudio">
-  <section class="mx-auto max-w-6xl px-6 pb-6 pt-16">
-    <h1 class="text-3xl font-extrabold md:text-4xl" data-reveal>模板库</h1>
-    <p class="mt-4 max-w-2xl text-[14px] leading-7 text-ss-muted dark:text-ss-muted-dark" data-reveal>
+  <section class="mx-auto max-w-[1280px] px-6 pb-8 pt-14">
+    <p class="eyebrow" data-reveal>模板库</p>
+    <h1 class="mt-3 font-display text-[28px] font-semibold md:text-[40px]" data-reveal>模板库</h1>
+    <p class="mt-4 max-w-2xl text-[14px] leading-6 text-v8-ink-soft" data-reveal>
       与应用内云端模板同源数据（templates.json）：发版后新增模板会出现在这里，
       应用启动时自动增量拉取，无需升级应用。
     </p>
     <div id="tpl-filter" class="mt-8 flex flex-wrap gap-2"></div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-6 pb-20">
+  <section class="mx-auto max-w-[1280px] px-6 pb-20">
     <div id="tpl-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-    <p id="tpl-empty" class="hidden text-[13px] text-ss-muted dark:text-ss-muted-dark">正在加载模板数据…</p>
+    <p id="tpl-empty" class="mt-4 text-[13px] text-v8-muted">正在加载模板数据…</p>
   </section>
 
   <script>
+    // D157：数据通道不变（templates.json），只把样式换成 v8 令牌。
     const CATS = ['全部', 'Cos 正片', '汉服', 'JK', '婚纱', '写真', '商拍', 'Lo裙', '双人'];
+    const CHIP =
+      'rounded-full border border-v8-rule px-3.5 py-1.5 text-[12.5px] transition-colors duration-v8-normal text-v8-muted hover:border-v8-accent hover:text-v8-accent';
+    const CHIP_ON =
+      'rounded-full border border-transparent bg-v8-accent px-3.5 py-1.5 text-[12.5px] text-white';
     let current = '全部';
     let all = [];
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (c) => {
+        if (c === '&') return '&amp;';
+        if (c === '<') return '&lt;';
+        if (c === '>') return '&gt;';
+        if (c === '"') return '&quot;';
+        return '&#39;';
+      });
+    }
 
     function card(t) {
       const div = document.createElement('article');
       div.className = 'card p-5';
       const mods = (t.modules || []).map((m) => m.title || m.type).slice(0, 6);
       div.innerHTML = `
-        <span class="mono inline-block rounded-full border border-ss-accent/40 px-2.5 py-0.5 text-[10.5px] text-ss-accent">${t.category}</span>
-        <h3 class="mt-2 text-[15px] font-bold">${t.name}</h3>
-        <p class="mt-1.5 text-[12.5px] leading-6 text-ss-muted dark:text-ss-muted-dark">${t.description || ''}</p>
-        <p class="mono mt-3 text-[11px] text-ss-accent2">${(t.modules || []).length} 个模块：${mods.join(' · ')}…</p>`;
+        <span class="mono inline-block rounded-full border border-v8-rule px-2.5 py-0.5 text-[10.5px] text-v8-accent">${escapeHtml(t.category)}</span>
+        <h3 class="mt-2 text-[15px] font-semibold">${escapeHtml(t.name)}</h3>
+        <p class="mt-1.5 text-[12.5px] leading-6 text-v8-ink-soft">${escapeHtml(t.description || '')}</p>
+        <p class="mono mt-3 text-[11px] text-v8-muted">${(t.modules || []).length} 个模块：${escapeHtml(mods.join(' · '))}…</p>`;
       return div;
     }
 
@@ -45,17 +62,13 @@ import Layout from '../layouts/Layout.astro';
     CATS.forEach((cat) => {
       const button = document.createElement('button');
       button.textContent = cat;
-      button.className =
-        'rounded-full border border-ss-rule dark:border-ss-rule-dark px-3.5 py-1.5 text-[12.5px] transition ' +
-        (cat === '全部' ? 'bg-gradient-to-br from-ss-accent to-ss-accent2 text-white border-transparent' : 'text-ss-muted hover:border-ss-accent hover:text-ss-accent');
+      button.className = cat === '全部' ? CHIP_ON : CHIP;
       button.onclick = () => {
         current = cat;
         [...filter.children].forEach((node) => {
-          node.className =
-            'rounded-full border border-ss-rule dark:border-ss-rule-dark px-3.5 py-1.5 text-[12.5px] transition text-ss-muted hover:border-ss-accent hover:text-ss-accent';
+          node.className = CHIP;
         });
-        button.className =
-          'rounded-full border border-transparent px-3.5 py-1.5 text-[12.5px] bg-gradient-to-br from-ss-accent to-ss-accent2 text-white';
+        button.className = CHIP_ON;
         render();
       };
       filter.appendChild(button);

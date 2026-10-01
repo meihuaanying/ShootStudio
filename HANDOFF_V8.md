@@ -11,14 +11,24 @@
 | 项 | 状态 |
 |---|---|
 | 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页** `23012bd` ｜ **S5 画面参考搜索** `e4021db` ｜ **S6 布光预演**（本次提交：三栏版面 + 顶部工具条 + 灯位图画中画 + 撤销重做 ≥20 步 + 出片 ≤3 步；报告 `docs/qa/v8-s6-lighting.md`） |
-| CI | **S6 全绿** run `36808608106` = `4b8c25d` success 4/4；**S7 全绿** run `36872580514` = `52d69d8` success 4/4；S8 推送后运行中（R61：全绿才算完成） |
-| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **517 passed + 43 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **10** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 ｜ S9 专项 `s9_library_settings_test` 8 ｜ 视觉 S9 16 张 |
+| CI | **S6 全绿** run `36808608106` = `4b8c25d` success 4/4；**S7 全绿** run `36872580514` = `52d69d8` success 4/4；**S8** run `36898142693` = `584cb3f`，Analyse & Test 双平台 success，Build job 因 S9 推送被取消（superseded，构建由 S9 run 覆盖，非回归）；**S9** run `36901770696` = `bab1230`，运行中（结论待复核）；S10 推送后运行中（R61：全绿才算完成） |
+| 门禁基线 | format 0 changed（202 files）｜ analyze 0 问题 ｜ 全量 **517 passed + 43 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **4** 个（R73 白名单，只降不升）｜ 官网 6 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 ｜ S9 专项 `s9_library_settings_test` 8 ｜ 视觉 S9 16 张 ｜ S10 官网 `npm run build` 6 页（含 spike-hero 残留）｜ 官网截图 30 张（5 页 × 明暗 × 1280×800/1920×1080/390×844）｜ 旧 `ss-*` 蓝紫体系与装饰 SVG 光圈 0 命中 |
 | 当前步 | S6 收尾（提交 + CI 复核） |
-| 剩余 | **S10 官网** → S11 全量回归+视觉验收+死代码 → S12 v2.0.0 交付 |
+| 剩余 | **S11 全量回归+视觉验收+死代码** → S12 v2.0.0 交付 |
 
 ---
 
 ## 1. 已完成（含证据路径）
+
+### S10 官网重做（D157）
+
+- **令牌对齐（R71）**：`tailwind.config.mjs` 与 `global.css` 全部改为引用 `src/styles/tokens.css` 的 CSS 变量（§3 唯一来源，与 App `AppTokensV2` 逐字一致）；**删除整个 `colors.ss` 旧蓝紫体系**（`#4D6BFE`/`#7B5CFF`/`#2BA471` 等）与 `radius.ss/sslg`、`shadow.ss/sslg`；`colors.v8` 12 色 + 3 字族 + 7 字号 + 8 间距 + 3 圆角 + 2 阴影 + 3 动效时长全部 `var(--…)` 引用。
+- **首屏（D157 硬指标）**：删掉 104 行纯装饰 SVG 光圈（含 `aperture-breathe`/`film-roll`/`glow-pulse` 关键帧、`.hero-visual`/`.hero-mask`/`.grid-bg`），改为 `<picture>` 双主题真实产品静帧 `/shots/hero-{paper,dark}.png`，**实测占视口约 54%**（≥50% 达标）+ 衬线大标题 + 双下载 CTA。
+- **五页重排**：index（真实静帧首屏 + 四步工作流 + **八大能力卡每张配真实截图** + 本地优先）／features（9 模块**杂志跨页**，图左右 `md:order-2` 交替）／downloads（8 个 DOM id 与 `announcements.json` script **原样保留** + 真实截图）／templates（新增 `escapeHtml()`）／changelog（`escapeHtml()` + `v2.0.0 计划中`）。顺手修掉「九大能力 vs 8 项数组」文案不一致。
+- **死代码同步清理（D158）**：`scripts/motion.js` 232 → **78 行**（删光圈叶片/胶片流线/鼠标视差/滚动加速，DOM 已随装饰删除）；过渡统一交给 CSS，GSAP 只加 `.is-in` class。
+- **新建**：单一文案源 `src/data/landing.ts`；视觉门禁 `tool/shot_s10.mjs`（Node 内建 + Edge headless CDP，CDP `Emulation.setEmulatedMedia` 控主题，比 S1 `shot.mjs` 多移动档 390×844 + announcements 读数 + R82 占位图检查）。
+- **证据**：`npm run build` **6 页**（5 正式 + spike-hero 残留）；**30 张** `docs/screenshots/v8/s10-web-<page>-<theme>-<vp>.png` + 索引 `docs/qa/v8-s10-web-screenshots.json`（含 `announcement` / `brokenImgs`，`brokenImgs = 0`）；announcements 通道读数 8 个 id 全部有值；旧 `ss-*` 与蓝紫硬编码在 `web/src/**` **0 命中**；报告 `docs/qa/v8-s10-web.md`。
+- **不回归**：`dart format lib test` 0 changed（247 files）｜ analyze No issues ｜ **全量 517 passed + 43 skipped**（与 S9 基线完全一致 → S10 未改 `app/`）｜ `check_file_size` PASS。
 
 ### S9 资源库 + 设置 + 引导页重构
 
@@ -204,9 +214,18 @@
 - **`git checkout --` 的 pathspec 用 `os.path.relpath(f, REPO)`**：拼 `app/lib/features/` 前缀会变双前缀 `did not match any file(s)`，脚本在写文件前就退出。
 - **`tool/file_size_baseline.json` 用 2 空格缩进**：`edit` 的 oldString 缩进必须一致（4 空格会失败）。
 
+### S10 踩坑（补进 §3）
+
+- **Astro `trailingSlash:'ignore'` 的产物是目录**：`dist/features/index.html`。自建静态服务器若只对「以 `/` 结尾」的 pathname 补 `index.html`，`/features` 会去读目录名 → 404 → 整页空白（截图仅 5 KB、body 背景透明）。截图工具必须 `page.endsWith('/') ? page : page + '/'`。
+- **`tokens.css` 的暗色值挂在 `[data-theme='darkroom']`，但 `<html>` 根本没有这个属性**：旧设计靠 Tailwind `dark:` 变体 + `darkMode:'media'` 兜住了，所以 S1 期间没暴露；一旦 `body` 改成直接吃 `var(--bg)`，暗色就永远拿不到。修法是 `<head>` 内联 `is:inline` 脚本把 `prefers-color-scheme` 映射成 `document.documentElement.dataset.theme` 并监听 `change`，同时支持 `?t=paper|darkroom` 覆盖。
+- **CDP `Emulation.setEmulatedMedia` 的 `prefers-color-scheme` 只接受 `light|dark`**：传内部命名 `paper`/`darkroom` 不会报错，但渲染仍是亮色 —— 截图门禁必须做映射，否则暗色档会静默失真。
+- **删装饰必须同步删动效死代码**：装饰 SVG 删除后，`motion.js` 里的叶片旋转/胶片流线/鼠标视差/滚动速率就都没有作用对象了（本轮 232 → 78 行，呼应 D158「删除未使用依赖与样式」）。
+- **内联 `innerHTML` 渲染外部 JSON 必须 `escapeHtml`**：`templates.astro` / `changelog.astro` 原先把 `t.name` / `t.description` / `ops.title` 直接拼进 `innerHTML`，数据里一个 `<` 就破版。
+- **截图门禁的度量口径**：`lazy` 屏外图未下载不等于占位图（R82 只在 `complete && naturalWidth === 0` 时算 broken）；`unrevealed` 只统计「已进入视口却仍 opacity 0」的块，统计全部屏外块会永远不为 0。
+
 ## 4. 新对话开场提示词（可直接粘贴）
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
-> 基线：v1.3.0；已完成 S0–S9（… + S9 资源库/设置/引导重构）
-> 下一步 **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
+> 基线：v1.3.0；已完成 S0–S10（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构 + S7 动作摆姿与识别重做 + S8 策划案/AI/导出重构 + S9 资源库/设置/引导重构 + S10 官网重做）
+> 下一步 **S11 全量回归 + 视觉验收 + 死代码清理（D158）**：全量门禁、7 页截图总表（明暗 × 2 分辨率）、死代码删除清单（先 grep 引用计数为 0，`web/src/pages/spike-hero.astro` 461 行是明确候选）。之后 S12 v2.0.0 交付。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。

@@ -1,31 +1,47 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
+
 <Layout title="更新日志 · 正片工坊 ShootStudio">
-  <section class="mx-auto max-w-4xl px-6 pb-6 pt-16">
-    <h1 class="text-3xl font-extrabold md:text-4xl" data-reveal>更新日志</h1>
-    <p class="mt-4 text-[14px] leading-7 text-ss-muted dark:text-ss-muted-dark" data-reveal>
+  <section class="mx-auto max-w-[860px] px-6 pb-8 pt-14">
+    <p class="eyebrow" data-reveal>更新日志</p>
+    <h1 class="mt-3 font-display text-[28px] font-semibold md:text-[40px]" data-reveal>更新日志</h1>
+    <p class="mt-4 text-[14px] leading-6 text-v8-ink-soft" data-reveal>
       GitHub Release 为唯一事实源；本页与应用内公告共用同一份 announcements.json，
       由 CI 在发版时自动更新。内容包（模板 / 姿势包 / 布光预设）更新不打 Tag，直接增量下发。
     </p>
   </section>
 
-  <section class="mx-auto max-w-4xl px-6 pb-20">
+  <section class="mx-auto max-w-[860px] px-6 pb-20">
     <div id="timeline" class="mt-6 flex flex-col gap-4"></div>
-    <p id="timeline-empty" class="text-[13px] text-ss-muted dark:text-ss-muted-dark">正在加载公告数据…</p>
+    <p id="timeline-empty" class="text-[13px] text-v8-muted">正在加载公告数据…</p>
   </section>
 
   <script>
+    // D157：announcements.json 通道不变，样式换成 v8 令牌 + 眉题分节。
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (c) => {
+        if (c === '&') return '&amp;';
+        if (c === '<') return '&lt;';
+        if (c === '>') return '&gt;';
+        if (c === '"') return '&quot;';
+        return '&#39;';
+      });
+    }
+
     function item(version, date, notes, plan = false) {
       const div = document.createElement('article');
-      div.className = 'card p-6' + (plan ? ' border-ss-accent2/40' : '');
+      div.className = 'card p-6' + (plan ? ' opacity-80' : '');
       div.innerHTML = `
         <div class="flex items-center gap-3">
-          <span class="mono text-[13px] font-bold ${plan ? 'text-ss-accent2' : 'text-ss-accent'}">${version}</span>
-          <span class="mono text-[11px] text-ss-muted dark:text-ss-muted-dark">${date}</span>
+          <span class="mono text-[13px] font-bold ${plan ? 'text-v8-gold' : 'text-v8-accent'}">${escapeHtml(version)}</span>
+          <span class="mono text-[11px] text-v8-muted">${escapeHtml(date)}</span>
+          ${plan ? '<span class="eyebrow">计划中</span>' : ''}
         </div>
-        <ul class="mt-3 space-y-1.5">
-          ${notes.map((n) => `<li class="text-[13px] leading-6 text-ss-muted dark:text-ss-muted-dark">· ${n}</li>`).join('')}
+        <ul class="mt-3 flex flex-col gap-1.5">
+          ${(notes || [])
+            .map((n) => `<li class="flex gap-2 text-[13px] leading-6 text-v8-ink-soft"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-v8-accent" aria-hidden="true"></span><span>${escapeHtml(n)}</span></li>`)
+            .join('')}
         </ul>`;
       return div;
     }
@@ -35,16 +51,28 @@ import Layout from '../layouts/Layout.astro';
       .then((ann) => {
         const timeline = document.getElementById('timeline');
         document.getElementById('timeline-empty').classList.add('hidden');
-        timeline.appendChild(item('v' + ann.version, ann.publishedAt || '', ann.notes || ['首个版本']));
+        timeline.appendChild(
+          item('v' + ann.version, ann.publishedAt || '', ann.notes || ['首个版本']),
+        );
         (ann.ops || []).forEach((op) => {
           timeline.appendChild(item('公告', op.date || '', [op.title]));
         });
         timeline.appendChild(
-          item('v1.4.0 · 计划中', '', ['云端模板市场', '双人姿势包', '布光预设社区分享'], true),
+          item(
+            'v2.0.0 · 计划中',
+            '',
+            [
+              'V8 全面重做收官：设计系统全站落地',
+              '四步成案闭环：画面参考 → 布光预演 → 动作摆姿 → 一键成案',
+              '导出长图 / PDF 版式重设计，来源与许可随包同行',
+            ],
+            true,
+          ),
         );
       })
       .catch(() => {
-        document.getElementById('timeline-empty').textContent = '公告数据加载失败，请稍后重试';
+        document.getElementById('timeline-empty').textContent =
+          '公告数据加载失败，请稍后重试';
       });
   </script>
 </Layout>

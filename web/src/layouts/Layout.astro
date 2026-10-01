@@ -1,11 +1,16 @@
 ---
-// 官网基础布局：导航 / 页脚 / 全局动效脚本（D12/D13；W1 修复 global.css 引入）。
 import '../styles/global.css';
+
 interface Props {
   title?: string;
   description?: string;
 }
-const { title = '正片工坊 ShootStudio', description = '画面参考 → 布光预演 → 动作摆姿 → 一键成案：本地优先的免费开源摄影策划工作台（Windows + Android）。' } = Astro.props;
+
+const {
+  title = '正片工坊 ShootStudio',
+  description = '画面参考 → 布光预演 → 动作摆姿 → 一键成案：本地优先的免费开源摄影策划工作台（Windows + Android）。',
+} = Astro.props;
+
 const nav = [
   { href: '/', label: '首页' },
   { href: '/features', label: '功能' },
@@ -15,51 +20,85 @@ const nav = [
 ];
 const path = Astro.url.pathname;
 ---
+
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <script is:inline>
+      // V8/S10：明暗双主题跟随系统。
+      //
+      // tokens.css 把暗色值挂在 `[data-theme='darkroom']` 上（§3 唯一来源，
+      // 值与 App AppTokensV2 逐字一致），而 tailwind 是 darkMode:'media'。若只靠
+      // media 查询，CSS 变量拿不到暗色值 —— 所以这里在 <head> 里把系统的
+      // prefers-color-scheme 映射成 data-theme，并监听变化实时切换。
+      // `?t=paper|darkroom` 是给截图工具与手动调试的显式覆盖（沿用 S1 的约定）。
+      (() => {
+        const forced = new URLSearchParams(location.search).get('t');
+        const apply = () => {
+          const dark = forced
+            ? forced === 'darkroom' || forced === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.dataset.theme = dark ? 'darkroom' : 'paper';
+        };
+        apply();
+        if (!forced) {
+          window
+            .matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', apply);
+        }
+      })();
+    </script>
   </head>
-  <body class="min-h-screen">
-    <header class="sticky top-0 z-50 border-b border-ss-rule dark:border-ss-rule-dark bg-ss-bg/80 dark:bg-ss-bg-dark/80 backdrop-blur">
-      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+  <body>
+    <header
+      class="sticky top-0 z-50 border-b border-v8-rule bg-v8-bg/80 backdrop-blur"
+    >
+      <div class="mx-auto flex max-w-[var(--content-max)] items-center gap-6 px-6 py-3.5">
         <a href="/" class="flex items-center gap-2.5">
-          <span class="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-ss-accent to-ss-accent2 text-[13px] font-extrabold text-white">正</span>
-          <span class="text-[15px] font-extrabold tracking-tight">正片工坊 <span class="mono text-ss-muted dark:text-ss-muted-dark">SHOOTSTUDIO</span></span>
+          <span
+            class="grid h-7 w-7 place-items-center rounded-v8-chip bg-v8-accent font-display text-[13px] font-semibold text-white"
+            >正</span
+          >
+          <span class="text-[15px] font-semibold tracking-tight"
+            >正片工坊 <span class="eyebrow">ShootStudio</span></span
+          >
         </a>
-        <nav class="flex min-w-0 items-center justify-end gap-3 overflow-x-auto whitespace-nowrap text-[12.5px] md:gap-5 md:text-[13px]">
-          {nav.map((item) => (
-            <a
-              href={item.href}
-              class:list={[
-                'transition-colors hover:text-ss-accent',
-                path === item.href || (item.href !== '/' && path.startsWith(item.href))
-                  ? 'text-ss-accent font-semibold'
-                  : 'text-ss-muted dark:text-ss-muted-dark',
-              ]}
-            >{item.label}</a>
-          ))}
-          <a href="https://github.com/shoot-studio/shoot-studio" target="_blank" rel="noopener" class="hidden text-ss-muted dark:text-ss-muted-dark transition-colors hover:text-ss-accent md:inline">GitHub ↗</a>
+        <nav class="ml-auto flex items-center gap-5 text-[14px]">
+          {
+            nav.map((item) => (
+              <a
+                href={item.href}
+                class={
+                  path === item.href
+                    ? 'font-semibold text-v8-accent'
+                    : 'text-v8-muted transition-colors duration-v8-normal hover:text-v8-accent'
+                }
+              >
+                {item.label}
+              </a>
+            ))
+          }
+          <a
+            href="https://github.com/shoot-studio/shoot-studio"
+            class="text-v8-muted transition-colors duration-v8-normal hover:text-v8-accent"
+            >GitHub ↗</a
+          >
         </nav>
       </div>
     </header>
 
-    <main>
-      <slot />
-    </main>
+    <main><slot /></main>
 
-    <footer class="mt-20 border-t border-ss-rule dark:border-ss-rule-dark">
-      <div class="mx-auto max-w-6xl px-6 py-10 text-[12px] text-ss-muted dark:text-ss-muted-dark">
-        <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p>正片工坊 ShootStudio · Flutter 单代码库（Windows + Android）· MIT 开源</p>
-          <p>
-            模板 / 姿势包 / 布光预设经 CDN 增量下发，无需升级应用 ·
-            <a class="text-ss-accent hover:underline" href="/changelog">更新日志</a>
-          </p>
-        </div>
+    <footer class="mt-20 border-t border-v8-rule">
+      <div
+        class="mx-auto flex max-w-[var(--content-max)] flex-col gap-2 px-6 py-8 text-[13px] text-v8-muted"
+      >
+        <p>Flutter 单代码库 · Windows + Android · MIT 开源</p>
+        <p>模板 · 姿势包 · 布光预设经 CDN 增量下发，详见 <a class="hover:text-v8-accent" href="/changelog">更新日志</a>。</p>
       </div>
     </footer>
 
