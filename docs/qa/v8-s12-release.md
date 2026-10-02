@@ -4,7 +4,7 @@
 
 V8 全面重做（S0–S12）收官。S12 完成版本同步（`pubspec 2.0.0+9` / `kAppVersion` / 官网三处 fallback / `.sspak` manifest）、2.0.0 公告改写（V8 要点 + 已知限制 + 数据兼容性说明三块全覆盖）、`web/dist` 重建、App 侧全量门禁四项全绿、官网在 v2.0.0 下重新实证。
 
-**双端构建与体积记录在本机无法完成**（两个真实环境限制，见 §5），已如实登记为偏差；APK 与 Windows 安装包由 tag `v2.0.0` 触发的 `release.yml` 产出。
+**双端构建与体积记录在本机无法完成**（两个真实环境限制，见 §5），已如实登记为偏差；APK 与 Windows 安装包由 tag `v2.0.0` 触发的 `release.yml` 产出，**已于 2026-10-01 19:16 UTC 实测发布成功**（Release run `36909234447` success 4/4；资产与体积见 §4）。
 
 ## 2. 版本同步总账（D160）
 
@@ -43,7 +43,24 @@ V8 全面重做（S0–S12）收官。S12 完成版本同步（`pubspec 2.0.0+9`
 | `web/ npm run build` | **5 page(s) built**，`web/dist` 重建完成 |
 | `web/ node tool/shot_s10.mjs` | **30/30 张**，`brokenImgs` 全 0；announcements 通道读数已是 `2.0.0` 且镜像 URL 含 `v2.0.0` |
 
-**体积基线**（沿用 S6 历史记录 `README.md:81`，本机未重新产出）：APK **412.0MB**、Windows release **437.6MB**、引擎包 **1.16MB**、pathtracer **220.4KB**。
+**实测体积与校验和**（tag `v2.0.0` 的 `release.yml` 产出，`gh release view v2.0.0` 实测 + `*.sha256` 已下载核对）：
+
+| 产物 | 实测体积 | 字节数 | `sha256` |
+|---|---|---|---|
+| `shoot-studio-v2.0.0-android.apk` | **428.2MB** | 449,034,606 | `68a97c48e9401032c15e286202c6047f4cf6fd4336992ba36b032292c80c961c` |
+| `shoot-studio-v2.0.0-windows.zip` | **303.5MB** | 318,232,008 | `d441dd6edfd1ae4b642dd25f5bf3e9b31403e70a7f968c8e52843cf13d6b973a` |
+
+- Release `v2.0.0`：`draft=false` / `prerelease=false`，`publishedAt 2026-10-01T19:16:58Z`，资产 4 个（上述 2 个 + `android.sha256` / `windows.sha256`）。
+- 历史基线对照（v1.3.0，`README.md`）：APK 412.0MB → **428.2MB（+16.2MB）**；Windows 历史记录的 437.6MB 是**未压缩 release 目录**，本次的 303.5MB 是 **zip 压缩包**，两者口径不同，不直接相减。
+- 引擎包 1.16MB / pathtracer 220.4KB 沿用 S6 历史基线（本次发布未改动这两项，**未重新实测**）。
+
+**CI / Release / 官网上线实测**：
+
+| 项 | 结果 |
+|---|---|
+| main CI run [`36909181255`](https://github.com/meihuaanying/ShootStudio/actions/runs/36909181255) | commit `6d89347`，**success 4/4** —— Analyze & Test (ubuntu-latest) 5m52s、(windows-latest) 13m58s、Build Windows 19m51s、Build Android APK 16m29s |
+| Release run [`36909234447`](https://github.com/meihuaanying/ShootStudio/actions/runs/36909234447) | tag `v2.0.0`，**success 4/4** —— Build & Collect (android) 28m22s、(windows) 30m20s、GitHub Release 51s、Deploy website (GitHub Pages) 3m10s |
+| 官网上线 | `https://meihuaanying.github.io/ShootStudio/` **HTTP 200**（9,390 B，title「正片工坊 ShootStudio · 画面参考到一键成案」）；`announcements.json` **HTTP 200**（2,209 B），`version = 2.0.0` / `publishedAt = 2026-10-02`，4 条下载链接全部指向 `v2.0.0` |
 
 ## 5. 偏差与限制登记（本机真实受阻原因，不编造数字）
 
@@ -53,13 +70,14 @@ V8 全面重做（S0–S12）收官。S12 完成版本同步（`pubspec 2.0.0+9`
    - 第二次失败：CMake 报错 `flutter_litert: could not download https://github.com/hugocornellier/flutter_litert/releases/download/litert-desktop-gpu-v1.0.0/dxil.dll`（`flutter/ephemeral/.plugin_symlinks/flutter_litert/windows/CMakeLists.txt:77`）→ `Unable to generate build files`，exit 1。
    - **性质**：网络取不到 GitHub release 资产，与代码无关。CI / release runner 能正常下载。
 2. **Android APK 本机无法构建**：`flutter doctor` 实测 ✓ Windows Version、✓ Visual Studio - develop Windows apps、✗ Android toolchain（无 Android SDK）；Flutter 3.35.7 / Dart 3.9.2。
-3. **LAUNCH-OK 未在本机执行**：`app/tool/smoke_launch.ps1`（D160 点名）需要 release 产物；产物由 release.yml 产出后可在 CI 日志里取证。
-4. **两者的产出路径**：打 tag `v2.0.0` → `release.yml`（`on: push: tags: ['v*.*.*']`，job `build` 矩阵 `windows@windows-latest` + `android@ubuntu-latest`，`fail-fast: false`）产出 Windows 安装包与 APK，并写入 `announcements.json` 的 `sha256`。
+3. **LAUNCH-OK 未在本机执行**：`app/tool/smoke_launch.ps1`（D160 点名）需要 release 产物；产物已由 release.yml 产出（见 §4），本机仍未执行该脚本（如实登记，**不伪造 LAUNCH-OK 结论**）。
+4. **两者的产出路径（已走通）**：打 tag `v2.0.0` → `release.yml`（`on: push: tags: ['v*.*.*']`，job `build` 矩阵 `windows@windows-latest` + `android@ubuntu-latest`，`fail-fast: false`）产出 Windows 安装包与 APK，并写入 `announcements.json` 的 `sha256`。**实测**：run `36909234447` success 4/4，Release `v2.0.0` 已发布（资产与校验和见 §4）。
 5. **本轮未做**：App 侧 4 个白名单文件（`lighting_controller` / `ai_panel` / `libraries_page` / `ai_client`）的进一步拆分 —— 不在 D158 强制拆分清单内，且 `lib/features/**` >600 行的文件数已从 10 降到 4。
 
 ## 6. 交付物清单
 
 - `docs/qa/v8-s12-release.md`（本文件）
+- 发布产物（tag `v2.0.0`）：Release https://github.com/meihuaanying/ShootStudio/releases/tag/v2.0.0 —— `shoot-studio-v2.0.0-android.apk` 428.2MB、`shoot-studio-v2.0.0-windows.zip` 303.5MB、`android.sha256`、`windows.sha256`
 - 版本同步：`app/pubspec.yaml`、`app/lib/features/updater/updater.dart`、`app/lib/features/export/exporter.dart`、`app/lib/features/export/exporter_sspak.dart`、`web/src/pages/downloads.astro`、`web/src/pages/index.astro`、`web/public/announcements.json`、`README.md`
 - 文档：`HANDOFF_V8.md`（§0 / §1 / §2 / §3 / §4）、`FIX_CONTRACT_V8.0.md` §7 勾 `[x] S12`
 - 截图与索引（S11 已入库，S12 未重出）：`docs/screenshots/v8/` 共 178 张（App 侧 28 张总表 + 各阶段专项 + 官网 30 张）、`docs/qa/v8-s11-overview-table.md`、`docs/qa/v8-s11-screenshots.json`、`docs/qa/v8-s10-web-screenshots.json`

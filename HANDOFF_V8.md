@@ -1,8 +1,9 @@
-# ShootStudio V8 交接文档 · 进行中（杂志画册风设计系统 + 四大模块升级 + 工程重构 + 官网同步）
+# ShootStudio V8 交接文档 · 已完成（v2.0.0 已发布）｜ 杂志画册风设计系统 + 四大模块升级 + 工程重构 + 官网同步
 
-> 更新：2026-09-30 ｜ 配套合同：`FIX_CONTRACT_V8.0.md`（D145–D160、R71–R82，**开工前必读**）
+> 更新：2026-10-02 ｜ 配套合同：`FIX_CONTRACT_V8.0.md`（D145–D160、R71–R82，**开工前必读**）
 > 仓库：`D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）
-> 基线：v1.3.0 已发布（tag `v1.3.0`）；V8 目标 v2.0.0
+> 里程碑：**v2.0.0 已发布**（tag `v2.0.0`，Release `publishedAt 2026-10-01T19:16:58Z`）；上一版 v1.3.0（V7）
+> 状态：**S0–S12 全部完工**，四道门禁全绿，证据入 git，main CI 与 Release run 均 success 4/4
 
 ---
 
@@ -10,11 +11,13 @@
 
 | 项 | 状态 |
 |---|---|
-| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页** `23012bd` ｜ **S5 画面参考搜索** `e4021db` ｜ **S6 布光预演**（本次提交：三栏版面 + 顶部工具条 + 灯位图画中画 + 撤销重做 ≥20 步 + 出片 ≤3 步；报告 `docs/qa/v8-s6-lighting.md`） |
-| CI | **S6 全绿** run `36808608106` = `4b8c25d` success 4/4；**S7 全绿** run `36872580514` = `52d69d8` success 4/4；**S8** run `36898142693` = `584cb3f`，Analyse & Test 双平台 success，Build job 因 S9 推送被取消（superseded，构建由 S9 run 覆盖，非回归）；**S9** run `36901770696` = `bab1230`，Analyse & Test 双平台 success，Build job 因 S10 推送被取消（superseded，构建由 S10 run 覆盖，非回归）；S10 run `36905581004` = `0056a3c`，Analyse & Test (ubuntu) success，windows 与两个 Build job 因 S11 推送被取消（superseded，构建由 S11 run 覆盖，非回归）；S11 推送后运行中（R61：全绿才算完成） |
+| 已完成并推送 | **S0 合同与基线** `4b4bc1a` ｜ **S1 设计 spike** `572fcad` ｜ **CI 修复** `d93fe3a` ｜ **S2 引擎架构 spike** `7dcfabf` ｜ **S3 设计系统落地** `e9dd55b`（+ workflow 引号修复 `5031db8`）｜ **S4 App 外壳 + 首页** `23012bd` ｜ **S5 画面参考搜索** `e4021db` ｜ **S6 布光预演** `4b8c25d`（三栏版面 + 顶部工具条 + 灯位图画中画 + 撤销重做 ≥20 步 + 出片 ≤3 步；报告 `docs/qa/v8-s6-lighting.md`）｜ **S7 动作摆姿与识别** `52d69d8` ｜ **S8 策划案/AI/导出** `584cb3f` ｜ **S9 资源库/设置/引导** `bab1230` ｜ **S10 官网重做** `0056a3c` ｜ **S11 全量回归 + 视觉验收 + 死代码清理** `81b59c0` ｜ **S12 v2.0.0 交付** `6d89347`（版本同步 8 处 + 2.0.0 公告 9 条 + tag `v2.0.0`；报告 `docs/qa/v8-s12-release.md`） |
+| CI | **main 全绿**：run `36909181255` = `6d89347` **success 4/4**（Analyze & Test ubuntu-latest 5m52s / windows-latest 13m58s、Build Windows 19m51s、Build Android APK 16m29s，全部 completed）；历史：S6 run `36808608106` = `4b8c25d` success 4/4、S7 run `36872580514` = `52d69d8` success 4/4；S8 `36898142693` / S9 `36901770696` / S10 `36905581004` 的 Analyse & Test 双平台 success，Build job 因后续推送被 `cancel-in-progress` supersede（非回归，构建由后续 run 覆盖） |
+| Release | **run `36909234447`（tag `v2.0.0`）success 4/4**（Build & Collect android 28m22s / windows 30m20s、GitHub Release 51s、Deploy website 3m10s）；Release `v2.0.0` 已发布（`draft=false` / `prerelease=false`，`publishedAt 2026-10-01T19:16:58Z`）：**`shoot-studio-v2.0.0-android.apk` 428.2MB**（449,034,606 B）、**`shoot-studio-v2.0.0-windows.zip` 303.5MB**（318,232,008 B）、`android.sha256` / `windows.sha256` |
+| 官网 | `https://meihuaanying.github.io/ShootStudio/` **HTTP 200**（9,390 B，title「正片工坊 ShootStudio · 画面参考到一键成案」）；`announcements.json` **HTTP 200**（2,209 B），`version = 2.0.0` / `publishedAt = 2026-10-02`，4 条下载链接全部指向 `v2.0.0`（含 mirror 与 GitHub Release 两组） |
 | 门禁基线 | format 0 changed（247 files）｜ analyze 0 问题 ｜ 全量 **517 passed + 43 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **4** 个（R73 白名单，只降不升）｜ 官网 5 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 ｜ S9 专项 `s9_library_settings_test` 8 ｜ 视觉 S9 16 张 ｜ S10 官网 `npm run build`（S10 当时 6 页含 spike-hero，S11 删除后回落 5 页）｜ 官网截图 30 张（5 页 × 明暗 × 1280×800/1920×1080/390×844）｜ 旧 `ss-*` 蓝紫体系与装饰 SVG 光圈 0 命中 ｜ S11 截图总表 28 张（7 页 × 明暗 × 两档分辨率，缺失 0） ｜ 死代码删除 2 个文件 656 行（App 侧两维度零死代码） ｜ 官网 `npm run build` 5 页 + 30 张截图不回归 ｜ S12 `pubspec 2.0.0+9` ｜ `kAppVersion 2.0.0` ｜ 2.0.0 公告 9 条（V8 要点/已知限制/数据兼容性）｜ 官网 5 页 + 30 张在 v2.0.0 下不回归 |
-| 当前步 | S6 收尾（提交 + CI 复核） |
-| 剩余 | **V8 全部完成（S0–S12）**；后续仅需按 release run 取 APK / Windows 安装包与体积、tag `v2.0.0` 的 release 链接回填 |
+| 当前步 | **无 —— V8 已完工并发布**（S0–S12 全部完成，v2.0.0 已发布，证据入 git） |
+| 剩余 | **无（V8 完工）**。合同 `FIX_CONTRACT_V8.0.md` §7 交付清单 0 个未勾项；双端构建、体积、`sha256`、官网上线均由 CI / Release run 实测交付（结论见上表「CI」「Release」「官网」三行）。下一阶段（V9）需用户新开范围 |
 
 ---
 
@@ -25,9 +28,15 @@
 - **版本同步（8 处）**：`app/pubspec.yaml` `2.0.0+9`；`updater.dart` `kAppVersion = '2.0.0'`；`exporter.dart` 库文件新增 `import '../updater/updater.dart';`；`exporter_sspak.dart` manifest 改为 `'appVersion': kAppVersion`（原为写死的 `'1.0.0'`，**修掉的真实版本源不一致**）；`downloads.astro` / `index.astro` 的版本 fallback 改 `'2.0.0'`；`announcements.json` 的 `version` / `publishedAt` / 两条镜像 URL；`README.md` 当前版本行与 tag 命令。
 - **2.0.0 公告**：`announcements.json` 的 `notes[]` 9 条，覆盖 D160 明文要求三块 —— **V8 要点**（设计系统落地 / D152 布光三栏 / D153 摆姿与识别 / D155 AI 三态+导出版式 / S9 资源库+设置+引导 / D157 官网重做 / D158 工程收敛）、**数据兼容性说明**（DB schema 未变，v1.3.x 工作区可直接打开；`.sspak` 升 v2，旧包导入自动迁移并明示，更高版本明示拒绝）、**已知限制**（路径追踪预热 40–80s、16 samples 建议 ≥128、极端姿态个别关节可能翻转、资源库零售商层暂无数据、AI 需自配 Key 否则本地引擎离线降级）。`sha256` 仍由 CI 写入。
 - **门禁实测**：`dart format lib test` 0 changed（247 files）｜ `flutter analyze --no-pub --fatal-infos` No issues（9.9s）｜ `flutter test --no-pub` **517 passed + 43 skipped** ｜ `check_file_size` PASS（白名单 4 条）｜ 官网 `npm run build` **5 页** ｜ `shot_s10.mjs` **30/30** 且 announcements 通道读数为 v2.0.0。
-- **构建与体积（本机受阻，如实登记）**：Windows release 因 `flutter_litert` 插件 CMake 需联网下载 `dxil.dll`（`Failure when receiving data from the peer`）两次均失败；APK 因本机无 Android SDK 无法构建。两者由 tag `v2.0.0` 触发的 `release.yml` 产出；体积基线沿用 S6 历史记录（APK 412.0MB / Windows release 437.6MB / 引擎包 1.16MB / pathtracer 220.4KB），**未实测不填新数字**。
+- **构建与体积（本机受阻 → CI 侧实测产出）**：Windows release 因 `flutter_litert` 插件 CMake 需联网下载 `dxil.dll`（`Failure when receiving data from the peer`）两次均失败；APK 因本机无 Android SDK 无法构建。两者由 tag `v2.0.0` 触发的 `release.yml` 产出，**已实测取回**：
+  - main CI run [`36909181255`](https://github.com/meihuaanying/ShootStudio/actions/runs/36909181255) = `6d89347` **success 4/4**（含 Build Windows + Build Android APK）。
+  - Release run [`36909234447`](https://github.com/meihuaanying/ShootStudio/actions/runs/36909234447)（tag `v2.0.0`）**success 4/4**；Release [`v2.0.0`](https://github.com/meihuaanying/ShootStudio/releases/tag/v2.0.0) 已发布（`draft=false` / `prerelease=false`，`publishedAt 2026-10-01T19:16:58Z`）。
+  - **实测体积**：`shoot-studio-v2.0.0-android.apk` **428.2MB**（449,034,606 B）｜ `shoot-studio-v2.0.0-windows.zip` **303.5MB**（318,232,008 B）。与 v1.3.0 历史基线（APK 412.0MB / Windows release 目录 437.6MB）对照：APK **+16.2MB**；Windows zip 与未压缩目录口径不同，不直接相减。
+  - **`sha256`（CI 写入，已下载核对）**：Android `68a97c48e9401032c15e286202c6047f4cf6fd4336992ba36b032292c80c961c`｜ Windows `d441dd6edfd1ae4b642dd25f5bf3e9b31403e70a7f968c8e52843cf13d6b973a`。
+  - 引擎包 1.16MB / pathtracer 220.4KB 沿用 S6 历史基线（本次发布未改动这两项）。
+- **官网上线实测**：`https://meihuaanying.github.io/ShootStudio/` **HTTP 200**（9,390 B）；`announcements.json` **HTTP 200** 且 `version = 2.0.0` / `publishedAt = 2026-10-02`，4 条下载链接全部指向 `v2.0.0`（mirror + GitHub Release 两组）。
 - **文档**：`docs/qa/v8-s12-release.md`（6 节：结论 / 版本同步总账 / 公告内容 / 门禁与实证 / 偏差与限制登记 / 交付物清单）。
-- **下一步**：按 release run 链接取 APK 与 Windows 安装包、回填真实体积与 `sha256`、把 release 链接写回本文件 §0 CI 行。
+- **下一步**：~~按 release run 取 APK 与 Windows 安装包、回填真实体积与 `sha256`、把 release 链接写回 §0~~ ✅ **已完成**（本节 + §0「Release」「官网」两行 + `docs/qa/v8-s12-release.md` §4 体积表）；**V8 无后续待办**。
 
 ### S11 全量回归 + 视觉验收 + 死代码清理（D158）
 
@@ -152,15 +161,21 @@
 
 ---
 
-## 2. 剩余待办（按合同 §1 顺序，含门禁）
+## 2. 剩余待办 —— **无（V8 完工）**
 
-1. ~~**S6 布光预演（D152）**~~ ✅ 已完成（run `36808608106` = `4b8c25d` success 4/4）。
-2. ~~**S7 动作摆姿与识别（D153）**~~ ✅ 已完成（本次提交；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归）。
-3. ~~**S8 策划案 + AI + 导出（D155）**~~ ✅ 已完成（本次提交）。
-4. ~~**S9 资源库 + 设置 + 引导**~~ ✅ 已完成（本次提交；覆盖率六类 100% 不回归 + 设置往返测试）。
-5. **S10 官网（D157）**：5 页按 §3 重排（首屏真实截图）、`npm run build` 5 页、桌面+移动截图、announcements 通道不回归。
-6. ~~**S11 全量回归 + 视觉验收 + 死代码清理（D158）**~~ ✅ 已完成（本次提交；全量门禁 + 28 张截图总表 + 死代码删除清单 2 文件 656 行）。
-7. ~~**S12 v2.0.0 交付（D160）**~~ ✅ 已完成（本次提交）：版本同步 8 处 + 2.0.0 公告 9 条（V8 要点 / 已知限制 / 数据兼容性三块齐全）+ `web/dist` 重建 5 页 + App 门禁 517/43 全绿 + 官网 30/30 在 v2.0.0 下重新实证；**双端构建与 LAUNCH-OK / 体积记录本机无法完成（`flutter_litert` 需联网下 `dxil.dll` + 无 Android SDK），由 tag `v2.0.0` 触发的 `release.yml` 产出，详见 `docs/qa/v8-s12-release.md` §5 偏差登记**。
+> 合同 §1 的 S0–S12 全部完成、§7 交付清单 0 个未勾项、tag `v2.0.0` 已发布。以下为历史完成记录（保留原始 run / 门禁证据）。
+
+1. ~~**S0 合同 + S1 设计 spike + S2 引擎架构 spike + S3 设计系统 + S4 App 外壳/首页 + S5 画面参考**~~ ✅ 已完成（commit `4b4bc1a` / `572fcad` / `7dcfabf` / `e9dd55b`+`5031db8` / `23012bd` / `e4021db`）。
+2. ~~**S6 布光预演（D152）**~~ ✅ 已完成（run `36808608106` = `4b8c25d` success 4/4）。
+3. ~~**S7 动作摆姿与识别（D153）**~~ ✅ 已完成（run `36872580514` = `52d69d8` success 4/4；`q2_pose_photos/q6_pose3d/q6_pose_recognition` 不回归）。
+4. ~~**S8 策划案 + AI + 导出（D155）**~~ ✅ 已完成（`584cb3f`；run `36898142693` Analyse & Test 双平台 success）。
+5. ~~**S9 资源库 + 设置 + 引导**~~ ✅ 已完成（`bab1230`；run `36901770696` Analyse & Test 双平台 success；覆盖率六类 100% 不回归 + 设置往返测试）。
+6. ~~**S10 官网（D157）**~~ ✅ 已完成（`0056a3c`；5 页按 §3 重排、首屏真实截图、`npm run build` 5 页、30 张桌面+移动截图、announcements 通道在 v2.0.0 下复验 `winVer/andVer = 2.0.0`；run `36905581004` Analyse & Test (ubuntu) success）。
+7. ~~**S11 全量回归 + 视觉验收 + 死代码清理（D158）**~~ ✅ 已完成（`81b59c0`；全量门禁 517 passed + 43 skipped + 28 张截图总表 + 死代码删除清单 2 文件 656 行）。
+8. ~~**S12 v2.0.0 交付（D160）**~~ ✅ 已完成（`6d89347`）：版本同步 8 处 + 2.0.0 公告 9 条 + `web/dist` 重建 5 页 + App 门禁 517/43 全绿 + 官网 30/30 不回归。
+9. ~~**发布收尾（R61 证据入库）**~~ ✅ 已完成：main CI run [`36909181255`](https://github.com/meihuaanying/ShootStudio/actions/runs/36909181255) = `6d89347` **success 4/4**；Release run [`36909234447`](https://github.com/meihuaanying/ShootStudio/actions/runs/36909234447)（tag `v2.0.0`）**success 4/4**；Release `v2.0.0` 已发布，资产 APK **428.2MB** / Windows zip **303.5MB** + 双 `.sha256`；官网 HTTP 200 且 `announcements.json` = `v2.0.0`（本机无法产出双端包的部分已由 CI 实测覆盖，见 §1 S12 与 `docs/qa/v8-s12-release.md` §4）。
+
+**V8 已完工，无后续待办；下一阶段（V9）需用户新开范围。**
 
 ---
 
@@ -258,7 +273,8 @@
 
 ## 4. 新对话开场提示词（可直接粘贴）
 
-> 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio` 的 V8 全面重做：先读 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）与 `HANDOFF_V8.md`（本文件）。
-> 基线：v1.3.0；已完成 S0–S11（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构 + S7 动作摆姿与识别重做 + S8 策划案/AI/导出重构 + S9 资源库/设置/引导重构 + S10 官网重做）
-> 收官状态：已完成 S0–S12（合同 + S1 设计 spike + S2 引擎架构 spike（保留 WebView2 + three r186）+ S3 设计系统落地 + S4 App 外壳/首页 + S5 画面参考搜索 + S6 布光预演三栏重构 + S7 动作摆姿与识别重做 + S8 策划案/AI/导出重构 + S9 资源库/设置/引导 + S10 官网重做 + S11 全量回归/视觉验收/死代码清理 + S12 v2.0.0 交付）；全量 **517 passed + 43 skipped**。
+> 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）的下一阶段工作；本文件与 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）是唯一上下文来源，**先读这两份**。
+> 基线：**v2.0.0 已发布**（tag `v2.0.0`，commit `6d89347`；main CI run `36909181255` success 4/4、Release run `36909234447` success 4/4；APK 428.2MB / Windows zip 303.5MB + 双 `.sha256`；官网 HTTP 200 且 `announcements.json` = `v2.0.0`）。上一版 v1.3.0（V7）。
+> V8 状态：**S0–S12 全部完工，无剩余待办** —— 设计 spike + 引擎架构 spike（保留 WebView2 + three r186）+ 设计系统落地（`AppTokensV2`，R71 单一来源）+ App 外壳/首页 + 画面参考搜索 + 布光预演三栏重构 + 动作摆姿与识别重做 + 策划案/AI/导出重构 + 资源库/设置/引导重构 + 官网重做（D157）+ 全量回归/视觉验收/死代码清理（D158）+ v2.0.0 交付（D160）。全量 **517 passed + 43 skipped**；`lib/features/**` >600 行文件数 10 → **4**（白名单只降不升）；官网 5 页。
+> 下一步：**V9 尚无合同与范围**，需用户先给目标再动手；动手前按下面的门禁与纪律执行。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。
