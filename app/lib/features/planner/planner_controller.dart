@@ -9,6 +9,7 @@ import '../../core/db/database.dart';
 import '../../core/providers.dart';
 import '../../services/content_packs.dart';
 import 'planner_models.dart';
+import '../../core/design/tokens.dart';
 
 /// 策划编辑器状态。
 class PlannerState {
@@ -315,7 +316,7 @@ class PlannerController extends Notifier<PlannerState> {
   /// 编辑停顿 3 秒自动快照（D15）。
   void _scheduleSnapshot() {
     _snapshotDebounce?.cancel();
-    _snapshotDebounce = Timer(const Duration(seconds: 3), () {
+    _snapshotDebounce = Timer(AppWait.planPoll, () {
       _persist().then((_) => _recordSnapshot());
     });
   }

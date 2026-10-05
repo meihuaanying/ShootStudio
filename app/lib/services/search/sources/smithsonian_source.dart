@@ -2,11 +2,12 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// 史密森尼源（D98 Key 预留）：api.si.edu 开放访问 API。
 class SmithsonianSource implements SearchSource {
   SmithsonianSource(this.apiKey, {Dio? dio})
-    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: AppWait.source);
 
   final String apiKey;
   final Dio _dio;

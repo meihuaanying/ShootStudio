@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 import '../core/db/database.dart';
 import '../core/workspace/workspace.dart';
 import 'net.dart';
+import '../core/design/tokens.dart';
 
 /// 器材图运行时同步（D71/D73，V6/D131 升级）。
 
@@ -373,7 +374,7 @@ class GearPhotoSync {
       );
     }
 
-    final Dio dio = makeDio(proxy: proxy, timeout: const Duration(seconds: 25));
+    final Dio dio = makeDio(proxy: proxy, timeout: AppWait.syncGrace);
     final Map<String, Object?> state = syncState();
     final Map<String, Object?> done =
         (state['done'] as Map?)?.cast<String, Object?>() ?? <String, Object?>{};
@@ -493,7 +494,7 @@ class GearPhotoSync {
         proxy = (await db.getSetting('proxy_url')) ?? '';
       } catch (_) {}
     }
-    final Dio dio = makeDio(proxy: proxy, timeout: const Duration(seconds: 25));
+    final Dio dio = makeDio(proxy: proxy, timeout: AppWait.syncGrace);
     final Response<List<int>> res = await dio.get<List<int>>(
       url,
       options: Options(

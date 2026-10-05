@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// V7 维基共享资源源（D134 免 Key）：逐文件许可（CC/PD），走 DoH 隧道。
 class WikimediaSource implements SearchSource {
@@ -9,7 +10,7 @@ class WikimediaSource implements SearchSource {
     : _dio =
           dio ??
           searchDio(
-            receiveTimeout: const Duration(seconds: 25),
+            receiveTimeout: AppWait.source,
             headers: <String, dynamic>{
               // Wikimedia 要求可识别的 User-Agent（含联系方式）。
               'User-Agent':

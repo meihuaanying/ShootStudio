@@ -1,6 +1,7 @@
 // V8/S6 · D152：效果预览（脸部受光示意）+ 测光表卡片（布光预演右栏）。
 // 从 lighting_page.dart 拆出（R73 行数门禁）；版面与行为不变。
 
+import '../../../core/design/feature_colors.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class LightingEffectPreview extends StatelessWidget {
         Container(
           height: 132,
           decoration: BoxDecoration(
-            color: const Color(0xFF17130F),
+            color: AppFeatureColor.sceneBackdrop,
             borderRadius: BorderRadius.circular(AppRadius.chip),
             border: Border.all(color: Theme.of(context).colorScheme.outline),
           ),
@@ -49,10 +50,14 @@ class FaceLightPainter extends CustomPainter {
     // 暗背景。
     canvas.drawRect(
       Offset.zero & size,
-      Paint()..color = const Color(0xFF17130F),
+      Paint()..color = AppFeatureColor.sceneBackdrop,
     );
     // 脸。
-    canvas.drawCircle(center, radius, Paint()..color = const Color(0xFF3A342E));
+    canvas.drawCircle(
+      center,
+      radius,
+      Paint()..color = AppFeatureColor.sceneFace,
+    );
     if (devices.isEmpty) {
       _hint(canvas, size, '未布置任何灯光');
       return;
@@ -76,8 +81,8 @@ class FaceLightPainter extends CustomPainter {
       ..close();
     final warm = kelvin < 4200;
     final Color lightColor = Color.lerp(
-      const Color(0xFFFFE8C8),
-      const Color(0xFFEAF2FF),
+      AppFeatureColor.lightWarm,
+      AppFeatureColor.lightCool,
       warm ? 0.15 : 0.85,
     )!.withValues(alpha: 0.25 + 0.55 * brightness);
     canvas.drawPath(litPath, Paint()..color = lightColor);
@@ -109,7 +114,7 @@ class FaceLightPainter extends CustomPainter {
             '主光 ${_dirLabel(g.azimuth)} · ${g.distanceLabel} · ${key.intensity}% · ${key.kelvin}K',
         style: const TextStyle(
           fontSize: AppFontSize.tiny,
-          color: Color(0xFFB9B2A8),
+          color: AppFeatureColor.hintInk,
         ),
       ),
       textDirection: TextDirection.ltr,
@@ -130,7 +135,7 @@ class FaceLightPainter extends CustomPainter {
         text: text,
         style: const TextStyle(
           fontSize: AppFontSize.smallSm,
-          color: Color(0xFF8A919E),
+          color: AppFeatureColor.panelInk,
         ),
       ),
       textDirection: TextDirection.ltr,
@@ -171,7 +176,7 @@ class LightingMeterCard extends StatelessWidget {
                 '虚拟测光表',
                 style: TextStyle(
                   fontSize: AppFontSize.small,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: AppFontWeight.bold,
                 ),
               ),
               const Spacer(),
@@ -179,7 +184,7 @@ class LightingMeterCard extends StatelessWidget {
                 'EV100 ${r.ev100.toStringAsFixed(1)}',
                 style: const TextStyle(
                   fontSize: AppFontSize.smallSm,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: AppFontWeight.medium,
                 ),
               ),
             ],
@@ -230,7 +235,7 @@ class LightingMeterCard extends StatelessWidget {
           ),
           TextSpan(
             text: value,
-            style: const TextStyle(fontWeight: FontWeight.w600),
+            style: const TextStyle(fontWeight: AppFontWeight.medium),
           ),
         ],
       ),

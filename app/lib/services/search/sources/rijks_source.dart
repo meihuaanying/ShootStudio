@@ -2,11 +2,12 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// 荷兰国立博物馆源（D98 Key 预留）：Rijksmuseum 收藏 API。
 class RijksSource implements SearchSource {
   RijksSource(this.apiKey, {Dio? dio})
-    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: AppWait.source);
 
   final String apiKey;
   final Dio _dio;

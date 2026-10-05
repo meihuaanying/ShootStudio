@@ -212,13 +212,13 @@ extension _PosesPageLayout on _PosesPageState {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.45),
+                              color: AppFeatureColor.imageScrim,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               '${pose.name} · ${pose.category} · ${pose.difficulty}',
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: AppFeatureColor.onFill,
                                 fontSize: AppFontSize.captionLg,
                               ),
                             ),

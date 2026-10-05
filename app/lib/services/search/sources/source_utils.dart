@@ -4,13 +4,14 @@ import 'package:dio/dio.dart';
 
 import '../../net_router.dart';
 import '../search_models.dart';
+import '../../../core/design/tokens.dart';
 
 /// 源实现共用工具：统一通道 Dio、并发限流、许可判定、IIIF 链接。
 
 /// 统一 Dio（R44：全部走 NetRouter）。
 Dio searchDio({
-  Duration connectTimeout = const Duration(seconds: 15),
-  Duration receiveTimeout = const Duration(seconds: 20),
+  Duration connectTimeout = AppWait.network,
+  Duration receiveTimeout = AppWait.network,
   int retries = 2,
   Map<String, dynamic>? headers,
 }) => NetRouter.I.dio(

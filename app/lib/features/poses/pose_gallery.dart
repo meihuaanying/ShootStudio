@@ -95,7 +95,9 @@ class PoseGalleryCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: AppFontSize.small,
                       color: selected ? p.accent : p.ink,
-                      fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
+                      fontWeight: selected
+                          ? AppFontWeight.bold
+                          : AppFontWeight.regular,
                     ),
                   ),
                   const SizedBox(height: 2),

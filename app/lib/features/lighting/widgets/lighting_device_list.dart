@@ -235,7 +235,9 @@ class _DeviceRow extends StatelessWidget {
                   style: TextStyle(
                     fontSize: AppFontSize.smallSm,
                     color: selected ? p.accent : null,
-                    fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
+                    fontWeight: selected
+                        ? AppFontWeight.bold
+                        : AppFontWeight.regular,
                   ),
                 ),
               ),

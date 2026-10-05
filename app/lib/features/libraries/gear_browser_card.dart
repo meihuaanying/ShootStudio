@@ -24,7 +24,7 @@ class _GearCard extends ConsumerWidget {
     final Map<String, Object?>? userPhoto = gearUserPhotoOf(photos, entry);
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(begin: 0, end: 1),
-      duration: const Duration(milliseconds: 260),
+      duration: AppWait.cardHover,
       curve: Curves.easeOutCubic,
       builder: (BuildContext context, double t, Widget? child) => Opacity(
         opacity: t,
@@ -60,7 +60,7 @@ class _GearCard extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: AppFontSize.small,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: AppFontWeight.bold,
                         ),
                       ),
                     ],

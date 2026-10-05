@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// 影视作品（TMDB 检索结果）。
 class TmdbWork {
@@ -38,7 +39,7 @@ class TmdbImageSource implements SearchSource {
     this.readToken = '',
     Dio? dio,
     this.language = 'zh-CN',
-  }) : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+  }) : _dio = dio ?? searchDio(receiveTimeout: AppWait.source);
 
   final String apiKey;
   final String readToken;

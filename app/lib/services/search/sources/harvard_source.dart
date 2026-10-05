@@ -2,11 +2,12 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// 哈佛艺术博物馆源（D98 Key 预留）：imagepermissionlevel==0 视为开放。
 class HarvardSource implements SearchSource {
   HarvardSource(this.apiKey, {Dio? dio})
-    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: AppWait.source);
 
   final String apiKey;
   final Dio _dio;

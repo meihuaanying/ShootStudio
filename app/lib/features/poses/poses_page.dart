@@ -1,3 +1,4 @@
+import '../../core/design/feature_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -76,7 +77,9 @@ class _PosesPageState extends ConsumerState<PosesPage> {
         ),
       ],
       body: !state.initialized
-          ? const Center(child: CircularProgressIndicator(strokeWidth: 2.4))
+          ? const Center(
+              child: CircularProgressIndicator(strokeWidth: AppStroke.ringBold),
+            )
           : Column(
               children: <Widget>[
                 _buildFilters(state, controller),
@@ -122,7 +125,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
             style: TextStyle(
               fontSize: AppFontSize.captionLg,
               color: p.accent,
-              fontWeight: FontWeight.w600,
+              fontWeight: AppFontWeight.medium,
             ),
           ),
           const SizedBox(height: 2),

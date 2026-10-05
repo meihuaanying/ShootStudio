@@ -56,7 +56,7 @@ class LightingCollapsibleCardState extends State<LightingCollapsibleCard> {
                           widget.title,
                           style: const TextStyle(
                             fontSize: AppFontSize.small,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: AppFontWeight.bold,
                           ),
                         ),
                         if (widget.subtitle != null)
@@ -390,7 +390,7 @@ class HandPosePanelState extends State<HandPosePanel> {
                       '双手组合',
                       style: TextStyle(
                         fontSize: AppFontSize.caption,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: AppFontWeight.medium,
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),

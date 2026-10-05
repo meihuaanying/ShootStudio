@@ -2,6 +2,7 @@
 /// 与引擎侧 `rig.js focalToFov()` 同口径（全画幅 24mm 传感器高度 → 垂直视场角）。
 library;
 
+import '../../core/design/typography.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -189,7 +190,7 @@ class CompositionGuidePainter extends CustomPainter {
           style: TextStyle(
             fontSize: AppFontSize.caption,
             color: color.withValues(alpha: 0.85),
-            fontWeight: FontWeight.w500,
+            fontWeight: AppFontWeight.medium,
           ),
         ),
         textDirection: TextDirection.ltr,

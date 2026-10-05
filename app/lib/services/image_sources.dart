@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 import 'net_router.dart';
+import '../core/design/tokens.dart';
 
 /// 画面参考聚合搜图（V5 / D80–D83）：
 /// Pexels（主）→ TMDB（影片）→ Openverse（实验性，当前网络常不可用）。
@@ -365,7 +366,7 @@ class OpenverseSource implements ImageSource {
       },
       options: Options(
         headers: <String, Object?>{'User-Agent': 'ShootStudio/1.0'},
-        receiveTimeout: const Duration(seconds: 10),
+        receiveTimeout: AppWait.discover,
       ),
     );
     final Map<String, Object?> data = (res.data as Map? ?? <String, Object?>{})
@@ -434,7 +435,7 @@ class PexelsSource implements ImageSource {
       },
       options: Options(
         headers: <String, Object?>{'Authorization': apiKey},
-        receiveTimeout: const Duration(seconds: 15),
+        receiveTimeout: AppWait.network,
       ),
     );
     final Map<String, Object?> data = (res.data as Map? ?? <String, Object?>{})
@@ -501,7 +502,7 @@ class TmdbSource implements ImageSource {
         'page': page,
         'include_adult': false,
       },
-      options: Options(receiveTimeout: const Duration(seconds: 15)),
+      options: Options(receiveTimeout: AppWait.network),
     );
     final Map<String, Object?> data = (res.data as Map? ?? <String, Object?>{})
         .cast<String, Object?>();

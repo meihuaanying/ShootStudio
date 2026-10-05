@@ -64,7 +64,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                     'AI 策划助手',
                     style: TextStyle(
                       fontSize: AppFontSize.bodyLg,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: AppFontWeight.heavy,
                     ),
                   ),
                   const SizedBox(width: 16),

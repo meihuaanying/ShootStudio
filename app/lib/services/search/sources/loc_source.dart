@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// V7 美国国会图书馆源（D134 免 Key）：按 Rights Advisory 门控（仅无限制/PD）。
 class LocSource implements SearchSource {
@@ -9,7 +10,7 @@ class LocSource implements SearchSource {
     : _dio =
           dio ??
           searchDio(
-            receiveTimeout: const Duration(seconds: 30),
+            receiveTimeout: AppWait.catalogFetch,
             headers: <String, dynamic>{
               'User-Agent':
                   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '

@@ -1,3 +1,4 @@
+import '../../core/design/feature_colors.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -145,7 +146,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                     '导出策划案',
                     style: TextStyle(
                       fontSize: AppFontSize.bodyXl,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: AppFontWeight.heavy,
                     ),
                   ),
                   const Spacer(),
@@ -210,7 +211,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                       '排版预览 · ${widget.modules.length} 个模块',
                       style: const TextStyle(
                         fontSize: AppFontSize.smallSm,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: AppFontWeight.medium,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -225,7 +226,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                               vertical: 3,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: AppFeatureColor.chipFill,
                               borderRadius: BorderRadius.circular(99),
                               border: Border.all(
                                 color: Theme.of(context).colorScheme.outline,

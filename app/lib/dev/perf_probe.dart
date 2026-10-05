@@ -14,6 +14,7 @@
 //   $env:SS_PERF_PROBE='1'; $env:SS_PERF_PROBE_LABEL='win-webview'; & build\windows\x64\runner\Release\shoot_studio.exe
 library;
 
+import '../core/design/tokens.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -114,7 +115,7 @@ class _PerfProbePageState extends State<PerfProbePage>
   final List<PerfProbePhase> _phases = <PerfProbePhase>[];
   late final AnimationController _ctrl = AnimationController(
     vsync: this,
-    duration: const Duration(seconds: 4),
+    duration: AppWait.probeRun,
   )..repeat();
   bool _engineReady = false;
   String _engineNote = '未启用引擎视图';
@@ -156,9 +157,9 @@ class _PerfProbePageState extends State<PerfProbePage>
       Duration(milliseconds: PerfProbeConfig.warmupMs),
     );
     if (index == 1 && PerfProbeConfig.showEngine && !_engineReady) {
-      final deadline = DateTime.now().add(const Duration(seconds: 20));
+      final deadline = DateTime.now().add(AppWait.probeSample);
       while (!_engineReady && DateTime.now().isBefore(deadline)) {
-        await Future<void>.delayed(const Duration(milliseconds: 200));
+        await Future<void>.delayed(AppMotion.page);
       }
       await Future<void>.delayed(
         Duration(milliseconds: PerfProbeConfig.warmupMs),
@@ -204,7 +205,7 @@ class _PerfProbePageState extends State<PerfProbePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF131110),
+      backgroundColor: AppPalette.darkroomBg,
       body: SafeArea(
         child: Column(
           children: <Widget>[
@@ -213,7 +214,7 @@ class _PerfProbePageState extends State<PerfProbePage>
               child: Text(
                 'PERF PROBE · phase $_phase · $_engineNote',
                 style: const TextStyle(
-                  color: Color(0xFFD9563F),
+                  color: AppPalette.darkroomAccent,
                   fontFamily: 'monospace',
                   fontSize: AppFontSize.smallLg,
                 ),
@@ -227,9 +228,9 @@ class _PerfProbePageState extends State<PerfProbePage>
                     Expanded(
                       flex: 6,
                       child: Container(
-                        color: const Color(0xFF100E0C),
+                        color: AppPalette.darkroomSurfaceSunken,
                         child: EngineView(
-                          backgroundColor: const Color(0xFF100E0C),
+                          backgroundColor: AppPalette.darkroomSurfaceSunken,
                           onBridgeReady: (bridge) {
                             bridge.setPerformanceProfile('high');
                             setState(() {

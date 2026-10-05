@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// 芝加哥艺术博物馆一页结果。
 class ArticPage {
@@ -13,7 +14,7 @@ class ArticPage {
 /// V6 芝加哥艺术博物馆源（D115 免 Key）：Art Institute of Chicago 开放 API + IIIF。
 class ArticSource implements SearchSource {
   ArticSource({Dio? dio})
-    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: AppWait.source);
 
   final Dio _dio;
 

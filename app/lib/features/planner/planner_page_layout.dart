@@ -214,7 +214,7 @@ extension _PlannerPageLayout on _PlannerPageState {
                       t.name,
                       style: const TextStyle(
                         fontSize: AppFontSize.smallLg,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: AppFontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -259,7 +259,7 @@ extension _PlannerPageLayout on _PlannerPageState {
                 children: <Widget>[
                   const Text(
                     '版本历史（无限保留）',
-                    style: TextStyle(fontWeight: FontWeight.w700),
+                    style: TextStyle(fontWeight: AppFontWeight.bold),
                   ),
                   const Spacer(),
                   SsButton(

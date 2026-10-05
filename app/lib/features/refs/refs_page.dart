@@ -484,7 +484,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
 
   Widget _results() {
     if (_searching && _hits.isEmpty) {
-      return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+      return const Center(
+        child: CircularProgressIndicator(strokeWidth: AppStroke.ringThin),
+      );
     }
     if (_hits.isEmpty) {
       return const SsEmpty(

@@ -118,7 +118,7 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
                     '${view.hasKey ? ' · ${view.maskedKey}' : ''}',
                     style: const TextStyle(
                       fontSize: AppFontSize.smallLg,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: AppFontWeight.medium,
                     ),
                   ),
                   Text(

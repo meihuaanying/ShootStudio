@@ -2,11 +2,12 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// Europeana 源（D98 Key 预留）：用户填入 wskey 即启用。
 class EuropeanaSource implements SearchSource {
   EuropeanaSource(this.apiKey, {Dio? dio})
-    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: AppWait.source);
 
   final String apiKey;
   final Dio _dio;

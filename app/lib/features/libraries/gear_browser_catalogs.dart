@@ -78,12 +78,12 @@ class ClothingCatalog extends ConsumerWidget {
                                 c.category,
                                 style: const TextStyle(
                                   fontSize: AppFontSize.subhead,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white,
+                                  fontWeight: AppFontWeight.heavy,
+                                  color: AppFeatureColor.onFill,
                                   shadows: <Shadow>[
                                     Shadow(
-                                      blurRadius: 8,
-                                      color: Colors.black45,
+                                      blurRadius: AppStroke.thumbShadowBlur,
+                                      color: AppFeatureColor.imageScrim,
                                     ),
                                   ],
                                 ),
@@ -132,17 +132,16 @@ class ClothingCatalog extends ConsumerWidget {
           ),
         ],
       ),
-      loading: () =>
-          const Center(child: CircularProgressIndicator(strokeWidth: 2.4)),
+      loading: () => const Center(
+        child: CircularProgressIndicator(strokeWidth: AppStroke.ringBold),
+      ),
       error: (Object e, _) =>
           SsEmpty(icon: Icons.error_outline_rounded, title: '加载失败', hint: '$e'),
     );
   }
 
-  Color _color(String hex) => Color(
-    0xFF000000 |
-        (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888),
-  );
+  Color _color(String hex) =>
+      AppFeatureColor.fromHex(hex, fallback: AppFeatureColor.invalidHex);
 }
 
 /// 道具预设（D22）：含采购与分工字段，一键加入道具库。
@@ -179,7 +178,7 @@ class PropsPresetBrowser extends ConsumerWidget {
                         prop.name,
                         style: const TextStyle(
                           fontSize: AppFontSize.smallLg,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: AppFontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -215,8 +214,9 @@ class PropsPresetBrowser extends ConsumerWidget {
           ),
         ],
       ),
-      loading: () =>
-          const Center(child: CircularProgressIndicator(strokeWidth: 2.4)),
+      loading: () => const Center(
+        child: CircularProgressIndicator(strokeWidth: AppStroke.ringBold),
+      ),
       error: (Object e, _) =>
           SsEmpty(icon: Icons.error_outline_rounded, title: '加载失败', hint: '$e'),
     );

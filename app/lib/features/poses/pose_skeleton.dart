@@ -1,3 +1,4 @@
+import '../../core/design/feature_colors.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
@@ -77,7 +78,7 @@ class PoseSkeletonPainter extends CustomPainter {
   PoseSkeletonPainter({
     required this.data,
     this.fit = BoxFit.cover,
-    this.color = const Color(0xFFFF8A3D),
+    this.color = AppFeatureColor.poseMark,
   });
 
   final PoseSkeletonData data;

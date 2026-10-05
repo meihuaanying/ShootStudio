@@ -1,0 +1,989 @@
+{
+  "version": 1,
+  "note": "V8/D147 R71 design-token gate: color/colors/size/metric literals must reference tokens",
+  "at": "2026-10-05T04:16:06.826Z",
+  "counts": {
+    "metric": 132
+  },
+  "exemptions": [
+    {
+      "file": "lib/core/design/feature_colors.dart",
+      "reason": "令牌定义"
+    },
+    {
+      "file": "lib/core/design/tokens.dart",
+      "reason": "令牌定义"
+    },
+    {
+      "file": "lib/core/design/typography.dart",
+      "reason": "令牌定义"
+    },
+    {
+      "file": "lib/features/export/exporter_draw.dart",
+      "reason": "PDF/位图渲染管线"
+    },
+    {
+      "file": "lib/features/export/exporter_pdf.dart",
+      "reason": "PDF/位图渲染管线"
+    },
+    {
+      "file": "lib/features/export/exporter_pdf_press.dart",
+      "reason": "PDF/位图渲染管线"
+    },
+    {
+      "file": "lib/features/export/exporter_render.dart",
+      "reason": "PDF/位图渲染管线"
+    },
+    {
+      "file": "lib/features/lighting/camera_helpers.dart",
+      "reason": "CustomPainter 内部：构图辅助线图元"
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_canvas_view.dart",
+      "reason": "CustomPainter 内部：画布参考线图元"
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_effect_widgets.dart",
+      "reason": "CustomPainter 内部：FaceLightPainter 脸部/布光示意图元"
+    },
+    {
+      "file": "lib/features/lighting/widgets/lighting_workbench.dart",
+      "reason": "CustomPainter 内部：CompositionGuidePainter 构图辅助图元"
+    },
+    {
+      "file": "lib/features/poses/pose_import_page_layout.dart",
+      "reason": "CustomPainter 内部：骨架预览图元"
+    },
+    {
+      "file": "lib/features/poses/pose_skeleton.dart",
+      "reason": "CustomPainter 内部：PoseSkeletonPainter 骨架图元"
+    }
+  ],
+  "findings": [
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/core/design/ss_chip.dart",
+      "line": 70,
+      "text": "EdgeInsets.symmetric(horizontal: , vertical: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/core/design/ss_empty.dart",
+      "line": 107,
+      "text": "Radius.circular(1.5)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/core/design/ss_empty.dart",
+      "line": 118,
+      "text": "Radius.circular(1.5)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/core/design/ss_empty.dart",
+      "line": 264,
+      "text": "BorderRadius.circular(widget.height / 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/core/design/ss_text.dart",
+      "line": 80,
+      "text": "EdgeInsets.symmetric(vertical: dense ? 2 : )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/core/design/ss_text.dart",
+      "line": 104,
+      "text": "EdgeInsets.symmetric(horizontal: , vertical: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/dev/perf_probe.dart",
+      "line": 213,
+      "text": "EdgeInsets.all(12)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/dev/perf_probe.dart",
+      "line": 275,
+      "text": "EdgeInsets.all(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/dev/perf_probe.dart",
+      "line": 286,
+      "text": "EdgeInsets.all(4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/dev/perf_probe.dart",
+      "line": 289,
+      "text": "BorderRadius.circular(4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 51,
+      "text": "EdgeInsets.all(24)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 58,
+      "text": "EdgeInsets.fromLTRB(16, 12, 10, 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 77,
+      "text": "EdgeInsets.only(right: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 120,
+      "text": "EdgeInsets.fromLTRB( , , , 0, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 175,
+      "text": "EdgeInsets.symmetric( horizontal: 8, vertical: 4, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 181,
+      "text": "BorderRadius.circular(99)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 304,
+      "text": "EdgeInsets.only(bottom: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 307,
+      "text": "EdgeInsets.symmetric( horizontal: 10, vertical: 8, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 403,
+      "text": "EdgeInsets.only(bottom: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 461,
+      "text": "EdgeInsets.all(10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 462,
+      "text": "EdgeInsets.only(right: 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_panel.dart",
+      "line": 549,
+      "text": "EdgeInsets.only(bottom: 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_side_panel.dart",
+      "line": 102,
+      "text": "EdgeInsets.only(right: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_side_panel.dart",
+      "line": 122,
+      "text": "EdgeInsets.only(bottom: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_side_panel.dart",
+      "line": 123,
+      "text": "EdgeInsets.symmetric( horizontal: 10, vertical: 7, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_side_panel.dart",
+      "line": 143,
+      "text": "EdgeInsets.all(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_side_panel.dart",
+      "line": 180,
+      "text": "EdgeInsets.all(10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_side_panel.dart",
+      "line": 242,
+      "text": "EdgeInsets.symmetric(vertical: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/ai_stage.dart",
+      "line": 252,
+      "text": "EdgeInsets.symmetric(horizontal: , vertical: 3)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/ai/plan_read_view_spread.dart",
+      "line": 11,
+      "text": "EdgeInsets.symmetric(horizontal: , vertical: 3)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/export/export_panel.dart",
+      "line": 134,
+      "text": "EdgeInsets.all(24)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/export/export_panel.dart",
+      "line": 164,
+      "text": "EdgeInsets.symmetric(vertical: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/export/export_panel.dart",
+      "line": 186,
+      "text": "EdgeInsets.only(bottom: 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/export/export_panel.dart",
+      "line": 194,
+      "text": "EdgeInsets.only(bottom: 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/export/export_panel.dart",
+      "line": 202,
+      "text": "EdgeInsets.all(12)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/export/export_panel.dart",
+      "line": 224,
+      "text": "EdgeInsets.symmetric( horizontal: 8, vertical: 3, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/export/export_panel.dart",
+      "line": 230,
+      "text": "BorderRadius.circular(99)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/export/export_panel.dart",
+      "line": 252,
+      "text": "EdgeInsets.only(top: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser.dart",
+      "line": 231,
+      "text": "EdgeInsets.only(right: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 37,
+      "text": "EdgeInsets.all(10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 134,
+      "text": "BorderRadius.circular(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 226,
+      "text": "BorderRadius.circular(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 236,
+      "text": "BorderRadius.circular(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 280,
+      "text": "EdgeInsets.only(bottom: 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 288,
+      "text": "BorderRadius.circular(10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 337,
+      "text": "EdgeInsets.only(bottom: 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 339,
+      "text": "BorderRadius.circular(10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 354,
+      "text": "EdgeInsets.symmetric( horizontal: 8, vertical: 2, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 360,
+      "text": "BorderRadius.circular(20)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_card.dart",
+      "line": 376,
+      "text": "EdgeInsets.only(bottom: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_catalogs.dart",
+      "line": 96,
+      "text": "EdgeInsets.all(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/gear_browser_catalogs.dart",
+      "line": 173,
+      "text": "EdgeInsets.all(10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/libraries_page.dart",
+      "line": 258,
+      "text": "EdgeInsets.only(right: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/libraries_page.dart",
+      "line": 313,
+      "text": "EdgeInsets.only(bottom: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/libraries_page.dart",
+      "line": 316,
+      "text": "EdgeInsets.symmetric( horizontal: 10, vertical: 9, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/libraries_page.dart",
+      "line": 386,
+      "text": "EdgeInsets.all(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/libraries_page.dart",
+      "line": 630,
+      "text": "EdgeInsets.symmetric(vertical: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/libraries/libraries_page.dart",
+      "line": 676,
+      "text": "EdgeInsets.only(top: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_device_list.dart",
+      "line": 56,
+      "text": "EdgeInsets.only(top: 6, bottom: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_device_list.dart",
+      "line": 67,
+      "text": "EdgeInsets.only(bottom: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_device_list.dart",
+      "line": 69,
+      "text": "EdgeInsets.symmetric( horizontal: 10, vertical: 8, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_device_list.dart",
+      "line": 148,
+      "text": "EdgeInsets.fromLTRB(12, 8, 12, 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_device_list.dart",
+      "line": 227,
+      "text": "EdgeInsets.symmetric(vertical: 3)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_pose_widgets.dart",
+      "line": 48,
+      "text": "EdgeInsets.symmetric(horizontal: 10, vertical: 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_pose_widgets.dart",
+      "line": 85,
+      "text": "EdgeInsets.fromLTRB(10, 0, 10, 10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_pose_widgets.dart",
+      "line": 402,
+      "text": "EdgeInsets.only(right: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_rig_widgets.dart",
+      "line": 302,
+      "text": "EdgeInsets.only(top: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_rig_widgets.dart",
+      "line": 338,
+      "text": "EdgeInsets.only(top: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/lighting/widgets/lighting_rig_widgets.dart",
+      "line": 388,
+      "text": "EdgeInsets.only(top: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/onboarding/onboarding_page.dart",
+      "line": 120,
+      "text": "EdgeInsets.only(right: i == 3 ? 0 : 10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/onboarding/onboarding_page.dart",
+      "line": 122,
+      "text": "EdgeInsets.all(12)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/onboarding/onboarding_page.dart",
+      "line": 135,
+      "text": "BorderRadius.circular(6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/module_content_view.dart",
+      "line": 64,
+      "text": "EdgeInsets.only(left: line.bullet ? 10 : 0, bottom: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/module_content_view.dart",
+      "line": 153,
+      "text": "EdgeInsets.only(bottom: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/module_content_view.dart",
+      "line": 182,
+      "text": "EdgeInsets.only(bottom: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/module_content_view.dart",
+      "line": 209,
+      "text": "EdgeInsets.only(bottom: 3)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/module_content_view.dart",
+      "line": 245,
+      "text": "EdgeInsets.only(bottom: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/module_content_view.dart",
+      "line": 291,
+      "text": "EdgeInsets.only(bottom: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/module_content_view.dart",
+      "line": 302,
+      "text": "EdgeInsets.only(top: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editor.dart",
+      "line": 135,
+      "text": "EdgeInsets.all(10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editor.dart",
+      "line": 247,
+      "text": "EdgeInsets.only(bottom: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editor.dart",
+      "line": 248,
+      "text": "EdgeInsets.symmetric(horizontal: 8, vertical: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editor.dart",
+      "line": 323,
+      "text": "BorderRadius.circular(6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editor.dart",
+      "line": 330,
+      "text": "BorderRadius.circular(6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editor.dart",
+      "line": 372,
+      "text": "BorderRadius.circular(6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editors_a.dart",
+      "line": 40,
+      "text": "EdgeInsets.symmetric(vertical: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editors_a.dart",
+      "line": 321,
+      "text": "EdgeInsets.only(bottom: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editors_a.dart",
+      "line": 322,
+      "text": "EdgeInsets.all(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editors_b.dart",
+      "line": 17,
+      "text": "EdgeInsets.symmetric(horizontal: 10, vertical: 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editors_b.dart",
+      "line": 79,
+      "text": "EdgeInsets.only(bottom: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_module_editors_b.dart",
+      "line": 170,
+      "text": "EdgeInsets.only(bottom: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_canvas.dart",
+      "line": 43,
+      "text": "EdgeInsets.only(left: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_canvas.dart",
+      "line": 74,
+      "text": "EdgeInsets.only(bottom: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_canvas.dart",
+      "line": 77,
+      "text": "EdgeInsets.fromLTRB(10, 8, 8, 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_canvas.dart",
+      "line": 120,
+      "text": "EdgeInsets.all(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_dialogs.dart",
+      "line": 232,
+      "text": "BorderRadius.circular(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_dialogs.dart",
+      "line": 357,
+      "text": "BorderRadius.circular(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_layout.dart",
+      "line": 93,
+      "text": "EdgeInsets.only(bottom: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_layout.dart",
+      "line": 95,
+      "text": "EdgeInsets.symmetric( horizontal: 10, vertical: 8, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_layout.dart",
+      "line": 257,
+      "text": "EdgeInsets.all(12)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_layout.dart",
+      "line": 283,
+      "text": "EdgeInsets.all(20)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/planner/planner_page_layout.dart",
+      "line": 409,
+      "text": "EdgeInsets.symmetric(vertical: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/character_picker.dart",
+      "line": 115,
+      "text": "EdgeInsets.fromLTRB(16, 12, 16, 16)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/character_picker.dart",
+      "line": 284,
+      "text": "EdgeInsets.all(10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/character_picker.dart",
+      "line": 307,
+      "text": "EdgeInsets.symmetric( horizontal: 4, vertical: 1, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/character_picker.dart",
+      "line": 313,
+      "text": "BorderRadius.circular(4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/poses_page.dart",
+      "line": 119,
+      "text": "EdgeInsets.only(bottom: 10)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/poses_page_layout.dart",
+      "line": 17,
+      "text": "EdgeInsets.only(right: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/poses_page_layout.dart",
+      "line": 32,
+      "text": "EdgeInsets.only(right: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/poses_page_layout.dart",
+      "line": 210,
+      "text": "EdgeInsets.symmetric( horizontal: 10, vertical: 6, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/poses_page_layout.dart",
+      "line": 216,
+      "text": "BorderRadius.circular(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/poses_page_layout.dart",
+      "line": 296,
+      "text": "EdgeInsets.all(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/poses_page_layout.dart",
+      "line": 321,
+      "text": "EdgeInsets.all(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/pose_gallery.dart",
+      "line": 87,
+      "text": "EdgeInsets.symmetric(horizontal: 8, vertical: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/pose_gallery.dart",
+      "line": 313,
+      "text": "EdgeInsets.only(bottom: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/pose_import_page.dart",
+      "line": 501,
+      "text": "EdgeInsets.only(bottom: 6)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/pose_import_page.dart",
+      "line": 510,
+      "text": "EdgeInsets.only( right: 6, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/pose_import_page.dart",
+      "line": 546,
+      "text": "EdgeInsets.fromLTRB( 8, 8, 8, 0, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/poses/pose_joint_tuner.dart",
+      "line": 199,
+      "text": "EdgeInsets.symmetric( horizontal: 8, vertical: 4, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/refs/refs_board.dart",
+      "line": 279,
+      "text": "EdgeInsets.all(2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/refs/refs_hit_card.dart",
+      "line": 136,
+      "text": "EdgeInsets.only(top: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/refs/refs_hit_card.dart",
+      "line": 192,
+      "text": "EdgeInsets.symmetric( horizontal: , vertical: 2, )"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/refs/refs_hit_drawer.dart",
+      "line": 192,
+      "text": "BorderRadius.vertical(top: Radius.circular(8))"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/refs/refs_hit_drawer.dart",
+      "line": 192,
+      "text": "Radius.circular(8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/refs/refs_palette.dart",
+      "line": 41,
+      "text": "EdgeInsets.only(right: 2, bottom: 2)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/settings/settings_page.dart",
+      "line": 83,
+      "text": "EdgeInsets.only(right: 8)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/settings/settings_page.dart",
+      "line": 269,
+      "text": "EdgeInsets.only(top: 4)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/settings/settings_page_gpu.dart",
+      "line": 77,
+      "text": "EdgeInsets.only(bottom: 3)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/features/settings/settings_page_sources.dart",
+      "line": 531,
+      "text": "EdgeInsets.only(bottom: 3)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/main.dart",
+      "line": 74,
+      "text": "EdgeInsets.all(32)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/main.dart",
+      "line": 117,
+      "text": "EdgeInsets.all(12)"
+    },
+    {
+      "rule": "metric",
+      "label": "间距 / 圆角裸数字",
+      "file": "lib/main.dart",
+      "line": 120,
+      "text": "BorderRadius.circular(8)"
+    }
+  ],
+  "pass": false
+}

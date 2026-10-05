@@ -2,12 +2,13 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// V6 AniList 源（D113，实测 GraphQL POST 可用）：动漫封面/横幅静帧；
 /// 人名意图走 Staff → staffMedia，按作品分组（D114）。
 class AniListSource implements SearchSource {
   AniListSource({Dio? dio})
-    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: AppWait.source);
 
   final Dio _dio;
 

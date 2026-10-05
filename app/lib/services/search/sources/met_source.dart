@@ -2,12 +2,13 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// V6 大都会艺术博物馆源（D115 免 Key 主源）：开放 API + 公有领域标记。
 /// 搜索返回 objectID 列表，再并发取对象详情（限流 6 并发）。
 class MetSource implements SearchSource {
   MetSource({Dio? dio})
-    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: AppWait.source);
 
   final Dio _dio;
 

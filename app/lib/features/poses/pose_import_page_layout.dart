@@ -403,9 +403,9 @@ class _PersonBoxPainter extends CustomPainter {
           text: TextSpan(
             text: '${i + 1}',
             style: TextStyle(
-              color: active ? palette.accent : Colors.white,
+              color: active ? palette.accent : AppFeatureColor.onFill,
               fontSize: AppFontSize.smallSm,
-              fontWeight: FontWeight.w700,
+              fontWeight: AppFontWeight.bold,
             ),
           ),
           textDirection: TextDirection.ltr,

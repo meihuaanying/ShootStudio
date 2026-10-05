@@ -5,6 +5,7 @@ import 'package:dio/io.dart';
 
 import 'content_packs.dart';
 import 'net_router.dart';
+import '../core/design/tokens.dart';
 
 /// V3 网络层：统一代理 + 默认凭据读取（Pexels/TMDB）。
 class NetConfig {
@@ -22,10 +23,7 @@ class NetConfig {
 
 /// 造 Dio（V5：统一交给 [NetRouter] —— 用户代理 / DoH 隧道 / 直连三态）。
 /// [proxy] 仅在“显式传入且与全局通道不同”时按旧行为临时覆盖（兼容老调用点）。
-Dio makeDio({
-  String proxy = '',
-  Duration timeout = const Duration(seconds: 20),
-}) {
+Dio makeDio({String proxy = '', Duration timeout = AppWait.network}) {
   final String p = proxy.trim();
   if (p.isNotEmpty &&
       p != NetRouter.I.userProxy &&

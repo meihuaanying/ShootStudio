@@ -2,11 +2,12 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// V7 Wellcome Collection 源（D134 免 Key）：逐图许可（CC-BY/PDM 等）。
 class WellcomeSource implements SearchSource {
   WellcomeSource({Dio? dio})
-    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: AppWait.source);
 
   final Dio _dio;
 

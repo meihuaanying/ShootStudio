@@ -5,6 +5,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import '../core/design/tokens.dart';
 
 /// V5 统一网络通道（D79/R29–R30）：
 /// 用户代理 > DoH 隧道（仅被污染域名）> 直连。
@@ -208,7 +209,7 @@ class NetRouter {
       } catch (_) {}
     }
 
-    guard = Timer(const Duration(seconds: 10), () {
+    guard = Timer(AppWait.discover, () {
       if (!established) fail('');
     });
     client.listen(
@@ -348,11 +349,7 @@ class NetRouter {
     Object? lastErr;
     for (final String ip in ips) {
       try {
-        upstream = await Socket.connect(
-          ip,
-          port,
-          timeout: const Duration(seconds: 12),
-        );
+        upstream = await Socket.connect(ip, port, timeout: AppWait.engineReady);
         break;
       } catch (e) {
         lastErr = e;
@@ -398,8 +395,8 @@ class NetRouter {
       Platform.environment['FLUTTER_TEST'] == 'true';
 
   Dio dio({
-    Duration connectTimeout = const Duration(seconds: 15),
-    Duration receiveTimeout = const Duration(seconds: 20),
+    Duration connectTimeout = AppWait.network,
+    Duration receiveTimeout = AppWait.network,
     int retries = 2,
     Map<String, dynamic>? headers,
   }) {
@@ -425,7 +422,7 @@ class NetRouter {
   /// 测速：对目标 URL 发 HEAD/GET，返回 (ok, ms, detail)。
   Future<(bool, int, String)> probe(
     String url, {
-    Duration timeout = const Duration(seconds: 12),
+    Duration timeout = AppWait.engineReady,
   }) async {
     final Stopwatch sw = Stopwatch()..start();
     try {
@@ -611,7 +608,7 @@ class _RouterHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     final HttpClient client = super.createHttpClient(context);
-    client.connectionTimeout = const Duration(seconds: 15);
+    client.connectionTimeout = AppWait.network;
     client.findProxy = (Uri uri) => router.proxyFor(uri);
     return client;
   }

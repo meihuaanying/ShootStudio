@@ -76,7 +76,10 @@ abstract final class AppTheme {
               bodyLarge: AppType.body.style(p.ink),
               bodyMedium: AppType.body.style(p.ink),
               bodySmall: AppType.small.style(p.inkSoft),
-              labelLarge: AppType.body.style(p.ink, weight: FontWeight.w600),
+              labelLarge: AppType.body.style(
+                p.ink,
+                weight: AppFontWeight.medium,
+              ),
               labelMedium: AppType.small.style(p.inkSoft),
               labelSmall: AppType.caption.style(p.muted),
             );
@@ -154,7 +157,10 @@ abstract final class AppTheme {
           shape: const RoundedRectangleBorder(
             borderRadius: AppRadius.controlBorder,
           ),
-          textStyle: AppType.body.style(p.surface, weight: FontWeight.w600),
+          textStyle: AppType.body.style(
+            p.surface,
+            weight: AppFontWeight.medium,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -168,7 +174,7 @@ abstract final class AppTheme {
           shape: const RoundedRectangleBorder(
             borderRadius: AppRadius.controlBorder,
           ),
-          textStyle: AppType.body.style(p.ink, weight: FontWeight.w600),
+          textStyle: AppType.body.style(p.ink, weight: AppFontWeight.medium),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -181,7 +187,7 @@ abstract final class AppTheme {
           shape: const RoundedRectangleBorder(
             borderRadius: AppRadius.controlBorder,
           ),
-          textStyle: AppType.body.style(p.accent, weight: FontWeight.w600),
+          textStyle: AppType.body.style(p.accent, weight: AppFontWeight.medium),
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
@@ -200,7 +206,7 @@ abstract final class AppTheme {
         indicatorColor: p.accent,
         indicatorSize: TabBarIndicatorSize.label,
         dividerColor: p.rule,
-        labelStyle: AppType.small.style(p.ink, weight: FontWeight.w600),
+        labelStyle: AppType.small.style(p.ink, weight: AppFontWeight.medium),
         unselectedLabelStyle: AppType.small.style(p.muted),
       ),
       dividerTheme: DividerThemeData(color: p.rule, thickness: 1, space: 1),

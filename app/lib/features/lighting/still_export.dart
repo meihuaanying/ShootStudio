@@ -460,7 +460,9 @@ class _StillExportDialogState extends State<StillExportDialog> {
               const SizedBox(
                 width: 14,
                 height: 14,
-                child: CircularProgressIndicator(strokeWidth: 2),
+                child: CircularProgressIndicator(
+                  strokeWidth: AppStroke.ringThin,
+                ),
               ),
             if (session.running) const SizedBox(width: 8),
             Expanded(

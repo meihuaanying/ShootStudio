@@ -1,3 +1,4 @@
+import '../../core/design/feature_colors.dart';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -75,18 +76,16 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   width: 52,
                   height: 52,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: <Color>[p.accent, Color(0xFF7B5CFF)],
-                    ),
+                    gradient: LinearGradient(colors: <Color>[p.accent, p.film]),
                     borderRadius: BorderRadius.circular(AppRadius.control),
                   ),
                   alignment: Alignment.center,
                   child: const Text(
                     '正',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppFeatureColor.onFill,
                       fontSize: AppFontSize.h2Lg,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: AppFontWeight.heavy,
                     ),
                   ),
                 ),
@@ -95,7 +94,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                   '正片工坊 ShootStudio',
                   style: TextStyle(
                     fontSize: AppFontSize.h1Lg,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: AppFontWeight.heavy,
                   ),
                 ),
                 const SizedBox(height: AppSpace.s2),
@@ -139,9 +138,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                                       child: Text(
                                         '$i',
                                         style: const TextStyle(
-                                          color: Colors.white,
+                                          color: AppFeatureColor.onFill,
                                           fontSize: AppFontSize.caption,
-                                          fontWeight: FontWeight.w800,
+                                          fontWeight: AppFontWeight.heavy,
                                         ),
                                       ),
                                     ),
@@ -154,7 +153,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                                   label,
                                   style: const TextStyle(
                                     fontSize: AppFontSize.smallLg,
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: AppFontWeight.bold,
                                   ),
                                 ),
                               ],
@@ -174,7 +173,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         '工作区目录',
                         style: TextStyle(
                           fontSize: AppFontSize.smallLg,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: AppFontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: AppSpace.s2),

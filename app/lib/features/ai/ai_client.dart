@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import '../../core/design/tokens.dart';
 
 /// AI 调用结果（含观测台所需的延迟与 token）。
 class AiCallResult {
@@ -52,8 +53,8 @@ class AiClient {
           dio ??
           Dio(
             BaseOptions(
-              connectTimeout: const Duration(seconds: 20),
-              receiveTimeout: const Duration(seconds: 90),
+              connectTimeout: AppWait.network,
+              receiveTimeout: AppWait.aiLong,
             ),
           );
 

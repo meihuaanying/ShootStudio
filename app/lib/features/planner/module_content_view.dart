@@ -1,3 +1,4 @@
+import '../../core/design/feature_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/design/tokens.dart';
@@ -74,8 +75,8 @@ class ModuleContentView extends StatelessWidget {
                       text: span.text,
                       style: TextStyle(
                         fontWeight: span.bold
-                            ? FontWeight.w700
-                            : FontWeight.w400,
+                            ? AppFontWeight.bold
+                            : AppFontWeight.regular,
                       ),
                     ),
                 ],
@@ -132,7 +133,7 @@ class ModuleContentView extends StatelessWidget {
         if (name.isNotEmpty)
           Text(
             '布光方案：$name',
-            style: const TextStyle(fontWeight: FontWeight.w600),
+            style: const TextStyle(fontWeight: AppFontWeight.medium),
           ),
         if (note.isNotEmpty) Text(note),
         if (lights.isNotEmpty) ...<Widget>[
@@ -213,7 +214,9 @@ class ModuleContentView extends StatelessWidget {
                     '${key ? ' · ★重点' : ''}'
                     '${note.isEmpty ? '' : '\n     $note'}',
                     style: TextStyle(
-                      fontWeight: key ? FontWeight.w700 : FontWeight.w400,
+                      fontWeight: key
+                          ? AppFontWeight.bold
+                          : AppFontWeight.regular,
                     ),
                   ),
                 );
@@ -299,7 +302,7 @@ class ModuleContentView extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4),
             child: Text(
               '合计 ¥${total.toStringAsFixed(0)}',
-              style: const TextStyle(fontWeight: FontWeight.w700),
+              style: const TextStyle(fontWeight: AppFontWeight.bold),
             ),
           ),
       ],
@@ -319,8 +322,6 @@ class ModuleContentView extends StatelessWidget {
     );
   }
 
-  Color _hex(String hex) => Color(
-    0xFF000000 |
-        (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888),
-  );
+  Color _hex(String hex) =>
+      AppFeatureColor.fromHex(hex, fallback: AppFeatureColor.invalidHex);
 }

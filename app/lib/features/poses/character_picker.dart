@@ -1,3 +1,4 @@
+import '../../core/design/feature_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/design/widgets.dart';
@@ -122,7 +123,11 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
             ),
             const SizedBox(height: AppSpace.s3),
             if (!_loaded)
-              const Center(child: CircularProgressIndicator(strokeWidth: 2))
+              const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: AppStroke.ringThin,
+                ),
+              )
             else ...<Widget>[
               SizedBox(
                 height: 150,
@@ -324,7 +329,7 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: AppFontSize.smallSm,
-              fontWeight: FontWeight.w700,
+              fontWeight: AppFontWeight.bold,
             ),
           ),
           Text(
@@ -341,8 +346,6 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
     ),
   );
 
-  Color _hex(String hex) => Color(
-    0xFF000000 |
-        (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888),
-  );
+  Color _hex(String hex) =>
+      AppFeatureColor.fromHex(hex, fallback: AppFeatureColor.invalidHex);
 }

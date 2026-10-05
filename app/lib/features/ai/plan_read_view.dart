@@ -86,7 +86,7 @@ class _PlanReadViewState extends State<PlanReadView> {
     if (target == null) return;
     Scrollable.ensureVisible(
       target,
-      duration: const Duration(milliseconds: 220),
+      duration: AppWait.planReveal,
       alignment: 0.02,
     );
   }
@@ -185,7 +185,7 @@ class _PlanReadViewState extends State<PlanReadView> {
                 overflow: TextOverflow.ellipsis,
                 style: AppType.small.style(
                   active ? context.palette.ink : context.palette.muted,
-                  weight: active ? FontWeight.w600 : null,
+                  weight: active ? AppFontWeight.medium : null,
                 ),
               ),
             ),

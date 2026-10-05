@@ -76,6 +76,30 @@ abstract final class AppFontSize {
 /// 只能保留字面量（违反 R71）或粗暴四舍五入（改动既有渲染）。
 /// 补档后每个字面量都有一一对应、**数值完全相同**的档位，因此替换是
 /// 等值改写：渲染结果不变，也不需要改任何既有断言。
+
+/// 字重令牌（§3.2）。
+///
+/// 与 [AppFontSize] 同理：数值真相放在 `static const` 上，才能用在
+/// `const TextStyle(fontWeight: …)` 里。
+///
+/// 只收口仓库实际用到的三档（w600/w700/w800），不铺满 w100–w900：
+/// 没被用到的字重一旦进了令牌表，就会变成「可以随手用」的档位，
+/// 反而绕开 §3.2 的排版约束。
+abstract final class AppFontWeight {
+  /// 正文常规（w400）。仓库内正文多靠默认值成立，从未显式写过 w400；
+  /// 保留此档是为了让「这里确实是常规字重」在代码里可读，而不是隐式。
+  static const FontWeight regular = FontWeight.w400;
+
+  /// 强调（w600）：次级强调、标签、按钮文字。
+  static const FontWeight medium = FontWeight.w600;
+
+  /// 标题（w700）：小标题、卡片标题、导航项。
+  static const FontWeight bold = FontWeight.w700;
+
+  /// 主标题（w800）：页面级标题、图标字。
+  static const FontWeight heavy = FontWeight.w800;
+}
+
 enum AppType {
   // —— 合同锁定的七档（数值不可动，D147）——
   display(AppFontSize.display, 1.2, AppFonts.display),

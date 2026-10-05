@@ -265,8 +265,16 @@ class _ColorPickerDialogState extends State<_ColorPickerDialog> {
                 if (parsed == null || v.replaceFirst('#', '').length != 6) {
                   return;
                 }
+                // `0xFF000000 | parsed` 只是把用户输入的 24 位 RGB 强制补上不透明 alpha，
+                // 并非「纯黑」——所以按 alpha 合成写，别再用 Color(0xFF000000 | …)，
+                // 否则既被 §3.1 的禁纯黑规则误伤，也读不出真实意图。
                 final HSVColor hsv = HSVColor.fromColor(
-                  Color(0xFF000000 | parsed),
+                  Color.from(
+                    alpha: 1,
+                    red: ((parsed >> 16) & 0xFF).toDouble(),
+                    green: ((parsed >> 8) & 0xFF).toDouble(),
+                    blue: (parsed & 0xFF).toDouble(),
+                  ),
                 );
                 setState(() {
                   _h = hsv.hue;
@@ -379,7 +387,7 @@ class _PoseInfoDialog extends StatelessWidget {
                 '照片：$attribution',
                 style: const TextStyle(
                   fontSize: AppFontSize.caption,
-                  color: Color(0xFF8A919E),
+                  color: AppFeatureColor.panelInk,
                 ),
               ),
             const SizedBox(height: 4),

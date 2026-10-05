@@ -41,7 +41,7 @@ class SsChip extends StatelessWidget {
           label,
           style: AppType.small.style(
             selected ? p.accent : p.inkSoft,
-            weight: selected ? FontWeight.w600 : FontWeight.w400,
+            weight: selected ? AppFontWeight.medium : AppFontWeight.regular,
           ),
         ),
       ),
@@ -122,7 +122,9 @@ class SsTabs extends StatelessWidget {
                   labels[i],
                   style: AppType.small.style(
                     i == index ? p.accent : p.muted,
-                    weight: i == index ? FontWeight.w600 : FontWeight.w400,
+                    weight: i == index
+                        ? AppFontWeight.medium
+                        : AppFontWeight.regular,
                   ),
                 ),
               ),

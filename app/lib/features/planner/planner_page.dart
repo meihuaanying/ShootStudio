@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 
+import '../../core/design/feature_colors.dart';
 import '../../core/db/database.dart';
 import '../ai/ai_panel.dart';
 import '../ai/ai_side_panel.dart';
@@ -184,7 +185,9 @@ class _PlannerPageState extends ConsumerState<PlannerPage> {
         ),
       ],
       body: !state.loaded
-          ? const Center(child: CircularProgressIndicator(strokeWidth: 2.4))
+          ? const Center(
+              child: CircularProgressIndicator(strokeWidth: AppStroke.ringBold),
+            )
           : Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[

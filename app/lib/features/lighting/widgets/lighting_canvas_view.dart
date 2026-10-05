@@ -1,3 +1,4 @@
+import '../../../core/design/feature_colors.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -278,7 +279,7 @@ class _StagePainter extends CustomPainter {
           ..strokeWidth = 1,
       );
       // 相机图标（机身 + 镜头三角）。
-      final camColor = cameraSelected ? inkColor : const Color(0xFF5B6B8C);
+      final camColor = cameraSelected ? inkColor : AppFeatureColor.canvasIdle;
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromCenter(center: camPos, width: 16, height: 12),
@@ -317,7 +318,7 @@ class _StagePainter extends CustomPainter {
       final selected = device.id == selectedId;
       final Color color = device.isLight
           ? (device.on ? accent : mutedColor)
-          : const Color(0xFF2BA471);
+          : AppFeatureColor.canvasLive;
 
       // 灯光方向线（指向被摄体）。
       if (device.isLight) {

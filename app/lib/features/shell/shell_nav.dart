@@ -115,7 +115,7 @@ class ShellBrandMark extends StatelessWidget {
         style: AppType.h3.style(
           p.surface,
           font: AppFonts.display,
-          weight: FontWeight.w600,
+          weight: AppFontWeight.medium,
         ),
       ),
     );
@@ -158,7 +158,10 @@ class ShellSideNav extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         '正片工坊',
-                        style: AppType.h3.style(p.ink, weight: FontWeight.w600),
+                        style: AppType.h3.style(
+                          p.ink,
+                          weight: AppFontWeight.medium,
+                        ),
                       ),
                       Text(
                         'SHOOTSTUDIO',
@@ -300,7 +303,9 @@ class _NavTile extends StatelessWidget {
                   item.label,
                   style: AppType.body.style(
                     selected ? p.accent : p.ink,
-                    weight: selected ? FontWeight.w600 : FontWeight.w400,
+                    weight: selected
+                        ? AppFontWeight.medium
+                        : AppFontWeight.regular,
                   ),
                 ),
               ),

@@ -198,7 +198,11 @@ class _LightingPageState extends ConsumerState<LightingPage> {
             ),
           ],
           body: !state.initialized
-              ? const Center(child: CircularProgressIndicator(strokeWidth: 2.4))
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: AppStroke.ringBold,
+                  ),
+                )
               : Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -267,7 +271,7 @@ class _LightingPageState extends ConsumerState<LightingPage> {
   void _scheduleWarmPathTracer() {
     if (_warmQueued) return;
     _warmQueued = true;
-    Future<void>.delayed(const Duration(seconds: 3), () {
+    Future<void>.delayed(AppWait.poll, () {
       _warmQueued = false;
       _bridge?.warmPathTracer();
     });

@@ -4,12 +4,13 @@ import 'package:dio/dio.dart';
 
 import '../search_models.dart';
 import 'source_utils.dart';
+import '../../../core/design/tokens.dart';
 
 /// V6 WikiArt 抓取源（D115）：无官方 API，走站内 JSON 端点（易变，失败降级）。
 /// 解析器 fixture 化（R48），失败只影响本源。
 class WikiArtSource implements SearchSource {
   WikiArtSource({Dio? dio})
-    : _dio = dio ?? searchDio(receiveTimeout: const Duration(seconds: 25));
+    : _dio = dio ?? searchDio(receiveTimeout: AppWait.source);
 
   final Dio _dio;
 

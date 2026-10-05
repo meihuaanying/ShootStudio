@@ -8,6 +8,7 @@ import '../net_router.dart';
 import '../query_translator.dart';
 import 'keywords.dart';
 import 'search_models.dart';
+import '../../core/design/tokens.dart';
 
 /// 视觉描述结果。
 class VisionResult {
@@ -35,9 +36,7 @@ class ImageToSearch {
   ImageToSearch(this._db, {AiClient? client})
     : _client =
           client ??
-          AiClient(
-            dio: NetRouter.I.dio(receiveTimeout: const Duration(seconds: 60)),
-          );
+          AiClient(dio: NetRouter.I.dio(receiveTimeout: AppWait.imageSearch));
 
   final AppDatabase _db;
   final AiClient _client;

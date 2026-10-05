@@ -59,7 +59,7 @@ class _Splash extends StatelessWidget {
             SizedBox(
               width: 26,
               height: 26,
-              child: CircularProgressIndicator(strokeWidth: 2.4),
+              child: CircularProgressIndicator(strokeWidth: AppStroke.ringBold),
             ),
             SizedBox(height: AppSpace.s4),
             Text('正在准备工作区…', style: TextStyle(fontSize: AppFontSize.smallLg)),
@@ -93,7 +93,7 @@ class _InitError extends ConsumerWidget {
                   '工作区初始化失败',
                   style: TextStyle(
                     fontSize: AppFontSize.bodyXl,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: AppFontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: AppSpace.s2),

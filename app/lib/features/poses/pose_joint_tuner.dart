@@ -4,6 +4,7 @@
 // 命中与坐标换算复用 PoseSkeletonPainter 的几何（layoutRect/offsetOf/hitTestJoint），
 // 保证「画在哪就能拖到哪」。数学部分（夹角/读数）是纯函数，便于离线单测。
 
+import '../../core/design/feature_colors.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ class PoseJointTuner extends StatefulWidget {
     this.onPointMoved,
     this.onDragStart,
     this.onDragEnd,
-    this.activeColor = const Color(0xFFFF8A3D),
+    this.activeColor = AppFeatureColor.poseMark,
   });
 
   /// 底图（由调用方决定 Image.asset / Image.file / 占位）。

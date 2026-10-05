@@ -88,8 +88,9 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                   ),
                 ],
               ),
-        loading: () =>
-            const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+        loading: () => const Center(
+          child: CircularProgressIndicator(strokeWidth: AppStroke.ringThin),
+        ),
         error: (Object e, _) => Text(
           '读取失败：$e',
           style: const TextStyle(fontSize: AppFontSize.smallSm),

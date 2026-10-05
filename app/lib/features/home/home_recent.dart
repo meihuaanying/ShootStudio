@@ -46,7 +46,9 @@ class HomeRecentPlans extends ConsumerWidget {
     return plans.when(
       loading: () => const Padding(
         padding: EdgeInsets.all(AppSpace.s4),
-        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+        child: Center(
+          child: CircularProgressIndicator(strokeWidth: AppStroke.ringThin),
+        ),
       ),
       error: (Object e, _) =>
           SsBanner(text: '读取失败：$e', kind: SsBannerKind.danger),

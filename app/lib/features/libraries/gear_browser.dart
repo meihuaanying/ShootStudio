@@ -1,3 +1,4 @@
+import '../../core/design/feature_colors.dart';
 import 'dart:convert';
 import 'package:path/path.dart' as path;
 import 'dart:io';
@@ -320,8 +321,9 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
           ],
         );
       },
-      loading: () =>
-          const Center(child: CircularProgressIndicator(strokeWidth: 2.4)),
+      loading: () => const Center(
+        child: CircularProgressIndicator(strokeWidth: AppStroke.ringBold),
+      ),
       error: (Object e, _) =>
           SsEmpty(icon: Icons.error_outline_rounded, title: '加载失败', hint: '$e'),
     );

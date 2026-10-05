@@ -1,3 +1,4 @@
+import 'core/design/tokens.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,7 +69,7 @@ class AppErrorWidget extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Container(
-        color: const Color(0xFF0B0E14),
+        color: AppPalette.darkroomBg,
         alignment: Alignment.center,
         padding: const EdgeInsets.all(32),
         child: Column(
@@ -78,16 +79,16 @@ class AppErrorWidget extends StatelessWidget {
             const Text(
               '页面渲染出错',
               style: TextStyle(
-                color: Color(0xFFE8EAF0),
+                color: AppPalette.darkroomInk,
                 fontSize: AppFontSize.h3Lg,
-                fontWeight: FontWeight.w700,
+                fontWeight: AppFontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
             const Text(
               '该问题已记录到本地日志，可复制错误码反馈。',
               style: TextStyle(
-                color: Color(0xFF8A919E),
+                color: AppPalette.darkroomMuted,
                 fontSize: AppFontSize.smallLg,
               ),
             ),
@@ -95,7 +96,7 @@ class AppErrorWidget extends StatelessWidget {
             SelectableText(
               '错误码：$code',
               style: const TextStyle(
-                color: Color(0xFF4D6BFE),
+                color: AppPalette.darkroomGold,
                 fontSize: AppFontSize.smallLg,
                 fontFamily: 'monospace',
               ),
@@ -105,7 +106,7 @@ class AppErrorWidget extends StatelessWidget {
               SelectableText(
                 '日志目录：$logDir',
                 style: const TextStyle(
-                  color: Color(0xFF8A919E),
+                  color: AppPalette.darkroomMuted,
                   fontSize: AppFontSize.caption,
                 ),
               ),
@@ -115,7 +116,7 @@ class AppErrorWidget extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 720),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFF161B25),
+                color: AppPalette.darkroomSurface,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
@@ -123,7 +124,7 @@ class AppErrorWidget extends StatelessWidget {
                 maxLines: 6,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  color: Color(0xFFB9BEC8),
+                  color: AppPalette.darkroomInkSoft,
                   fontSize: AppFontSize.caption,
                   fontFamily: 'monospace',
                 ),

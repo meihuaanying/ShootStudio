@@ -38,7 +38,7 @@ class SsButton extends StatelessWidget {
     };
     final TextStyle labelStyle = (dense ? AppType.small : AppType.body).style(
       fg,
-      weight: FontWeight.w600,
+      weight: AppFontWeight.medium,
     );
     return AnimatedOpacity(
       duration: AppMotion.fast,

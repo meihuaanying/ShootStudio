@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../core/design/tokens.dart';
 
 /// 在线地名搜索（F10）：Nominatim，失败时返回 null 由调用方离线回退。
 class GeocodingService {
@@ -22,8 +23,8 @@ class GeocodingService {
           headers: <String, Object?>{
             'User-Agent': 'ShootStudio/1.0 (plan assistant)',
           },
-          receiveTimeout: const Duration(seconds: 6),
-          sendTimeout: const Duration(seconds: 6),
+          receiveTimeout: AppWait.lookup,
+          sendTimeout: AppWait.lookup,
         ),
       );
       final Object? data = res.data;

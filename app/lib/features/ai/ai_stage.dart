@@ -112,7 +112,7 @@ class _StageDot extends StatelessWidget {
           ),
           child: Text(
             stage.ordinal,
-            style: appMono(fg, size: 9.5, weight: FontWeight.w600),
+            style: appMono(fg, size: 9.5, weight: AppFontWeight.medium),
           ),
         ),
         const SizedBox(width: AppSpace.s1 + 2),
@@ -120,7 +120,7 @@ class _StageDot extends StatelessWidget {
           stage.label,
           style: AppType.small.style(
             active ? p.ink : p.muted,
-            weight: active ? FontWeight.w600 : FontWeight.w400,
+            weight: active ? AppFontWeight.medium : AppFontWeight.regular,
           ),
         ),
       ],

@@ -186,7 +186,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
             '修改 ${diff.changed.length}',
             style: const TextStyle(
               fontSize: AppFontSize.smallSm,
-              fontWeight: FontWeight.w700,
+              fontWeight: AppFontWeight.bold,
             ),
           ),
           const SizedBox(height: 6),

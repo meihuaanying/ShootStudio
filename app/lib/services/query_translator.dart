@@ -4,12 +4,13 @@ import '../core/db/database.dart';
 import '../features/ai/ai_client.dart';
 import '../features/ai/key_vault.dart';
 import '../features/ai/provider_presets.dart';
+import '../core/design/tokens.dart';
 
 /// AI 检索词翻译（D81/R33）：用已配置的默认 AI 提供方把中文查询译为
 /// 英文检索词；结果缓存到 settings（LRU 200）；未配置/失败时返回空串，
 /// 由调用方回退词表（不得把中文原样发往英文源）。
 class QueryTranslator {
-  QueryTranslator(this._db, {this.timeout = const Duration(seconds: 6)});
+  QueryTranslator(this._db, {this.timeout = AppWait.lookup});
 
   final AppDatabase _db;
   final Duration timeout;

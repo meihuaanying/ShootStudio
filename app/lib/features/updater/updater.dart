@@ -10,6 +10,7 @@ import '../../core/providers.dart';
 import '../../core/utils/json_utils.dart';
 import '../../services/content_packs.dart';
 import '../../services/semver.dart';
+import '../../core/design/tokens.dart';
 
 /// 当前应用版本（构建时写入；与 CI Tag / 公告 JSON 保证一致）。
 const String kAppVersion = '2.0.0';
@@ -223,7 +224,7 @@ class UpdaterController extends Notifier<UpdaterState> {
     final Dio? injected = _dioOverride;
     if (injected != null) return injected;
     final String proxy = await _db.getSetting('proxy_url') ?? '';
-    return makeDio(proxy: proxy, timeout: const Duration(seconds: 20));
+    return makeDio(proxy: proxy, timeout: AppWait.network);
   }
 
   Future<String> _announcementUrl() async =>

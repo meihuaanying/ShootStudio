@@ -144,7 +144,7 @@ class _ModuleEditor extends ConsumerWidget {
                 '日出 ${SolarCalculator.fmt(solar.sunrise)} · 日落 ${SolarCalculator.fmt(solar.sunset)}',
                 style: const TextStyle(
                   fontSize: AppFontSize.small,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: AppFontWeight.medium,
                 ),
               ),
               for (final SolarWindow? w in <SolarWindow?>[
@@ -332,10 +332,8 @@ class _ModuleEditor extends ConsumerWidget {
     );
   }
 
-  Color _hexColor(String hex) => Color(
-    0xFF000000 |
-        (int.tryParse(hex.replaceFirst('#', ''), radix: 16) ?? 0x888888),
-  );
+  Color _hexColor(String hex) =>
+      AppFeatureColor.fromHex(hex, fallback: AppFeatureColor.invalidHex);
 
   List<Widget> _paletteEditor(BuildContext context, WidgetRef ref) {
     final colors = (module.data['colors'] as List? ?? <Object?>[])
@@ -388,12 +386,12 @@ class _ModuleEditor extends ConsumerWidget {
                         child: Container(
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Color(0xCC1F2329),
+                            color: AppFeatureColor.onNeutralSoft,
                           ),
                           child: const Icon(
                             Icons.close_rounded,
                             size: 11,
-                            color: Colors.white,
+                            color: AppFeatureColor.onFill,
                           ),
                         ),
                       ),

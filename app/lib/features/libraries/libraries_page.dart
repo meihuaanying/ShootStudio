@@ -323,8 +323,8 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                                 style: TextStyle(
                                   fontSize: AppFontSize.small,
                                   fontWeight: state.type == kind.type
-                                      ? FontWeight.w700
-                                      : FontWeight.w400,
+                                      ? AppFontWeight.bold
+                                      : AppFontWeight.regular,
                                   color: state.type == kind.type
                                       ? p.accent
                                       : null,
@@ -350,7 +350,9 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                 Expanded(
                   child: !state.loaded
                       ? const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2.4),
+                          child: CircularProgressIndicator(
+                            strokeWidth: AppStroke.ringBold,
+                          ),
                         )
                       : state.filtered.isEmpty
                       ? SsEmpty(
@@ -392,7 +394,7 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                             fontSize: AppFontSize.smallLg,
-                                            fontWeight: FontWeight.w700,
+                                            fontWeight: AppFontWeight.bold,
                                           ),
                                         ),
                                         Text(

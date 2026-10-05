@@ -34,7 +34,7 @@ class EngineView extends StatefulWidget {
 }
 
 class _EngineViewState extends State<EngineView> {
-  static const Duration _heartbeatTimeout = Duration(seconds: 20);
+  static const Duration _heartbeatTimeout = AppWait.network;
   static const int _maxAutoRecover = 2;
 
   late final EngineBridge _bridge = EngineBridge();
@@ -89,10 +89,10 @@ class _EngineViewState extends State<EngineView> {
       }
       widget.onEvent?.call(e);
     });
-    _timeout = Timer(const Duration(seconds: 12), () {
+    _timeout = Timer(AppWait.engineReady, () {
       if (mounted && !_ready) setState(() => _failed = true);
     });
-    _healthTimer = Timer.periodic(const Duration(seconds: 5), (Timer _) {
+    _healthTimer = Timer.periodic(AppWait.engineFrame, (Timer _) {
       _checkHealth();
     });
   }
@@ -160,7 +160,7 @@ class _EngineViewState extends State<EngineView> {
       _webviewKey = UniqueKey();
     });
     _timeout?.cancel();
-    _timeout = Timer(const Duration(seconds: 12), () {
+    _timeout = Timer(AppWait.engineReady, () {
       if (mounted && !_ready) setState(() => _failed = true);
     });
   }
@@ -178,9 +178,13 @@ class _EngineViewState extends State<EngineView> {
         color:
             widget.backgroundColor ?? theme.colorScheme.surfaceContainerHighest,
         alignment: Alignment.center,
-        child: const Text(
+        // 占位文字跟随主题走：写死 Colors.grey 会让暗房暗下这行字几乎看不见。
+        child: Text(
           '3D 引擎（测试环境占位）',
-          style: TextStyle(fontSize: AppFontSize.smallSm, color: Colors.grey),
+          style: TextStyle(
+            fontSize: AppFontSize.smallSm,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
         ),
       );
     }
@@ -300,7 +304,9 @@ class _EngineViewState extends State<EngineView> {
                 child: SizedBox(
                   width: 22,
                   height: 22,
-                  child: CircularProgressIndicator(strokeWidth: 2.2),
+                  child: CircularProgressIndicator(
+                    strokeWidth: AppStroke.ringMedium,
+                  ),
                 ),
               ),
             ),

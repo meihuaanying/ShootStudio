@@ -188,7 +188,7 @@ Future<T?> showSsSheet<T>({
   context: context,
   backgroundColor: Colors.transparent,
   isScrollControlled: true,
-  barrierColor: const Color(0x99000000),
+  barrierColor: AppScrim.sheet,
   builder: (BuildContext ctx) => Padding(
     padding: EdgeInsets.only(top: MediaQuery.of(ctx).padding.top + AppSpace.s5),
     child: SsSheet(

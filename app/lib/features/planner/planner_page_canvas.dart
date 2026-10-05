@@ -32,7 +32,7 @@ extension _PlannerPageCanvas on _PlannerPageState {
                 ),
                 style: const TextStyle(
                   fontSize: AppFontSize.body,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: AppFontWeight.bold,
                 ),
                 onChanged: controller.setTitle,
               ),
@@ -95,7 +95,7 @@ extension _PlannerPageCanvas on _PlannerPageState {
                                   : module.title,
                               style: const TextStyle(
                                 fontSize: AppFontSize.smallLg,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: AppFontWeight.medium,
                               ),
                             ),
                             Text(

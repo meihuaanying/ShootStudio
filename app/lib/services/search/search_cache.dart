@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 
 import '../../core/db/database.dart';
 import '../net_router.dart';
+import '../../core/design/tokens.dart';
 
 /// V6 图片缓存（D97/D118/R47）：工作区 `cache/search/`，缩略图/原图分目录，
 /// 5GB LRU（设置页可调）；绝不入 git/安装包；每图可追溯来源（由调用方登记）。
@@ -88,7 +89,7 @@ class SearchCache {
     final File? cached = await get(url, original: original);
     if (cached != null) return cached.readAsBytes();
     final Response<List<int>> res = await NetRouter.I
-        .dio(retries: 2, receiveTimeout: const Duration(seconds: 40))
+        .dio(retries: 2, receiveTimeout: AppWait.cacheTtl)
         .get<List<int>>(
           url,
           options: Options(responseType: ResponseType.bytes),

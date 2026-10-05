@@ -48,7 +48,7 @@ class CameraRigPanel extends StatelessWidget {
                 '相机模型',
                 style: TextStyle(
                   fontSize: AppFontSize.captionLg,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: AppFontWeight.medium,
                 ),
               ),
               const Spacer(),
@@ -128,7 +128,7 @@ class CameraRigPanel extends StatelessWidget {
                   '构图辅助',
                   style: TextStyle(
                     fontSize: AppFontSize.captionLg,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: AppFontWeight.medium,
                   ),
                 ),
                 const Spacer(),
@@ -266,7 +266,7 @@ class QualityPanel extends StatelessWidget {
                 '环境光',
                 style: TextStyle(
                   fontSize: AppFontSize.captionLg,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: AppFontWeight.medium,
                 ),
               ),
               const Spacer(),
@@ -286,7 +286,7 @@ class QualityPanel extends StatelessWidget {
                 '接触阴影',
                 style: TextStyle(
                   fontSize: AppFontSize.captionLg,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: AppFontWeight.medium,
                 ),
               ),
               const Spacer(),
@@ -314,7 +314,7 @@ class QualityPanel extends StatelessWidget {
             '性能档',
             style: TextStyle(
               fontSize: AppFontSize.captionLg,
-              fontWeight: FontWeight.w600,
+              fontWeight: AppFontWeight.medium,
             ),
           ),
           const SizedBox(height: 4),
@@ -354,7 +354,7 @@ class QualityPanel extends StatelessWidget {
                 '光锥可视化',
                 style: TextStyle(
                   fontSize: AppFontSize.captionLg,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: AppFontWeight.medium,
                 ),
               ),
               const Spacer(),
@@ -373,7 +373,7 @@ class QualityPanel extends StatelessWidget {
                 '软阴影（VSM）',
                 style: TextStyle(
                   fontSize: AppFontSize.captionLg,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: AppFontWeight.medium,
                 ),
               ),
               const Spacer(),
@@ -399,7 +399,7 @@ class QualityPanel extends StatelessWidget {
             '细分等级',
             style: TextStyle(
               fontSize: AppFontSize.captionLg,
-              fontWeight: FontWeight.w600,
+              fontWeight: AppFontWeight.medium,
             ),
           ),
           const SizedBox(height: 4),
@@ -424,7 +424,7 @@ class QualityPanel extends StatelessWidget {
             '材质预设',
             style: TextStyle(
               fontSize: AppFontSize.captionLg,
-              fontWeight: FontWeight.w600,
+              fontWeight: AppFontWeight.medium,
             ),
           ),
           const SizedBox(height: 4),
@@ -451,7 +451,7 @@ class QualityPanel extends StatelessWidget {
                 '环境反射',
                 style: TextStyle(
                   fontSize: AppFontSize.captionLg,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: AppFontWeight.medium,
                 ),
               ),
               const Spacer(),

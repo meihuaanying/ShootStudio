@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../core/design/tokens.dart';
 
 /// V3：TMDB 剧照/动漫静帧（D51）。支持 v3 api_key 与 v4 Bearer Token。
 /// 仅用于检索与展示，不做任何离线再分发。
@@ -39,8 +40,7 @@ class TmdbImage {
 
 class TmdbSource {
   TmdbSource({required this.apiKey, required this.readToken, Dio? dio})
-    : _dio =
-          dio ?? Dio(BaseOptions(connectTimeout: const Duration(seconds: 20)));
+    : _dio = dio ?? Dio(BaseOptions(connectTimeout: AppWait.source));
 
   final String apiKey;
   final String readToken;

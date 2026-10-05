@@ -27,7 +27,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
               '¥${total.toStringAsFixed(0)}',
               style: const TextStyle(
                 fontSize: AppFontSize.bodyLg,
-                fontWeight: FontWeight.w700,
+                fontWeight: AppFontWeight.bold,
               ),
             ),
             const SizedBox(width: 8),
