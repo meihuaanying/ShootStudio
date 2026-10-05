@@ -159,7 +159,7 @@ $env:PUB_HOSTED_URL = "https://pub.flutter-io.cn"
 
 ## D. 已完成的地基（别重写，直接续建）
 
-`app/` 下已存在：`pubspec.yaml`（依赖清单）、`analysis_options.yaml`、`lib/core/theme/`（明暗双主题设计令牌）、`lib/core/workspace/workspace.dart`、`lib/core/db/`（drift 全量表结构）、`assets/engine/engine.html`（引擎入口）。先 `build_runner` 生成 `database.g.dart` 再续写 features。
+`app/` 下已存在：`pubspec.yaml`（依赖清单）、`analysis_options.yaml`、`lib/core/design/`（明暗双主题设计令牌，V8 起为唯一来源；旧 `lib/core/theme/` 已于 R71/R76 收口时删除）、`lib/core/workspace/workspace.dart`、`lib/core/db/`（drift 全量表结构）、`assets/engine/engine.html`（引擎入口）。先 `build_runner` 生成 `database.g.dart` 再续写 features。
 
 ## E. 汇报与纪律
 

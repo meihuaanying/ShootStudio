@@ -268,12 +268,11 @@ void main() {
     });
   });
 
-  group('S3 R71 旧令牌清零 + 迁移明示（R76）', () {
+  group('S3 R71 旧令牌清零 + 迁移壳已删除（R76）', () {
     test('lib 内不再有 AppTokens. 引用', () {
       final List<String> hits = <String>[];
       for (final File f in _dartFiles('lib')) {
         final String rel = f.path.replaceAll('\\', '/');
-        if (rel.endsWith('core/theme/tokens.dart')) continue;
         final int count = RegExp(
           r'AppTokens\.',
         ).allMatches(f.readAsStringSync()).length;
@@ -282,17 +281,42 @@ void main() {
       expect(hits, isEmpty, reason: '旧令牌残留：${hits.join(', ')}');
     });
 
-    test('旧 AppTokens 标 @Deprecated 且仅作迁移壳保留', () {
-      final String legacy = _read('lib/core/theme/tokens.dart');
-      expect(legacy.contains('@Deprecated'), isTrue);
-      expect(legacy.contains('abstract final class AppTokens'), isTrue);
-      final String themeShell = _read('lib/core/theme/app_theme.dart');
-      expect(themeShell.contains('@Deprecated'), isTrue);
+    // R76：旧令牌与旧主题壳已在「一个迭代后」真正删除（R71/R76 收口）。
+    // 这里断言**文件不存在**，比原先「标了 @Deprecated 仍保留」更强 ——
+    // 后者允许死代码长期躺在仓库里，正是本条要杜绝的状态。
+    test('旧令牌 lib/core/theme/ 已整体删除', () {
       expect(
-        themeShell.contains("export '../design/theme.dart'"),
-        isTrue,
-        reason: 'app_theme.dart 应转发到 core/design/theme.dart',
+        File('lib/core/theme/tokens.dart').existsSync(),
+        isFalse,
+        reason: 'core/theme/tokens.dart 应已删除（R71/R76）',
       );
+      expect(
+        File('lib/core/theme/app_theme.dart').existsSync(),
+        isFalse,
+        reason: 'core/theme/app_theme.dart 迁移壳应已删除（R71/R76）',
+      );
+      expect(
+        Directory('lib/core/theme').existsSync(),
+        isFalse,
+        reason: 'core/theme/ 目录应整体清空',
+      );
+    });
+
+    test('lib 内不再 import core/theme/', () {
+      // 只认真正的 import/export 语句：文档注释里为说明迁移史而提到旧路径
+      // 是合法的（tokens.dart / theme.dart 的抬头就写了「旧 core/theme/
+      // 已删除」），按裸字符串扫会把说明文字误判成残留。
+      final RegExp directive = RegExp(
+        r'''^\s*(?:import|export)\s+['"][^'"]*core/theme/''',
+        multiLine: true,
+      );
+      final List<String> hits = <String>[];
+      for (final File f in _dartFiles('lib')) {
+        if (directive.hasMatch(f.readAsStringSync())) {
+          hits.add(f.path.replaceAll('\\', '/'));
+        }
+      }
+      expect(hits, isEmpty, reason: '旧主题入口残留：${hits.join(', ')}');
     });
   });
 

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:path/path.dart' as p;
-import 'package:shoot_studio/core/theme/app_theme.dart';
+import 'package:shoot_studio/core/design/theme.dart';
 import 'package:shoot_studio/core/workspace/workspace.dart';
 import 'package:shoot_studio/features/lighting/ab_compare.dart';
 import 'package:shoot_studio/features/lighting/still_export.dart';

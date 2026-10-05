@@ -2,7 +2,8 @@
 ///
 /// - 保留 `AppTheme.light()` / `AppTheme.dark()` 入口（R76：旧调用点不破坏）；
 /// - 新增 `AppTheme.of(AppThemeVariant)` 与 `AppTheme.paletteOf(context)`；
-/// - `lib/core/theme/app_theme.dart` 已改为 @Deprecated 转发壳（R71：一个迭代后删）。
+/// - `lib/core/theme/` 已整体删除（R71/R76：旧令牌 `AppTokens` 与旧主题壳均已清理，
+///   曾经的 @Deprecated 转发壳 `core/theme/app_theme.dart` 不再存在）。
 library;
 
 import 'package:flutter/foundation.dart';

@@ -2,10 +2,14 @@
 ///
 /// R71：任何颜色/字号/字重/间距/圆角/时长只允许引用本文件的令牌，禁止硬编码字面值。
 /// R72：S1 锁定后本文件为门禁口径，App 与官网 `web/src/styles/tokens.css` 逐字一致。
-/// 旧令牌 `AppTokens`（lib/core/theme/tokens.dart）已 @Deprecated，一个迭代后删除（R71/R76）。
+/// 旧令牌 `AppTokens`（曾位于 lib/core/theme/tokens.dart）已整体删除（R71/R76：本文件是唯一令牌来源）。
 library;
 
 import 'package:flutter/material.dart';
+
+/// R73：字号阶梯与字体族拆到 typography.dart，这里原样转发，
+/// 保证既有 `import .../tokens.dart` 的调用方无需改动。
+export 'typography.dart';
 
 /// 主题变体：纸面亮（paper）/ 暗房暗（darkroom）（§3.1）。
 enum AppThemeVariant { paper, darkroom }
@@ -105,88 +109,6 @@ class AppPalette {
     danger: Color(0xFFE06C60),
   );
 }
-
-/// §3.2 字体族。
-abstract final class AppFonts {
-  /// 展示/标题：Noto Serif SC（随包子集，OFL）。
-  static const String display = 'NotoSerifSC';
-
-  /// 正文：系统无衬线（Windows: Microsoft YaHei UI；Android: Roboto）。
-  static const String body = 'Microsoft YaHei';
-
-  /// 数据读数：JetBrains Mono（延续）。
-  static const String mono = 'JetBrainsMono';
-
-  /// 回退链（渲染引擎缺失时按序回退）。
-  static const List<String> displayFallback = <String>['Songti SC', 'SimSun'];
-  // mono 字体无 CJK 字形 → 末尾追加正文字族，保证 eyebrow/KV 里的中文不出现豆腐块。
-  static const List<String> monoFallback = <String>[
-    'Consolas',
-    'monospace',
-    'Microsoft YaHei',
-    'Noto Sans SC',
-  ];
-}
-
-/// §3.2 字号阶梯（pt，行高/字号）。
-enum AppType {
-  display(40, 1.2, AppFonts.display),
-  h1(28, 1.3, AppFonts.display),
-  h2(22, 1.35, AppFonts.display),
-  h3(17, 1.4, AppFonts.display),
-  body(14, 1.6, AppFonts.body),
-  small(12.5, 1.5, AppFonts.body),
-  caption(11, 1.4, AppFonts.body);
-
-  const AppType(this.size, this.lineHeight, this.family);
-
-  /// Eyebrow 字距（§3.2：mono 11pt + 字距 1.5）。
-  static const double eyebrowLetterSpacing = 1.5;
-
-  final double size;
-  final double lineHeight;
-  final String family;
-
-  bool get isHeading =>
-      this == AppType.display ||
-      this == AppType.h1 ||
-      this == AppType.h2 ||
-      this == AppType.h3;
-
-  TextStyle style(
-    Color ink, {
-    String? font,
-    FontWeight? weight,
-    double? spacing,
-  }) => TextStyle(
-    fontFamily: font ?? family,
-    fontFamilyFallback: font == AppFonts.mono
-        ? AppFonts.monoFallback
-        : font == AppFonts.display
-        ? AppFonts.displayFallback
-        : null,
-    fontSize: size,
-    height: lineHeight,
-    fontWeight: weight ?? (isHeading ? FontWeight.w600 : FontWeight.w400),
-    color: ink,
-    letterSpacing: spacing,
-  );
-}
-
-/// Eyebrow 眉题：mono 11pt + 字距 1.5（画册风标志性元素，§3.2）。
-TextStyle appEyebrow(Color color) => AppType.caption
-    .style(color, font: AppFonts.mono, weight: FontWeight.w500)
-    .copyWith(letterSpacing: AppType.eyebrowLetterSpacing);
-
-/// 数据读数样式（mono，§3.2）。
-TextStyle appMono(
-  Color color, {
-  double size = 11,
-  FontWeight weight = FontWeight.w500,
-  double letterSpacing = 0.2,
-}) => AppType.caption
-    .style(color, font: AppFonts.mono, weight: weight)
-    .copyWith(fontSize: size, letterSpacing: letterSpacing);
 
 /// §3.3 8pt 间距体系：4/8/12/16/24/32/48/64。
 abstract final class AppSpace {

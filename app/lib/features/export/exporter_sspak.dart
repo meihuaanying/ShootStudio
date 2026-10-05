@@ -215,13 +215,54 @@ class SspakImporter {
       );
     }
 
-    // 图片落盘。
+    // 图片落盘（R84 安全：Zip Slip 防护）。
+    //
+    // 归档里的条目名是**不可信输入**：一个 `images/../../evil.png` 就能让
+    // path.join 越出 workspace，把任意文件写到用户能写的地方（Zip Slip）。
+    //
+    // 两段式：先**全量校验**再**统一落盘**。边校验边写会让排在恶意条目之前的
+    // 正常图片先落盘，抛异常时工作区已处于半导入状态 —— 那种"中止"名不副实。
+    //
+    // 每条目两道互补的校验：
+    //   1) 名称规范化 —— 拒绝 `..`、绝对路径、反斜杠（Windows 盘符/UNC）。
+    //   2) path.join 之后断言最终路径确实位于 images 目录内。
+    // 第 2 道不是冗余：第 1 道只挡字面量形态，规范化与解析的边界差异仍可能
+    // 让落点跑出 images（跨平台 path 实现对 `C:` 之类前缀的处理并不一致）。
+    final imagesRoot = path.normalize(
+      path.absolute(path.join(workspace.root.path, 'images')),
+    );
+    final List<(File, List<int>)> pending = <(File, List<int>)>[];
     for (final ArchiveFile file in archive) {
+      // 全包级名称卫生：任何条目都不该带前导斜杠或反斜杠。合法 .sspak 的
+      // 条目名一律是 `images/x.png` / `manifest.json` 这种相对 POSIX 形态；
+      // `/images/evil.png` 形制的条目只可能来自畸形或恶意构造，且若只按
+      // startsWith('images/') 过滤会被静默忽略 —— 用户会拿到一个悄悄少了
+      // 图片的数据包还不知道，所以显式拒绝。
+      if (file.name.startsWith('/') || file.name.contains(r'\')) {
+        throw FormatException('.sspak 条目名含绝对路径或反斜杠：${file.name}');
+      }
       if (!file.name.startsWith('images/')) continue;
       final relative = file.name.substring('images/'.length);
-      final target = File(path.join(workspace.root.path, 'images', relative));
+      if (relative.isEmpty) {
+        throw const FormatException('.sspak 图片条目名为空');
+      }
+      if (path.isAbsolute(relative)) {
+        throw FormatException('.sspak 图片条目名是绝对路径：${file.name}');
+      }
+      if (relative.split('/').any((String seg) => seg == '..')) {
+        throw FormatException('.sspak 图片条目名含 `..` 上跳：${file.name}');
+      }
+      final targetPath = path.normalize(
+        path.absolute(path.join(imagesRoot, relative)),
+      );
+      if (!path.isWithin(imagesRoot, targetPath)) {
+        throw FormatException('.sspak 图片条目越出 images 目录：${file.name}');
+      }
+      pending.add((File(targetPath), file.content!));
+    }
+    for (final (File target, List<int> bytes) in pending) {
       await target.parent.create(recursive: true);
-      await target.writeAsBytes(file.content!);
+      await target.writeAsBytes(bytes);
     }
 
     // 资源还原（新 id 防冲突）。
