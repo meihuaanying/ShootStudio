@@ -132,7 +132,7 @@ class _ModuleEditor extends ConsumerWidget {
       const SizedBox(height: 10),
       if (solar != null)
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(AppSpaceFine.n10),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(AppRadius.chip),
@@ -244,8 +244,11 @@ class _ModuleEditor extends ConsumerWidget {
       const SizedBox(height: 6),
       for (var i = 0; i < refs.length; i++)
         Container(
-          margin: const EdgeInsets.only(bottom: 4),
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          margin: const EdgeInsets.only(bottom: AppSpace.s1),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpace.s2,
+            vertical: AppSpaceFine.n6,
+          ),
           decoration: BoxDecoration(
             border: Border.all(color: Theme.of(context).colorScheme.outline),
             borderRadius: BorderRadius.circular(AppRadius.chip),
@@ -320,14 +323,14 @@ class _ModuleEditor extends ConsumerWidget {
             _hexColor(palette.length > 1 ? palette[1] : '#333333'),
           ],
         ),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(AppRadiusFine.n6),
       ),
     );
     if (imageRef.isEmpty) return fallback;
     final file = File(path.join(workspaceRoot, 'images', 'refs', imageRef));
     if (!file.existsSync()) return fallback;
     return ClipRRect(
-      borderRadius: BorderRadius.circular(6),
+      borderRadius: BorderRadius.circular(AppRadiusFine.n6),
       child: Image.file(file, width: 42, height: 30, fit: BoxFit.cover),
     );
   }
@@ -369,7 +372,7 @@ class _ModuleEditor extends ConsumerWidget {
                       height: 34,
                       decoration: BoxDecoration(
                         color: _hexColor(colors[i]),
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(AppRadiusFine.n6),
                         border: Border.all(
                           color: Theme.of(context).colorScheme.outline,
                         ),

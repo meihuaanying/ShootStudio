@@ -71,7 +71,7 @@ class AppErrorWidget extends StatelessWidget {
       child: Container(
         color: AppPalette.darkroomBg,
         alignment: Alignment.center,
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(AppSpace.s6),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,10 +114,10 @@ class AppErrorWidget extends StatelessWidget {
             const SizedBox(height: 16),
             Container(
               constraints: const BoxConstraints(maxWidth: 720),
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppSpace.s3),
               decoration: BoxDecoration(
                 color: AppPalette.darkroomSurface,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppRadius.frame),
               ),
               child: Text(
                 '${details.exception}',

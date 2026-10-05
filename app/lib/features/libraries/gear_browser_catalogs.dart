@@ -93,7 +93,7 @@ class ClothingCatalog extends ConsumerWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(AppSpace.s2),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -170,7 +170,7 @@ class PropsPresetBrowser extends ConsumerWidget {
 
                 final PropPresetEntry prop = items[i];
                 return SsCard(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(AppSpaceFine.n10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[

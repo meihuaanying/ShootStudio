@@ -53,7 +53,10 @@ class LightingPresetPanel extends StatelessWidget {
                   for (final MapEntry<String, List<LightPresetEntry>> entry
                       in grouped.entries) ...<Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(top: 6, bottom: 4),
+                      padding: const EdgeInsets.only(
+                        top: AppSpaceFine.n6,
+                        bottom: AppSpace.s1,
+                      ),
                       child: Text(
                         entry.key,
                         style: TextStyle(
@@ -64,11 +67,11 @@ class LightingPresetPanel extends StatelessWidget {
                     ),
                     for (final LightPresetEntry preset in entry.value)
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
+                        padding: const EdgeInsets.only(bottom: AppSpace.s1),
                         child: SsCard(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 8,
+                            horizontal: AppSpaceFine.n10,
+                            vertical: AppSpace.s2,
                           ),
                           onTap: () => onPick(preset),
                           child: Text(
@@ -145,7 +148,12 @@ class LightingDeviceList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SsCard(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpace.s3,
+        AppSpace.s2,
+        AppSpace.s3,
+        AppSpace.s2,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -224,7 +232,7 @@ class _DeviceRow extends StatelessWidget {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 3),
+          padding: const EdgeInsets.symmetric(vertical: AppSpaceFine.n3),
           child: Row(
             children: <Widget>[
               SizedBox(

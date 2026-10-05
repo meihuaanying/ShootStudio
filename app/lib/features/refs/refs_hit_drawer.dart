@@ -189,7 +189,9 @@ Future<void> showRefsHitDrawer(
     isScrollControlled: true,
     backgroundColor: context.palette.surface,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(AppRadius.frame),
+      ),
     ),
     builder: (BuildContext ctx) => Padding(
       padding: EdgeInsets.only(

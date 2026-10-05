@@ -116,7 +116,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
   Widget _tip(BuildContext context, String label, String text) {
     final AppPalette p = context.palette;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: AppSpaceFine.n10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

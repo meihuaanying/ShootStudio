@@ -498,7 +498,9 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
                                 // D125：多人时给人物切换（点框选已由校正器接管）。
                                 if (_persons.length > 1)
                                   Padding(
-                                    padding: const EdgeInsets.only(bottom: 6),
+                                    padding: const EdgeInsets.only(
+                                      bottom: AppSpaceFine.n6,
+                                    ),
                                     child: Row(
                                       children: <Widget>[
                                         for (
@@ -508,7 +510,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
                                         )
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                              right: 6,
+                                              right: AppSpaceFine.n6,
                                             ),
                                             child: SsChip(
                                               label: '人物 ${i + 1}',
@@ -544,9 +546,9 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
                               if (_persons.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(
-                                    8,
-                                    8,
-                                    8,
+                                    AppSpace.s2,
+                                    AppSpace.s2,
+                                    AppSpace.s2,
                                     0,
                                   ),
                                   child: PoseTunerResetBar(

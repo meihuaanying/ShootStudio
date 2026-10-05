@@ -5,10 +5,5 @@
     "lib/features/": 600,
     "lib/core/design/": 300
   },
-  "baseline": {
-    "lib/features/lighting/lighting_controller.dart": 760,
-    "lib/features/ai/ai_panel.dart": 747,
-    "lib/features/libraries/libraries_page.dart": 808,
-    "lib/features/ai/ai_client.dart": 779
-  }
+  "baseline": {}
 }

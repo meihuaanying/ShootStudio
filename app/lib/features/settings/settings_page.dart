@@ -80,7 +80,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       ('暗色', ThemeMode.dark),
                     ])
                       Padding(
-                        padding: const EdgeInsets.only(right: 8),
+                        padding: const EdgeInsets.only(right: AppSpace.s2),
                         child: SsChip(
                           label: entry.$1,
                           selected: mode == entry.$2,
@@ -266,7 +266,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     in updater.announcement?.ops ??
                         const <({String date, String title})>[])
                   Padding(
-                    padding: const EdgeInsets.only(top: 4),
+                    padding: const EdgeInsets.only(top: AppSpace.s1),
                     child: Text(
                       '公告：${op.title}${op.date.isEmpty ? '' : '（${op.date}）'}',
                       style: TextStyle(

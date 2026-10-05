@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/S3 R73 file size gate (lib/features <= 600, lib/core/design <= 300, baseline allowlist)",
-  "at": "2026-10-05T04:20:41.959Z",
+  "at": "2026-10-05T05:12:14.633Z",
   "limits": {
     "features": 600,
     "design": 300,
@@ -9,44 +9,14 @@
   },
   "files": [
     {
-      "file": "lib/features/libraries/libraries_page.dart",
-      "lines": 776,
-      "limit": 600,
-      "allowed": 808
-    },
-    {
-      "file": "lib/features/lighting/lighting_controller.dart",
-      "lines": 752,
-      "limit": 600,
-      "allowed": 760
-    },
-    {
       "file": "lib/features/ai/ai_client.dart",
-      "lines": 741,
+      "lines": 590,
       "limit": 600,
-      "allowed": 779
-    },
-    {
-      "file": "lib/features/ai/ai_panel.dart",
-      "lines": 719,
-      "limit": 600,
-      "allowed": 747
-    },
-    {
-      "file": "lib/features/lighting/lighting_page.dart",
-      "lines": 604,
-      "limit": 600,
-      "allowed": 0
-    },
-    {
-      "file": "lib/features/planner/planner_page_dialogs.dart",
-      "lines": 603,
-      "limit": 600,
-      "allowed": 0
+      "allowed": 600
     },
     {
       "file": "lib/features/poses/pose_import_page.dart",
-      "lines": 576,
+      "lines": 578,
       "limit": 600,
       "allowed": 600
     },
@@ -59,6 +29,18 @@
     {
       "file": "lib/features/poses/poses_controller.dart",
       "lines": 566,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/lighting_controller.dart",
+      "lines": 553,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/lighting_page.dart",
+      "lines": 548,
       "limit": 600,
       "allowed": 600
     },
@@ -87,6 +69,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/lighting/widgets/lighting_pose_widgets.dart",
+      "lines": 502,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/libraries/gear_browser.dart",
       "lines": 497,
       "limit": 600,
@@ -99,44 +87,44 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/planner/planner_module_editors_a.dart",
+      "lines": 497,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/refs/refs_controller.dart",
       "lines": 496,
       "limit": 600,
       "allowed": 600
     },
     {
-      "file": "lib/features/planner/planner_module_editors_a.dart",
-      "lines": 495,
-      "limit": 600,
-      "allowed": 600
-    },
-    {
-      "file": "lib/features/lighting/widgets/lighting_pose_widgets.dart",
-      "lines": 494,
-      "limit": 600,
-      "allowed": 600
-    },
-    {
-      "file": "lib/features/ai/ai_controller.dart",
-      "lines": 480,
+      "file": "lib/features/ai/ai_panel.dart",
+      "lines": 486,
       "limit": 600,
       "allowed": 600
     },
     {
       "file": "lib/features/libraries/gear_browser_card.dart",
-      "lines": 480,
+      "lines": 486,
       "limit": 600,
       "allowed": 600
     },
     {
       "file": "lib/features/planner/planner_module_editor.dart",
-      "lines": 480,
+      "lines": 483,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/ai/ai_controller.dart",
+      "lines": 481,
       "limit": 600,
       "allowed": 600
     },
     {
       "file": "lib/features/poses/poses_page_layout.dart",
-      "lines": 466,
+      "lines": 468,
       "limit": 600,
       "allowed": 600
     },
@@ -147,8 +135,14 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/libraries/libraries_page.dart",
+      "lines": 456,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/planner/planner_page_layout.dart",
-      "lines": 449,
+      "lines": 452,
       "limit": 600,
       "allowed": 600
     },
@@ -178,7 +172,7 @@
     },
     {
       "file": "lib/features/ai/ai_stage.dart",
-      "lines": 400,
+      "lines": 403,
       "limit": 600,
       "allowed": 600
     },
@@ -196,7 +190,7 @@
     },
     {
       "file": "lib/features/poses/character_picker.dart",
-      "lines": 352,
+      "lines": 357,
       "limit": 600,
       "allowed": 600
     },
@@ -225,14 +219,20 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/libraries/library_resource_editor.dart",
+      "lines": 338,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/poses/pose_gallery.dart",
-      "lines": 332,
+      "lines": 335,
       "limit": 600,
       "allowed": 600
     },
     {
       "file": "lib/features/planner/module_content_view.dart",
-      "lines": 328,
+      "lines": 331,
       "limit": 600,
       "allowed": 600
     },
@@ -249,14 +249,20 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/planner/planner_page_dialogs.dart",
+      "lines": 324,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/export/export_panel.dart",
-      "lines": 319,
+      "lines": 323,
       "limit": 600,
       "allowed": 600
     },
     {
       "file": "lib/features/planner/planner_module_editors_b.dart",
-      "lines": 318,
+      "lines": 321,
       "limit": 600,
       "allowed": 600
     },
@@ -303,14 +309,20 @@
       "allowed": 300
     },
     {
-      "file": "lib/features/ai/ai_controller_generate.dart",
-      "lines": 275,
+      "file": "lib/features/planner/planner_page_pose_dialogs.dart",
+      "lines": 280,
       "limit": 600,
       "allowed": 600
     },
     {
       "file": "lib/features/ai/plan_read_view_spread.dart",
-      "lines": 274,
+      "lines": 277,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/ai/ai_controller_generate.dart",
+      "lines": 275,
       "limit": 600,
       "allowed": 600
     },
@@ -322,7 +334,7 @@
     },
     {
       "file": "lib/features/lighting/widgets/lighting_device_list.dart",
-      "lines": 261,
+      "lines": 269,
       "limit": 600,
       "allowed": 600
     },
@@ -357,10 +369,22 @@
       "allowed": 600
     },
     {
-      "file": "lib/features/onboarding/onboarding_page.dart",
-      "lines": 236,
+      "file": "lib/features/ai/ai_provider_card.dart",
+      "lines": 245,
       "limit": 600,
       "allowed": 600
+    },
+    {
+      "file": "lib/features/onboarding/onboarding_page.dart",
+      "lines": 240,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/core/design/spacing.dart",
+      "lines": 240,
+      "limit": 300,
+      "allowed": 300
     },
     {
       "file": "lib/features/lighting/camera_helpers.dart",
@@ -393,12 +417,6 @@
       "allowed": 600
     },
     {
-      "file": "lib/core/design/spacing.dart",
-      "lines": 217,
-      "limit": 300,
-      "allowed": 300
-    },
-    {
       "file": "lib/features/export/exporter.dart",
       "lines": 216,
       "limit": 600,
@@ -412,7 +430,7 @@
     },
     {
       "file": "lib/features/refs/refs_hit_drawer.dart",
-      "lines": 213,
+      "lines": 215,
       "limit": 600,
       "allowed": 600
     },
@@ -429,13 +447,19 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/planner/planner_page.dart",
+      "lines": 205,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/ai/plan_scorer.dart",
       "lines": 204,
       "limit": 600,
       "allowed": 600
     },
     {
-      "file": "lib/features/planner/planner_page.dart",
+      "file": "lib/features/planner/planner_page_canvas.dart",
       "lines": 204,
       "limit": 600,
       "allowed": 600
@@ -445,12 +469,6 @@
       "lines": 202,
       "limit": 300,
       "allowed": 300
-    },
-    {
-      "file": "lib/features/planner/planner_page_canvas.dart",
-      "lines": 199,
-      "limit": 600,
-      "allowed": 600
     },
     {
       "file": "lib/features/lighting/light_meter.dart",
@@ -495,14 +513,20 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/refs/refs_palette.dart",
+      "lines": 170,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/export/exporter_pdf_press.dart",
       "lines": 168,
       "limit": 600,
       "allowed": 600
     },
     {
-      "file": "lib/features/refs/refs_palette.dart",
-      "lines": 167,
+      "file": "lib/features/ai/ai_prompts.dart",
+      "lines": 161,
       "limit": 600,
       "allowed": 600
     },
@@ -531,14 +555,14 @@
       "allowed": 600
     },
     {
-      "file": "lib/core/design/ss_transitions.dart",
+      "file": "lib/core/design/ss_chip.dart",
       "lines": 140,
       "limit": 300,
       "allowed": 300
     },
     {
-      "file": "lib/core/design/ss_chip.dart",
-      "lines": 137,
+      "file": "lib/core/design/ss_transitions.dart",
+      "lines": 140,
       "limit": 300,
       "allowed": 300
     },
@@ -547,6 +571,12 @@
       "lines": 135,
       "limit": 600,
       "allowed": 600
+    },
+    {
+      "file": "lib/core/design/ss_text.dart",
+      "lines": 135,
+      "limit": 300,
+      "allowed": 300
     },
     {
       "file": "lib/features/refs/refs_page_chrome.dart",
@@ -559,12 +589,6 @@
       "lines": 134,
       "limit": 600,
       "allowed": 600
-    },
-    {
-      "file": "lib/core/design/ss_text.dart",
-      "lines": 130,
-      "limit": 300,
-      "allowed": 300
     },
     {
       "file": "lib/core/design/ss_feedback.dart",
@@ -593,6 +617,18 @@
     {
       "file": "lib/features/libraries/gear_browser_add.dart",
       "lines": 120,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/lighting_controller_hands.dart",
+      "lines": 120,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
+      "file": "lib/features/lighting/lighting_controller_undo.dart",
+      "lines": 109,
       "limit": 600,
       "allowed": 600
     },
@@ -633,6 +669,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/lighting/lighting_page_ab.dart",
+      "lines": 75,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/planner/budget_estimator.dart",
       "lines": 63,
       "limit": 600,
@@ -651,22 +693,7 @@
       "allowed": 300
     }
   ],
-  "violations": [
-    {
-      "rel": "lib/features/lighting/lighting_page.dart",
-      "lines": 604,
-      "limit": 600,
-      "allowed": 0,
-      "over": true
-    },
-    {
-      "rel": "lib/features/planner/planner_page_dialogs.dart",
-      "lines": 603,
-      "limit": 600,
-      "allowed": 0,
-      "over": true
-    }
-  ],
+  "violations": [],
   "inflatedBaseline": [],
-  "pass": false
+  "pass": true
 }

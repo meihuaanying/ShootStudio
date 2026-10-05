@@ -112,7 +112,12 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
     final ThemeData theme = Theme.of(context);
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpace.s4,
+          AppSpace.s3,
+          AppSpace.s4,
+          AppSpace.s4,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,7 +286,7 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
     borderRadius: BorderRadius.circular(AppRadius.control),
     child: Container(
       width: 118,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(AppSpaceFine.n10),
       decoration: BoxDecoration(
         color: selected
             ? p.accentSoft
@@ -305,12 +310,12 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
               if (badge != null)
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 4,
-                    vertical: 1,
+                    horizontal: AppSpace.s1,
+                    vertical: AppSpaceFine.n1,
                   ),
                   decoration: BoxDecoration(
                     color: p.accent.withValues(alpha: 0.16),
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(AppRadius.control),
                   ),
                   child: Text(
                     badge,

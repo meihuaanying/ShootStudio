@@ -133,7 +133,7 @@ class _HoverLayer extends StatelessWidget {
           ),
           if (hit.commercialOk)
             Padding(
-              padding: const EdgeInsets.only(top: 2),
+              padding: const EdgeInsets.only(top: AppSpaceFine.n2),
               child: Text('可商用', style: appMono(p.film, size: 9)),
             ),
           const Spacer(),
@@ -191,7 +191,7 @@ class _MiniAction extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpace.s1,
-            vertical: 2,
+            vertical: AppSpaceFine.n2,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

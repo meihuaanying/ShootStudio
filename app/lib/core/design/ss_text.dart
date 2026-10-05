@@ -77,7 +77,9 @@ class SsKvRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppPalette p = context.palette;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: dense ? 2 : AppSpace.s1),
+      padding: EdgeInsets.symmetric(
+        vertical: dense ? AppSpaceFine.n2 : AppSpace.s1,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
@@ -101,7 +103,10 @@ class SsMonoBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppPalette p = context.palette;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpace.s2, vertical: 2),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpace.s2,
+        vertical: AppSpaceFine.n2,
+      ),
       decoration: BoxDecoration(
         color: p.surfaceSunken,
         borderRadius: AppRadius.chipBorder,

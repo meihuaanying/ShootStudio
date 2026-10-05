@@ -299,7 +299,7 @@ class QualityPanel extends StatelessWidget {
           ),
           if (!state.contactShadow || state.materialPreset != 'realistic')
             Padding(
-              padding: const EdgeInsets.only(top: 2),
+              padding: const EdgeInsets.only(top: AppSpaceFine.n2),
               child: Text(
                 !state.contactShadow ? '接触阴影已关闭。' : '接触阴影仅写实材质预设生效。',
                 style: TextStyle(
@@ -335,7 +335,7 @@ class QualityPanel extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 2),
+            padding: const EdgeInsets.only(top: AppSpaceFine.n2),
             child: Text(
               state.performanceProfile == 'low'
                   ? '性能优先：关闭接触阴影、降低阴影与渲染分辨率、细分上限 1 级。'
@@ -385,7 +385,7 @@ class QualityPanel extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 2),
+            padding: const EdgeInsets.only(top: AppSpaceFine.n2),
             child: Text(
               '软阴影随附件/灯距变化；性能优先档自动回退 PCF 硬边。',
               style: TextStyle(

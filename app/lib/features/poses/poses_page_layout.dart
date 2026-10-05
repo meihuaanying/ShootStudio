@@ -14,7 +14,7 @@ extension _PosesPageLayout on _PosesPageState {
             children: <Widget>[
               for (final String c in poseCategories)
                 Padding(
-                  padding: const EdgeInsets.only(right: 6),
+                  padding: const EdgeInsets.only(right: AppSpaceFine.n6),
                   child: SsChip(
                     label: c,
                     selected: state.category == c,
@@ -29,7 +29,7 @@ extension _PosesPageLayout on _PosesPageState {
           children: <Widget>[
             for (final String d in poseDifficulties)
               Padding(
-                padding: const EdgeInsets.only(right: 6),
+                padding: const EdgeInsets.only(right: AppSpaceFine.n6),
                 child: SsChip(
                   label: d,
                   selected: state.difficulty == d,
@@ -208,12 +208,14 @@ extension _PosesPageLayout on _PosesPageState {
                           bottom: 10,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 6,
+                              horizontal: AppSpaceFine.n10,
+                              vertical: AppSpaceFine.n6,
                             ),
                             decoration: BoxDecoration(
                               color: AppFeatureColor.imageScrim,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(
+                                AppRadius.frame,
+                              ),
                             ),
                             child: Text(
                               '${pose.name} · ${pose.category} · ${pose.difficulty}',
@@ -293,7 +295,7 @@ extension _PosesPageLayout on _PosesPageState {
           const SizedBox(height: AppSpace.s2),
           if (pose.referenceOnly)
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(AppSpace.s2),
               decoration: BoxDecoration(
                 color: p.gold.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(AppRadius.chip),
@@ -318,7 +320,7 @@ extension _PosesPageLayout on _PosesPageState {
           if (pose.partialBody) ...<Widget>[
             const SizedBox(height: 6),
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(AppSpace.s2),
               decoration: BoxDecoration(
                 color: p.gold.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(AppRadius.chip),

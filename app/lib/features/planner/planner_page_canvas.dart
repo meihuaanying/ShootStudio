@@ -40,7 +40,7 @@ extension _PlannerPageCanvas on _PlannerPageState {
             const SizedBox(width: AppSpace.s2),
             for (final PlanDocStatus s in PlanDocStatus.values)
               Padding(
-                padding: const EdgeInsets.only(left: 4),
+                padding: const EdgeInsets.only(left: AppSpace.s1),
                 child: SsChip(
                   label: s.label,
                   selected: state.status == s,
@@ -71,10 +71,15 @@ extension _PlannerPageCanvas on _PlannerPageState {
               final selected = _selectedModuleId == module.id;
               return Padding(
                 key: ValueKey<String>(module.id),
-                padding: const EdgeInsets.only(bottom: 6),
+                padding: const EdgeInsets.only(bottom: AppSpaceFine.n6),
                 child: SsCard(
                   selected: selected,
-                  padding: const EdgeInsets.fromLTRB(10, 8, 8, 8),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpaceFine.n10,
+                    AppSpace.s2,
+                    AppSpace.s2,
+                    AppSpace.s2,
+                  ),
                   onTap: () => refresh(() => _selectedModuleId = module.id),
                   child: Row(
                     children: <Widget>[
@@ -117,7 +122,7 @@ extension _PlannerPageCanvas on _PlannerPageState {
                                 constraints: const BoxConstraints(
                                   maxHeight: 260,
                                 ),
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(AppSpace.s2),
                                 decoration: BoxDecoration(
                                   color: Theme.of(
                                     context,

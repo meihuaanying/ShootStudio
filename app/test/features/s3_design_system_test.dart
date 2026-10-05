@@ -264,7 +264,20 @@ void main() {
           reason: '${e.key} ${e.value} 行超过白名单 $ceiling（R73）',
         );
       }
-      expect(allow, isNotEmpty, reason: '基线白名单应记录现存超限文件');
+      // 白名单是「临时欠账台账」：每条都必须对应一个当前仍超 600 的文件。
+      // 这条断言原来写反了方向（要求白名单非空），于是「所有文件都达标」
+      // 反而会被判失败 —— 恰好把 R73 想要的结果判成违规。
+      // 现在改成：白名单里每条都必须真的还在超限，防止有人靠调高白名单
+      // 把红线绕过（这才是白名单唯一合理的用途）。
+      for (final String key in allow.keys) {
+        final int actual = lines[key.replaceAll('\\', '/')] ?? 0;
+        expect(
+          actual > 600,
+          isTrue,
+          reason: '白名单条目 $key 当前 ${actual} 行，已不超 600，'
+              '应从基线中删除（R73 只降不升）',
+        );
+      }
     });
   });
 

@@ -8,7 +8,10 @@ String _readoutScore(double v) => v <= 0 ? '—' : v.toStringAsFixed(1);
 extension _PlanReadSpread on _PlanReadViewState {
   /// 小标签（通道 / 状态）。
   Widget _tag(BuildContext context, String text, Color color) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: AppSpace.s2, vertical: 3),
+    padding: const EdgeInsets.symmetric(
+      horizontal: AppSpace.s2,
+      vertical: AppSpaceFine.n3,
+    ),
     decoration: BoxDecoration(
       color: color.withValues(alpha: 0.12),
       border: Border.all(color: color.withValues(alpha: 0.42)),

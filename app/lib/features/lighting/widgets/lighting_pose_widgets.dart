@@ -45,7 +45,10 @@ class LightingCollapsibleCardState extends State<LightingCollapsibleCard> {
             onTap: () => setState(() => _open = !_open),
             borderRadius: BorderRadius.circular(AppRadius.chip),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpaceFine.n10,
+                vertical: AppSpace.s2,
+              ),
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -82,7 +85,12 @@ class LightingCollapsibleCardState extends State<LightingCollapsibleCard> {
           ),
           if (_open)
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpaceFine.n10,
+                0,
+                AppSpaceFine.n10,
+                AppSpaceFine.n10,
+              ),
               child: widget.child,
             ),
         ],
@@ -399,7 +407,7 @@ class HandPosePanelState extends State<HandPosePanel> {
                       (HandPresetInfo preset) => preset.dual,
                     ))
                       Padding(
-                        padding: const EdgeInsets.only(right: 4),
+                        padding: const EdgeInsets.only(right: AppSpace.s1),
                         child: SsChip(
                           label: '${preset.emoji} ${preset.label}',
                           selected:

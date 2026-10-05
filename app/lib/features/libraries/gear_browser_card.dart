@@ -34,7 +34,7 @@ class _GearCard extends ConsumerWidget {
         ),
       ),
       child: SsCard(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(AppSpaceFine.n10),
         onTap: () => _showDetail(context, ref),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +131,7 @@ class _GearCard extends ConsumerWidget {
         children: <Widget>[
           Expanded(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppRadius.frame),
               child: _firstAvailable(
                 context,
                 chain,
@@ -223,7 +223,7 @@ class _GearCard extends ConsumerWidget {
         height: 44,
         decoration: BoxDecoration(
           color: context.palette.accentSoft,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppRadius.frame),
         ),
         child: Icon(
           Icons.camera_alt_outlined,
@@ -233,7 +233,7 @@ class _GearCard extends ConsumerWidget {
       );
     }
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(AppRadius.frame),
       child: Image.asset(
         'assets/content/gear/img/${entry.image}',
         width: 44,
@@ -277,7 +277,7 @@ class _GearCard extends ConsumerWidget {
                 height: 150,
               ).isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: AppSpace.s2),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -285,7 +285,9 @@ class _GearCard extends ConsumerWidget {
                         width: 400,
                         height: 150,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(
+                            AppRadiusFine.oversizeSoft10,
+                          ),
                           child: _firstAvailable(
                             context,
                             _photoChain(
@@ -334,9 +336,11 @@ class _GearCard extends ConsumerWidget {
                   entry.image.isNotEmpty &&
                   entry.imageSource != 'custom')
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: AppSpace.s2),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(
+                      AppRadiusFine.oversizeSoft10,
+                    ),
                     child: Image.asset(
                       'assets/content/gear/img/${entry.image}',
                       height: 120,
@@ -352,12 +356,14 @@ class _GearCard extends ConsumerWidget {
                     for (final String tag in entry.tags)
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
+                          horizontal: AppSpace.s2,
+                          vertical: AppSpaceFine.n2,
                         ),
                         decoration: BoxDecoration(
                           color: context.palette.accentSoft,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(
+                            AppRadiusFine.oversizeSoft20,
+                          ),
                         ),
                         child: Text(
                           tag,
@@ -373,7 +379,7 @@ class _GearCard extends ConsumerWidget {
               ],
               for (final MapEntry<String, Object?> spec in entry.specs.entries)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
+                  padding: const EdgeInsets.only(bottom: AppSpace.s1),
                   child: Row(
                     children: <Widget>[
                       SizedBox(

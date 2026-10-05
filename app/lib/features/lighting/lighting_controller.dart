@@ -15,20 +15,19 @@ import 'lighting_undo.dart';
 
 export 'lighting_state.dart';
 
+part 'lighting_controller_hands.dart';
+
+part 'lighting_controller_undo.dart';
+
 /// 布光预演室状态。
 
 final lightingControllerProvider =
     NotifierProvider<LightingController, LightingState>(LightingController.new);
 
-class LightingController extends Notifier<LightingState> {
+class LightingController extends Notifier<LightingState>
+    with _LightingUndo, _LightingHands {
   static const Uuid _uuid = Uuid();
   late final AppDatabase _db = ref.read(databaseProvider);
-
-  /// V8/D152：撤销/重做栈（64 步；拖拽按交互区间折叠为一步）。
-  final LightingUndoStack undoStack = LightingUndoStack();
-
-  /// 正在进行的连续交互（拖灯/拖机位/滑杆）；非空时不再重复记撤销点。
-  String? _interactionId;
 
   @override
   LightingState build() {
@@ -41,96 +40,7 @@ class LightingController extends Notifier<LightingState> {
     );
   }
 
-  // ---------------- V8/D152 撤销 / 重做 ----------------
 
-  /// 记一步撤销点（在真正修改之前调用）。
-  ///
-  /// [merge] 语义同 `LightingUndoStack.record`：拖拽/滑杆类连续变更传 true
-  /// （靠合并窗口折叠成一步）；加灯/删除/应用预设等离散操作传 false（每步独立）。
-  void _pushUndo(String label, {bool merge = false}) {
-    if (_interactionId != null) return;
-    undoStack.record(
-      LightingSnapshot.of(state.scene, state.selectedId, label),
-      merge: merge,
-    );
-    _syncUndoFlags();
-  }
-
-  void _syncUndoFlags() {
-    if (state.canUndo == undoStack.canUndo && !state.canRedo) return;
-    state = state.copyWith(canUndo: undoStack.canUndo, canRedo: false);
-  }
-
-  /// 开始一次连续交互（拖拽）：只在起点记一次撤销点。
-  void beginInteraction(String id) {
-    if (_interactionId == id) return;
-    final DeviceSpec? d = _deviceOf(id);
-    final String label = switch (d?.kind) {
-      'light' => '移动灯具 ${d?.name ?? ''}',
-      'prop' => '移动道具 ${d?.name ?? ''}',
-      _ => id.startsWith('camera') ? '调整机位' : '调整 $id',
-    };
-    undoStack.record(LightingSnapshot.of(state.scene, state.selectedId, label));
-    _interactionId = id;
-    _syncUndoFlags();
-  }
-
-  /// 结束连续交互。
-  void endInteraction() {
-    _interactionId = null;
-  }
-
-  DeviceSpec? _deviceOf(String id) {
-    for (final DeviceSpec d in state.scene.devices) {
-      if (d.id == id) return d;
-    }
-    return null;
-  }
-
-  /// 撤销一步（返回 true 表示有可撤销内容）。
-  bool undo() {
-    final LightingSnapshot? next = undoStack.undo(_snapshot());
-    if (next == null) {
-      state = state.copyWith(status: '没有可撤销的操作');
-      return false;
-    }
-    _interactionId = null;
-    state = state.copyWith(
-      scene: next.scene,
-      selectedId: next.selectedId,
-      dirty: true,
-      undoSeq: state.undoSeq + 1,
-      cameraSeq: state.cameraSeq + 1,
-      canUndo: undoStack.canUndo,
-      canRedo: undoStack.canRedo,
-      status: '已撤销：${next.label}',
-    );
-    return true;
-  }
-
-  /// 重做一步。
-  bool redo() {
-    final LightingSnapshot? next = undoStack.redo(_snapshot());
-    if (next == null) {
-      state = state.copyWith(status: '没有可重做的操作');
-      return false;
-    }
-    _interactionId = null;
-    state = state.copyWith(
-      scene: next.scene,
-      selectedId: next.selectedId,
-      dirty: true,
-      undoSeq: state.undoSeq + 1,
-      cameraSeq: state.cameraSeq + 1,
-      canUndo: undoStack.canUndo,
-      canRedo: undoStack.canRedo,
-      status: '已重做：${next.label}',
-    );
-    return true;
-  }
-
-  LightingSnapshot _snapshot() =>
-      LightingSnapshot.of(state.scene, state.selectedId, '当前状态');
 
   /// 初始化：优先载入最近保存的方案；否则用三点布光预设起手。
   Future<void> init() async {
@@ -634,115 +544,6 @@ class LightingController extends Notifier<LightingState> {
     await _db.setSetting('quality_soft_shadows', on ? '1' : '0');
   }
 
-  // ---------------- V5/D86–D88 手部动作 ----------------
-
-  void _syncSceneHands() {
-    state.scene.hands = handsToJson(state.handL, state.handR);
-  }
-
-  /// 应用手部预设；[side] 取 'l' | 'r' | 'both'；双手组合预设会同时写入左右手并叠加手臂。
-  void setHandPreset(String side, String presetId) {
-    final HandPresetInfo? preset = handPresetById(presetId);
-    if (preset == null) return;
-    if (preset.dual) {
-      final HandPoseState next = HandPoseState(
-        preset: preset.id,
-        curls: preset.curls,
-        spread: preset.spread,
-        wrist: preset.wrist,
-      );
-      Map<String, Object?>? pose = state.pendingPose;
-      final Map<String, Map<String, List<double>>>? arms = preset.arms;
-      if (arms != null) {
-        final Map<String, Object?> base = Map<String, Object?>.of(
-          pose ?? state.basePose ?? <String, Object?>{},
-        );
-        arms.forEach((String s, Map<String, List<double>> joints) {
-          joints.forEach((String joint, List<double> value) {
-            base['${joint}_$s'] = List<double>.of(value);
-          });
-        });
-        pose = base;
-      }
-      state = state.copyWith(
-        handL: next,
-        handR: next.copyWith(wrist: preset.wrist),
-        pendingPose: pose,
-        basePose: state.basePose ?? pose,
-        poseInjectionSeq: pose == null
-            ? state.poseInjectionSeq
-            : state.poseInjectionSeq + 1,
-        dirty: true,
-        status: '手部预设：${preset.label}',
-      );
-    } else {
-      final HandPoseState next = HandPoseState(
-        preset: preset.id,
-        curls: preset.curls,
-        spread: preset.spread,
-        wrist: preset.wrist,
-      );
-      state = side == 'r'
-          ? state.copyWith(
-              handR: next,
-              dirty: true,
-              status: '手部预设：${preset.label}',
-            )
-          : state.copyWith(
-              handL: next,
-              dirty: true,
-              status: '手部预设：${preset.label}',
-            );
-    }
-    _syncSceneHands();
-  }
-
-  /// 每指微调（finger: thumb/index/middle/ring/pinky；value 0..1）。
-  void setHandCurl(String side, String finger, double value) {
-    final HandPoseState current = side == 'r' ? state.handR : state.handL;
-    final Map<String, double> curls = Map<String, double>.of(current.curls);
-    curls[finger] = value.clamp(0, 1);
-    final HandPoseState next = current.copyWith(preset: 'custom', curls: curls);
-    state = side == 'r'
-        ? state.copyWith(handR: next, dirty: true, status: '手部微调：$finger')
-        : state.copyWith(handL: next, dirty: true, status: '手部微调：$finger');
-    _syncSceneHands();
-  }
-
-  /// 张开度（0..1）。
-  void setHandSpread(String side, double value) {
-    final HandPoseState current = side == 'r' ? state.handR : state.handL;
-    final HandPoseState next = current.copyWith(
-      preset: 'custom',
-      spread: value.clamp(0, 1),
-    );
-    state = side == 'r'
-        ? state.copyWith(handR: next, dirty: true)
-        : state.copyWith(handL: next, dirty: true);
-    _syncSceneHands();
-  }
-
-  /// 重置双手为自然放松。
-  void resetHands() {
-    state = state.copyWith(
-      handL: const HandPoseState(),
-      handR: const HandPoseState(),
-      dirty: true,
-      status: '手部已重置',
-    );
-    _syncSceneHands();
-  }
-
-  /// 从姿势条目携带的手部状态写入（导入姿势/载入场景）。
-  void applyHandsFromPose(HandPoseState? l, HandPoseState? r) {
-    if (l == null && r == null) return;
-    state = state.copyWith(
-      handL: l ?? state.handL,
-      handR: r ?? state.handR,
-      dirty: true,
-    );
-    _syncSceneHands();
-  }
 
   void requestCapture() =>
       state = state.copyWith(captureSeq: state.captureSeq + 1);

@@ -131,7 +131,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
   Widget build(BuildContext context) {
     final AppPalette p = context.palette;
     return Dialog(
-      insetPadding: const EdgeInsets.all(24),
+      insetPadding: const EdgeInsets.all(AppSpace.s5),
       child: SizedBox(
         width: 720,
         child: Padding(
@@ -161,7 +161,9 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                 InkWell(
                   onTap: () => setState(() => _format = format),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSpaceFine.n6,
+                    ),
                     child: Row(
                       children: <Widget>[
                         Icon(
@@ -183,7 +185,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
               const SizedBox(height: 8),
               if (_checked && _issues.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: AppSpace.s2),
                   child: SsBanner(
                     text: '完整性检查：${_issues.length} 处引用失效（导出前将再次确认）',
                     kind: SsBannerKind.warning,
@@ -191,7 +193,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                 ),
               if (widget.status == PlanDocStatus.draft)
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                  padding: EdgeInsets.only(bottom: AppSpace.s2),
                   child: SsBanner(
                     text: '当前为草稿态：导出物将带「草稿 · 未定稿」标注',
                     kind: SsBannerKind.info,
@@ -199,7 +201,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                 ),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(AppSpace.s3),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(AppRadius.chip),
@@ -222,12 +224,14 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                         for (var i = 0; i < widget.modules.length; i++)
                           Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
+                              horizontal: AppSpace.s2,
+                              vertical: AppSpaceFine.n3,
                             ),
                             decoration: BoxDecoration(
                               color: AppFeatureColor.chipFill,
-                              borderRadius: BorderRadius.circular(99),
+                              borderRadius: BorderRadius.circular(
+                                AppRadius.pill,
+                              ),
                               border: Border.all(
                                 color: Theme.of(context).colorScheme.outline,
                               ),
@@ -249,7 +253,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                 LinearProgressIndicator(value: _percent <= 0 ? null : _percent),
               if (_stage.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.only(top: 6),
+                  padding: const EdgeInsets.only(top: AppSpaceFine.n6),
                   child: Text(
                     _stage,
                     style: TextStyle(

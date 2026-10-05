@@ -210,7 +210,7 @@ class _PerfProbePageState extends State<PerfProbePage>
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppSpace.s3),
               child: Text(
                 'PERF PROBE · phase $_phase · $_engineNote',
                 style: const TextStyle(
@@ -272,7 +272,7 @@ class _Workload extends StatelessWidget {
       builder: (context, _) {
         return GridView.count(
           crossAxisCount: 3,
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(AppSpace.s2),
           children: List<Widget>.generate(24, (i) {
             final a = controller.value * 2 * 3.14159 + i * 0.26;
             return Transform(
@@ -283,10 +283,10 @@ class _Workload extends StatelessWidget {
                 ..rotateX(a * 0.25)
                 ..translateByDouble(0.0, (a % 1) * 24 - 12, 0.0, 1.0),
               child: Container(
-                margin: const EdgeInsets.all(4),
+                margin: const EdgeInsets.all(AppSpace.s1),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(200, 47 + i * 6, 93, 80),
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(AppRadius.control),
                 ),
               ),
             );

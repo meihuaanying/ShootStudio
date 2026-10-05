@@ -117,9 +117,11 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         ])
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.only(right: i == 3 ? 0 : 10),
+                          padding: EdgeInsets.only(
+                            right: i == 3 ? 0 : AppSpaceFine.n10,
+                          ),
                           child: SsCard(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.all(AppSpace.s3),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -132,7 +134,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                                         gradient: LinearGradient(
                                           colors: <Color>[p.accent, p.film],
                                         ),
-                                        borderRadius: BorderRadius.circular(6),
+                                        borderRadius: BorderRadius.circular(
+                                          AppRadiusFine.n6,
+                                        ),
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(

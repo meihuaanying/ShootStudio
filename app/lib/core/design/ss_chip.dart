@@ -67,7 +67,10 @@ class SsTag extends StatelessWidget {
       SsTagTone.danger => (p.danger, p.danger.withValues(alpha: 0.12)),
     };
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpace.s2, vertical: 2),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpace.s2,
+        vertical: AppSpaceFine.n2,
+      ),
       decoration: BoxDecoration(
         color: bg,
         borderRadius: AppRadius.chipBorder,

@@ -197,8 +197,8 @@ class _PoseJointTunerState extends State<PoseJointTuner> {
                   top: 8,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
+                      horizontal: AppSpace.s2,
+                      vertical: AppSpace.s1,
                     ),
                     decoration: BoxDecoration(
                       color: p.surfaceSunken,

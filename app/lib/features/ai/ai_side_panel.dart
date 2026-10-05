@@ -99,7 +99,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
             children: <Widget>[
               for (final String q in _quick)
                 Padding(
-                  padding: const EdgeInsets.only(right: 6),
+                  padding: const EdgeInsets.only(right: AppSpaceFine.n6),
                   child: SsChip(
                     label: q,
                     selected: false,
@@ -119,10 +119,10 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
                       ? Alignment.centerRight
                       : Alignment.centerLeft,
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 6),
+                    margin: const EdgeInsets.only(bottom: AppSpaceFine.n6),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 7,
+                      horizontal: AppSpaceFine.n10,
+                      vertical: AppSpaceFine.n7,
                     ),
                     constraints: const BoxConstraints(maxWidth: 260),
                     decoration: BoxDecoration(
@@ -140,7 +140,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
               if (_draft != null && diff != null) _buildDiffCard(context, diff),
               if (_busy)
                 const Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(AppSpace.s2),
                   child: LinearProgressIndicator(),
                 ),
             ],
@@ -177,7 +177,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
     final AppPalette p = context.palette;
     final AiRevisionDraft draft = _draft!;
     return SsCard(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(AppSpaceFine.n10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -239,7 +239,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
 
   Widget _line(IconData icon, Color color, String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
+      padding: const EdgeInsets.symmetric(vertical: AppSpaceFine.n2),
       child: Row(
         children: <Widget>[
           Icon(icon, size: 13, color: color),

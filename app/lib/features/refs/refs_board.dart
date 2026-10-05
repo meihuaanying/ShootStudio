@@ -276,7 +276,7 @@ class _MiniIcon extends StatelessWidget {
         onTap: onTap,
         borderRadius: AppRadius.chipBorder,
         child: Padding(
-          padding: const EdgeInsets.all(2),
+          padding: const EdgeInsets.all(AppSpaceFine.n2),
           child: Icon(icon, size: 14, color: context.palette.inkSoft),
         ),
       ),

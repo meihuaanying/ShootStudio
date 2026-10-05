@@ -528,7 +528,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
             else
               for (final Map<String, Object?> item in _attribution)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
+                  padding: const EdgeInsets.only(bottom: AppSpaceFine.n3),
                   child: Text(
                     '· ${item['name']} · ${item['license']} · ${item['author']}\n  ${item['source']}',
                     style: const TextStyle(fontSize: AppFontSize.caption),

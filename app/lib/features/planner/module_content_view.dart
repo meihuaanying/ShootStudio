@@ -61,7 +61,10 @@ class ModuleContentView extends StatelessWidget {
       children: <Widget>[
         for (final RichLine line in lines)
           Padding(
-            padding: EdgeInsets.only(left: line.bullet ? 10 : 0, bottom: 2),
+            padding: EdgeInsets.only(
+              left: line.bullet ? AppSpaceFine.n10 : 0,
+              bottom: AppSpaceFine.n2,
+            ),
             child: Text.rich(
               TextSpan(
                 children: <InlineSpan>[
@@ -150,7 +153,7 @@ class ModuleContentView extends StatelessWidget {
                   final int k = (m['kelvin'] as num?)?.toInt() ?? 5600;
                   final int intensity = (m['intensity'] as num?)?.toInt() ?? 60;
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 2),
+                    padding: const EdgeInsets.only(bottom: AppSpaceFine.n2),
                     child: Text(
                       '${i + 1}. ${m['name'] ?? '灯'} · '
                       '位置(${x.toStringAsFixed(1)}, ${y.toStringAsFixed(1)})m · '
@@ -179,7 +182,7 @@ class ModuleContentView extends StatelessWidget {
                 final String lens = props['lens'] as String? ?? '';
                 final String camera = props['cameraPosition'] as String? ?? '';
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 2),
+                  padding: const EdgeInsets.only(bottom: AppSpaceFine.n2),
                   child: Text(
                     '${i + 1}. ${props['name'] ?? '姿势'}'
                     '${lens.isEmpty ? '' : ' · $lens'}'
@@ -206,7 +209,7 @@ class ModuleContentView extends StatelessWidget {
                 final bool key = s['key'] == true;
                 final String note = s['note'] as String? ?? '';
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
+                  padding: const EdgeInsets.only(bottom: AppSpaceFine.n3),
                   child: Text(
                     '${s['no'] ?? ''}. ${s['shotSize'] ?? ''} · ${s['lens'] ?? ''} · '
                     '${s['camera'] ?? ''} · 姿势：${s['pose'] ?? ''}'
@@ -242,7 +245,7 @@ class ModuleContentView extends StatelessWidget {
                 final bool hasImage =
                     (f['imageRef'] as String? ?? '').isNotEmpty;
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 2),
+                  padding: const EdgeInsets.only(bottom: AppSpaceFine.n2),
                   child: Text(
                     '${i + 1}. ${f['name'] ?? '样片'}'
                     '${hasImage ? ' · 本地图片' : ''}'
@@ -288,7 +291,7 @@ class ModuleContentView extends StatelessWidget {
                 }
                 final String note = r['note'] as String? ?? '';
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 2),
+                  padding: const EdgeInsets.only(bottom: AppSpaceFine.n2),
                   child: Text(
                     isBudget
                         ? '· ${r['item'] ?? ''}  ¥${r['price'] ?? 0}${note.isEmpty ? '' : '  （$note）'}'
@@ -299,7 +302,7 @@ class ModuleContentView extends StatelessWidget {
             ),
         if (isBudget && total > 0)
           Padding(
-            padding: const EdgeInsets.only(top: 4),
+            padding: const EdgeInsets.only(top: AppSpace.s1),
             child: Text(
               '合计 ¥${total.toStringAsFixed(0)}',
               style: const TextStyle(fontWeight: AppFontWeight.bold),

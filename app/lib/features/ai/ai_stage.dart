@@ -249,7 +249,10 @@ class _AttemptChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppPalette p = context.palette;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpace.s2, vertical: 3),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpace.s2,
+        vertical: AppSpaceFine.n3,
+      ),
       decoration: BoxDecoration(
         color: p.accentSoft,
         borderRadius: BorderRadius.circular(AppRadius.chip),

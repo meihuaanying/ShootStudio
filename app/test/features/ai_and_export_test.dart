@@ -10,6 +10,7 @@ import 'package:shoot_studio/core/db/database.dart';
 import 'package:shoot_studio/core/workspace/workspace.dart';
 import 'package:shoot_studio/features/ai/ai_client.dart';
 import 'package:shoot_studio/features/ai/ai_controller.dart';
+import 'package:shoot_studio/features/ai/ai_prompts.dart';
 import 'package:shoot_studio/features/ai/key_vault.dart';
 import 'package:shoot_studio/features/export/exporter.dart';
 import 'package:shoot_studio/features/planner/planner_models.dart';

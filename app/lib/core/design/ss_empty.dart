@@ -104,7 +104,7 @@ class _SsArtPainter extends CustomPainter {
                 width: 8,
                 height: 5,
               ),
-              const Radius.circular(1.5),
+              const Radius.circular(AppRadiusFine.n1_5),
             ),
             line,
           );
@@ -115,7 +115,7 @@ class _SsArtPainter extends CustomPainter {
                 width: 8,
                 height: 5,
               ),
-              const Radius.circular(1.5),
+              const Radius.circular(AppRadiusFine.n1_5),
             ),
             line,
           );

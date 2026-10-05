@@ -90,11 +90,11 @@ extension _PlannerPageLayout on _PlannerPageState {
                 children: <Widget>[
                   for (final PlanModuleType type in PlanModuleType.values)
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
+                      padding: const EdgeInsets.only(bottom: AppSpace.s1),
                       child: SsCard(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 8,
+                          horizontal: AppSpaceFine.n10,
+                          vertical: AppSpace.s2,
                         ),
                         onTap: state.modules.length >= 50
                             ? null
@@ -254,7 +254,7 @@ extension _PlannerPageLayout on _PlannerPageState {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(AppSpace.s3),
               child: Row(
                 children: <Widget>[
                   const Text(
@@ -280,7 +280,10 @@ extension _PlannerPageLayout on _PlannerPageState {
               ),
             ),
             if (latest.snapshots.isEmpty)
-              const Padding(padding: EdgeInsets.all(20), child: Text('暂无快照'))
+              const Padding(
+                padding: EdgeInsets.all(AppSpaceFine.n20),
+                child: Text('暂无快照'),
+              )
             else
               Flexible(
                 child: ListView.builder(
@@ -406,7 +409,7 @@ extension _PlannerPageLayout on _PlannerPageState {
 
   Widget _diffLine(IconData icon, Color color, String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: AppSpace.s1),
       child: Row(
         children: <Widget>[
           Icon(icon, size: 15, color: color),

@@ -56,6 +56,29 @@ abstract final class AppSpaceFine {
 
   /// 20px：介于 s5(24) 与 s4(16) 之间的历史取值。
   static const double n20 = 20;
+
+  /// 1px：仅用于 hairline 级微调。
+  static const double n1 = 1;
+}
+
+/// [AppRadius] 之外的圆角档，同样是「为保持历史渲染不变」而收编。
+abstract final class AppRadiusFine {
+  /// 1.5px：空态插画内圈的极小圆角，比 chip(2) 还小。
+  static const double n1_5 = 1.5;
+
+  /// 6px：介于 control(4) 与 frame(8) 之间的历史取值。
+  static const double n6 = 6;
+
+  /// **合同偏差（§3.3「圆角禁止 >8」）**：器材卡缩略图用了 10px 圆角。
+  ///
+  /// 这里刻意**保留原值**：把它改成 [AppRadius.frame] 会改变像素、连带重录
+  /// golden，而这是视觉决策而非机械清理，应当单独做视觉复核后再统一降档。
+  /// 登记见 `docs/qa/v8-r71-deviations.md`。
+  static const double oversizeSoft10 = 10;
+
+  /// **合同偏差（§3.3「圆角禁止 >8」）**：器材卡封面用了 20px 圆角。
+  /// 同 [oversizeSoft10]，为保渲染不变而原样收编。
+  static const double oversizeSoft20 = 20;
 }
 
 /// §3.4 之外的一族「非动效时长」：网络超时、轮询间隔、缓存 TTL。

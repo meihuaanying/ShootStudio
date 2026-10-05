@@ -37,7 +37,9 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                         });
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: AppSpaceFine.n6,
+                        ),
                         child: Row(
                           children: <Widget>[
                             Icon(
@@ -318,8 +320,8 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
       const SizedBox(height: 6),
       for (var i = 0; i < shots.length; i++) ...<Widget>[
         Container(
-          margin: const EdgeInsets.only(bottom: 6),
-          padding: const EdgeInsets.all(8),
+          margin: const EdgeInsets.only(bottom: AppSpaceFine.n6),
+          padding: const EdgeInsets.all(AppSpace.s2),
           decoration: BoxDecoration(
             border: Border.all(
               color: shots[i]['key'] == true

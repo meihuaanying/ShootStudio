@@ -38,7 +38,10 @@ class RefsPaletteStrip extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(color: colorFromHex(list[i])),
                   alignment: Alignment.bottomRight,
-                  padding: const EdgeInsets.only(right: 2, bottom: 2),
+                  padding: const EdgeInsets.only(
+                    right: AppSpaceFine.n2,
+                    bottom: AppSpaceFine.n2,
+                  ),
                   child: Text(
                     list[i].replaceFirst('#', ''),
                     style: appMono(

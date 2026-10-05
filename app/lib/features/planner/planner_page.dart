@@ -38,6 +38,7 @@ import 'planner_pending.dart';
 part 'planner_page_canvas.dart';
 part 'planner_page_layout.dart';
 part 'planner_page_dialogs.dart';
+part 'planner_page_pose_dialogs.dart';
 part 'planner_module_editor.dart';
 part 'planner_module_editors_a.dart';
 part 'planner_module_editors_b.dart';

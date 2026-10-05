@@ -228,7 +228,7 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
                   ('accessory', '附件'),
                 ])
                   Padding(
-                    padding: const EdgeInsets.only(right: 6),
+                    padding: const EdgeInsets.only(right: AppSpaceFine.n6),
                     child: SsChip(
                       label:
                           '$label（${items.where((GearEntry g) => g.kind == kind).length}）',

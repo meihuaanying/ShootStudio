@@ -12,6 +12,7 @@ import '../planner/planner_diff.dart';
 import '../planner/planner_models.dart';
 import '../refs/refs_controller.dart';
 import 'ai_client.dart';
+import 'ai_prompts.dart';
 import 'key_vault.dart';
 import 'local_engine.dart';
 import 'plan_scorer.dart';

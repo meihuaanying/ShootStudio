@@ -74,7 +74,7 @@ class _GpuCardState extends ConsumerState<_GpuCard> {
             else
               for (final GpuAdapter a in _adapters)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
+                  padding: const EdgeInsets.only(bottom: AppSpaceFine.n3),
                   child: Row(
                     children: <Widget>[
                       Icon(

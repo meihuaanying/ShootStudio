@@ -84,7 +84,10 @@ class PoseGalleryCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpace.s2,
+                vertical: AppSpaceFine.n6,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -310,7 +313,7 @@ class _SheetLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppPalette p = context.palette;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.only(bottom: AppSpace.s1),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

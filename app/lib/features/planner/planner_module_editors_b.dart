@@ -14,7 +14,10 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
 
     return <Widget>[
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpaceFine.n10,
+          vertical: AppSpace.s2,
+        ),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(AppRadius.chip),
@@ -76,7 +79,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
       const SizedBox(height: 8),
       for (var i = 0; i < rows.length; i++)
         Padding(
-          padding: const EdgeInsets.only(bottom: 6),
+          padding: const EdgeInsets.only(bottom: AppSpaceFine.n6),
           child: Row(
             children: <Widget>[
               Expanded(
@@ -167,7 +170,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
     return <Widget>[
       for (var i = 0; i < rows.length; i++)
         Padding(
-          padding: const EdgeInsets.only(bottom: 6),
+          padding: const EdgeInsets.only(bottom: AppSpaceFine.n6),
           child: Row(
             children: <Widget>[
               for (var f = 0; f < fields.length; f++) ...<Widget>[
