@@ -185,7 +185,9 @@ class ResourceEditorDialogState extends ConsumerState<ResourceEditorDialog> {
               ),
               if (_tags.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: AppSpaceFine.n6),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: AppSpaceFine.n6,
+                  ),
                   child: Wrap(
                     spacing: 6,
                     children: <Widget>[

@@ -1,4 +1,3 @@
-import 'dart:io';
 import '../../core/db/database.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
@@ -9,7 +8,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../app.dart';
 import '../../core/design/widgets.dart';
@@ -19,6 +17,7 @@ import '../../services/gear_photo_sync.dart';
 import '../../services/engine/engine_reload.dart';
 import '../../services/gpu/gpu_info.dart';
 import '../../services/search/search_cache.dart';
+import '../updater/updater_download_sheets.dart';
 import '../ai/ai_controller.dart';
 import '../onboarding/demo_content.dart';
 import '../updater/updater.dart';
@@ -233,22 +232,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         label: '立即更新（国内镜像）',
                         dense: true,
                         onPressed: () {
-                          final entry = updater.announcement!.downloadFor(
-                            Platform.isWindows ? 'windows' : 'android',
-                          );
-                          final url = entry == null
-                              ? ''
-                              : (entry.mirror.isNotEmpty
-                                    ? entry.mirror
-                                    : entry.github);
-                          if (url.isEmpty) {
-                            ssToast(context, '请前往官网下载最新版本');
-                          } else {
-                            launchUrl(
-                              Uri.parse(url),
-                              mode: LaunchMode.externalApplication,
-                            );
-                          }
+                          confirmDownload(context, updater.announcement!);
                         },
                       ),
                       const SizedBox(width: 8),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/design/widgets.dart';
+import '../updater/updater_download_sheets.dart';
 import '../updater/updater.dart';
 
 /// 更新横幅（S4 信息架构 · 杂志风）：眉题 + 版本号 + 要点 chip + 双行动。
@@ -76,18 +76,6 @@ class ShellUpdateBanner extends ConsumerWidget {
     );
   }
 
-  void _download(BuildContext context, Announcement announcement) {
-    final String platform = Theme.of(context).platform == TargetPlatform.windows
-        ? 'windows'
-        : 'android';
-    final DownloadEntry? entry = announcement.downloadFor(platform);
-    final String url = entry == null
-        ? ''
-        : (entry.mirror.isNotEmpty ? entry.mirror : entry.github);
-    if (url.isEmpty) {
-      ssToast(context, '请前往官网下载 v${announcement.version}');
-      return;
-    }
-    launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-  }
+  void _download(BuildContext context, Announcement announcement) =>
+      confirmDownload(context, announcement);
 }

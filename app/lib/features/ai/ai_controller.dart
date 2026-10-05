@@ -202,6 +202,15 @@ class AiController extends Notifier<AiState> {
   /// 测试注入（F13）：Mock 端到端管线。
   void useClient(AiClient client) => _client = client;
 
+  /// 系统钥匙串是否可用（D9）。
+  ///
+  /// 不可用时 [KeyVault] 会退化成进程内临时主密钥：本次会话能解密，
+  /// 但**重启后之前存的 Key 全部解不开**，必须重填。设置页据此显示警示。
+  ///
+  /// 注意这个标志只有在真的走过一次 [KeyVault._masterKey] 之后才有意义，
+  /// 所以 UI 必须在「保存 / 读取」动作**之后**再取，不能在 build 里提前读。
+  bool get keyStorageAvailable => _vault.storageAvailable;
+
   /// D155：取消本次生成（AI 面板「生成中」态的取消按钮）。
   ///
   /// 协作式取消：不打断已在飞行的 HTTP 请求，而是在下一个检查点收敛，

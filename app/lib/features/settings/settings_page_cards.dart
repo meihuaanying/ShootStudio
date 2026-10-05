@@ -202,7 +202,15 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
                       );
                   key.clear();
                   if (mounted) {
-                    ssToast(this.context, '已保存并启用 ${view.preset.name}');
+                    // 保存动作已触发一次 encrypt，此时才问得出钥匙串是否可用。
+                    final bool ok = ref
+                        .read(aiControllerProvider.notifier)
+                        .keyStorageAvailable;
+                    if (!ok) {
+                      ssToast(this.context, '系统钥匙串不可用：Key 仅本次会话有效，重启后需重填');
+                    } else {
+                      ssToast(this.context, '已保存并启用 ${view.preset.name}');
+                    }
                   }
                 },
               ),
