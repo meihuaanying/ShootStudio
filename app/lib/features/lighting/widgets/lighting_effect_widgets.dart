@@ -107,7 +107,10 @@ class FaceLightPainter extends CustomPainter {
       text: TextSpan(
         text:
             '主光 ${_dirLabel(g.azimuth)} · ${g.distanceLabel} · ${key.intensity}% · ${key.kelvin}K',
-        style: const TextStyle(fontSize: 10, color: Color(0xFFB9B2A8)),
+        style: const TextStyle(
+          fontSize: AppFontSize.tiny,
+          color: Color(0xFFB9B2A8),
+        ),
       ),
       textDirection: TextDirection.ltr,
     )..layout(maxWidth: size.width - 12);
@@ -125,7 +128,10 @@ class FaceLightPainter extends CustomPainter {
     final tp = TextPainter(
       text: TextSpan(
         text: text,
-        style: const TextStyle(fontSize: 12, color: Color(0xFF8A919E)),
+        style: const TextStyle(
+          fontSize: AppFontSize.smallSm,
+          color: Color(0xFF8A919E),
+        ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
@@ -163,13 +169,16 @@ class LightingMeterCard extends StatelessWidget {
               const SizedBox(width: 6),
               const Text(
                 '虚拟测光表',
-                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                  fontSize: AppFontSize.small,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const Spacer(),
               Text(
                 'EV100 ${r.ev100.toStringAsFixed(1)}',
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: AppFontSize.smallSm,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -199,7 +208,7 @@ class LightingMeterCard extends StatelessWidget {
           Text(
             r.advice,
             style: TextStyle(
-              fontSize: 11,
+              fontSize: AppFontSize.caption,
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
@@ -211,7 +220,9 @@ class LightingMeterCard extends StatelessWidget {
   Widget _cell(BuildContext context, String label, String value) => Expanded(
     child: RichText(
       text: TextSpan(
-        style: DefaultTextStyle.of(context).style.copyWith(fontSize: 11.5),
+        style: DefaultTextStyle.of(
+          context,
+        ).style.copyWith(fontSize: AppFontSize.captionLg),
         children: <TextSpan>[
           TextSpan(
             text: '$label ',

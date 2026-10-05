@@ -54,7 +54,7 @@ class _GpuCardState extends ConsumerState<_GpuCard> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final TextStyle small = TextStyle(
-      fontSize: 11,
+      fontSize: AppFontSize.caption,
       color: theme.colorScheme.onSurfaceVariant,
     );
     return SsCard(
@@ -88,7 +88,9 @@ class _GpuCardState extends ConsumerState<_GpuCard> {
                           '${a.name}（${a.vendorLabel} · ${a.kindLabel} · ${a.memoryLabel}）',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 11.5),
+                          style: const TextStyle(
+                            fontSize: AppFontSize.captionLg,
+                          ),
                         ),
                       ),
                     ],

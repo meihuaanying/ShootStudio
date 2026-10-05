@@ -55,7 +55,10 @@ extension _PoseImportPageLayout on _PoseImportPageState {
       context: context,
       builder: (BuildContext ctx) => StatefulBuilder(
         builder: (BuildContext ctx, StateSetter setStateDialog) => AlertDialog(
-          title: Text(title, style: const TextStyle(fontSize: 16)),
+          title: Text(
+            title,
+            style: const TextStyle(fontSize: AppFontSize.bodyXl),
+          ),
           content: SizedBox(
             width: 360,
             child: Column(
@@ -142,7 +145,10 @@ extension _PoseImportPageLayout on _PoseImportPageState {
                 ),
                 child: Text(
                   warning,
-                  style: const TextStyle(fontSize: 11, height: 1.5),
+                  style: const TextStyle(
+                    fontSize: AppFontSize.caption,
+                    height: 1.5,
+                  ),
                 ),
               ),
           ],
@@ -150,7 +156,7 @@ extension _PoseImportPageLayout on _PoseImportPageState {
             Text(
               _grounded!.note,
               style: TextStyle(
-                fontSize: 11,
+                fontSize: AppFontSize.caption,
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
@@ -190,7 +196,7 @@ extension _PoseImportPageLayout on _PoseImportPageState {
             '照片仅保存在工作区 images/poses/，随工作区备份/迁移；'
             '识别数据不联网、不上传。',
             style: TextStyle(
-              fontSize: 10.5,
+              fontSize: AppFontSize.tinyLg,
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
@@ -215,7 +221,10 @@ extension _PoseImportPageLayout on _PoseImportPageState {
         children: <Widget>[
           SizedBox(
             width: 92,
-            child: Text(joint, style: const TextStyle(fontSize: 11.5)),
+            child: Text(
+              joint,
+              style: const TextStyle(fontSize: AppFontSize.captionLg),
+            ),
           ),
           Expanded(
             child: Text(
@@ -234,7 +243,7 @@ extension _PoseImportPageLayout on _PoseImportPageState {
           Text(
             '${(confidence * 100).toStringAsFixed(0)}%',
             style: TextStyle(
-              fontSize: 10,
+              fontSize: AppFontSize.tiny,
               color: low
                   ? p.gold
                   : Theme.of(context).colorScheme.onSurfaceVariant,
@@ -395,7 +404,7 @@ class _PersonBoxPainter extends CustomPainter {
             text: '${i + 1}',
             style: TextStyle(
               color: active ? palette.accent : Colors.white,
-              fontSize: 12,
+              fontSize: AppFontSize.smallSm,
               fontWeight: FontWeight.w700,
             ),
           ),

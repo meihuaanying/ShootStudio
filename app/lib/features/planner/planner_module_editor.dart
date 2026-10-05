@@ -143,7 +143,7 @@ class _ModuleEditor extends ConsumerWidget {
               Text(
                 '日出 ${SolarCalculator.fmt(solar.sunrise)} · 日落 ${SolarCalculator.fmt(solar.sunset)}',
                 style: const TextStyle(
-                  fontSize: 12.5,
+                  fontSize: AppFontSize.small,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -156,13 +156,19 @@ class _ModuleEditor extends ConsumerWidget {
                 if (w != null)
                   Text(
                     '${w.label} ${SolarCalculator.fmt(w.startMin)} – ${SolarCalculator.fmt(w.endMin)}',
-                    style: TextStyle(fontSize: 11.5, color: p.film),
+                    style: TextStyle(
+                      fontSize: AppFontSize.captionLg,
+                      color: p.film,
+                    ),
                   ),
             ],
           ),
         )
       else
-        const Text('输入日期后自动计算黄金时刻 / 蓝调时刻', style: TextStyle(fontSize: 11.5)),
+        const Text(
+          '输入日期后自动计算黄金时刻 / 蓝调时刻',
+          style: TextStyle(fontSize: AppFontSize.captionLg),
+        ),
     ];
   }
 
@@ -197,7 +203,10 @@ class _ModuleEditor extends ConsumerWidget {
     return <Widget>[
       Row(
         children: <Widget>[
-          Text('已插入 ${refs.length} 张', style: const TextStyle(fontSize: 12.5)),
+          Text(
+            '已插入 ${refs.length} 张',
+            style: const TextStyle(fontSize: AppFontSize.small),
+          ),
           const Spacer(),
           SsButton(
             label: '上传图片',
@@ -251,18 +260,21 @@ class _ModuleEditor extends ConsumerWidget {
                   children: <Widget>[
                     Text(
                       refs[i]['name'] as String? ?? '',
-                      style: const TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: AppFontSize.smallSm),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     if (((refs[i]['imageRef'] as String?) ?? '').isNotEmpty)
-                      const Text('真实图片 · 导出随附', style: TextStyle(fontSize: 10))
+                      const Text(
+                        '真实图片 · 导出随附',
+                        style: TextStyle(fontSize: AppFontSize.tiny),
+                      )
                     else if (((refs[i]['sourceUrl'] as String?) ?? '')
                         .isNotEmpty)
                       Text(
                         '出处保留 · 导出时附带',
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: AppFontSize.tiny,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
@@ -286,7 +298,7 @@ class _ModuleEditor extends ConsumerWidget {
       if (refs.isEmpty && pending.isEmpty)
         const Text(
           '可本地上传图片，或去「画面参考库」选静帧 →「插入策划案样片」',
-          style: TextStyle(fontSize: 11.5),
+          style: TextStyle(fontSize: AppFontSize.captionLg),
         ),
     ];
   }
@@ -460,7 +472,7 @@ class _ModuleEditor extends ConsumerWidget {
       Text(
         '长按色块或点右上角 × 删除；导出长图取前 5 色',
         style: TextStyle(
-          fontSize: 11,
+          fontSize: AppFontSize.caption,
           color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
       ),

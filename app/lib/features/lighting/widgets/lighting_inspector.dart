@@ -273,7 +273,7 @@ class LightingInspector extends StatelessWidget {
           const SizedBox(height: AppSpace.s2),
           const Text(
             '自定义贴图（上传图将作为贴图占位出现在 3D 场景，D23）',
-            style: TextStyle(fontSize: 11.5),
+            style: TextStyle(fontSize: AppFontSize.captionLg),
           ),
           const SizedBox(height: 4),
           Row(
@@ -345,7 +345,7 @@ class _InspectorDropdown<T> extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: AppFontSize.smallSm,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
@@ -361,7 +361,7 @@ class _InspectorDropdown<T> extends StatelessWidget {
                     value: e.key,
                     child: Text(
                       e.value,
-                      style: const TextStyle(fontSize: 12.5),
+                      style: const TextStyle(fontSize: AppFontSize.small),
                     ),
                   ),
               ],
@@ -404,7 +404,7 @@ class _InspectorSlider extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: AppFontSize.smallSm,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),

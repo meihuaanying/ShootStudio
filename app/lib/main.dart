@@ -6,6 +6,7 @@ import 'package:window_manager/window_manager.dart';
 import 'app.dart';
 import 'dev/perf_probe.dart';
 import 'services/app_logger.dart';
+import './core/design/widgets.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,21 +79,24 @@ class AppErrorWidget extends StatelessWidget {
               '页面渲染出错',
               style: TextStyle(
                 color: Color(0xFFE8EAF0),
-                fontSize: 18,
+                fontSize: AppFontSize.h3Lg,
                 fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: 8),
             const Text(
               '该问题已记录到本地日志，可复制错误码反馈。',
-              style: TextStyle(color: Color(0xFF8A919E), fontSize: 13),
+              style: TextStyle(
+                color: Color(0xFF8A919E),
+                fontSize: AppFontSize.smallLg,
+              ),
             ),
             const SizedBox(height: 12),
             SelectableText(
               '错误码：$code',
               style: const TextStyle(
                 color: Color(0xFF4D6BFE),
-                fontSize: 13,
+                fontSize: AppFontSize.smallLg,
                 fontFamily: 'monospace',
               ),
             ),
@@ -100,7 +104,10 @@ class AppErrorWidget extends StatelessWidget {
               const SizedBox(height: 4),
               SelectableText(
                 '日志目录：$logDir',
-                style: const TextStyle(color: Color(0xFF8A919E), fontSize: 11),
+                style: const TextStyle(
+                  color: Color(0xFF8A919E),
+                  fontSize: AppFontSize.caption,
+                ),
               ),
             ],
             const SizedBox(height: 16),
@@ -117,7 +124,7 @@ class AppErrorWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Color(0xFFB9BEC8),
-                  fontSize: 11,
+                  fontSize: AppFontSize.caption,
                   fontFamily: 'monospace',
                 ),
               ),

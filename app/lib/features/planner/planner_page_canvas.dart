@@ -31,7 +31,7 @@ extension _PlannerPageCanvas on _PlannerPageState {
                   isDense: true,
                 ),
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: AppFontSize.body,
                   fontWeight: FontWeight.w700,
                 ),
                 onChanged: controller.setTitle,
@@ -94,7 +94,7 @@ extension _PlannerPageCanvas on _PlannerPageState {
                                   ? module.type.label
                                   : module.title,
                               style: const TextStyle(
-                                fontSize: 13,
+                                fontSize: AppFontSize.smallLg,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -105,7 +105,7 @@ extension _PlannerPageCanvas on _PlannerPageState {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 11,
+                                fontSize: AppFontSize.caption,
                                 color: Theme.of(
                                   context,
                                 ).colorScheme.onSurfaceVariant,

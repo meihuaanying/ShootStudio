@@ -55,7 +55,7 @@ class LightingCollapsibleCardState extends State<LightingCollapsibleCard> {
                         Text(
                           widget.title,
                           style: const TextStyle(
-                            fontSize: 12.5,
+                            fontSize: AppFontSize.small,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -63,7 +63,7 @@ class LightingCollapsibleCardState extends State<LightingCollapsibleCard> {
                           Text(
                             widget.subtitle!,
                             style: TextStyle(
-                              fontSize: 10.5,
+                              fontSize: AppFontSize.tinyLg,
                               color: theme.colorScheme.onSurfaceVariant,
                             ),
                           ),
@@ -180,7 +180,7 @@ class JointTunePanelState extends State<JointTunePanel> {
       child: pose == null
           ? const Text(
               '从「动作摆姿库」导入照片姿势后，可在此微调 12 个关节角度。',
-              style: TextStyle(fontSize: 11.5),
+              style: TextStyle(fontSize: AppFontSize.captionLg),
             )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,7 +258,10 @@ class JointTunePanelState extends State<JointTunePanel> {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Text(label, style: const TextStyle(fontSize: 11.5)),
+            Text(
+              label,
+              style: const TextStyle(fontSize: AppFontSize.captionLg),
+            ),
             const Spacer(),
             Text(
               value.toStringAsFixed(0),
@@ -334,7 +337,7 @@ class HandPosePanelState extends State<HandPosePanel> {
       child: widget.legacy
           ? const Text(
               '轻量假人不含手指骨骼：在视图工具条切换到 GLB 人物后可用手部动作。',
-              style: TextStyle(fontSize: 11.5),
+              style: TextStyle(fontSize: AppFontSize.captionLg),
             )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -386,7 +389,7 @@ class HandPosePanelState extends State<HandPosePanel> {
                     Text(
                       '双手组合',
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: AppFontSize.caption,
                         fontWeight: FontWeight.w600,
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -414,7 +417,7 @@ class HandPosePanelState extends State<HandPosePanel> {
                 Text(
                   '每指微调（${_side == 'r' ? '右手' : '左手'}）',
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: AppFontSize.caption,
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
@@ -454,7 +457,10 @@ class HandPosePanelState extends State<HandPosePanel> {
       children: <Widget>[
         SizedBox(
           width: 52,
-          child: Text(label, style: const TextStyle(fontSize: 11.5)),
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: AppFontSize.captionLg),
+          ),
         ),
         Expanded(
           child: SliderTheme(

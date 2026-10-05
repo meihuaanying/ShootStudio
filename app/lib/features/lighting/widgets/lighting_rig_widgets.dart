@@ -46,7 +46,10 @@ class CameraRigPanel extends StatelessWidget {
             children: <Widget>[
               const Text(
                 '相机模型',
-                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: AppFontSize.captionLg,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Spacer(),
               SsChip(
@@ -123,7 +126,10 @@ class CameraRigPanel extends StatelessWidget {
               children: <Widget>[
                 const Text(
                   '构图辅助',
-                  style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: AppFontSize.captionLg,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const Spacer(),
                 SsChip(
@@ -170,7 +176,7 @@ class CameraRigPanel extends StatelessWidget {
               '画幅高 ${frameHeightAt(cam.focal.toDouble(), assistDistance).toStringAsFixed(2)}m'
               '${assistDofAvailable ? '' : ' · 景深不可用（低配档）'}',
               style: TextStyle(
-                fontSize: 10.5,
+                fontSize: AppFontSize.tinyLg,
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
@@ -178,7 +184,7 @@ class CameraRigPanel extends StatelessWidget {
           Text(
             '机位可在俯视图上拖动；焦段决定视野扇形与 POV 构图。',
             style: TextStyle(
-              fontSize: 10.5,
+              fontSize: AppFontSize.tinyLg,
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
@@ -202,7 +208,10 @@ class CameraRigPanel extends StatelessWidget {
       children: <Widget>[
         SizedBox(
           width: 34,
-          child: Text(label, style: const TextStyle(fontSize: 11.5)),
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: AppFontSize.captionLg),
+          ),
         ),
         Expanded(
           child: SliderTheme(
@@ -255,7 +264,10 @@ class QualityPanel extends StatelessWidget {
             children: <Widget>[
               const Text(
                 '环境光',
-                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: AppFontSize.captionLg,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Spacer(),
               SsChip(
@@ -272,7 +284,10 @@ class QualityPanel extends StatelessWidget {
             children: <Widget>[
               const Text(
                 '接触阴影',
-                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: AppFontSize.captionLg,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Spacer(),
               SsChip(
@@ -288,7 +303,7 @@ class QualityPanel extends StatelessWidget {
               child: Text(
                 !state.contactShadow ? '接触阴影已关闭。' : '接触阴影仅写实材质预设生效。',
                 style: TextStyle(
-                  fontSize: 10.5,
+                  fontSize: AppFontSize.tinyLg,
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
@@ -297,7 +312,10 @@ class QualityPanel extends StatelessWidget {
           // V6/D104：性能档（自动探测 / 画质优先 / 性能优先）。
           const Text(
             '性能档',
-            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: AppFontSize.captionLg,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 4),
           Wrap(
@@ -323,7 +341,7 @@ class QualityPanel extends StatelessWidget {
                   ? '性能优先：关闭接触阴影、降低阴影与渲染分辨率、细分上限 1 级。'
                   : '自动会根据 GPU/内存自动选择；手动可随时切换。',
               style: TextStyle(
-                fontSize: 10.5,
+                fontSize: AppFontSize.tinyLg,
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
@@ -334,7 +352,10 @@ class QualityPanel extends StatelessWidget {
             children: <Widget>[
               const Text(
                 '光锥可视化',
-                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: AppFontSize.captionLg,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Spacer(),
               SsChip(
@@ -350,7 +371,10 @@ class QualityPanel extends StatelessWidget {
             children: <Widget>[
               const Text(
                 '软阴影（VSM）',
-                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: AppFontSize.captionLg,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Spacer(),
               SsChip(
@@ -365,7 +389,7 @@ class QualityPanel extends StatelessWidget {
             child: Text(
               '软阴影随附件/灯距变化；性能优先档自动回退 PCF 硬边。',
               style: TextStyle(
-                fontSize: 10.5,
+                fontSize: AppFontSize.tinyLg,
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
@@ -373,7 +397,10 @@ class QualityPanel extends StatelessWidget {
           const SizedBox(height: 10),
           const Text(
             '细分等级',
-            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: AppFontSize.captionLg,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 4),
           Wrap(
@@ -395,7 +422,10 @@ class QualityPanel extends StatelessWidget {
           const SizedBox(height: 10),
           const Text(
             '材质预设',
-            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: AppFontSize.captionLg,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 4),
           Wrap(
@@ -419,7 +449,10 @@ class QualityPanel extends StatelessWidget {
             children: <Widget>[
               const Text(
                 '环境反射',
-                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: AppFontSize.captionLg,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Spacer(),
               Text(
@@ -449,7 +482,7 @@ class QualityPanel extends StatelessWidget {
                 ? '标准/高为运行时 Loop 细分（R18：40k–60k 面）；轻量为原模型（R26）。'
                 : '环境光已关闭：环境反射滑杆暂不生效（强度已记忆）。',
             style: TextStyle(
-              fontSize: 10.5,
+              fontSize: AppFontSize.tinyLg,
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),

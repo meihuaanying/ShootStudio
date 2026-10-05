@@ -62,7 +62,10 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                   const SizedBox(width: 8),
                   const Text(
                     'AI 策划助手',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                    style: TextStyle(
+                      fontSize: AppFontSize.bodyLg,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                   const SizedBox(width: 16),
                   for (final (int index, String label) in <(int, String)>[
@@ -82,7 +85,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                   Text(
                     '本月免费额度使用 $kOfficialMonthlyQuota 次上限 · 已用 ${state.monthlyFreeUsed}',
                     style: TextStyle(
-                      fontSize: 10.5,
+                      fontSize: AppFontSize.tinyLg,
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
@@ -179,7 +182,10 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                     ),
                     child: Text(
                       cmd.length > 14 ? '${cmd.substring(0, 14)}…' : cmd,
-                      style: TextStyle(fontSize: 11, color: p.accent),
+                      style: TextStyle(
+                        fontSize: AppFontSize.caption,
+                        color: p.accent,
+                      ),
                     ),
                   ),
                 ),
@@ -228,7 +234,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
           Text(
             state.status,
             style: TextStyle(
-              fontSize: 11.5,
+              fontSize: AppFontSize.captionLg,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
@@ -322,13 +328,16 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                         Expanded(
                           child: Text(
                             view.preset.name,
-                            style: const TextStyle(fontSize: 12.5),
+                            style: const TextStyle(fontSize: AppFontSize.small),
                           ),
                         ),
                         if (view.enabled)
                           Text(
                             '已启用',
-                            style: TextStyle(fontSize: 9.5, color: p.accent),
+                            style: TextStyle(
+                              fontSize: AppFontSize.microLg,
+                              color: p.accent,
+                            ),
                           ),
                       ],
                     ),
@@ -428,7 +437,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
                               child: Text(
                                 log.error ?? '',
                                 style: TextStyle(
-                                  fontSize: 10.5,
+                                  fontSize: AppFontSize.tinyLg,
                                   color: p.danger,
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -457,7 +466,7 @@ class _AiPanelState extends ConsumerState<AiPanel> {
             Text(
               label,
               style: TextStyle(
-                fontSize: 11,
+                fontSize: AppFontSize.caption,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
@@ -541,7 +550,7 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
             child: Text(
               provider.note,
               style: TextStyle(
-                fontSize: 11.5,
+                fontSize: AppFontSize.captionLg,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
@@ -676,7 +685,10 @@ class _ProviderConfigCardState extends ConsumerState<_ProviderConfigCard> {
                   Uri.parse(provider.consoleUrl),
                   mode: LaunchMode.externalApplication,
                 ),
-                child: const Text('获取 Key ↗', style: TextStyle(fontSize: 12)),
+                child: const Text(
+                  '获取 Key ↗',
+                  style: TextStyle(fontSize: AppFontSize.smallSm),
+                ),
               ),
           ],
         ),

@@ -180,7 +180,7 @@ class _EngineViewState extends State<EngineView> {
         alignment: Alignment.center,
         child: const Text(
           '3D 引擎（测试环境占位）',
-          style: TextStyle(fontSize: 12, color: Colors.grey),
+          style: TextStyle(fontSize: AppFontSize.smallSm, color: Colors.grey),
         ),
       );
     }

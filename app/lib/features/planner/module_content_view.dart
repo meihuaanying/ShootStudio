@@ -111,7 +111,10 @@ class ModuleContentView extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 hex,
-                style: const TextStyle(fontSize: 10, fontFamily: 'Consolas'),
+                style: const TextStyle(
+                  fontSize: AppFontSize.tiny,
+                  fontFamily: 'Consolas',
+                ),
               ),
             ],
           ),

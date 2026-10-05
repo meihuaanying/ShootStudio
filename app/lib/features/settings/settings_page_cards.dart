@@ -76,7 +76,7 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
           Text(
             'Key 仅保存在本机工作区（AES-256-GCM 加密）；未配置时自动使用本地引擎。',
             style: TextStyle(
-              fontSize: 11,
+              fontSize: AppFontSize.caption,
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
@@ -117,7 +117,7 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
                     '${view.preset.name}'
                     '${view.hasKey ? ' · ${view.maskedKey}' : ''}',
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: AppFontSize.smallLg,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -126,7 +126,7 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
                         ? '模型：${view.model.isEmpty ? '未选择（生成时自动探测）' : view.model}'
                         : '模型：${view.model} · 已发现 ${view.models.length} 个',
                     style: TextStyle(
-                      fontSize: 11,
+                      fontSize: AppFontSize.caption,
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),

@@ -93,7 +93,7 @@ class PoseGalleryCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 12.5,
+                      fontSize: AppFontSize.small,
                       color: selected ? p.accent : p.ink,
                       fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
                     ),
@@ -319,7 +319,7 @@ class _SheetLine extends StatelessWidget {
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 12.5, color: p.inkSoft),
+              style: TextStyle(fontSize: AppFontSize.small, color: p.inkSoft),
             ),
           ),
         ],

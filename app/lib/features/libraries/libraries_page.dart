@@ -321,7 +321,7 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                               child: Text(
                                 kind.label,
                                 style: TextStyle(
-                                  fontSize: 12.5,
+                                  fontSize: AppFontSize.small,
                                   fontWeight: state.type == kind.type
                                       ? FontWeight.w700
                                       : FontWeight.w400,
@@ -336,7 +336,7 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                         Text(
                           state.status,
                           style: TextStyle(
-                            fontSize: 10.5,
+                            fontSize: AppFontSize.tinyLg,
                             color: Theme.of(
                               context,
                             ).colorScheme.onSurfaceVariant,
@@ -391,7 +391,7 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
-                                            fontSize: 13,
+                                            fontSize: AppFontSize.smallLg,
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
@@ -400,7 +400,7 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
-                                            fontSize: 11,
+                                            fontSize: AppFontSize.caption,
                                             color: Theme.of(
                                               context,
                                             ).colorScheme.onSurfaceVariant,
@@ -633,7 +633,9 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
                         Chip(
                           label: Text(
                             tag,
-                            style: const TextStyle(fontSize: 11),
+                            style: const TextStyle(
+                              fontSize: AppFontSize.caption,
+                            ),
                           ),
                           onDeleted: () => setState(() => _tags.remove(tag)),
                           visualDensity: VisualDensity.compact,
@@ -661,7 +663,10 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
                   ),
                   const SizedBox(width: 8),
                   if (_cover != null)
-                    Text('封面：$_cover', style: const TextStyle(fontSize: 11)),
+                    Text(
+                      '封面：$_cover',
+                      style: const TextStyle(fontSize: AppFontSize.caption),
+                    ),
                 ],
               ),
               if (_images.isNotEmpty)
@@ -674,7 +679,7 @@ class _ResourceEditorDialogState extends ConsumerState<_ResourceEditorDialog> {
                         Chip(
                           label: Text(
                             img.length > 18 ? '${img.substring(0, 18)}…' : img,
-                            style: const TextStyle(fontSize: 10),
+                            style: const TextStyle(fontSize: AppFontSize.tiny),
                           ),
                           onDeleted: () => setState(() => _images.remove(img)),
                           visualDensity: VisualDensity.compact,

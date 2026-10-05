@@ -28,6 +28,43 @@ abstract final class AppFonts {
   ];
 }
 
+/// 字号数值的**编译期常量**镜像（R71）。
+///
+/// 为什么需要它：Dart 的枚举成员属性（`AppFontSize.caption`）不是编译期常量，
+/// 因此无法写进 `const TextStyle(fontSize: …)`。而仓库里有大量
+/// `const TextStyle(fontSize: 11)` 这样的字面量正是要消灭的对象 —— 若唯一的
+/// 取值方式不可用于 const 上下文，就只能保留字面量，R71 永远收不了口。
+///
+/// 所以数值真相放在这里（`static const double`），[AppType] 的每一档都引用
+/// 同一个常量，两者不可能漂移；测试用 [AppType.bySize] 交叉验证二者一致。
+abstract final class AppFontSize {
+  // —— 合同锁定的七档（数值不可动，D147）——
+  static const double display = 40;
+  static const double h1 = 28;
+  static const double h2 = 22;
+  static const double h3 = 17;
+  static const double body = 14;
+  static const double small = 12.5;
+  static const double caption = 11;
+
+  // —— 档间细阶（R71 收口补齐，等值对应既有字面量）——
+  static const double h1Lg = 26;
+  static const double h2Lg = 24;
+  static const double subhead = 20;
+  static const double h3Lg = 18;
+  static const double bodyXl = 16;
+  static const double bodyLg = 15;
+  static const double smallXl = 13.5;
+  static const double smallLg = 13;
+  static const double smallSm = 12;
+  static const double captionLg = 11.5;
+  static const double tinyLg = 10.5;
+  static const double tiny = 10;
+  static const double microLg = 9.5;
+  static const double micro = 9;
+  static const double micro2 = 8.5;
+}
+
 /// §3.2 字号阶梯（pt，行高/字号）。
 ///
 /// 合同 §3.2 锁定的七档是 [display] / [h1] / [h2] / [h3] / [body] / [small] /
@@ -41,30 +78,30 @@ abstract final class AppFonts {
 /// 等值改写：渲染结果不变，也不需要改任何既有断言。
 enum AppType {
   // —— 合同锁定的七档（数值不可动，D147）——
-  display(40, 1.2, AppFonts.display),
-  h1(28, 1.3, AppFonts.display),
-  h2(22, 1.35, AppFonts.display),
-  h3(17, 1.4, AppFonts.display),
-  body(14, 1.6, AppFonts.body),
-  small(12.5, 1.5, AppFonts.body),
-  caption(11, 1.4, AppFonts.body),
+  display(AppFontSize.display, 1.2, AppFonts.display),
+  h1(AppFontSize.h1, 1.3, AppFonts.display),
+  h2(AppFontSize.h2, 1.35, AppFonts.display),
+  h3(AppFontSize.h3, 1.4, AppFonts.display),
+  body(AppFontSize.body, 1.6, AppFonts.body),
+  small(AppFontSize.small, 1.5, AppFonts.body),
+  caption(AppFontSize.caption, 1.4, AppFonts.body),
 
   // —— 档间细阶（R71 收口补齐，等值对应既有字面量）——
-  h1Lg(26, 1.3, AppFonts.display),
-  h2Lg(24, 1.35, AppFonts.display),
-  subhead(20, 1.4, AppFonts.body),
-  h3Lg(18, 1.4, AppFonts.display),
-  bodyXl(16, 1.5, AppFonts.body),
-  bodyLg(15, 1.55, AppFonts.body),
-  smallXl(13.5, 1.5, AppFonts.body),
-  smallLg(13, 1.5, AppFonts.body),
-  smallSm(12, 1.5, AppFonts.body),
-  captionLg(11.5, 1.4, AppFonts.body),
-  tinyLg(10.5, 1.4, AppFonts.body),
-  tiny(10, 1.4, AppFonts.body),
-  microLg(9.5, 1.4, AppFonts.body),
-  micro(9, 1.4, AppFonts.body),
-  micro2(8.5, 1.4, AppFonts.body);
+  h1Lg(AppFontSize.h1Lg, 1.3, AppFonts.display),
+  h2Lg(AppFontSize.h2Lg, 1.35, AppFonts.display),
+  subhead(AppFontSize.subhead, 1.4, AppFonts.body),
+  h3Lg(AppFontSize.h3Lg, 1.4, AppFonts.display),
+  bodyXl(AppFontSize.bodyXl, 1.5, AppFonts.body),
+  bodyLg(AppFontSize.bodyLg, 1.55, AppFonts.body),
+  smallXl(AppFontSize.smallXl, 1.5, AppFonts.body),
+  smallLg(AppFontSize.smallLg, 1.5, AppFonts.body),
+  smallSm(AppFontSize.smallSm, 1.5, AppFonts.body),
+  captionLg(AppFontSize.captionLg, 1.4, AppFonts.body),
+  tinyLg(AppFontSize.tinyLg, 1.4, AppFonts.body),
+  tiny(AppFontSize.tiny, 1.4, AppFonts.body),
+  microLg(AppFontSize.microLg, 1.4, AppFonts.body),
+  micro(AppFontSize.micro, 1.4, AppFonts.body),
+  micro2(AppFontSize.micro2, 1.4, AppFonts.body);
 
   const AppType(this.size, this.lineHeight, this.family);
 
@@ -125,7 +162,7 @@ TextStyle appEyebrow(Color color) => AppType.caption
 /// 数据读数样式（mono，§3.2）。
 TextStyle appMono(
   Color color, {
-  double size = 11,
+  double size = AppFontSize.caption,
   FontWeight weight = FontWeight.w500,
   double letterSpacing = 0.2,
 }) => AppType.caption

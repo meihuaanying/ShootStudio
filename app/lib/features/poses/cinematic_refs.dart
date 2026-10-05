@@ -159,7 +159,7 @@ class _CinematicRefsDialogState extends ConsumerState<_CinematicRefsDialog> {
               Text(
                 _status,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: AppFontSize.smallSm,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
@@ -228,14 +228,14 @@ class _CinematicRefsDialogState extends ConsumerState<_CinematicRefsDialog> {
             hit.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 11.5),
+            style: const TextStyle(fontSize: AppFontSize.captionLg),
           ),
           Text(
             hit.creditLine.isEmpty ? hit.sourceLabel : hit.creditLine,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 10.5,
+              fontSize: AppFontSize.tinyLg,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),

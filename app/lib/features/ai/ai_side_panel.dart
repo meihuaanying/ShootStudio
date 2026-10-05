@@ -133,7 +133,7 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
                     ),
                     child: Text(
                       line.text,
-                      style: const TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: AppFontSize.smallSm),
                     ),
                   ),
                 ),
@@ -184,7 +184,10 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
           Text(
             '修订预览 · 新增 ${diff.added.length} · 删除 ${diff.removed.length} · '
             '修改 ${diff.changed.length}',
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+            style: const TextStyle(
+              fontSize: AppFontSize.smallSm,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(height: 6),
           for (final PlanModuleData m in diff.added)
@@ -241,7 +244,12 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
         children: <Widget>[
           Icon(icon, size: 13, color: color),
           const SizedBox(width: 6),
-          Expanded(child: Text(text, style: const TextStyle(fontSize: 11.5))),
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(fontSize: AppFontSize.captionLg),
+            ),
+          ),
         ],
       ),
     );

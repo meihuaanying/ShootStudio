@@ -12,7 +12,10 @@ Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
     context: context,
     builder: (BuildContext ctx) => StatefulBuilder(
       builder: (BuildContext ctx, StateSetter setLocal) => AlertDialog(
-        title: const Text('添加自定义设备', style: TextStyle(fontSize: 16)),
+        title: const Text(
+          '添加自定义设备',
+          style: TextStyle(fontSize: AppFontSize.bodyXl),
+        ),
         content: SizedBox(
           width: 360,
           child: Column(
@@ -34,7 +37,10 @@ Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
                   ])
                     DropdownMenuItem<String>(
                       value: k,
-                      child: Text(label, style: const TextStyle(fontSize: 13)),
+                      child: Text(
+                        label,
+                        style: const TextStyle(fontSize: AppFontSize.smallLg),
+                      ),
                     ),
                 ],
                 onChanged: (String? v) => setLocal(() => kind = v ?? kind),

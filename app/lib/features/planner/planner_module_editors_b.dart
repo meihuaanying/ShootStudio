@@ -21,11 +21,14 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
         ),
         child: Row(
           children: <Widget>[
-            const Text('自动合计', style: TextStyle(fontSize: 12)),
+            const Text('自动合计', style: TextStyle(fontSize: AppFontSize.smallSm)),
             const Spacer(),
             Text(
               '¥${total.toStringAsFixed(0)}',
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+              style: const TextStyle(
+                fontSize: AppFontSize.bodyLg,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(width: 8),
             SsButton(
@@ -236,7 +239,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
       Text(
         '导出长图 / PDF 将同步渲染格式',
         style: TextStyle(
-          fontSize: 11,
+          fontSize: AppFontSize.caption,
           color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
       ),
@@ -263,7 +266,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
           if (list.isEmpty) {
             return Text(
               '${module.type.label}：资源库还没有条目（去「资源库」新建）',
-              style: const TextStyle(fontSize: 11.5),
+              style: const TextStyle(fontSize: AppFontSize.captionLg),
             );
           }
           return Column(
@@ -275,7 +278,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
                   value: ids.contains(item.id),
                   title: Text(
                     item.name,
-                    style: const TextStyle(fontSize: 12.5),
+                    style: const TextStyle(fontSize: AppFontSize.small),
                   ),
                   onChanged: (bool? v) => controller.updateModule(module.id, (
                     PlanModuleData m,

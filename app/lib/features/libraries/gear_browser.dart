@@ -270,7 +270,10 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
                     for (final String v in <String>['默认', '价格↑', '价格↓', '名称'])
                       DropdownMenuItem<String>(
                         value: v,
-                        child: Text(v, style: const TextStyle(fontSize: 12)),
+                        child: Text(
+                          v,
+                          style: const TextStyle(fontSize: AppFontSize.smallSm),
+                        ),
                       ),
                   ],
                   onChanged: (String? v) => setState(() => _sort = v ?? '默认'),
@@ -303,14 +306,14 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
             Text(
               '参数与参考价为参考值 · 灯具可一键放入布光预演 3D 场景（含真实光型参数）',
               style: TextStyle(
-                fontSize: 11,
+                fontSize: AppFontSize.caption,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
             Text(
               kGearPhotoDisclaimer,
               style: TextStyle(
-                fontSize: 10.5,
+                fontSize: AppFontSize.tinyLg,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
@@ -336,7 +339,10 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext ctx) => AlertDialog(
-        title: const Text('同步器材图', style: TextStyle(fontSize: 15)),
+        title: const Text(
+          '同步器材图',
+          style: TextStyle(fontSize: AppFontSize.bodyLg),
+        ),
         content: ValueListenableBuilder<(int, int)>(
           valueListenable: progress,
           builder: (BuildContext c, (int, int) v, Widget? _) => Column(
@@ -349,7 +355,7 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
               const SizedBox(height: 10),
               Text(
                 '正在下载 ${v.$1}/${v.$2} · 已内置条目自动跳过',
-                style: const TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: AppFontSize.smallSm),
               ),
             ],
           ),
@@ -398,11 +404,11 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
       builder: (BuildContext ctx) => AlertDialog(
         title: Text(
           '补图 · ${entry.displayName}',
-          style: const TextStyle(fontSize: 15),
+          style: const TextStyle(fontSize: AppFontSize.bodyLg),
         ),
         content: const Text(
           '选择本地图片，或粘贴图片链接（自动保存到工作区并登记来源）。',
-          style: TextStyle(fontSize: 12),
+          style: TextStyle(fontSize: AppFontSize.smallSm),
         ),
         actions: <Widget>[
           TextButton(
@@ -438,7 +444,10 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
       final bool? ok = await showDialog<bool>(
         context: context,
         builder: (BuildContext ctx) => AlertDialog(
-          title: const Text('粘贴图片链接', style: TextStyle(fontSize: 15)),
+          title: const Text(
+            '粘贴图片链接',
+            style: TextStyle(fontSize: AppFontSize.bodyLg),
+          ),
           content: SizedBox(
             width: 380,
             child: TextField(

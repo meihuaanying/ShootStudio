@@ -57,7 +57,7 @@ class LightingPresetPanel extends StatelessWidget {
                       child: Text(
                         entry.key,
                         style: TextStyle(
-                          fontSize: 11,
+                          fontSize: AppFontSize.caption,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
@@ -73,7 +73,7 @@ class LightingPresetPanel extends StatelessWidget {
                           onTap: () => onPick(preset),
                           child: Text(
                             preset.name,
-                            style: const TextStyle(fontSize: 12.5),
+                            style: const TextStyle(fontSize: AppFontSize.small),
                           ),
                         ),
                       ),
@@ -165,7 +165,7 @@ class LightingDeviceList extends StatelessWidget {
                 ? const Center(
                     child: Text(
                       '空影棚 · 未布置任何灯光',
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: AppFontSize.smallSm),
                     ),
                   )
                 : ListView(
@@ -233,7 +233,7 @@ class _DeviceRow extends StatelessWidget {
                   device.name,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: AppFontSize.smallSm,
                     color: selected ? p.accent : null,
                     fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
                   ),

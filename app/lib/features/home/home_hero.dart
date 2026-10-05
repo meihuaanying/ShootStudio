@@ -156,7 +156,7 @@ class HomeLiveReasoning extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         if (attempt.isNotEmpty)
-          Text(attempt, style: appMono(p.muted, size: AppType.caption.size)),
+          Text(attempt, style: appMono(p.muted, size: AppFontSize.caption)),
         if (text.trim().isNotEmpty)
           Container(
             margin: const EdgeInsets.only(top: AppSpace.s2),

@@ -104,13 +104,18 @@ extension _PlannerPageLayout on _PlannerPageState {
                             Expanded(
                               child: Text(
                                 type.label,
-                                style: const TextStyle(fontSize: 12.5),
+                                style: const TextStyle(
+                                  fontSize: AppFontSize.small,
+                                ),
                               ),
                             ),
                             if (type.category == '绑定')
                               Text(
                                 '绑',
-                                style: TextStyle(fontSize: 9, color: p.accent),
+                                style: TextStyle(
+                                  fontSize: AppFontSize.micro,
+                                  color: p.accent,
+                                ),
                               ),
                           ],
                         ),
@@ -208,7 +213,7 @@ extension _PlannerPageLayout on _PlannerPageState {
                     Text(
                       t.name,
                       style: const TextStyle(
-                        fontSize: 13,
+                        fontSize: AppFontSize.smallLg,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -218,7 +223,7 @@ extension _PlannerPageLayout on _PlannerPageState {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: AppFontSize.caption,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
@@ -296,11 +301,11 @@ extension _PlannerPageLayout on _PlannerPageState {
                       ),
                       title: Text(
                         snap.label ?? '自动快照',
-                        style: const TextStyle(fontSize: 13),
+                        style: const TextStyle(fontSize: AppFontSize.smallLg),
                       ),
                       subtitle: Text(
                         '${snap.createdAt.toString().substring(0, 19)} · ${snap.moduleCount} 个模块',
-                        style: const TextStyle(fontSize: 11),
+                        style: const TextStyle(fontSize: AppFontSize.caption),
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -365,7 +370,7 @@ extension _PlannerPageLayout on _PlannerPageState {
                     Text(
                       '新增 ${diff.added.length} · 删除 ${diff.removed.length} · '
                       '修改 ${diff.changed.length} · 未变 ${diff.unchanged}',
-                      style: const TextStyle(fontSize: 12.5),
+                      style: const TextStyle(fontSize: AppFontSize.small),
                     ),
                     const SizedBox(height: 8),
                     for (final PlanModuleData m in diff.added)
@@ -406,7 +411,12 @@ extension _PlannerPageLayout on _PlannerPageState {
         children: <Widget>[
           Icon(icon, size: 15, color: color),
           const SizedBox(width: 8),
-          Expanded(child: Text(text, style: const TextStyle(fontSize: 12.5))),
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(fontSize: AppFontSize.small),
+            ),
+          ),
         ],
       ),
     );

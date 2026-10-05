@@ -128,7 +128,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       'SS · V8',
                       style: appMono(
                         p.muted,
-                        size: AppType.caption.size,
+                        size: AppFontSize.caption,
                       ).copyWith(letterSpacing: 1.5),
                     ),
                   ),

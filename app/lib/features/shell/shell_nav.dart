@@ -164,7 +164,7 @@ class ShellSideNav extends StatelessWidget {
                         'SHOOTSTUDIO',
                         style: appMono(
                           p.muted,
-                          size: AppType.caption.size,
+                          size: AppFontSize.caption,
                         ).copyWith(letterSpacing: 1.5),
                       ),
                     ],
@@ -197,7 +197,7 @@ class ShellSideNav extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'v$kAppVersion',
-                    style: appMono(p.muted, size: AppType.caption.size),
+                    style: appMono(p.muted, size: AppFontSize.caption),
                   ),
                 ),
                 Text('MIT 开源', style: AppType.caption.style(p.muted)),
@@ -234,7 +234,7 @@ class ShellSideNav extends StatelessWidget {
             group.eyebrow,
             style: appMono(
               p.muted,
-              size: AppType.caption.size,
+              size: AppFontSize.caption,
             ).copyWith(letterSpacing: 1.5),
           ),
         ),
@@ -291,7 +291,7 @@ class _NavTile extends StatelessWidget {
             children: <Widget>[
               Icon(
                 selected ? item.activeIcon : item.icon,
-                size: AppType.h3.size,
+                size: AppFontSize.h3,
                 color: selected ? p.accent : p.inkSoft,
               ),
               const SizedBox(width: AppSpace.s3),
@@ -308,7 +308,7 @@ class _NavTile extends StatelessWidget {
                 item.caption,
                 style: appMono(
                   selected ? p.accent : p.muted,
-                  size: AppType.caption.size,
+                  size: AppFontSize.caption,
                 ).copyWith(letterSpacing: 1.5),
               ),
             ],

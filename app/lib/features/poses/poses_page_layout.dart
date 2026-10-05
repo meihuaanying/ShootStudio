@@ -219,7 +219,7 @@ extension _PosesPageLayout on _PosesPageState {
                               '${pose.name} · ${pose.category} · ${pose.difficulty}',
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 11.5,
+                                fontSize: AppFontSize.captionLg,
                               ),
                             ),
                           ),
@@ -301,14 +301,17 @@ extension _PosesPageLayout on _PosesPageState {
               ),
               child: Text(
                 '骨架置信度 $confidence% · 低置信度，仅供构图参考（不可宣称可复现）',
-                style: const TextStyle(fontSize: 11.5, height: 1.5),
+                style: const TextStyle(
+                  fontSize: AppFontSize.captionLg,
+                  height: 1.5,
+                ),
               ),
             )
           else
             Text(
               '骨架置信度 $confidence% · 12 关节由 3D 关键点推导',
               style: TextStyle(
-                fontSize: 11.5,
+                fontSize: AppFontSize.captionLg,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
@@ -323,7 +326,10 @@ extension _PosesPageLayout on _PosesPageState {
               ),
               child: Text(
                 '照片局限：${pose.partialReason} · 3D 关节复现仅供构图参考',
-                style: const TextStyle(fontSize: 11, height: 1.5),
+                style: const TextStyle(
+                  fontSize: AppFontSize.caption,
+                  height: 1.5,
+                ),
               ),
             ),
           ],
@@ -337,7 +343,7 @@ extension _PosesPageLayout on _PosesPageState {
           Text(
             '照片出处：${pose.author.isEmpty ? '未署名' : pose.author} · ${pose.license}',
             style: TextStyle(
-              fontSize: 11,
+              fontSize: AppFontSize.caption,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
@@ -391,7 +397,7 @@ extension _PosesPageLayout on _PosesPageState {
                   builder: (BuildContext ctx) => AlertDialog(
                     title: const Text(
                       '删除自定义姿势',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: AppFontSize.bodyXl),
                     ),
                     content: Text('确定删除「${pose.name}」？该操作不可撤销。'),
                     actions: <Widget>[

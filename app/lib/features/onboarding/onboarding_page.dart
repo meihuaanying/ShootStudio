@@ -85,7 +85,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     '正',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 24,
+                      fontSize: AppFontSize.h2Lg,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -93,13 +93,16 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                 const SizedBox(height: AppSpace.s5),
                 const Text(
                   '正片工坊 ShootStudio',
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.w800),
+                  style: TextStyle(
+                    fontSize: AppFontSize.h1Lg,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
                 const SizedBox(height: AppSpace.s2),
                 Text(
                   '画面参考 → 布光预演 → 动作摆姿 → 一键成案\n本地优先，数据全部保存在你选择的目录里，可整体迁移。',
                   style: TextStyle(
-                    fontSize: 13.5,
+                    fontSize: AppFontSize.smallXl,
                     height: 1.7,
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -137,7 +140,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                                         '$i',
                                         style: const TextStyle(
                                           color: Colors.white,
-                                          fontSize: 11,
+                                          fontSize: AppFontSize.caption,
                                           fontWeight: FontWeight.w800,
                                         ),
                                       ),
@@ -150,7 +153,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                                 Text(
                                   label,
                                   style: const TextStyle(
-                                    fontSize: 13,
+                                    fontSize: AppFontSize.smallLg,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -170,7 +173,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       const Text(
                         '工作区目录',
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: AppFontSize.smallLg,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -219,7 +222,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       ? '提示：目录内会自动创建 database.sqlite、images/ 与 exports/ 子目录。'
                       : '提示：建议选择存储空间充足的目录；数据仅存留在本机。',
                   style: TextStyle(
-                    fontSize: 11.5,
+                    fontSize: AppFontSize.captionLg,
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),

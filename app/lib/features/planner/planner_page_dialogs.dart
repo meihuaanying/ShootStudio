@@ -171,7 +171,7 @@ class _CitySearchFieldState extends State<_CitySearchField> {
               contentPadding: EdgeInsets.zero,
               title: Text(
                 '${city.name} · ${city.tier}',
-                style: const TextStyle(fontSize: 12.5),
+                style: const TextStyle(fontSize: AppFontSize.small),
               ),
               onTap: () {
                 _controller.text = city.name;
@@ -218,7 +218,7 @@ class _ColorPickerDialogState extends State<_ColorPickerDialog> {
   Widget build(BuildContext context) {
     final Color preview = HSVColor.fromAHSV(1, _h, _s, _v).toColor();
     return AlertDialog(
-      title: const Text('添加颜色', style: TextStyle(fontSize: 16)),
+      title: const Text('添加颜色', style: TextStyle(fontSize: AppFontSize.bodyXl)),
       content: SizedBox(
         width: 320,
         child: Column(
@@ -302,7 +302,10 @@ class _ColorPickerDialogState extends State<_ColorPickerDialog> {
       children: <Widget>[
         SizedBox(
           width: 32,
-          child: Text(label, style: const TextStyle(fontSize: 12)),
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: AppFontSize.smallSm),
+          ),
         ),
         Expanded(
           child: Slider(value: value, max: max, onChanged: onChanged),
@@ -334,7 +337,7 @@ class _PoseInfoDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(
         pose['name'] as String? ?? '姿势',
-        style: const TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: AppFontSize.bodyXl),
       ),
       content: SingleChildScrollView(
         child: Column(
@@ -357,24 +360,33 @@ class _PoseInfoDialog extends StatelessWidget {
               const SizedBox(height: 8),
             ],
             if (lens.isNotEmpty)
-              Text('镜头建议：$lens', style: const TextStyle(fontSize: 13)),
+              Text(
+                '镜头建议：$lens',
+                style: const TextStyle(fontSize: AppFontSize.smallLg),
+              ),
             if (camera.isNotEmpty)
-              Text('机位建议：$camera', style: const TextStyle(fontSize: 13)),
+              Text(
+                '机位建议：$camera',
+                style: const TextStyle(fontSize: AppFontSize.smallLg),
+              ),
             if (jointCount > 0)
               Text(
                 '关节数：$jointCount（导出可选「照片 / 骨架示意」）',
-                style: const TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: AppFontSize.smallSm),
               ),
             if (attribution.isNotEmpty)
               Text(
                 '照片：$attribution',
-                style: const TextStyle(fontSize: 11, color: Color(0xFF8A919E)),
+                style: const TextStyle(
+                  fontSize: AppFontSize.caption,
+                  color: Color(0xFF8A919E),
+                ),
               ),
             const SizedBox(height: 4),
             if (photo.isEmpty)
               const Text(
                 '在「动作摆姿库」可查看照片、骨架与动作要领。',
-                style: TextStyle(fontSize: 12),
+                style: TextStyle(fontSize: AppFontSize.smallSm),
               ),
           ],
         ),
@@ -418,7 +430,7 @@ class _PoseReplaceDialogState extends State<_PoseReplaceDialog> {
               .take(30)
               .toList();
     return AlertDialog(
-      title: const Text('替换姿势', style: TextStyle(fontSize: 16)),
+      title: const Text('替换姿势', style: TextStyle(fontSize: AppFontSize.bodyXl)),
       content: SizedBox(
         width: 360,
         height: 380,
@@ -441,14 +453,14 @@ class _PoseReplaceDialogState extends State<_PoseReplaceDialog> {
                     dense: true,
                     title: Text(
                       pose.name,
-                      style: const TextStyle(fontSize: 12.5),
+                      style: const TextStyle(fontSize: AppFontSize.small),
                     ),
                     subtitle: Text(
                       <String>[
                         pose.lens,
                         pose.cameraPosition,
                       ].where((String s) => s.isNotEmpty).join(' · '),
-                      style: const TextStyle(fontSize: 11),
+                      style: const TextStyle(fontSize: AppFontSize.caption),
                     ),
                     onTap: () => Navigator.pop(context, <String, Object?>{
                       'name': pose.name,
@@ -518,7 +530,10 @@ class _BudgetEstimateDialogState extends State<_BudgetEstimateDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('AI 预算估算', style: TextStyle(fontSize: 16)),
+      title: const Text(
+        'AI 预算估算',
+        style: TextStyle(fontSize: AppFontSize.bodyXl),
+      ),
       content: SizedBox(
         width: 320,
         child: Column(
@@ -527,7 +542,7 @@ class _BudgetEstimateDialogState extends State<_BudgetEstimateDialog> {
           children: <Widget>[
             const Text(
               '按内置价格区间 × 城市档位系数生成，结果标注「估算值」，可手动微调。',
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: AppFontSize.smallSm),
             ),
             const SizedBox(height: 8),
             DropdownButtonFormField<CityEntry>(

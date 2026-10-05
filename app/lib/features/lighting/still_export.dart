@@ -275,7 +275,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
         const SizedBox(height: AppSpace.s2),
         Row(
           children: <Widget>[
-            const Text('分辨率', style: TextStyle(fontSize: 12.5)),
+            const Text('分辨率', style: TextStyle(fontSize: AppFontSize.small)),
             const SizedBox(width: 8),
             DropdownButton<String>(
               value: _resolution,
@@ -301,7 +301,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
             const SizedBox(width: AppSpace.s4),
             Text(
               _mode == 'path' ? '采样数' : '超采样倍数',
-              style: const TextStyle(fontSize: 12.5),
+              style: const TextStyle(fontSize: AppFontSize.small),
             ),
             const SizedBox(width: 8),
             DropdownButton<int>(
@@ -327,7 +327,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
                   : (bool? value) =>
                         setState(() => _useCameraRig = value ?? true),
             ),
-            const Text('用相机机位', style: TextStyle(fontSize: 12.5)),
+            const Text('用相机机位', style: TextStyle(fontSize: AppFontSize.small)),
           ],
         ),
         const SizedBox(height: 4),
@@ -335,7 +335,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
           '路径追踪：首次需编译着色器（本机实测约 40–80 秒），之后同机位二次导出亚秒级；'
           '低配/软件渲染自动回退超采样。结果自动保存到工作区 images/plans/。',
           style: TextStyle(
-            fontSize: 11.5,
+            fontSize: AppFontSize.captionLg,
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
@@ -356,14 +356,20 @@ class _StillExportDialogState extends State<StillExportDialog> {
                         ? null
                         : (bool value) => setState(() => _dofEnabled = value),
                   ),
-                  const Text('景深', style: TextStyle(fontSize: 12.5)),
+                  const Text(
+                    '景深',
+                    style: TextStyle(fontSize: AppFontSize.small),
+                  ),
                 ],
               ),
               if (_dofEnabled) ...<Widget>[
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const Text('光圈', style: TextStyle(fontSize: 12.5)),
+                    const Text(
+                      '光圈',
+                      style: TextStyle(fontSize: AppFontSize.small),
+                    ),
                     const SizedBox(width: 6),
                     DropdownButton<double>(
                       value: _fStop,
@@ -395,7 +401,10 @@ class _StillExportDialogState extends State<StillExportDialog> {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const Text('对焦', style: TextStyle(fontSize: 12.5)),
+                    const Text(
+                      '对焦',
+                      style: TextStyle(fontSize: AppFontSize.small),
+                    ),
                     const SizedBox(width: 6),
                     SegmentedButton<bool>(
                       segments: const <ButtonSegment<bool>>[
@@ -458,7 +467,7 @@ class _StillExportDialogState extends State<StillExportDialog> {
               child: Text(
                 session.statusLabel,
                 style: TextStyle(
-                  fontSize: 12.5,
+                  fontSize: AppFontSize.small,
                   color: session.error != null
                       ? Theme.of(context).colorScheme.error
                       : null,

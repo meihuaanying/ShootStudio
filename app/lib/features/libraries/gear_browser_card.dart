@@ -50,7 +50,7 @@ class _GearCard extends ConsumerWidget {
                       Text(
                         entry.brand,
                         style: TextStyle(
-                          fontSize: 10.5,
+                          fontSize: AppFontSize.tinyLg,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
@@ -59,7 +59,7 @@ class _GearCard extends ConsumerWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 12.5,
+                          fontSize: AppFontSize.small,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -78,7 +78,7 @@ class _GearCard extends ConsumerWidget {
             Text(
               '参考 ¥${entry.priceRef.toStringAsFixed(0)}'
               '${entry.imageSource == 'custom' ? ' · 自定义' : ''}',
-              style: TextStyle(fontSize: 11, color: p.accent),
+              style: TextStyle(fontSize: AppFontSize.caption, color: p.accent),
             ),
           ],
         ),
@@ -118,7 +118,7 @@ class _GearCard extends ConsumerWidget {
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 8.5),
+              style: const TextStyle(fontSize: AppFontSize.micro2),
             ),
           ],
         ),
@@ -143,7 +143,7 @@ class _GearCard extends ConsumerWidget {
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 8.5),
+            style: const TextStyle(fontSize: AppFontSize.micro2),
           ),
         ],
       ),
@@ -259,7 +259,10 @@ class _GearCard extends ConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (BuildContext ctx) => AlertDialog(
-        title: Text(entry.displayName, style: const TextStyle(fontSize: 15)),
+        title: Text(
+          entry.displayName,
+          style: const TextStyle(fontSize: AppFontSize.bodyLg),
+        ),
         content: SizedBox(
           width: 420,
           child: Column(
@@ -302,13 +305,13 @@ class _GearCard extends ConsumerWidget {
                             : (userPhoto != null
                                   ? '用户导入（设置页「器材图目录」）'
                                   : '运行时同步缓存（工作区 images/gear）'),
-                        style: const TextStyle(fontSize: 10.5),
+                        style: const TextStyle(fontSize: AppFontSize.tinyLg),
                       ),
                       if (photo2 != null && gearPhotoCredit(photo2).isNotEmpty)
                         Text(
                           gearPhotoCredit(photo2),
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: AppFontSize.tiny,
                             color: Theme.of(
                               context,
                             ).colorScheme.onSurfaceVariant,
@@ -318,7 +321,10 @@ class _GearCard extends ConsumerWidget {
                           '${photo2['note'] ?? ''}'.isNotEmpty)
                         Text(
                           '${photo2['note']}',
-                          style: TextStyle(fontSize: 10, color: p.accent),
+                          style: TextStyle(
+                            fontSize: AppFontSize.tiny,
+                            color: p.accent,
+                          ),
                         ),
                     ],
                   ),
@@ -355,7 +361,10 @@ class _GearCard extends ConsumerWidget {
                         ),
                         child: Text(
                           tag,
-                          style: TextStyle(fontSize: 11, color: p.accent),
+                          style: TextStyle(
+                            fontSize: AppFontSize.caption,
+                            color: p.accent,
+                          ),
                         ),
                       ),
                   ],
@@ -372,7 +381,7 @@ class _GearCard extends ConsumerWidget {
                         child: Text(
                           _specLabel(spec.key),
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: AppFontSize.smallSm,
                             color: Theme.of(
                               context,
                             ).colorScheme.onSurfaceVariant,
@@ -381,7 +390,7 @@ class _GearCard extends ConsumerWidget {
                       ),
                       Text(
                         '${spec.value}',
-                        style: const TextStyle(fontSize: 12.5),
+                        style: const TextStyle(fontSize: AppFontSize.small),
                       ),
                     ],
                   ),
@@ -389,7 +398,7 @@ class _GearCard extends ConsumerWidget {
               const SizedBox(height: 6),
               Text(
                 '参考价：¥${entry.priceRef.toStringAsFixed(0)}（内容包参考值，可自定义修正）',
-                style: const TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: AppFontSize.smallSm),
               ),
             ],
           ),

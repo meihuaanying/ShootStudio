@@ -77,7 +77,7 @@ class ClothingCatalog extends ConsumerWidget {
                               child: Text(
                                 c.category,
                                 style: const TextStyle(
-                                  fontSize: 20,
+                                  fontSize: AppFontSize.subhead,
                                   fontWeight: FontWeight.w800,
                                   color: Colors.white,
                                   shadows: <Shadow>[
@@ -101,12 +101,14 @@ class ClothingCatalog extends ConsumerWidget {
                               c.examples.join(' · '),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontSize: 11.5),
+                              style: const TextStyle(
+                                fontSize: AppFontSize.captionLg,
+                              ),
                             ),
                             Text(
                               '点击在服装库中筛选',
                               style: TextStyle(
-                                fontSize: 10.5,
+                                fontSize: AppFontSize.tinyLg,
                                 color: Theme.of(
                                   context,
                                 ).colorScheme.onSurfaceVariant,
@@ -124,7 +126,7 @@ class ClothingCatalog extends ConsumerWidget {
           Text(
             '示意图为本地程序化图案（免版权）；可在服装库中自定义上传实拍图',
             style: TextStyle(
-              fontSize: 11,
+              fontSize: AppFontSize.caption,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
@@ -176,7 +178,7 @@ class PropsPresetBrowser extends ConsumerWidget {
                       Text(
                         prop.name,
                         style: const TextStyle(
-                          fontSize: 13,
+                          fontSize: AppFontSize.smallLg,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -186,14 +188,17 @@ class PropsPresetBrowser extends ConsumerWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 11,
+                          fontSize: AppFontSize.caption,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                       const Spacer(),
                       Text(
                         '¥${prop.price} · ${prop.owner}',
-                        style: TextStyle(fontSize: 11, color: p.accent),
+                        style: TextStyle(
+                          fontSize: AppFontSize.caption,
+                          color: p.accent,
+                        ),
                       ),
                     ],
                   ),
@@ -204,7 +209,7 @@ class PropsPresetBrowser extends ConsumerWidget {
           Text(
             '道具预设已自动播种到道具库（含采购与分工字段），可直接在策划案「道具清单」模块中绑定',
             style: TextStyle(
-              fontSize: 11,
+              fontSize: AppFontSize.caption,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),

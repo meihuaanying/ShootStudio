@@ -103,7 +103,7 @@ class HomeRecentPlans extends ConsumerWidget {
                       const SizedBox(width: AppSpace.s3),
                       Icon(
                         Icons.chevron_right_rounded,
-                        size: AppType.h3.size,
+                        size: AppFontSize.h3,
                         color: p.muted,
                       ),
                     ],

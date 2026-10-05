@@ -467,7 +467,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
                     child: Text(
                       _status,
                       style: TextStyle(
-                        fontSize: 11.5,
+                        fontSize: AppFontSize.captionLg,
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),

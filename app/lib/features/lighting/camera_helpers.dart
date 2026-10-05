@@ -5,6 +5,7 @@ library;
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import '../../core/design/widgets.dart';
 
 /// 全画幅传感器尺寸（垂直 24mm / 水平 36mm）。
 const double sensorHeightMm = 24.0;
@@ -186,7 +187,7 @@ class CompositionGuidePainter extends CustomPainter {
               '垂直 ${verticalFovDeg(focalMm.toDouble()).toStringAsFixed(1)}° · '
               '画幅 ${frameHeightAt(focalMm.toDouble(), distanceM).toStringAsFixed(2)}m',
           style: TextStyle(
-            fontSize: 11,
+            fontSize: AppFontSize.caption,
             color: color.withValues(alpha: 0.85),
             fontWeight: FontWeight.w500,
           ),

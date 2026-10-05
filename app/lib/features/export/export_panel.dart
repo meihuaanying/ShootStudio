@@ -143,7 +143,10 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                 children: <Widget>[
                   const Text(
                     '导出策划案',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                    style: TextStyle(
+                      fontSize: AppFontSize.bodyXl,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                   const Spacer(),
                   IconButton(
@@ -170,7 +173,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                         const SizedBox(width: 8),
                         Text(
                           '${format.label} · ${format.usage}',
-                          style: const TextStyle(fontSize: 12.5),
+                          style: const TextStyle(fontSize: AppFontSize.small),
                         ),
                       ],
                     ),
@@ -206,7 +209,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                     Text(
                       '排版预览 · ${widget.modules.length} 个模块',
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: AppFontSize.smallSm,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -230,7 +233,9 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                             ),
                             child: Text(
                               '${i + 1} ${widget.modules[i].type.label}',
-                              style: const TextStyle(fontSize: 10.5),
+                              style: const TextStyle(
+                                fontSize: AppFontSize.tinyLg,
+                              ),
                             ),
                           ),
                       ],
@@ -247,7 +252,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                   child: Text(
                     _stage,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: AppFontSize.smallSm,
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
@@ -297,7 +302,7 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
                   Text(
                     '保存于工作区 exports/',
                     style: TextStyle(
-                      fontSize: 11,
+                      fontSize: AppFontSize.caption,
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),

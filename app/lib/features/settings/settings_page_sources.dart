@@ -326,7 +326,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                 '当前 ${(_cacheBytes / (1024 * 1024)).toStringAsFixed(1)}MB / '
                 '$_cacheFiles 个文件（LRU，超限自动淘汰）',
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: AppFontSize.caption,
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
@@ -369,7 +369,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
               Text(
                 '网络通道',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: AppFontSize.smallSm,
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
@@ -394,7 +394,13 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           if (_probeResults.isNotEmpty) ...<Widget>[
             const SizedBox(height: 6),
             for (final String line in _probeResults)
-              Text(line, style: TextStyle(fontSize: 11, color: p.inkSoft)),
+              Text(
+                line,
+                style: TextStyle(
+                  fontSize: AppFontSize.caption,
+                  color: p.inkSoft,
+                ),
+              ),
           ],
           const SizedBox(height: 8),
           Row(
@@ -452,7 +458,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           Text(
             '器材图同步源（官网 > 京东 > 亚马逊 > 淘宝 > 开放图源；D130）',
             style: TextStyle(
-              fontSize: 11,
+              fontSize: AppFontSize.caption,
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
@@ -506,7 +512,7 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
                     ? '当前版本内置素材为程序生成插画（无需署名）'
                     : '真实图片素材逐条署名（Wikimedia CC0/PD/CC BY）',
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: AppFontSize.caption,
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
@@ -515,14 +521,17 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           if (_showLicense) ...<Widget>[
             const SizedBox(height: 6),
             if (_attribution.isEmpty)
-              const Text('（无第三方真实图片素材）', style: TextStyle(fontSize: 11.5))
+              const Text(
+                '（无第三方真实图片素材）',
+                style: TextStyle(fontSize: AppFontSize.captionLg),
+              )
             else
               for (final Map<String, Object?> item in _attribution)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 3),
                   child: Text(
                     '· ${item['name']} · ${item['license']} · ${item['author']}\n  ${item['source']}',
-                    style: const TextStyle(fontSize: 11),
+                    style: const TextStyle(fontSize: AppFontSize.caption),
                   ),
                 ),
           ],

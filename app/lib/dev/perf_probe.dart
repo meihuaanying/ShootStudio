@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 import '../services/engine/engine_view.dart';
+import '../core/design/widgets.dart';
 
 /// 探针开关与参数（环境变量优先于 dart-define，便于复用同一份构建产物跑多组配置）。
 class PerfProbeConfig {
@@ -214,7 +215,7 @@ class _PerfProbePageState extends State<PerfProbePage>
                 style: const TextStyle(
                   color: Color(0xFFD9563F),
                   fontFamily: 'monospace',
-                  fontSize: 13,
+                  fontSize: AppFontSize.smallLg,
                 ),
               ),
             ),

@@ -15,7 +15,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                   const Expanded(
                     child: Text(
                       '还没有已保存的布光方案：去「布光预演」页保存一个',
-                      style: TextStyle(fontSize: 11.5),
+                      style: TextStyle(fontSize: AppFontSize.captionLg),
                     ),
                   ),
                   SsButton(
@@ -50,7 +50,9 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                             const SizedBox(width: 8),
                             Text(
                               scene.name,
-                              style: const TextStyle(fontSize: 12.5),
+                              style: const TextStyle(
+                                fontSize: AppFontSize.small,
+                              ),
                             ),
                           ],
                         ),
@@ -88,11 +90,16 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
               ),
         loading: () =>
             const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-        error: (Object e, _) =>
-            Text('读取失败：$e', style: const TextStyle(fontSize: 12)),
+        error: (Object e, _) => Text(
+          '读取失败：$e',
+          style: const TextStyle(fontSize: AppFontSize.smallSm),
+        ),
       ),
       const SizedBox(height: 6),
-      const Text('导出时渲染为：灯位图 + 位置清单 + 效果预览', style: TextStyle(fontSize: 11)),
+      const Text(
+        '导出时渲染为：灯位图 + 位置清单 + 效果预览',
+        style: TextStyle(fontSize: AppFontSize.caption),
+      ),
     ];
   }
 
@@ -111,7 +118,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
         children: <Widget>[
           Text(
             '清单 ${poses.length} 个 · 拖拽排序',
-            style: const TextStyle(fontSize: 12.5),
+            style: const TextStyle(fontSize: AppFontSize.small),
           ),
           const Spacer(),
           SsButton(
@@ -137,7 +144,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
           Text(
             '导出渲染',
             style: TextStyle(
-              fontSize: 11.5,
+              fontSize: AppFontSize.captionLg,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
@@ -166,7 +173,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
             Text(
               '部分姿势无照片，导出回退骨架示意',
               style: TextStyle(
-                fontSize: 10,
+                fontSize: AppFontSize.tiny,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
@@ -197,7 +204,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
               ),
               title: Text(
                 poses[i]['name'] as String? ?? '',
-                style: const TextStyle(fontSize: 12.5),
+                style: const TextStyle(fontSize: AppFontSize.small),
               ),
               subtitle: Text(
                 <String>[
@@ -206,7 +213,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                   if ((poses[i]['cameraPosition'] as String? ?? '').isNotEmpty)
                     poses[i]['cameraPosition'] as String,
                 ].join(' · '),
-                style: const TextStyle(fontSize: 11),
+                style: const TextStyle(fontSize: AppFontSize.caption),
               ),
               onTap: () => showDialog<void>(
                 context: context,
@@ -254,7 +261,10 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
           ),
         ),
       if (poses.isEmpty && pending.isEmpty)
-        const Text('去「动作摆姿库」收藏姿势 → 加入策划案', style: TextStyle(fontSize: 11.5)),
+        const Text(
+          '去「动作摆姿库」收藏姿势 → 加入策划案',
+          style: TextStyle(fontSize: AppFontSize.captionLg),
+        ),
     ];
   }
 
@@ -281,7 +291,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
         children: <Widget>[
           Text(
             '共 ${shots.length} 镜 · 第一镜/末镜为重点',
-            style: const TextStyle(fontSize: 12.5),
+            style: const TextStyle(fontSize: AppFontSize.small),
           ),
           const Spacer(),
           SsButton(
@@ -349,7 +359,12 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                       ])
                         DropdownMenuItem<String>(
                           value: v,
-                          child: Text(v, style: const TextStyle(fontSize: 12)),
+                          child: Text(
+                            v,
+                            style: const TextStyle(
+                              fontSize: AppFontSize.smallSm,
+                            ),
+                          ),
                         ),
                     ],
                     onChanged: (String? v) {
@@ -471,7 +486,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
       if (shots.isEmpty)
         const Text(
           '分镜为空：可让 AI 生成 8–12 镜，或手动添加',
-          style: TextStyle(fontSize: 11.5),
+          style: TextStyle(fontSize: AppFontSize.captionLg),
         ),
     ];
   }

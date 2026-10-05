@@ -120,7 +120,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
           Text(
             label,
             style: TextStyle(
-              fontSize: 11.5,
+              fontSize: AppFontSize.captionLg,
               color: p.accent,
               fontWeight: FontWeight.w600,
             ),
@@ -128,7 +128,7 @@ class _PosesPageState extends ConsumerState<PosesPage> {
           const SizedBox(height: 2),
           Text(
             text.isEmpty ? '—' : text,
-            style: const TextStyle(fontSize: 12.5, height: 1.5),
+            style: const TextStyle(fontSize: AppFontSize.small, height: 1.5),
           ),
         ],
       ),

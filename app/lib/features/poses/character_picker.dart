@@ -190,7 +190,10 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                 runSpacing: 6,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: <Widget>[
-                  const Text('发型', style: TextStyle(fontSize: 12)),
+                  const Text(
+                    '发型',
+                    style: TextStyle(fontSize: AppFontSize.smallSm),
+                  ),
                   SsChip(
                     label: '默认',
                     selected: _selection.hairId == null,
@@ -215,7 +218,10 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                 spacing: 8,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: <Widget>[
-                  const Text('肤色', style: TextStyle(fontSize: 12)),
+                  const Text(
+                    '肤色',
+                    style: TextStyle(fontSize: AppFontSize.smallSm),
+                  ),
                   for (final String hex in _skinTones)
                     InkWell(
                       onTap: () => setState(
@@ -303,7 +309,10 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
                   ),
                   child: Text(
                     badge,
-                    style: TextStyle(fontSize: 9, color: p.accent),
+                    style: TextStyle(
+                      fontSize: AppFontSize.micro,
+                      color: p.accent,
+                    ),
                   ),
                 ),
             ],
@@ -313,14 +322,17 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+            style: const TextStyle(
+              fontSize: AppFontSize.smallSm,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           Text(
             subtitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 10,
+              fontSize: AppFontSize.tiny,
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),

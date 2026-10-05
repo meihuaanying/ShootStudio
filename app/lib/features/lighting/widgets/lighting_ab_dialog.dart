@@ -102,7 +102,7 @@ class AbCompareDialog extends StatelessWidget {
                       Text(
                         '两侧都冻结后显示差异摘要（阈值 $abDiffThreshold/255）。',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: AppFontSize.smallSm,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
@@ -174,7 +174,7 @@ class AbCompareDialog extends StatelessWidget {
                   : Text(
                       '未冻结',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: AppFontSize.smallSm,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
@@ -184,7 +184,10 @@ class AbCompareDialog extends StatelessWidget {
           Row(
             children: <Widget>[
               Expanded(
-                child: Text(label, style: const TextStyle(fontSize: 12.5)),
+                child: Text(
+                  label,
+                  style: const TextStyle(fontSize: AppFontSize.small),
+                ),
               ),
               SsButton(
                 label: frozen ? '重冻' : '冻结',

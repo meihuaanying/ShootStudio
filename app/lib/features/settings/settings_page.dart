@@ -196,7 +196,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   children: <Widget>[
                     Text(
                       '当前版本 v$kAppVersion',
-                      style: const TextStyle(fontSize: 13),
+                      style: const TextStyle(fontSize: AppFontSize.smallLg),
                     ),
                     const Spacer(),
                     SsButton(
@@ -212,7 +212,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   Text(
                     updater.status,
                     style: TextStyle(
-                      fontSize: 11.5,
+                      fontSize: AppFontSize.captionLg,
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
@@ -269,7 +269,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       '公告：${op.title}${op.date.isEmpty ? '' : '（${op.date}）'}',
-                      style: TextStyle(fontSize: 11.5, color: p.accent),
+                      style: TextStyle(
+                        fontSize: AppFontSize.captionLg,
+                        color: p.accent,
+                      ),
                     ),
                   ),
                 const SizedBox(height: 10),
