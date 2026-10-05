@@ -161,7 +161,9 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
         final Set<String> out = decoded.map((Object? e) => '$e').toSet();
         return out.isEmpty ? Set<String>.from(defaults) : out;
       }
-    } catch (_) {}
+    } catch (_) {
+      // 来源列表字段非法时退回默认值，不阻断设置保存。
+    }
     return Set<String>.from(defaults);
   }
 

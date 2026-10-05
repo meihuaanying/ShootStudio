@@ -40,8 +40,6 @@ class LightingController extends Notifier<LightingState>
     );
   }
 
-
-
   /// 初始化：优先载入最近保存的方案；否则用三点布光预设起手。
   Future<void> init() async {
     if (state.initialized) return;
@@ -543,7 +541,6 @@ class LightingController extends Notifier<LightingState>
     );
     await _db.setSetting('quality_soft_shadows', on ? '1' : '0');
   }
-
 
   void requestCapture() =>
       state = state.copyWith(captureSeq: state.captureSeq + 1);

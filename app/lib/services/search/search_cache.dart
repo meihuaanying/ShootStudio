@@ -146,7 +146,9 @@ class SearchCache {
         if (await file.exists()) {
           try {
             await file.delete();
-          } catch (_) {}
+          } catch (_) {
+            // 缓存文件删不掉（占用中）时仅从索引摘除。
+          }
         }
       }
       index.remove(entry.key);
@@ -162,7 +164,9 @@ class SearchCache {
     if (await dir.exists()) {
       try {
         await dir.delete(recursive: true);
-      } catch (_) {}
+      } catch (_) {
+        // 缓存目录删不掉时跳过，不阻断搜索。
+      }
     }
   }
 
@@ -187,7 +191,9 @@ class SearchCache {
       if (!await file.exists()) return <String, Object?>{};
       final Object? decoded = jsonDecode(await file.readAsString());
       if (decoded is Map) return decoded.cast<String, Object?>();
-    } catch (_) {}
+    } catch (_) {
+      // 索引损坏时按空索引重建，缓存可重新下载。
+    }
     return <String, Object?>{};
   }
 

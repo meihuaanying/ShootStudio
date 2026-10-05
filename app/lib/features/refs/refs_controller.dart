@@ -231,7 +231,9 @@ class RefsController extends Notifier<RefsState> {
     try {
       final decoded = jsonDecode(raw);
       if (decoded is List) return decoded.whereType<String>().toList();
-    } catch (_) {}
+    } catch (_) {
+      // 剧集列表字段非法时退化为空列表，搜索仍可用。
+    }
     return const <String>[];
   }
 

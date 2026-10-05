@@ -34,6 +34,7 @@ const TOKEN_DEFS = new Set([
   'lib/core/design/tokens.dart',
   'lib/core/design/typography.dart',
   'lib/core/design/feature_colors.dart',
+  'lib/core/design/spacing.dart',
 ]);
 const RENDER_PIPELINE = new Set([
   'lib/features/export/exporter_pdf.dart',
@@ -176,9 +177,23 @@ for (const file of walk(path.join(appRoot, 'lib'))) {
     while ((m = re.exec(src)) !== null) {
       const open = m.index + m[0].length - 1;
       const args = balancedFrom(src, open);
-      const stripped = args.replace(TOKEN_REF, '');
+      // 先剥令牌引用，再剥三元条件 —— 条件里的数字是索引/状态码，不是间距值
+      // （如 `right: i == 3 ? 0 : AppSpaceFine.n10`，那个 3 是列表下标）。
+      const stripped = args
+        .replace(TOKEN_REF, '')
+        .replace(/[A-Za-z_][\w.\[\]()]*\s*(?:[=!<>]=?|==)\s*-?\d+(?:\.\d+)?\s*\?/g, 'COND?')
+        .replace(/[A-Za-z_][\w.\[\]()]*\s*\?\s*(?=[^:]*:)/g, 'COND?')
+        // 令牌名里允许带数字档位（AppRadiusFine.n1_5 / oversizeSoft20），
+        // 前面一步只剥掉了 "AppRadiusFine." 前缀，剩余的 "n1_5"、"oversizeSoft20"
+        // 会被当成裸数字。整段剥掉标识符里内嵌的数字。
+        .replace(/\b[A-Za-z_]\w*\d[\w.]*\b/g, 'TOK');
+      // 0 是「没有内边距」而不是设计刻度，一律放行。
+      // 运行时派生的值（widget.height / 2）同样不是字面量，剥掉除法运算。
+      const bare = stripped
+        .replace(/[\w.\[\]()!]+\s*\/\s*[\w.\[\]()!]+/g, 'DERIVED')
+        .replace(/(?<![\d.])0+(?![\d.])/g, '');
       // 只在参数里还有裸数字时才报；AppSpace.s4 之类的引用已被剥掉。
-      if (/\d/.test(stripped)) {
+      if (/\d/.test(bare)) {
         push('metric', '间距 / 圆角裸数字', m.index, `${m[1]}(${stripped.split(/\s+/).join(' ')})`);
       }
       re.lastIndex = open + 1;

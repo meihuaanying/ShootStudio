@@ -188,7 +188,9 @@ class NetRouter {
     if (server != null) {
       try {
         await server.close();
-      } catch (_) {}
+      } catch (_) {
+        // 关闭 DoH 隧道失败（可能已断开），忽略。
+      }
       _record('DoH 隧道已停止');
     }
   }
@@ -203,10 +205,14 @@ class NetRouter {
     void fail(String reply) {
       try {
         if (reply.isNotEmpty) client.write(reply);
-      } catch (_) {}
+      } catch (_) {
+        // 回写失败（对端已断开），忽略。
+      }
       try {
         client.destroy();
-      } catch (_) {}
+      } catch (_) {
+        // 销毁失败（已断开），忽略。
+      }
     }
 
     guard = Timer(AppWait.discover, () {
@@ -217,7 +223,9 @@ class NetRouter {
         if (established) {
           try {
             upstream?.add(chunk);
-          } catch (_) {}
+          } catch (_) {
+            // 转发失败（对端已断开），忽略。
+          }
           return;
         }
         buffer.add(chunk);
@@ -244,23 +252,31 @@ class NetRouter {
                 if (remain.isNotEmpty) {
                   try {
                     up.add(remain);
-                  } catch (_) {}
+                  } catch (_) {
+                    // 补发剩余分片失败（对端已断开），忽略。
+                  }
                 }
                 up.listen(
                   (List<int> data) {
                     try {
                       client.add(data);
-                    } catch (_) {}
+                    } catch (_) {
+                      // 回写下行数据失败（对端已断开），忽略。
+                    }
                   },
                   onDone: () {
                     try {
                       client.destroy();
-                    } catch (_) {}
+                    } catch (_) {
+                      // 流结束销毁失败，忽略。
+                    }
                   },
                   onError: (Object _) {
                     try {
                       client.destroy();
-                    } catch (_) {}
+                    } catch (_) {
+                      // 流出错销毁失败，忽略。
+                    }
                   },
                 );
                 // Socket.add 的写入错误经 done future 异步上报，必须显式接住，
@@ -272,7 +288,9 @@ class NetRouter {
                 _record('隧道处理异常：$e');
                 try {
                   client.destroy();
-                } catch (_) {}
+                } catch (_) {
+                  // 异常收尾销毁失败，忽略。
+                }
               }),
         );
       },
@@ -283,7 +301,9 @@ class NetRouter {
         if (!established) {
           try {
             upstream?.destroy();
-          } catch (_) {}
+          } catch (_) {
+            // 上游销毁失败，忽略。
+          }
         }
       },
     );
@@ -379,10 +399,14 @@ class NetRouter {
   static void _reply(Socket client, String reply) {
     try {
       client.write(reply);
-    } catch (_) {}
+    } catch (_) {
+      // 回写失败（对端已断开），忽略。
+    }
     try {
       client.destroy();
-    } catch (_) {}
+    } catch (_) {
+      // 销毁失败（已断开），忽略。
+    }
   }
 
   /// 统一 Dio（带重试拦截器；走全局通道）。

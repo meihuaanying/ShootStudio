@@ -482,4 +482,3 @@ class _AiPanelState extends ConsumerState<AiPanel> {
     );
   }
 }
-

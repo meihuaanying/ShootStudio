@@ -195,7 +195,9 @@ class GearPhotoSync {
     try {
       final Object? decoded = jsonDecode(file.readAsStringSync());
       if (decoded is Map) return decoded.cast<String, Object?>();
-    } catch (_) {}
+    } catch (_) {
+      // 登记表损坏时按空表重建，下次同步会重新登记。
+    }
     return <String, Object?>{
       'version': 1,
       'done': <String, Object?>{},
@@ -212,7 +214,9 @@ class GearPhotoSync {
     try {
       final Object? decoded = jsonDecode(file.readAsStringSync());
       if (decoded is Map) return decoded.cast<String, Object?>();
-    } catch (_) {}
+    } catch (_) {
+      // 状态文件损坏时按初始状态重建。
+    }
     return <String, Object?>{'version': 1, 'items': <String, Object?>{}};
   }
 
@@ -492,7 +496,9 @@ class GearPhotoSync {
     if (db != null) {
       try {
         proxy = (await db.getSetting('proxy_url')) ?? '';
-      } catch (_) {}
+      } catch (_) {
+        // 读不到代理设置时按直连同步。
+      }
     }
     final Dio dio = makeDio(proxy: proxy, timeout: AppWait.syncGrace);
     final Response<List<int>> res = await dio.get<List<int>>(
@@ -564,7 +570,9 @@ class GearPhotoSync {
         f.deleteSync();
         total -= size;
         removed++;
-      } catch (_) {}
+      } catch (_) {
+        // 单个缓存文件删不掉（占用中）不影响清理统计。
+      }
     }
     return removed;
   }
@@ -590,7 +598,9 @@ class GearPhotoSync {
     try {
       file.parent.createSync(recursive: true);
       file.writeAsStringSync(jsonEncode(registry), flush: true);
-    } catch (_) {}
+    } catch (_) {
+      // 登记目录不可写时跳过持久化，本次会话仍可用。
+    }
   }
 
   static void _writeState({
@@ -607,7 +617,9 @@ class GearPhotoSync {
     try {
       file.parent.createSync(recursive: true);
       file.writeAsStringSync(jsonEncode(state), flush: true);
-    } catch (_) {}
+    } catch (_) {
+      // 状态目录不可写时跳过持久化，本次会话仍可用。
+    }
   }
 
   static File? _stateFile() {

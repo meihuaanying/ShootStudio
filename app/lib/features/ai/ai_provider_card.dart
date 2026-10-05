@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/design/widgets.dart';
 import 'ai_controller.dart';
+
 /// 提供方配置卡（D9 核心四件套：预设向导 / 加密 Key / 模型发现 / 连通测试）。
 class ProviderConfigCard extends ConsumerStatefulWidget {
   const ProviderConfigCard({super.key, required this.view});
@@ -11,8 +12,7 @@ class ProviderConfigCard extends ConsumerStatefulWidget {
   final AiProviderView view;
 
   @override
-  ConsumerState<ProviderConfigCard> createState() =>
-      ProviderConfigCardState();
+  ConsumerState<ProviderConfigCard> createState() => ProviderConfigCardState();
 }
 
 class ProviderConfigCardState extends ConsumerState<ProviderConfigCard> {

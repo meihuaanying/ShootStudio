@@ -16,11 +16,7 @@ import 'libraries_page.dart';
 
 /// 资源条目编辑对话框（五库同构 + 图片上传 D23）。
 class ResourceEditorDialog extends ConsumerStatefulWidget {
-  const ResourceEditorDialog({
-    super.key,
-    required this.type,
-    this.existing,
-  });
+  const ResourceEditorDialog({super.key, required this.type, this.existing});
 
   final String type;
   final LibraryItem? existing;
@@ -189,7 +185,7 @@ class ResourceEditorDialogState extends ConsumerState<ResourceEditorDialog> {
               ),
               if (_tags.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  padding: const EdgeInsets.symmetric(vertical: AppSpaceFine.n6),
                   child: Wrap(
                     spacing: 6,
                     children: <Widget>[
@@ -235,7 +231,7 @@ class ResourceEditorDialogState extends ConsumerState<ResourceEditorDialog> {
               ),
               if (_images.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.only(top: 6),
+                  padding: const EdgeInsets.only(top: AppSpaceFine.n6),
                   child: Wrap(
                     spacing: 4,
                     children: <Widget>[

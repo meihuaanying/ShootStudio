@@ -30,7 +30,9 @@ int homeModuleCount(Plan plan) {
   try {
     final Object? decoded = jsonDecode(plan.modulesJson);
     if (decoded is List) return decoded.length;
-  } catch (_) {}
+  } catch (_) {
+    // modulesJson 非法时按「无模块」计，与旧数据兼容。
+  }
   return 0;
 }
 

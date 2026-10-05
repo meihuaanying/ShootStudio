@@ -274,7 +274,8 @@ void main() {
         expect(
           actual > 600,
           isTrue,
-          reason: '白名单条目 $key 当前 ${actual} 行，已不超 600，'
+          reason:
+              '白名单条目 $key 当前 $actual 行，已不超 600，'
               '应从基线中删除（R73 只降不升）',
         );
       }

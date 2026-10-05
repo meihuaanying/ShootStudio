@@ -68,7 +68,9 @@ extension _ExporterPdf on ExportService {
           scenes[scene.id] = LightingSceneData.fromJson(
             asMap(jsonDecode(scene.sceneJson)),
           );
-        } catch (_) {}
+        } catch (_) {
+          // 单个场景 JSON 损坏不阻断整份 PDF，跳过该场景。
+        }
       }
     }
 

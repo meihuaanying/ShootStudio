@@ -42,6 +42,16 @@ class AppLogger {
   void info(String message, {String tag = 'app'}) =>
       _write('INFO ', tag, message);
 
+  /// 降级但仍需留痕的情形：捕获后走兜底路径、不中断主流程。
+  /// 与 [error] 的区别是调用方认为「系统仍按设计工作」，只是丢了细节
+  /// （单个文件读失败、单项网络请求失败、降级回退等）。
+  void warning(Object error, {StackTrace? stack, String tag = 'app'}) {
+    _write('WARN ', tag, '$error');
+    if (stack != null) {
+      _write('TRACE', tag, stack.toString());
+    }
+  }
+
   void error(Object error, {StackTrace? stack, String tag = 'app'}) {
     _write('ERROR', tag, '$error');
     if (stack != null) {

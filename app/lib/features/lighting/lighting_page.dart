@@ -30,7 +30,8 @@ class LightingPage extends ConsumerStatefulWidget {
   ConsumerState<LightingPage> createState() => _LightingPageState();
 }
 
-class _LightingPageState extends ConsumerState<LightingPage> with _LightingPageAb {
+class _LightingPageState extends ConsumerState<LightingPage>
+    with _LightingPageAb {
   bool _skeleton = false;
   CharacterSelection _character = const CharacterSelection(
     characterId: '',
@@ -290,7 +291,6 @@ class _LightingPageState extends ConsumerState<LightingPage> with _LightingPageA
       _assistDofAvailable = dof;
     });
   }
-
 
   Widget _buildViewSwitch(LightingState state) {
     final controller = ref.read(lightingControllerProvider.notifier);
