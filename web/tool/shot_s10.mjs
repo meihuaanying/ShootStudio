@@ -53,12 +53,36 @@ if (!fs.existsSync(path.join(distDir, 'index.html'))) {
 fs.mkdirSync(shotDir, { recursive: true });
 fs.mkdirSync(qaDir, { recursive: true });
 
-const EDGE = [
-  'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
-  'C:/Program Files/Microsoft/Edge/Application/msedge.exe',
-].find((p) => fs.existsSync(p));
+// Edge 可执行文件：按平台解析（CI 的 ubuntu/windows runner 与 Windows 开发机都要能跑）。
+// 可用 SS_EDGE 环境变量显式覆盖，用于本机装了非默认路径的情况。
+function findEdge() {
+  if (process.env.SS_EDGE && fs.existsSync(process.env.SS_EDGE)) {
+    return process.env.SS_EDGE;
+  }
+  const { platform } = process;
+  // Linux：GitHub runner 与 apt 源的常见路径；macOS：bundle 内可执行文件名不是 msedge。
+  const candidates =
+    platform === 'win32'
+      ? [
+          'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
+          'C:/Program Files/Microsoft/Edge/Application/msedge.exe',
+        ]
+      : platform === 'darwin'
+        ? [
+            '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+            '/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta',
+          ]
+        : [
+            '/usr/bin/microsoft-edge',
+            '/usr/bin/microsoft-edge-stable',
+            '/opt/microsoft/msedge/msedge',
+            '/usr/local/bin/microsoft-edge',
+          ];
+  return candidates.find((p) => fs.existsSync(p));
+}
+const EDGE = findEdge();
 if (!EDGE) {
-  console.error('[shot] 未找到 Edge 可执行文件');
+  console.error('[shot] 未找到 Edge 可执行文件（可用 SS_EDGE 环境变量指定）');
   process.exit(2);
 }
 
@@ -107,11 +131,15 @@ const serverPort = server.address().port;
 
 const edgePort = 9992;
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-s10shot-'));
+// Linux 容器里没有授权进程组，headless Edge 必须 --no-sandbox 才起得来
+// （GitHub ubuntu runner 同样吃这一条）。
+const sandboxArgs = process.platform === 'linux' ? ['--no-sandbox'] : [];
 const proc = spawn(
   EDGE,
   [
     '--headless=new',
     '--hide-scrollbars',
+    ...sandboxArgs,
     '--no-first-run',
     '--no-default-browser-check',
     '--force-device-scale-factor=1',

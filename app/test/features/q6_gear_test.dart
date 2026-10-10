@@ -265,6 +265,36 @@ void main() {
       );
     });
 
+    // R47/D130：图池**不得被 git 跟踪**。上面那条只断言 rawPath 里含
+    // 'tool/gear_photo_pool/' 字符串，那是元数据里的路径文本，从来不碰文件系统，
+    // 所以历史上 197 张 jpg 被实际提交进 git 也没人发现 —— .gitignore
+    // 对已跟踪文件无效，一旦误入就永久留在历史里。这里真正去问 git。
+    test('图池目录不被 git 跟踪（R47）', () async {
+      // 测试进程 CWD 就是 app/（本文件其他用例一直用 '../app/xxx' 这种
+      // 相对路径），git 在仓库内运行、给相对 app/ 的路径即可。
+      final ProcessResult git = await Process.run('git', <String>[
+        'ls-files',
+        '--',
+        'tool/gear_photo_pool',
+      ]);
+      if (git.exitCode != 0) {
+        // 没有 git 可用（如精简测试镜像）时跳过，不假装通过。
+        return;
+      }
+      final List<String> tracked = git.stdout
+          .toString()
+          .split('\n')
+          .where((String s) => s.trim().isNotEmpty)
+          .toList();
+      expect(
+        tracked,
+        isEmpty,
+        reason:
+            '图池仍有 ${tracked.length} 个文件被 git 跟踪（R47 要求不入 git）：'
+            '$tracked',
+      );
+    });
+
     test('增量同步状态机：断点续跑/失败重试/图源开关（D131）', () {
       final Map<String, Object?> catalog = <String, Object?>{
         'byId': <String, Object?>{

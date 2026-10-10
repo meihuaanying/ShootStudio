@@ -55,6 +55,13 @@ jobs:
           Copy-Item "sqlite-dll\sqlite3.dll" "C:\Windows\System32\sqlite3.dll"
 
       - run: flutter pub get
+      # 发版门禁与 CI 对齐：此前 release 只跑 analyze + test，
+      # format / 行数（R73）/ 令牌（R71）三道门在 release 路径上是空的 ——
+      # 一个「CI 绿但 release 红」的分裂状态。这里补齐，确保打 tag 出的包
+      # 与 main 上门禁过的代码是同一套标准。
+      - run: dart format --output=none --set-exit-if-changed lib test
+      - run: node tool/check_file_size.mjs
+      - run: node tool/check_tokens.mjs --json=../docs/qa/v8-tokens.json
       - run: flutter analyze --fatal-infos
       - run: flutter test
 
