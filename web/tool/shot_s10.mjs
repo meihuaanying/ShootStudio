@@ -24,6 +24,32 @@ import http from 'node:http';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
+// Node 对 WebSocket 的支持按版本分叉，必须显式解析而不能依赖隐式全局：
+//   - Node 22.4+ 起提供全局 WebSocket；
+//   - 更早的版本（CI 的 Node 20）**没有**，直接引用全局会
+//     ReferenceError: WebSocket is not defined —— 本机 Node 24 恰好两种都有，
+//     所以本地跑得过、CI 跑不过，这条只能靠真机 CI 才能发现。
+// 依次尝试 node:http 导出与全局，都不行就给可读的报错而不是模糊的崩溃。
+let WebSocketCtor = null;
+try {
+  ({ WebSocket: WebSocketCtor } = await import('node:http'));
+} catch {
+  // node:http 未导出 WebSocket：继续尝试全局。
+}
+if (
+  typeof WebSocketCtor !== 'function' &&
+  typeof globalThis.WebSocket === 'function'
+) {
+  WebSocketCtor = globalThis.WebSocket;
+}
+if (typeof WebSocketCtor !== 'function') {
+  console.error(
+    '[shot] 当前 Node 版本没有可用的 WebSocket 实现：请使用 Node 22.4+，'
+      + '或升级到导出 WebSocket 的版本。',
+  );
+  process.exit(2);
+}
+
 const here = path.dirname(fileURLToPath(import.meta.url));
 const webRoot = path.resolve(here, '..');
 const repoRoot = path.resolve(webRoot, '..');
@@ -173,7 +199,7 @@ try {
   const target = await (
     await fetch(`http://127.0.0.1:${edgePort}/json/new?url=about:blank`, { method: 'PUT' })
   ).json();
-  const ws = new WebSocket(target.webSocketDebuggerUrl);
+  const ws = new WebSocketCtor(target.webSocketDebuggerUrl);
   await new Promise((res, rej) => {
     ws.onopen = res;
     ws.onerror = rej;
