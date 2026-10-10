@@ -233,13 +233,23 @@ class SspakImporter {
     );
     final List<(File, List<int>)> pending = <(File, List<int>)>[];
     for (final ArchiveFile file in archive) {
-      // 全包级名称卫生：任何条目都不该带前导斜杠或反斜杠。合法 .sspak 的
-      // 条目名一律是 `images/x.png` / `manifest.json` 这种相对 POSIX 形态；
-      // `/images/evil.png` 形制的条目只可能来自畸形或恶意构造，且若只按
-      // startsWith('images/') 过滤会被静默忽略 —— 用户会拿到一个悄悄少了
-      // 图片的数据包还不知道，所以显式拒绝。
-      if (file.name.startsWith('/') || file.name.contains(r'\')) {
-        throw FormatException('.sspak 条目名含绝对路径或反斜杠：${file.name}');
+      // 全包级名称卫生：任何条目都不该带前导斜杠、反斜杠或盘符前缀。
+      // 合法 .sspak 的条目名一律是 `images/x.png` / `manifest.json` 这种
+      // 相对 POSIX 形态；`/images/evil.png` 形制的条目只可能来自畸形或恶意
+      // 构造，且若只按 startsWith('images/') 过滤会被静默忽略 —— 用户会
+      // 拿到一个悄悄少了图片的数据包还不知道，所以显式拒绝。
+      //
+      // 盘符前缀（`C:/`、`C:\`）必须与平台无关地拒绝：.sspak 被定义为可
+      // 移植格式，`C:/Windows/evil.dll` 在 Windows 上会被 path.isAbsolute
+      // 判为绝对路径而拒绝，在 Linux/macOS 上却只是个普通目录名 —— 于是
+      // 同一份畸形包在两端行为分叉（一边拒绝，一边写出
+      // `images/C:/Windows/evil.dll` 这种垃圾目录后才失败）。按可移植性
+      // 在这里统一拒绝，两个平台的语义就一致了。
+      final bool hasDriveLetter = RegExp(r'^[A-Za-z]:').hasMatch(file.name);
+      if (file.name.startsWith('/') ||
+          file.name.contains(r'\') ||
+          hasDriveLetter) {
+        throw FormatException('.sspak 条目名含绝对路径、反斜杠或盘符前缀：${file.name}');
       }
       if (!file.name.startsWith('images/')) continue;
       final relative = file.name.substring('images/'.length);
