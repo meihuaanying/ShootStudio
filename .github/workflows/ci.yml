@@ -128,6 +128,58 @@ jobs:
           test "$n" -ge 30 || {
             echo "官网截图少于 30 张"; exit 1; }
 
+  # P2 · 引擎性能门禁。
+  #
+  # 这里刻意**不设绝对帧耗时阈值**，理由不是「放宽」，而是统计上不成立：
+  # GitHub runner 没有 GPU，同一指标在 SwiftShader 软渲染下的实测是
+  #   docs/qa/v8-s2-engine-perf-swiftshader-dpr1.json
+  #     idle engineFrames=2 p95=1500  orbit 3 1574
+  #     lightDrag 3 1555            dolly 1 1469   fps=0.7
+  # 每段只有 1~3 个采样点。在这种样本量上设「p95 <= N ms」，无论 N 取多少都是假门禁
+  # （定得宽=永远绿，定得严=永远红）。合同 D152 的 16ms 口径本就登记为「独显实测」，
+  # 见 docs/qa/v8-s2-engine-perf-gtx4060-dpr1.json（lightDrag p95 17.5ms + 偏差说明）。
+  #
+  # 因此本 job 守的是**CI 真能抓到的那些回归**：测量链路可用、引擎仍在出帧、
+  # 统计字段仍是数值、预热确实 settled、灯体确实被拖到、帧数未相对入库基线灾难回退。
+  # 反向验证已做：把 phase 的 engineFrames 改成 0，gate 立刻 FAIL 并 exit 1。
+  #
+  # node-version 用 22 与 website-gate 同因：engine_perf_qa.mjs 走 CDP 需要 WebSocket，
+  # Node 20 两处都拿不到（V8.1.1 已在 shot_s10.mjs 上踩过并修过一次）。
+  engine-gate:
+    name: Engine perf gate
+    runs-on: ubuntu-latest
+    needs: []
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmmirror.com
+
+      - name: Install Edge (Linux)
+        run: |
+          curl -fsSL https://packages.microsoft.com/keys/microsoft.asc \
+            | sudo gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" \
+            | sudo tee /etc/apt/sources.list.d/microsoft-edge.list
+          sudo apt-get update
+          sudo apt-get install -y microsoft-edge-stable
+
+      - name: Engine perf gate (link + frames + stats + no catastrophic regression)
+        run: node tool/engine_perf_gate.mjs
+
+      # 产出留档：CI 侧的一次实测，便于人工复核软渲染环境下的绝对数字。
+      - name: Upload CI perf evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: engine-perf-ci
+          path: docs/qa/v8-s2-engine-perf-ci-gate.json
+          retention-days: 14
+          if-no-files-found: warn
+
+
   build-windows:
     name: Build Windows
     runs-on: windows-latest

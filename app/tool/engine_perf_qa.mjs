@@ -47,10 +47,28 @@ const swiftshader = String(arg('swiftshader', '0')) === '1';
 // gpumode: high=--force_high_performance_gpu（默认，锁定独显）；default=用系统默认适配器（可落到核显）
 const gpumode = String(arg('gpumode', 'high'));
 
-const EDGE = [
-  'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
-  'C:/Program Files/Microsoft/Edge/Application/msedge.exe',
-].find((p) => fs.existsSync(p));
+// Edge 可执行文件按平台解析（CI 的 ubuntu runner 与 Windows 开发机都要能跑）。
+// V8/P2：此前这里只列 Windows 路径，Linux CI 上必然 `spawn` 失败 —— 与
+// shot_s10.mjs 在 V8.1 踩的是同一个坑（本机能跑 ≠ CI 能跑）。
+// 可用 SS_EDGE 环境变量显式覆盖。
+const EDGE = (process.env.SS_EDGE && fs.existsSync(process.env.SS_EDGE))
+  ? process.env.SS_EDGE
+  : (process.platform === 'win32'
+      ? [
+          'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
+          'C:/Program Files/Microsoft/Edge/Application/msedge.exe',
+        ]
+      : process.platform === 'darwin'
+        ? [
+            '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+            '/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta',
+          ]
+        : [
+            '/usr/bin/microsoft-edge',
+            '/usr/bin/microsoft-edge-stable',
+            '/opt/microsoft/msedge/msedge',
+            '/usr/local/bin/microsoft-edge',
+          ]).find((p) => fs.existsSync(p));
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -79,6 +97,23 @@ const server = http.createServer((req, res) => {
 await new Promise((r) => server.listen(0, '127.0.0.1', r));
 const serverPort = server.address().port;
 
+// Node 对 WebSocket 的支持按版本分叉（全局是 22.4+ 才加），显式解析而不依赖隐式全局。
+// V8/P2：本文件的 CDP 客户端原先直接用全局 WebSocket，本机 Node 24 有、CI 的 Node 20 没有，
+// 这也是 shot_s10.mjs 在 V8.1 连挂三次的同一类坑。此处改为运行时依次解析。
+let WebSocketCtor = null;
+try {
+  ({ WebSocket: WebSocketCtor } = await import('node:http'));
+} catch {
+  /* node:http 未导出：继续尝试全局 */
+}
+if (typeof WebSocketCtor !== 'function' && typeof globalThis.WebSocket === 'function') {
+  WebSocketCtor = globalThis.WebSocket;
+}
+if (typeof WebSocketCtor !== 'function') {
+  console.error('[perf] 当前 Node 版本没有可用的 WebSocket 实现：请使用 Node 22.4+');
+  process.exit(2);
+}
+
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-perf-'));
 const edgeArgs = [
   '--hide-scrollbars',
@@ -94,6 +129,8 @@ const edgeArgs = [
 ];
 if (dpr === '1') edgeArgs.push('--force-device-scale-factor=1');
 if (swiftshader) edgeArgs.push('--use-angle=swiftshader', '--use-gl=angle');
+// Linux 容器内无授权进程组，headless Edge 必须 --no-sandbox 才起得来。
+if (process.platform === 'linux') edgeArgs.unshift('--no-sandbox');
 if (headed && gpumode === 'high') edgeArgs.unshift('--force_high_performance_gpu');
 else edgeArgs.unshift('--headless=new');
 edgeArgs.push('about:blank');
@@ -127,7 +164,7 @@ try {
   const info = await (await fetch(`http://127.0.0.1:${edgePort}/json/version`)).json();
   result.browser = info.Browser;
   const target = await (await fetch(`http://127.0.0.1:${edgePort}/json/new?url=about:blank`, { method: 'PUT' })).json();
-  const ws = new WebSocket(target.webSocketDebuggerUrl);
+  const ws = new WebSocketCtor(target.webSocketDebuggerUrl);
   await new Promise((res, rej) => { ws.onopen = res; ws.onerror = rej; });
   let id = 0;
   const pending = new Map();

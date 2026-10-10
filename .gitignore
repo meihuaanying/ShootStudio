@@ -48,3 +48,7 @@ app/test/**/failures/
 # GraphFlow 本地知识图谱缓存（sqlite/wal/shm 是运行时状态，不是源码）
 .graphflow-cache/
 graphflow-out/
+
+# V8/P2 引擎性能门禁的 CI 侧实测产物：每次 run 重算、数值随机器抖，
+# 不进 git。参照基线仍入库（docs/qa/v8-s2-engine-perf-swiftshader-dpr1.json）。
+docs/qa/v8-s2-engine-perf-ci-gate.json
