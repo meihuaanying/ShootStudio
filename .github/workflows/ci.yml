@@ -85,7 +85,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # 必须 22+：shot_s10.mjs 走 CDP 需要 WebSocket，而 Node 20.20.2 两处
+          # 都拿不到 —— node:http 不导出、也没有全局 WebSocket（全局是 22.4+ 才加的）。
+          # V8.1.1 用 node-version: 20 在这里失败过一次：脚本自己的运行时解析
+          # 正确报出「没有可用的 WebSocket 实现」并 exit 2，但门禁始终是红的。
+          # 脚本里保留运行时解析作兜底，这里负责把版本给足。
+          node-version: 22
           registry-url: https://registry.npmmirror.com
 
       - name: Install Edge (Linux)
