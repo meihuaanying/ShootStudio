@@ -268,28 +268,15 @@ class ResourceEditorDialogState extends ConsumerState<ResourceEditorDialog> {
                         .read(libraryControllerProvider.notifier)
                         .referencesOf(widget.existing!.id);
                     if (!context.mounted) return;
-                    final ok = await showDialog<bool>(
-                      context: context,
-                      builder: (BuildContext ctx) => AlertDialog(
-                        title: Text('删除「${widget.existing!.name}」？'),
-                        content: Text(
-                          hits.isEmpty
-                              ? '删除后无法恢复。'
-                              : '该条目正被以下策划案引用：\n${hits.map((h) => '· $h').join('\n')}\n删除后策划案内会出现空引用。',
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.pop(ctx, false),
-                            child: const Text('取消'),
-                          ),
-                          FilledButton(
-                            onPressed: () => Navigator.pop(ctx, true),
-                            child: const Text('仍要删除'),
-                          ),
-                        ],
-                      ),
+                    final bool ok = await showSsConfirm(
+                      context,
+                      title: '删除「${widget.existing!.name}」？',
+                      message: hits.isEmpty
+                          ? '删除后无法恢复。'
+                          : '该条目正被以下策划案引用：\n${hits.map((h) => '· $h').join('\n')}\n删除后策划案内会出现空引用。',
+                      confirmLabel: '仍要删除',
                     );
-                    if (ok == true) {
+                    if (ok) {
                       await ref
                           .read(libraryControllerProvider.notifier)
                           .delete(widget.existing!.id);

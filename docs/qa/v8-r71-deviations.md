@@ -98,6 +98,16 @@ V8 收尾时**只写在代码注释里、没有进中央登记**，等于「知�
   弹层与输入框两层仍是两套皮肤并存；R74 只能算「部分达成」。
 - **修复条件**：按「先弹层、后输入」分两步迁移，每步带 golden 截图对比 +
   不减少 feature 断言数，作为独立阶段交付。
+- **V8.2 进展（已迁 3 处）**：`poses_page_layout.dart`（删除自定义姿势）、
+  `library_resource_editor.dart`（删除资源条目）、`export_panel.dart`
+  （存在失效模块时是否继续导出）三处改为 `showSsConfirm`。
+  三处的原形态都是「静态文案 + 取消/确认两按钮 + 布尔返回值」，且
+  `confirmed == true` → `if (confirmed)` 与 `go != true` → `if (!go)`
+  均为等价改写（遮罩关闭时 null 与 false 都不执行动作）。
+  **剩余 27 处裸 `showDialog` 全部不符合迁移条件**，原因逐处登记在
+  `docs/qa/v8-2-r74-dialogs.md`：内容含表单/列表/富媒体（21 处）、
+  单按钮提示且 pop<void>（4 处）、返回值非布尔（String / Map / record，6 处，
+  迁移会改调用方语义）。这 27 处需要各自的定制方案，不是机械替换。
 
 ## 偏差 7：`AppWait.planReveal` 220ms / `cardHover` 260ms 与动效刻度不一致
 

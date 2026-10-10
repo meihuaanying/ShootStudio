@@ -59,27 +59,15 @@ class _ExportPanelState extends ConsumerState<ExportPanel> {
 
   Future<void> _run() async {
     if (_issues.isNotEmpty) {
-      final go = await showDialog<bool>(
-        context: context,
-        builder: (BuildContext ctx) => AlertDialog(
-          title: const Text('存在引用失效模块'),
-          content: Text(
+      final bool go = await showSsConfirm(
+        context,
+        title: '存在引用失效模块',
+        message:
             '${_issues.take(5).map((IntegrityIssue i) => '· ${i.moduleTitle}：${i.detail}').join('\n')}'
             '\n是否继续导出？',
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('取消'),
-            ),
-            FilledButton(
-              onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('继续导出'),
-            ),
-          ],
-        ),
+        confirmLabel: '继续导出',
       );
-      if (go != true) return;
+      if (!go) return;
     }
     setState(() {
       _running = true;

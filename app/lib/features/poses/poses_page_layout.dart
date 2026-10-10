@@ -394,27 +394,13 @@ extension _PosesPageLayout on _PosesPageState {
               icon: Icons.delete_outline_rounded,
               kind: SsButtonKind.text,
               onPressed: () async {
-                final bool? confirmed = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext ctx) => AlertDialog(
-                    title: const Text(
-                      '删除自定义姿势',
-                      style: TextStyle(fontSize: AppFontSize.bodyXl),
-                    ),
-                    content: Text('确定删除「${pose.name}」？该操作不可撤销。'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () => Navigator.pop(ctx, false),
-                        child: const Text('取消'),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pop(ctx, true),
-                        child: const Text('删除'),
-                      ),
-                    ],
-                  ),
+                final bool confirmed = await showSsConfirm(
+                  context,
+                  title: '删除自定义姿势',
+                  message: '确定删除「${pose.name}」？该操作不可撤销。',
+                  confirmLabel: '删除',
                 );
-                if (confirmed == true) {
+                if (confirmed) {
                   await controller.deleteCustom(pose.id);
                 }
               },
