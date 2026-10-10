@@ -172,4 +172,36 @@ void main() {
       throwsA(isA<FormatException>()),
     );
   });
+
+  // 跨平台直接断言盘符判定的**判定函数本身**，而不是依赖导入器。
+  //
+  // 这一条是为一次真实的翻车加的：第一版修复把 `^[A-Za-z]:` 用在完整条目名
+  // 上，而条目名以 `images/` 开头，锚点永远匹配不到盘符。Windows 本机上
+  // 那条用例却通过了 —— 因为 Windows 的 `path.isAbsolute('C:/Windows/evil.dll')`
+  // 本来就是 true，由既有分支兜住了。也就是说「本机全绿」完全没有验证到我
+  // 新加的逻辑，只有 CI 的 Linux job 才把它暴露出来。
+  //
+  // 所以这里直接断言判定函数：它在任何平台上都必须对 `C:/` 开头判 true，
+  // 不掺 path 语义。这样本机也能验证这条修复。
+  group('R84 盘符判定与平台无关（hasSspakDriveLetterPrefix）', () {
+    test('带 images/ 前缀的盘符条目被判为盘符', () {
+      expect(
+        hasSspakDriveLetterPrefix(r'images/C:/Windows/evil.dll'),
+        isTrue,
+        reason: '盘符在去掉 images/ 前缀后的片段开头，必须被判出',
+      );
+      expect(hasSspakDriveLetterPrefix(r'images/C:\Windows\evil.dll'), isTrue);
+      expect(hasSspakDriveLetterPrefix(r'images/D:/a/b.png'), isTrue);
+      expect(hasSspakDriveLetterPrefix(r'images/z:/payload.bin'), isTrue);
+    });
+
+    test('正常相对条目不受影响', () {
+      expect(hasSspakDriveLetterPrefix('images/cover.png'), isFalse);
+      expect(hasSspakDriveLetterPrefix('images/a/b/c.png'), isFalse);
+      expect(hasSspakDriveLetterPrefix('manifest.json'), isFalse);
+      expect(hasSspakDriveLetterPrefix('resources.json'), isFalse);
+      // 名字里含字母+冒号但不在开头，不算盘符前缀。
+      expect(hasSspakDriveLetterPrefix('images/note:a.png'), isFalse);
+    });
+  });
 }

@@ -176,6 +176,22 @@ extension _ExporterSspak on ExportService {
   }
 }
 
+/// .sspak 条目名是否带 Windows 盘符前缀（`C:/…` / `C:\…`）。
+///
+/// 拿出来单独做公开函数，是为了能**跨平台单测**：真正决定这条该不该拦的是
+/// 本函数本身，而不是 `path.isAbsolute` —— 后者在 Windows 上把 `C:/x` 判为
+/// 绝对路径、在 Linux/macOS 上只当普通目录名，两端行为分叉。R84 的修复正是
+/// 要把这个判断从平台相关的 path 语义里抽出来，所以它必须能被直接断言。
+///
+/// 判定锚在**去掉 `images/` 前缀后的相对片段**上：条目名以 `images/` 开头，
+/// 直接对完整名锚 `^` 永远匹配不到盘符。
+bool hasSspakDriveLetterPrefix(String entryName) {
+  final String relative = entryName.startsWith('images/')
+      ? entryName.substring('images/'.length)
+      : entryName;
+  return RegExp(r'^[A-Za-z]:').hasMatch(relative);
+}
+
 /// .sspak 导入还原（PRD 6.7 边界：校验包内版本号）。
 class SspakImporter {
   SspakImporter({required this.workspace, required this.db});
@@ -240,15 +256,21 @@ class SspakImporter {
       // 拿到一个悄悄少了图片的数据包还不知道，所以显式拒绝。
       //
       // 盘符前缀（`C:/`、`C:\`）必须与平台无关地拒绝：.sspak 被定义为可
-      // 移植格式，`C:/Windows/evil.dll` 在 Windows 上会被 path.isAbsolute
-      // 判为绝对路径而拒绝，在 Linux/macOS 上却只是个普通目录名 —— 于是
-      // 同一份畸形包在两端行为分叉（一边拒绝，一边写出
+      // 移植格式，`images/C:/Windows/evil.dll` 在 Windows 上会被
+      // path.isAbsolute 判为绝对路径而拒绝，在 Linux/macOS 上却只是个普通
+      // 目录名 —— 于是同一份畸形包在两端行为分叉（一边拒绝，一边写出
       // `images/C:/Windows/evil.dll` 这种垃圾目录后才失败）。按可移植性
       // 在这里统一拒绝，两个平台的语义就一致了。
-      final bool hasDriveLetter = RegExp(r'^[A-Za-z]:').hasMatch(file.name);
+      //
+      // 注意：盘符判定必须锚在**去掉 `images/` 前缀后的相对片段**上。
+      // 第一版把 `^[A-Za-z]:` 用在完整条目名上，而条目名以 `images/` 开头，
+      // 锚点永远匹配不到盘符 —— 那道检查形同虚设，只在 Windows 上靠
+      // path.isAbsolute 的既有行为才看起来通过了（本机测试因此被掩盖，
+      // 是 CI 的 Linux job 把它抓出来的）。判定逻辑已抽成
+      // [hasSspakDriveLetterPrefix]，可跨平台直接单测。
       if (file.name.startsWith('/') ||
           file.name.contains(r'\') ||
-          hasDriveLetter) {
+          hasSspakDriveLetterPrefix(file.name)) {
         throw FormatException('.sspak 条目名含绝对路径、反斜杠或盘符前缀：${file.name}');
       }
       if (!file.name.startsWith('images/')) continue;
