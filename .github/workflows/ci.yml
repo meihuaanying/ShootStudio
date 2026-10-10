@@ -114,7 +114,12 @@ jobs:
         working-directory: web
         run: node tool/shot_s10.mjs
 
+      # 注意 working-directory：本文件顶部有 defaults.run.working-directory: app，
+      # 而 shot_s10.mjs 把截图写进**仓库根**的 docs/（它自己按 repoRoot 解析）。
+      # 不覆盖这一步就会在 app/ 里找 docs/，必然「缺少 json」。V8.1.2 在这里
+      # 红过一次：截图本身 30/30 全过，只有这个校验步骤路径写错。
       - name: Verify evidence landed in git
+        working-directory: ${{ github.workspace }}
         run: |
           test -f docs/qa/v8-s10-web-screenshots.json || {
             echo "缺少 docs/qa/v8-s10-web-screenshots.json"; exit 1; }
