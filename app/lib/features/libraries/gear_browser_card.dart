@@ -256,208 +256,212 @@ class _GearCard extends ConsumerWidget {
         .valueOrNull;
     final Map<String, Object?>? photo2 = gearPhotoEntryOf(catalog, entry);
     final Map<String, Object?>? userPhoto = gearUserPhotoOf(photos, entry);
-    showDialog<void>(
+    showSsDialog<void>(
       context: context,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: Text(
-          entry.displayName,
-          style: const TextStyle(fontSize: AppFontSize.bodyLg),
+      title: entry.displayName,
+      // 原 `SizedBox(width: 420)` → 420 + 48（SsDialog 两侧 padding = AppSpace.block）。
+      maxWidth: 468,
+      child: _detailBody(context, p, photo2, userPhoto),
+      // actions 的 ctx 就是弹层路由自己的 context，故不需要 Builder。
+      // 注意 `ssToast` 一律用页面级 context，pop 一律用 ctx —— 与原实现一致。
+      actions: (BuildContext ctx) => <Widget>[
+        if (entry.kind == 'light')
+          SsDialogAction(
+            label: '放入布光场景',
+            onPressed: () {
+              ref
+                  .read(lightingControllerProvider.notifier)
+                  .addLightFromGear(
+                    name: entry.displayName,
+                    powerW: (entry.specs['power_w'] as num?)?.toDouble() ?? 100,
+                    cct: '${entry.specs['cct'] ?? ''}',
+                    cri: (entry.specs['cri'] as num?)?.toInt() ?? 95,
+                    mount: entry.mount,
+                    type: '${entry.specs['type'] ?? ''}',
+                  );
+              ssToast(context, '已放入布光场景：${entry.displayName}（到布光预演页查看）');
+            },
+          ),
+        if (entry.imageSource == 'custom')
+          SsDialogAction(
+            label: '删除',
+            primary: false,
+            onPressed: () async {
+              final AppDatabase db = ref.read(databaseProvider);
+              await (db.delete(
+                db.gearItems,
+              )..where((t) => t.id.equals(entry.id))).go();
+              ref.invalidate(gearListProvider);
+              if (ctx.mounted) Navigator.of(ctx).pop();
+              if (context.mounted) ssToast(context, '已删除自定义设备');
+            },
+          ),
+        if (photo2 == null &&
+            userPhoto == null &&
+            entry.imageSource != 'custom')
+          SsDialogAction(
+            label: '补图',
+            primary: false,
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              onRephoto?.call(entry);
+            },
+          ),
+        SsDialogAction(
+          label: '关闭',
+          primary: false,
+          onPressed: () => Navigator.of(ctx).pop(),
         ),
-        content: SizedBox(
-          width: 420,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              if (_photoChain(
-                entry,
-                photo2,
-                userPhoto,
-                fit: BoxFit.contain,
-                height: 150,
-              ).isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpace.s2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 400,
-                        height: 150,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                            AppRadiusFine.oversizeSoft10,
-                          ),
-                          child: _firstAvailable(
-                            context,
-                            _photoChain(
-                              entry,
-                              photo2,
-                              userPhoto,
-                              fit: BoxFit.contain,
-                              height: 150,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        photo2 != null
-                            ? gearPhotoLabel(photo2)
-                            : (userPhoto != null
-                                  ? '用户导入（设置页「器材图目录」）'
-                                  : '运行时同步缓存（工作区 images/gear）'),
-                        style: const TextStyle(fontSize: AppFontSize.tinyLg),
-                      ),
-                      if (photo2 != null && gearPhotoCredit(photo2).isNotEmpty)
-                        Text(
-                          gearPhotoCredit(photo2),
-                          style: TextStyle(
-                            fontSize: AppFontSize.tiny,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      if (photo2 != null &&
-                          '${photo2['note'] ?? ''}'.isNotEmpty)
-                        Text(
-                          '${photo2['note']}',
-                          style: TextStyle(
-                            fontSize: AppFontSize.tiny,
-                            color: p.accent,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              if (photo2 == null &&
-                  userPhoto == null &&
-                  entry.image.isNotEmpty &&
-                  entry.imageSource != 'custom')
-                Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpace.s2),
+      ],
+    );
+  }
+
+  /// 详情弹层的内容体。
+  ///
+  /// V8.10 拆件：原为 `AlertDialog.content` 里内联的一大段。本弹层**没有可变
+  /// 状态**（不像 V8.9 的分类选择），故只提取成方法、不升级为 StatefulWidget ——
+  /// 拆件的目的是让 sanctioned API 的替换退化为例行改动，而不是为了拆而拆。
+  Widget _detailBody(
+    BuildContext context,
+    AppPalette p,
+    Map<String, Object?>? photo2,
+    Map<String, Object?>? userPhoto,
+  ) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if (_photoChain(
+          entry,
+          photo2,
+          userPhoto,
+          fit: BoxFit.contain,
+          height: 150,
+        ).isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppSpace.s2),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  width: 400,
+                  height: 150,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(
                       AppRadiusFine.oversizeSoft10,
                     ),
-                    child: Image.asset(
-                      'assets/content/gear/img/${entry.image}',
-                      height: 120,
-                      fit: BoxFit.contain,
+                    child: _firstAvailable(
+                      context,
+                      _photoChain(
+                        entry,
+                        photo2,
+                        userPhoto,
+                        fit: BoxFit.contain,
+                        height: 150,
+                      ),
                     ),
                   ),
                 ),
-              if (entry.tags.isNotEmpty) ...<Widget>[
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 4,
-                  children: <Widget>[
-                    for (final String tag in entry.tags)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpace.s2,
-                          vertical: AppSpaceFine.n2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: context.palette.accentSoft,
-                          borderRadius: BorderRadius.circular(
-                            AppRadiusFine.oversizeSoft20,
-                          ),
-                        ),
-                        child: Text(
-                          tag,
-                          style: TextStyle(
-                            fontSize: AppFontSize.caption,
-                            color: p.accent,
-                          ),
-                        ),
-                      ),
-                  ],
+                const SizedBox(height: 4),
+                Text(
+                  photo2 != null
+                      ? gearPhotoLabel(photo2)
+                      : (userPhoto != null
+                            ? '用户导入（设置页「器材图目录」）'
+                            : '运行时同步缓存（工作区 images/gear）'),
+                  style: const TextStyle(fontSize: AppFontSize.tinyLg),
                 ),
-                const SizedBox(height: 6),
+                if (photo2 != null && gearPhotoCredit(photo2).isNotEmpty)
+                  Text(
+                    gearPhotoCredit(photo2),
+                    style: TextStyle(
+                      fontSize: AppFontSize.tiny,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                if (photo2 != null && '${photo2['note'] ?? ''}'.isNotEmpty)
+                  Text(
+                    '${photo2['note']}',
+                    style: TextStyle(
+                      fontSize: AppFontSize.tiny,
+                      color: p.accent,
+                    ),
+                  ),
               ],
-              for (final MapEntry<String, Object?> spec in entry.specs.entries)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpace.s1),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 110,
-                        child: Text(
-                          _specLabel(spec.key),
-                          style: TextStyle(
-                            fontSize: AppFontSize.smallSm,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        '${spec.value}',
-                        style: const TextStyle(fontSize: AppFontSize.small),
-                      ),
-                    ],
+            ),
+          ),
+        if (photo2 == null &&
+            userPhoto == null &&
+            entry.image.isNotEmpty &&
+            entry.imageSource != 'custom')
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppSpace.s2),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadiusFine.oversizeSoft10),
+              child: Image.asset(
+                'assets/content/gear/img/${entry.image}',
+                height: 120,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        if (entry.tags.isNotEmpty) ...<Widget>[
+          Wrap(
+            spacing: 6,
+            runSpacing: 4,
+            children: <Widget>[
+              for (final String tag in entry.tags)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpace.s2,
+                    vertical: AppSpaceFine.n2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: context.palette.accentSoft,
+                    borderRadius: BorderRadius.circular(
+                      AppRadiusFine.oversizeSoft20,
+                    ),
+                  ),
+                  child: Text(
+                    tag,
+                    style: TextStyle(
+                      fontSize: AppFontSize.caption,
+                      color: p.accent,
+                    ),
                   ),
                 ),
-              const SizedBox(height: 6),
-              Text(
-                '参考价：¥${entry.priceRef.toStringAsFixed(0)}（内容包参考值，可自定义修正）',
-                style: const TextStyle(fontSize: AppFontSize.smallSm),
-              ),
             ],
           ),
-        ),
-        actions: <Widget>[
-          if (entry.kind == 'light')
-            SsButton(
-              label: '放入布光场景',
-              icon: Icons.wb_incandescent_outlined,
-              onPressed: () {
-                ref
-                    .read(lightingControllerProvider.notifier)
-                    .addLightFromGear(
-                      name: entry.displayName,
-                      powerW:
-                          (entry.specs['power_w'] as num?)?.toDouble() ?? 100,
-                      cct: '${entry.specs['cct'] ?? ''}',
-                      cri: (entry.specs['cri'] as num?)?.toInt() ?? 95,
-                      mount: entry.mount,
-                      type: '${entry.specs['type'] ?? ''}',
-                    );
-                ssToast(context, '已放入布光场景：${entry.displayName}（到布光预演页查看）');
-              },
-            ),
-          if (entry.imageSource == 'custom')
-            TextButton(
-              onPressed: () async {
-                final AppDatabase db = ref.read(databaseProvider);
-                await (db.delete(
-                  db.gearItems,
-                )..where((t) => t.id.equals(entry.id))).go();
-                ref.invalidate(gearListProvider);
-                if (ctx.mounted) Navigator.pop(ctx);
-                if (context.mounted) ssToast(context, '已删除自定义设备');
-              },
-              child: const Text('删除'),
-            ),
-          if (photo2 == null &&
-              userPhoto == null &&
-              entry.imageSource != 'custom')
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx);
-                onRephoto?.call(entry);
-              },
-              child: const Text('补图'),
-            ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('关闭'),
-          ),
+          const SizedBox(height: 6),
         ],
-      ),
+        for (final MapEntry<String, Object?> spec in entry.specs.entries)
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppSpace.s1),
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 110,
+                  child: Text(
+                    _specLabel(spec.key),
+                    style: TextStyle(
+                      fontSize: AppFontSize.smallSm,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+                Text(
+                  '${spec.value}',
+                  style: const TextStyle(fontSize: AppFontSize.small),
+                ),
+              ],
+            ),
+          ),
+        const SizedBox(height: 6),
+        Text(
+          '参考价：¥${entry.priceRef.toStringAsFixed(0)}（内容包参考值，可自定义修正）',
+          style: const TextStyle(fontSize: AppFontSize.smallSm),
+        ),
+      ],
     );
   }
 

@@ -518,5 +518,95 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
       expect(find.text('下载并登记'), findsNothing);
     });
+
+    testWidgets('「添加设备」弹层走 sanctioned 外观且必填校验生效（R74 收口）', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1700, 1300);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: uiContainer,
+          child: const MaterialApp(home: Scaffold(body: GearBrowser())),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 400));
+
+      await tester.tap(find.text('添加设备'));
+      await tester.pump(const Duration(milliseconds: 400));
+
+      // 弹层标题与五个字段都在：迁移只换外观（AlertDialog → SsDialog 衬线 h2）、
+      // 不换内容，故字段级断言是这次收口的真正门禁。
+      expect(find.text('添加自定义设备'), findsOneWidget, reason: '添加设备弹层未打开');
+      expect(find.text('品牌'), findsOneWidget);
+      expect(find.text('型号'), findsOneWidget);
+      expect(find.text('卡口（可空）'), findsOneWidget);
+      expect(find.text('参考价（可空）'), findsOneWidget);
+      expect(find.text('保存'), findsOneWidget);
+      expect(find.text('取消'), findsOneWidget);
+
+      // 必填校验：品牌/型号为空时点「保存」只提示、不关弹层。
+      await tester.tap(find.text('保存'));
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(find.text('品牌与型号必填'), findsOneWidget, reason: '必填校验失效');
+      expect(find.text('添加自定义设备'), findsOneWidget, reason: '校验失败不应关闭弹层');
+
+      // 填齐后保存：弹层关闭 + 提示 + 真的写进了库。
+      //
+      // 先等 toast 自行消失：它是 SnackBar（ssToast → ScaffoldMessenger），
+      // 浮在内容之上；若不等，下一次 tap('保存') 可能命中它而不是按钮 ——
+      // 而 tap 打偏只打印 warning、不会让测试失败，于是表现为「保存后弹层
+      // 没关闭」的假象（本次实际踩到）。
+      //
+      // SnackBar 的退场分三步：duration 计时器（AppMotion.slow=420ms）→
+      // 退场动画 → 移除。每步都要单独一帧，所以不能只 pump 一次大跨度
+      // （那只会让计时器触发、退场动画停在第 0 帧）。这里逐帧推进。
+      await tester.pump(const Duration(milliseconds: 500));
+      for (int i = 0; i < 6; i++) {
+        await tester.pump(const Duration(milliseconds: 300));
+      }
+      expect(
+        find.text('品牌与型号必填'),
+        findsNothing,
+        reason: 'toast 应已自动消失，否则会挡住后面的点击',
+      );
+
+      await tester.enterText(find.widgetWithText(TextField, '品牌'), 'TestBrand');
+      await tester.enterText(find.widgetWithText(TextField, '型号'), 'TestModel');
+      await tester.pump(const Duration(milliseconds: 200));
+      // 输入确实落到了输入框上（否则校验会再次拦下，后面全程无意义）。
+      expect(find.text('TestBrand'), findsOneWidget, reason: '品牌未填入');
+      expect(find.text('TestModel'), findsOneWidget, reason: '型号未填入');
+
+      // drift 的真实异步在 testWidgets 的 FakeAsync 下不推进：submit() 里的
+      // await 写库永不返回 → pop(true) 永不执行 → 表现为「保存后弹层关不掉」。
+      // 把点击放进 runAsync，让整条写库链在真实事件循环里跑完（runAsync 内
+      // 不能再 pump，故其后单独补帧）。
+      await tester.runAsync(() async {
+        await tester.tap(find.text('保存'));
+        await Future<void>.delayed(const Duration(milliseconds: 200));
+      });
+      for (int i = 0; i < 6; i++) {
+        await tester.pump(const Duration(milliseconds: 200));
+      }
+      expect(tester.takeException(), isNull, reason: '保存路径不应抛异常（写库/弹层任一环节）');
+      expect(find.text('添加自定义设备'), findsNothing, reason: '保存成功后弹层应关闭');
+      expect(find.text('已添加自定义设备'), findsOneWidget);
+
+      // drift 的真实异步（sqlite3 FFI 往返）在 FakeAsync 下不自行推进，
+      // 查库也要借 runAsync 让真实事件循环跑完（runAsync 返回 T?）。
+      final List<GearItem>? rows = await tester.runAsync(
+        () => uiDb.select(uiDb.gearItems).get(),
+      );
+      expect(rows, isNotNull, reason: '查库未在真实事件循环内完成');
+      expect(
+        rows!.where(
+          (GearItem r) => r.brand == 'TestBrand' && r.model == 'TestModel',
+        ),
+        hasLength(1),
+        reason: '新增条目未写入数据库',
+      );
+    });
   });
 }

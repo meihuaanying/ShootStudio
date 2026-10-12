@@ -168,51 +168,37 @@ V8 收尾时**只写在代码注释里、没有进中央登记**，等于「知�
 - **修复条件**：CI 拿到 GPU runner（`runs-on` 支持 GPU 的 label）后，把
   「逐相位 `engineFrames > 0`」与「帧数 ≥ 基线 50%」恢复为硬判，并重录基线。
 
-## 偏差 10：R74 组件收口未做到 100%（11 处 AlertDialog 中已迁 9，剩 2）
+## 偏差 10：R74 组件收口（11 处 AlertDialog 已全部迁移，v8.10 消除）
 
 - **合同条款**：R74「弹层一律走 sanctioned API，feature 侧不得裸写
   `showDialog` + `AlertDialog`」。
-- **现状**：`lib/`（`core/design/` 自身除外）共 **11 处** AlertDialog 外观的
-  `showDialog` 调用点 —— 审计口径见 v8.7 报告 §1。V8.2 迁了 3 处
-  （`showSsConfirm`），V8.7 迁了 **4 处**，V8.8 又迁 **4 处**，V8.9 再迁
-  **1 处**（`showSsDialog<T>`），**已迁 9 处、还剩 2 处**，逐处清单见
-  `docs/qa/v8-8-r74-batch2.md` §4（各轮迁移明细分别在 v8.7 §4、v8.8 §3、
-  v8.9 §2）。
-- **已完成的部分**：
-  - V8.7：sanctioned API 从「只覆盖 bool」扩到「任意 `T` + 统一动作按钮」——
-    新增 `showSsDialog<T>(...)` 与 `SsDialogAction`，并把 `showSsConfirm`
-    重构为复用 `SsDialogAction`。
-  - V8.8：把「void 型 + 纯展示 / 单按钮」这一类（原判为「预算外」的 4 处）
-    按机械替换迁完，并新增一条 `SsDialogAction` 无 `onPressed` 时自动 `pop()`
-    的行为断言（这是迁移中最容易被写成「按钮点不动」的坑）。
-  - V8.9：迁移 `pose_import_page_layout.dart` 的命名分类弹层 —— 即 v8.8 判定
-    「需先决定状态归属」的那一处。做法是把弹层体独立成 `_NameCategoryBody`
-    （`StatefulWidget`），分类选中态归它自己的 `State`，`StatefulBuilder` 整个消失；
-    顺带把 `TextEditingController` 的释放从「await 之后手工 dispose」改为
-    该 `State.dispose()`。详见 `docs/qa/v8-9-r74-pose-import-dialog.md`。
+- **现状**：**已全部迁完**。`lib/`（`core/design/` 自身除外）共 11 处
+  AlertDialog 外观的 `showDialog` 调用点，逐轮迁移：V8.2 迁 3
+  （`showSsConfirm`）、V8.7 迁 4、V8.8 迁 4、V8.9 迁 1、V8.10 迁 2 ——
+  **11/11**。复核脚本（170 个 Dart 文件）输出：
+  ```
+  files=170  AlertDialog sites left=0
+  ```
+- **各轮做法与报告**：v8.7 §4（sanctioned API 从「只覆盖 bool」扩到「任意 `T`
+  + 统一动作按钮」）、v8.8 §3（void 型 + 纯展示 / 单按钮）、v8.9 §2
+  （状态归属先拆件）、v8.10 §2（最后 2 处：先判断有无可变状态再决定拆件粒度 ——
+  有状态才拆 `StatefulWidget`，无状态只提方法）。
 - **同时更正了审计口径**：v8.2 文档的两条论断不成立 ——
   ① `SsDialog` 本来就是 widget，`showDialog<T>(builder: ... SsDialog(...))`
   一直就能返回任意 `T`，缺的不是能力而是便捷入口；
   ② C 类里 `plan_read_view.dart:32` 用的是 `Dialog.fullscreen`，不是
   AlertDialog 外观，**不属 R74 收口对象**，已从计数中剔除。
-  故「48 → 42 / 剩 27」是粗数，**以 v8.7/v8.8/v8.9 报告的 11 处 / 剩 2 处为准**。
-- **残留影响 / 代价（明说）**：这 2 处仍是 feature 侧自拼弹层外观，
-  标题样式与动作按钮形态与本仓设计令牌不统一；已迁移的 9 处**视觉上必然变化**
-  （标题改走 `AppType.h2` 衬线、affirmative 动作变 `FilledButton`），
-  这是收口的目的而非回归，已在 v8.7 §4 / v8.8 §3 / v8.9 §2 逐条登记。
-  另有一处**按钮形态差异需记录**：`updater_download_sheets.dart` 原用
-  `SsButton(dense: true)`，迁后走 `SsDialogAction`（`FilledButton`/`TextButton`），
-  按钮高与内边距随之变化。
-- **剩余 2 处的具体性质（不是「没时间」而是「需要先拆件」）**：
-  1. `gear_browser_add.dart:11`（跨度 104 行，返回 `bool`）— 富内容新增表单，
-     多字段 + 校验 + 提交流程的 await 链，需先拆件；
-  2. `gear_browser_card.dart:259`（跨度 203 行，返回 `void`，3 个动作）—
-     富内容 + 图片链，全树最长的一处，需拆出多个子件。
-  这 2 处的共同点：**问题不是「没用 sanctioned API」，而是弹层内容本身需要拆件**；
-  替换调用点是最后一步。V8.9 已证明这个判断是对的 —— 第 3 处一旦把状态归属定下来
-  （见上），迁移就退化成常规替换。
-- **修复条件**：按 v8.8 报告 §4 剩余清单逐处迁移（每处替换后需跑全量
-  `flutter test`）。这 2 处建议各开一轮，先拆件再替换。
+  故「48 → 42 / 剩 27」是粗数，**以 v8.7 / v8.8 / v8.9 / v8.10 报告的
+  11 处 / 0 处为准**。
+- **代价（明说，不掩饰）**：已迁移的 11 处**视觉上必然变化**（标题改走
+  `AppType.h2` 衬线、affirmative 动作变 `FilledButton`），这是收口的目的而非回归，
+  已逐条登记在 v8.7 §4 / v8.8 §3 / v8.9 §2 / v8.10 §2。其中
+  `updater_download_sheets.dart` 原用 `SsButton(dense: true)`，迁后走
+  `SsDialogAction`（`FilledButton`/`TextButton`），按钮高与内边距随之变化。
+- **顺带修掉的真 bug**：`gear_browser_add.dart` 原实现 4 个
+  `TextEditingController` 从不释放（真内存泄漏），V8.10 拆件时由
+  `_AddGearBodyState.dispose()` 释放。
+- **状态**：**本偏差已消除**（条目保留作为过程记录与视觉差异登记）。
 
 
 
