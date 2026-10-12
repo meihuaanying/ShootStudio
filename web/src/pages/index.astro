@@ -9,7 +9,7 @@ const version = import.meta.env.PUBLIC_APP_VERSION?.replace(/^v/, '') || '2.0.0'
   <!-- 首屏：真实产品静帧（D157 ≥50% 视口宽）+ 衬线大标题 + 双下载 CTA -->
   <section class="border-b border-v8-rule" data-hero>
     <div
-      class="mx-auto grid max-w-[1280px] items-center gap-8 px-6 py-14 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12 lg:py-20"
+      class="mx-auto grid max-w-[1280px] items-center gap-8 px-6 py-14 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-12 lg:py-20"
     >
       <div>
         <p class="eyebrow" data-hero-item>SHOOTSTUDIO · V{version} · MIT 开源</p>
@@ -31,8 +31,15 @@ const version = import.meta.env.PUBLIC_APP_VERSION?.replace(/^v/, '') || '2.0.0'
           国内 CDN 镜像优先 · GitHub Release 回退 · SHA-256 校验
         </p>
       </div>
-      <!-- D157：首屏必须用真实产品截图，不用装饰性 SVG -->
-      <figure class="shot" data-hero-item data-hero-visual>
+      <!-- D157：首屏必须用真实产品截图，不用装饰性 SVG。
+           宽度：图片所在栅格列只占 1280 封顶栅格的 1.12/2，实测图宽只有 637px
+           （1280 视口 49.79%、1920 视口 33.2%），达不到 D157 的「≥50% 视口宽」。
+           故在 lg 起让 figure 直接取 51vw —— 文字列仍严格落在站点 1280 栅格上
+           （不改文字左边缘），只有图片向右出血到接近视口右缘。
+           51vw 的余量：1024~4700px 视口内图片右缘都不出视口（最窄处余 ~21px），
+           而全站 html/body 是 overflow-x:hidden，一旦越界会被静默裁掉，
+           所以余量必须靠实测量（见 web/tool/hero_probe.mjs）。 -->
+      <figure class="shot lg:!w-[51vw]" data-hero-item data-hero-visual>
         <picture>
           <source srcset="/shots/hero-dark.png" media="(prefers-color-scheme: dark)" />
           <img

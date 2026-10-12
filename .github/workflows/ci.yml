@@ -114,6 +114,16 @@ jobs:
         working-directory: web
         run: node tool/shot_s10.mjs
 
+      # P3 · D157 首屏图宽（>= 50% 视口宽）。
+      # shot_s10.mjs 只负责截 30 张图给人看，**不量任何宽度** —— 在加这条之前，
+      # 合同里「首屏 = 真实产品静帧（>= 50% 视口宽）」这一句没有任何门禁在守，
+      # 而且当时实测就已经不达标：1280 视口 49.79%、1920 视口 33.2%
+      # （根因：hero 容器 max-w-[1280px] 把栅格封顶，图宽被钉在 637px）。
+      # V8.1 的教训是「只有接进 CI 的才叫门禁，本地跑过的不算」，故此处入 CI。
+      - name: "Hero width gate (D157: hero shot >= 50% viewport)"
+        working-directory: web
+        run: node tool/hero_gate.mjs
+
       # 注意 working-directory：本文件顶部有 defaults.run.working-directory: app，
       # 而 shot_s10.mjs 把截图写进**仓库根**的 docs/（它自己按 repoRoot 解析）。
       # 不覆盖这一步就会在 app/ 里找 docs/，必然「缺少 json」。V8.1.2 在这里
@@ -139,9 +149,13 @@ jobs:
   # （定得宽=永远绿，定得严=永远红）。合同 D152 的 16ms 口径本就登记为「独显实测」，
   # 见 docs/qa/v8-s2-engine-perf-gtx4060-dpr1.json（lightDrag p95 17.5ms + 偏差说明）。
   #
-  # 因此本 job 守的是**CI 真能抓到的那些回归**：测量链路可用、引擎仍在出帧、
-  # 统计字段仍是数值、预热确实 settled、灯体确实被拖到、帧数未相对入库基线灾难回退。
-  # 反向验证已做：把 phase 的 engineFrames 改成 0，gate 立刻 FAIL 并 exit 1。
+  # 因此本 job 守的是**CI 真能抓到的那些回归**：测量链路可用、**整次测量总帧数 > 0**
+  # （即渲染循环是否还活着）、**出了帧的相位**统计字段仍是数值、预热确实 settled、
+  # 灯体确实被拖到。逐相位 engineFrames 与入库基线的差距**只打 NOTE、不判红** ——
+  # 它是二值噪音（基线每段仅 1~3 帧，与底噪同量级），拿它当阈值等于抛硬币，
+  # 实测同一台机器两次运行总帧数 4 vs 5、差出整个相位。登记为偏差 9，
+  # 详见 docs/qa/v8-r71-deviations.md 与 docs/qa/v8-5-engine-perf-gate-revision.md。
+  # 反向验证已做：把四相位 engineFrames 全改成 0，gate 立刻 FAIL 并 exit 1。
   #
   # node-version 用 22 与 website-gate 同因：engine_perf_qa.mjs 走 CDP 需要 WebSocket，
   # Node 20 两处都拿不到（V8.1.1 已在 shot_s10.mjs 上踩过并修过一次）。

@@ -1,0 +1,57 @@
+{
+  "gate": "D157 首屏图宽（>= 50% 视口宽）",
+  "at": "2026-10-12T06:16:32.449Z",
+  "minPctRequired": 50,
+  "verdict": "PASS",
+  "failedChecks": 0,
+  "rows": [
+    {
+      "viewport": "1024x768",
+      "ok": true,
+      "vw": 1024,
+      "imgW": 520.2,
+      "imgRight": 1001.5,
+      "rightGap": 22.5,
+      "pctViewport": 50.8,
+      "naturalW": 1920,
+      "complete": true,
+      "docOverflow": 0
+    },
+    {
+      "viewport": "1280x800",
+      "ok": true,
+      "vw": 1280,
+      "imgW": 650.8,
+      "imgRight": 1244.8,
+      "rightGap": 35.3,
+      "pctViewport": 50.84,
+      "naturalW": 1920,
+      "complete": true,
+      "docOverflow": 0
+    },
+    {
+      "viewport": "1920x1080",
+      "ok": true,
+      "vw": 1920,
+      "imgW": 977.2,
+      "imgRight": 1891.1,
+      "rightGap": 28.9,
+      "pctViewport": 50.9,
+      "naturalW": 1920,
+      "complete": true,
+      "docOverflow": 0
+    },
+    {
+      "viewport": "2560x1440",
+      "ok": true,
+      "vw": 2560,
+      "imgW": 1303.6,
+      "imgRight": 2537.5,
+      "rightGap": 22.5,
+      "pctViewport": 50.92,
+      "naturalW": 1920,
+      "complete": true,
+      "docOverflow": 0
+    }
+  ]
+}
