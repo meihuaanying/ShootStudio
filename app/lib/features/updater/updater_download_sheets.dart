@@ -44,52 +44,49 @@ Future<void> confirmDownload(
   }
 
   final String? digest = entry == null ? null : shortDigest(entry.sha256);
-  await showDialog<void>(
+  await showSsDialog<void>(
     context: context,
-    builder: (BuildContext ctx) {
-      final AppPalette p = ctx.palette;
-      return AlertDialog(
-        title: const Text('确认下载'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('即将用浏览器打开 v${announcement.version} 安装包。'),
-            const SizedBox(height: AppSpace.s3),
-            if (digest != null) ...<Widget>[
-              const Text('官方 SHA-256（前 12 位）：'),
-              const SizedBox(height: AppSpace.s1),
-              SelectableText(
-                digest,
-                style: appMono(p.ink, size: AppFontSize.smallLg),
-              ),
-              const SizedBox(height: AppSpace.s3),
-            ],
-            Text(
-              digest == null
-                  ? '该版本未公布 SHA-256，下载后请自行确认来源可信。'
-                  : '请在下载完成后用官方公布的完整摘要核对文件，'
-                        '确认一致再安装。本应用不代你校验下载完整性。',
-              style: TextStyle(fontSize: AppFontSize.smallLg, color: p.muted),
-            ),
-          ],
-        ),
-        actions: <Widget>[
-          SsButton(
-            label: '取消',
-            dense: true,
-            onPressed: () => Navigator.pop(ctx),
+    title: '确认下载',
+    actions: (BuildContext ctx) => <Widget>[
+      SsDialogAction(
+        label: '取消',
+        primary: false,
+        onPressed: () => Navigator.of(ctx).pop(),
+      ),
+      SsDialogAction(
+        label: '打开下载',
+        onPressed: () {
+          Navigator.of(ctx).pop();
+          launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+        },
+      ),
+    ],
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text('即将用浏览器打开 v${announcement.version} 安装包。'),
+        const SizedBox(height: AppSpace.s3),
+        if (digest != null) ...<Widget>[
+          const Text('官方 SHA-256（前 12 位）：'),
+          const SizedBox(height: AppSpace.s1),
+          SelectableText(
+            digest,
+            style: appMono(context.palette.ink, size: AppFontSize.smallLg),
           ),
-          SsButton(
-            label: '打开下载',
-            dense: true,
-            onPressed: () {
-              Navigator.pop(ctx);
-              launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-            },
-          ),
+          const SizedBox(height: AppSpace.s3),
         ],
-      );
-    },
+        Text(
+          digest == null
+              ? '该版本未公布 SHA-256，下载后请自行确认来源可信。'
+              : '请在下载完成后用官方公布的完整摘要核对文件，'
+                    '确认一致再安装。本应用不代你校验下载完整性。',
+          style: TextStyle(
+            fontSize: AppFontSize.smallLg,
+            color: context.palette.muted,
+          ),
+        ),
+      ],
+    ),
   );
 }

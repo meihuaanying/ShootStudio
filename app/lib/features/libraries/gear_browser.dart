@@ -337,30 +337,25 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
       0,
       0,
     ));
-    final Future<void> dialog = showDialog<void>(
+    final Future<void> dialog = showSsDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: const Text(
-          '同步器材图',
-          style: TextStyle(fontSize: AppFontSize.bodyLg),
-        ),
-        content: ValueListenableBuilder<(int, int)>(
-          valueListenable: progress,
-          builder: (BuildContext c, (int, int) v, Widget? _) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              LinearProgressIndicator(
-                value: v.$2 == 0 ? null : v.$1 / v.$2,
-                minHeight: 6,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                '正在下载 ${v.$1}/${v.$2} · 已内置条目自动跳过',
-                style: const TextStyle(fontSize: AppFontSize.smallSm),
-              ),
-            ],
-          ),
+      title: '同步器材图',
+      child: ValueListenableBuilder<(int, int)>(
+        valueListenable: progress,
+        builder: (BuildContext c, (int, int) v, Widget? _) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            LinearProgressIndicator(
+              value: v.$2 == 0 ? null : v.$1 / v.$2,
+              minHeight: 6,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '正在下载 ${v.$1}/${v.$2} · 已内置条目自动跳过',
+              style: const TextStyle(fontSize: AppFontSize.smallSm),
+            ),
+          ],
         ),
       ),
     );

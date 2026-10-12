@@ -285,5 +285,37 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
     });
+
+    // V8.8 补：这条是迁移时最容易踩的坑 ——
+    // `SsDialogAction(label: '关闭', primary: false)` 不写 onPressed 时，
+    // 若实现把 null 直接透给 TextButton，按钮会**变成禁用态、点不动**，
+    // 弹层关不掉。实现里是 `onPressed ?? () => Navigator.of(context).pop()`，
+    // 这里把「不写 onPressed 也能关掉」钉住。
+    testWidgets('SsDialogAction 无 onPressed 时点一下就能关掉弹层', (tester) async {
+      await tester.pumpWidget(
+        _Host(
+          open: (BuildContext ctx) async {
+            await showSsDialog<void>(
+              context: ctx,
+              title: '关闭动作回归',
+              actions: (BuildContext actx) => <Widget>[
+                SsDialogAction(label: '关闭', primary: false),
+              ],
+            );
+          },
+        ),
+      );
+      await tester.tap(find.text('打开'));
+      await tester.pumpAndSettle();
+      expect(find.text('关闭动作回归'), findsOneWidget);
+
+      await tester.tap(find.text('关闭'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text('关闭动作回归'),
+        findsNothing,
+        reason: '不写 onPressed 的动作必须仍能 pop（否则弹层关不掉）',
+      );
+    });
   });
 }

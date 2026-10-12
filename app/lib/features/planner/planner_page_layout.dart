@@ -185,11 +185,16 @@ extension _PlannerPageLayout on _PlannerPageState {
   Future<void> _showTemplatePicker(PlannerController controller) async {
     final templates = await ContentPacks.templates();
     if (!mounted) return;
-    await showDialog<void>(
+    await showSsDialog<void>(
       context: context,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: const Text('模板库（内置 8 套 · 覆盖 Cos/汉服/JK/婚纱/写真/商拍/Lo裙/双人）'),
-        content: SizedBox(
+      title: '模板库（内置 8 套 · 覆盖 Cos/汉服/JK/婚纱/写真/商拍/Lo裙/双人）',
+      // 原 content 是 SizedBox(width: 640)，+48 内边距 = 688。
+      maxWidth: 688,
+      // child 在构造期求值、拿不到弹层 ctx，而卡片 onTap 需要 pop 弹层；
+      // 用 Builder 取弹层子树的 ctx（showDialog 默认 useRootNavigator: true，
+      // 直接闭包捕获页面 ctx 在嵌套 Navigator 下会 pop 错层）。
+      child: Builder(
+        builder: (BuildContext inner) => SizedBox(
           width: 640,
           height: 460,
           child: GridView.builder(
@@ -205,7 +210,7 @@ extension _PlannerPageLayout on _PlannerPageState {
               return SsCard(
                 onTap: () async {
                   await controller.newFromTemplate(t);
-                  if (ctx.mounted) Navigator.pop(ctx);
+                  if (inner.mounted) Navigator.of(inner).pop();
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,13 +238,10 @@ extension _PlannerPageLayout on _PlannerPageState {
             },
           ),
         ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('取消'),
-          ),
-        ],
       ),
+      actions: (BuildContext ctx) => <Widget>[
+        SsDialogAction(label: '取消', primary: false),
+      ],
     );
   }
 
@@ -359,51 +361,48 @@ extension _PlannerPageLayout on _PlannerPageState {
     if (!context.mounted) return;
     final current = ref.read(plannerControllerProvider).modules;
     final diff = diffPlans(base, current);
-    await showDialog<void>(
+    await showSsDialog<void>(
       context: context,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: const Text('版本对比（历史 → 当前）'),
-        content: SizedBox(
-          width: 560,
-          height: 420,
-          child: diff.isEmpty
-              ? const Center(child: Text('两版本内容一致'))
-              : ListView(
-                  children: <Widget>[
-                    Text(
-                      '新增 ${diff.added.length} · 删除 ${diff.removed.length} · '
-                      '修改 ${diff.changed.length} · 未变 ${diff.unchanged}',
-                      style: const TextStyle(fontSize: AppFontSize.small),
+      title: '版本对比（历史 → 当前）',
+      // 原 content 是 SizedBox(width: 560)，+48 内边距 = 608。
+      maxWidth: 608,
+      child: SizedBox(
+        width: 560,
+        height: 420,
+        child: diff.isEmpty
+            ? const Center(child: Text('两版本内容一致'))
+            : ListView(
+                children: <Widget>[
+                  Text(
+                    '新增 ${diff.added.length} · 删除 ${diff.removed.length} · '
+                    '修改 ${diff.changed.length} · 未变 ${diff.unchanged}',
+                    style: const TextStyle(fontSize: AppFontSize.small),
+                  ),
+                  const SizedBox(height: 8),
+                  for (final PlanModuleData m in diff.added)
+                    _diffLine(
+                      Icons.add_circle_outline_rounded,
+                      p.film,
+                      '新增：${m.title}（${m.type.label}）',
                     ),
-                    const SizedBox(height: 8),
-                    for (final PlanModuleData m in diff.added)
-                      _diffLine(
-                        Icons.add_circle_outline_rounded,
-                        p.film,
-                        '新增：${m.title}（${m.type.label}）',
-                      ),
-                    for (final PlanModuleData m in diff.removed)
-                      _diffLine(
-                        Icons.remove_circle_outline_rounded,
-                        p.danger,
-                        '删除：${m.title}（${m.type.label}）',
-                      ),
-                    for (final ModuleChange c in diff.changed)
-                      _diffLine(
-                        Icons.change_circle_outlined,
-                        p.gold,
-                        '修改：${c.after.title} · ${c.changedKeys.join('、')}',
-                      ),
-                  ],
-                ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('关闭'),
-          ),
-        ],
+                  for (final PlanModuleData m in diff.removed)
+                    _diffLine(
+                      Icons.remove_circle_outline_rounded,
+                      p.danger,
+                      '删除：${m.title}（${m.type.label}）',
+                    ),
+                  for (final ModuleChange c in diff.changed)
+                    _diffLine(
+                      Icons.change_circle_outlined,
+                      p.gold,
+                      '修改：${c.after.title} · ${c.changedKeys.join('、')}',
+                    ),
+                ],
+              ),
       ),
+      actions: (BuildContext ctx) => <Widget>[
+        SsDialogAction(label: '关闭', primary: false),
+      ],
     );
   }
 

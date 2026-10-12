@@ -82,49 +82,52 @@ Future<void> showRefFrameDialog({
   required RefFrame frame,
   required VoidCallback onRemove,
 }) {
-  return showDialog<void>(
+  final AppPalette p = context.palette;
+  // R74 收口：原为裸 showDialog + AlertDialog。`child` 由本函数构造、
+  // 拿不到弹层自己的 ctx，故色值用页面级 palette（同一主题，等价）。
+  // 宽度对齐：原 content 是 SizedBox(width: 420)，SsDialog 两侧各 24 内边距，
+  // 故 maxWidth = 420 + 48 = 468。
+  return showSsDialog<void>(
     context: context,
-    builder: (BuildContext ctx) => AlertDialog(
-      title: Text(frame.name, style: AppType.h3.style(ctx.palette.ink)),
-      content: SizedBox(
-        width: 420,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('来自：${frame.filmTitle}'),
-            if (frame.sourceUrl.isNotEmpty)
-              Text(
-                frame.sourceUrl,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: appMono(ctx.palette.muted, size: 10),
-              ),
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        if (frame.sourceUrl.isNotEmpty)
-          TextButton(
-            onPressed: () => launchUrl(
-              Uri.parse(frame.sourceUrl),
-              mode: LaunchMode.externalApplication,
+    title: frame.name,
+    maxWidth: 468,
+    child: SizedBox(
+      width: 420,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('来自：${frame.filmTitle}'),
+          if (frame.sourceUrl.isNotEmpty)
+            Text(
+              frame.sourceUrl,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: appMono(p.muted, size: 10),
             ),
-            child: const Text('打开来源页'),
-          ),
-        TextButton(
-          onPressed: () {
-            onRemove();
-            Navigator.pop(ctx);
-          },
-          child: const Text('移出画板'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(ctx),
-          child: const Text('关闭'),
-        ),
-      ],
+        ],
+      ),
     ),
+    actions: (BuildContext ctx) => <Widget>[
+      if (frame.sourceUrl.isNotEmpty)
+        SsDialogAction(
+          label: '打开来源页',
+          primary: false,
+          onPressed: () => launchUrl(
+            Uri.parse(frame.sourceUrl),
+            mode: LaunchMode.externalApplication,
+          ),
+        ),
+      SsDialogAction(
+        label: '移出画板',
+        primary: false,
+        onPressed: () {
+          onRemove();
+          Navigator.of(ctx).pop();
+        },
+      ),
+      SsDialogAction(label: '关闭', primary: false),
+    ],
   );
 }
 
