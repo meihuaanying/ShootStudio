@@ -427,25 +427,24 @@ extension _PlannerPageLayout on _PlannerPageState {
 
   Future<String?> _askLabel(BuildContext context) async {
     final ctl = TextEditingController();
-    return showDialog<String>(
+    return showSsDialog<String>(
       context: context,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: const Text('里程碑命名'),
-        content: TextField(
-          controller: ctl,
-          decoration: const InputDecoration(hintText: '如：客户确认版'),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('取消'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, ctl.text),
-            child: const Text('确定'),
-          ),
-        ],
+      title: '里程碑命名',
+      child: TextField(
+        controller: ctl,
+        decoration: const InputDecoration(hintText: '如：客户确认版'),
       ),
+      actions: (BuildContext ctx) => <Widget>[
+        SsDialogAction(
+          label: '取消',
+          primary: false,
+          onPressed: () => Navigator.pop(ctx),
+        ),
+        SsDialogAction(
+          label: '确定',
+          onPressed: () => Navigator.pop(ctx, ctl.text),
+        ),
+      ],
     );
   }
 }

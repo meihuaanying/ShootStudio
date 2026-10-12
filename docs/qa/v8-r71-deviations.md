@@ -168,6 +168,32 @@ V8 收尾时**只写在代码注释里、没有进中央登记**，等于「知�
 - **修复条件**：CI 拿到 GPU runner（`runs-on` 支持 GPU 的 label）后，把
   「逐相位 `engineFrames > 0`」与「帧数 ≥ 基线 50%」恢复为硬判，并重录基线。
 
+## 偏差 10：R74 组件收口未做到 100%（11 处 AlertDialog 中已迁 4，剩 7）
+
+- **合同条款**：R74「弹层一律走 sanctioned API，feature 侧不得裸写
+  `showDialog` + `AlertDialog`」。
+- **现状**：`lib/`（`core/design/` 自身除外）共 **11 处** AlertDialog 外观的
+  `showDialog` 调用点。V8.2 迁了 3 处（`showSsConfirm`），V8.7 迁了 **4 处**
+  （`showSsDialog<T>`），**还剩 7 处未迁**，清单与逐处行跨度 / 返回类型 / 未迁原因
+  见 `docs/qa/v8-7-r74-api-and-migrations.md` §5。
+- **V8.7 已完成的部分**：sanctioned API 从「只覆盖 bool」扩到
+  「任意 `T` + 统一动作按钮」——新增 `showSsDialog<T>(...)` 与
+  `SsDialogAction`，并把 `showSsConfirm` 重构为复用 `SsDialogAction`。
+  剩余 7 处用的就是这套 API，后续是**机械替换**，不需要再发明 API。
+- **同时更正了审计口径**：v8.2 文档的两条论断不成立 ——
+  ① `SsDialog` 本来就是 widget，`showDialog<T>(builder: ... SsDialog(...))`
+  一直就能返回任意 `T`，缺的不是能力而是便捷入口；
+  ② C 类里 `plan_read_view.dart:32` 用的是 `Dialog.fullscreen`，不是
+  AlertDialog 外观，**不属 R74 收口对象**，已从计数中剔除。
+  故「48 → 42 / 剩 27」是粗数，**以 v8.7 报告的 11 处 / 剩 7 处为准**。
+- **残留影响 / 代价（明说）**：这 7 处仍是 feature 侧自拼弹层外观，
+  标题样式与动作按钮形态与本仓设计令牌不统一；已迁移的 4 处**视觉上必然变化**
+  （标题改走 `AppType.h2` 衬线、affirmative 动作变 `FilledButton`），
+  这是收口的目的而非回归，已在 v8.7 报告 §4 逐条登记。
+- **修复条件**：按 v8.7 报告 §5 清单逐处迁移（每处替换后需跑全量
+  `flutter test`，因其中有 `StatefulBuilder` / 富内容弹层需重构）。
+
+
 
 ---
 

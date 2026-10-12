@@ -381,37 +381,42 @@ class _RefsPageState extends ConsumerState<RefsPage> {
   }
 
   void _showAllThemes() {
-    showDialog<void>(
+    showSsDialog<void>(
       context: context,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: Text('全部主题（${kThemePacks.length}）'),
-        content: SizedBox(
-          width: 520,
-          child: SingleChildScrollView(
-            child: Wrap(
-              spacing: 6,
-              runSpacing: 6,
-              children: <Widget>[
-                for (final ThemePack pack in kThemePacks)
-                  SsChip(
-                    label: pack.name,
-                    selected: false,
-                    onTap: () {
-                      Navigator.pop(ctx);
-                      _runTheme(pack);
-                    },
-                  ),
-              ],
-            ),
+      title: '全部主题（${kThemePacks.length}）',
+      // 原 AlertDialog 的 content 是 SizedBox(width: 520) + 自带 SingleChildScrollView。
+      // SsDialog 已经把 child 包进 Flexible(SingleChildScrollView)，故此处只留宽度，
+      // 不再套第二层滚动（两层套娃会出现内外两个可滚动区）。
+      maxWidth: 570,
+      child: SizedBox(
+        width: 520,
+        child: Builder(
+          // 用弹层自己的 context 取 Navigator：showDialog 默认 useRootNavigator: true，
+          // 页面级 context 在嵌套 Navigator 场景下会指到另一个 Navigator。
+          builder: (BuildContext inner) => Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: <Widget>[
+              for (final ThemePack pack in kThemePacks)
+                SsChip(
+                  label: pack.name,
+                  selected: false,
+                  onTap: () {
+                    Navigator.pop(inner);
+                    _runTheme(pack);
+                  },
+                ),
+            ],
           ),
         ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('关闭'),
-          ),
-        ],
       ),
+      actions: (BuildContext ctx) => <Widget>[
+        SsDialogAction(
+          label: '关闭',
+          primary: false,
+          onPressed: () => Navigator.pop(ctx),
+        ),
+      ],
     );
   }
 

@@ -136,6 +136,86 @@ class SsSheet extends StatelessWidget {
   }
 }
 
+/// 通用弹层入口：返回值类型由调用方决定（V8.7 补，覆盖 R74 C 类）。
+///
+/// `showSsConfirm` 只覆盖「确认/取消 → bool」。表单、选择器、粘贴链接这类
+/// 弹层必须把 `String` / `Map` / record 交回调用方，此前只能在 feature 里
+/// 裸写 `showDialog<T> + AlertDialog`（R74 §3 C 类）。这里补上同一条路子，
+/// 视觉仍全部来自 [SsDialog]，不让 feature 自己拼弹层外观。
+///
+/// `actions` 用 builder 形态，是为了让调用方能拿到弹层自己的 `BuildContext`
+/// 去 `Navigator.of(ctx).pop(value)` —— 返回值在按下按钮那一刻才求值，
+/// 所以选择器类弹层应先在回调里读控件状态、再 pop。
+Future<T?> showSsDialog<T>({
+  required BuildContext context,
+  required String title,
+  String? eyebrow,
+  String? subtitle,
+  Widget? child,
+  List<Widget> Function(BuildContext ctx)? actions,
+  bool barrierDismissible = true,
+  double maxWidth = 560,
+}) => showDialog<T>(
+  context: context,
+  barrierDismissible: barrierDismissible,
+  builder: (BuildContext ctx) => SsDialog(
+    eyebrow: eyebrow,
+    title: title,
+    subtitle: subtitle,
+    maxWidth: maxWidth,
+    actions: actions == null ? const <Widget>[] : actions(ctx),
+    child: child,
+  ),
+);
+
+/// 弹层动作按钮：`primary` 形态与 [showSsConfirm] 的确认键同一套令牌
+/// （单一来源），`primary: false` 为次要形态（取消 / 关闭）。
+///
+/// `onPressed` 留空表示「仅关闭」。需要回传值的弹层在按下那一刻
+/// `Navigator.of(context).pop(value)` —— 值是 `T` 还是别的类型由调用方决定，
+/// 故本件不做成泛型（`void?` 之类的类型实参不合法，泛型只会逼调用方写
+/// 显式类型实参，反而更难读）。
+class SsDialogAction extends StatelessWidget {
+  const SsDialogAction({
+    super.key,
+    required this.label,
+    this.onPressed,
+    this.primary = true,
+    this.danger = false,
+  });
+
+  final String label;
+
+  /// 留空 = 仅关闭弹层（等同 `pop()`）。
+  final VoidCallback? onPressed;
+
+  /// 主按钮（实心 + 强调色）还是次要按钮（文字）。
+  final bool primary;
+
+  /// 主按钮是否用告警色（删除 / 覆盖类决策）。
+  final bool danger;
+
+  @override
+  Widget build(BuildContext context) {
+    final AppPalette p = context.palette;
+    final VoidCallback handle = onPressed ?? () => Navigator.of(context).pop();
+    if (!primary) {
+      return TextButton(onPressed: handle, child: Text(label));
+    }
+    return FilledButton(
+      style: FilledButton.styleFrom(
+        backgroundColor: danger ? p.danger : p.accent,
+        foregroundColor: p.surface,
+        shape: const RoundedRectangleBorder(
+          borderRadius: AppRadius.controlBorder,
+        ),
+      ),
+      onPressed: handle,
+      child: Text(label),
+    );
+  }
+}
+
 /// 确认对话框（§3.5「对话框」+ R76 迁移/重置类决策必须走它）。
 Future<bool> showSsConfirm(
   BuildContext context, {
@@ -153,20 +233,15 @@ Future<bool> showSsConfirm(
       eyebrow: eyebrow,
       title: title,
       actions: <Widget>[
-        TextButton(
+        SsDialogAction(
+          label: cancelLabel,
+          primary: false,
           onPressed: () => Navigator.of(ctx).pop(false),
-          child: Text(cancelLabel),
         ),
-        FilledButton(
-          style: FilledButton.styleFrom(
-            backgroundColor: danger ? p.danger : p.accent,
-            foregroundColor: p.surface,
-            shape: const RoundedRectangleBorder(
-              borderRadius: AppRadius.controlBorder,
-            ),
-          ),
+        SsDialogAction(
+          label: confirmLabel,
+          danger: danger,
           onPressed: () => Navigator.of(ctx).pop(true),
-          child: Text(confirmLabel),
         ),
       ],
       child: message == null

@@ -401,32 +401,26 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
     WidgetRef ref,
     GearEntry entry,
   ) async {
-    final String? mode = await showDialog<String>(
+    final String? mode = await showSsDialog<String>(
       context: context,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: Text(
-          '补图 · ${entry.displayName}',
-          style: const TextStyle(fontSize: AppFontSize.bodyLg),
-        ),
-        content: const Text(
-          '选择本地图片，或粘贴图片链接（自动保存到工作区并登记来源）。',
-          style: TextStyle(fontSize: AppFontSize.smallSm),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, 'file'),
-            child: const Text('选择本地图片'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, 'url'),
-            child: const Text('粘贴图片链接'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('取消'),
-          ),
-        ],
+      title: '补图 · ${entry.displayName}',
+      child: const Text(
+        '选择本地图片，或粘贴图片链接（自动保存到工作区并登记来源）。',
+        style: TextStyle(fontSize: AppFontSize.smallSm),
       ),
+      actions: (BuildContext ctx) => <Widget>[
+        SsDialogAction(
+          label: '选择本地图片',
+          primary: false,
+          onPressed: () => Navigator.pop(ctx, 'file'),
+        ),
+        SsDialogAction(
+          label: '粘贴图片链接',
+          primary: false,
+          onPressed: () => Navigator.pop(ctx, 'url'),
+        ),
+        SsDialogAction(label: '取消', primary: false),
+      ],
     );
     if (mode == null || !context.mounted) return;
     String? error;
@@ -443,34 +437,31 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
       }
     } else {
       final TextEditingController controller = TextEditingController();
-      final bool? ok = await showDialog<bool>(
+      final bool? ok = await showSsDialog<bool>(
         context: context,
-        builder: (BuildContext ctx) => AlertDialog(
-          title: const Text(
-            '粘贴图片链接',
-            style: TextStyle(fontSize: AppFontSize.bodyLg),
-          ),
-          content: SizedBox(
-            width: 380,
-            child: TextField(
-              controller: controller,
-              decoration: const InputDecoration(
-                hintText: 'https://…（jpg/png/webp）',
-                isDense: true,
-              ),
+        title: '粘贴图片链接',
+        maxWidth: 430,
+        child: SizedBox(
+          width: 380,
+          child: TextField(
+            controller: controller,
+            decoration: const InputDecoration(
+              hintText: 'https://…（jpg/png/webp）',
+              isDense: true,
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('取消'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('下载并登记'),
-            ),
-          ],
         ),
+        actions: (BuildContext ctx) => <Widget>[
+          SsDialogAction(
+            label: '取消',
+            primary: false,
+            onPressed: () => Navigator.pop(ctx, false),
+          ),
+          SsDialogAction(
+            label: '下载并登记',
+            onPressed: () => Navigator.pop(ctx, true),
+          ),
+        ],
       );
       if (ok != true || !context.mounted) return;
       final String url = controller.text.trim();
