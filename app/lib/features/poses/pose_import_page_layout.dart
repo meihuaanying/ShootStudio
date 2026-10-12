@@ -49,61 +49,21 @@ extension _PoseImportPageLayout on _PoseImportPageState {
     required String defaultName,
     required String defaultCategory,
   }) async {
-    final TextEditingController name = TextEditingController(text: defaultName);
-    String category = defaultCategory;
+    // V8.9/R74：原为 showDialog + StatefulBuilder + AlertDialog。分类选中态是
+    // 本弹层唯一的可变状态，故把它交给弹层体自己的 State（见文件末
+    // `_NameCategoryBody`），而不是像原先那样由弹层外的 setState 灌进来；
+    // 顺带把 TextEditingController 的释放从「await 之后手工 dispose」改为
+    // 该 State 的 dispose()，弹层被销毁时必定释放。
+    //
+    // 返回值语义不变：遮罩关闭时 result 为 null → 调用方按「取消」处理。
     final (String?, String?)? result = await showDialog<(String?, String?)>(
       context: context,
-      builder: (BuildContext ctx) => StatefulBuilder(
-        builder: (BuildContext ctx, StateSetter setStateDialog) => AlertDialog(
-          title: Text(
-            title,
-            style: const TextStyle(fontSize: AppFontSize.bodyXl),
-          ),
-          content: SizedBox(
-            width: 360,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                TextField(
-                  controller: name,
-                  decoration: const InputDecoration(
-                    labelText: '姿势名称',
-                    isDense: true,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 4,
-                  children: <Widget>[
-                    for (final String c in poseCategories)
-                      if (c != '全部')
-                        SsChip(
-                          label: c,
-                          selected: category == c,
-                          onTap: () => setStateDialog(() => category = c),
-                        ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: const Text('取消'),
-            ),
-            SsButton(
-              label: '保存',
-              dense: true,
-              onPressed: () => Navigator.pop(ctx, (name.text, category)),
-            ),
-          ],
-        ),
+      builder: (BuildContext ctx) => _NameCategoryBody(
+        title: title,
+        defaultName: defaultName,
+        defaultCategory: defaultCategory,
       ),
     );
-    name.dispose();
     return result ?? (null, null);
   }
 
@@ -248,6 +208,92 @@ extension _PoseImportPageLayout on _PoseImportPageState {
                   ? p.gold
                   : Theme.of(context).colorScheme.onSurfaceVariant,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// V8.9/R74：命名 + 分类弹层的弹层体。
+///
+/// 分类选中态（`_category`）是本弹层唯一的可变状态，因此本体必须是
+/// StatefulWidget —— 这也是 V8.8 报告里判定「本处不能靠替换调用点直接迁移」
+/// 的那个点：状态归属先定下来（归弹层体自己），迁移才有意义。
+///
+/// 宽度对齐沿用 sanctioned API 的公式：`maxWidth = 原 SizedBox.width + 48`
+/// （`SsDialog` 两侧 padding 是 `AppSpace.block` = 24），原为 360 → 408。
+class _NameCategoryBody extends StatefulWidget {
+  const _NameCategoryBody({
+    required this.title,
+    required this.defaultName,
+    required this.defaultCategory,
+  });
+
+  final String title;
+  final String defaultName;
+  final String defaultCategory;
+
+  @override
+  State<_NameCategoryBody> createState() => _NameCategoryBodyState();
+}
+
+class _NameCategoryBodyState extends State<_NameCategoryBody> {
+  late final TextEditingController _name = TextEditingController(
+    text: widget.defaultName,
+  );
+  late String _category = widget.defaultCategory;
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // showDialog 默认 useRootNavigator: true，而本 State 的 context 就在该
+    // 弹层路由内部，所以 Navigator.of(context) 直接指向弹层自身 ——
+    // 不需要像 V8.8 的 template picker 那样再套一层 Builder。
+    return SsDialog(
+      title: widget.title,
+      maxWidth: 408,
+      actions: <Widget>[
+        // 与 V8.7/V8.8 的迁移保持一致：取消是次要按钮（TextButton），
+        // 保存是主按钮（FilledButton）；「取消」显式 pop() 而不依赖
+        // SsDialogAction 的 onPressed 空值兜底（该兜底只 pop 不返回值，
+        // 这里返回值必须是 null 才能表达「取消」，两者语义相同但显式更清楚）。
+        SsDialogAction(
+          label: '取消',
+          primary: false,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        SsDialogAction(
+          label: '保存',
+          onPressed: () => Navigator.of(context).pop((_name.text, _category)),
+        ),
+      ],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextField(
+            controller: _name,
+            decoration: const InputDecoration(labelText: '姿势名称', isDense: true),
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 6,
+            runSpacing: 4,
+            children: <Widget>[
+              for (final String c in poseCategories)
+                if (c != '全部')
+                  SsChip(
+                    label: c,
+                    selected: _category == c,
+                    onTap: () => setState(() => _category = c),
+                  ),
+            ],
           ),
         ],
       ),
