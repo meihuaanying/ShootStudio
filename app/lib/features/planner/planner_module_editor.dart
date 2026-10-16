@@ -15,9 +15,10 @@ class _ModuleEditor extends ConsumerWidget {
         children: <Widget>[
           SsSectionTitle('编辑 · ${module.type.label}'),
           const SizedBox(height: AppSpace.s2),
-          TextField(
+          SsTextInput(
             controller: TextEditingController(text: module.title),
-            decoration: const InputDecoration(hintText: '模块标题', isDense: true),
+            hint: '模块标题',
+            dense: true,
             onChanged: (String v) => controller.updateModule(
               module.id,
               (PlanModuleData m) => m.title = v,
@@ -93,9 +94,10 @@ class _ModuleEditor extends ConsumerWidget {
       Row(
         children: <Widget>[
           Expanded(
-            child: TextField(
+            child: SsTextInput(
               controller: TextEditingController(text: lat.toStringAsFixed(4)),
-              decoration: const InputDecoration(labelText: '纬度', isDense: true),
+              label: '纬度',
+              dense: true,
               onChanged: (String v) => controller.updateModule(
                 module.id,
                 (PlanModuleData m) =>
@@ -105,9 +107,10 @@ class _ModuleEditor extends ConsumerWidget {
           ),
           const SizedBox(width: 6),
           Expanded(
-            child: TextField(
+            child: SsTextInput(
               controller: TextEditingController(text: lon.toStringAsFixed(4)),
-              decoration: const InputDecoration(labelText: '经度', isDense: true),
+              label: '经度',
+              dense: true,
               onChanged: (String v) => controller.updateModule(
                 module.id,
                 (PlanModuleData m) =>
@@ -118,12 +121,10 @@ class _ModuleEditor extends ConsumerWidget {
         ],
       ),
       const SizedBox(height: 8),
-      TextField(
+      SsTextInput(
         controller: TextEditingController(text: date),
-        decoration: const InputDecoration(
-          hintText: '日期 yyyy-MM-dd',
-          isDense: true,
-        ),
+        hint: '日期 yyyy-MM-dd',
+        dense: true,
         onChanged: (String v) => controller.updateModule(
           module.id,
           (PlanModuleData m) => m.data['date'] = v,

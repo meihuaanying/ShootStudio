@@ -376,14 +376,12 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                   ),
                   const SizedBox(width: 6),
                   Expanded(
-                    child: TextField(
+                    child: SsTextInput(
                       controller: TextEditingController(
                         text: shots[i]['lens'] as String? ?? '',
                       ),
-                      decoration: const InputDecoration(
-                        hintText: '焦段',
-                        isDense: true,
-                      ),
+                      hint: '焦段',
+                      dense: true,
                       onChanged: (String v) => patch(i, 'lens', v),
                     ),
                   ),
@@ -404,27 +402,23 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: TextField(
+                    child: SsTextInput(
                       controller: TextEditingController(
                         text: shots[i]['camera'] as String? ?? '',
                       ),
-                      decoration: const InputDecoration(
-                        hintText: '机位',
-                        isDense: true,
-                      ),
+                      hint: '机位',
+                      dense: true,
                       onChanged: (String v) => patch(i, 'camera', v),
                     ),
                   ),
                   const SizedBox(width: 4),
                   Expanded(
-                    child: TextField(
+                    child: SsTextInput(
                       controller: TextEditingController(
                         text: shots[i]['pose'] as String? ?? '',
                       ),
-                      decoration: const InputDecoration(
-                        hintText: '姿势',
-                        isDense: true,
-                      ),
+                      hint: '姿势',
+                      dense: true,
                       onChanged: (String v) => patch(i, 'pose', v),
                     ),
                   ),
@@ -433,14 +427,12 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: TextField(
+                    child: SsTextInput(
                       controller: TextEditingController(
                         text: shots[i]['note'] as String? ?? '',
                       ),
-                      decoration: const InputDecoration(
-                        hintText: '备注（可选）',
-                        isDense: true,
-                      ),
+                      hint: '备注（可选）',
+                      dense: true,
                       onChanged: (String v) => patch(i, 'note', v),
                     ),
                   ),
