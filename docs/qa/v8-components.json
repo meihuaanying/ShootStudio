@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/D147 R74/R82 component-conformance gate (lib/features bare widgets)",
-  "at": "2026-10-16T16:53:14.620Z",
+  "at": "2026-10-16T17:03:16.308Z",
   "scanDir": "lib/features",
   "scannedFiles": 99,
   "metrics": {
@@ -11,13 +11,13 @@
     "alertDialog": "showSsDialog / SsDialog"
   },
   "totals": {
-    "textField": 24,
+    "textField": 18,
     "textFormField": 0,
     "bottomSheet": 4,
     "alertDialog": 0
   },
   "baselineTotals": {
-    "textField": 24,
+    "textField": 18,
     "textFormField": 0,
     "bottomSheet": 4,
     "alertDialog": 0
@@ -27,9 +27,6 @@
   "files": {
     "lib/features/ai/ai_panel.dart": {
       "textField": 1
-    },
-    "lib/features/ai/ai_provider_card.dart": {
-      "textField": 3
     },
     "lib/features/ai/ai_side_panel.dart": {
       "textField": 1
@@ -51,9 +48,6 @@
     },
     "lib/features/planner/planner_page_canvas.dart": {
       "textField": 1
-    },
-    "lib/features/planner/planner_page_dialogs.dart": {
-      "textField": 3
     },
     "lib/features/planner/planner_page_layout.dart": {
       "textField": 1,

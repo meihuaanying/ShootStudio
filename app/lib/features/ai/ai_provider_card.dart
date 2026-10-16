@@ -81,32 +81,24 @@ class ProviderConfigCardState extends ConsumerState<ProviderConfigCard> {
               ),
             ),
           ),
-        TextField(
-          controller: _baseUrl,
-          decoration: const InputDecoration(
-            labelText: 'Base URL',
-            isDense: true,
-          ),
-        ),
+        SsTextInput(controller: _baseUrl, label: 'Base URL', dense: true),
         const SizedBox(height: 8),
-        TextField(
+        SsTextInput(
           controller: _key,
-          obscureText: _obscure,
-          decoration: InputDecoration(
-            labelText: provider.keyHint,
-            hintText: view.hasKey
-                ? '已保存：${view.maskedKey}（留空保持不变）'
-                : '粘贴 API Key（AES-256-GCM 加密存储）',
-            isDense: true,
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscure
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined,
-                size: 16,
-              ),
-              onPressed: () => setState(() => _obscure = !_obscure),
+          obscure: _obscure,
+          label: provider.keyHint,
+          hint: view.hasKey
+              ? '已保存：${view.maskedKey}（留空保持不变）'
+              : '粘贴 API Key（AES-256-GCM 加密存储）',
+          dense: true,
+          suffix: IconButton(
+            icon: Icon(
+              _obscure
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
+              size: 16,
             ),
+            onPressed: () => setState(() => _obscure = !_obscure),
           ),
         ),
         const SizedBox(height: 8),
@@ -114,13 +106,7 @@ class ProviderConfigCardState extends ConsumerState<ProviderConfigCard> {
           children: <Widget>[
             Expanded(
               child: view.models.isEmpty
-                  ? TextField(
-                      controller: _model,
-                      decoration: const InputDecoration(
-                        labelText: '模型名',
-                        isDense: true,
-                      ),
-                    )
+                  ? SsTextInput(controller: _model, label: '模型名', dense: true)
                   : DropdownButtonFormField<String>(
                       initialValue: view.models.contains(_model.text)
                           ? _model.text

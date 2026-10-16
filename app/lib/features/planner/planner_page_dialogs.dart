@@ -68,11 +68,11 @@ class _RichTextInputState extends State<_RichTextInput> {
             ),
           ],
         ),
-        TextField(
+        SsTextInput(
           controller: _controller,
           focusNode: _focus,
           maxLines: 8,
-          decoration: InputDecoration(hintText: widget.hint),
+          hint: widget.hint,
           onChanged: widget.onChanged,
         ),
       ],
@@ -145,12 +145,10 @@ class _CitySearchFieldState extends State<_CitySearchField> {
         Row(
           children: <Widget>[
             Expanded(
-              child: TextField(
+              child: SsTextInput(
                 controller: _controller,
-                decoration: const InputDecoration(
-                  labelText: '城市（内置城市库，输入即筛选）',
-                  isDense: true,
-                ),
+                label: '城市（内置城市库，输入即筛选）',
+                dense: true,
                 onChanged: _filter,
               ),
             ),
@@ -262,12 +260,10 @@ class _ColorPickerDialogState extends State<_ColorPickerDialog> {
               _syncHex();
             });
           }),
-          TextField(
+          SsTextInput(
             controller: _hex,
-            decoration: const InputDecoration(
-              labelText: '色值 #RRGGBB',
-              isDense: true,
-            ),
+            label: '色值 #RRGGBB',
+            dense: true,
             onChanged: (String v) {
               final int? parsed = int.tryParse(
                 v.replaceFirst('#', ''),
