@@ -170,13 +170,34 @@ ai_panel.dart / libraries_page.dart / ai_client.dart  allowed 810/808/779
 | A3 | 更正 `HANDOFF_V8.md` §2 与 `docs/qa/v8-10-r74-final.md` 的「R74 归零 / 无剩余待办」措辞，改为指向本审计报告 | **P1** | 0.2 天 | 两文件更新 |
 | A4 | 跑 tag `v8.11.0` + push + 确认 CI 全绿（这是「CI 恢复绿」的证据） | **P0** | 0.2 天 | run conclusion=success |
 
+> **A 之外的 CI 可靠性新发现（2026-10-16，建议并入批次 D 或单列）**：
+> tag `v8.11.0` 触发的 `Release` run `38844794006` 在 job `Build & Collect (android)`
+> 失败，根因是 AGP 自动安装 `cmake;3.22.1`（`flutter_litert` 插件原生构建所需）
+> 时报 `com.android.builder.sdk.InstallFailedException`，`BUILD FAILED in 14m 46s`。
+> **判定为 flake 而非回归**：同一 commit 上 CI 的 `Build Android APK`（与
+> `release.yml:74` 完全相同的 `flutter build apk --release`）是 **success**；
+> v8.10.0 的 Release 也是 success。两个 workflow **都没有**任何 CMake 预装步骤，
+> 完全依赖 AGP 自动安装 —— 那条路径本身不稳定。
+> **建议加固**：给两个 workflow 的 android 构建 job 各加一个**带防护**的
+> `sdkmanager "cmake;3.22.1"` 预装步骤（每步 `|| echo "::warning::..."` 兜底，
+> 避免加固本身引入新故障），或至少给 `flutter build apk --release` 加一次失败重试。
+
 ### 批次 B：把门禁修成真门禁（约 1.5 天）
 
-| # | 待办 | 优先级 | 预估 | 验收 |
-|---|---|---|---|---|
-| B1 | 刷新 `docs/qa/v8-s3-file-size.json` 白名单为当前实测行数（已拆分的 5 个巨型文件直接降到 600），使 R73 门禁重新有牙齿 | **P1** | 0.3 天 | 注入一个 700 行的临时文件 → 门禁必须 FAIL（反向验证） |
-| B2 | 给 R74 剩余三层（输入框 / 底部抽屉 / 空态）**接上机械门禁**：新增 `tool/check_components.mjs`，统计 feature 侧裸 `TextField`/`showModalBottomSheet`/`AlertDialog(` 数量并**只降不升**（软门禁 + 基线 JSON） | **P1** | 0.7 天 | 门禁入 CI；基线入库；反向验证能拦新增 |
-| B3 | 更正**偏差 10**：重开为「R74 未真正归零」，列出 §2.1 的 5 处 `return AlertDialog(`（含宿主类/行号），并说明原扫描口径缺陷 | **P1** | 0.3 天 | 偏差文件更新 |
+> **2026-10-16 执行结果**：B1 / B3 已闭合，B2 已交付。**B1 的前提经复核为误判**（详见下表）。
+
+| # | 待办 | 优先级 | 预估 | 验收 | 状态 |
+|---|---|---|---|---|---|
+| B1 | ~~刷新白名单~~ → **实为：刷新陈旧证据快照**。复核更正：`app/tool/file_size_baseline.json` 的 `baseline` **本来就是空表（0 项）**，而 `check_file_size.mjs` 对超限文件取 `allowed = baseline[rel] ?? 0` → 600/300 限额**已被真实强制**，门禁并非「形同虚设」。真正陈旧的是证据快照 `docs/qa/v8-s3-file-size.json`（仍记着拆分前 `planner_page.dart` 2637 行 / `allowed` 2676 行，会让读者误判门禁失效） | **P1** | 0.3 天 | 注入 701 行 `lib/features` 文件 → FAIL exit 1；注入 401 行 `lib/core/design` 文件 → FAIL exit 1；清理后 PASS | ✅ 完成（快照已刷新至 2026-10-16，`baseline_entries=0`；反向验证两种限额各 FAIL 一次） |
+| B2 | 给 R74 剩余三层（输入框 / 底部抽屉 / 弹层）接上机械门禁：新增 `app/tool/check_components.mjs`，统计 feature 侧裸 `TextField` / `TextFormField` / `showModalBottomSheet` / `AlertDialog(` 并**只降不升** | **P1** | 0.7 天 | 门禁入 CI；基线入库；反向验证能拦新增 | ✅ 完成（`component_baseline.json` 入库：`textField 60 / textFormField 0 / bottomSheet 4 / alertDialog 5`；CI 步骤已加进 `analyze-test`；反向验证：临时加 1 个 `TextField` → FAIL exit 1，清理后 PASS；证据 `docs/qa/v8-components.json`） |
+| B3 | 更正**偏差 10**：重开为「R74 未真正归零」，列出 §2.1 的 5 处 `return AlertDialog(`（含宿主类/行号），并说明原扫描口径缺陷 | **P1** | 0.3 天 | 偏差文件更新 | ✅ 完成（偏差 10 的标题 / 现状 / 状态三处已改为「16 处中已迁 11、剩 5」，并写明漏计成因；`HANDOFF_V8.md` 三处「R73 白名单陈旧」同步更正） |
+
+> **B2 实测补充（供批次 C 选型）**：`showModalBottomSheet` 的 4 处是
+> `planner_page_layout.dart:252`、`refs_hit_drawer.dart:187`、`character_picker.dart:41`、
+> `pose_gallery.dart:186`；`AlertDialog` 的 5 处即 §2.1 的 5 个 widget 类。
+> 实现门禁时**必须让每个模式允许可选类型实参**（`showModalBottomSheet<void>(`），
+> 否则会漏计 —— 这是初版实测踩到的坑，已修。最大单点输入框是
+> `settings_page_sources.dart`（11 处）。
 
 ### 批次 C：R74 收口（把三层做完，约 3 天）
 

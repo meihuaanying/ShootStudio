@@ -168,17 +168,27 @@ V8 收尾时**只写在代码注释里、没有进中央登记**，等于「知�
 - **修复条件**：CI 拿到 GPU runner（`runs-on` 支持 GPU 的 label）后，把
   「逐相位 `engineFrames > 0`」与「帧数 ≥ 基线 50%」恢复为硬判，并重录基线。
 
-## 偏差 10：R74 组件收口（11 处 AlertDialog 已全部迁移，v8.10 消除）
+## 偏差 10：R74 组件收口未完成（16 处 AlertDialog 中已迁 11，剩 5 处仍活着）
 
 - **合同条款**：R74「弹层一律走 sanctioned API，feature 侧不得裸写
   `showDialog` + `AlertDialog`」。
-- **现状**：**已全部迁完**。`lib/`（`core/design/` 自身除外）共 11 处
-  AlertDialog 外观的 `showDialog` 调用点，逐轮迁移：V8.2 迁 3
-  （`showSsConfirm`）、V8.7 迁 4、V8.8 迁 4、V8.9 迁 1、V8.10 迁 2 ——
-  **11/11**。复核脚本（170 个 Dart 文件）输出：
-  ```
-  files=170  AlertDialog sites left=0
-  ```
+- **现状（2026-10-16 更正后）**：**未迁完，还剩 5 处**。真实账目是
+  `lib/`（`core/design/` 自身除外）共 **16 处** feature 侧 AlertDialog 皮肤：
+  - 已迁 11 处（逐轮：V8.2 迁 3（`showSsConfirm`）、V8.7 迁 4、V8.8 迁 4、
+    V8.9 迁 1、V8.10 迁 2）—— 这部分成果有效；
+  - **剩 5 处仍在渲染**，全部是「widget class 的 `build()` 直接
+    `return AlertDialog(...)`」：`library_resource_editor.dart:97`
+    （`ResourceEditorDialogState.build`）、`planner_page_dialogs.dart:220`
+    （`_ColorPickerDialogState.build`）、`planner_page_pose_dialogs.dart:22`
+    （`_PoseInfoDialog.build`）/ `:117`（`_PoseReplaceDialogState.build`）/
+    `:217`（`_BudgetEstimateDialogState.build`）。渲染调用点分别是
+    `libraries_page.dart:451`、`planner_module_editor.dart:420`、
+    `planner_module_editors_a.dart:223` / `:236`、
+    `planner_module_editors_b.dart:52`（均已实测确认活着）。
+  - 更正后的准确口径（直接数 `AlertDialog(` 字面量，不再用窗口启发式）：
+    ```
+    lib/features: AlertDialog( 字面量 = 5 处（99 个 Dart 文件；tool/check_components.mjs）
+    ```
 - **各轮做法与报告**：v8.7 §4（sanctioned API 从「只覆盖 bool」扩到「任意 `T`
   + 统一动作按钮」）、v8.8 §3（void 型 + 纯展示 / 单按钮）、v8.9 §2
   （状态归属先拆件）、v8.10 §2（最后 2 处：先判断有无可变状态再决定拆件粒度 ——
@@ -188,8 +198,9 @@ V8 收尾时**只写在代码注释里、没有进中央登记**，等于「知�
   一直就能返回任意 `T`，缺的不是能力而是便捷入口；
   ② C 类里 `plan_read_view.dart:32` 用的是 `Dialog.fullscreen`，不是
   AlertDialog 外观，**不属 R74 收口对象**，已从计数中剔除。
-  故「48 → 42 / 剩 27」是粗数，**以 v8.7 / v8.8 / v8.9 / v8.10 报告的
-  11 处 / 0 处为准**。
+  故「48 → 42 / 剩 27」是粗数，**以本条目更正后的 16 处 / 剩 5 处为准**；
+  v8.7 / v8.8 / v8.9 / v8.10 报告里的「11 处 / 0 处」是同一个漏计口径的产物，
+  其中 v8.7 的「11 处」本身也偏低。
 - **代价（明说，不掩饰）**：已迁移的 11 处**视觉上必然变化**（标题改走
   `AppType.h2` 衬线、affirmative 动作变 `FilledButton`），这是收口的目的而非回归，
   已逐条登记在 v8.7 §4 / v8.8 §3 / v8.9 §2 / v8.10 §2。其中
@@ -198,19 +209,17 @@ V8 收尾时**只写在代码注释里、没有进中央登记**，等于「知�
 - **顺带修掉的真 bug**：`gear_browser_add.dart` 原实现 4 个
   `TextEditingController` 从不释放（真内存泄漏），V8.10 拆件时由
   `_AddGearBodyState.dispose()` 释放。
-- **状态**：**本偏差已消除**（条目保留作为过程记录与视觉差异登记）。
-- **⚠️ 2026-10-16 更正（全面审计发现，见 `docs/audit/V8-COMPLIANCE-AUDIT.md` §2.1）**：
-  「`AlertDialog sites left=0`」这个结论**是错的**，成因是**复核脚本的口径缺陷**——
-  它只在 `showDialog<` 之后 1500 字符窗口内匹配 `AlertDialog`，因此漏掉了
-  「widget class 的 `build()` 直接 `return AlertDialog(...)`」这一形态。
-  实测 `lib/features/` 内仍有 **5 处** feature 侧 `AlertDialog` 皮肤：
-  `library_resource_editor.dart:97`（`ResourceEditorDialogState.build`）、
-  `planner_page_dialogs.dart:220`（`_ColorPickerDialogState.build`）、
-  `planner_page_pose_dialogs.dart:22`（`_PoseInfoDialog.build`）`/ :117`
-  （`_PoseReplaceDialogState.build`）`/ :217`（`_BudgetEstimateDialogState.build`）。
-  全部是 `return AlertDialog(`，即**必然渲染**的弹层，违反 R74。
-  → **本偏差重新开放**，修复见审计报告批次 C1；在迁完这 5 处之前，
-  「R74 归零」的说法不成立。
+- **状态**：**仍未消除（重新开放）**。条目保留作为过程记录与视觉差异登记。
+- **⚠️ 漏计的成因（2026-10-16 全面审计发现，见 `docs/audit/V8-COMPLIANCE-AUDIT.md` §2.1）**：
+  此前宣称的「`AlertDialog sites left=0`」是**假阴性**，根因是**复核脚本的口径缺陷** ——
+  它只在 `showDialog<` 调用点之后 1500 字符窗口内匹配 `AlertDialog`，而这 5 处的
+  调用点（`builder: (_) => const _XxxDialog()`）与 `return AlertDialog(` **不在同一个
+  文件**，窗口里永远看不到那个字面量。同类缺陷还漏计了
+  `showModalBottomSheet` 的泛型调用形态（`showModalBottomSheet<void>(`）——
+  已在新门禁里修掉（每个模式都允许可选 `<…>`）。
+  → **本偏差重新开放**，修复见审计报告批次 C1（含新增的
+  `tool/check_components.mjs` 门禁，把 `alertDialog` 计数钉在只降不升）；
+  在迁完这 5 处之前，「R74 归零」的说法不成立。
 
 ---
 

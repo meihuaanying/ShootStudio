@@ -54,6 +54,8 @@ jobs:
         run: node tool/check_file_size.mjs
       - name: "Design token gate (R71 no color/size/metric literals)"
         run: node tool/check_tokens.mjs --json=../docs/qa/v8-tokens.json
+      - name: "Component gate (R74 no new bare TextField / bottom sheet / AlertDialog)"
+        run: node tool/check_components.mjs --json=../docs/qa/v8-components.json
       - run: flutter analyze --fatal-infos
       - name: Engine aim math test (Node)
         run: node tool/test_aim.mjs
