@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/D147 R74/R82 component-conformance gate (lib/features bare widgets)",
-  "at": "2026-10-16T09:15:23.949Z",
+  "at": "2026-10-16T09:23:49.640Z",
   "scanDir": "lib/features",
   "scannedFiles": 99,
   "metrics": {
@@ -11,13 +11,13 @@
     "alertDialog": "showSsDialog / SsDialog"
   },
   "totals": {
-    "textField": 48,
+    "textField": 37,
     "textFormField": 0,
     "bottomSheet": 4,
     "alertDialog": 0
   },
   "baselineTotals": {
-    "textField": 48,
+    "textField": 37,
     "textFormField": 0,
     "bottomSheet": 4,
     "alertDialog": 0
@@ -97,9 +97,6 @@
     },
     "lib/features/settings/settings_page_cards.dart": {
       "textField": 1
-    },
-    "lib/features/settings/settings_page_sources.dart": {
-      "textField": 11
     }
   },
   "pass": true

@@ -185,24 +185,20 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
+                child: SsTextInput(
                   controller: _pexels,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Pexels API Key（可空）',
-                    isDense: true,
-                  ),
+                  obscure: true,
+                  dense: true,
+                  label: 'Pexels API Key（可空）',
                 ),
               ),
               const SizedBox(width: 6),
               Expanded(
-                child: TextField(
+                child: SsTextInput(
                   controller: _tmdb,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'TMDB API Key（可空）',
-                    isDense: true,
-                  ),
+                  obscure: true,
+                  dense: true,
+                  label: 'TMDB API Key（可空）',
                 ),
               ),
               const SizedBox(width: 6),
@@ -261,24 +257,20 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
+                child: SsTextInput(
                   controller: _europeana,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Europeana Key（可空，填入即启用）',
-                    isDense: true,
-                  ),
+                  obscure: true,
+                  dense: true,
+                  label: 'Europeana Key（可空，填入即启用）',
                 ),
               ),
               const SizedBox(width: 6),
               Expanded(
-                child: TextField(
+                child: SsTextInput(
                   controller: _smithsonian,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Smithsonian Key（可空）',
-                    isDense: true,
-                  ),
+                  obscure: true,
+                  dense: true,
+                  label: 'Smithsonian Key（可空）',
                 ),
               ),
             ],
@@ -287,24 +279,20 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
+                child: SsTextInput(
                   controller: _harvard,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Harvard Art Museums Key（可空）',
-                    isDense: true,
-                  ),
+                  obscure: true,
+                  dense: true,
+                  label: 'Harvard Art Museums Key（可空）',
                 ),
               ),
               const SizedBox(width: 6),
               Expanded(
-                child: TextField(
+                child: SsTextInput(
                   controller: _rijks,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Rijksmuseum Key（可空）',
-                    isDense: true,
-                  ),
+                  obscure: true,
+                  dense: true,
+                  label: 'Rijksmuseum Key（可空）',
                 ),
               ),
             ],
@@ -314,13 +302,11 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
             children: <Widget>[
               SizedBox(
                 width: 160,
-                child: TextField(
+                child: SsTextInput(
                   controller: _cacheLimit,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: '搜图缓存上限（MB）',
-                    isDense: true,
-                  ),
+                  dense: true,
+                  label: '搜图缓存上限（MB）',
                 ),
               ),
               const SizedBox(width: 6),
@@ -355,12 +341,10 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
             ],
           ),
           const SizedBox(height: 8),
-          TextField(
+          SsTextInput(
             controller: _proxy,
-            decoration: const InputDecoration(
-              labelText: '网络代理（http://127.0.0.1:7890，可空；留空时自动使用 DoH 隧道）',
-              isDense: true,
-            ),
+            dense: true,
+            label: '网络代理（http://127.0.0.1:7890，可空；留空时自动使用 DoH 隧道）',
           ),
           const SizedBox(height: 8),
           Wrap(
@@ -408,12 +392,10 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
+                child: SsTextInput(
                   controller: _packDir,
-                  decoration: const InputDecoration(
-                    labelText: '我的素材包目录（放入剧照/动漫截图，启动自动索引）',
-                    isDense: true,
-                  ),
+                  dense: true,
+                  label: '我的素材包目录（放入剧照/动漫截图，启动自动索引）',
                 ),
               ),
               const SizedBox(width: 6),
@@ -434,12 +416,10 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
+                child: SsTextInput(
                   controller: _gearDir,
-                  decoration: const InputDecoration(
-                    labelText: '器材官方图目录（“型号.jpg”命名，自动匹配设备库）',
-                    isDense: true,
-                  ),
+                  dense: true,
+                  label: '器材官方图目录（“型号.jpg”命名，自动匹配设备库）',
                 ),
               ),
               const SizedBox(width: 6),
@@ -489,12 +469,10 @@ class _AssetSourcesCardState extends ConsumerState<_AssetSourcesCard> {
           const SizedBox(height: 6),
           SizedBox(
             width: 260,
-            child: TextField(
+            child: SsTextInput(
               controller: _gearCacheLimit,
-              decoration: const InputDecoration(
-                labelText: '器材图缓存上限（MB，按最早访问清理）',
-                isDense: true,
-              ),
+              dense: true,
+              label: '器材图缓存上限（MB，按最早访问清理）',
             ),
           ),
           const SizedBox(height: 8),
