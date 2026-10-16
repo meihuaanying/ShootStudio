@@ -217,86 +217,85 @@ class _ColorPickerDialogState extends State<_ColorPickerDialog> {
   @override
   Widget build(BuildContext context) {
     final Color preview = HSVColor.fromAHSV(1, _h, _s, _v).toColor();
-    return AlertDialog(
-      title: const Text('添加颜色', style: TextStyle(fontSize: AppFontSize.bodyXl)),
-      content: SizedBox(
-        width: 320,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              height: 44,
-              decoration: BoxDecoration(
-                color: preview,
-                borderRadius: BorderRadius.circular(AppRadius.frame),
-              ),
-            ),
-            const SizedBox(height: 8),
-            _slider('色相', _h, 360, (double v) {
-              setState(() {
-                _h = v;
-                _syncHex();
-              });
-            }),
-            _slider('饱和', _s, 1, (double v) {
-              setState(() {
-                _s = v;
-                _syncHex();
-              });
-            }),
-            _slider('明度', _v, 1, (double v) {
-              setState(() {
-                _v = v;
-                _syncHex();
-              });
-            }),
-            TextField(
-              controller: _hex,
-              decoration: const InputDecoration(
-                labelText: '色值 #RRGGBB',
-                isDense: true,
-              ),
-              onChanged: (String v) {
-                final int? parsed = int.tryParse(
-                  v.replaceFirst('#', ''),
-                  radix: 16,
-                );
-                if (parsed == null || v.replaceFirst('#', '').length != 6) {
-                  return;
-                }
-                // `0xFF000000 | parsed` 只是把用户输入的 24 位 RGB 强制补上不透明 alpha，
-                // 并非「纯黑」——所以按 alpha 合成写，别再用 Color(0xFF000000 | …)，
-                // 否则既被 §3.1 的禁纯黑规则误伤，也读不出真实意图。
-                final HSVColor hsv = HSVColor.fromColor(
-                  Color.from(
-                    alpha: 1,
-                    red: ((parsed >> 16) & 0xFF).toDouble(),
-                    green: ((parsed >> 8) & 0xFF).toDouble(),
-                    blue: (parsed & 0xFF).toDouble(),
-                  ),
-                );
-                setState(() {
-                  _h = hsv.hue;
-                  _s = hsv.saturation;
-                  _v = hsv.value;
-                });
-              },
-            ),
-          ],
-        ),
-      ),
+    return SsDialog(
+      title: '添加颜色',
+      maxWidth: 368,
       actions: <Widget>[
-        TextButton(
+        SsDialogAction(
+          label: '取消',
+          primary: false,
           onPressed: () => Navigator.pop(context),
-          child: const Text('取消'),
         ),
-        SsButton(
+        SsDialogAction(
           label: '添加',
           onPressed: () =>
               Navigator.pop(context, _hexOf(HSVColor.fromAHSV(1, _h, _s, _v))),
         ),
       ],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            height: 44,
+            decoration: BoxDecoration(
+              color: preview,
+              borderRadius: BorderRadius.circular(AppRadius.frame),
+            ),
+          ),
+          const SizedBox(height: 8),
+          _slider('色相', _h, 360, (double v) {
+            setState(() {
+              _h = v;
+              _syncHex();
+            });
+          }),
+          _slider('饱和', _s, 1, (double v) {
+            setState(() {
+              _s = v;
+              _syncHex();
+            });
+          }),
+          _slider('明度', _v, 1, (double v) {
+            setState(() {
+              _v = v;
+              _syncHex();
+            });
+          }),
+          TextField(
+            controller: _hex,
+            decoration: const InputDecoration(
+              labelText: '色值 #RRGGBB',
+              isDense: true,
+            ),
+            onChanged: (String v) {
+              final int? parsed = int.tryParse(
+                v.replaceFirst('#', ''),
+                radix: 16,
+              );
+              if (parsed == null || v.replaceFirst('#', '').length != 6) {
+                return;
+              }
+              // `0xFF000000 | parsed` 只是把用户输入的 24 位 RGB 强制补上不透明 alpha，
+              // 并非「纯黑」——所以按 alpha 合成写，别再用 Color(0xFF000000 | …)，
+              // 否则既被 §3.1 的禁纯黑规则误伤，也读不出真实意图。
+              final HSVColor hsv = HSVColor.fromColor(
+                Color.from(
+                  alpha: 1,
+                  red: ((parsed >> 16) & 0xFF).toDouble(),
+                  green: ((parsed >> 8) & 0xFF).toDouble(),
+                  blue: (parsed & 0xFF).toDouble(),
+                ),
+              );
+              setState(() {
+                _h = hsv.hue;
+                _s = hsv.saturation;
+                _v = hsv.value;
+              });
+            },
+          ),
+        ],
+      ),
     );
   }
 

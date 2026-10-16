@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/D147 R74/R82 component-conformance gate (lib/features bare widgets)",
-  "at": "2026-10-16T07:21:49.326Z",
+  "at": "2026-10-16T07:40:00.607Z",
   "scanDir": "lib/features",
   "scannedFiles": 99,
   "metrics": {
@@ -14,13 +14,13 @@
     "textField": 60,
     "textFormField": 0,
     "bottomSheet": 4,
-    "alertDialog": 5
+    "alertDialog": 0
   },
   "baselineTotals": {
     "textField": 60,
     "textFormField": 0,
     "bottomSheet": 4,
-    "alertDialog": 5
+    "alertDialog": 0
   },
   "increases": [],
   "fileIncreases": [],
@@ -47,8 +47,7 @@
       "textField": 1
     },
     "lib/features/libraries/library_resource_editor.dart": {
-      "textField": 8,
-      "alertDialog": 1
+      "textField": 8
     },
     "lib/features/lighting/widgets/lighting_inspector.dart": {
       "textField": 1
@@ -69,16 +68,14 @@
       "textField": 1
     },
     "lib/features/planner/planner_page_dialogs.dart": {
-      "textField": 3,
-      "alertDialog": 1
+      "textField": 3
     },
     "lib/features/planner/planner_page_layout.dart": {
       "textField": 1,
       "bottomSheet": 1
     },
     "lib/features/planner/planner_page_pose_dialogs.dart": {
-      "textField": 2,
-      "alertDialog": 3
+      "textField": 2
     },
     "lib/features/poses/character_picker.dart": {
       "bottomSheet": 1

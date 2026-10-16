@@ -94,170 +94,16 @@ class ResourceEditorDialogState extends ConsumerState<ResourceEditorDialog> {
     final AppPalette p = context.palette;
 
     final isModel = widget.type == 'models';
-    return AlertDialog(
-      title: Text(
-        widget.existing == null
-            ? '新建 · ${libraryKinds.firstWhere((k) => k.type == widget.type).label}'
-            : '编辑 · ${widget.existing!.name}',
-      ),
-      content: SizedBox(
-        width: 520,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextField(
-                controller: _name,
-                decoration: const InputDecoration(labelText: '名称（2–30 字，必填）'),
-                maxLength: 30,
-                onChanged: (_) => setState(() {}),
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: _contact,
-                      decoration: const InputDecoration(labelText: '联系方式'),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextField(
-                      controller: _region,
-                      decoration: const InputDecoration(labelText: '地区'),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: _price,
-                      decoration: const InputDecoration(
-                        labelText: '合作报价 / 参考价',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  if (isModel)
-                    Expanded(
-                      child: TextField(
-                        controller: _height,
-                        decoration: const InputDecoration(labelText: '身高三维'),
-                      ),
-                    ),
-                ],
-              ),
-              TextField(
-                controller: _style,
-                decoration: const InputDecoration(labelText: '风格 / 标签描述'),
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: _tagCtl,
-                      decoration: const InputDecoration(
-                        labelText: '标签（回车添加，≤10 个）',
-                      ),
-                      onSubmitted: (String v) {
-                        if (v.trim().isNotEmpty && _tags.length < 10) {
-                          setState(() => _tags.add(v.trim()));
-                          _tagCtl.clear();
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SsButton(
-                    label: '加标签',
-                    kind: SsButtonKind.text,
-                    dense: true,
-                    onPressed: () {
-                      if (_tagCtl.text.trim().isNotEmpty && _tags.length < 10) {
-                        setState(() => _tags.add(_tagCtl.text.trim()));
-                        _tagCtl.clear();
-                      }
-                    },
-                  ),
-                ],
-              ),
-              if (_tags.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: AppSpaceFine.n6,
-                  ),
-                  child: Wrap(
-                    spacing: 6,
-                    children: <Widget>[
-                      for (final String tag in _tags)
-                        Chip(
-                          label: Text(
-                            tag,
-                            style: const TextStyle(
-                              fontSize: AppFontSize.caption,
-                            ),
-                          ),
-                          onDeleted: () => setState(() => _tags.remove(tag)),
-                          visualDensity: VisualDensity.compact,
-                        ),
-                    ],
-                  ),
-                ),
-              const SizedBox(height: 8),
-              Row(
-                children: <Widget>[
-                  SsButton(
-                    label: '上传封面',
-                    icon: Icons.photo_camera_back_outlined,
-                    kind: SsButtonKind.text,
-                    dense: true,
-                    onPressed: () => _pickImages(asCover: true),
-                  ),
-                  const SizedBox(width: 6),
-                  SsButton(
-                    label: '添加图集',
-                    icon: Icons.collections_outlined,
-                    kind: SsButtonKind.text,
-                    dense: true,
-                    onPressed: _pickImages,
-                  ),
-                  const SizedBox(width: 8),
-                  if (_cover != null)
-                    Text(
-                      '封面：$_cover',
-                      style: const TextStyle(fontSize: AppFontSize.caption),
-                    ),
-                ],
-              ),
-              if (_images.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: AppSpaceFine.n6),
-                  child: Wrap(
-                    spacing: 4,
-                    children: <Widget>[
-                      for (final String img in _images)
-                        Chip(
-                          label: Text(
-                            img.length > 18 ? '${img.substring(0, 18)}…' : img,
-                            style: const TextStyle(fontSize: AppFontSize.tiny),
-                          ),
-                          onDeleted: () => setState(() => _images.remove(img)),
-                          visualDensity: VisualDensity.compact,
-                        ),
-                    ],
-                  ),
-                ),
-              TextField(
-                controller: _note,
-                maxLines: 3,
-                decoration: const InputDecoration(labelText: '备注（≤2000 字）'),
-              ),
-            ],
-          ),
-        ),
-      ),
+    // R74 收口：弹层外观改走 sanctioned `SsDialog`（衬线标题 / hairline 分隔 /
+    // 统一内边距与阴影）。原 `content: SizedBox(width: 520) + 内层
+    // SingleChildScrollView` 由 SsDialog 自带的 `Flexible(SingleChildScrollView)`
+    // 承担 —— 保留内层滚动会变成嵌套滚动，故删掉。
+    // 宽度公式：maxWidth = 原 SizedBox.width + 48（SsDialog 左右 padding 各 24）。
+    return SsDialog(
+      title: widget.existing == null
+          ? '新建 · ${libraryKinds.firstWhere((k) => k.type == widget.type).label}'
+          : '编辑 · ${widget.existing!.name}',
+      maxWidth: 568,
       actions: <Widget>[
         if (widget.existing != null)
           TextButton(
@@ -285,9 +131,10 @@ class ResourceEditorDialogState extends ConsumerState<ResourceEditorDialog> {
                   },
             child: Text('删除', style: TextStyle(color: p.danger)),
           ),
-        TextButton(
+        SsDialogAction(
+          label: '取消',
+          primary: false,
           onPressed: () => Navigator.pop(context),
-          child: const Text('取消'),
         ),
         FilledButton(
           onPressed: !_valid || _busy
@@ -317,6 +164,153 @@ class ResourceEditorDialogState extends ConsumerState<ResourceEditorDialog> {
           child: Text(widget.existing == null ? '创建' : '保存'),
         ),
       ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextField(
+            controller: _name,
+            decoration: const InputDecoration(labelText: '名称（2–30 字，必填）'),
+            maxLength: 30,
+            onChanged: (_) => setState(() {}),
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: _contact,
+                  decoration: const InputDecoration(labelText: '联系方式'),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: TextField(
+                  controller: _region,
+                  decoration: const InputDecoration(labelText: '地区'),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: _price,
+                  decoration: const InputDecoration(labelText: '合作报价 / 参考价'),
+                ),
+              ),
+              const SizedBox(width: 8),
+              if (isModel)
+                Expanded(
+                  child: TextField(
+                    controller: _height,
+                    decoration: const InputDecoration(labelText: '身高三维'),
+                  ),
+                ),
+            ],
+          ),
+          TextField(
+            controller: _style,
+            decoration: const InputDecoration(labelText: '风格 / 标签描述'),
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: _tagCtl,
+                  decoration: const InputDecoration(
+                    labelText: '标签（回车添加，≤10 个）',
+                  ),
+                  onSubmitted: (String v) {
+                    if (v.trim().isNotEmpty && _tags.length < 10) {
+                      setState(() => _tags.add(v.trim()));
+                      _tagCtl.clear();
+                    }
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              SsButton(
+                label: '加标签',
+                kind: SsButtonKind.text,
+                dense: true,
+                onPressed: () {
+                  if (_tagCtl.text.trim().isNotEmpty && _tags.length < 10) {
+                    setState(() => _tags.add(_tagCtl.text.trim()));
+                    _tagCtl.clear();
+                  }
+                },
+              ),
+            ],
+          ),
+          if (_tags.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpaceFine.n6),
+              child: Wrap(
+                spacing: 6,
+                children: <Widget>[
+                  for (final String tag in _tags)
+                    Chip(
+                      label: Text(
+                        tag,
+                        style: const TextStyle(fontSize: AppFontSize.caption),
+                      ),
+                      onDeleted: () => setState(() => _tags.remove(tag)),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                ],
+              ),
+            ),
+          const SizedBox(height: 8),
+          Row(
+            children: <Widget>[
+              SsButton(
+                label: '上传封面',
+                icon: Icons.photo_camera_back_outlined,
+                kind: SsButtonKind.text,
+                dense: true,
+                onPressed: () => _pickImages(asCover: true),
+              ),
+              const SizedBox(width: 6),
+              SsButton(
+                label: '添加图集',
+                icon: Icons.collections_outlined,
+                kind: SsButtonKind.text,
+                dense: true,
+                onPressed: _pickImages,
+              ),
+              const SizedBox(width: 8),
+              if (_cover != null)
+                Text(
+                  '封面：$_cover',
+                  style: const TextStyle(fontSize: AppFontSize.caption),
+                ),
+            ],
+          ),
+          if (_images.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: AppSpaceFine.n6),
+              child: Wrap(
+                spacing: 4,
+                children: <Widget>[
+                  for (final String img in _images)
+                    Chip(
+                      label: Text(
+                        img.length > 18 ? '${img.substring(0, 18)}…' : img,
+                        style: const TextStyle(fontSize: AppFontSize.tiny),
+                      ),
+                      onDeleted: () => setState(() => _images.remove(img)),
+                      visualDensity: VisualDensity.compact,
+                    ),
+                ],
+              ),
+            ),
+          TextField(
+            controller: _note,
+            maxLines: 3,
+            decoration: const InputDecoration(labelText: '备注（≤2000 字）'),
+          ),
+        ],
+      ),
     );
   }
 }

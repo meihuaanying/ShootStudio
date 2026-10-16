@@ -42,36 +42,47 @@ class SsDialog extends StatelessWidget {
             boxShadow: appShadowOverlay(p.ink),
           ),
           padding: AppSpace.block,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              if (eyebrow != null) Text(eyebrow!, style: appEyebrow(p.accent)),
-              Text(title, style: AppType.h2.style(p.ink)),
-              if (subtitle != null) ...<Widget>[
-                const SizedBox(height: AppSpace.s1),
-                Text(subtitle!, style: AppType.small.style(p.muted)),
+          // 内容区垫一层透明 Material：ListTile 的背景与墨迹、按钮的水波都要画在
+          // 「最近的 Material 祖先」上。原 `AlertDialog` 自带 Material，而本组件
+          // 把底色画在 Container(DecoratedBox) 上却没有 Material —— 于是 Dialog 里
+          // 的 ListTile 会触发 “background color or ink splashes may be invisible”
+          // 断言（实测 test/features/f4_editors_test.dart 报 15 条）。
+          // 用 `MaterialType.transparency`：它不往中间插 ColoredBox/DecoratedBox，
+          // 底色与描边仍由外层 Container 独占，视觉不变。
+          child: Material(
+            type: MaterialType.transparency,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                if (eyebrow != null)
+                  Text(eyebrow!, style: appEyebrow(p.accent)),
+                Text(title, style: AppType.h2.style(p.ink)),
+                if (subtitle != null) ...<Widget>[
+                  const SizedBox(height: AppSpace.s1),
+                  Text(subtitle!, style: AppType.small.style(p.muted)),
+                ],
+                if (child != null) ...<Widget>[
+                  const SizedBox(height: AppSpace.s3),
+                  Divider(height: 1, color: p.rule),
+                  const SizedBox(height: AppSpace.s3),
+                  Flexible(child: SingleChildScrollView(child: child!)),
+                ],
+                if (actions.isNotEmpty) ...<Widget>[
+                  const SizedBox(height: AppSpace.s4),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      for (final Widget action in actions)
+                        Padding(
+                          padding: const EdgeInsets.only(left: AppSpace.s2),
+                          child: action,
+                        ),
+                    ],
+                  ),
+                ],
               ],
-              if (child != null) ...<Widget>[
-                const SizedBox(height: AppSpace.s3),
-                Divider(height: 1, color: p.rule),
-                const SizedBox(height: AppSpace.s3),
-                Flexible(child: SingleChildScrollView(child: child!)),
-              ],
-              if (actions.isNotEmpty) ...<Widget>[
-                const SizedBox(height: AppSpace.s4),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    for (final Widget action in actions)
-                      Padding(
-                        padding: const EdgeInsets.only(left: AppSpace.s2),
-                        child: action,
-                      ),
-                  ],
-                ),
-              ],
-            ],
+            ),
           ),
         ),
       ),

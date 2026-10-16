@@ -19,69 +19,65 @@ class _PoseInfoDialog extends StatelessWidget {
       if (author.isNotEmpty) author,
       if (license.isNotEmpty) license,
     ].join(' · ');
-    return AlertDialog(
-      title: Text(
-        pose['name'] as String? ?? '姿势',
-        style: const TextStyle(fontSize: AppFontSize.bodyXl),
-      ),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            if (photo.isNotEmpty) ...<Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(AppRadius.frame),
-                child: SizedBox(
-                  width: 220,
-                  height: 280,
-                  child: PosePhotoView(
-                    photo: photo,
-                    skeleton: skeleton,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-            ],
-            if (lens.isNotEmpty)
-              Text(
-                '镜头建议：$lens',
-                style: const TextStyle(fontSize: AppFontSize.smallLg),
-              ),
-            if (camera.isNotEmpty)
-              Text(
-                '机位建议：$camera',
-                style: const TextStyle(fontSize: AppFontSize.smallLg),
-              ),
-            if (jointCount > 0)
-              Text(
-                '关节数：$jointCount（导出可选「照片 / 骨架示意」）',
-                style: const TextStyle(fontSize: AppFontSize.smallSm),
-              ),
-            if (attribution.isNotEmpty)
-              Text(
-                '照片：$attribution',
-                style: const TextStyle(
-                  fontSize: AppFontSize.caption,
-                  color: AppFeatureColor.panelInk,
-                ),
-              ),
-            const SizedBox(height: 4),
-            if (photo.isEmpty)
-              const Text(
-                '在「动作摆姿库」可查看照片、骨架与动作要领。',
-                style: TextStyle(fontSize: AppFontSize.smallSm),
-              ),
-          ],
-        ),
-      ),
+    return SsDialog(
+      title: pose['name'] as String? ?? '姿势',
       actions: <Widget>[
-        TextButton(
+        SsDialogAction(
+          label: '关闭',
+          primary: false,
           onPressed: () => Navigator.pop(context),
-          child: const Text('关闭'),
         ),
       ],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          if (photo.isNotEmpty) ...<Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadius.frame),
+              child: SizedBox(
+                width: 220,
+                height: 280,
+                child: PosePhotoView(
+                  photo: photo,
+                  skeleton: skeleton,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
+          if (lens.isNotEmpty)
+            Text(
+              '镜头建议：$lens',
+              style: const TextStyle(fontSize: AppFontSize.smallLg),
+            ),
+          if (camera.isNotEmpty)
+            Text(
+              '机位建议：$camera',
+              style: const TextStyle(fontSize: AppFontSize.smallLg),
+            ),
+          if (jointCount > 0)
+            Text(
+              '关节数：$jointCount（导出可选「照片 / 骨架示意」）',
+              style: const TextStyle(fontSize: AppFontSize.smallSm),
+            ),
+          if (attribution.isNotEmpty)
+            Text(
+              '照片：$attribution',
+              style: const TextStyle(
+                fontSize: AppFontSize.caption,
+                color: AppFeatureColor.panelInk,
+              ),
+            ),
+          const SizedBox(height: 4),
+          if (photo.isEmpty)
+            const Text(
+              '在「动作摆姿库」可查看照片、骨架与动作要领。',
+              style: TextStyle(fontSize: AppFontSize.smallSm),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -114,9 +110,20 @@ class _PoseReplaceDialogState extends State<_PoseReplaceDialog> {
               .where((PoseEntry pose) => pose.name.contains(_query.trim()))
               .take(30)
               .toList();
-    return AlertDialog(
-      title: const Text('替换姿势', style: TextStyle(fontSize: AppFontSize.bodyXl)),
-      content: SizedBox(
+    // 这里**保留**固定高度的 SizedBox：内容里的 `Expanded(ListView)` 需要有界
+    // 高度，而 SsDialog 会把 child 包进 SingleChildScrollView（高度无界），
+    // 去掉它会直接报 RenderFlex unbounded 错误。
+    return SsDialog(
+      title: '替换姿势',
+      maxWidth: 408,
+      actions: <Widget>[
+        SsDialogAction(
+          label: '取消',
+          primary: false,
+          onPressed: () => Navigator.pop(context),
+        ),
+      ],
+      child: SizedBox(
         width: 360,
         height: 380,
         child: Column(
@@ -164,12 +171,6 @@ class _PoseReplaceDialogState extends State<_PoseReplaceDialog> {
           ],
         ),
       ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('取消'),
-        ),
-      ],
     );
   }
 }
@@ -214,51 +215,18 @@ class _BudgetEstimateDialogState extends State<_BudgetEstimateDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text(
-        'AI 预算估算',
-        style: TextStyle(fontSize: AppFontSize.bodyXl),
-      ),
-      content: SizedBox(
-        width: 320,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Text(
-              '按内置价格区间 × 城市档位系数生成，结果标注「估算值」，可手动微调。',
-              style: TextStyle(fontSize: AppFontSize.smallSm),
-            ),
-            const SizedBox(height: 8),
-            DropdownButtonFormField<CityEntry>(
-              initialValue: _city,
-              decoration: const InputDecoration(labelText: '城市', isDense: true),
-              items: <DropdownMenuItem<CityEntry>>[
-                for (final CityEntry c in _cities)
-                  DropdownMenuItem<CityEntry>(
-                    value: c,
-                    child: Text('${c.name} · ${c.tier}'),
-                  ),
-              ],
-              onChanged: (CityEntry? v) => setState(() => _city = v),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _people,
-              decoration: const InputDecoration(
-                labelText: '人数（餐饮按人数估算）',
-                isDense: true,
-              ),
-              keyboardType: TextInputType.number,
-            ),
-          ],
-        ),
-      ),
+    return SsDialog(
+      title: 'AI 预算估算',
+      maxWidth: 368,
       actions: <Widget>[
-        TextButton(
+        SsDialogAction(
+          label: '取消',
+          primary: false,
           onPressed: () => Navigator.pop(context),
-          child: const Text('取消'),
         ),
+        // 刻意保留 SsButton 而不换 SsDialogAction：未选城市时该按钮 `onPressed`
+        // 为 null（**禁用态**），而 SsDialogAction 把 null 解释为「仅 pop 关闭」，
+        // 换过去会把「不可点」变成「点一下就关弹层」。
         SsButton(
           label: '生成估算',
           onPressed: _city == null
@@ -274,6 +242,38 @@ class _BudgetEstimateDialogState extends State<_BudgetEstimateDialog> {
                 },
         ),
       ],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const Text(
+            '按内置价格区间 × 城市档位系数生成，结果标注「估算值」，可手动微调。',
+            style: TextStyle(fontSize: AppFontSize.smallSm),
+          ),
+          const SizedBox(height: 8),
+          DropdownButtonFormField<CityEntry>(
+            initialValue: _city,
+            decoration: const InputDecoration(labelText: '城市', isDense: true),
+            items: <DropdownMenuItem<CityEntry>>[
+              for (final CityEntry c in _cities)
+                DropdownMenuItem<CityEntry>(
+                  value: c,
+                  child: Text('${c.name} · ${c.tier}'),
+                ),
+            ],
+            onChanged: (CityEntry? v) => setState(() => _city = v),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _people,
+            decoration: const InputDecoration(
+              labelText: '人数（餐饮按人数估算）',
+              isDense: true,
+            ),
+            keyboardType: TextInputType.number,
+          ),
+        ],
+      ),
     );
   }
 }

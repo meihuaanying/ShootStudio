@@ -100,7 +100,7 @@ if (framesOf(representative, ph) > 0) {          // ← 第 184 行
 
 ### 🟠 P1 —— 门禁虚设 / 口径失真（4 项）
 
-#### 2.1 R74 并未真正归零：5 处 `AlertDialog` 仍在 widget `build()` 内
+#### 2.1 R74 弹层皮肤：5 处 `AlertDialog` 曾在 widget `build()` 内（**V8.13 已全部迁完，实测字面量 = 0**）
 | 文件 | 行 | 宿主 |
 |---|---|---|
 | `features/libraries/library_resource_editor.dart` | 97 | `ResourceEditorDialogState.build()` |
@@ -110,7 +110,9 @@ if (framesOf(representative, ph) > 0) {          // ← 第 184 行
 | 同上 | 217 | `_BudgetEstimateDialogState.build()` |
 
 **全部是 `return AlertDialog(`，即必然渲染的 feature 侧弹层皮肤** → 违反 R74「对话框一律走 `lib/core/design/`」。
-**偏差 10 的「`AlertDialog sites left=0`、本偏差已消除」是扫描口径缺陷造成的误判**：先前脚本只查 `showDialog<` 之后 1500 字符窗口内的 `AlertDialog`，漏掉了「widget class build 直接返回」这种形态。→ **偏差 10 需重开或补充登记，`HANDOFF_V8` 与 v8-10 报告的「归零」措辞需更正。**
+**偏差 10 的「`AlertDialog sites left=0`、本偏差已消除」是扫描口径缺陷造成的误判**：先前脚本只查 `showDialog<` 之后 1500 字符窗口内的 `AlertDialog`，漏掉了「widget class build 直接返回」这种形态。→ 偏差 10 已重开并更正，`HANDOFF_V8` 与 v8-10 报告的「归零」措辞已改。
+
+**✅ V8.13 已收口（真归零，有门禁证据）**：上表 5 处全部由 `return AlertDialog(...)` 改为 `return SsDialog(...)`（外层 `showDialog` 不动），`node tool/check_components.mjs` 实测 `alertDialog 0`，且该 0 已写进 `tool/component_baseline.json`（只降不升）→ 今后新增任何 `AlertDialog(` 都会让 CI 红。过程中还修掉 `SsDialog` 自身一个真缺陷：它用 `Container(color: p.surface)` 直接装内容、**缺 Material 垫层**（`AlertDialog` 自带），导致内容里的 `ListTile` 报 15 条「background color or ink splashes may be invisible」断言；已包一层 `Material(type: MaterialType.transparency)`。详见 `docs/qa/v8-13-r74-alertdialog-final.md`。
 
 #### 2.2 R74 输入框层未收口（偏差 6 后半，仍未做）
 feature 侧裸 `TextField(`/`TextFormField(` = **60 处 / 24 文件**（settings_page_sources 11、library_resource_editor 8、planner_module_editors_b 5、planner_module_editors_a 4、planner_module_editor 4、gear_browser_add 4…），而 sanctioned `SsTextInput` 仅 **1 处 / 1 文件**、`SsSearchField` 仅 **1 处 / 1 文件**。
@@ -121,7 +123,9 @@ feature 侧裸 `TextField(`/`TextFormField(` = **60 处 / 24 文件**（settings
 
 > 对比：**按钮/卡片/Chip/Toast 四层已真正收口**（`SsButton` 140 处/46 文件、`SsCard` 44/21、`SsChip` 52/22、`ssToast` 86/30、`showSsConfirm` 4/4、`SsDialogAction` 25/8、`showSsDialog` 12/7）。所以 R74 是**「四层已收口、三层未收口」**，不是全未做。
 
-#### 2.4 R73 白名单陈旧 → 门禁对这些文件形同虚设
+#### 2.4 R73 报告快照陈旧（**门禁本身有效**；V8.12/B1 已刷新快照）
+
+> **更正（V8.12）**：本节原判「门禁形同虚设」**不成立** —— `tool/file_size_baseline.json` 的白名单**本来就是空表**，`check_file_size.mjs` 对超限文件取 `allowed = baseline[rel] ?? 0`，即 600/300 已被真实强制（注入 701 行 → FAIL exit 1；401 行的 design 文件 → FAIL exit 1）。真正陈旧的只是**证据快照** `docs/qa/v8-s3-file-size.json`，已刷新（`baseline_entries=0`）。下面保留原始观察作为历史记录。
 `docs/qa/v8-s3-file-size.json` 的 `allowed` 字段仍是**拆分前**的上限（headroom +39~40）：
 ```
 planner_page.dart        allowed 2676  (当前 ≤531)
@@ -203,7 +207,7 @@ ai_panel.dart / libraries_page.dart / ai_client.dart  allowed 810/808/779
 
 | # | 待办 | 优先级 | 预估 | 验收 |
 |---|---|---|---|---|
-| C1 | 迁移 §2.1 的 **5 处 `AlertDialog`** → `showSsDialog`（都是 widget build 直接返回，迁法同 V8.10：拆 body + `showSsDialog<T>`；`_ColorPickerDialog` 与 `_PoseReplaceDialog` 有内部状态，需按 V8.9 的「独立 StatefulWidget」范式） | **P1** | 1 天 | 逐处语义/返回值不变；新增端到端用例；全量 test 只增不减 |
+| C1 | 迁移 §2.1 的 **5 处 `AlertDialog`** → `showSsDialog`（都是 widget build 直接返回，迁法同 V8.10：拆 body + `showSsDialog<T>`；`_ColorPickerDialog` 与 `_PoseReplaceDialog` 有内部状态，需按 V8.9 的「独立 StatefulWidget」范式） | **P1** | 1 天 | ✅ **完成（V8.13）**。实际迁法是**原地把 `return AlertDialog(...)` 换成 `return SsDialog(...)`**，保留各自的 StatefulWidget 与内部状态（不必拆 body、不必换 `showSsDialog<T>` —— 那是 V8.10 对「`showDialog<T>` 调用点」的迁法；本 5 处是「widget `build()` 直接返回」，迁法不同）。`check_components` 实测 `alertDialog 0` 且基线已锁定为 0；`flutter test` **543 passed + 34 skipped**（= 基线，无回归）。顺带修掉 `SsDialog` 缺 `Material` 的真缺陷（见 §2.1）。报告 `docs/qa/v8-13-r74-alertdialog-final.md`。 |
 | C2 | 输入框层收口：`SsTextInput`/`SsSearchField` 覆盖 60 处裸 TextField（**分批做**：先 settings 11 + library_resource_editor 8 + gear_browser_add 4 = 23 处，约 1 天；其余按文件分批） | **P1** | 1.5 天 | 裸 TextField 计数下降；新增 `SsTextInput` 用例 |
 | C3 | 底部抽屉层：4 处 `showModalBottomSheet` → `showSsSheet` | **P2** | 0.5 天 | `SsSheet` 引用从 0 变正数 |
 | C4 | 空态层：把 feature 侧手写空态改用 `SsEmptyState` | **P2** | 0.3 天 | `SsEmptyState` 引用从 0 变正数 |
