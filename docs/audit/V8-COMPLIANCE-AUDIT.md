@@ -115,7 +115,9 @@ if (framesOf(representative, ph) > 0) {          // ← 第 184 行
 **✅ V8.13 已收口（真归零，有门禁证据）**：上表 5 处全部由 `return AlertDialog(...)` 改为 `return SsDialog(...)`（外层 `showDialog` 不动），`node tool/check_components.mjs` 实测 `alertDialog 0`，且该 0 已写进 `tool/component_baseline.json`（只降不升）→ 今后新增任何 `AlertDialog(` 都会让 CI 红。过程中还修掉 `SsDialog` 自身一个真缺陷：它用 `Container(color: p.surface)` 直接装内容、**缺 Material 垫层**（`AlertDialog` 自带），导致内容里的 `ListTile` 报 15 条「background color or ink splashes may be invisible」断言；已包一层 `Material(type: MaterialType.transparency)`。详见 `docs/qa/v8-13-r74-alertdialog-final.md`。
 
 #### 2.2 R74 输入框层未收口（偏差 6 后半，仍未做）
-feature 侧裸 `TextField(`/`TextFormField(` = **60 处 / 24 文件**（settings_page_sources 11、library_resource_editor 8、planner_module_editors_b 5、planner_module_editors_a 4、planner_module_editor 4、gear_browser_add 4…），而 sanctioned `SsTextInput` 仅 **1 处 / 1 文件**、`SsSearchField` 仅 **1 处 / 1 文件**。
+feature 侧裸 `TextField(`/`TextFormField(` = **60 处 / 24 文件**（审计时口径；settings_page_sources 11、library_resource_editor 8、planner_module_editors_b 5、planner_module_editors_a 4、planner_module_editor 4、gear_browser_add 4…），而 sanctioned `SsTextInput` 仅 **1 处 / 1 文件**、`SsSearchField` 仅 **1 处 / 1 文件**。
+
+> **进度更新（V8.14）**：裸 `TextField(` 已由 **60 → 48**（`gear_browser_add.dart` 4 + `library_resource_editor.dart` 8 迁到 `SsTextInput`），组件门禁 `textField` 基线同步锁到 **48**（只降不升）；`SsTextInput` 本身扩展了 8 个参数并修掉 `initialValue` 静默失效缺陷。详见 `docs/qa/v8-14-ss-input.md`。余 48 处按文件分批。
 
 #### 2.3 R74 底部抽屉层 + 空态层未收口
 - 裸 `showModalBottomSheet` **4 处 / 4 文件**（refs_hit_drawer、pose_gallery、character_picker、planner_page_layout），而 `SsSheet` 引用 **0**、`showSsSheet` 仅 1。
@@ -208,7 +210,7 @@ ai_panel.dart / libraries_page.dart / ai_client.dart  allowed 810/808/779
 | # | 待办 | 优先级 | 预估 | 验收 |
 |---|---|---|---|---|
 | C1 | 迁移 §2.1 的 **5 处 `AlertDialog`** → `showSsDialog`（都是 widget build 直接返回，迁法同 V8.10：拆 body + `showSsDialog<T>`；`_ColorPickerDialog` 与 `_PoseReplaceDialog` 有内部状态，需按 V8.9 的「独立 StatefulWidget」范式） | **P1** | 1 天 | ✅ **完成（V8.13）**。实际迁法是**原地把 `return AlertDialog(...)` 换成 `return SsDialog(...)`**，保留各自的 StatefulWidget 与内部状态（不必拆 body、不必换 `showSsDialog<T>` —— 那是 V8.10 对「`showDialog<T>` 调用点」的迁法；本 5 处是「widget `build()` 直接返回」，迁法不同）。`check_components` 实测 `alertDialog 0` 且基线已锁定为 0；`flutter test` **543 passed + 34 skipped**（= 基线，无回归）。顺带修掉 `SsDialog` 缺 `Material` 的真缺陷（见 §2.1）。报告 `docs/qa/v8-13-r74-alertdialog-final.md`。 |
-| C2 | 输入框层收口：`SsTextInput`/`SsSearchField` 覆盖 60 处裸 TextField（**分批做**：先 settings 11 + library_resource_editor 8 + gear_browser_add 4 = 23 处，约 1 天；其余按文件分批） | **P1** | 1.5 天 | 裸 TextField 计数下降；新增 `SsTextInput` 用例 |
+| C2 | 输入框层收口：`SsTextInput`/`SsSearchField` 覆盖 60 处裸 TextField（**分批做**：先 settings 11 + library_resource_editor 8 + gear_browser_add 4 = 23 处，约 1 天；其余按文件分批） | **P1** | 1.5 天 | 裸 TextField 计数下降；新增 `SsTextInput` 用例 —— **▶ 进行中（V8.14）**：首批 12 处已迁（`gear_browser_add.dart` 4 + `library_resource_editor.dart` 8），组件门禁 `textField` 基线 60→48；新增 `app/test/core/ss_input_test.dart` 5 条用例（全绿）；`SsTextInput` 扩展 8 个参数（`onSubmitted`/`maxLines`/`minLines`/`maxLength`/`keyboardType`/`textInputAction`/`focusNode`/`dense`，默认值 = 原生默认值，对既有调用方零变更）并修掉 `initialValue` 静默失效缺陷；六件门禁全绿（test **548 passed + 34 skipped**）；报告 `docs/qa/v8-14-ss-input.md`。余 48 处按文件分批 |
 | C3 | 底部抽屉层：4 处 `showModalBottomSheet` → `showSsSheet` | **P2** | 0.5 天 | `SsSheet` 引用从 0 变正数 |
 | C4 | 空态层：把 feature 侧手写空态改用 `SsEmptyState` | **P2** | 0.3 天 | `SsEmptyState` 引用从 0 变正数 |
 

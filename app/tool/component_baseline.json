@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/D147 R74/R82 组件收口软门禁基线（lib/features 内裸 TextField/TextFormField/showModalBottomSheet/AlertDialog，只降不升）",
-  "at": "2026-10-16T07:40:00.462Z",
+  "at": "2026-10-16T09:15:23.832Z",
   "metrics": {
     "textField": "SsTextInput / SsSearchField",
     "textFormField": "SsTextInput（含校验场景）",
@@ -9,7 +9,7 @@
     "alertDialog": "showSsDialog / SsDialog"
   },
   "totals": {
-    "textField": 60,
+    "textField": 48,
     "textFormField": 0,
     "bottomSheet": 4,
     "alertDialog": 0
@@ -30,14 +30,8 @@
     "lib/features/libraries/gear_browser.dart": {
       "textField": 2
     },
-    "lib/features/libraries/gear_browser_add.dart": {
-      "textField": 4
-    },
     "lib/features/libraries/libraries_page.dart": {
       "textField": 1
-    },
-    "lib/features/libraries/library_resource_editor.dart": {
-      "textField": 8
     },
     "lib/features/lighting/widgets/lighting_inspector.dart": {
       "textField": 1

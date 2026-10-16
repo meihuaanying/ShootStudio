@@ -7,41 +7,101 @@ import 'package:flutter/material.dart';
 import 'tokens.dart';
 
 /// 单行输入框（hairline 边框 + 4 圆角 + 标签）。
-class SsTextInput extends StatelessWidget {
+///
+/// V8.14/C2：为「裸 `TextField(` → sanctioned 输入件」的迁移补齐透传能力。
+/// 新增参数（`onSubmitted` / `maxLines` / `minLines` / `maxLength` /
+/// `keyboardType` / `textInputAction` / `focusNode` / `dense`）的默认值与
+/// `TextField` / `InputDecoration` 的默认值一致，故对既有调用方行为零变更；
+/// `label` 由 `required` 放宽为可选，同样是源兼容（原来传 label 的照常工作）。
+class SsTextInput extends StatefulWidget {
   const SsTextInput({
     super.key,
-    required this.label,
+    this.label,
     this.hint,
     this.controller,
     this.initialValue,
     this.onChanged,
+    this.onSubmitted,
     this.obscure = false,
     this.mono = false,
     this.suffix,
+    this.maxLines = 1,
+    this.minLines,
+    this.maxLength,
+    this.keyboardType,
+    this.textInputAction,
+    this.focusNode,
+    this.dense = false,
   });
 
-  final String label;
+  final String? label;
   final String? hint;
   final TextEditingController? controller;
   final String? initialValue;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
   final bool obscure;
   final bool mono;
   final Widget? suffix;
+  final int? maxLines;
+  final int? minLines;
+  final int? maxLength;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final FocusNode? focusNode;
+  final bool dense;
+
+  @override
+  State<SsTextInput> createState() => _SsTextInputState();
+}
+
+class _SsTextInputState extends State<SsTextInput> {
+  /// `initialValue` 的兜底 controller。
+  ///
+  /// 修掉一个真缺陷：该参数此前被声明但 `build()` 里**完全没用到**，于是
+  /// `SsTextInput(label: '项目名', initialValue: 'CITY-NIGHT')` 会渲染出一个空框
+  /// （静默失效，`TextField` 本身没有 `initialValue`）。要让它生效就必须有个
+  /// controller，所以本组件由 `StatelessWidget` 改为 `StatefulWidget`：
+  /// 仅在调用方**未提供** `controller` 时自建一个，并在 `dispose()` 释放。
+  TextEditingController? _own;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.controller == null && widget.initialValue != null) {
+      _own = TextEditingController(text: widget.initialValue);
+    }
+  }
+
+  @override
+  void dispose() {
+    _own?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final AppPalette p = context.palette;
     return TextField(
-      controller: controller,
-      obscureText: obscure,
-      onChanged: onChanged,
-      style: mono ? appMono(p.ink, size: 12.5) : AppType.body.style(p.ink),
+      controller: widget.controller ?? _own,
+      focusNode: widget.focusNode,
+      obscureText: widget.obscure,
+      onChanged: widget.onChanged,
+      onSubmitted: widget.onSubmitted,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      maxLength: widget.maxLength,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      style: widget.mono
+          ? appMono(p.ink, size: 12.5)
+          : AppType.body.style(p.ink),
       decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        suffixIcon: suffix,
-        hintStyle: mono
+        labelText: widget.label,
+        hintText: widget.hint,
+        suffixIcon: widget.suffix,
+        isDense: widget.dense,
+        hintStyle: widget.mono
             ? appMono(p.muted, size: 12.5)
             : AppType.body.style(p.muted),
       ),

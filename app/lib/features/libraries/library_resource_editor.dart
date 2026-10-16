@@ -167,59 +167,42 @@ class ResourceEditorDialogState extends ConsumerState<ResourceEditorDialog> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextField(
+          SsTextInput(
+            label: '名称（2–30 字，必填）',
             controller: _name,
-            decoration: const InputDecoration(labelText: '名称（2–30 字，必填）'),
             maxLength: 30,
             onChanged: (_) => setState(() {}),
           ),
           Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
-                  controller: _contact,
-                  decoration: const InputDecoration(labelText: '联系方式'),
-                ),
+                child: SsTextInput(label: '联系方式', controller: _contact),
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: TextField(
-                  controller: _region,
-                  decoration: const InputDecoration(labelText: '地区'),
-                ),
+                child: SsTextInput(label: '地区', controller: _region),
               ),
             ],
           ),
           Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
-                  controller: _price,
-                  decoration: const InputDecoration(labelText: '合作报价 / 参考价'),
-                ),
+                child: SsTextInput(label: '合作报价 / 参考价', controller: _price),
               ),
               const SizedBox(width: 8),
               if (isModel)
                 Expanded(
-                  child: TextField(
-                    controller: _height,
-                    decoration: const InputDecoration(labelText: '身高三维'),
-                  ),
+                  child: SsTextInput(label: '身高三维', controller: _height),
                 ),
             ],
           ),
-          TextField(
-            controller: _style,
-            decoration: const InputDecoration(labelText: '风格 / 标签描述'),
-          ),
+          SsTextInput(label: '风格 / 标签描述', controller: _style),
           Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
+                child: SsTextInput(
+                  label: '标签（回车添加，≤10 个）',
                   controller: _tagCtl,
-                  decoration: const InputDecoration(
-                    labelText: '标签（回车添加，≤10 个）',
-                  ),
                   onSubmitted: (String v) {
                     if (v.trim().isNotEmpty && _tags.length < 10) {
                       setState(() => _tags.add(v.trim()));
@@ -304,11 +287,7 @@ class ResourceEditorDialogState extends ConsumerState<ResourceEditorDialog> {
                 ],
               ),
             ),
-          TextField(
-            controller: _note,
-            maxLines: 3,
-            decoration: const InputDecoration(labelText: '备注（≤2000 字）'),
-          ),
+          SsTextInput(label: '备注（≤2000 字）', controller: _note, maxLines: 3),
         ],
       ),
     );

@@ -119,24 +119,13 @@ class _AddGearBodyState extends State<_AddGearBody> {
           ],
           onChanged: (String? v) => setState(() => kind = v ?? kind),
         ),
-        TextField(
-          controller: brand,
-          decoration: const InputDecoration(labelText: '品牌', isDense: true),
-        ),
-        TextField(
-          controller: model,
-          decoration: const InputDecoration(labelText: '型号', isDense: true),
-        ),
-        TextField(
-          controller: mount,
-          decoration: const InputDecoration(labelText: '卡口（可空）', isDense: true),
-        ),
-        TextField(
+        SsTextInput(label: '品牌', controller: brand, dense: true),
+        SsTextInput(label: '型号', controller: model, dense: true),
+        SsTextInput(label: '卡口（可空）', controller: mount, dense: true),
+        SsTextInput(
+          label: '参考价（可空）',
           controller: price,
-          decoration: const InputDecoration(
-            labelText: '参考价（可空）',
-            isDense: true,
-          ),
+          dense: true,
           keyboardType: TextInputType.number,
         ),
       ],
