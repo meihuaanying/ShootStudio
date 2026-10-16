@@ -84,14 +84,12 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
             children: <Widget>[
               Expanded(
                 flex: 2,
-                child: TextField(
+                child: SsTextInput(
                   controller: TextEditingController(
                     text: '${rows[i]['item'] ?? ''}',
                   ),
-                  decoration: const InputDecoration(
-                    hintText: '项目',
-                    isDense: true,
-                  ),
+                  hint: '项目',
+                  dense: true,
                   onChanged: (String v) =>
                       controller.updateModule(module.id, (PlanModuleData m) {
                         final list = (m.data['rows'] as List? ?? <Object?>[]);
@@ -102,14 +100,12 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
               ),
               const SizedBox(width: 4),
               Expanded(
-                child: TextField(
+                child: SsTextInput(
                   controller: TextEditingController(
                     text: '${rows[i]['price'] ?? 0}',
                   ),
-                  decoration: const InputDecoration(
-                    hintText: '金额',
-                    isDense: true,
-                  ),
+                  hint: '金额',
+                  dense: true,
                   onChanged: (String v) =>
                       controller.updateModule(module.id, (PlanModuleData m) {
                         final list = (m.data['rows'] as List? ?? <Object?>[]);
@@ -121,14 +117,12 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
               const SizedBox(width: 4),
               Expanded(
                 flex: 2,
-                child: TextField(
+                child: SsTextInput(
                   controller: TextEditingController(
                     text: '${rows[i]['note'] ?? ''}',
                   ),
-                  decoration: const InputDecoration(
-                    hintText: '备注',
-                    isDense: true,
-                  ),
+                  hint: '备注',
+                  dense: true,
                   onChanged: (String v) =>
                       controller.updateModule(module.id, (PlanModuleData m) {
                         final list = (m.data['rows'] as List? ?? <Object?>[]);
@@ -176,14 +170,12 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
               for (var f = 0; f < fields.length; f++) ...<Widget>[
                 Expanded(
                   flex: f == 1 ? 1 : 2,
-                  child: TextField(
+                  child: SsTextInput(
                     controller: TextEditingController(
                       text: '${rows[i][fields[f]] ?? ''}',
                     ),
-                    decoration: InputDecoration(
-                      hintText: labels[f],
-                      isDense: true,
-                    ),
+                    hint: labels[f],
+                    dense: true,
                     onChanged: (String v) =>
                         controller.updateModule(module.id, (PlanModuleData m) {
                           final list = (m.data['rows'] as List? ?? <Object?>[]);
@@ -298,14 +290,12 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
                     m.data['placeholder'] = list2.isEmpty;
                   }),
                 ),
-              TextField(
+              SsTextInput(
                 controller: TextEditingController(
                   text: module.data['note'] as String? ?? '',
                 ),
-                decoration: const InputDecoration(
-                  hintText: '补充说明（可空）',
-                  isDense: true,
-                ),
+                hint: '补充说明（可空）',
+                dense: true,
                 onChanged: (String v) => controller.updateModule(
                   module.id,
                   (PlanModuleData m) => m.data['note'] = v,
