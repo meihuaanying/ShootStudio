@@ -199,8 +199,67 @@ V8 收尾时**只写在代码注释里、没有进中央登记**，等于「知�
   `TextEditingController` 从不释放（真内存泄漏），V8.10 拆件时由
   `_AddGearBodyState.dispose()` 释放。
 - **状态**：**本偏差已消除**（条目保留作为过程记录与视觉差异登记）。
+- **⚠️ 2026-10-16 更正（全面审计发现，见 `docs/audit/V8-COMPLIANCE-AUDIT.md` §2.1）**：
+  「`AlertDialog sites left=0`」这个结论**是错的**，成因是**复核脚本的口径缺陷**——
+  它只在 `showDialog<` 之后 1500 字符窗口内匹配 `AlertDialog`，因此漏掉了
+  「widget class 的 `build()` 直接 `return AlertDialog(...)`」这一形态。
+  实测 `lib/features/` 内仍有 **5 处** feature 侧 `AlertDialog` 皮肤：
+  `library_resource_editor.dart:97`（`ResourceEditorDialogState.build`）、
+  `planner_page_dialogs.dart:220`（`_ColorPickerDialogState.build`）、
+  `planner_page_pose_dialogs.dart:22`（`_PoseInfoDialog.build`）`/ :117`
+  （`_PoseReplaceDialogState.build`）`/ :217`（`_BudgetEstimateDialogState.build`）。
+  全部是 `return AlertDialog(`，即**必然渲染**的弹层，违反 R74。
+  → **本偏差重新开放**，修复见审计报告批次 C1；在迁完这 5 处之前，
+  「R74 归零」的说法不成立。
 
+---
 
+## 偏差 11：引擎性能门禁的「逐相位统计量」判据同样是假红（v8.11.0 修正）
+
+- **合同条款**：R81 步进门禁 / R78 证据入 git —— 本仓自设的「引擎性能门禁」
+  是 V8.3 起接入 CI 的硬门禁，它的判据必须**要么抓真回归、要么不判**，
+  不能随机红（否则等于让人习惯性忽略红灯，门禁失去意义）。
+- **现状**：**V8.5 的修订不完整，导致 CI 在 `v8.10.0` 上真红**。
+  run `38218304083`（commit `1ba20eb`）6 个 job 中 5 绿，
+  **`Engine perf gate` failure**，失败读数：
+  ```
+  [尝试 1/5] exit=0 逐相位帧数=0/1/1/3 总帧数=5      ← 代表运行
+  PASS 渲染循环有出帧（总帧数 > 0）:: 5
+  PASS orbit / PASS lightDrag（统计齐全）
+  FAIL dolly.p50 为数值 :: null
+  FAIL dolly.p95 为数值 :: null
+  FAIL dolly.p99 为数值 :: null
+  FAIL dolly.max 为数值 :: null
+  FAIL dolly.mean 为数值 :: undefined
+  FAIL dolly.fpsMean 为数值 :: undefined
+  [perf-gate] FAIL (6) → exit 1
+  ```
+- **根因（与偏差 9 同源，同一个错误的另一半）**：`engine_perf_gate.mjs:184` 写的是
+  `if (framesOf(representative, ph) > 0) { for (k of STAT_KEYS) check(...) }` ——
+  只要某相位出过帧，就强制要求它 7 项统计量全为数值。但 GPU-less runner 上
+  每相位只有 1~3 帧，**帧间隔样本 <2 时工具不产出分位数**（`p50/p95/p99/max=null`、
+  `mean/fpsMean=undefined`；只有 `cpuMsPerFrame` 因是「CPU 时间/帧数」仍为数值）。
+  在 1~3 个样本上要求分位数，统计上无意义 —— **偏差 9 已经承认「逐相位帧数」
+  是噪音并把它降级为 NOTE，但忘了「逐相位统计量」是同一个噪音的另一面。**
+- **修正（v8.11.0）**：
+  1. 「逐相位统计齐全」硬判 → 改为「**至少一个相位的 7 项统计齐全且为数值**」
+     （仍能抓住 `stats()` 被改坏 / `Number(null)===0` 真空判据回归，
+     但不再因单相位样本不足而假红）；
+  2. 代表运行的选取规则由「总帧数最多」改为「**统计完整相位数最多**（平手比总帧数）」；
+  3. 出了帧但统计不完整的相位 → `note`（与帧数对照同源），不判红；
+  4. 保留全部既有硬判：`exit === 0` / 无 `error` 字段 / `warmup.settled` /
+     `lightPoint.ok` / **整次总帧数 > 0**。
+- **反向验证（证明仍非装饰）**：`tool/_deadloop_stub.mjs` 写「四相位全 0 帧」
+  JSON → 必须 `FAIL(≥2)` 且 exit 1（总帧数判据 + 聚合统计判据各红一次）；
+  而 v8.10.0 那次真实失败（orbit/lightDrag 统计齐全）在新规则下应 PASS。
+- **剩余口径（明说）**：修正后本门禁**仍不判绝对帧耗时，也不判逐相位帧数**——
+  「lightDrag p95 ≤16ms」（D152）**依旧是人工判据**，需在独显机器上
+  `node tool/engine_perf_qa.mjs --label <desc>` 并把 JSON 入库。
+  门禁守的是「测量链路可用 + 渲染循环活着 + 统计管线可用」。
+- **修复条件（真正闭环）**：CI 拿到 GPU runner 后，恢复绝对帧耗时硬判并重录基线
+  （与偏差 9 的修复条件相同）。
+- **状态**：**已修正（v8.11.0）**；本条与偏差 9 是同一件事的两轮修订，保留分列以
+  记录「第一次只修了一半」这个事实。
 
 ---
 

@@ -1,5 +1,9 @@
 # V8.10 / R74 收口终章：最后 2 处迁完，`lib/` 内 AlertDialog 归零
 
+> **⚠️ 2026-10-16 更正（审计发现）：标题的「归零」是错的。** 本报告第 20 行的 `AlertDialog sites left=0` 来自一个**口径有缺陷**的复核脚本 —— 它只在 `showDialog<` 之后的 1500 字符窗口内匹配 `AlertDialog`，因此**漏掉了「widget `build()` 直接 `return AlertDialog(`」这种形态**。实测 `lib/`（排除 `core/design/`）仍有 **5 处** feature 侧 `AlertDialog`：
+> `library_resource_editor.dart:97`（`ResourceEditorDialogState.build`）、`planner_page_dialogs.dart:220`（`_ColorPickerDialogState.build`）、`planner_page_pose_dialogs.dart:22`（`_PoseInfoDialog.build`）/ `:117`（`_PoseReplaceDialogState.build`）/ `:217`（`_BudgetEstimateDialogState.build`）。
+> **偏差 10 已重新开放**（`docs/qa/v8-r71-deviations.md`），修复排入 `docs/audit/V8-COMPLIANCE-AUDIT.md` 批次 C1。本报告其余内容（V8.10 实际迁移的 2 处 + 测试写法）仍然有效。
+
 > 合同依据：R74「弹层一律走 sanctioned API，feature 侧不得裸写
 > `showDialog` + `AlertDialog`」。本阶段是这条收口的最后一步。
 

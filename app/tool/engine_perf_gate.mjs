@@ -21,17 +21,19 @@
 // 所以本门禁**刻意不设绝对帧耗时阈值**：在 GPU-less 环境设绝对阈值，结果只能是
 // 「阈值定得很松所以永远绿」（装饰）或者「永远红」（阻碍合入），两者都是假门禁。
 //
-// ── 本门禁判定什么（P2-3 修订：逐相位帧数不再硬判，见下）──
+// ── 本门禁判定什么（P2-3 + 第二轮修订：逐相位帧数与逐相位统计量都不再硬判）──
 //
 // 硬判（CI 真能稳定抓到的回归）：
 //   1. 测量链路仍然可用 —— Edge 起得来、CDP 连得上、引擎页面能加载、进程 exit 0；
 //   2. 引擎仍在出帧 —— 全部尝试合并后总帧数 > 0（渲染循环真被打断时这里归零）
 //      【注意判据是「总帧数 > 0」而不是「每个相位都 > 0」，原因见下一节】；
-//   3. 统计字段齐全且为数值 —— 有人把 stats() 改坏会红；
+//   3. 统计管线仍然可用 —— 至少一个相位的 7 项统计齐全且为数值（有人把 stats()
+//      改坏会红；为什么不要求「每个出帧相位都齐全」见下一节）；
 //   4. 预热确实 settled、灯体确实被拖到（lightPoint.ok）—— 保证采的不是冷启动抖动。
 //
 // 只登记、不判红（打印 NOTE，并写进入库证据 JSON）：
-//   5. 逐相位 engineFrames 与入库 swiftshader 基线的差距。
+//   5. 逐相位 engineFrames 与入库 swiftshader 基线的差距；
+//   6. 某相位出了帧但统计不完整（帧间隔样本 <2，非回归）。
 //
 // 绝对帧耗时阈值仍是人工判据：改动渲染路径后，按 HANDOFF 的口径在独显机上
 // 手动跑 `node tool/engine_perf_qa.mjs --label <说明>` 并把 JSON 入库。
@@ -59,6 +61,21 @@
 // 噪音只会让个别相位归零，不再误伤。为吸收噪音另加多次尝试取代表运行。
 // 代价是门禁比初版松 —— 这是有意的取舍，松在「逐相位帧数」这种测不准的量上，
 // 换来的是门禁不再随机红。逐相位数字仍然全部打印并入库，供人工判读。
+
+// ── 为什么「每个出帧相位都必须统计齐全」这个判据也被撤掉（v8.10.0 的 CI 红）──
+//
+// P2-3 修订（上一节）只把「逐相位帧数」判据降级成 NOTE，忘了同一相位的
+// 「统计量完整性」判据同源。v8.10.0 的 run 38218304083 上，代表运行里：
+//   dolly engineFrames=3（确实出了帧），但 p50/p95/p99/max=null、mean/fpsMean=undefined
+// （帧间隔样本 <2 时工具不产出分位数；cpuMsPerFrame 由「CPU 时间 / 帧数」算得，所以是数）
+// → 6 项 FAIL → exit 1。而同一次运行的 orbit / lightDrag 统计是齐全的。
+//
+// 结论与上一节同源：在每相位仅 1~3 帧的量级上，「帧数」和「统计量」都是噪音。
+// 处置：
+//   - 判据从「每个出帧相位统计齐全」改为「**至少一个**相位统计齐全且为数值」；
+//   - 代表运行的选取从「总帧数最多」改为「统计完整相位数最多（平手再比总帧数）」。
+// 真回归（stats() 被改坏、或 Number(null)===0 那种真空判据回归）会让**所有**相位
+// 都缺统计，聚合判据照样红；噪音只让个别相位缺统计，不再误伤。
 
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
@@ -97,10 +114,15 @@ const outPathFor = (label) =>
 const framesOf = (d, ph) =>
   Number(d?.phases?.[ph]?.engineFrames ?? 0);
 const totalFrames = (d) => PHASES.reduce((s, ph) => s + framesOf(d, ph), 0);
+// 某相位的 7 项统计是否全部为数值。
+const statsComplete = (d, ph) =>
+  d?.phases?.[ph] != null && STAT_KEYS.every((k) => isNum(d.phases[ph][k]));
+// 拥有完整统计的相位数。用于挑代表运行（统计越全，越能反映统计管线的真实状态）。
+const completePhaseCount = (d) => PHASES.filter((ph) => statsComplete(d, ph)).length;
 // 「健康」= 四相位都出帧 且 统计字段齐全。用于挑代表运行，不作为判红依据。
 const isHealthy = (d) =>
   PHASES.every((ph) => framesOf(d, ph) > 0) &&
-  PHASES.every((ph) => STAT_KEYS.every((k) => isNum(d.phases[ph][k])));
+  completePhaseCount(d) === PHASES.length;
 
 const runOnce = (label) => new Promise((res) => {
   const args = [
@@ -136,10 +158,12 @@ for (let i = 1; i <= ATTEMPTS; i++) {
     continue;
   }
   const healthy = isHealthy(d);
-  attempts.push({ i, label, code, total: totalFrames(d), healthy, data: d });
+  const complete = completePhaseCount(d);
+  attempts.push({ i, label, code, total: totalFrames(d), complete, healthy, data: d });
   const perPhase = PHASES.map((ph) => framesOf(d, ph)).join('/');
   console.log(`  [尝试 ${i}/${ATTEMPTS}] exit=${code} 逐相位帧数=${perPhase} ` +
-              `总帧数=${totalFrames(d)}${healthy ? ' 健康' : ''}`);
+              `总帧数=${totalFrames(d)} 统计完整相位=${complete}/${PHASES.length}` +
+              `${healthy ? ' 健康' : ''}`);
   if (healthy && code === 0) {
     representative = d;
     break;
@@ -147,12 +171,16 @@ for (let i = 1; i <= ATTEMPTS; i++) {
 }
 
 if (!representative) {
-  // 没有「健康」运行：取总帧数最多的一次作为代表，并把噪音情况如实打出来。
-  const best = attempts.slice().sort((a, b) => b.total - a.total)[0];
+  // 没有「健康」运行：优先取「统计完整相位数最多」的一次，平手再比总帧数。
+  // 不取「总帧数最多」的原因见文件头第二轮修订一节：单相位出几帧但统计为空是噪音，
+  // 统计完整才说明统计管线真的产出了可判读的量。
+  const best = attempts.slice().sort((a, b) =>
+    (b.complete - a.complete) || (b.total - a.total))[0];
   if (best) {
     representative = best.data;
     note('未出现四相位全出帧的健康运行',
-      `最好一次总帧数=${best.total}（尝试 ${attempts.length} 次，逐相位帧数见上）`);
+      `最好一次：统计完整相位=${best.complete}/${PHASES.length} 总帧数=${best.total}` +
+      `（尝试 ${attempts.length} 次，逐相位帧数见上）`);
   }
 }
 if (!representative) {
@@ -175,21 +203,31 @@ check('渲染循环有出帧（总帧数 > 0）', total > 0 || anyFrames,
   `代表运行总帧数=${total}，全部尝试总帧数=` +
   attempts.map((a) => a.total).join('/'));
 
-// ── 4. 统计字段齐全且为数值（硬判；只查真的出了帧的相位）
+// ── 4. 统计管线仍然可用（硬判：至少一个相位的 7 项统计齐全且为数值）
+//
+// 为什么不逐相位硬判：GPU-less 下每相位只有 1~3 帧，帧间隔样本 <2 时工具不产出
+// p50/p95/p99/max（cpuMsPerFrame 仍算得出）。在 1~3 个样本上要求分位数是统计噪音，
+// 会随机红 —— 这正是 v8.10.0 的 CI 红（见文件头第二轮修订一节）。
 console.log('[perf-gate] 统计字段为数值');
 for (const ph of PHASES) {
   const v = representative.phases?.[ph];
   check(`${ph} 阶段存在`, v != null);
   if (!v) continue;
-  if (framesOf(representative, ph) > 0) {
-    for (const k of STAT_KEYS) {
-      check(`${ph}.${k} 为数值`, isNum(v[k]), `${v[k]}`);
-    }
+  if (statsComplete(representative, ph)) {
+    console.log(`  PASS ${ph} 统计完整 :: ` +
+      STAT_KEYS.map((k) => `${k}=${v[k]}`).join(' '));
+  } else if (framesOf(representative, ph) > 0) {
+    note(`${ph} 出了帧但统计不完整（样本不足，非回归）`,
+      `帧数=${framesOf(representative, ph)} ` +
+      STAT_KEYS.map((k) => `${k}=${v[k]}`).join(' '));
   } else {
     // 该相位这一帧都没采到 → stats 为空是预期，不是产品缺陷。
     note(`${ph} 本次未采到帧，stats 缺失属预期（GPU-less 噪音）`);
   }
 }
+const completeCount = completePhaseCount(representative);
+check('至少一个相位的统计完整且为数值', completeCount > 0,
+  `统计完整相位=${completeCount}/${PHASES.length}`);
 
 // ── 5. 对照入库基线的帧数差距（只登记，不判红）
 console.log('[perf-gate] 帧数对照 swiftshader 基线（登记用，非判红口径）');
