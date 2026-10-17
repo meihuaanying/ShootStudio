@@ -69,6 +69,10 @@ jobs:
         if: matrix.target == 'windows'
         run: flutter build windows --release
 
+      - name: 'Preinstall cmake (guarded)'
+        if: matrix.target == 'android'
+        run: 'yes | sdkmanager --install "cmake;3.22.1" || echo "::warning::cmake preinstall skipped"'
+
       - name: Build APK
         if: matrix.target == 'android'
         run: flutter build apk --release

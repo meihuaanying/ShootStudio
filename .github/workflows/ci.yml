@@ -249,6 +249,8 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
+      - name: 'Preinstall cmake (guarded)'
+        run: 'yes | sdkmanager --install "cmake;3.22.1" || echo "::warning::cmake preinstall skipped"'
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v4
         with:

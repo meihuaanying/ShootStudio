@@ -114,8 +114,9 @@ if (framesOf(representative, ph) > 0) {          // ← 第 184 行
 
 **✅ V8.13 已收口（真归零，有门禁证据）**：上表 5 处全部由 `return AlertDialog(...)` 改为 `return SsDialog(...)`（外层 `showDialog` 不动），`node tool/check_components.mjs` 实测 `alertDialog 0`，且该 0 已写进 `tool/component_baseline.json`（只降不升）→ 今后新增任何 `AlertDialog(` 都会让 CI 红。过程中还修掉 `SsDialog` 自身一个真缺陷：它用 `Container(color: p.surface)` 直接装内容、**缺 Material 垫层**（`AlertDialog` 自带），导致内容里的 `ListTile` 报 15 条「background color or ink splashes may be invisible」断言；已包一层 `Material(type: MaterialType.transparency)`。详见 `docs/qa/v8-13-r74-alertdialog-final.md`。
 
-#### 2.2 R74 输入框层未收口（偏差 6 后半，仍未做）
-feature 侧裸 `TextField(`/`TextFormField(` = **60 处 / 24 文件**（审计时口径；settings_page_sources 11、library_resource_editor 8、planner_module_editors_b 5、planner_module_editors_a 4、planner_module_editor 4、gear_browser_add 4…），而 sanctioned `SsTextInput` 仅 **1 处 / 1 文件**、`SsSearchField` 仅 **1 处 / 1 文件**。
+#### 2.2 R74 输入框层（**V8.23 复核：已收口** —— C2，V8.14–V8.20）
+- ✅ **已收口（V8.20）**：feature 侧裸 `TextField(`/`TextFormField(` 由 **60 处 / 24 文件 → 0 处**（分 8 批迁移，见下方进度更新），组件门禁 `textField` 基线 `60 → 48 → 37 → 32 → 24 → 18 → 14 → 0`（只降不升）；`SsTextInput` 累计 19 个参数（V8.14 +8、V8.20 +3，默认值均等于原生默认值）。
+- 原观察（留档）：审计时裸 `TextField(`/`TextFormField(` = **60 处 / 24 文件**（settings_page_sources 11、library_resource_editor 8、planner_module_editors_b 5、planner_module_editors_a 4、planner_module_editor 4、gear_browser_add 4…），sanctioned `SsTextInput` 仅 **1 处 / 1 文件**。
 
 > **进度更新（V8.14）**：裸 `TextField(` 已由 **60 → 48**（`gear_browser_add.dart` 4 + `library_resource_editor.dart` 8 迁到 `SsTextInput`），组件门禁 `textField` 基线同步锁到 **48**（只降不升）；`SsTextInput` 本身扩展了 8 个参数并修掉 `initialValue` 静默失效缺陷。详见 `docs/qa/v8-14-ss-input.md`。余 48 处按文件分批。
 
@@ -151,23 +152,26 @@ ai_panel.dart / libraries_page.dart / ai_client.dart  allowed 810/808/779
 ```
 → `check_file_size.mjs` 判定 `current <= allowed`，因此**这些文件即使膨胀回旧上限（如 planner_page 涨回 2676 行）仍然 PASS**。门禁对它们等于失效。修法：把白名单刷新为当前实测行数（保留少量 headroom），或对已拆分文件直接把 `allowed` 降为 600。
 
-### 🟡 P2 —— 功能级未完成（3 项 + 1 项部分）
+### 🟡 P2 —— 功能级复核（**V8.23：4 项全部澄清，无真实缺口**）
 
-| 条款 | 要求 | 实测 | 判定 |
+> **V8.23 复核结论**：审计时判定的「功能级未完成 3 项 + 1 项部分」经**回归合同原文 + 代码实测**后全部澄清 —— 其中 **D4 / D14 是合同里根本没有的条款（幻影需求，misderived）**；**D5** 的第三个子项同样非合同项，但其同族能力（**静帧导出收口**）**已实现**；**R76** 是**条件项**（V8 未破坏 schema，触发条件未发生，按**偏差 8** 继续生效）。逐条证据见下。
+
+| 条款 | 合同原文（`FIX_CONTRACT_V8.0.md`） | V8.23 实测 | 判定 |
 |---|---|---|---|
-| **D5** | 布光双轨制（俯视图 + 3D + **正面效果图选项保留且开关入设置页** + 有 Key 时一键 AI 照片级渲染） | 俯视灯位图 ✅（`lighting_controller.dart:269` 拖动）｜3D WebView ✅（`engine_view.dart:234 InAppWebView`）｜**「正面效果图开关入设置页」NOT FOUND**（`features/settings/*` 搜 `正面/效果/预览/开关/启用` 无命中；效果预览作为右栏组件 `lighting_effect_widgets.dart:14` 存在，但无设置页开关） | **PARTIAL** |
-| **D4** | 内置浏览器访问 film-grab.com | **NOT FOUND**。film-grab.com 仅出现在 `net_router.dart:32`（DoH 隧道域名白名单）、`films.json` 的 `sourceUrl`、`tables.dart:30` 注释。全库唯一的 `InAppWebView` 是 3D 引擎；所有来源链接走 `launchUrl(LaunchMode.externalApplication)` **外部浏览器**（如 `refs_hit_drawer.dart:131`） | **NOT FOUND** |
-| **R76 / D150** | 启动检测旧数据 → 迁移/重置二选一对话框 | **NOT FOUND**。`main.dart` 无任何旧数据检测（仅日志/窗口/runApp）；启动路径只处理 `NeedWorkspaceException → onboarding`。已有的是 **`.sspak` 导入**时的版本分档明示（`exporter_sspak.dart:216`），以及 `database.dart:65` 的空 `onUpgrade` 钩子 | **NOT FOUND**（= 偏差 8，已登记，理由=schema 未破坏） |
-| **D14** | 输入框预选/推荐卡片 + 开关收进设置页 | 预选/推荐卡片 ✅（`ai_side_panel.dart:32 _quick` 快捷 chip；`planner_module_editors_a.dart:154 SsChip`）；设置页确有开关（GPU 后端 `settings_page_gpu.dart:106`、AI 渠道 `settings_page_cards.dart:136`），但**「某个输入区开关被搬进设置页」的具体证据未找到** | **PARTIAL** |
+| **D5** | §4.1 布光预演：左 / 中（3D 视口 ≥60%）/ 右；**俯视灯位图降为视口左上角可拖动画中画**；**静帧导出收口 ≤3 步：视口内「出片」→ 效果预览对话框 → 保存/复制**（L162 / L164） | 俯视灯位图 ✅（`lighting_controller.dart:269` 拖动）｜3D WebView ✅（`engine_view.dart:234 InAppWebView`）｜**静帧导出三步链路 ✅**（`lighting_workbench.dart:155`「出片」按钮 → `still_export.dart:136`「效果预览（静帧导出）」对话框 → `lighting_page.dart:258` 保存 PNG 到工作区 `images/plans/`，另 `lighting_files.dart:100`）。「正面效果图开关入设置页」**不是合同条款**（合同搜 `开关/设置页` 仅命中 L169 骨架叠加开关与 L203 组件预览入口），且「效果预览」作为右栏组件 `lighting_effect_widgets.dart:14` 存在 | **✅ 合同项已满足** |
+| **D4** | **合同无此条款** —— 全文搜 `浏览器/内置/外链` 零命中（唯一相关的是 L205「官网删未用依赖」与 L203 demo 入口） | film-grab.com 仅出现在 `net_router.dart:32`（DoH 白名单）、`films.json` 的 `sourceUrl`、`tables.dart:30` 注释；来源链接一律 `launchUrl(LaunchMode.externalApplication)` **外部浏览器**（`refs_hit_drawer.dart:131`）—— 这是刻意的产品选择，非缺失 | **非合同项（幻影需求）** |
+| **R76 / D150** | 数据兼容性可不兼容，**若破坏**旧 schema / 工作区 / `.sspak` 则启动检测 → 迁移 / 重置对话框（不得静默丢数据）（L33 / L89） | V8 期间**未破坏 schema**（`git log --diff-filter=A v2.0.0..HEAD -- app/lib/services/search/sources/` 为空；`.sspak` 导入有版本分档明示 `exporter_sspak.dart:216`；`database.dart:65` 空 `onUpgrade` 钩子）→ **触发条件未发生**；`main.dart` 启动路径仅 `NeedWorkspaceException → onboarding` | **条件项未触发** —— 按**偏差 8** 继续生效（V8.23 维持不实现） |
+| **D14** | **合同无此条款** —— 合同搜 `开关/设置页` 仅两处：骨架叠加开关（L169，V8.21 已实现为 `SsChip`）、「设计组件预览」入口（L203，已实现 `settings_page.dart:170 → DesignDemoPage`） | 预选/推荐卡片 ✅（`ai_side_panel.dart:32 _quick` 快捷 chip；`planner_module_editors_a.dart:154 SsChip`）；设置页现有开关为 GPU 后端（`settings_page_gpu.dart:106`）与 AI 渠道（`settings_page_cards.dart:136`） | **非合同项（幻影需求）**；合同内两处真实「开关/入口」项**均已实现** |
 
-### 🟢 P3 —— 低优先 / 卫生问题
+### 🟢 P3 —— 低优先 / 卫生问题（**V8.23 已处置 4 / 6**）
 
 1. **开放偏差 1–9 仍在**（详见 `docs/qa/v8-r71-deviations.md`）：圆角 `oversizeSoft10/20` 超 ≤8 刻度（偏差 1）｜updater `sha256` 不闭环（偏差 2）｜`KeyVault.storageAvailable` 不拦截写入（偏差 3）｜`AppRadius.pill=999`（偏差 4）｜`AppSpaceFine`/`AppFontSize` 细阶未标 `@Deprecated` 且无软门禁（偏差 5）｜`AppWait.planReveal/cardHover` 不在三档（偏差 7）｜R76 未实现（偏差 8）｜引擎门禁放宽（偏差 9）。
-2. **`three` 是死依赖**：`web/package.json` 声明 `three ^0.169.0`，但 `web/src/**` 全量搜 `three`/`THREE`/`WebGL` **零命中** → 合同 D13「官网 GSAP 滚动叙事 **+ Three.js**」未达成，§6「官网删未用依赖」也未达成。
-3. **合同「13 源」是陈旧计数**：实际注册源 **20 个**（`search_keys.dart:64 sources()`，含 D134 新增 7 个开放源）。`git log --diff-filter=A v2.0.0..HEAD -- app/lib/services/search/sources/` **为空 → V8 期间零新增源，R75 未被违反**。属合同文本与实现的数字不一致（可补注）。
-4. **`web/package.json` version=1.0.0** vs app 2.0.0（package.json 版本非 App 版本，低优先）。
-5. **`app/tool/` 下 53 个 QA/内容生成脚本未接 CI**（离线证据生成器，结果落 `docs/qa/*.json`；可接受，但应在文档里说清「哪些是门禁、哪些是离线工具」）。
-6. `HANDOFF_V8.md` §2 写「剩余待办 —— 无（V8 完工）」，**与 §2 的实际发现不符**，需更正。
+   - **V8.23/E2 部分处置（偏差 5）**：`tool/check_tokens.mjs` 新增「Fine 细阶用量（只降不升）」软门禁，基线 `tool/token_baseline.json` 锁定 `AppSpaceFine 73 / AppFontSize 240 / AppRadiusFine 9`；**`@Deprecated` 仍不采用**（241+73 处存量调用方会让 `flutter analyze --fatal-infos` 因 `deprecated_member_use` 直接红），理由已写进脚本头注释与偏差 5。
+2. ✅ **已处置（V8.23/E1）**：`three` 死依赖已从 `web/package.json` **与 `web/package-lock.json`** 删除（`git grep three -- web/package.json web/package-lock.json` **exit 1**；lock 包数 447 → 446）。合同 §5 技术栈（L190）只列 Astro 4 + Tailwind + GSAP、**从未要求 Three.js**，故 §6「官网删未用依赖」达标。
+3. **合同「13 源」是陈旧计数**：实际注册源 **20 个**（`search_keys.dart:64 sources()`，含 D134 新增 7 个开放源）。`git log --diff-filter=A v2.0.0..HEAD -- app/lib/services/search/sources/` **为空 → V8 期间零新增源，R75 未被违反**。属合同文本与实现的数字不一致 —— **V8.23/E3 已在合同 §4.3 处补注**。
+4. ✅ **已处置（V8.23/E1）**：`web/package.json` 的 `version` 由 1.0.0 对齐为 **2.0.0**（与 app `2.0.0+9` 一致；已确认无任何工具读取该字段）。
+5. ✅ **已处置（V8.23/E3）**：CI 实际调用的门禁脚本已逐条列明（ci.yml：`check_file_size.mjs` / `check_tokens.mjs` / `check_components.mjs` / `test_aim.mjs` / `hero_gate.mjs` / `engine_perf_gate.mjs`；release.yml：`check_file_size.mjs` / `check_tokens.mjs`），其余 `app/tool/*.mjs` 一律为**离线证据工具**（结果落 `docs/qa/*.json`），不接 CI。
+6. ✅ **已处置（V8.23）**：`HANDOFF_V8.md` §2 已于 2026-10-16 更正，并在 V8.23 更新为最终真实状态（R74 基础组件层已全部收口；剩余仅偏差 1–9 中已登记项）。
 
 ---
 

@@ -13,8 +13,13 @@
 //      导出的是「文档」，它的配色由排版决定，不是 App 的皮肤；
 //   c. `CustomPainter` 内部绘图（画笔颜色是图元属性，不是 UI 皮肤）。
 //
-// 用法：node tool/check_tokens.mjs [--json <输出路径>]
-// 退出码：0 = 通过；1 = 有裸字面量。
+// 软门禁（V8/E2 · 偏差 1/5 的收编）：`AppSpaceFine` / `AppFontSize` /
+// `AppRadiusFine` 三组「细阶」不在合同刻度上，也不适合标 `@Deprecated`
+// （存量调用点多，`analyze --fatal-infos` 会因 `deprecated_member_use` 变红），
+// 因此这里改为**计数并锁上限**：基线存 `tool/token_baseline.json`，只降不升。
+//
+// 用法：node tool/check_tokens.mjs [--json=<输出路径>] [--write-baseline]
+// 退出码：0 = 通过；1 = 有裸字面量或细阶用量上升。
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -28,6 +33,7 @@ const argOf = (name, dflt) => {
   return hit ? hit.slice(name.length + 3) : dflt;
 };
 const jsonOut = argOf('json', '');
+const writeBaseline = argv.includes('--write-baseline');
 
 // ── 豁免清单 ────────────────────────────────────────────────────────────────
 const TOKEN_DEFS = new Set([
@@ -77,6 +83,14 @@ const RULES = [
 // metric 规则需要括号配平 + 剥离令牌引用，单独处理。
 const METRIC_OPEN = /\b(EdgeInsets(?:\.\w+)*|Radius(?:\.\w+)*|BorderRadius(?:\.\w+)*)\s*\(/g;
 const TOKEN_REF = /\b(?:AppSpace|AppSpaceFine|AppRadius|AppFontSize|AppDuration|AppScrim)\s*\.\s*[A-Za-z0-9_]+/g;
+
+// Fine 细阶（不在合同刻度上）——计数并锁上限，只降不升。
+const FINE_STEPS = [
+  { id: 'appSpaceFine', label: 'AppSpaceFine 细阶', re: /\bAppSpaceFine\s*\./g },
+  { id: 'appFontSize', label: 'AppFontSize 细阶', re: /\bAppFontSize\s*\./g },
+  { id: 'appRadiusFine', label: 'AppRadiusFine 细阶', re: /\bAppRadiusFine\s*\./g },
+];
+const fineBaselinePath = path.join(appRoot, 'tool', 'token_baseline.json');
 
 function stripComments(src) {
   // 粗粒度但够用：连续字符串里的 // 与 /* */。
@@ -148,10 +162,16 @@ function walk(dir, acc = []) {
 
 const findings = [];
 const scanned = [];
+// Fine 细阶用量统计（偏差 1/5：合同刻度之外的「细阶」保持只降不升）。
+const fineCounts = { appSpaceFine: 0, appFontSize: 0, appRadiusFine: 0 };
 for (const file of walk(path.join(appRoot, 'lib'))) {
   const rel = path.relative(appRoot, file).split(path.sep).join('/');
   const raw = fs.readFileSync(file, 'utf8');
   const src = stripComments(raw);
+  for (const step of FINE_STEPS) {
+    const hits = src.match(step.re);
+    if (hits) fineCounts[step.id] += hits.length;
+  }
   const exempt =
     TOKEN_DEFS.has(rel) || RENDER_PIPELINE.has(rel) || Boolean(PAINTER_FILES[rel]);
   scanned.push({ rel, exempt, reason: TOKEN_DEFS.has(rel) ? '令牌定义'
@@ -205,11 +225,42 @@ const byRule = findings.reduce((acc, f) => {
   acc[f.rule] = (acc[f.rule] ?? 0) + 1;
   return acc;
 }, {});
-const pass = findings.length === 0;
+
+// Fine 细阶软门禁：只降不升（数据基线 tool/token_baseline.json）。
+const fineBaseline = fs.existsSync(fineBaselinePath)
+  ? JSON.parse(fs.readFileSync(fineBaselinePath, 'utf8'))
+  : null;
+const fineRegressions = [];
+if (writeBaseline) {
+  fs.writeFileSync(
+    fineBaselinePath,
+    `${JSON.stringify({ version: 1, note: 'V8/E2 R71 fine-step usage ceiling (only-down)', at: new Date().toISOString(), counts: fineCounts }, null, 2)}\n`,
+  );
+  console.log('[tokens] Fine 细阶基线已写入 tool/token_baseline.json');
+} else if (fineBaseline) {
+  for (const step of FINE_STEPS) {
+    const was = fineBaseline.counts?.[step.id] ?? 0;
+    if (fineCounts[step.id] > was) {
+      fineRegressions.push({ label: step.label, was, now: fineCounts[step.id] });
+    }
+  }
+}
+
+const pass = findings.length === 0 && fineRegressions.length === 0;
 
 console.log(`[tokens] 扫描 lib 下 ${scanned.length} 个 Dart 文件（豁免 ${scanned.filter((s) => s.exempt).length} 个：令牌定义 / 渲染管线 / CustomPainter）`);
 for (const rule of RULES.concat([{ id: 'metric', label: '间距 / 圆角裸数字' }])) {
   console.log(`  · ${rule.label}：${byRule[rule.id] ?? 0} 处`);
+}
+console.log('[tokens] Fine 细阶用量（只降不升）：');
+for (const step of FINE_STEPS) {
+  const now = fineCounts[step.id];
+  const was = fineBaseline?.counts?.[step.id];
+  const mark = was == null ? '·' : now > was ? '✗ 升' : now < was ? '↓ 降' : '· 持平';
+  console.log(`  · ${step.label}：${now} 处${was == null ? '' : `（基线 ${was}）`}  ${mark}`);
+}
+for (const r of fineRegressions) {
+  console.error(`  ✗ ${r.label} 由 ${r.was} 升到 ${r.now}（细阶只降不升，新增请改用合同刻度令牌）`);
 }
 for (const f of findings) {
   console.error(`  ✗ ${f.file}:${f.line}  [${f.rule}] ${f.text}`);
@@ -222,6 +273,8 @@ if (jsonOut) {
     note: 'V8/D147 R71 design-token gate: color/colors/size/metric literals must reference tokens',
     at: new Date().toISOString(),
     counts: byRule,
+    fineSteps: fineCounts,
+    fineRegressions,
     exemptions: scanned.filter((s) => s.exempt).map((s) => ({ file: s.rel, reason: s.reason })),
     findings,
     pass,

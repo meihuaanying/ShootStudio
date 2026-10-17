@@ -16,8 +16,8 @@
 | Release | **run `36909234447`（tag `v2.0.0`）success 4/4**（Build & Collect android 28m22s / windows 30m20s、GitHub Release 51s、Deploy website 3m10s）；Release `v2.0.0` 已发布（`draft=false` / `prerelease=false`，`publishedAt 2026-10-01T19:16:58Z`）：**`shoot-studio-v2.0.0-android.apk` 428.2MB**（449,034,606 B）、**`shoot-studio-v2.0.0-windows.zip` 303.5MB**（318,232,008 B）、`android.sha256` / `windows.sha256` |
 | 官网 | `https://meihuaanying.github.io/ShootStudio/` **HTTP 200**（9,390 B，title「正片工坊 ShootStudio · 画面参考到一键成案」）；`announcements.json` **HTTP 200**（2,209 B），`version = 2.0.0` / `publishedAt = 2026-10-02`，4 条下载链接全部指向 `v2.0.0`（含 mirror 与 GitHub Release 两组） |
 | 门禁基线 | format 0 changed（247 files）｜ analyze 0 问题 ｜ 全量 **517 passed + 43 skipped** ｜ S6 专项 13 + 14（UI/撤销）｜ S5 专项 14 ｜ S4 专项 13 ｜ 视觉专项 S6 16 / S5 16 / S4 8 / S3 4 / S1 12 张 ｜ 设计系统单测 20 ｜ perf_probe 单测 6 ｜ 交互帧率 lightDrag p95 **17.5ms** / 长帧>50ms = 0 / CPU 1.93ms（RTX 4060）｜ `lib/features/**` >600 行 **4** 个（R73 白名单，只降不升）｜ 官网 5 页可构建 ｜ `q6_search_test` 41/41 不回归 ｜ `q6_lighting/q6_engine/q6_still/q6_camera` 44/44 不回归 ｜ S7 专项 `s7_pose_ui_test` 14 ｜ 视觉 S7 16 张 ｜ S8 专项 `s8_ai_export_ui_test` 16 ｜ 视觉 S8 20 张 ｜ S9 专项 `s9_library_settings_test` 8 ｜ 视觉 S9 16 张 ｜ S10 官网 `npm run build`（S10 当时 6 页含 spike-hero，S11 删除后回落 5 页）｜ 官网截图 30 张（5 页 × 明暗 × 1280×800/1920×1080/390×844）｜ 旧 `ss-*` 蓝紫体系与装饰 SVG 光圈 0 命中 ｜ S11 截图总表 28 张（7 页 × 明暗 × 两档分辨率，缺失 0） ｜ 死代码删除 2 个文件 656 行（App 侧两维度零死代码） ｜ 官网 `npm run build` 5 页 + 30 张截图不回归 ｜ S12 `pubspec 2.0.0+9` ｜ `kAppVersion 2.0.0` ｜ 2.0.0 公告 9 条（V8 要点/已知限制/数据兼容性）｜ 官网 5 页 + 30 张在 v2.0.0 下不回归 |
-| 当前步 | **V8 代码层交付完成；合规审计发现剩余项 → 见 `docs/audit/V8-COMPLIANCE-AUDIT.md`**（S0–S12 全部完成，v2.0.0 已发布，证据入 git） |
-| 剩余 | **⚠️ 2026-10-16 更正：原文写「无（V8 完工）」，经全面合规审计（`docs/audit/V8-COMPLIANCE-AUDIT.md`）发现并非无剩余项。** 合同 `FIX_CONTRACT_V8.0.md` §7 交付清单 0 个未勾项、双端构建/体积/`sha256`/官网上线均由 CI / Release run 实测交付（结论见上表「CI」「Release」「官网」三行）——**这些仍然成立**；但审计查出：**P0** 引擎性能门禁假红（v8.10.0 的 CI 红，已由 `v8.11.0` 修正）；**P1** R74 未真正归零（5 处 `return AlertDialog(` 仍在 widget build 内）、R73 快照陈旧（门禁本身有效 —— 白名单为空、600/300 已真实强制，B1 已刷新证据快照）、R74 输入框/抽屉/空态三层未收口；**P2** D5「正面效果图开关入设置页」、D4「内置浏览器访问 film-grab.com」、R76/D150「启动迁移/重置对话框」未实现，D14 部分。完整待办与优先级见审计报告 §3（批次 A–E） |
+| 当前步 | **V8 代码层交付 + 合规收口全部完成（2026-10-17 / V8.23）：审计所列项已全部处置或澄清 → 见 `docs/audit/V8-COMPLIANCE-AUDIT.md`**（S0–S12 全部完成，v2.0.0 已发布；R74 四层收口、引擎门禁假红已修、CI cmake flake 已加固；证据入 git） |
+| 剩余 | **✅ 2026-10-17（V8.23）复核：已无阻塞项。** 原文曾写「无（V8 完工）」，2026-10-16 被合规审计推翻为「并非无」；审计所列 P0/P1/P2 现已**全部处置或澄清**。合同 `FIX_CONTRACT_V8.0.md` §7 交付清单 0 个未勾项、双端构建/体积/`sha256`/官网上线均由 CI / Release run 实测交付（结论见上表「CI」「Release」「官网」三行）——**这些仍然成立**。审计项处置结果：**P0** 引擎性能门禁假红（v8.10.0 的 CI 红）→ 已由 `v8.11.0` 修正（偏差 11 已登记）；**P1** R74 未真正归零的三层 → 输入框 60 处（`V8.14–V8.20`，基线 0）、底部抽屉 4 处（`V8.21`，基线 0）、空态层经 `V8.22` 复核**实为已收口**（`SsEmpty` 18 处/13 文件；原记 `SsEmptyState` 0 引用为**误名 + 误计** —— 该符号在代码中不存在）；R73 快照陈旧 → B1 已刷新（门禁本身有效，白名单为空、600/300 真实强制）；**P2** D5 经合同原文核对**为合同项且已满足**（§4.1 静帧导出收口：「出片」按钮 → 效果预览对话框 → 保存 PNG 到 `images/plans/`；证据 `lighting_workbench.dart:155` / `still_export.dart:136` / `lighting_page.dart:258`）；D4（内置浏览器）/ D14（输入区开关进设置页）经合同 `grep` 核对为**非合同项（幻影需求）**；R76/D150 为**条件项未触发**（按偏差 8 继续生效）。残留（非阻塞）：10 处行内空文案可选收口（P3，见 `docs/qa/v8-22-empty-layer-verification.md` §7）+ `build()` 内现建 `TextEditingController` 预存反模式（约定不改）。完整记录见 `docs/audit/V8-COMPLIANCE-AUDIT.md` 与 `docs/qa/v8-23-audit-closeout.md` |
 
 ---
 
@@ -36,7 +36,7 @@
   - 引擎包 1.16MB / pathtracer 220.4KB 沿用 S6 历史基线（本次发布未改动这两项）。
 - **官网上线实测**：`https://meihuaanying.github.io/ShootStudio/` **HTTP 200**（9,390 B）；`announcements.json` **HTTP 200** 且 `version = 2.0.0` / `publishedAt = 2026-10-02`，4 条下载链接全部指向 `v2.0.0`（mirror + GitHub Release 两组）。
 - **文档**：`docs/qa/v8-s12-release.md`（6 节：结论 / 版本同步总账 / 公告内容 / 门禁与实证 / 偏差与限制登记 / 交付物清单）。
-- **下一步**：~~按 release run 取 APK 与 Windows 安装包、回填真实体积与 `sha256`、把 release 链接写回 §0~~ ✅ **已完成**（本节 + §0「Release」「官网」两行 + `docs/qa/v8-s12-release.md` §4 体积表）；**V8 无后续待办**。
+- **下一步**：~~按 release run 取 APK 与 Windows 安装包、回填真实体积与 `sha256`、把 release 链接写回 §0~~ ✅ **已完成**（本节 + §0「Release」「官网」两行 + `docs/qa/v8-s12-release.md` §4 体积表）；**V8 无后续待办**（2026-10-17 / V8.23 复核：审计所列项已全部处置或澄清，见 §2、§5）。
 
 ### S11 全量回归 + 视觉验收 + 死代码清理（D158）
 
@@ -161,15 +161,15 @@
 
 ---
 
-## 2. 剩余待办 —— **⚠️ 2026-10-16 更正：并非「无」**（原文写「无（V8 完工）」）
+## 2. 剩余待办 —— **✅ 2026-10-17（V8.23）：已无阻塞项**（2026-10-16 曾更正为「并非无」；2026-10-17 已逐项处置或澄清）
 
 > 合同 §1 的 S0–S12 全部完成、§7 交付清单 0 个未勾项、tag `v2.0.0` 已发布。以下为历史完成记录（保留原始 run / 门禁证据）。
 >
 > **但全面合规审计（`docs/audit/V8-COMPLIANCE-AUDIT.md`）查出以下未完成项，本条原结论作废：**
 > - **P0**：引擎性能门禁假红 —— v8.10.0 的 CI 是**红的**（`app/tool/engine_perf_gate.mjs` 的「逐相位统计量」判据与偏差 9 同源），已由 `v8.11.0` 修正（登记为偏差 11）。
-> - **P1**：R74 未真正归零 —— 5 处 `return AlertDialog(` 仍在 widget `build()` 内（`library_resource_editor.dart:97`、`planner_page_dialogs.dart:220`、`planner_page_pose_dialogs.dart:22/117/217`）；R73 ~~白名单陈旧~~（**2026-10-16 复核更正**：白名单本来就是空的、600/300 限额已被真实强制 —— 注入 701 行文件即 FAIL exit 1；真正陈旧的只是证据快照 `docs/qa/v8-s3-file-size.json`，已于批次 B1 刷新）；R74 输入框（60 处裸 `TextField`）/ 底部抽屉（4 处 `showModalBottomSheet`）/ 空态（`SsEmptyState` 0 引用）三层未收口。
+> - ~~**P1**：R74 未真正归零~~ → **✅ 已全部收口（V8.13 / V8.20 / V8.21 / V8.22）**：弹层 5 处 `return AlertDialog(` 已迁 `SsDialog`（V8.13，`alertDialog` 基线 0）；输入框 60 处已迁 `SsTextInput`（V8.14–V8.20，`textField` 基线 0）；底部抽屉 4 处已迁 `showSsSheet`（V8.21，`bottomSheet` 基线 0）；空态层经 V8.22 复核**实为已收口**（`SsEmpty` 18 处/13 文件；原记 `SsEmptyState` 0 引用为误名+误计 —— 该符号在代码中不存在）。R73 白名单本来就是空的、600/300 已真实强制（真正陈旧的只是证据快照，B1 已刷新）。偏差 6 已在 `docs/qa/v8-r71-deviations.md` 标注「V8.23 复核：已收口」。
 > - **P2**：D5「正面效果图开关入设置页」、D4「内置浏览器访问 film-grab.com」、R76/D150「启动迁移/重置对话框」未实现；D14 部分。
-> - 完整待办、优先级与预期完成时间见审计报告 §3（批次 A–E）。
+> - 完整记录（含逐项处置结果）见审计报告 §2 与 `docs/qa/v8-23-audit-closeout.md`；批次 A–E 已全部落地。
 
 1. ~~**S0 合同 + S1 设计 spike + S2 引擎架构 spike + S3 设计系统 + S4 App 外壳/首页 + S5 画面参考**~~ ✅ 已完成（commit `4b4bc1a` / `572fcad` / `7dcfabf` / `e9dd55b`+`5031db8` / `23012bd` / `e4021db`）。
 2. ~~**S6 布光预演（D152）**~~ ✅ 已完成（run `36808608106` = `4b8c25d` success 4/4）。
@@ -181,7 +181,7 @@
 8. ~~**S12 v2.0.0 交付（D160）**~~ ✅ 已完成（`6d89347`）：版本同步 8 处 + 2.0.0 公告 9 条 + `web/dist` 重建 5 页 + App 门禁 517/43 全绿 + 官网 30/30 不回归。
 9. ~~**发布收尾（R61 证据入库）**~~ ✅ 已完成：main CI run [`36909181255`](https://github.com/meihuaanying/ShootStudio/actions/runs/36909181255) = `6d89347` **success 4/4**；Release run [`36909234447`](https://github.com/meihuaanying/ShootStudio/actions/runs/36909234447)（tag `v2.0.0`）**success 4/4**；Release `v2.0.0` 已发布，资产 APK **428.2MB** / Windows zip **303.5MB** + 双 `.sha256`；官网 HTTP 200 且 `announcements.json` = `v2.0.0`（本机无法产出双端包的部分已由 CI 实测覆盖，见 §1 S12 与 `docs/qa/v8-s12-release.md` §4）。
 
-**⚠️ 2026-10-16 更正：V8 的代码层交付已完成，但并非「无后续待办」——全面合规审计查出 P0/P1/P2 共若干项未完成，见 `docs/audit/V8-COMPLIANCE-AUDIT.md` §2（差异清单）与 §3（下一步计划）。**
+**✅ 2026-10-17（V8.23）：V8 代码层交付与合规收口均已完成 —— 2026-10-16 审计所列 P0/P1/P2 已全部处置或澄清**（P0 引擎门禁假红已由 `v8.11.0` 修正；P1 R73/R74 项全部收口；P2 中 D5 合同项经复核已满足、D4/D14 经合同核对为非合同项、R76 为条件项按偏差 8 继续生效），见 `docs/audit/V8-COMPLIANCE-AUDIT.md`。**
 
 ---
 
@@ -281,6 +281,6 @@
 
 > 继续 `D:\trae\6aa175d7786dd07d04fe3d2e\ShootStudio`（Flutter `app/`，官网 `web/`，证据 `docs/`）的下一阶段工作；本文件与 `FIX_CONTRACT_V8.0.md`（D145–D160 / R71–R82）是唯一上下文来源，**先读这两份**。
 > 基线：**v2.0.0 已发布**（tag `v2.0.0`，commit `6d89347`；main CI run `36909181255` success 4/4、Release run `36909234447` success 4/4；APK 428.2MB / Windows zip 303.5MB + 双 `.sha256`；官网 HTTP 200 且 `announcements.json` = `v2.0.0`）。上一版 v1.3.0（V7）。
-> V8 状态：**S0–S12 全部完工；但「无剩余待办」已于 2026-10-16 被合规审计推翻 —— 见 `docs/audit/V8-COMPLIANCE-AUDIT.md`**（P0 引擎门禁假红，已由 `v8.11.0` 修正；P1 R74 未真正归零 5 处 `return AlertDialog(` + R73 快照陈旧（门禁本身有效，B1 已刷新） + R74 输入框/抽屉/空态三层未收口；P2 D5/D4/R76/D14）。已完成部分：设计 spike + 引擎架构 spike（保留 WebView2 + three r186）+ 设计系统落地（`AppTokensV2`，R71 单一来源）+ App 外壳/首页 + 画面参考搜索 + 布光预演三栏重构 + 动作摆姿与识别重做 + 策划案/AI/导出重构 + 资源库/设置/引导重构 + 官网重做（D157）+ 全量回归/视觉验收/死代码清理（D158）+ v2.0.0 交付（D160）。全量 **543 passed + 34 skipped**（截至 `v8.10.0`）；`lib/features/**` >600 行文件数 10 → **4**（白名单只降不升 —— 白名单为空、门禁有效；证据快照 `allowed` 曾陈旧，B1 已刷新，见审计 P1）；官网 5 页。
+> V8 状态：**S0–S12 全部完工，且合规审计所列项已于 2026-10-17（V8.23）全部处置或澄清 —— 见 `docs/audit/V8-COMPLIANCE-AUDIT.md` 与 `docs/qa/v8-23-audit-closeout.md`**（P0 引擎门禁假红已由 `v8.11.0` 修正；P1 R74 四层（弹层 / 输入框 / 底部抽屉 / 空态）全部收口、R73 门禁本身有效（B1 已刷新证据快照）；P2 中 D5 经复核为合同项且已满足、D4/D14 经合同核对为非合同项、R76 为条件项按偏差 8 继续生效）。已完成部分：设计 spike + 引擎架构 spike（保留 WebView2 + three r186）+ 设计系统落地（`AppTokensV2`，R71 单一来源）+ App 外壳/首页 + 画面参考搜索 + 布光预演三栏重构 + 动作摆姿与识别重做 + 策划案/AI/导出重构 + 资源库/设置/引导重构 + 官网重做（D157）+ 全量回归/视觉验收/死代码清理（D158）+ v2.0.0 交付（D160）。全量 **551 passed + 34 skipped**（截至 `v8.23.0`，V8.21 实测）；`lib/features/**` >600 行文件数 10 → **4**（白名单只降不升 —— 白名单为空、门禁有效；证据快照 `allowed` 曾陈旧，B1 已刷新，见审计 P1）；官网 5 页。
 > 下一步：**V9 尚无合同与范围，需用户先给目标再动手**；当前已排定的收尾工作见 `docs/audit/V8-COMPLIANCE-AUDIT.md` §3 批次 A–E（A 止血 → B 门禁修成真门禁 → C R74 三层收口 → D 功能缺口 → E 卫生）；动手前按下面的门禁与纪律执行。
 > 纪律：每步 format 0 changed / analyze 0 问题 / 全量 test / 专项证据 / push 后 CI 全绿（R81）才进下一步；spike 先行（R77）；无证据 = 未完成（R78）；不回归（R79）；许可红线（R80）。

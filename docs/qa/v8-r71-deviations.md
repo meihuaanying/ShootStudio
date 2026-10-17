@@ -80,7 +80,9 @@ V8 收尾时**只写在代码注释里、没有进中央登记**，等于「知�
 - **修复条件**：把两类 Fine 细阶标注 `@Deprecated('仅在历史收编中使用')`，
   并给 `check_tokens.mjs` 加一条「Fine 细阶计数只降不升」的软门禁。
 
-## 偏差 6：R74 组件收口未落实（设计组件库零引用）
+## 偏差 6：R74 组件收口未落实（设计组件库零引用）—— **V8.23 复核：已收口**
+
+> **V8.23 复核：已收口。** C1（弹层 AlertDialog 5→0，V8.13）、C2（输入框 TextField 60→0，V8.14–V8.20）、C3（底部抽屉 showModalBottomSheet 4→0，V8.21）、空态层（`SsEmpty` 实测 18 处/13 文件，V8.22 复核前提即已成立）四层均已收口。证据见 `docs/audit/V8-COMPLIANCE-AUDIT.md` §2.1–§2.3 与 `docs/qa/v8-21-r74-bottomsheet-final.md`、`docs/qa/v8-22-empty-layer-verification.md`。下文的原始观察保留留档。
 
 - **合同条款**：R74「按钮/输入框/卡片/对话框/标签/空态/加载态/Toast 一律走
   `lib/core/design/`；feature 内禁止新造同名基础组件」。

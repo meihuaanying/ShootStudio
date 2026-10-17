@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "note": "V8/E2 R71 fine-step usage ceiling (only-down)",
+  "at": "2026-10-17T03:32:47.258Z",
+  "counts": {
+    "appSpaceFine": 73,
+    "appFontSize": 240,
+    "appRadiusFine": 9
+  }
+}
