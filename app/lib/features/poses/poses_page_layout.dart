@@ -39,11 +39,9 @@ extension _PosesPageLayout on _PosesPageState {
             const SizedBox(width: AppSpace.s2),
             SizedBox(
               width: 200,
-              child: TextField(
-                decoration: const InputDecoration(
-                  hintText: '搜索姿势名称…',
-                  isDense: true,
-                ),
+              child: SsTextInput(
+                hint: '搜索姿势名称…',
+                dense: true,
                 onChanged: controller.setKeyword,
               ),
             ),

@@ -13,6 +13,11 @@ import 'tokens.dart';
 /// `keyboardType` / `textInputAction` / `focusNode` / `dense`）的默认值与
 /// `TextField` / `InputDecoration` 的默认值一致，故对既有调用方行为零变更；
 /// `label` 由 `required` 放宽为可选，同样是源兼容（原来传 label 的照常工作）。
+///
+/// V8.20/C2：再补 `prefix` / `enabled` / `style` 三个透传（C2 收口批）。
+/// 默认值同样对齐原生默认（`prefix = null`、`enabled = true`（等于
+/// `InputDecoration.enabled` 的原生默认）、`style = null` → 沿用 `mono`/正文
+/// 逻辑），故对既有调用方仍是行为零变更。
 class SsTextInput extends StatefulWidget {
   const SsTextInput({
     super.key,
@@ -24,6 +29,7 @@ class SsTextInput extends StatefulWidget {
     this.onSubmitted,
     this.obscure = false,
     this.mono = false,
+    this.prefix,
     this.suffix,
     this.maxLines = 1,
     this.minLines,
@@ -32,6 +38,8 @@ class SsTextInput extends StatefulWidget {
     this.textInputAction,
     this.focusNode,
     this.dense = false,
+    this.enabled = true,
+    this.style,
   });
 
   final String? label;
@@ -42,6 +50,7 @@ class SsTextInput extends StatefulWidget {
   final ValueChanged<String>? onSubmitted;
   final bool obscure;
   final bool mono;
+  final Widget? prefix;
   final Widget? suffix;
   final int? maxLines;
   final int? minLines;
@@ -50,6 +59,12 @@ class SsTextInput extends StatefulWidget {
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final bool dense;
+
+  /// 透传 `InputDecoration.enabled`（原生默认即 `true`）。
+  final bool enabled;
+
+  /// 覆盖默认正文样式；`null` → 沿用 `mono`/正文逻辑。
+  final TextStyle? style;
 
   @override
   State<SsTextInput> createState() => _SsTextInputState();
@@ -93,14 +108,18 @@ class _SsTextInputState extends State<SsTextInput> {
       maxLength: widget.maxLength,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
-      style: widget.mono
-          ? appMono(p.ink, size: 12.5)
-          : AppType.body.style(p.ink),
+      style:
+          widget.style ??
+          (widget.mono
+              ? appMono(p.ink, size: 12.5)
+              : AppType.body.style(p.ink)),
       decoration: InputDecoration(
         labelText: widget.label,
         hintText: widget.hint,
+        prefixIcon: widget.prefix,
         suffixIcon: widget.suffix,
         isDense: widget.dense,
+        enabled: widget.enabled,
         hintStyle: widget.mono
             ? appMono(p.muted, size: 12.5)
             : AppType.body.style(p.muted),

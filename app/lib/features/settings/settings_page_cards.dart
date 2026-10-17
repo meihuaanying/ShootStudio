@@ -175,15 +175,11 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
           Row(
             children: <Widget>[
               Expanded(
-                child: TextField(
+                child: SsTextInput(
                   controller: key,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: view.hasKey
-                        ? '已保存（重新输入可覆盖）'
-                        : view.preset.keyHint,
-                    isDense: true,
-                  ),
+                  obscure: true,
+                  hint: view.hasKey ? '已保存（重新输入可覆盖）' : view.preset.keyHint,
+                  dense: true,
                 ),
               ),
               const SizedBox(width: 6),

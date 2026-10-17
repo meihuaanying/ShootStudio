@@ -137,13 +137,11 @@ class _CinematicRefsDialogState extends ConsumerState<_CinematicRefsDialog> {
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: TextField(
+                    child: SsTextInput(
                       controller: _text,
                       onSubmitted: (String _) => _search(),
-                      decoration: const InputDecoration(
-                        hintText: '片名 / 影人 / 氛围词',
-                        isDense: true,
-                      ),
+                      hint: '片名 / 影人 / 氛围词',
+                      dense: true,
                     ),
                   ),
                   const SizedBox(width: 8),

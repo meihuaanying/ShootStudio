@@ -52,16 +52,12 @@ class HomeIdeaHero extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Expanded(
-              child: TextField(
+              child: SsTextInput(
                 controller: controller,
                 maxLines: 3,
                 minLines: 1,
                 textInputAction: TextInputAction.newline,
-                style: AppType.body.style(p.ink),
-                decoration: InputDecoration(
-                  hintText: '输入主题想法（支持中文）…',
-                  hintStyle: AppType.body.style(p.muted),
-                ),
+                hint: '输入主题想法（支持中文）…',
               ),
             ),
             const SizedBox(width: AppSpace.s3),

@@ -429,10 +429,7 @@ extension _PlannerPageLayout on _PlannerPageState {
     return showSsDialog<String>(
       context: context,
       title: '里程碑命名',
-      child: TextField(
-        controller: ctl,
-        decoration: const InputDecoration(hintText: '如：客户确认版'),
-      ),
+      child: SsTextInput(controller: ctl, hint: '如：客户确认版'),
       actions: (BuildContext ctx) => <Widget>[
         SsDialogAction(
           label: '取消',

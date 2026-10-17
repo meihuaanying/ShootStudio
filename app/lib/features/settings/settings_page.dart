@@ -260,14 +260,12 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     ),
                   ),
                 const SizedBox(height: 10),
-                TextField(
+                SsTextInput(
                   controller: TextEditingController(
                     text: _announcementUrl ?? '',
                   ),
-                  decoration: const InputDecoration(
-                    labelText: '公告 JSON 地址（空 = 官方默认；支持自建站点 / 内网）',
-                    isDense: true,
-                  ),
+                  label: '公告 JSON 地址（空 = 官方默认；支持自建站点 / 内网）',
+                  dense: true,
                   onSubmitted: (String v) async {
                     await ref
                         .read(updaterProvider.notifier)

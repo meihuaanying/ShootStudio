@@ -150,13 +150,11 @@ class _AiSidePanelState extends ConsumerState<AiSidePanel> {
         Row(
           children: <Widget>[
             Expanded(
-              child: TextField(
+              child: SsTextInput(
                 controller: _input,
-                decoration: InputDecoration(
-                  hintText: '例如：主光再近一点 / 换夜景霓虹 / 预算减半',
-                  isDense: true,
-                  enabled: !_busy,
-                ),
+                hint: '例如：主光再近一点 / 换夜景霓虹 / 预算减半',
+                dense: true,
+                enabled: !_busy,
                 onSubmitted: (String _) => _send(),
               ),
             ),

@@ -107,5 +107,43 @@ void main() {
       expect(f.decoration?.labelText, isNull, reason: 'label 应可省略');
       expect(f.decoration?.hintText, '搜索姿势名');
     });
+
+    testWidgets('prefix / enabled / style 透传（V8.20 新增）', (
+      WidgetTester tester,
+    ) async {
+      const TextStyle bold = TextStyle(fontWeight: FontWeight.bold);
+      await tester.pumpWidget(
+        _wrap(
+          SsTextInput(
+            hint: '搜影片 / 导演',
+            dense: true,
+            enabled: false,
+            prefix: const Icon(Icons.search_rounded, size: 18),
+            style: bold,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final TextField f = tester.widget<TextField>(find.byType(TextField));
+      expect(f.decoration?.prefixIcon, isA<Icon>());
+      expect(
+        (f.decoration?.prefixIcon as Icon?)?.icon,
+        Icons.search_rounded,
+        reason: 'prefix 未映射到 InputDecoration.prefixIcon',
+      );
+      expect(f.decoration?.enabled, isFalse, reason: 'enabled 未透传');
+      expect(f.style, same(bold), reason: 'style 应覆盖默认正文样式');
+    });
+
+    testWidgets('enabled 默认 true、style 默认沿用正文（零变更）', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(_wrap(const SsTextInput(hint: '默认态')));
+      await tester.pumpAndSettle();
+      final TextField f = tester.widget<TextField>(find.byType(TextField));
+      expect(f.decoration?.enabled, isTrue);
+      expect(f.decoration?.prefixIcon, isNull);
+      expect(f.style?.fontWeight, isNot(FontWeight.bold));
+    });
   });
 }

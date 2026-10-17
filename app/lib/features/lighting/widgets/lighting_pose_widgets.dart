@@ -224,12 +224,10 @@ class JointTunePanelState extends State<JointTunePanel> {
                 Row(
                   children: <Widget>[
                     Expanded(
-                      child: TextField(
+                      child: SsTextInput(
                         controller: _saveCtl,
-                        decoration: const InputDecoration(
-                          hintText: '另存为姿势名称',
-                          isDense: true,
-                        ),
+                        hint: '另存为姿势名称',
+                        dense: true,
                       ),
                     ),
                     const SizedBox(width: 6),

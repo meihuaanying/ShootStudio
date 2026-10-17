@@ -277,10 +277,7 @@ class _NameCategoryBodyState extends State<_NameCategoryBody> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextField(
-            controller: _name,
-            decoration: const InputDecoration(labelText: '姿势名称', isDense: true),
-          ),
+          SsTextInput(controller: _name, label: '姿势名称', dense: true),
           const SizedBox(height: 10),
           Wrap(
             spacing: 6,

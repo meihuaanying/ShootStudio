@@ -24,12 +24,10 @@ extension _PlannerPageCanvas on _PlannerPageState {
         Row(
           children: <Widget>[
             Expanded(
-              child: TextField(
+              child: SsTextInput(
                 controller: TextEditingController(text: state.title),
-                decoration: const InputDecoration(
-                  hintText: '策划案标题',
-                  isDense: true,
-                ),
+                hint: '策划案标题',
+                dense: true,
                 style: const TextStyle(
                   fontSize: AppFontSize.body,
                   fontWeight: AppFontWeight.bold,

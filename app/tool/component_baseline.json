@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/D147 R74/R82 组件收口软门禁基线（lib/features 内裸 TextField/TextFormField/showModalBottomSheet/AlertDialog，只降不升）",
-  "at": "2026-10-17T00:29:11.901Z",
+  "at": "2026-10-17T02:34:56.396Z",
   "metrics": {
     "textField": "SsTextInput / SsSearchField",
     "textFormField": "SsTextInput（含校验场景）",
@@ -9,63 +9,23 @@
     "alertDialog": "showSsDialog / SsDialog"
   },
   "totals": {
-    "textField": 14,
+    "textField": 0,
     "textFormField": 0,
     "bottomSheet": 4,
     "alertDialog": 0
   },
   "files": {
-    "lib/features/ai/ai_panel.dart": {
-      "textField": 1
-    },
-    "lib/features/ai/ai_side_panel.dart": {
-      "textField": 1
-    },
-    "lib/features/home/home_hero.dart": {
-      "textField": 1
-    },
-    "lib/features/libraries/libraries_page.dart": {
-      "textField": 1
-    },
-    "lib/features/lighting/widgets/lighting_inspector.dart": {
-      "textField": 1
-    },
-    "lib/features/lighting/widgets/lighting_pose_widgets.dart": {
-      "textField": 1
-    },
-    "lib/features/planner/planner_page_canvas.dart": {
-      "textField": 1
-    },
     "lib/features/planner/planner_page_layout.dart": {
-      "textField": 1,
       "bottomSheet": 1
     },
     "lib/features/poses/character_picker.dart": {
       "bottomSheet": 1
     },
-    "lib/features/poses/cinematic_refs.dart": {
-      "textField": 1
-    },
-    "lib/features/poses/poses_page_layout.dart": {
-      "textField": 1
-    },
     "lib/features/poses/pose_gallery.dart": {
       "bottomSheet": 1
     },
-    "lib/features/poses/pose_import_page_layout.dart": {
-      "textField": 1
-    },
     "lib/features/refs/refs_hit_drawer.dart": {
       "bottomSheet": 1
-    },
-    "lib/features/refs/refs_home.dart": {
-      "textField": 1
-    },
-    "lib/features/settings/settings_page.dart": {
-      "textField": 1
-    },
-    "lib/features/settings/settings_page_cards.dart": {
-      "textField": 1
     }
   }
 }

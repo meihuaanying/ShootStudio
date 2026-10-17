@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/D147 R71 design-token gate: color/colors/size/metric literals must reference tokens",
-  "at": "2026-10-05T05:45:26.440Z",
+  "at": "2026-10-17T02:35:12.985Z",
   "counts": {},
   "exemptions": [
     {

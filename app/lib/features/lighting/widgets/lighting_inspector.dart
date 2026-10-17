@@ -263,9 +263,9 @@ class LightingInspector extends StatelessWidget {
                   controller.updateSelected((DeviceSpec d) => d.scale = v),
             ),
           ],
-          TextField(
+          SsTextInput(
             controller: TextEditingController(text: selected.note),
-            decoration: const InputDecoration(hintText: '备注（≤200 字）'),
+            hint: '备注（≤200 字）',
             maxLines: 2,
             onChanged: (String v) =>
                 controller.updateSelected((DeviceSpec d) => d.note = v),

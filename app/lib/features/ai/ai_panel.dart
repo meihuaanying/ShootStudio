@@ -161,12 +161,10 @@ class _AiPanelState extends ConsumerState<AiPanel> {
         children: <Widget>[
           const SsSectionTitle('一句话开案', subtitle: '支持中文，可粘贴角色设定'),
           const SizedBox(height: AppSpace.s2),
-          TextField(
+          SsTextInput(
             controller: _theme,
             maxLines: 3,
-            decoration: const InputDecoration(
-              hintText: '例：雨夜赛博朋克风初音正片，霓虹雨夜，未来感',
-            ),
+            hint: '例：雨夜赛博朋克风初音正片，霓虹雨夜，未来感',
           ),
           const SizedBox(height: 8),
           Wrap(

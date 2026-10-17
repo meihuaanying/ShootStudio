@@ -47,16 +47,14 @@ class RefsHomeHeader extends StatelessWidget {
     return Row(
       children: <Widget>[
         Expanded(
-          child: TextField(
+          child: SsTextInput(
             controller: controller,
             focusNode: focusNode,
             textInputAction: TextInputAction.search,
             onSubmitted: (String _) => onSearch(),
-            decoration: const InputDecoration(
-              hintText: '搜影片 / 导演 / 演员 / 画作 / 摄影主题（中英文均可）',
-              isDense: true,
-              prefixIcon: Icon(Icons.search_rounded, size: 18),
-            ),
+            hint: '搜影片 / 导演 / 演员 / 画作 / 摄影主题（中英文均可）',
+            dense: true,
+            prefix: const Icon(Icons.search_rounded, size: 18),
           ),
         ),
         const SizedBox(width: AppSpace.s2),

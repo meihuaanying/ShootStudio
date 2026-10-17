@@ -264,11 +264,9 @@ class _LibrariesPageState extends ConsumerState<LibrariesPage> {
         const SizedBox(width: 8),
         SizedBox(
           width: 220,
-          child: TextField(
-            decoration: const InputDecoration(
-              hintText: '搜索名称 / 地区…',
-              isDense: true,
-            ),
+          child: SsTextInput(
+            hint: '搜索名称 / 地区…',
+            dense: true,
             onChanged: controller.setKeyword,
           ),
         ),
