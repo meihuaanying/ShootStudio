@@ -128,11 +128,9 @@ class _PoseReplaceDialogState extends State<_PoseReplaceDialog> {
         height: 380,
         child: Column(
           children: <Widget>[
-            TextField(
-              decoration: const InputDecoration(
-                hintText: '搜索姿势名，例如：回眸 / 蹲',
-                isDense: true,
-              ),
+            SsTextInput(
+              hint: '搜索姿势名，例如：回眸 / 蹲',
+              dense: true,
               onChanged: (String v) => setState(() => _query = v),
             ),
             const SizedBox(height: 6),
@@ -264,12 +262,10 @@ class _BudgetEstimateDialogState extends State<_BudgetEstimateDialog> {
             onChanged: (CityEntry? v) => setState(() => _city = v),
           ),
           const SizedBox(height: 8),
-          TextField(
+          SsTextInput(
             controller: _people,
-            decoration: const InputDecoration(
-              labelText: '人数（餐饮按人数估算）',
-              isDense: true,
-            ),
+            label: '人数（餐饮按人数估算）',
+            dense: true,
             keyboardType: TextInputType.number,
           ),
         ],

@@ -254,11 +254,9 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
                 const SizedBox(width: 6),
                 SizedBox(
                   width: 200,
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      hintText: '品牌/型号/焦段/F2.8/CRI',
-                      isDense: true,
-                    ),
+                  child: SsTextInput(
+                    hint: '品牌/型号/焦段/F2.8/CRI',
+                    dense: true,
                     onChanged: (String v) => setState(() => _keyword = v),
                   ),
                 ),
@@ -438,12 +436,10 @@ class _GearBrowserState extends ConsumerState<GearBrowser> {
         maxWidth: 430,
         child: SizedBox(
           width: 380,
-          child: TextField(
+          child: SsTextInput(
             controller: controller,
-            decoration: const InputDecoration(
-              hintText: 'https://…（jpg/png/webp）',
-              isDense: true,
-            ),
+            hint: 'https://…（jpg/png/webp）',
+            dense: true,
           ),
         ),
         actions: (BuildContext ctx) => <Widget>[
