@@ -16,6 +16,7 @@ class RefsHitDrawer extends ConsumerWidget {
     required this.similar,
     required this.onAdd,
     this.onOpenSource,
+    this.showHeader = true,
   });
 
   final SearchHit hit;
@@ -25,6 +26,10 @@ class RefsHitDrawer extends ConsumerWidget {
 
   final VoidCallback onAdd;
   final VoidCallback? onOpenSource;
+
+  /// 是否在抽屉内自渲染「PLATE · 详情 + 标题」表头。由 `showSsSheet` 承载时
+  /// 置 false，表头交给弹层自身（V8.21 收口）；单测直接构造时保持默认 true。
+  final bool showHeader;
 
   /// 相似图挑选口径：同 group 优先，其次同 sourceId；最多 6 张，顺序稳定。
   static List<SearchHit> pickSimilar(SearchHit hit, List<SearchHit> all) {
@@ -50,8 +55,10 @@ class RefsHitDrawer extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('PLATE · 详情', style: appEyebrow(p.accent)),
-            const SizedBox(height: AppSpace.s2),
+            if (showHeader) ...<Widget>[
+              Text('PLATE · 详情', style: appEyebrow(p.accent)),
+              const SizedBox(height: AppSpace.s2),
+            ],
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -75,8 +82,10 @@ class RefsHitDrawer extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(hit.title, style: AppType.h2.style(p.ink)),
-                      const SizedBox(height: AppSpace.s1),
+                      if (showHeader) ...<Widget>[
+                        Text(hit.title, style: AppType.h2.style(p.ink)),
+                        const SizedBox(height: AppSpace.s1),
+                      ],
                       Text(hit.creditLine, style: appMono(p.muted, size: 10.5)),
                       const SizedBox(height: AppSpace.s3),
                       const SsDivider(),
@@ -184,29 +193,22 @@ Future<void> showRefsHitDrawer(
   required List<SearchHit> all,
   required Future<void> Function(SearchHit hit) onAdd,
 }) {
-  return showModalBottomSheet<void>(
+  return showSsSheet<void>(
     context: context,
-    isScrollControlled: true,
-    backgroundColor: context.palette.surface,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        top: Radius.circular(AppRadius.frame),
-      ),
-    ),
-    builder: (BuildContext ctx) => Padding(
+    eyebrow: 'PLATE · 详情',
+    title: hit.title,
+    child: Padding(
       padding: EdgeInsets.only(
-        left: AppSpace.s5,
-        right: AppSpace.s5,
-        top: AppSpace.s4,
-        bottom: MediaQuery.of(ctx).viewInsets.bottom + AppSpace.s6,
+        bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       // ProviderScope 在 MaterialApp 之上，路由内可直接用 ConsumerWidget。
       child: RefsHitDrawer(
         hit: hit,
         similar: RefsHitDrawer.pickSimilar(hit, all),
+        showHeader: false,
         onAdd: () {
           onAdd(hit);
-          Navigator.pop(ctx);
+          Navigator.pop(context);
         },
       ),
     ),

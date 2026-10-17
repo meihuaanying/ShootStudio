@@ -182,124 +182,92 @@ Future<void> showPoseDetailSheet({
   required VoidCallback onInjectLighting,
   VoidCallback? onAddToPending,
 }) {
-  final AppPalette p = context.palette;
-  return showModalBottomSheet<void>(
+  return showSsSheet<void>(
     context: context,
-    isScrollControlled: true,
-    backgroundColor: p.surface,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        top: Radius.circular(AppRadius.frame),
-      ),
+    title: pose.name,
+    subtitle: '${pose.category} · ${pose.difficulty}',
+    maxWidth: 720,
+    trailing: SsChip(
+      label: showSkeleton ? '骨架叠加开' : '骨架叠加',
+      selected: showSkeleton,
+      onTap: () {
+        onToggleSkeleton();
+        Navigator.pop(context);
+      },
     ),
-    constraints: const BoxConstraints(maxWidth: 720),
-    builder: (BuildContext sheetContext) {
+    child: ConstrainedBox(
       // 半屏抽屉在无 Scaffold 的宿主（测试壳）里可能拿到无界宽度：
-      // SsSectionTitle 内部是 Row + flex，无界宽度会直接抛
-      // "RenderFlex children have non-zero flex but incoming width
-      // constraints are unbounded"。这里用 ConstrainedBox 兜一层硬上限，
-      // 并把底部按钮的 Expanded 换成 Flexible（loose），无界时也能收缩。
-      return ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 720),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpace.s4),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    // SsSectionTitle 内部是 Row + flex：放在 Row 的非 flex 位会拿到
-                    // 无界宽度 → 必须用 Expanded 把它约束住（否则报
-                    // "RenderFlex children have non-zero flex but incoming width
-                    // constraints are unbounded"）。
-                    Expanded(
-                      child: SsSectionTitle(
-                        pose.name,
-                        subtitle: '${pose.category} · ${pose.difficulty}',
-                      ),
-                    ),
-                    SsChip(
-                      label: showSkeleton ? '骨架叠加开' : '骨架叠加',
-                      selected: showSkeleton,
-                      onTap: () {
-                        onToggleSkeleton();
-                        Navigator.pop(sheetContext);
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: AppSpace.s3),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxHeight: 320),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(AppRadius.control),
-                    child: PosePhotoView(
-                      photo: pose.photo,
-                      skeleton: pose.skeleton,
-                      showSkeleton: showSkeleton,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: AppSpace.s3),
-                if (pose.lens.isNotEmpty)
-                  _SheetLine(label: '镜头建议', value: pose.lens),
-                if (pose.cameraPosition.isNotEmpty)
-                  _SheetLine(label: '机位建议', value: pose.cameraPosition),
-                if (pose.weight.isNotEmpty)
-                  _SheetLine(label: '重心', value: pose.weight),
-                const SizedBox(height: AppSpace.s3),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: SsButton(
-                        label: favorite ? '取消收藏' : '收藏到姿势清单',
-                        icon: favorite
-                            ? Icons.star_rounded
-                            : Icons.star_outline_rounded,
-                        kind: SsButtonKind.text,
-                        dense: true,
-                        onPressed: () {
-                          onToggleFavorite();
-                          Navigator.pop(sheetContext);
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: SsButton(
-                        label: '送入布光',
-                        icon: Icons.wb_sunny_outlined,
-                        dense: true,
-                        onPressed: () {
-                          onInjectLighting();
-                          Navigator.pop(sheetContext);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                if (onAddToPending != null) ...<Widget>[
-                  const SizedBox(height: 6),
-                  SsButton(
-                    label: '加入策划案姿势清单',
-                    kind: SsButtonKind.text,
-                    dense: true,
-                    onPressed: () {
-                      onAddToPending();
-                      Navigator.pop(sheetContext);
-                    },
-                  ),
-                ],
-              ],
+      // 这里用 ConstrainedBox 给内容层兜一层硬上限。
+      constraints: const BoxConstraints(maxWidth: 720),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const SizedBox(height: AppSpace.s3),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 320),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadius.control),
+              child: PosePhotoView(
+                photo: pose.photo,
+                skeleton: pose.skeleton,
+                showSkeleton: showSkeleton,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
-        ),
-      );
-    },
+          const SizedBox(height: AppSpace.s3),
+          if (pose.lens.isNotEmpty) _SheetLine(label: '镜头建议', value: pose.lens),
+          if (pose.cameraPosition.isNotEmpty)
+            _SheetLine(label: '机位建议', value: pose.cameraPosition),
+          if (pose.weight.isNotEmpty)
+            _SheetLine(label: '重心', value: pose.weight),
+          const SizedBox(height: AppSpace.s3),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: SsButton(
+                  label: favorite ? '取消收藏' : '收藏到姿势清单',
+                  icon: favorite
+                      ? Icons.star_rounded
+                      : Icons.star_outline_rounded,
+                  kind: SsButtonKind.text,
+                  dense: true,
+                  onPressed: () {
+                    onToggleFavorite();
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: SsButton(
+                  label: '送入布光',
+                  icon: Icons.wb_sunny_outlined,
+                  dense: true,
+                  onPressed: () {
+                    onInjectLighting();
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+          if (onAddToPending != null) ...<Widget>[
+            const SizedBox(height: 6),
+            SsButton(
+              label: '加入策划案姿势清单',
+              kind: SsButtonKind.text,
+              dense: true,
+              onPressed: () {
+                onAddToPending();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ],
+      ),
+    ),
   );
 }
 

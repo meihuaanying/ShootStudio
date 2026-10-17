@@ -286,6 +286,42 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
+    // V8.21 补：R71 给 SsSheet 扩了 `subtitle` / `trailing` 两个可选位，
+    // `showSsSheet` 扩了 `maxWidth`。默认值都为 null = 不渲染 / 不约束，
+    // 对既有调用方零变更；这里把「传了就真渲染出来、且不抛异常」钉住。
+    testWidgets('subtitle / trailing 与 maxWidth 约束（V8.21 新增）', (tester) async {
+      await tester.pumpWidget(
+        _Host(
+          open: (BuildContext ctx) async {
+            unawaited(
+              showSsSheet<void>(
+                context: ctx,
+                title: '站姿·自然站立',
+                subtitle: '人像 · 入门',
+                trailing: const Text('骨架叠加'),
+                maxWidth: 720,
+                child: const Text('内容'),
+              ),
+            );
+          },
+        ),
+      );
+      await tester.tap(find.text('打开'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('站姿·自然站立'), findsOneWidget);
+      expect(find.text('人像 · 入门'), findsOneWidget, reason: 'subtitle 应在标题下渲染');
+      expect(
+        find.text('骨架叠加'),
+        findsOneWidget,
+        reason: 'trailing 应在标题下单独右对齐渲染',
+      );
+      expect(find.text('内容'), findsOneWidget);
+
+      // trailing 走 Align 右对齐，无界宽度下也不出现 flex 溢出。
+      expect(tester.takeException(), isNull);
+    });
+
     // V8.8 补：这条是迁移时最容易踩的坑 ——
     // `SsDialogAction(label: '关闭', primary: false)` 不写 onPressed 时，
     // 若实现把 null 直接透给 TextButton，按钮会**变成禁用态、点不动**，

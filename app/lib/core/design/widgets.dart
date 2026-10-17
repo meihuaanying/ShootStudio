@@ -12,6 +12,7 @@ export 'ss_button.dart';
 export 'ss_card.dart';
 export 'ss_chip.dart';
 export 'ss_dialog.dart';
+export 'ss_sheet.dart';
 export 'ss_empty.dart';
 export 'ss_feedback.dart';
 export 'ss_image_frame.dart';

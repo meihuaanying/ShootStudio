@@ -249,101 +249,80 @@ extension _PlannerPageLayout on _PlannerPageState {
     await ref.read(plannerControllerProvider.notifier).saveNow();
     if (!mounted) return;
     final latest = ref.read(plannerControllerProvider);
-    await showModalBottomSheet<void>(
+    await showSsSheet<void>(
       context: context,
-      builder: (BuildContext ctx) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(AppSpace.s3),
-              child: Row(
-                children: <Widget>[
-                  const Text(
-                    '版本历史（无限保留）',
-                    style: TextStyle(fontWeight: AppFontWeight.bold),
-                  ),
-                  const Spacer(),
-                  SsButton(
-                    label: '创建里程碑',
-                    kind: SsButtonKind.text,
-                    dense: true,
-                    onPressed: () async {
-                      final label = await _askLabel(ctx);
-                      if (label != null) {
-                        await ref
-                            .read(plannerControllerProvider.notifier)
-                            .milestoneNow(label);
-                        if (ctx.mounted) Navigator.pop(ctx);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-            if (latest.snapshots.isEmpty)
-              const Padding(
-                padding: EdgeInsets.all(AppSpaceFine.n20),
-                child: Text('暂无快照'),
-              )
-            else
-              Flexible(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: latest.snapshots.length,
-                  itemBuilder: (BuildContext context, int i) {
-                    final AppPalette p = context.palette;
-
-                    final PlanSnapshotInfo snap = latest.snapshots[i];
-                    return ListTile(
-                      dense: true,
-                      leading: Icon(
-                        snap.label != null
-                            ? Icons.bookmark_rounded
-                            : Icons.history_rounded,
-                        size: 18,
-                        color: snap.label != null ? p.gold : null,
-                      ),
-                      title: Text(
-                        snap.label ?? '自动快照',
-                        style: const TextStyle(fontSize: AppFontSize.smallLg),
-                      ),
-                      subtitle: Text(
-                        '${snap.createdAt.toString().substring(0, 19)} · ${snap.moduleCount} 个模块',
-                        style: const TextStyle(fontSize: AppFontSize.caption),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          IconButton(
-                            tooltip: '对比当前',
-                            visualDensity: VisualDensity.compact,
-                            icon: const Icon(
-                              Icons.compare_arrows_rounded,
-                              size: 17,
-                            ),
-                            onPressed: () => _showDiff(ctx, snap.id),
-                          ),
-                          IconButton(
-                            tooltip: '回滚到此版本',
-                            visualDensity: VisualDensity.compact,
-                            icon: const Icon(Icons.restore_rounded, size: 17),
-                            onPressed: () async {
-                              await ref
-                                  .read(plannerControllerProvider.notifier)
-                                  .restoreSnapshot(snap.id);
-                              if (ctx.mounted) Navigator.pop(ctx);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-          ],
-        ),
+      title: '版本历史（无限保留）',
+      trailing: SsButton(
+        label: '创建里程碑',
+        kind: SsButtonKind.text,
+        dense: true,
+        onPressed: () async {
+          final label = await _askLabel(context);
+          if (label != null) {
+            await ref
+                .read(plannerControllerProvider.notifier)
+                .milestoneNow(label);
+            if (mounted) Navigator.pop(context);
+          }
+        },
       ),
+      child: latest.snapshots.isEmpty
+          ? const Padding(
+              padding: EdgeInsets.all(AppSpaceFine.n20),
+              child: Text('暂无快照'),
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              itemCount: latest.snapshots.length,
+              itemBuilder: (BuildContext context, int i) {
+                final AppPalette p = context.palette;
+
+                final PlanSnapshotInfo snap = latest.snapshots[i];
+                return ListTile(
+                  dense: true,
+                  leading: Icon(
+                    snap.label != null
+                        ? Icons.bookmark_rounded
+                        : Icons.history_rounded,
+                    size: 18,
+                    color: snap.label != null ? p.gold : null,
+                  ),
+                  title: Text(
+                    snap.label ?? '自动快照',
+                    style: const TextStyle(fontSize: AppFontSize.smallLg),
+                  ),
+                  subtitle: Text(
+                    '${snap.createdAt.toString().substring(0, 19)} · ${snap.moduleCount} 个模块',
+                    style: const TextStyle(fontSize: AppFontSize.caption),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      IconButton(
+                        tooltip: '对比当前',
+                        visualDensity: VisualDensity.compact,
+                        icon: const Icon(
+                          Icons.compare_arrows_rounded,
+                          size: 17,
+                        ),
+                        onPressed: () => _showDiff(context, snap.id),
+                      ),
+                      IconButton(
+                        tooltip: '回滚到此版本',
+                        visualDensity: VisualDensity.compact,
+                        icon: const Icon(Icons.restore_rounded, size: 17),
+                        onPressed: () async {
+                          await ref
+                              .read(plannerControllerProvider.notifier)
+                              .restoreSnapshot(snap.id);
+                          if (context.mounted) Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
     );
   }
 

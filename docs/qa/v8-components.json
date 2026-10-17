@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/D147 R74/R82 component-conformance gate (lib/features bare widgets)",
-  "at": "2026-10-17T02:35:12.121Z",
+  "at": "2026-10-17T03:14:27.136Z",
   "scanDir": "lib/features",
   "scannedFiles": 99,
   "metrics": {
@@ -13,7 +13,7 @@
   "totals": {
     "textField": 0,
     "textFormField": 0,
-    "bottomSheet": 4,
+    "bottomSheet": 0,
     "alertDialog": 0
   },
   "baselineTotals": {
@@ -24,19 +24,6 @@
   },
   "increases": [],
   "fileIncreases": [],
-  "files": {
-    "lib/features/planner/planner_page_layout.dart": {
-      "bottomSheet": 1
-    },
-    "lib/features/poses/character_picker.dart": {
-      "bottomSheet": 1
-    },
-    "lib/features/poses/pose_gallery.dart": {
-      "bottomSheet": 1
-    },
-    "lib/features/refs/refs_hit_drawer.dart": {
-      "bottomSheet": 1
-    }
-  },
+  "files": {},
   "pass": true
 }

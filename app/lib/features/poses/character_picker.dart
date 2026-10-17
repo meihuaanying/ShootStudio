@@ -38,10 +38,11 @@ class CharacterSelection {
 Future<CharacterSelection?> showCharacterPicker(
   BuildContext context, {
   required CharacterSelection current,
-}) => showModalBottomSheet<CharacterSelection>(
+}) => showSsSheet<CharacterSelection>(
   context: context,
-  isScrollControlled: true,
-  builder: (_) => _CharacterPickerSheet(current: current),
+  title: '人物与服装',
+  subtitle: '写实人物（MakeHuman CC0，74k–85k 面）· 高面数 Quaternius 模型（CC0）',
+  child: _CharacterPickerSheet(current: current),
 );
 
 /// 应用选择到 3D 引擎（含失败提示由引擎 error 事件负责）。
@@ -110,166 +111,143 @@ class _CharacterPickerSheetState extends State<_CharacterPickerSheet> {
     final AppPalette p = context.palette;
 
     final ThemeData theme = Theme.of(context);
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          AppSpace.s4,
-          AppSpace.s3,
-          AppSpace.s4,
-          AppSpace.s4,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SsSectionTitle(
-              '人物与服装',
-              subtitle: '写实人物（MakeHuman CC0，74k–85k 面）· 高面数 Quaternius 模型（CC0）',
-            ),
-            const SizedBox(height: AppSpace.s3),
-            if (!_loaded)
-              const Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: AppStroke.ringThin,
-                ),
-              )
-            else ...<Widget>[
-              SizedBox(
-                height: 150,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _realistic.length + _characters.length + 1,
-                  separatorBuilder: (_, __) => const SizedBox(width: 8),
-                  itemBuilder: (BuildContext context, int i) {
-                    if (i < _realistic.length) {
-                      final Map<String, Object?> c = _realistic[i];
-                      final String id = '${c['id']}';
-                      return _tile(
-                        p: context.palette,
-                        title: '${c['name']}',
-                        subtitle: '写实 · ${c['triCount']} 面',
-                        badge: '写实',
-                        selected: _selection.characterId == id,
-                        theme: theme,
-                        onTap: () => setState(
-                          () => _selection = _selection.copyWith(
-                            characterId: id,
-                            characterName: '${c['name']}',
-                          ),
-                        ),
-                      );
-                    }
-                    final int ci = i - _realistic.length;
-                    if (ci == _characters.length) {
-                      final bool legacy = _selection.characterId == 'legacy';
-                      return _tile(
-                        p: context.palette,
-                        title: '轻量假人',
-                        subtitle: '程序几何',
-                        selected: legacy,
-                        theme: theme,
-                        onTap: () => setState(
-                          () => _selection = _selection.copyWith(
-                            characterId: 'legacy',
-                            characterName: '轻量假人',
-                          ),
-                        ),
-                      );
-                    }
-                    final Map<String, Object?> c = _characters[ci];
-                    final String id = '${c['id']}';
-                    return _tile(
-                      p: context.palette,
-                      title: '${c['name']}',
-                      subtitle: '${c['tag']} · ${c['triCount']} 面',
-                      selected: _selection.characterId == id,
-                      theme: theme,
-                      onTap: () => setState(
-                        () => _selection = _selection.copyWith(
-                          characterId: id,
-                          characterName: '${c['name']}',
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 10),
-              Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    '发型',
-                    style: TextStyle(fontSize: AppFontSize.smallSm),
-                  ),
-                  SsChip(
-                    label: '默认',
-                    selected: _selection.hairId == null,
+    // 标题 / 副标题由 SsSheet 头部承担（V8.21 收口），这里只留内容。
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if (!_loaded)
+          const Center(
+            child: CircularProgressIndicator(strokeWidth: AppStroke.ringThin),
+          )
+        else ...<Widget>[
+          SizedBox(
+            height: 150,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: _realistic.length + _characters.length + 1,
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              itemBuilder: (BuildContext context, int i) {
+                if (i < _realistic.length) {
+                  final Map<String, Object?> c = _realistic[i];
+                  final String id = '${c['id']}';
+                  return _tile(
+                    p: context.palette,
+                    title: '${c['name']}',
+                    subtitle: '写实 · ${c['triCount']} 面',
+                    badge: '写实',
+                    selected: _selection.characterId == id,
+                    theme: theme,
                     onTap: () => setState(
-                      () => _selection = _selection.copyWith(hairId: null),
+                      () => _selection = _selection.copyWith(
+                        characterId: id,
+                        characterName: '${c['name']}',
+                      ),
+                    ),
+                  );
+                }
+                final int ci = i - _realistic.length;
+                if (ci == _characters.length) {
+                  final bool legacy = _selection.characterId == 'legacy';
+                  return _tile(
+                    p: context.palette,
+                    title: '轻量假人',
+                    subtitle: '程序几何',
+                    selected: legacy,
+                    theme: theme,
+                    onTap: () => setState(
+                      () => _selection = _selection.copyWith(
+                        characterId: 'legacy',
+                        characterName: '轻量假人',
+                      ),
+                    ),
+                  );
+                }
+                final Map<String, Object?> c = _characters[ci];
+                final String id = '${c['id']}';
+                return _tile(
+                  p: context.palette,
+                  title: '${c['name']}',
+                  subtitle: '${c['tag']} · ${c['triCount']} 面',
+                  selected: _selection.characterId == id,
+                  theme: theme,
+                  onTap: () => setState(
+                    () => _selection = _selection.copyWith(
+                      characterId: id,
+                      characterName: '${c['name']}',
                     ),
                   ),
-                  for (final Map<String, Object?> h in _hair)
-                    SsChip(
-                      label: '${h['name']}',
-                      selected: _selection.hairId == '${h['id']}',
-                      onTap: () => setState(
-                        () => _selection = _selection.copyWith(
-                          hairId: '${h['id']}',
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Wrap(
-                spacing: 8,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    '肤色',
-                    style: TextStyle(fontSize: AppFontSize.smallSm),
-                  ),
-                  for (final String hex in _skinTones)
-                    InkWell(
-                      onTap: () => setState(
-                        () => _selection = _selection.copyWith(skinTone: hex),
-                      ),
-                      child: Container(
-                        width: 26,
-                        height: 26,
-                        decoration: BoxDecoration(
-                          color: _hex(hex),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            width: _selection.skinTone == hex ? 2.5 : 1,
-                            color: _selection.skinTone == hex
-                                ? p.accent
-                                : theme.colorScheme.outline,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ],
-            const SizedBox(height: 12),
-            Row(
-              children: <Widget>[
-                const Spacer(),
-                SsButton(
-                  label: '应用',
-                  onPressed: _loaded
-                      ? () => Navigator.pop(context, _selection)
-                      : null,
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: <Widget>[
+              const Text('发型', style: TextStyle(fontSize: AppFontSize.smallSm)),
+              SsChip(
+                label: '默认',
+                selected: _selection.hairId == null,
+                onTap: () => setState(
+                  () => _selection = _selection.copyWith(hairId: null),
                 ),
-              ],
+              ),
+              for (final Map<String, Object?> h in _hair)
+                SsChip(
+                  label: '${h['name']}',
+                  selected: _selection.hairId == '${h['id']}',
+                  onTap: () => setState(
+                    () =>
+                        _selection = _selection.copyWith(hairId: '${h['id']}'),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: <Widget>[
+              const Text('肤色', style: TextStyle(fontSize: AppFontSize.smallSm)),
+              for (final String hex in _skinTones)
+                InkWell(
+                  onTap: () => setState(
+                    () => _selection = _selection.copyWith(skinTone: hex),
+                  ),
+                  child: Container(
+                    width: 26,
+                    height: 26,
+                    decoration: BoxDecoration(
+                      color: _hex(hex),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        width: _selection.skinTone == hex ? 2.5 : 1,
+                        color: _selection.skinTone == hex
+                            ? p.accent
+                            : theme.colorScheme.outline,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
+        const SizedBox(height: 12),
+        Row(
+          children: <Widget>[
+            const Spacer(),
+            SsButton(
+              label: '应用',
+              onPressed: _loaded
+                  ? () => Navigator.pop(context, _selection)
+                  : null,
             ),
           ],
         ),
-      ),
+      ],
     );
   }
 

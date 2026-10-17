@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "V8/S3 R73 file size gate (lib/features <= 600, lib/core/design <= 300, baseline allowlist)",
-  "at": "2026-10-17T02:35:12.497Z",
+  "at": "2026-10-17T03:14:27.389Z",
   "limits": {
     "features": 600,
     "design": 300,
@@ -147,12 +147,6 @@
       "allowed": 600
     },
     {
-      "file": "lib/features/planner/planner_page_layout.dart",
-      "lines": 447,
-      "limit": 600,
-      "allowed": 600
-    },
-    {
       "file": "lib/features/ai/ai_controller_revise.dart",
       "lines": 440,
       "limit": 600,
@@ -171,6 +165,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/planner/planner_page_layout.dart",
+      "lines": 426,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/export/exporter_sspak.dart",
       "lines": 414,
       "limit": 600,
@@ -185,12 +185,6 @@
     {
       "file": "lib/features/lighting/widgets/lighting_canvas_view.dart",
       "lines": 383,
-      "limit": 600,
-      "allowed": 600
-    },
-    {
-      "file": "lib/features/poses/character_picker.dart",
-      "lines": 357,
       "limit": 600,
       "allowed": 600
     },
@@ -219,7 +213,7 @@
       "allowed": 600
     },
     {
-      "file": "lib/features/poses/pose_gallery.dart",
+      "file": "lib/features/poses/character_picker.dart",
       "lines": 335,
       "limit": 600,
       "allowed": 600
@@ -279,6 +273,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/poses/pose_gallery.dart",
+      "lines": 303,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/settings/settings_page.dart",
       "lines": 298,
       "limit": 600,
@@ -295,12 +295,6 @@
       "lines": 295,
       "limit": 600,
       "allowed": 600
-    },
-    {
-      "file": "lib/core/design/ss_dialog.dart",
-      "lines": 288,
-      "limit": 300,
-      "allowed": 300
     },
     {
       "file": "lib/features/ai/plan_read_view.dart",
@@ -429,6 +423,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/features/refs/refs_hit_drawer.dart",
+      "lines": 217,
+      "limit": 600,
+      "allowed": 600
+    },
+    {
       "file": "lib/features/export/exporter.dart",
       "lines": 216,
       "limit": 600,
@@ -441,16 +441,16 @@
       "allowed": 600
     },
     {
-      "file": "lib/features/refs/refs_hit_drawer.dart",
-      "lines": 215,
-      "limit": 600,
-      "allowed": 600
-    },
-    {
       "file": "lib/features/refs/refs_hit_card.dart",
       "lines": 209,
       "limit": 600,
       "allowed": 600
+    },
+    {
+      "file": "lib/core/design/ss_dialog.dart",
+      "lines": 208,
+      "limit": 300,
+      "allowed": 300
     },
     {
       "file": "lib/features/lighting/widgets/lighting_ab_dialog.dart",
@@ -627,6 +627,12 @@
       "allowed": 600
     },
     {
+      "file": "lib/core/design/ss_sheet.dart",
+      "lines": 113,
+      "limit": 300,
+      "allowed": 300
+    },
+    {
       "file": "lib/features/lighting/widgets/lighting_left_column.dart",
       "lines": 109,
       "limit": 600,
@@ -694,7 +700,7 @@
     },
     {
       "file": "lib/core/design/widgets.dart",
-      "lines": 23,
+      "lines": 24,
       "limit": 300,
       "allowed": 300
     }
