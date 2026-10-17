@@ -267,9 +267,13 @@ extension _PlannerPageLayout on _PlannerPageState {
         },
       ),
       child: latest.snapshots.isEmpty
-          ? const Padding(
-              padding: EdgeInsets.all(AppSpaceFine.n20),
-              child: Text('暂无快照'),
+          // V8.24：抽屉内列表空态收口到 sanctioned 组件（弹层自身即容器，
+          // 不再套 SsCard）。
+          ? const SsEmpty(
+              icon: Icons.history_toggle_off_rounded,
+              art: SsArt.compass,
+              title: '暂无快照',
+              hint: '编辑器保存后会自动留档，也可用右上角「创建里程碑」手动存档',
             )
           : ListView.builder(
               shrinkWrap: true,

@@ -56,23 +56,14 @@ class HomeRecentPlans extends ConsumerWidget {
           SsBanner(text: '读取失败：$e', kind: SsBannerKind.danger),
       data: (List<Plan> list) {
         if (list.isEmpty) {
-          return SsCard(
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('还没有策划案', style: AppType.h3.style(p.ink)),
-                      const SizedBox(height: AppSpace.s1),
-                      Text(
-                        '在上面输入想法，或从模板库开始。',
-                        style: AppType.body.style(p.inkSoft),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+          // V8.24：区块空态收口到 sanctioned 组件（与 planner_page_canvas /
+          // lighting_inspector 的 `SsCard + SsEmpty` 写法一致）。
+          return const SsCard(
+            child: SsEmpty(
+              icon: Icons.movie_creation_outlined,
+              art: SsArt.film,
+              title: '还没有策划案',
+              hint: '在上面输入想法，或从模板库开始。',
             ),
           );
         }
