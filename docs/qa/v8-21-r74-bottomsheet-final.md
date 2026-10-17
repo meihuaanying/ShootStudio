@@ -9,7 +9,7 @@
 ## 0. 为什么会有这一阶段
 
 R74 组件收口分三层：`AlertDialog`（C1，V8.13 收口）、裸 `TextField`（C2，V8.20 收口 60/60）、
-`showModalBottomSheet`（**C3，本批**）、空态 `SsEmptyState`（C4，待做）。
+`showModalBottomSheet`（**C3，本批**）、空态 `SsEmpty`（C4，待做 —— 注：该组件名原误记为 `SsEmptyState`，V8.22 已更正，见 `docs/qa/v8-22-empty-layer-verification.md`）。
 
 `SsSheet` / `showSsSheet` 早在 **V8.7** 就已建好（`core/design/ss_dialog.dart`，覆盖 R74 §3 C 类），
 但**一直没有 feature 调用它** —— 底部抽屉仍由 4 处 feature 代码各自 `showModalBottomSheet`
@@ -120,11 +120,11 @@ scrim / 内边距 / 标题排版）全部交给 `SsSheet`**，feature 只交内�
 | 弹层 `AlertDialog` | C1（V8.13） | 5 → 0 | `alertDialog 0` |
 | 输入框裸 `TextField` | C2（V8.14–V8.20，8 批） | 60 → 0 | `textField 0` |
 | 底部抽屉 `showModalBottomSheet` | **C3（V8.21，本批）** | **4 → 0**（`SsSheet` 引用 0 → 4 + 1 用例） | **`bottomSheet 0`** |
-| 空态 `SsEmptyState` | C4 | 待做 | — |
+| 空态 `SsEmpty` | C4 | 待做（V8.22 复核：实为已收口，18 处/13 文件） | — |
 
 ## 8. 后续
 
-- **C4**：空态层 `SsEmptyState`（当前引用 0，需逐处确认哪些空态该收口）。
+- **C4**：空态层 `SsEmpty`（V8.22 复核：该层**实为已收口** —— `SsEmpty` 早在 feature 侧 18 处/13 文件在用；原记「`SsEmptyState` 引用 0」为误名+误计，见 `docs/qa/v8-22-empty-layer-verification.md`）。
 - **预存反模式批次**：`build()` 内现建 `TextEditingController(text: …)`（本批未碰，仍是 3 处 + 前几批登记的若干处）。
 
 ## 9. 一句话总结
