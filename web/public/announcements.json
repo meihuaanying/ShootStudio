@@ -17,12 +17,12 @@
   ],
   "downloads": {
     "windows": {
-      "mirror": "https://mirror.example.com/shootstudio/v2.0.0/shoot-studio-v2.0.0-windows.zip",
+      "mirror": "",
       "github": "https://github.com/shoot-studio/shoot-studio/releases",
       "sha256": "发布时由 CI 写入"
     },
     "android": {
-      "mirror": "https://mirror.example.com/shootstudio/v2.0.0/shoot-studio-v2.0.0-android.apk",
+      "mirror": "",
       "github": "https://github.com/shoot-studio/shoot-studio/releases",
       "sha256": "发布时由 CI 写入"
     }

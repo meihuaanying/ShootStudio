@@ -57,6 +57,46 @@ class FilmFrames extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+/// 拍摄项目：策划、布光、画板引用与现场姿势清单的统一归属。
+class ShootProjects extends Table {
+  TextColumn get id => text()();
+  TextColumn get name => text().withLength(min: 1, max: 120)();
+  TextColumn get brief => text().withDefault(const Constant(''))();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// 项目画板引用。影片与静帧仍是可复用资源，同一帧可进入多个项目。
+class ProjectReferences extends Table {
+  TextColumn get projectId => text().customConstraint(
+    'NOT NULL REFERENCES shoot_projects(id) ON DELETE CASCADE',
+  )();
+  TextColumn get frameId => text().customConstraint(
+    'NOT NULL REFERENCES film_frames(id) ON DELETE CASCADE',
+  )();
+  IntColumn get addedAt => integer()();
+
+  @override
+  Set<Column> get primaryKey => {projectId, frameId};
+}
+
+/// 项目现场姿势清单，保存完整快照，避免全局姿势编辑影响已策划内容。
+class ProjectPoses extends Table {
+  TextColumn get id => text()();
+  TextColumn get projectId => text().customConstraint(
+    'NOT NULL REFERENCES shoot_projects(id) ON DELETE CASCADE',
+  )();
+  TextColumn get payloadJson => text()();
+  IntColumn get sort => integer().withDefault(const Constant(0))();
+  IntColumn get createdAt => integer()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 /// 姿势库（人体模型姿势，D6）——姿势 = 关节角度集合
 class Poses extends Table {
   TextColumn get id => text()();
@@ -79,6 +119,9 @@ class LightingScenes extends Table {
   TextColumn get sceneJson => text()(); // 引擎场景完整 JSON（灯/道具/假人姿势/相机）
   TextColumn get linkedPoseId => text().nullable().customConstraint(
     'REFERENCES poses(id) ON DELETE SET NULL',
+  )();
+  TextColumn get projectId => text().nullable().customConstraint(
+    'REFERENCES shoot_projects(id) ON DELETE CASCADE',
   )();
   IntColumn get updatedAt => integer()();
   @override
@@ -103,6 +146,9 @@ class GearItems extends Table {
 /// 策划案
 class Plans extends Table {
   TextColumn get id => text()();
+  TextColumn get projectId => text().nullable().customConstraint(
+    'REFERENCES shoot_projects(id) ON DELETE CASCADE',
+  )();
   TextColumn get title => text().withLength(min: 1, max: 120)();
   TextColumn get status =>
       text().withDefault(const Constant('draft'))(); // draft|final（定稿只是标签，D15）
@@ -112,6 +158,22 @@ class Plans extends Table {
   IntColumn get updatedAt => integer()();
   @override
   Set<Column> get primaryKey => {id};
+}
+
+/// 拍摄现场状态：每份策划案独立保存清单与备注。
+class ShootFieldStates extends Table {
+  TextColumn get projectId => text().customConstraint(
+    'NOT NULL REFERENCES shoot_projects(id) ON DELETE CASCADE',
+  )();
+  TextColumn get planId => text().customConstraint(
+    'NOT NULL REFERENCES plans(id) ON DELETE CASCADE',
+  )();
+  TextColumn get checklistJson => text().withDefault(const Constant('[]'))();
+  TextColumn get notes => text().withDefault(const Constant(''))();
+  IntColumn get updatedAt => integer()();
+
+  @override
+  Set<Column> get primaryKey => {projectId, planId};
 }
 
 /// 策划案版本快照（D15–D17：无限历史 + 里程碑）

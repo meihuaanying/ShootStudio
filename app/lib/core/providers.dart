@@ -50,6 +50,10 @@ class AppRuntimeNotifier extends AsyncNotifier<AppRuntime> {
     final workspace = await Workspace.initAt(path);
     final db = await AppDatabase.init();
     // 内置内容包同步（影片索引 / 姿势库），幂等且保留用户状态。
+    await ContentPacks.loadCloudOverrides(
+      await db.getSetting('cloud_templates_json') ?? '',
+      await db.getSetting('cloud_poses_json') ?? '',
+    );
     await ContentPacks.syncToDatabase(db);
     // V5：统一网络通道（用户代理 / DoH 隧道 / 直连三态）。
     // flutter test 环境跳过（保持测试无网络副作用）；显式测试可自行 configure。

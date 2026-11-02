@@ -16,6 +16,7 @@ import 'package:shoot_studio/features/lighting/lighting_models.dart';
 import 'package:shoot_studio/features/lighting/widgets/lighting_canvas_view.dart';
 import 'package:shoot_studio/features/lighting/widgets/lighting_device_list.dart';
 import 'package:shoot_studio/features/lighting/widgets/lighting_effect_widgets.dart';
+import 'package:shoot_studio/features/lighting/widgets/lighting_exposure_panel.dart';
 import 'package:shoot_studio/features/lighting/widgets/lighting_inspector.dart';
 import 'package:shoot_studio/features/lighting/widgets/lighting_left_column.dart';
 import 'package:shoot_studio/features/lighting/widgets/lighting_pose_widgets.dart';
@@ -340,6 +341,7 @@ void main() {
       expect(find.text('参数面板'), findsOneWidget);
       expect(find.text('未选中对象'), findsOneWidget);
       expect(find.byType(CameraRigPanel), findsOneWidget);
+      expect(find.byType(LightingExposurePanel), findsOneWidget);
       expect(find.byType(LightingMeterCard), findsOneWidget);
       expect(find.byType(JointTunePanel), findsOneWidget);
       expect(find.byType(HandPosePanel), findsOneWidget);
@@ -360,9 +362,25 @@ void main() {
       expect(find.text('色温'), findsOneWidget);
       expect(find.text('删除该对象'), findsOneWidget);
       expect(find.byType(CameraRigPanel), findsNothing);
+      expect(find.byType(LightingExposurePanel), findsOneWidget);
       expect(find.byType(JointTunePanel), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.byType(HandPosePanel),
+        240,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.byType(HandPosePanel), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.byType(QualityPanel),
+        240,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.byType(QualityPanel), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.byType(LightingEffectPreview),
+        240,
+        scrollable: find.byType(Scrollable).first,
+      );
       expect(find.byType(LightingEffectPreview), findsOneWidget);
     });
 

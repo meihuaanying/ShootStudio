@@ -28,6 +28,7 @@ import 'refs_hit_drawer.dart';
 import 'refs_home.dart';
 import 'refs_masonry.dart';
 import 'refs_page_chrome.dart';
+import '../projects/project_controller.dart';
 
 /// 参考图免责声明（R47/D130：许可与来源必须可见）。
 const String kRefsDisclaimer = '参考图版权归原来源（影视/画作/摄影平台），仅供创作参考；逐图标注来源与许可，禁止二次分发。';
@@ -83,6 +84,9 @@ class _RefsPageState extends ConsumerState<RefsPage> {
     try {
       final List<Plan> rows =
           await (db.select(db.plans)
+                ..where(
+                  (t) => t.projectId.equals(ref.read(currentProjectIdProvider)),
+                )
                 ..orderBy(<OrderingTerm Function(Plans)>[
                   (Plans t) => OrderingTerm.desc(t.updatedAt),
                 ])

@@ -88,6 +88,25 @@ class _SsTextInputState extends State<SsTextInput> {
     }
   }
 
+  /// 挂载后 `initialValue` 变化时同步进兜底 controller；调用方自带
+  /// `controller` 时不动（文本归调用方所有）。缺这段会让外部重建后的新
+  /// `initialValue` 被静默忽略，光标位置按「文本末尾」重置。
+  @override
+  void didUpdateWidget(SsTextInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final String? v = widget.initialValue;
+    if (widget.controller != null || v == null) return;
+    final TextEditingController? own = _own;
+    if (own == null) {
+      _own = TextEditingController(text: v);
+    } else if (own.text != v) {
+      own.value = TextEditingValue(
+        text: v,
+        selection: TextSelection.collapsed(offset: v.length),
+      );
+    }
+  }
+
   @override
   void dispose() {
     _own?.dispose();

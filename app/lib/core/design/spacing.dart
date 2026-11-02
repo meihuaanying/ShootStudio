@@ -69,15 +69,18 @@ abstract final class AppRadiusFine {
   /// 6px：介于 control(4) 与 frame(8) 之间的历史取值。
   static const double n6 = 6;
 
-  /// **合同偏差（§3.3「圆角禁止 >8」）**：器材卡缩略图用了 10px 圆角。
+  /// **已降档（§3.3 合规）**：原器材卡缩略图用的 10px 圆角。
   ///
-  /// 这里刻意**保留原值**：把它改成 [AppRadius.frame] 会改变像素、连带重录
-  /// golden，而这是视觉决策而非机械清理，应当单独做视觉复核后再统一降档。
+  /// V8.25 起器材卡已降档到 [AppRadius.frame]（8），本档仅为历史渲染保留，
+  /// **新代码禁用**。数值刻意保留原值，供历史快照/回滚比对使用。
   /// 登记见 `docs/qa/v8-r71-deviations.md`。
   static const double oversizeSoft10 = 10;
 
-  /// **合同偏差（§3.3「圆角禁止 >8」）**：器材卡封面用了 20px 圆角。
-  /// 同 [oversizeSoft10]，为保渲染不变而原样收编。
+  /// **已降档（§3.3 合规）**：原器材卡封面用的 20px 圆角。
+  ///
+  /// V8.25 起器材卡已降档到 [AppRadius.chip]（2），本档仅为历史渲染保留，
+  /// **新代码禁用**。数值刻意保留原值，供历史快照/回滚比对使用。
+  /// 登记见 `docs/qa/v8-r71-deviations.md`。
   static const double oversizeSoft20 = 20;
 }
 

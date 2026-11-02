@@ -15,6 +15,10 @@ class LightMeterReading {
     required this.ratioLabel,
     required this.moodLabel,
     required this.advice,
+    this.isCalibrated = false,
+    this.needsCalibration = false,
+    this.calibrationStale = false,
+    this.calibrationFactor = 1,
   });
 
   final double keyLux;
@@ -30,6 +34,12 @@ class LightMeterReading {
   /// 影调感受：硬光/柔光/高调/低调。
   final String moodLabel;
   final String advice;
+  final bool isCalibrated;
+  final bool needsCalibration;
+  final bool calibrationStale;
+  final double calibrationFactor;
+
+  double get totalLux => keyLux + fillLux;
 }
 
 class LightMeter {
@@ -106,10 +116,7 @@ class LightMeter {
   }
 
   static LightMeterReading compute(LightingSceneData scene) {
-    final List<DeviceSpec> lights = scene.devices
-        .where((DeviceSpec d) => d.isLight && d.on)
-        .toList();
-    if (lights.isEmpty) {
+    if (!scene.lights.any((DeviceSpec light) => light.on)) {
       return const LightMeterReading(
         keyLux: 0,
         fillLux: 0,
@@ -122,32 +129,62 @@ class LightMeter {
         advice: '打开或添加灯具后显示测光建议',
       );
     }
-    const double ambient = 12; // 白棚环境底光
-    final List<double> luxes =
-        lights.map((DeviceSpec d) => _luxOf(d, ambient)).toList()
-          ..sort((double a, double b) => b.compareTo(a));
-    final double key = luxes.first;
-    final double fill = luxes
-        .skip(1)
-        .fold<double>(0, (double a, double b) => a + b);
-    final double ev = math.log(key / 2.5) / math.ln2;
 
-    final int iso = 100;
+    final (double rawKey, double rawFill) = _baseLux(scene);
+    final ExposureSettings settings = scene.exposure;
+    final bool calibrated = scene.mode == LightingMode.calibrated;
+    final bool stale =
+        calibrated &&
+        settings.isCalibrated &&
+        settings.calibrationSignature != signatureOf(scene);
+    if (calibrated && !settings.isCalibrated) {
+      return LightMeterReading(
+        keyLux: 0,
+        fillLux: 0,
+        ev100: 0,
+        iso: settings.iso,
+        shutter: _shutterLabel(settings.shutterSeconds),
+        aperture: '—',
+        ratioLabel: '—',
+        moodLabel: '等待现场校准',
+        advice: '在被摄体位置测量当前场景的入射照度，再输入实测 lux',
+        isCalibrated: true,
+        needsCalibration: true,
+      );
+    }
+
+    final double scale = calibrated ? settings.calibrationFactor : 1;
+    final double key = rawKey * scale;
+    final double fill = rawFill * scale;
+    final double exposureLux = calibrated ? key + fill : key;
+    final double ev = math.log(exposureLux / 2.5) / math.ln2;
+    final int iso = calibrated ? settings.iso : 100;
+
     double? aperture;
-    String shutter = '1/125';
-    for (final (double seconds, String label) in _shutterPairs()) {
-      final double tv = -math.log(seconds) / math.ln2;
-      final double av = ev + math.log(iso / 100) / math.ln2 - tv;
-      final double f = math.pow(2, av / 2).toDouble();
-      if (f >= 1.4 && f <= 22) {
-        aperture = f;
-        shutter = label;
-        break;
+    String shutter = calibrated
+        ? _shutterLabel(settings.shutterSeconds)
+        : '1/125';
+    if (calibrated) {
+      final double av =
+          ev +
+          math.log(iso / 100) / math.ln2 +
+          math.log(settings.shutterSeconds) / math.ln2;
+      aperture = math.pow(2, av / 2).toDouble();
+    } else {
+      for (final (double seconds, String label) in _shutterPairs()) {
+        final double tv = -math.log(seconds) / math.ln2;
+        final double av = ev + math.log(iso / 100) / math.ln2 - tv;
+        final double f = math.pow(2, av / 2).toDouble();
+        if (f >= 1.4 && f <= 22) {
+          aperture = f;
+          shutter = label;
+          break;
+        }
       }
     }
     final double fNumber = _nearestStop(aperture ?? 8);
 
-    final double ratio = key / math.max(12, fill);
+    final double ratio = key / math.max(12 * scale, fill);
     final String ratioLabel = ratio >= 2
         ? '${(ratio.round())}:1'
         : '${ratio.toStringAsFixed(1)}:1';
@@ -156,7 +193,17 @@ class LightMeter {
         : key > 350
         ? (ratio >= 4 ? '低调·戏剧感' : '柔和·自然')
         : '暗调·氛围感';
-    final String advice = ratio >= 4
+    final bool apertureOutOfRange =
+        calibrated &&
+        aperture != null &&
+        (aperture < _apertureStops.first || aperture > _apertureStops.last);
+    final String advice = stale
+        ? '布光已在校准后变化，请重新测量并校准当前场景'
+        : apertureOutOfRange
+        ? '所需光圈超出 f/1.4–f/22，请调整 ISO 或快门后复核'
+        : calibrated
+        ? '已按现场照度修正；光圈取就近标准档，建议试拍复核'
+        : ratio >= 4
         ? '光比大：注意阴影补光或反光板距离'
         : ratio >= 2
         ? '光比适中：可直接拍摄，留出面部转折'
@@ -171,7 +218,71 @@ class LightMeter {
       ratioLabel: ratioLabel,
       moodLabel: mood,
       advice: advice,
+      isCalibrated: calibrated,
+      calibrationStale: stale,
+      calibrationFactor: scale,
     );
+  }
+
+  static (double, double) _baseLux(LightingSceneData scene) {
+    final double ambient = scene.ambientEnabled ? 12 : 0;
+    final List<double> luxes =
+        scene.lights
+            .where((DeviceSpec light) => light.on)
+            .map((DeviceSpec light) => _luxOf(light, ambient))
+            .toList()
+          ..sort((double a, double b) => b.compareTo(a));
+    return (
+      luxes.first,
+      luxes.skip(1).fold<double>(0, (double a, double b) => a + b),
+    );
+  }
+
+  /// 用当前场景的实测总入射照度生成固定校准系数。
+  static double calibrationFactorFor(
+    LightingSceneData scene,
+    double measuredLux,
+  ) {
+    if (!measuredLux.isFinite || measuredLux <= 0) {
+      throw ArgumentError.value(measuredLux, 'measuredLux', '实测照度必须大于 0');
+    }
+    if (!scene.lights.any((DeviceSpec light) => light.on)) {
+      throw StateError('请先打开或添加灯具');
+    }
+    final (double key, double fill) = _baseLux(scene);
+    return measuredLux / (key + fill);
+  }
+
+  /// 只签名测光实际消费的参数，避免无关编辑造成误报。
+  static String signatureOf(LightingSceneData scene) {
+    final String lights = scene.lights
+        .map(
+          (DeviceSpec d) => <Object>[
+            d.id,
+            d.x.toStringAsFixed(4),
+            d.y.toStringAsFixed(4),
+            d.type,
+            d.intensity,
+            d.modifier,
+            d.softness.toStringAsFixed(4),
+            d.on,
+          ].join(':'),
+        )
+        .join('|');
+    return '${scene.ambientEnabled}|$lights';
+  }
+
+  static String _shutterLabel(double seconds) {
+    var best = _shutterLabels.first;
+    var bestDelta = double.infinity;
+    for (int i = 0; i < _shutterSeconds.length; i++) {
+      final double delta = (_shutterSeconds[i] - seconds).abs();
+      if (delta < bestDelta) {
+        bestDelta = delta;
+        best = _shutterLabels[i];
+      }
+    }
+    return best;
   }
 
   static List<(double, String)> _shutterPairs() {

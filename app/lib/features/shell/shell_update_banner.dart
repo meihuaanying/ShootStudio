@@ -65,7 +65,7 @@ class ShellUpdateBanner extends ConsumerWidget {
                   label: '立即更新',
                   icon: Icons.download_rounded,
                   dense: true,
-                  onPressed: () => _download(context, announcement),
+                  onPressed: () => confirmDownload(context, ref, announcement),
                 ),
               ],
             ),
@@ -75,7 +75,4 @@ class ShellUpdateBanner extends ConsumerWidget {
       ),
     );
   }
-
-  void _download(BuildContext context, Announcement announcement) =>
-      confirmDownload(context, announcement);
 }

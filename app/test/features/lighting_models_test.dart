@@ -94,10 +94,36 @@ void main() {
           ),
         ],
       );
+      scene
+        ..mode = LightingMode.calibrated
+        ..exposure.iso = 400
+        ..exposure.shutterSeconds = 1 / 60
+        ..exposure.measuredLux = 920
+        ..exposure.calibrationFactor = 1.35
+        ..exposure.calibrationSignature = 'signature';
       final back = LightingSceneData.fromJson(scene.toJson());
+      expect(back.mode, LightingMode.calibrated);
+      expect(back.exposure.iso, 400);
+      expect(back.exposure.shutterSeconds, 1 / 60);
+      expect(back.exposure.measuredLux, 920);
+      expect(back.exposure.calibrationFactor, 1.35);
+      expect(back.exposure.calibrationSignature, 'signature');
       expect(back.devices.single.intensity, 88);
       expect(back.devices.single.kelvin, 4300);
       expect(back.devices.single.modifier, 'softbox-large');
+    });
+
+    test('旧场景 JSON 默认创意模式且不需要迁移', () {
+      final LightingSceneData legacy = LightingSceneData.fromJson(
+        <String, Object?>{
+          'id': 'legacy',
+          'name': '旧场景',
+          'devices': <Object?>[],
+        },
+      );
+      expect(legacy.mode, LightingMode.creative);
+      expect(legacy.exposure.iso, 100);
+      expect(legacy.exposure.isCalibrated, isFalse);
     });
 
     test('设备上限常量 = 40（PRD 边界）', () {

@@ -463,7 +463,9 @@ void main() {
         container.read(refsControllerProvider).board.map((RefFrame f) => f.id),
         reversedIds,
       );
-      final String? raw = await db.getSetting(RefsController.boardOrderKey);
+      final String? raw = await db.getSetting(
+        '${RefsController.boardOrderKey}:${AppDatabase.legacyProjectId}',
+      );
       expect(raw, isNotNull);
     });
   });

@@ -35,6 +35,42 @@ void main() {
       );
     });
 
+    testWidgets('initialValue 变化后同步进同一个 controller（不重建）', (
+      WidgetTester tester,
+    ) async {
+      // 反模式回归：调用方曾在 build() 里现建
+      // `TextEditingController(text: model.value)`，每帧换新实例 →
+      // 光标 / 输入法组合状态每帧重置 + controller 泄漏。改成传
+      // `initialValue` 后，挂载后的值变化必须由 didUpdateWidget 同步进
+      // 本组件自持的 controller，而不是靠重建 controller。
+      await tester.pumpWidget(
+        _wrap(const SsTextInput(label: '模块标题', initialValue: '旧标题')),
+      );
+      await tester.pumpAndSettle();
+      final TextEditingController? first = tester
+          .widget<TextField>(find.byType(TextField))
+          .controller;
+      expect(first, isNotNull, reason: 'initialValue 需要有兜底 controller');
+      expect(find.text('旧标题'), findsOneWidget);
+
+      await tester.pumpWidget(
+        _wrap(const SsTextInput(label: '模块标题', initialValue: '新标题')),
+      );
+      await tester.pumpAndSettle();
+      final TextEditingController? second = tester
+          .widget<TextField>(find.byType(TextField))
+          .controller;
+      expect(second, same(first), reason: 'controller 实例必须复用（重建会重置光标与输入法状态）');
+      expect(second!.text, '新标题', reason: 'initialValue 变化应同步进 controller');
+      expect(find.text('新标题'), findsOneWidget);
+      expect(find.text('旧标题'), findsNothing);
+      expect(
+        second.selection,
+        const TextSelection.collapsed(offset: 3),
+        reason: '同步后选区应落在文本末尾',
+      );
+    });
+
     testWidgets('调用方提供的 controller 优先于 initialValue', (
       WidgetTester tester,
     ) async {

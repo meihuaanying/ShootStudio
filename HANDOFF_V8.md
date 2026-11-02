@@ -21,6 +21,44 @@
 
 ---
 
+## 0.1 本地后续增强（2026-11-02，未发布）
+
+> 状态：工作区改动已完成与验证，**未提交、未打 Tag、未发布安装包**。v2.0.0 发布事实不受本节影响。
+
+### 本阶段完成
+
+1. **统一拍摄项目（schema v3）**
+   - 新增 `shoot_projects` / `project_references` / `project_poses` / `shoot_field_states`；策划、布光、画板引用和现场状态按项目隔离。
+   - 旧策划、布光、画板自动回填到 `project-default`，保留 v1 → v2 → v3 迁移链路。
+   - 修复策划损坏 JSON 覆盖保护、参考帧跨项目外键、项目切换后控制器重复初始化等持久化风险。
+2. **安卓拍摄现场搭档**
+   - 390px 级窄屏采用顶部项目栏 + 底部导航（开案 / 现场 / 参考 / 摆姿 / 更多）；桌面保留侧栏。
+   - 现场页支持离线策划、分镜/布光只读、姿势大图、清单勾选、自定义事项、现场备注。
+   - 状态按“项目＋策划案”保存；窄屏布局按真实 `Platform.isAndroid` 和 840px 阈值判断。
+3. **双模式布光**
+   - 创意预演保留经验估算；校准曝光使用被摄体位置实测入射照度生成固定校准系数。
+   - 支持 ISO / 快门设置、EV100、就近标准光圈、环境光开关和超范围提示。
+   - 校准凭证随场景 JSON 保存；灯位、功率、光型、控光件或环境光变化后明确提示复校。
+4. **现场曝光同步**
+   - 现场页读取策划模块 `sceneId` 关联的当前项目布光场景，提供刷新入口。
+   - 区分“创意预演 / 校准有效 / 尚未校准 / 需复校 / 场景丢失”，旧校准不会继续展示为可执行参数。
+
+### 验证基线
+
+- `flutter analyze --no-pub --fatal-infos`：**No issues found**。
+- 本机全量测试：**594 passed + 34 skipped，exit 0**（2026-11-02）。
+- 首页 Windows golden 已按新增项目切换器更新；updater 旧测试已补齐 SHA-256，安全合同仍为“无摘要内容包跳过”。
+- `git diff --check`：通过。
+- **未执行**：APK / Windows 安装包构建、Git 提交、Tag 或发布。
+
+### 已知边界
+
+- 校准曝光是现场照度修正后的摄影估算，需要照度计与试拍复核；不等同硬件测光或专用闪光测光。
+- 安卓端定位为现场搭档，不提供完整 3D 布光编辑；复杂预演仍建议桌面或横屏。
+- 全量测试中的 Drift 多实例警告与字体缺字提示为测试环境既有非致命信息。
+
+---
+
 ## 1. 已完成（含证据路径）
 
 ### S12 v2.0.0 交付（D160）
@@ -182,6 +220,18 @@
 9. ~~**发布收尾（R61 证据入库）**~~ ✅ 已完成：main CI run [`36909181255`](https://github.com/meihuaanying/ShootStudio/actions/runs/36909181255) = `6d89347` **success 4/4**；Release run [`36909234447`](https://github.com/meihuaanying/ShootStudio/actions/runs/36909234447)（tag `v2.0.0`）**success 4/4**；Release `v2.0.0` 已发布，资产 APK **428.2MB** / Windows zip **303.5MB** + 双 `.sha256`；官网 HTTP 200 且 `announcements.json` = `v2.0.0`（本机无法产出双端包的部分已由 CI 实测覆盖，见 §1 S12 与 `docs/qa/v8-s12-release.md` §4）。
 
 **✅ 2026-10-17（V8.23）：V8 代码层交付与合规收口均已完成 —— 2026-10-16 审计所列 P0/P1/P2 已全部处置或澄清**（P0 引擎门禁假红已由 `v8.11.0` 修正；P1 R73/R74 项全部收口；P2 中 D5 合同项经复核已满足、D4/D14 经合同核对为非合同项、R76 为条件项按偏差 8 继续生效），见 `docs/audit/V8-COMPLIANCE-AUDIT.md`。**
+
+**✅ V8.25（2026-10-22）偏差清账轮**：`docs/qa/v8-r71-deviations.md` 里四条可闭环的偏差已落地 ——
+偏差 1（器材卡圆角 10/20 → `AppRadius.frame`/`AppRadius.chip`）、
+偏差 2（updater 应用内下载 + 流式 SHA-256 + 校验通过才启动安装器，含「校验失败必须拒绝安装」测试）、
+偏差 3（`KeyVault` 钥匙串不可用时**写入前拦截**，不再静默写不可解密文）、
+偏差 4（`AppRadius.pill = 999` 在合同 §3.3 显式豁免）。
+同轮修掉一个真 bug：`build()` 内现建 `TextEditingController` 的 15 处调用点
+（`SsTextInput` 补 `didUpdateWidget` 同步 `initialValue`）。
+门禁：analyze `No issues found`（`--fatal-infos`）｜`flutter test` **565 passed + 34 skipped**｜
+`check_tokens` / `check_components` / `check_file_size` 全 PASS（Fine 细阶 72/238/6，均低于基线）。
+**仍登记在案未动**：偏差 5（Fine 细阶不标 `@Deprecated`）、偏差 7（`planReveal`/`cardHover` 需 A/B 动效复核）、
+偏差 8（R76 条件项）、偏差 9/11（引擎门禁绝对帧耗时为人工判据）。
 
 ---
 

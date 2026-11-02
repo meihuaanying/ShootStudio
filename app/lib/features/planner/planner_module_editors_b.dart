@@ -85,9 +85,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
               Expanded(
                 flex: 2,
                 child: SsTextInput(
-                  controller: TextEditingController(
-                    text: '${rows[i]['item'] ?? ''}',
-                  ),
+                  initialValue: '${rows[i]['item'] ?? ''}',
                   hint: '项目',
                   dense: true,
                   onChanged: (String v) =>
@@ -101,9 +99,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
               const SizedBox(width: 4),
               Expanded(
                 child: SsTextInput(
-                  controller: TextEditingController(
-                    text: '${rows[i]['price'] ?? 0}',
-                  ),
+                  initialValue: '${rows[i]['price'] ?? 0}',
                   hint: '金额',
                   dense: true,
                   onChanged: (String v) =>
@@ -118,9 +114,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
               Expanded(
                 flex: 2,
                 child: SsTextInput(
-                  controller: TextEditingController(
-                    text: '${rows[i]['note'] ?? ''}',
-                  ),
+                  initialValue: '${rows[i]['note'] ?? ''}',
                   hint: '备注',
                   dense: true,
                   onChanged: (String v) =>
@@ -171,9 +165,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
                 Expanded(
                   flex: f == 1 ? 1 : 2,
                   child: SsTextInput(
-                    controller: TextEditingController(
-                      text: '${rows[i][fields[f]] ?? ''}',
-                    ),
+                    initialValue: '${rows[i][fields[f]] ?? ''}',
                     hint: labels[f],
                     dense: true,
                     onChanged: (String v) =>
@@ -291,9 +283,7 @@ extension _ModuleEditorPanelsB on _ModuleEditor {
                   }),
                 ),
               SsTextInput(
-                controller: TextEditingController(
-                  text: module.data['note'] as String? ?? '',
-                ),
+                initialValue: module.data['note'] as String? ?? '',
                 hint: '补充说明（可空）',
                 dense: true,
                 onChanged: (String v) => controller.updateModule(

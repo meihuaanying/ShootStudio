@@ -131,6 +131,27 @@ class ContentPacks {
     };
   }
 
+  /// 云端合并后的模板缓存快照（供持久化用）。
+  static Map<String, Object?>? get templatesCache => _cacheTemplates;
+
+  /// 云端合并后的姿势缓存快照（供持久化用）。
+  static Map<String, Object?>? get posesCache => _cachePoses;
+
+  /// 启动时从设置恢复云端内容包（先加载内置资产再合并，避免覆盖）。
+  static Future<void> loadCloudOverrides(
+    String templatesJson,
+    String posesJson,
+  ) async {
+    await templates();
+    await poses();
+    if (templatesJson.isNotEmpty) {
+      mergeCloudTemplates(asMap(jsonDecode(templatesJson)));
+    }
+    if (posesJson.isNotEmpty) {
+      mergeCloudPoses(asMap(jsonDecode(posesJson)));
+    }
+  }
+
   static Future<List<CityEntry>> cities() async {
     _cacheCities ??= await _load('assets/content/cities/cities.json');
     return asMapList(_cacheCities!['cities']).map(CityEntry.fromJson).toList();

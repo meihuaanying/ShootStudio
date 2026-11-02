@@ -3,6 +3,9 @@ import 'dart:math' as math;
 import 'package:uuid/uuid.dart';
 
 import '../../core/utils/json_utils.dart';
+import 'exposure_models.dart';
+
+export 'exposure_models.dart';
 
 /// 布光场景数据模型（俯视图 ↔ 3D 引擎 ↔ 策划案引用的唯一结构化表示）。
 enum LightType {
@@ -207,8 +210,11 @@ class LightingSceneData {
     this.height = 3.2,
     this.hands,
     this.ambientEnabled = true,
+    this.mode = LightingMode.creative,
+    ExposureSettings? exposure,
     CameraRigData? camera,
-  }) : camera = camera ?? CameraRigData();
+  }) : exposure = exposure ?? ExposureSettings(),
+       camera = camera ?? CameraRigData();
 
   final String id;
   String name;
@@ -222,6 +228,10 @@ class LightingSceneData {
 
   /// V5/D85：环境光开关（随场景保存/恢复）。
   bool ambientEnabled;
+
+  /// 创意预演或经现场照度校准的曝光模式。
+  LightingMode mode;
+  ExposureSettings exposure;
 
   /// V6/D105：摄影师机位（随场景保存/恢复）。
   CameraRigData camera;
@@ -237,6 +247,8 @@ class LightingSceneData {
     'devices': devices.map((DeviceSpec d) => d.toJson()).toList(),
     if (hands != null && hands!.isNotEmpty) 'hands': hands,
     'ambientEnabled': ambientEnabled,
+    'mode': mode.name,
+    'exposure': exposure.toJson(),
     'camera': camera.toJson(),
   };
 
@@ -250,6 +262,10 @@ class LightingSceneData {
         devices: asMapList(json['devices']).map(DeviceSpec.fromJson).toList(),
         hands: json['hands'] == null ? null : asMap(json['hands']),
         ambientEnabled: json['ambientEnabled'] as bool? ?? true,
+        mode: LightingMode.fromName(json['mode'] as String?),
+        exposure: ExposureSettings.fromJson(
+          json['exposure'] == null ? null : asMap(json['exposure']),
+        ),
         camera: CameraRigData.fromJson(
           json['camera'] == null ? null : asMap(json['camera']),
         ),

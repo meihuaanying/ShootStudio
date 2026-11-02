@@ -384,7 +384,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
       // 图片保存失败不阻塞加入清单。
     }
     if (!mounted) return;
-    ref
+    await ref
         .read(pendingPosesProvider.notifier)
         .add(
           PendingPose(
@@ -398,6 +398,7 @@ class _PoseImportPageState extends ConsumerState<PoseImportPage> {
             source: '',
           ),
         );
+    if (!mounted) return;
     ssToast(context, '已加入策划案姿势待插入清单');
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/design/widgets.dart';
 import '../updater/updater.dart' show kAppVersion;
+import '../projects/project_switcher.dart';
 
 /// 外壳信息架构（D147/S4）：分组 + 序号 = `shellTabProvider` 的 tab 下标。
 /// 下标被各 feature 直接引用（如「姿势送入布光预演」切 2、「写入画布」切 5），
@@ -177,16 +178,19 @@ class ShellSideNav extends StatelessWidget {
             ),
           ),
           const SsDivider(),
+          const ProjectSwitcher(),
+          const SsDivider(),
           const SizedBox(height: AppSpace.s3),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.only(bottom: AppSpace.s4),
               children: <Widget>[
                 for (final ShellNavSection section in kShellNavSections)
-                  _section(context, section),
+                  if (section.startIndex < 6) _section(context, section),
               ],
             ),
           ),
+          _section(context, kShellNavSections.last),
           const SsDivider(),
           Padding(
             padding: const EdgeInsets.fromLTRB(

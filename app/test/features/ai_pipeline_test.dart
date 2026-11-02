@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shoot_studio/core/db/database.dart';
 import 'package:shoot_studio/core/providers.dart';
@@ -128,6 +129,9 @@ List<Object?> _poorModules() => <Object?>[
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  // 偏差3：装上内存版 secure storage 平台实现，让测试环境具备与真机一致的
+  // 钥匙串语义（否则 probeStorage 恒为 false，saveProvider 会拒绝写 Key）。
+  FlutterSecureStorage.setMockInitialValues(<String, String>{});
 
   late AppDatabase db;
   late ProviderContainer container;

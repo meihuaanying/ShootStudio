@@ -9,62 +9,103 @@
 第 1 轮 V8.1 收尾扩充 5 条（偏差 4–8），来自对任务书的逐项走查：这些项在
 V8 收尾时**只写在代码注释里、没有进中央登记**，等于「知道但没入账」，已补齐。
 
+**V8.25 清账轮**：偏差 1（圆角降档）/ 偏差 2（updater 摘要闭环）/ 偏差 3（KeyVault
+写入前拦截）/ 偏差 4（pill 合同豁免）四条已闭环，标题带 ✅ 标记；
+偏差 5 / 7 / 8 / 9 / 11 仍是**登记在案的刻意保留**，未动。同轮顺带修掉一个真 bug
+（`build()` 内现建 `TextEditingController`，15 处），见文末「V8.25 顺带修掉的真 bug」。
+
 ---
 
-## 偏差 1：圆角 10 / 20 超出合同刻度（`lib/features/libraries/gear_browser_card.dart`）
+## 偏差 1：圆角 10 / 20 超出合同刻度（`lib/features/libraries/gear_browser_card.dart`）—— ✅ 已修（V8.25）
 
 - **合同条款**：D147 §3.3「圆角 2/4/8，禁止 >8」。
-- **现状**：`:288` 与 `:341` 用 `AppRadiusFine.oversizeSoft10`，`:364` 用
-  `AppRadiusFine.oversizeSoft20`，均为等值收编（渲染像素与改动前逐像素一致）。
-- **为什么不修**：把 10/20 改成 ≤8 会改变三张卡的圆角外观，并连带重录
-  `docs/screenshots/v8` 与 golden 基线。这属于**视觉决策**，不是机械清理：
-  「装备缩略图要不要跟卡片一致圆角」需要设计判断，不该由一次代码治理顺手改掉。
-- **修复条件**：做一次专门的视觉复核（对比 2/4/8 档的观感），确认后再统一降档，
-  同时更新令牌注释与本条。
-- **门禁口径**：`check_tokens.mjs` 只管「有没有引用令牌」，不判断「令牌值合不合规」，
-  所以这三处**不会**被门禁拦下 —— 也就是说这条偏差是靠本文件与代码注释维持自觉的。
+- **原现状**：器材卡三处用 `AppRadiusFine.oversizeSoft10`（两处大图缩略图）与
+  `AppRadiusFine.oversizeSoft20`（tag chip）。
+- **V8.25 处置**：按 2/4/8 档统一降档 —— 大图缩略图 `oversizeSoft10` →
+  `AppRadius.frame`（8），tag chip `oversizeSoft20` → `AppRadius.chip`（2）。
+  `oversizeSoft10/20` 常量保留（历史快照/回滚比对用），注释已改为
+  「已降档（§3.3 合规）… 新代码禁用」。
+- **门禁**：`check_tokens.mjs` 的 `AppRadiusFine` 细阶计数 9 → 6（↓，只降不升）。
+  `test/visual/s9_library_capture_test.dart`（16 passed + 1 skipped）覆盖
+  s9-gear-paper / s9-gear-darkroom 的 1280x800 与 1920x1080 渲染，圆角降档后仍通过；
+  该卡片无 golden 引用，无需重录基线。
 
-## 偏差 2：updater 的 `sha256` 仍不闭环（`lib/features/updater/updater.dart`）
+## 偏差 2：updater 的 `sha256` 仍不闭环（`lib/features/updater/updater.dart`）—— ✅ 已闭环（V8.25）
 
-- **现状**：`DownloadEntry.sha256` 被解析（`:40`）并对外暴露（`:35`），
-  两个消费方 —— `settings_page.dart:236` 与 `shell_update_banner.dart:83` ——
-  **只读 `url` / `mirror` / `github` 并用 `launchUrl` 打开浏览器**，
-  校验字段从头到尾没有任何一处参与判断。
-- **本次做了什么**：两个下载入口的确认弹窗都改为**展示官方 SHA-256**（前 12 位，
-  便于肉眼比对）并明写「应用不代替你校验」，见 `updater_download_sheets.dart`。
-- **为什么不做全自动校验**：应用内下载 + 校验需要新增「落盘 → 逐字节流式
-  SHA-256 → 再启动安装器」整条链路，且要处理跨设备断点、进度回传、失败清理。
-  仓库里已有 `sha256OfFile`（`pose3d_assembly.dart` 在用），能力不缺，缺的是
-  下载与安装编排，属于独立工作量，不应塞进本次令牌化/安全清理的提交里。
-- **残留风险（如实登记）**：当前形态下，**用户拿到的安装包是否与官方一致，依赖
-  用户自己比对**。这不是完整的供应链校验。正式闭环前不要在任何文档里把
-  updater 描述成「已校验下载完整性」。
-- **修复条件**：实现应用内下载 + 流式 SHA-256 校验 + 校验通过才启动安装器，
-  并补一条「校验失败必须拒绝安装」的测试。
+- **原现状**：`DownloadEntry.sha256` 被解析并对外暴露，两个消费方 ——
+  `settings_page.dart` 与 `shell_update_banner.dart` —— 只读 `url` / `mirror` /
+  `github` 并用 `launchUrl` 打开浏览器，校验字段从头到尾没有参与判断。
+- **闭环做了什么**：新增 `lib/features/updater/updater_downloader.dart`：
+  `UpdaterDownloader.download()` 走「应用内下载（`Dio.download`，带进度/取消）
+  → `sha256OfFile` 逐块流式计算 → 与公告摘要比对」，
+  结论收敛为 `UpdateVerifyState` 四态：`verified` / `mismatch` /
+  `digestMissing` / `downloadFailed`；**只有 `verified` 的
+  `UpdateDownloadResult.canInstall` 为 true**，其余三态一律
+  `_tryDelete()` 删掉半成品文件。`UpdaterController.downloadUpdate()` 负责落盘路径
+  （`getApplicationSupportDirectory()/updates/<文件名>`），
+  `UpdaterController.installVerified()` 在 `canInstall == false` 时直接拒绝启动安装器。
+  `confirmDownload()`（`updater_download_sheets.dart`）改为「确认 → 下载并校验 →
+  通过才安装」，校验失败弹 danger toast 且不调用安装器。
+- **摘要口径**：`normalizeSha256()` 只认**正好 64 位十六进制**；线上公告目前
+  `web/public/announcements.json` 里是占位串「发布时由 CI 写入」，
+  归一化后为 null，因此**当前发版形态下不会自动安装**，而是走「前往下载页」的人工路径。
+  这是刻意的：无法校验的包不该由应用替用户装。
+- **测试**：`app/test/features/updater_test.dart` 新增 7 条，
+  含关键的「校验失败必须拒绝安装：不匹配 → mismatch + 删文件 + 不启动安装器」、
+  「公告未公布可校验摘要 → digestMissing + 拒绝安装 + 删文件」、
+  「下载失败 → downloadFailed，不留残包」。
+- **残留（如实登记）**：闭环覆盖的是「应用内下载」这条路径；
+  `announcements.json` 的 `sha256` 仍需发版时由 CI 写入真实摘要，
+  否则永远走人工下载页。跨设备断点续传未做（失败即重下整包）。
 
-## 偏差 3：`KeyVault.storageAvailable` 只做了 UI 提示，不做写入拦截
+## 偏差 3：`KeyVault.storageAvailable` 只做了 UI 提示，不做写入拦截 —— ✅ 已闭环（V8.25）
 
-- **现状**：secure storage 不可用时降级为进程内临时主密钥
-  （`key_vault.dart:46-51`，注释里本就写了「重启后密文不可解，提示重填」）。
-  `storageAvailable` 原先**全仓无任何消费者**（只有它自己文件里的 4 处引用）。
-- **本次做了什么**：设置页 AI Key 编辑处在 `storageAvailable == false` 时显示
-  常驻警示条「本次会话有效，重启后需重填」。
-- **为什么不进一步拦截**：真正该做的是「发现不可用时拒绝写入并提示先修复系统
-  钥匙串」，这会改变现有保存流程的行为（原本静默降级、现在可能报错），
-  属于行为变更，需要单独一轮改动 + 测试。
-- **残留风险**：用户仍可在明知会丢失的情况下保存 Key，界面只负责告知。
-- **修复条件**：确认产品上是否接受「写入前拦截」；接受则改保存流程并补测试。
+- **原现状**：secure storage 不可用时降级为进程内临时主密钥
+  （`key_vault.dart:46-51`），`storageAvailable` 只驱动一条警示条，
+  Key 仍会被「加密」成重启后再也解不开的密文。
+- **产品决策**：采用**写入前拦截**（拒绝写入并提示先修复系统钥匙串），
+  不再接受「静默降级 + 事后提示」。
+- **实现**：
+  - `key_vault.dart:56-69` 新增 `Future<bool> probeStorage()`——先真实读一次
+    主密钥，返回 `_storageAvailable`；一旦探测失败即保守返回 `false` 直到进程重启。
+  - `ai_controller.dart` 新增 `enum AiKeyPersist { stored, notProvided, blockedNoStorage }`，
+    `saveProvider` 改为返回该枚举：`apiKey` 非空时先 `probeStorage()`，
+    不可用则**不写任何密文**、保留原 `encryptedKey`、其余字段照常 upsert、
+    返回 `blockedNoStorage`；Key 为空则保留原密文返回 `notProvided`；
+    正常加密入库返回 `stored`。全程 try/catch，DB 写失败同样回落为
+    `blockedNoStorage`（状态文案「保存失败，请重试」），不向 UI 抛异常。
+  - 两个保存入口按返回值分支：`ai_provider_card.dart:135-162`、
+    `settings_page_cards.dart:190-222`。`blockedNoStorage` 时给 warning toast
+    「系统钥匙串不可用，已拒绝保存 Key（重启后会丢失），请先修复系统钥匙串」，
+    且**不清空输入框**（让用户重试而不是丢失已输入内容）。
+  - 原 `bool get keyStorageAvailable` getter 已删除（全仓无残留引用）。
+- **测试**：`app/test/features/key_vault_block_test.dart` 6 条——
+  内存版钥匙串下 `probeStorage` 为 true / 异常钥匙串下为 false；
+  `saveProvider` 三分支各一条；钥匙串不可用时 `encryptedKey` 保持空串且不抛；
+  已有 Key 时被拦截也**保留原密文**。
+- **副作用（预期内，非回归）**：钥匙串不可用时不再有「本次会话可用的临时 Key」，
+  该 provider 会因 `hasKey == false` 走本地引擎。
+- **测试环境适配**：`ai_pipeline_test.dart` / `g2_ai_pipeline_test.dart` 里补了
+  `FlutterSecureStorage.setMockInitialValues(<String, String>{})`。
+  这两个用例此前**正是靠「静默写入不可解密文」这个 bug 才绿的**：无插件环境下
+  Key 写不进去 → `hasKey == false` → 走本地引擎，断言刚好成立。装上内存版
+  平台实现是把测试环境恢复到真机语义，没有改任何断言。
 
-## 偏差 4：`AppRadius.pill = 999` 超出合同刻度（胶囊形）
+## 偏差 4：`AppRadius.pill = 999` 超出合同刻度（胶囊形）—— ✅ 已豁免（V8.25）
 
 - **合同条款**：D147 §3.3「圆角 2/4/8，禁止 >8」。
 - **现状**：`spacing.dart` 定义 `AppRadius.pill = 999`（+ `pillBorder`），
   实际使用 2 处：`ai_panel.dart:186`、`export_panel.dart:233`。
-- **为什么不修**：999 是「胶囊形」的固定 idiom（半径大于半宽即得到完全圆头），
-  不是随意的超大圆角。改成 ≤8 会把胶囊变成普通圆角矩形，属视觉决策。
-  按 §3.3 的字面口径它确实 >8，故登记而不改。
-- **修复条件**：若合同确认「胶囊形是 999 的合法例外」，应在合同 §3.3 显式加一句
-  豁免说明；否则做一次视觉复核后降档为 `AppRadius.frame`。
+- **处置**：走「合同显式豁免」这条路（而非降档）。`FIX_CONTRACT_V8.0.md` §3.3
+  圆角条款末尾已追加：
+
+  > 例外：胶囊（pill）允许 `AppRadius.pill = 999`，仅用于标签/筛选胶囊类控件；
+  > 其余任何圆角禁止 >8。
+
+- **理由**：999 是「胶囊形」的固定 idiom（半径大于半宽即得到完全圆头），
+  不是随意的超大圆角；改成 ≤8 会把胶囊变成普通圆角矩形，属视觉决策而非合规问题。
+  豁免限定在「标签/筛选胶囊类控件」，不构成对其他圆角的开口。
+- **残留**：无代码改动；`check_tokens.mjs` 不校验圆角数值合法性，豁免靠合同文本约束。
 
 ## 偏差 5：`AppSpaceFine` 九档 / `AppFontSize` 十九档细阶不在合同刻度上
 
@@ -274,6 +315,34 @@ V8 收尾时**只写在代码注释里、没有进中央登记**，等于「知�
   （与偏差 9 的修复条件相同）。
 - **状态**：**已修正（v8.11.0）**；本条与偏差 9 是同一件事的两轮修订，保留分列以
   记录「第一次只修了一半」这个事实。
+
+---
+
+## V8.25 顺带修掉的真 bug（不算偏差，留档）
+
+### ① `build()` 内现建 `TextEditingController`（15 处）
+
+- **原现状**：`planner_module_editor.dart`（4 处）、`planner_module_editors_a.dart`（4 处）、
+  `planner_module_editors_b.dart`（5 处）、`planner_page_canvas.dart`、`lighting_inspector.dart`、
+  `settings_page.dart` 共 15 处写成 `controller: TextEditingController(text: …)`。
+  每次 rebuild 都新建一个 controller，`EditableText` 拿到新实例即重置光标与 IME 组合态 ——
+  在输入框里打字会被打断（输入中文时尤其明显），旧 controller 也不会被释放。
+- **为什么以前没被门禁抓到**：`check_components.mjs` 只数裸 `TextField` / `AlertDialog` /
+  `showModalBottomSheet`，而这些都是走 `SsTextInput` 的合规调用点；
+  `check_file_size.mjs` 只看行数。**没有任何门禁覆盖「controller 生命周期」**。
+- **处置**：`SsTextInput` 补 `didUpdateWidget`（`ss_input.dart:91-108`）——
+  调用方没传 `controller` 时，`initialValue` 变化会写回同一个 `_own` 实例，
+  且用 `own.value = TextEditingValue(…)` 而不是 `own.text = …`
+  （后者会把选区重置成 `collapsed(-1)`）。15 处调用点全部改为 `initialValue:`。
+  全仓 `controller: TextEditingController(` 已归零。
+- **测试**：`app/test/core/ss_input_test.dart` 新增「initialValue 变化后同步进同一个
+  controller（不重建）」——断言 `same(first)`、文本更新、选区停在末尾。
+- **已知可接受行为**：经纬度字段的 `31.2` 会被 `toStringAsFixed(4)` 规整成 `31.2000`，
+  光标跳到末尾 —— 与改造前的可见结果一致（改造前每次 rebuild 也是这个结果）。
+
+### ② 既有测试靠「静默写入不可解密文」的 bug 才绿
+
+见偏差 3 条目末尾。修的是**测试环境缺插件**，不是被测逻辑。
 
 ---
 

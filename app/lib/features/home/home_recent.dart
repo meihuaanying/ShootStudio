@@ -8,12 +8,19 @@ import '../../core/db/database.dart';
 import '../../core/design/widgets.dart';
 import '../../core/providers.dart';
 import '../planner/planner_models.dart';
+import '../projects/project_controller.dart';
 
 /// 最近策划案（S4：列表 + 杂志化空态）。
 final recentPlansProvider = FutureProvider.autoDispose<List<Plan>>((ref) async {
   final AppDatabase db = ref.watch(databaseProvider);
+  final String projectId = ref.watch(currentProjectIdProvider);
+  await db.customStatement(
+    'UPDATE plans SET project_id = ? WHERE project_id IS NULL',
+    <Object?>[projectId],
+  );
   final rows =
       await (db.select(db.plans)
+            ..where((t) => t.projectId.equals(projectId))
             ..orderBy(<OrderClauseGenerator<$PlansTable>>[
               (t) => OrderingTerm(
                 expression: t.updatedAt,

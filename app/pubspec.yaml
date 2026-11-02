@@ -47,6 +47,7 @@ dev_dependencies:
   drift_dev: ^2.20.0
   build_runner: ^2.4.12
   json_serializable: ^6.8.0
+  sqlite3: ^2.9.4
 
 # VS2026 构建工具不含 ATL：本地加固的 flutter_secure_storage_windows（仅移除未使用的 atlstr.h 引用）
 dependency_overrides:

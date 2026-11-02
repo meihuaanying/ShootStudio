@@ -190,10 +190,25 @@ final aiControllerProvider = NotifierProvider<AiController, AiState>(
 /// 官方免费额度上限（D11：每月 30 次，未部署官方通道时自动走本地引擎）。
 const int kOfficialMonthlyQuota = 30;
 
+/// 偏差3：保存 Key 的结果。UI 据此决定提示文案与是否清空输入框。
+enum AiKeyPersist {
+  /// Key 已加密入库。
+  stored,
+
+  /// 用户没填 Key，沿用库里原有 Key（字段照常更新）。
+  notProvided,
+
+  /// 系统钥匙串不可用，Key 被拒绝保存（重启后会丢失，所以不写）。
+  blockedNoStorage,
+
+  /// 数据库写入失败：Key 未落库（与钥匙串无关，输入框内容保留供重试）。
+  persistFailed,
+}
+
 class AiController extends Notifier<AiState> {
   static const LocalPlanEngine _localEngine = LocalPlanEngine();
   late final AppDatabase _db = ref.read(databaseProvider);
-  final KeyVault _vault = KeyVault();
+  KeyVault _vault = KeyVault();
   AiClient? _client;
 
   /// D155：取消标记。生成过程中每个 await 之后检查一次，命中即回填占位草稿。
@@ -202,14 +217,10 @@ class AiController extends Notifier<AiState> {
   /// 测试注入（F13）：Mock 端到端管线。
   void useClient(AiClient client) => _client = client;
 
-  /// 系统钥匙串是否可用（D9）。
+  /// 测试注入（偏差3）：替换密钥保管库，用来模拟「钥匙串可用 / 不可用」。
   ///
-  /// 不可用时 [KeyVault] 会退化成进程内临时主密钥：本次会话能解密，
-  /// 但**重启后之前存的 Key 全部解不开**，必须重填。设置页据此显示警示。
-  ///
-  /// 注意这个标志只有在真的走过一次 [KeyVault._masterKey] 之后才有意义，
-  /// 所以 UI 必须在「保存 / 读取」动作**之后**再取，不能在 build 里提前读。
-  bool get keyStorageAvailable => _vault.storageAvailable;
+  /// 生产路径不要调用；默认实例自带真实 flutter_secure_storage。
+  void useVault(KeyVault vault) => _vault = vault;
 
   /// D155：取消本次生成（AI 面板「生成中」态的取消按钮）。
   ///
@@ -345,36 +356,84 @@ class AiController extends Notifier<AiState> {
   }
 
   /// 保存提供方配置（Key AES-256-GCM 加密入库；D9）。
-  Future<void> saveProvider(
+  ///
+  /// 偏差3：**写入前拦截**。系统钥匙串不可用时，[KeyVault] 会退化成进程内
+  /// 临时主密钥，用它加密的密文重启后不可解——写进库只会留下永远打不开的
+  /// 垃圾，因此这里直接拒绝写 Key（其余字段照常保存），返回
+  /// [AiKeyPersist.blockedNoStorage] 交给 UI 提示用户先修好钥匙串。
+  ///
+  /// 异常安全：探测 / 加密 / 写库任何一步失败都不向调用方抛异常；
+  /// 写库失败也按「Key 未保存」返回，避免 UI 清空输入框把用户刚输入的 Key 弄丢。
+  Future<AiKeyPersist> saveProvider(
     AiProviderPreset preset, {
     required String apiKey,
     required String model,
     required String baseUrl,
     required bool enabled,
   }) async {
-    final encrypted = apiKey.isEmpty ? '' : await _vault.encrypt(apiKey);
-    final rows = await (_db.select(
-      _db.providerConfigs,
-    )..where((t) => t.id.equals(preset.id))).getSingleOrNull();
-    await _db
-        .into(_db.providerConfigs)
-        .insertOnConflictUpdate(
-          ProviderConfigsCompanion.insert(
-            id: preset.id,
-            name: preset.name,
-            baseUrl: baseUrl,
-            protocol: Value(preset.protocol),
-            encryptedKey: Value(
-              encrypted.isNotEmpty ? encrypted : (rows?.encryptedKey ?? ''),
+    var result = AiKeyPersist.notProvided;
+    var encrypted = '';
+    if (apiKey.isNotEmpty) {
+      var storageOk = false;
+      try {
+        storageOk = await _vault.probeStorage();
+      } catch (_) {
+        storageOk = false;
+      }
+      if (storageOk) {
+        try {
+          encrypted = await _vault.encrypt(apiKey);
+        } catch (_) {
+          encrypted = '';
+        }
+      }
+      result = encrypted.isEmpty
+          ? AiKeyPersist.blockedNoStorage
+          : AiKeyPersist.stored;
+    }
+
+    try {
+      final rows = await (_db.select(
+        _db.providerConfigs,
+      )..where((t) => t.id.equals(preset.id))).getSingleOrNull();
+      final keepKey = result == AiKeyPersist.stored
+          ? encrypted
+          : (rows?.encryptedKey ?? '');
+      await _db
+          .into(_db.providerConfigs)
+          .insertOnConflictUpdate(
+            ProviderConfigsCompanion.insert(
+              id: preset.id,
+              name: preset.name,
+              baseUrl: baseUrl,
+              protocol: Value(preset.protocol),
+              encryptedKey: Value(keepKey),
+              defaultModel: Value(model),
+              modelsJson: Value(rows?.modelsJson ?? '[]'),
+              enabled: Value(enabled),
+              priority: Value(rows?.priority ?? 0),
             ),
-            defaultModel: Value(model),
-            modelsJson: Value(rows?.modelsJson ?? '[]'),
-            enabled: Value(enabled),
-            priority: Value(rows?.priority ?? 0),
-          ),
-        );
-    await refresh();
-    state = state.copyWith(status: '已保存 ${preset.name} 配置');
+          );
+    } catch (_) {
+      // 写库失败：Key 同样没有落库，按未保存处理（不清空输入框）。
+      state = state.copyWith(status: '保存失败，请重试');
+      return AiKeyPersist.persistFailed;
+    }
+
+    try {
+      await refresh();
+    } catch (_) {
+      // 刷新失败不影响保存结果：Key 是否落库以 [result] 为准。
+    }
+    state = state.copyWith(
+      status: switch (result) {
+        AiKeyPersist.stored => '已保存 ${preset.name} 配置',
+        AiKeyPersist.notProvided => '已保存 ${preset.name} 配置（未填 Key）',
+        AiKeyPersist.blockedNoStorage => '系统钥匙串不可用，已拒绝保存 ${preset.name} 的 Key',
+        AiKeyPersist.persistFailed => '保存 ${preset.name} 配置失败，请重试',
+      },
+    );
+    return result;
   }
 
   Future<void> setEnabled(String providerId, bool enabled) async {

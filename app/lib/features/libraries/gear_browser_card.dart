@@ -347,9 +347,7 @@ class _GearCard extends ConsumerWidget {
                   width: 400,
                   height: 150,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      AppRadiusFine.oversizeSoft10,
-                    ),
+                    borderRadius: BorderRadius.circular(AppRadius.frame),
                     child: _firstAvailable(
                       context,
                       _photoChain(
@@ -397,7 +395,7 @@ class _GearCard extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: AppSpace.s2),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(AppRadiusFine.oversizeSoft10),
+              borderRadius: BorderRadius.circular(AppRadius.frame),
               child: Image.asset(
                 'assets/content/gear/img/${entry.image}',
                 height: 120,
@@ -418,9 +416,7 @@ class _GearCard extends ConsumerWidget {
                   ),
                   decoration: BoxDecoration(
                     color: context.palette.accentSoft,
-                    borderRadius: BorderRadius.circular(
-                      AppRadiusFine.oversizeSoft20,
-                    ),
+                    borderRadius: BorderRadius.circular(AppRadius.chip),
                   ),
                   child: Text(
                     tag,

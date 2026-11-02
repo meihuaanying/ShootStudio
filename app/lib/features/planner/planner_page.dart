@@ -24,6 +24,7 @@ import '../../services/search/planner_refs.dart';
 import '../../services/solar_calculator.dart';
 import '../lighting/lighting_controller.dart';
 import '../poses/pose_skeleton.dart';
+import '../projects/project_controller.dart';
 import '../refs/refs_controller.dart';
 import '../shell/app_shell.dart';
 import 'budget_estimator.dart';
@@ -54,7 +55,10 @@ final lightingScenesProvider = FutureProvider.autoDispose<List<Option>>((
   ref,
 ) async {
   final db = ref.watch(databaseProvider);
-  final rows = await db.select(db.lightingScenes).get();
+  final String projectId = ref.watch(currentProjectIdProvider);
+  final rows = await (db.select(
+    db.lightingScenes,
+  )..where((t) => t.projectId.equals(projectId))).get();
   return rows.map((r) => Option(r.id, r.name)).toList();
 });
 

@@ -116,6 +116,7 @@ void main() {
       await tester.tap(find.text('布光预演'));
       await tester.pumpAndSettle();
       expect(picked, <int>[2]);
+      await tester.ensureVisible(find.text('设置'));
       await tester.tap(find.text('设置'));
       await tester.pumpAndSettle();
       expect(picked, <int>[2, 6]);

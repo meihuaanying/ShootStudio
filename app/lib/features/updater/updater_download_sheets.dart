@@ -1,92 +1,129 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/design/widgets.dart';
 import '../updater/updater.dart';
-
-/// 当前平台在公告 JSON 里的键名。
-String updaterPlatformKey() => Platform.isWindows ? 'windows' : 'android';
-
-/// 取下载链接：优先国内镜像，回落 GitHub Release。
-String downloadUrlOf(DownloadEntry? entry) {
-  if (entry == null) return '';
-  return entry.mirror.isNotEmpty ? entry.mirror : entry.github;
-}
+import '../updater/updater_downloader.dart';
 
 /// 展示官方 SHA-256 便于人工核对（只取前 12 位，肉眼比对够用）。
-///
-/// **这里刻意不做应用内自动校验** —— 应用只负责把官方公布的摘要摊开给用户看，
-/// 校验需要下载整包再流式计算摘要，是独立的一条链路。
-/// 详见 `docs/qa/v8-r71-deviations.md` 偏差 2。
 String? shortDigest(String sha256) {
   final String s = sha256.trim().toLowerCase();
   if (s.length < 12) return null;
   return s.substring(0, 12);
 }
 
-/// 统一的「打开下载链接」确认弹窗。
+/// 统一的更新安装入口（偏差 2 闭环）。
 ///
-/// 之前 `settings_page` 与 `shell_update_banner` 各自复制了一份
-/// 「算 platform → 取 entry → 挑 mirror/github → 空则 toast → 否则 launchUrl」，
-/// 两份都会静默忽略 [DownloadEntry.sha256]。现在收口到一处，
-/// 并且必须让用户看见官方摘要与「应用不代你校验」的说明。
+/// 流程：确认 → 应用内下载 → 流式 SHA-256 校验 → 只有校验通过才启动安装器。
+/// 校验失败（含公告未公布可校验摘要）一律拒绝安装并删除半成品文件。
+///
+/// 公告没有可校验摘要时**不下载**，只提供「打开下载页」这条人工路径 ——
+/// 因为无法校验的包不该由应用替用户装。
 Future<void> confirmDownload(
   BuildContext context,
+  WidgetRef ref,
   Announcement announcement,
 ) async {
-  final DownloadEntry? entry = announcement.downloadFor(updaterPlatformKey());
-  final String url = downloadUrlOf(entry);
+  final DownloadEntry? entry = announcement.downloadFor(
+    Announcement.platformKey(),
+  );
+  final String url = Announcement.urlOf(entry);
   if (url.isEmpty) {
     ssToast(context, '请前往官网下载 v${announcement.version}');
     return;
   }
 
+  final String? expected = normalizeSha256(entry?.sha256 ?? '');
   final String? digest = entry == null ? null : shortDigest(entry.sha256);
-  await showSsDialog<void>(
+
+  if (expected == null) {
+    final bool? openPage = await showSsDialog<bool>(
+      context: context,
+      title: '前往下载页',
+      actions: (BuildContext ctx) => <Widget>[
+        SsDialogAction(
+          label: '取消',
+          primary: false,
+          onPressed: () => Navigator.of(ctx).pop(false),
+        ),
+        SsDialogAction(
+          label: '打开下载页',
+          onPressed: () => Navigator.of(ctx).pop(true),
+        ),
+      ],
+      child: Text(
+        '该版本未公布可校验的 SHA-256，应用内不提供自动安装。'
+        '请用浏览器下载 v${announcement.version}，并自行核对来源可信后再安装。',
+        style: AppType.small.style(context.palette.muted),
+      ),
+    );
+    if (openPage == true) await openDownloadPage(url);
+    return;
+  }
+
+  final bool? go = await showSsDialog<bool>(
     context: context,
-    title: '确认下载',
+    title: '下载并校验',
     actions: (BuildContext ctx) => <Widget>[
       SsDialogAction(
         label: '取消',
         primary: false,
-        onPressed: () => Navigator.of(ctx).pop(),
+        onPressed: () => Navigator.of(ctx).pop(false),
       ),
       SsDialogAction(
-        label: '打开下载',
-        onPressed: () {
-          Navigator.of(ctx).pop();
-          launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-        },
+        label: '下载并校验',
+        onPressed: () => Navigator.of(ctx).pop(true),
       ),
     ],
     child: Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('即将用浏览器打开 v${announcement.version} 安装包。'),
+        Text('将在应用内下载 v${announcement.version} 安装包，并流式计算 SHA-256。'),
         const SizedBox(height: AppSpace.s3),
         if (digest != null) ...<Widget>[
           const Text('官方 SHA-256（前 12 位）：'),
           const SizedBox(height: AppSpace.s1),
           SelectableText(
             digest,
-            style: appMono(context.palette.ink, size: AppFontSize.smallLg),
+            style: appMono(context.palette.ink, size: AppType.small.size),
           ),
           const SizedBox(height: AppSpace.s3),
         ],
         Text(
-          digest == null
-              ? '该版本未公布 SHA-256，下载后请自行确认来源可信。'
-              : '请在下载完成后用官方公布的完整摘要核对文件，'
-                    '确认一致再安装。本应用不代你校验下载完整性。',
-          style: TextStyle(
-            fontSize: AppFontSize.smallLg,
-            color: context.palette.muted,
-          ),
+          '只有校验一致才会启动安装器；校验失败会删除文件并拒绝安装。',
+          style: AppType.small.style(context.palette.muted),
         ),
       ],
     ),
   );
+  if (go != true || !context.mounted) return;
+
+  ssToast(context, '正在下载 v${announcement.version}…', kind: SsBannerKind.info);
+  final UpdateDownloadResult result = await ref
+      .read(updaterProvider.notifier)
+      .downloadUpdate(announcement);
+  if (!context.mounted) return;
+
+  if (!result.canInstall) {
+    ssToast(context, result.message, kind: SsBannerKind.danger);
+    return;
+  }
+
+  final bool launched = await ref
+      .read(updaterProvider.notifier)
+      .installVerified(result);
+  if (!context.mounted) return;
+  ssToast(
+    context,
+    launched ? 'SHA-256 校验通过，已启动安装器。' : '校验通过，但安装器启动失败。',
+    kind: launched ? SsBannerKind.success : SsBannerKind.warning,
+  );
+}
+
+/// 兜底：直接打开下载页（公告未提供可校验摘要时的人工路径）。
+Future<void> openDownloadPage(String url) async {
+  if (url.isEmpty) return;
+  await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
 }

@@ -172,16 +172,18 @@ class LightingMeterCard extends StatelessWidget {
             children: <Widget>[
               Icon(Icons.exposure_rounded, size: 16, color: p.accent),
               const SizedBox(width: 6),
-              const Text(
-                '虚拟测光表',
-                style: TextStyle(
+              Text(
+                r.isCalibrated ? '校准曝光读数' : '虚拟测光表',
+                style: const TextStyle(
                   fontSize: AppFontSize.small,
                   fontWeight: AppFontWeight.bold,
                 ),
               ),
               const Spacer(),
               Text(
-                'EV100 ${r.ev100.toStringAsFixed(1)}',
+                r.needsCalibration
+                    ? 'EV100 —'
+                    : 'EV100 ${r.ev100.toStringAsFixed(1)}',
                 style: const TextStyle(
                   fontSize: AppFontSize.smallSm,
                   fontWeight: AppFontWeight.medium,
@@ -206,7 +208,13 @@ class LightingMeterCard extends StatelessWidget {
             children: <Widget>[
               _cell(context, '影调', r.moodLabel),
               const SizedBox(width: 10),
-              _cell(context, '照度', '${r.keyLux.round()} lux'),
+              _cell(
+                context,
+                r.isCalibrated ? '总照度' : '照度',
+                r.needsCalibration
+                    ? '—'
+                    : '${(r.isCalibrated ? r.totalLux : r.keyLux).round()} lux',
+              ),
             ],
           ),
           const SizedBox(height: 6),

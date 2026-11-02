@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shoot_studio/features/lighting/light_meter.dart';
@@ -92,6 +93,75 @@ void main() {
         ]),
       );
       expect(r.advice, contains('偏平'));
+    });
+
+    test('校准模式在没有实测值时不伪造曝光建议', () {
+      final LightingSceneData scene = _scene(<DeviceSpec>[_light(id: 'key')])
+        ..mode = LightingMode.calibrated;
+      final LightMeterReading r = LightMeter.compute(scene);
+      expect(r.needsCalibration, isTrue);
+      expect(r.aperture, '—');
+      expect(r.totalLux, 0);
+      expect(r.advice, contains('入射照度'));
+    });
+
+    test('实测总照度驱动 EV，并使用固定 ISO 与快门', () {
+      final LightingSceneData scene = _scene(<DeviceSpec>[_light(id: 'key')])
+        ..mode = LightingMode.calibrated;
+      scene.exposure
+        ..iso = 200
+        ..shutterSeconds = 1 / 60
+        ..measuredLux = 1000
+        ..calibrationFactor = LightMeter.calibrationFactorFor(scene, 1000)
+        ..calibrationSignature = LightMeter.signatureOf(scene);
+      final LightMeterReading r = LightMeter.compute(scene);
+      expect(r.needsCalibration, isFalse);
+      expect(r.calibrationStale, isFalse);
+      expect(r.totalLux, closeTo(1000, 0.001));
+      expect(r.ev100, closeTo(math.log(1000 / 2.5) / math.ln2, 0.001));
+      expect(r.iso, 200);
+      expect(r.shutter, '1/60');
+      expect(r.aperture, 'f/4.0');
+    });
+
+    test('改灯保留固定系数、改变读数并提示重新校准', () {
+      final LightingSceneData scene = _scene(<DeviceSpec>[_light(id: 'key')])
+        ..mode = LightingMode.calibrated;
+      scene.exposure
+        ..measuredLux = 800
+        ..calibrationFactor = LightMeter.calibrationFactorFor(scene, 800)
+        ..calibrationSignature = LightMeter.signatureOf(scene);
+      final LightMeterReading before = LightMeter.compute(scene);
+      scene.lights.single.intensity = 100;
+      final LightMeterReading after = LightMeter.compute(scene);
+      expect(after.totalLux, greaterThan(before.totalLux));
+      expect(after.calibrationFactor, before.calibrationFactor);
+      expect(after.calibrationStale, isTrue);
+      expect(after.advice, contains('重新测量'));
+    });
+
+    test('所需光圈超出常见范围时要求调整曝光参数', () {
+      final LightingSceneData scene = _scene(<DeviceSpec>[_light(id: 'key')])
+        ..mode = LightingMode.calibrated;
+      scene.exposure
+        ..measuredLux = 1
+        ..calibrationFactor = LightMeter.calibrationFactorFor(scene, 1)
+        ..calibrationSignature = LightMeter.signatureOf(scene);
+      final LightMeterReading r = LightMeter.compute(scene);
+      expect(r.aperture, 'f/1.4');
+      expect(r.advice, contains('调整 ISO 或快门'));
+    });
+
+    test('无效实测照度与无灯场景不能生成校准系数', () {
+      final LightingSceneData scene = _scene(<DeviceSpec>[_light(id: 'key')]);
+      expect(
+        () => LightMeter.calibrationFactorFor(scene, 0),
+        throwsArgumentError,
+      );
+      expect(
+        () => LightMeter.calibrationFactorFor(_scene(<DeviceSpec>[]), 800),
+        throwsStateError,
+      );
     });
   });
 

@@ -25,7 +25,7 @@ extension _PlannerPageCanvas on _PlannerPageState {
           children: <Widget>[
             Expanded(
               child: SsTextInput(
-                controller: TextEditingController(text: state.title),
+                initialValue: state.title,
                 hint: '策划案标题',
                 dense: true,
                 style: const TextStyle(

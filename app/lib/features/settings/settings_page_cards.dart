@@ -187,7 +187,7 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
                 label: '保存',
                 dense: true,
                 onPressed: () async {
-                  await ref
+                  final AiKeyPersist persist = await ref
                       .read(aiControllerProvider.notifier)
                       .saveProvider(
                         view.preset,
@@ -196,17 +196,30 @@ class _AiChannelsCardState extends ConsumerState<_AiChannelsCard> {
                         baseUrl: view.preset.baseUrl,
                         enabled: true,
                       );
-                  key.clear();
-                  if (mounted) {
-                    // 保存动作已触发一次 encrypt，此时才问得出钥匙串是否可用。
-                    final bool ok = ref
-                        .read(aiControllerProvider.notifier)
-                        .keyStorageAvailable;
-                    if (!ok) {
-                      ssToast(this.context, '系统钥匙串不可用：Key 仅本次会话有效，重启后需重填');
-                    } else {
+                  if (!mounted) return;
+                  switch (persist) {
+                    case AiKeyPersist.blockedNoStorage:
+                      // 偏差3：钥匙串不可用 → 拒绝写 Key，保留输入框内容。
+                      ssToast(
+                        this.context,
+                        '系统钥匙串不可用，已拒绝保存 Key（重启后会丢失），请先修复系统钥匙串',
+                        kind: SsBannerKind.warning,
+                      );
+                    case AiKeyPersist.persistFailed:
+                      ssToast(
+                        this.context,
+                        '配置写入失败，Key 未保存；输入内容已保留，请重试',
+                        kind: SsBannerKind.warning,
+                      );
+                    case AiKeyPersist.stored:
+                      key.clear();
                       ssToast(this.context, '已保存并启用 ${view.preset.name}');
-                    }
+                    case AiKeyPersist.notProvided:
+                      key.clear();
+                      ssToast(
+                        this.context,
+                        '已保存并启用 ${view.preset.name}（未填 Key）',
+                      );
                   }
                 },
               ),

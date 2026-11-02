@@ -54,3 +54,9 @@ graphflow-out/
 # 不进 git。参照基线仍入库（docs/qa/v8-s2-engine-perf-swiftshader-dpr1.json）。
 # v8.5.0 起门禁改多次尝试，分别写 ci-gate-1/-2/... 故用通配一并忽略。
 docs/qa/v8-s2-engine-perf-ci-gate*.json
+
+# 本地工具状态（审计索引 / 会话 hook），不入仓
+.audit/
+.mimosa/
+app/.mimosa/
+web/.mimosa/

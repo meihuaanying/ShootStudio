@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -12,6 +13,7 @@ import '../../core/providers.dart';
 import '../../services/content_packs.dart';
 import '../../services/image_store.dart';
 import '../../services/palette_extractor.dart';
+import '../projects/project_controller.dart';
 
 /// 参考画板视图。
 enum RefsView { films, board }
@@ -129,21 +131,35 @@ class PendingFramesNotifier extends StateNotifier<List<PendingFrame>> {
 class RefsController extends Notifier<RefsState> {
   static const Uuid _uuid = Uuid();
   late final AppDatabase _db = ref.read(databaseProvider);
+  late String _projectId;
+  bool _initializing = false;
+  bool _disposed = false;
 
   @override
-  RefsState build() => const RefsState();
+  RefsState build() {
+    _projectId = ref.watch(currentProjectIdProvider);
+    _disposed = false;
+    ref.onDispose(() => _disposed = true);
+    return const RefsState();
+  }
 
   String get _workspaceRoot => ref.read(workspaceProvider).root.path;
 
   Future<void> init() async {
-    if (state.initialized) return;
-    final films = await ContentPacks.films();
-    state = state.copyWith(
-      films: films,
-      filteredFilms: films,
-      initialized: true,
-    );
-    await _reloadBoard();
+    if (state.initialized || _initializing || _disposed) return;
+    _initializing = true;
+    try {
+      final films = await ContentPacks.films();
+      state = state.copyWith(
+        films: films,
+        filteredFilms: films,
+        initialized: true,
+      );
+      await _consumeLegacyBoard();
+      await _reloadBoard();
+    } finally {
+      _initializing = false;
+    }
   }
 
   void setView(RefsView view) => state = state.copyWith(view: view);
@@ -164,14 +180,18 @@ class RefsController extends Notifier<RefsState> {
   }
 
   Future<void> _reloadBoard() async {
-    final rows = await (_db.select(
-      _db.filmFrames,
-    )..where((t) => t.inBoard.equals(true))).get();
+    final rows = await (_db.select(_db.projectReferences).join([
+      innerJoin(
+        _db.filmFrames,
+        _db.filmFrames.id.equalsExp(_db.projectReferences.frameId),
+      ),
+    ])..where(_db.projectReferences.projectId.equals(_projectId))).get();
     final films = await _db.select(_db.films).get();
     final filmTitles = <String, String>{
       for (final Film f in films) f.id: f.title,
     };
-    final board = rows.map((FilmFrame row) {
+    final board = rows.map((result) {
+      final FilmFrame row = result.readTable(_db.filmFrames);
       final palette = _decodeList(row.paletteJson);
       return RefFrame(
         id: row.id,
@@ -195,10 +215,11 @@ class RefsController extends Notifier<RefsState> {
 
   /// 画板排序 key（存 setting，不改表结构；R75 数据管线不擅动）。
   static const String boardOrderKey = 'refs_board_order';
+  String get _boardOrderKey => '$boardOrderKey:$_projectId';
 
   /// 读取持久化排序：命中的按记录顺序在前，其余保持当前相对顺序。
   Future<List<RefFrame>> _applyBoardOrder(List<RefFrame> board) async {
-    final String? raw = await _db.getSetting(boardOrderKey);
+    final String? raw = await _db.getSetting(_boardOrderKey);
     if (raw == null || raw.isEmpty) return board;
     List<String> ids;
     try {
@@ -223,7 +244,7 @@ class RefsController extends Notifier<RefsState> {
 
   /// 持久化画板拖拽排序（保存 id 顺序并回读刷新）。
   Future<void> setBoardOrder(List<String> ids) async {
-    await _db.setSetting(boardOrderKey, jsonEncode(ids));
+    await _db.setSetting(_boardOrderKey, jsonEncode(ids));
     await _reloadBoard();
   }
 
@@ -237,13 +258,58 @@ class RefsController extends Notifier<RefsState> {
     return const <String>[];
   }
 
+  Future<void> _consumeLegacyBoard() async {
+    final List<FilmFrame> legacy = await (_db.select(
+      _db.filmFrames,
+    )..where((t) => t.inBoard.equals(true))).get();
+    if (legacy.isEmpty) return;
+    await _db.transaction(() async {
+      for (final FilmFrame frame in legacy) {
+        await _attachFrame(frame.id);
+      }
+      await (_db.update(_db.filmFrames)..where((t) => t.inBoard.equals(true)))
+          .write(const FilmFramesCompanion(inBoard: Value(false)));
+    });
+  }
+
+  Future<void> _attachFrame(String frameId) async {
+    await _db
+        .into(_db.projectReferences)
+        .insert(
+          ProjectReferencesCompanion.insert(
+            projectId: _projectId,
+            frameId: frameId,
+            addedAt: DateTime.now().millisecondsSinceEpoch,
+          ),
+          mode: InsertMode.insertOrIgnore,
+        );
+  }
+
+  Future<void> _saveFrame(FilmFramesCompanion frame) async {
+    await _db.into(_db.filmFrames).insertOnConflictUpdate(frame);
+    await _attachFrame(frame.id.value);
+  }
+
   /// 收入/移出画板（写库）。
   Future<void> toggleBoard(FilmEntry film, FrameEntry frame) async {
     final id = '${film.id}:${frame.name}';
-    final existing = await (_db.select(
-      _db.filmFrames,
-    )..where((t) => t.id.equals(id))).getSingleOrNull();
-    final nowIn = !(existing?.inBoard ?? false);
+    final ProjectReference? membership =
+        await (_db.select(_db.projectReferences)..where(
+              (t) => t.projectId.equals(_projectId) & t.frameId.equals(id),
+            ))
+            .getSingleOrNull();
+    final nowIn = membership == null;
+    await _db
+        .into(_db.films)
+        .insertOnConflictUpdate(
+          FilmsCompanion.insert(
+            id: film.id,
+            title: film.title,
+            director: Value(film.director),
+            year: Value(film.year),
+            sourceUrl: Value(film.sourceUrl),
+          ),
+        );
     await _db
         .into(_db.filmFrames)
         .insertOnConflictUpdate(
@@ -254,9 +320,17 @@ class RefsController extends Notifier<RefsState> {
             imageRef: '',
             paletteJson: Value(jsonEncode(frame.palette)),
             sourceUrl: Value(frame.sourceUrl),
-            inBoard: Value(nowIn),
+            inBoard: const Value(false),
           ),
         );
+    if (nowIn) {
+      await _attachFrame(id);
+    } else {
+      await (_db.delete(_db.projectReferences)..where(
+            (t) => t.projectId.equals(_projectId) & t.frameId.equals(id),
+          ))
+          .go();
+    }
     await _reloadBoard();
     state = state.copyWith(status: nowIn ? '已收入画板：${frame.name}' : '已移出画板');
   }
@@ -302,7 +376,7 @@ class RefsController extends Notifier<RefsState> {
               imageRef: fileName,
               paletteJson: Value(jsonEncode(palette.colors)),
               sourceUrl: const Value(''),
-              inBoard: const Value(true),
+              inBoard: const Value(false),
             ),
           );
       count++;
@@ -334,19 +408,17 @@ class RefsController extends Notifier<RefsState> {
       category: 'refs',
       title: title,
     );
-    await _db
-        .into(_db.filmFrames)
-        .insertOnConflictUpdate(
-          FilmFramesCompanion.insert(
-            id: '$localFilmId:$fileName',
-            filmId: localFilmId,
-            name: title,
-            imageRef: fileName,
-            paletteJson: Value(jsonEncode(palette.colors)),
-            sourceUrl: const Value(''),
-            inBoard: const Value(true),
-          ),
-        );
+    await _saveFrame(
+      FilmFramesCompanion.insert(
+        id: '$localFilmId:$fileName',
+        filmId: localFilmId,
+        name: title,
+        imageRef: fileName,
+        paletteJson: Value(jsonEncode(palette.colors)),
+        sourceUrl: const Value(''),
+        inBoard: const Value(false),
+      ),
+    );
     await _reloadBoard();
     state = state.copyWith(status: '已截取并收入画板');
   }
@@ -379,7 +451,12 @@ class RefsController extends Notifier<RefsState> {
         final List<FilmFrame> existing = await (_db.select(
           _db.filmFrames,
         )..where((t) => t.name.equals(title))).get();
-        if (existing.isNotEmpty) continue;
+        if (existing.isNotEmpty) {
+          for (final FilmFrame frame in existing) {
+            await _attachFrame(frame.id);
+          }
+          continue;
+        }
         final int size = await entity.length();
         if (size > 15 * 1024 * 1024) continue;
         final Uint8List bytes = await entity.readAsBytes();
@@ -424,27 +501,27 @@ class RefsController extends Notifier<RefsState> {
       category: 'refs',
       title: title,
     );
-    await _db
-        .into(_db.filmFrames)
-        .insertOnConflictUpdate(
-          FilmFramesCompanion.insert(
-            id: '$localFilmId:$fileName',
-            filmId: localFilmId,
-            name: sourceLabel.isEmpty ? title : '$title（$sourceLabel）',
-            imageRef: fileName,
-            paletteJson: Value(jsonEncode(palette.colors)),
-            sourceUrl: Value(sourceUrl),
-            inBoard: const Value(true),
-          ),
-        );
+    await _saveFrame(
+      FilmFramesCompanion.insert(
+        id: '$localFilmId:$fileName',
+        filmId: localFilmId,
+        name: sourceLabel.isEmpty ? title : '$title（$sourceLabel）',
+        imageRef: fileName,
+        paletteJson: Value(jsonEncode(palette.colors)),
+        sourceUrl: Value(sourceUrl),
+        inBoard: const Value(false),
+      ),
+    );
     await _reloadBoard();
     state = state.copyWith(status: '已从搜图收入画板：$title');
     return true;
   }
 
   Future<void> removeBoardItem(RefFrame frame) async {
-    await (_db.update(_db.filmFrames)..where((t) => t.id.equals(frame.id)))
-        .write(const FilmFramesCompanion(inBoard: Value(false)));
+    await (_db.delete(_db.projectReferences)..where(
+          (t) => t.projectId.equals(_projectId) & t.frameId.equals(frame.id),
+        ))
+        .go();
     await _reloadBoard();
   }
 
@@ -467,19 +544,17 @@ class RefsController extends Notifier<RefsState> {
             year: Value(DateTime.now().year),
           ),
         );
-    await _db
-        .into(_db.filmFrames)
-        .insertOnConflictUpdate(
-          FilmFramesCompanion.insert(
-            id: id,
-            filmId: localFilmId,
-            name: title,
-            imageRef: imagePath,
-            paletteJson: Value(jsonEncode(palette)),
-            sourceUrl: Value(sourceUrl),
-            inBoard: const Value(true),
-          ),
-        );
+    await _saveFrame(
+      FilmFramesCompanion.insert(
+        id: id,
+        filmId: localFilmId,
+        name: title,
+        imageRef: imagePath,
+        paletteJson: Value(jsonEncode(palette)),
+        sourceUrl: Value(sourceUrl),
+        inBoard: const Value(false),
+      ),
+    );
     await _reloadBoard();
     return RefFrame(
       id: id,

@@ -16,7 +16,7 @@ class _ModuleEditor extends ConsumerWidget {
           SsSectionTitle('编辑 · ${module.type.label}'),
           const SizedBox(height: AppSpace.s2),
           SsTextInput(
-            controller: TextEditingController(text: module.title),
+            initialValue: module.title,
             hint: '模块标题',
             dense: true,
             onChanged: (String v) => controller.updateModule(
@@ -95,7 +95,7 @@ class _ModuleEditor extends ConsumerWidget {
         children: <Widget>[
           Expanded(
             child: SsTextInput(
-              controller: TextEditingController(text: lat.toStringAsFixed(4)),
+              initialValue: lat.toStringAsFixed(4),
               label: '纬度',
               dense: true,
               onChanged: (String v) => controller.updateModule(
@@ -108,7 +108,7 @@ class _ModuleEditor extends ConsumerWidget {
           const SizedBox(width: 6),
           Expanded(
             child: SsTextInput(
-              controller: TextEditingController(text: lon.toStringAsFixed(4)),
+              initialValue: lon.toStringAsFixed(4),
               label: '经度',
               dense: true,
               onChanged: (String v) => controller.updateModule(
@@ -122,7 +122,7 @@ class _ModuleEditor extends ConsumerWidget {
       ),
       const SizedBox(height: 8),
       SsTextInput(
-        controller: TextEditingController(text: date),
+        initialValue: date,
         hint: '日期 yyyy-MM-dd',
         dense: true,
         onChanged: (String v) => controller.updateModule(

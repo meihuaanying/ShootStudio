@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
@@ -9,11 +10,15 @@ import '../../core/providers.dart';
 import '../../core/utils/json_utils.dart';
 import '../../services/content_packs.dart';
 import 'hand_presets.dart';
+import 'light_meter.dart';
 import 'lighting_models.dart';
 import 'lighting_state.dart';
 import 'lighting_undo.dart';
+import '../projects/project_controller.dart';
 
 export 'lighting_state.dart';
+
+part 'lighting_controller_exposure.dart';
 
 part 'lighting_controller_hands.dart';
 
@@ -25,12 +30,18 @@ final lightingControllerProvider =
     NotifierProvider<LightingController, LightingState>(LightingController.new);
 
 class LightingController extends Notifier<LightingState>
-    with _LightingUndo, _LightingHands {
+    with _LightingUndo, _LightingHands, _LightingExposure {
   static const Uuid _uuid = Uuid();
   late final AppDatabase _db = ref.read(databaseProvider);
+  late String _projectId;
+  bool _initializing = false;
+  bool _disposed = false;
 
   @override
   LightingState build() {
+    _projectId = ref.watch(currentProjectIdProvider);
+    _disposed = false;
+    ref.onDispose(() => _disposed = true);
     return LightingState(
       scene: LightingSceneData(
         id: _uuid.v4(),
@@ -42,57 +53,75 @@ class LightingController extends Notifier<LightingState>
 
   /// 初始化：优先载入最近保存的方案；否则用三点布光预设起手。
   Future<void> init() async {
-    if (state.initialized) return;
-    await _loadQualitySettings();
-    final rows =
-        await (_db.select(_db.lightingScenes)
-              ..orderBy(<OrderClauseGenerator<$LightingScenesTable>>[
-                (t) => OrderingTerm(
-                  expression: t.updatedAt,
-                  mode: OrderingMode.desc,
-                ),
-              ])
-              ..limit(1))
-            .get();
-    LightingSceneData scene;
-    if (rows.isNotEmpty) {
-      scene = LightingSceneData.fromJson(
-        (jsonDecode(rows.first.sceneJson) as Map).cast<String, Object?>(),
+    if (state.initialized || _initializing || _disposed) return;
+    _initializing = true;
+    try {
+      await _loadQualitySettings();
+      await _db.customStatement(
+        'UPDATE lighting_scenes SET project_id = ? WHERE project_id IS NULL',
+        <Object?>[_projectId],
       );
-      final (HandPoseState?, HandPoseState?) hands = handsFromJson(scene.hands);
+      final rows =
+          await (_db.select(_db.lightingScenes)
+                ..where((t) => t.projectId.equals(_projectId))
+                ..orderBy(<OrderClauseGenerator<$LightingScenesTable>>[
+                  (t) => OrderingTerm(
+                    expression: t.updatedAt,
+                    mode: OrderingMode.desc,
+                  ),
+                ])
+                ..limit(1))
+              .get();
+      LightingSceneData scene;
+      if (rows.isNotEmpty) {
+        scene = LightingSceneData.fromJson(
+          (jsonDecode(rows.first.sceneJson) as Map).cast<String, Object?>(),
+        );
+        final (HandPoseState?, HandPoseState?) hands = handsFromJson(
+          scene.hands,
+        );
+        state = state.copyWith(
+          scene: scene,
+          initialized: true,
+          ambientEnabled: scene.ambientEnabled,
+          handL: hands.$1 ?? state.handL,
+          handR: hands.$2 ?? state.handR,
+          status: '已载入「${scene.name}」',
+        );
+        return;
+      }
+      final presets = await ContentPacks.lightPresets();
+      final threePoint = presets.firstWhere(
+        (LightPresetEntry p) => p.id == 'three-point',
+        orElse: () => presets.first,
+      );
+      scene = LightingSceneData(
+        id: _uuid.v4(),
+        name: '三点布光方案',
+        devices: instantiatePresetDevices(threePoint.devices),
+      );
       state = state.copyWith(
         scene: scene,
         initialized: true,
-        ambientEnabled: scene.ambientEnabled,
-        handL: hands.$1 ?? state.handL,
-        handR: hands.$2 ?? state.handR,
-        status: '已载入「${scene.name}」',
+        dirty: true,
+        status: '已应用预设：三点布光',
       );
-      return;
+    } finally {
+      _initializing = false;
     }
-    final presets = await ContentPacks.lightPresets();
-    final threePoint = presets.firstWhere(
-      (LightPresetEntry p) => p.id == 'three-point',
-      orElse: () => presets.first,
-    );
-    scene = LightingSceneData(
-      id: _uuid.v4(),
-      name: '三点布光方案',
-      devices: instantiatePresetDevices(threePoint.devices),
-    );
-    state = state.copyWith(
-      scene: scene,
-      initialized: true,
-      dirty: true,
-      status: '已应用预设：三点布光',
-    );
   }
 
   /// D29：从策划案「打开预演」直接载入指定布光场景。
   Future<void> openScene(String sceneId) async {
-    final rows = await (_db.select(
-      _db.lightingScenes,
-    )..where((t) => t.id.equals(sceneId))).get();
+    await _db.customStatement(
+      'UPDATE lighting_scenes SET project_id = ? WHERE project_id IS NULL',
+      <Object?>[_projectId],
+    );
+    final rows =
+        await (_db.select(_db.lightingScenes)..where(
+              (t) => t.id.equals(sceneId) & t.projectId.equals(_projectId),
+            ))
+            .get();
     if (rows.isEmpty) {
       state = state.copyWith(status: '布光场景不存在或已删除');
       return;
@@ -134,6 +163,8 @@ class LightingController extends Notifier<LightingState>
         width: state.scene.width,
         depth: state.scene.depth,
         height: state.scene.height,
+        mode: state.scene.mode,
+        exposure: state.scene.exposure.copy(),
       ),
       selectedId: null,
       dirty: true,
@@ -329,6 +360,7 @@ class LightingController extends Notifier<LightingState>
         .insertOnConflictUpdate(
           LightingScenesCompanion.insert(
             id: state.scene.id,
+            projectId: Value(_projectId),
             name: state.scene.name,
             sceneJson: jsonEncode(state.scene.toJson()),
             linkedPoseId: const Value(null),

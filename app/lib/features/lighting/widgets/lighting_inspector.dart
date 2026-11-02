@@ -15,6 +15,7 @@ import '../camera_helpers.dart';
 import '../lighting_controller.dart';
 import '../lighting_models.dart';
 import 'lighting_effect_widgets.dart';
+import 'lighting_exposure_panel.dart';
 import 'lighting_pose_widgets.dart';
 import 'lighting_rig_widgets.dart';
 
@@ -68,6 +69,16 @@ class LightingInspector extends StatelessWidget {
   List<Widget> _extras({bool spaced = true}) {
     return <Widget>[
       if (spaced) const SizedBox(height: AppSpace.s3),
+      LightingExposurePanel(
+        scene: state.scene,
+        onModeChanged: controller.setMode,
+        onExposureChanged: ({int? iso, double? shutterSeconds}) =>
+            controller.setExposure(iso: iso, shutterSeconds: shutterSeconds),
+        onCalibrate: controller.calibrateExposure,
+      ),
+      const SizedBox(height: AppSpace.s3),
+      LightingMeterCard(scene: state.scene),
+      const SizedBox(height: AppSpace.s3),
       JointTunePanel(
         pose: state.pendingPose,
         controller: controller,
@@ -119,8 +130,6 @@ class LightingInspector extends StatelessWidget {
             assistDistance: assistDistance,
             assistDofAvailable: assistDofAvailable,
           ),
-          const SizedBox(height: AppSpace.s3),
-          LightingMeterCard(scene: state.scene),
           ..._extras(),
         ],
       ),
@@ -264,7 +273,7 @@ class LightingInspector extends StatelessWidget {
             ),
           ],
           SsTextInput(
-            controller: TextEditingController(text: selected.note),
+            initialValue: selected.note,
             hint: '备注（≤200 字）',
             maxLines: 2,
             onChanged: (String v) =>

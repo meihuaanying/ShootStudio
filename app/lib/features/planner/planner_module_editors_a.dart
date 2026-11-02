@@ -377,9 +377,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                   const SizedBox(width: 6),
                   Expanded(
                     child: SsTextInput(
-                      controller: TextEditingController(
-                        text: shots[i]['lens'] as String? ?? '',
-                      ),
+                      initialValue: shots[i]['lens'] as String? ?? '',
                       hint: '焦段',
                       dense: true,
                       onChanged: (String v) => patch(i, 'lens', v),
@@ -403,9 +401,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                 children: <Widget>[
                   Expanded(
                     child: SsTextInput(
-                      controller: TextEditingController(
-                        text: shots[i]['camera'] as String? ?? '',
-                      ),
+                      initialValue: shots[i]['camera'] as String? ?? '',
                       hint: '机位',
                       dense: true,
                       onChanged: (String v) => patch(i, 'camera', v),
@@ -414,9 +410,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                   const SizedBox(width: 4),
                   Expanded(
                     child: SsTextInput(
-                      controller: TextEditingController(
-                        text: shots[i]['pose'] as String? ?? '',
-                      ),
+                      initialValue: shots[i]['pose'] as String? ?? '',
                       hint: '姿势',
                       dense: true,
                       onChanged: (String v) => patch(i, 'pose', v),
@@ -428,9 +422,7 @@ extension _ModuleEditorPanelsA on _ModuleEditor {
                 children: <Widget>[
                   Expanded(
                     child: SsTextInput(
-                      controller: TextEditingController(
-                        text: shots[i]['note'] as String? ?? '',
-                      ),
+                      initialValue: shots[i]['note'] as String? ?? '',
                       hint: '备注（可选）',
                       dense: true,
                       onChanged: (String v) => patch(i, 'note', v),

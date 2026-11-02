@@ -232,7 +232,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         label: '立即更新（国内镜像）',
                         dense: true,
                         onPressed: () {
-                          confirmDownload(context, updater.announcement!);
+                          confirmDownload(context, ref, updater.announcement!);
                         },
                       ),
                       const SizedBox(width: 8),
@@ -261,9 +261,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   ),
                 const SizedBox(height: 10),
                 SsTextInput(
-                  controller: TextEditingController(
-                    text: _announcementUrl ?? '',
-                  ),
+                  initialValue: _announcementUrl ?? '',
                   label: '公告 JSON 地址（空 = 官方默认；支持自建站点 / 内网）',
                   dense: true,
                   onSubmitted: (String v) async {

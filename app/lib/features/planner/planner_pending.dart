@@ -1,4 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../core/db/database.dart';
+import '../../core/providers.dart';
+import '../projects/project_controller.dart';
 
 /// 待插入策划案的姿势（摆姿库 →「加入策划案」暂存区）。
 class PendingPose {
@@ -37,22 +46,95 @@ class PendingPose {
 }
 
 final pendingPosesProvider =
-    StateNotifierProvider<PendingPosesNotifier, List<PendingPose>>(
-      (ref) => PendingPosesNotifier(),
+    NotifierProvider<PendingPosesNotifier, List<PendingPose>>(
+      PendingPosesNotifier.new,
     );
 
-class PendingPosesNotifier extends StateNotifier<List<PendingPose>> {
-  PendingPosesNotifier() : super(const <PendingPose>[]);
+class PendingPosesNotifier extends Notifier<List<PendingPose>> {
+  static const Uuid _uuid = Uuid();
+  late final AppDatabase _db = ref.read(databaseProvider);
+  late String _projectId;
+  int _revision = 0;
+  bool _disposed = false;
 
-  void add(PendingPose pose) {
+  @override
+  List<PendingPose> build() {
+    _projectId = ref.watch(currentProjectIdProvider);
+    _disposed = false;
+    ref.onDispose(() => _disposed = true);
+    return const <PendingPose>[];
+  }
+
+  Future<void> init() async {
+    if (_disposed) return;
+    final int revision = _revision;
+    final String projectId = _projectId;
+    final rows =
+        await (_db.select(_db.projectPoses)
+              ..where((p) => p.projectId.equals(projectId))
+              ..orderBy(<OrderClauseGenerator<$ProjectPosesTable>>[
+                (p) => OrderingTerm(expression: p.sort),
+              ]))
+            .get();
+    if (_disposed || revision != _revision || projectId != _projectId) return;
+    state = rows.map((ProjectPose row) {
+      final Map<String, Object?> json = (jsonDecode(row.payloadJson) as Map)
+          .cast<String, Object?>();
+      return PendingPose(
+        name: '${json['name'] ?? ''}',
+        joints: ((json['joints'] as Map?) ?? const <String, Object?>{})
+            .cast<String, Object?>(),
+        lens: '${json['lens'] ?? ''}',
+        cameraPosition: '${json['cameraPosition'] ?? ''}',
+        photo: '${json['photo'] ?? ''}',
+        author: '${json['author'] ?? ''}',
+        license: '${json['license'] ?? ''}',
+        source: '${json['source'] ?? ''}',
+      );
+    }).toList();
+  }
+
+  Future<void> add(PendingPose pose) async {
     if (state.any((PendingPose p) => p.name == pose.name)) return;
+    _revision++;
     state = <PendingPose>[...state, pose];
+    await _persist();
   }
 
-  void removeAt(int index) {
-    final list = <PendingPose>[...state]..removeAt(index);
-    state = list;
+  Future<void> removeAt(int index) async {
+    if (index < 0 || index >= state.length) return;
+    _revision++;
+    state = <PendingPose>[...state]..removeAt(index);
+    await _persist();
   }
 
-  void clear() => state = const <PendingPose>[];
+  Future<void> clear() async {
+    _revision++;
+    state = const <PendingPose>[];
+    await _persist();
+  }
+
+  Future<void> _persist() async {
+    final String projectId = _projectId;
+    final List<PendingPose> poses = List<PendingPose>.of(state);
+    final int now = DateTime.now().millisecondsSinceEpoch;
+    await _db.transaction(() async {
+      await (_db.delete(
+        _db.projectPoses,
+      )..where((p) => p.projectId.equals(projectId))).go();
+      for (var i = 0; i < poses.length; i++) {
+        await _db
+            .into(_db.projectPoses)
+            .insert(
+              ProjectPosesCompanion.insert(
+                id: _uuid.v4(),
+                projectId: projectId,
+                payloadJson: jsonEncode(poses[i].toModuleEntry()),
+                sort: Value(i),
+                createdAt: now,
+              ),
+            );
+      }
+    });
+  }
 }

@@ -132,7 +132,7 @@ class ProviderConfigCardState extends ConsumerState<ProviderConfigCard> {
               icon: Icons.save_outlined,
               dense: true,
               onPressed: () async {
-                await controller.saveProvider(
+                final AiKeyPersist persist = await controller.saveProvider(
                   provider,
                   apiKey: _key.text.trim(),
                   model: _model.text.trim().isEmpty
@@ -141,9 +141,28 @@ class ProviderConfigCardState extends ConsumerState<ProviderConfigCard> {
                   baseUrl: _baseUrl.text.trim(),
                   enabled: _enabled,
                 );
-                _key.clear();
                 if (!context.mounted) return;
-                ssToast(context, '已保存（Key 加密存储，不进日志与导出）');
+                switch (persist) {
+                  case AiKeyPersist.blockedNoStorage:
+                    // 偏差3：钥匙串不可用 → 拒绝写 Key，且保留输入框内容让用户重试。
+                    ssToast(
+                      context,
+                      '系统钥匙串不可用，已拒绝保存 Key（重启后会丢失），请先修复系统钥匙串',
+                      kind: SsBannerKind.warning,
+                    );
+                  case AiKeyPersist.persistFailed:
+                    ssToast(
+                      context,
+                      '配置写入失败，Key 未保存；输入内容已保留，请重试',
+                      kind: SsBannerKind.warning,
+                    );
+                  case AiKeyPersist.stored:
+                    _key.clear();
+                    ssToast(context, '已保存（Key 加密存储，不进日志与导出）');
+                  case AiKeyPersist.notProvided:
+                    _key.clear();
+                    ssToast(context, '已保存（未填 Key，沿用原配置）');
+                }
               },
             ),
             const SizedBox(width: 8),

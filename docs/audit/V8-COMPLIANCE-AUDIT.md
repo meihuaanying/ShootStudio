@@ -167,7 +167,7 @@ ai_panel.dart / libraries_page.dart / ai_client.dart  allowed 810/808/779
 
 ### 🟢 P3 —— 低优先 / 卫生问题（**V8.23 已处置 4 / 6**）
 
-1. **开放偏差 1–9 仍在**（详见 `docs/qa/v8-r71-deviations.md`）：圆角 `oversizeSoft10/20` 超 ≤8 刻度（偏差 1）｜updater `sha256` 不闭环（偏差 2）｜`KeyVault.storageAvailable` 不拦截写入（偏差 3）｜`AppRadius.pill=999`（偏差 4）｜`AppSpaceFine`/`AppFontSize` 细阶未标 `@Deprecated` 且无软门禁（偏差 5）｜`AppWait.planReveal/cardHover` 不在三档（偏差 7）｜R76 未实现（偏差 8）｜引擎门禁放宽（偏差 9）。
+1. **偏差 1–9 现状**（详见 `docs/qa/v8-r71-deviations.md`）：**V8.25 已闭环 1 / 2 / 3 / 4**——圆角 `oversizeSoft10/20` 已降档到 `AppRadius.frame(8)` / `AppRadius.chip(2)`（偏差 1）｜updater 已实现应用内下载 + 流式 SHA-256 + 校验通过才启动安装器（偏差 2）｜`KeyVault` 已改为**写入前拦截**：钥匙串不可用时拒绝写入 Key、保留原密文并提示先修复（偏差 3）｜`AppRadius.pill=999` 已在合同 §3.3 显式豁免（偏差 4）。**仍在**：`AppSpaceFine`/`AppFontSize` 细阶未标 `@Deprecated`（偏差 5，软门禁在）｜`AppWait.planReveal/cardHover` 不在三档（偏差 7）｜R76 未实现（偏差 8）｜引擎门禁放宽（偏差 9）。
    - **V8.23/E2 部分处置（偏差 5）**：`tool/check_tokens.mjs` 新增「Fine 细阶用量（只降不升）」软门禁，基线 `tool/token_baseline.json` 锁定 `AppSpaceFine 73 / AppFontSize 240 / AppRadiusFine 9`；**`@Deprecated` 仍不采用**（241+73 处存量调用方会让 `flutter analyze --fatal-infos` 因 `deprecated_member_use` 直接红），理由已写进脚本头注释与偏差 5。
 2. ✅ **已处置（V8.23/E1）**：`three` 死依赖已从 `web/package.json` **与 `web/package-lock.json`** 删除（`git grep three -- web/package.json web/package-lock.json` **exit 1**；lock 包数 447 → 446）。合同 §5 技术栈（L190）只列 Astro 4 + Tailwind + GSAP、**从未要求 Three.js**，故 §6「官网删未用依赖」达标。
 3. **合同「13 源」是陈旧计数**：实际注册源 **20 个**（`search_keys.dart:64 sources()`，含 D134 新增 7 个开放源）。`git log --diff-filter=A v2.0.0..HEAD -- app/lib/services/search/sources/` **为空 → V8 期间零新增源，R75 未被违反**。属合同文本与实现的数字不一致 —— **V8.23/E3 已在合同 §4.3 处补注**。
@@ -242,7 +242,7 @@ ai_panel.dart / libraries_page.dart / ai_client.dart  allowed 810/808/779
 | # | 待办 | 优先级 | 预估 | 验收 |
 |---|---|---|---|---|
 | E1 | 删 `web` 的 `three` 死依赖（或补上 Three.js 用法，二选一）；顺带核对 `web/package.json` version | **P3** | 0.3 天 | `npm ls three` 无未用依赖；官网 CI 仍绿 |
-| E2 | 偏差 1/4/5/7 的收编：`AppSpaceFine`/`AppFontSize` 细阶标 `@Deprecated` + `check_tokens.mjs` 加「Fine 细阶计数只降不升」软门禁；圆角 oversizeSoft10/20 与 `AppRadius.pill` 做一次视觉复核（改或显式豁免） | **P3** | 0.5 天 | 门禁 + 偏差表更新 |
+| E2 | 偏差 1/4/5/7 的收编：`AppSpaceFine`/`AppFontSize` 细阶标 `@Deprecated` + `check_tokens.mjs` 加「Fine 细阶计数只降不升」软门禁；圆角 oversizeSoft10/20 与 `AppRadius.pill` 做一次视觉复核（改或显式豁免） | **P3** | 0.5 天 | 门禁 + 偏差表更新 | ✅ 完成（V8.25）：软门禁已加（基线 73/240/9）；偏差 1 已降档、偏差 4 已由合同 §3.3 显式豁免；偏差 5 的 `@Deprecated` 仍不采用（理由见偏差 5） |
 | E3 | 合同文本补注：把「13 源」更正为 20 源（注明 D134 新增 7 个）；`app/tool` 文档区分「CI 门禁」与「离线证据工具」 | **P3** | 0.2 天 | 文档更新 |
 
 ### 建议执行顺序与里程碑

@@ -53,6 +53,19 @@ class KeyVault {
 
   bool get storageAvailable => _storageAvailable;
 
+  /// 偏差3：写入前拦截的探针。
+  ///
+  /// 强制走一次 [_masterKey]（会真的读写钥匙串），返回主密钥是否真的托管成功。
+  /// 返回 false 表示当前只能用进程内临时主密钥：此时加密出来的密文
+  /// **重启后不可解**，调用方必须拒绝把它写进数据库。
+  ///
+  /// 注意：一旦探测到不可用就会一直保守返回 false（不再重试钥匙串），
+  /// 直到进程重启——避免「这次失败下次成功」导致库里混入不可解密文。
+  Future<bool> probeStorage() async {
+    await _masterKey();
+    return _storageAvailable;
+  }
+
   static Uint8List _randomBytes(int length) {
     final rnd = Random.secure();
     return Uint8List.fromList(

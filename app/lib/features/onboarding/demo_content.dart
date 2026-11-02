@@ -64,6 +64,7 @@ class DemoContentService {
         .insertOnConflictUpdate(
           LightingScenesCompanion.insert(
             id: sceneId,
+            projectId: const Value(AppDatabase.legacyProjectId),
             name: '示例 · 三点布光方案',
             sceneJson: jsonEncode(<String, Object?>{
               'id': sceneId,
@@ -284,6 +285,7 @@ class DemoContentService {
         .insertOnConflictUpdate(
           PlansCompanion.insert(
             id: planId,
+            projectId: const Value(AppDatabase.legacyProjectId),
             title: '示例 · 雨夜霓虹 Cosplay 正片',
             status: const Value('draft'),
             modulesJson: Value(
