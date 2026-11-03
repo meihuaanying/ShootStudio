@@ -53,7 +53,8 @@
 - 首页 Windows golden 已按新增项目切换器更新；updater 旧测试已补齐 SHA-256，安全合同仍为“无摘要内容包跳过”。
 - 官网 `npm run build`：5 页构建成功，首页 fallback 渲染 v2.1.0。
 - `git diff --check`：通过。
-- 已提交 `220124d` 并推送 `origin/main`；发版提交与产物见 tag `v2.1.0`（结论见 `docs/qa/v8-26-release-2.1.0.md`）。
+- 已提交 `220124d` 并推送 `origin/main`；发版提交 `9d1eae3` 与 tag `v2.1.0` 已推送。
+- tag `v2.1.0` 触发 Release run `41551855090` **success**（32m36s）：Windows 303.6 MiB / Android APK 429.2 MiB；官网 Pages 已部署，线上公告的版本与双端 SHA-256 已核对一致（详见 `docs/qa/v8-26-release-2.1.0.md`）。
 
 ### 已知边界
 

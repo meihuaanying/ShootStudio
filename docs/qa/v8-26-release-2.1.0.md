@@ -46,15 +46,15 @@ APK 与 Windows 安装包不在本机构建，由 tag `v2.1.0` 触发的 `releas
 | 全量测试 | `flutter test --no-pub --reporter compact` | **594 passed + 34 skipped，exit 0**（1:43） |
 | 官网构建 | `npm run build`（web/） | **5 页构建成功**（5.35s），首页 fallback 渲染 v2.1.0 |
 
-## 5. CI 产物
+## 5. CI 产物（2026-11-03 00:50 UTC 实测）
 
-tag `v2.1.0` 触发 `.github/workflows/release.yml`：analyze + test → Windows 安装包 / Android APK →
-SHA-256 → GitHub Release → 回写 `announcements.json` → 部署 Pages。
-
-- Release run：待回填
-- Windows 安装包：待回填（体积 / SHA-256 由 CI 写入 Release 与公告）
-- Android APK：待回填
-- 官网部署：待回填
+| 项 | 结果 |
+| --- | --- |
+| Release run | `41551855090` **success**（32m36s，00:18 → 00:50 UTC） |
+| Windows 安装包 | `shoot-studio-v2.1.0-windows.zip` · 318,359,984 B（303.6 MiB）· SHA-256 `ce21e081e2a1b2ac2abf750f2f6928367d7618b7eb7d882f9d145af99636b280` |
+| Android APK | `shoot-studio-v2.1.0-android.apk` · 450,018,722 B（429.2 MiB）· SHA-256 `2ab5a25000de8e72649a84819d3e80c175fc268645b63da9ceafc433ebccfa33` |
+| GitHub Release | <https://github.com/meihuaanying/ShootStudio/releases/tag/v2.1.0>（非草稿、非预发布） |
+| 官网 | Pages 部署 success；线上 `announcements.json` 版本 2.1.0，双端直链与 SHA-256 与 Release 资产逐位一致 |
 
 ## 6. 已知限制
 

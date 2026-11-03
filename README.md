@@ -69,7 +69,7 @@ git tag v2.1.0 && git push origin v2.1.0
 更新 `web/public/announcements.json`（版本 / 下载直链）→ 部署官网 Pages。
 模板 / 姿势包 / 布光预设等内容更新不打 Tag，直接更新 CDN 上的 JSON，应用启动时增量拉取。
 
-## 验收状态（S1–S6 + V4/V7）
+## 验收状态（S1–S6 + V4/V7/V8.26）
 
 | 阶段 | 自校验 | 状态 |
 | --- | --- | --- |
@@ -81,12 +81,13 @@ git tag v2.1.0 && git push origin v2.1.0
 | S6 双端冒烟 | Windows exe 构建 + 启动冒烟；APK 构建（v1.3.0：**412.0MB**，含 RTMW3D fp16 185MB + YOLOX-tiny 20MB 随包） | ✓ |
 | V4 摄影真实性 | 3D 高面数（40k–60k 面断言）/ 照片姿势库（120 条 + 骨架 + 12 关节推导等价）/ 产品图覆盖率 | ✓ |
 | V7 升级 | three.js r186 + VSM/路径追踪静帧 + 相机辅助；RTMW3D-x 端上识别（一致性 均值 2.8°/p90 6.81°）；资源库六类覆盖率 100% + 抽检 12/12 | ✓ |
+| V8.26 项目化与现场 | schema v3 迁移 + 项目隔离；安卓现场搭档；双模式布光；五项门禁（format / 行数 / 令牌 / analyze / 594 测试）；tag `v2.1.0` CI success | ✓ |
 
 当前工作区测试基线：**594 passed + 34 skipped**（2026-11-02 本机全量，live provider 默认跳过），全绿。
 门禁可重复执行：`dart format --output=none --set-exit-if-changed lib test` 与 `flutter analyze --fatal-infos`。
 端上照片识别：V7 起为 RTMW3D-x(fp16)+YOLOX-tiny 端上推理（模型随包，Apache-2.0），MediaPipe 自动回退；一致性报告见 `docs/qa/pose3d-consistency-report.json`。历史合同见 `docs/archive/`。
 
-## 本地后续增强（未发布）
+## v2.1.0 新增能力（V8.26，已发布）
 
 当前工作区在 v2.0.0 之后增加了以下能力，尚未提交、打 Tag 或发布安装包：
 
@@ -96,7 +97,7 @@ git tag v2.1.0 && git push origin v2.1.0
 - **现场曝光同步**：安卓/窄屏现场页读取策划关联的布光场景，显示校准参数、创意参考或明确的“待校准 / 需复校”状态。
 - **工程收口**：真实运行平台判断 Android 布局；内容包测试补齐 SHA-256 安全合同；首页 Windows golden 随项目切换器更新。
 
-验证口径：`flutter analyze --no-pub --fatal-infos` 零问题，全量 **594 passed + 34 skipped**；本机未构建 APK / Windows 安装包，也未提交 Git。校准曝光仍是需要照度计与试拍复核的摄影估算，不是硬件测光或专用闪光测光。
+验证口径：`flutter analyze --no-pub --fatal-infos` 零问题，全量 **594 passed + 34 skipped**，设计令牌与文件行数门禁 PASS。安装包由 tag `v2.1.0` 触发 CI 产出并已发布：Windows **303.6 MiB** / Android APK **429.2 MiB**（Release run `41551855090`，32m36s）。校准曝光仍是需要照度计与试拍复核的摄影估算，不是硬件测光或专用闪光测光。
 
 ## 凭据与发布卫生
 
