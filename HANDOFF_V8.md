@@ -21,9 +21,9 @@
 
 ---
 
-## 0.1 本地后续增强（2026-11-02，未发布）
+## 0.1 拍摄项目与安卓现场（2026-11-02，v2.1.0）
 
-> 状态：工作区改动已完成与验证，**未提交、未打 Tag、未发布安装包**。v2.0.0 发布事实不受本节影响。
+> 状态：已提交并推送（`220124d`，2026-11-02），随 **v2.1.0** 发布；APK / Windows 安装包由 tag 触发的 `release.yml` 产出。v2.0.0 发布事实不受本节影响。
 
 ### 本阶段完成
 
@@ -45,11 +45,15 @@
 
 ### 验证基线
 
-- `flutter analyze --no-pub --fatal-infos`：**No issues found**。
-- 本机全量测试：**594 passed + 34 skipped，exit 0**（2026-11-02）。
+- `dart format --output=none --set-exit-if-changed lib test`：273 文件，**0 changed**。
+- `node tool/check_file_size.mjs`：126 文件，**PASS**（最大 589 行，白名单 0 项）。
+- `node tool/check_tokens.mjs`：自造色 / 内置色板 / 字面量 / 裸间距均为 0，**PASS**；细阶三档全降（72 / 238 / 6）。
+- `flutter analyze --no-pub --fatal-infos`：**No issues found**（112.4s）。
+- 本机全量测试：**594 passed + 34 skipped，exit 0**（2026-11-02，1:43）。
 - 首页 Windows golden 已按新增项目切换器更新；updater 旧测试已补齐 SHA-256，安全合同仍为“无摘要内容包跳过”。
+- 官网 `npm run build`：5 页构建成功，首页 fallback 渲染 v2.1.0。
 - `git diff --check`：通过。
-- **未执行**：APK / Windows 安装包构建、Git 提交、Tag 或发布。
+- 已提交 `220124d` 并推送 `origin/main`；发版提交与产物见 tag `v2.1.0`（结论见 `docs/qa/v8-26-release-2.1.0.md`）。
 
 ### 已知边界
 

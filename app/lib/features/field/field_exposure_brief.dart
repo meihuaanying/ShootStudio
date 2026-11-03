@@ -105,7 +105,7 @@ class FieldExposureBrief extends StatelessWidget {
             ),
             child: Text(
               'ISO ${reading.iso} · ${reading.shutter} · ${reading.aperture}',
-              style: appMono(p.ink, size: AppFontSize.body),
+              style: appMono(p.ink, size: AppType.body.size),
             ),
           ),
           const SizedBox(height: 6),
@@ -129,7 +129,7 @@ class FieldExposureBrief extends StatelessWidget {
         ),
         if (!calibrated)
           Padding(
-            padding: const EdgeInsets.only(top: 4),
+            padding: const EdgeInsets.only(top: AppSpace.s1),
             child: Text(
               '创意预演不代表绝对测光；需要可执行曝光时请改用校准模式。',
               style: AppType.small.style(p.muted),

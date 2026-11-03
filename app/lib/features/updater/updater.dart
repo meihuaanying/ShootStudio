@@ -16,7 +16,7 @@ import '../../core/design/tokens.dart';
 import 'updater_downloader.dart';
 
 /// 当前应用版本（构建时写入；与 CI Tag / 公告 JSON 保证一致）。
-const String kAppVersion = '2.0.0';
+const String kAppVersion = '2.1.0';
 
 /// 默认公告 JSON 地址（官网 Pages；设置页可改，用于自建站点/内网）。
 const String kDefaultAnnouncementUrl =

@@ -90,13 +90,7 @@ class ProjectSwitcher extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            '当前拍摄项目',
-            style: appMono(
-              p.muted,
-              size: AppFontSize.caption,
-            ).copyWith(letterSpacing: 1.2),
-          ),
+          Text('当前拍摄项目', style: appMono(p.muted).copyWith(letterSpacing: 1.2)),
           Row(
             children: <Widget>[
               Expanded(
@@ -150,7 +144,7 @@ class ProjectSwitcher extends ConsumerWidget {
                 onPressed: () => _createProject(context, ref),
                 icon: Icon(
                   Icons.add_rounded,
-                  size: AppFontSize.h3,
+                  size: AppType.h3.size,
                   color: p.accent,
                 ),
               ),

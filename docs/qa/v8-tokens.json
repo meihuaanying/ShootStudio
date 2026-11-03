@@ -1,8 +1,14 @@
 {
   "version": 1,
   "note": "V8/D147 R71 design-token gate: color/colors/size/metric literals must reference tokens",
-  "at": "2026-10-17T03:14:27.628Z",
+  "at": "2026-11-03T00:08:31.532Z",
   "counts": {},
+  "fineSteps": {
+    "appSpaceFine": 72,
+    "appFontSize": 238,
+    "appRadiusFine": 6
+  },
+  "fineRegressions": [],
   "exemptions": [
     {
       "file": "lib/core/design/feature_colors.dart",

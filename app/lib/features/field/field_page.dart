@@ -139,7 +139,7 @@ class _FieldPageState extends ConsumerState<FieldPage> {
               ),
               Text(
                 '${(progress * 100).round()}%',
-                style: appMono(p.accent, size: AppFontSize.body),
+                style: appMono(p.accent, size: AppType.body.size),
               ),
             ],
           ),

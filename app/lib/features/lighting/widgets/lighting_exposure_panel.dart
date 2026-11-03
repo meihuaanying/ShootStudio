@@ -70,7 +70,7 @@ class _LightingExposurePanelState extends State<LightingExposurePanel> {
     final AppPalette p = context.palette;
     final LightMeterReading reading = LightMeter.compute(widget.scene);
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(AppSpace.s3),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(AppRadius.chip),
